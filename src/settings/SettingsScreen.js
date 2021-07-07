@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { ScrollView } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -41,60 +41,53 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-class SettingsScreen extends PureComponent<Props> {
-  handleThemeChange = () => {
-    const { dispatch, theme } = this.props;
+function SettingsScreen(props: Props) {
+  const { dispatch, theme, browser } = props;
+
+  const handleThemeChange = useCallback(() => {
     dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
-  };
+  }, [theme, dispatch]);
 
-  render() {
-    const { dispatch, theme, browser } = this.props;
-
-    return (
-      <ScrollView style={styles.optionWrapper}>
-        <OptionRow
-          label="Night mode"
-          value={theme === 'night'}
-          onValueChange={this.handleThemeChange}
-        />
-        <OptionRow
-          label="Open links with in-app browser"
-          value={shouldUseInAppBrowser(browser)}
-          onValueChange={value => {
-            dispatch(settingsChange({ browser: value ? 'embedded' : 'external' }));
-          }}
-        />
-        <OptionButton
-          Icon={IconNotifications}
-          label="Notifications"
-          onPress={() => {
-            NavigationService.dispatch(navigateToNotifications());
-          }}
-        />
-        <OptionButton
-          Icon={IconLanguage}
-          label="Language"
-          onPress={() => {
-            NavigationService.dispatch(navigateToLanguage());
-          }}
-        />
-        <OptionButton
-          Icon={IconDiagnostics}
-          label="Diagnostics"
-          onPress={() => {
-            NavigationService.dispatch(navigateToDiagnostics());
-          }}
-        />
-        <OptionButton
-          Icon={IconMoreHorizontal}
-          label="Legal"
-          onPress={() => {
-            NavigationService.dispatch(navigateToLegal());
-          }}
-        />
-      </ScrollView>
-    );
-  }
+  return (
+    <ScrollView style={styles.optionWrapper}>
+      <OptionRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
+      <OptionRow
+        label="Open links with in-app browser"
+        value={shouldUseInAppBrowser(browser)}
+        onValueChange={value => {
+          dispatch(settingsChange({ browser: value ? 'embedded' : 'external' }));
+        }}
+      />
+      <OptionButton
+        Icon={IconNotifications}
+        label="Notifications"
+        onPress={() => {
+          NavigationService.dispatch(navigateToNotifications());
+        }}
+      />
+      <OptionButton
+        Icon={IconLanguage}
+        label="Language"
+        onPress={() => {
+          NavigationService.dispatch(navigateToLanguage());
+        }}
+      />
+      <OptionButton
+        Icon={IconDiagnostics}
+        label="Diagnostics"
+        onPress={() => {
+          NavigationService.dispatch(navigateToDiagnostics());
+        }}
+      />
+      <OptionButton
+        Icon={IconMoreHorizontal}
+        label="Legal"
+        onPress={() => {
+          NavigationService.dispatch(navigateToLegal());
+        }}
+      />
+    </ScrollView>
+  );
 }
 
 export default connect(state => ({
