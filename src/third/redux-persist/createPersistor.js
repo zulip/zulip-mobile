@@ -27,9 +27,6 @@ export default function createPersistor (store, config) {
 
   // pluggable state shape (e.g. immutablejs)
   const stateInit = {}
-  function stateIterator (collection, callback) {
-    return Object.keys(collection).forEach(callback)
-  }
   function stateGetter (state, key) {
     return state[key]
   }
@@ -51,7 +48,7 @@ export default function createPersistor (store, config) {
 
     let state = store.getState()
 
-    stateIterator(state, (key) => {
+    Object.keys(state).forEach((key) => {
       if (!passWhitelistBlacklist(key)) return
       if (stateGetter(lastState, key) === stateGetter(state, key)) return
       if (storesToProcess.indexOf(key) !== -1) return
@@ -88,7 +85,7 @@ export default function createPersistor (store, config) {
   function adhocRehydrate (incoming, options = {}) {
     let state = {}
     if (options.serial) {
-      stateIterator(incoming, (key) => {
+      Object.keys(incoming).forEach((key) => {
         const subState = incoming[key]
         try {
           let data = deserializer(subState)
