@@ -3,20 +3,18 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getUnreadMentionsTotal } from '../selectors';
 import { IconMention } from '../common/Icons';
 import { CountOverlay } from '../common';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  unreadMentionsTotal: number,
   color: string,
 |}>;
 
-function IconUnreadMentions(props: Props) {
-  const { unreadMentionsTotal, color } = props;
+export default function IconUnreadMentions(props: Props) {
+  const { color } = props;
+  const unreadMentionsTotal = useSelector(getUnreadMentionsTotal);
 
   return (
     <View>
@@ -26,7 +24,3 @@ function IconUnreadMentions(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  unreadMentionsTotal: getUnreadMentionsTotal(state),
-}))(IconUnreadMentions);
