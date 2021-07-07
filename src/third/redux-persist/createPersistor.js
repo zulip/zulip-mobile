@@ -69,6 +69,7 @@ export default function createPersistor (store, config) {
     }
 
     if (writes.length > 0) { // `multiSet` doesn't like an empty array
+      // Write them all out, in one `storage.multiSet` operation.
       try {
         // Warning: not guaranteed to be done in a transaction.
         await storage.multiSet(
@@ -80,6 +81,7 @@ export default function createPersistor (store, config) {
       }
     }
 
+    // Record success.
     writeInProgress = false
     lastWrittenState = state
   }
