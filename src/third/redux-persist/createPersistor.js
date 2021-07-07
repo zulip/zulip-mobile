@@ -45,19 +45,22 @@ export default function createPersistor (store, config) {
       if (!passWhitelistBlacklist(key)) return
       if (lastState[key] === state[key]) return
       updatedSubstates.push([key, state[key]])
-    })
+    });
 
-    const timeIterator = setInterval(() => {
-      if (updatedSubstates.length === 0) {
-        clearInterval(timeIterator)
-        writeInProgress = false
-        return
+    (async () => {
+      while (true) { // eslint-disable-line no-constant-condition
+        await new Promise(r => setTimeout(r, 0));
+
+        if (updatedSubstates.length === 0) {
+          writeInProgress = false
+          break
+        }
+
+        const [key, substate] = updatedSubstates.shift()
+        const storageKey = createStorageKey(key)
+        storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
       }
-
-      const [key, substate] = updatedSubstates.shift()
-      const storageKey = createStorageKey(key)
-      storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
-    }, 0)
+    })()
 
     lastState = state
   })
