@@ -49,13 +49,18 @@ export default function createPersistor (store, config) {
         updatedSubstates.push([key, state[key]])
       });
 
+      const writes = []
       while (updatedSubstates.length > 0) {
         await new Promise(r => setTimeout(r, 0));
 
         const [key, substate] = updatedSubstates.shift()
-        const storageKey = createStorageKey(key)
-        storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
+        writes.push([key, serializer(substate)])
       }
+
+      writes.forEach(([key, serializedSubstate]) => {
+        storage.setItem(createStorageKey(key), serializedSubstate).catch(warnIfSetError(key))
+      })
+
       writeInProgress = false
       lastState = state
     })()
