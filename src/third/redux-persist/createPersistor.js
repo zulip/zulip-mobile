@@ -25,13 +25,10 @@ export default function createPersistor (store, config) {
   const whitelist = config.whitelist || false
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
-  // pluggable state shape (e.g. immutablejs)
-  const stateInit = {}
-
   const storage = config.storage;
 
   // initialize stateful values
-  let lastState = stateInit
+  let lastState = {}
   let paused = false
   let storesToProcess = []
   let timeIterator = null
