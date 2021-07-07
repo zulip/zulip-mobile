@@ -34,6 +34,7 @@ import { FloatingActionButton, Input } from '../common';
 import { showErrorAlert, showToast } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
+  caseNarrowDefault,
   isStreamNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
@@ -408,9 +409,14 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     if (!editMessage) {
       throw new Error('expected editMessage');
     }
-    const { message, topic } = this.state;
+    const { message } = this.state;
     const content = editMessage.content !== message ? message : undefined;
-    const subject = topic !== editMessage.topic ? topic : undefined;
+    const subject = caseNarrowDefault(
+      this.getDestinationNarrow(),
+      { topic: (stream, topic) => (topic !== editMessage.topic ? topic : undefined) },
+      () => undefined,
+    );
+
     if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
       api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
         showErrorAlert(_('Failed to edit message'), error.message);
