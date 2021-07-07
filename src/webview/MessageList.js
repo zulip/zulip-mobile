@@ -311,7 +311,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       allImageEmojiById: getAllImageEmojiById(state),
       auth: getAuth(state),
       debug: getDebug(state),
-      doNotMarkMessagesAsRead: getDebug(state).doNotMarkMessagesAsRead,
+      doNotMarkMessagesAsRead: getSettings(state).doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),

@@ -295,6 +295,7 @@ export type SettingsState = {|
   experimentalFeaturesEnabled: boolean,
   streamNotification: boolean,
   browser: BrowserPreference,
+  doNotMarkMessagesAsRead: boolean,
 |};
 
 export type StreamsState = Stream[];

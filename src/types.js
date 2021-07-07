@@ -142,9 +142,8 @@ export type EditMessage = {|
   topic: string,
 |};
 
-export type Debug = {|
-  doNotMarkMessagesAsRead: boolean,
-|};
+/** Add debug setting here. */
+export type Debug = {||};
 
 export type TopicExtended = {|
   ...$Exact<Topic>,

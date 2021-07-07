@@ -302,6 +302,9 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     outbox: state.outbox.filter(o => o.sender_id !== undefined),
   }),
 
+  // Add `doNotMarkMessagesAsRead` in `SettingsState`.
+  // (Handled automatically by merging with the new initial state.)
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

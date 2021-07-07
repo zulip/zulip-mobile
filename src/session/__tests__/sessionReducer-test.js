@@ -110,7 +110,7 @@ describe('sessionReducer', () => {
     const action = deepFreeze({ type: DEBUG_FLAG_TOGGLE, key: 'someKey', value: true });
     expect(sessionReducer(baseState, action)).toEqual({
       ...baseState,
-      debug: { doNotMarkMessagesAsRead: false, someKey: true },
+      debug: { someKey: true },
     });
   });
 

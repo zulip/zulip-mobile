@@ -15,6 +15,7 @@ const initialState: SettingsState = {
   experimentalFeaturesEnabled: false,
   streamNotification: false,
   browser: 'default',
+  doNotMarkMessagesAsRead: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {

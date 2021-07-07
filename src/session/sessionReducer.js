@@ -85,9 +85,7 @@ const initialState: SessionState = {
   orientation: 'PORTRAIT',
   outboxSending: false,
   pushToken: null,
-  debug: {
-    doNotMarkMessagesAsRead: false,
-  },
+  debug: Object.freeze({}),
   hasDismissedServerCompatNotice: false,
 };
 

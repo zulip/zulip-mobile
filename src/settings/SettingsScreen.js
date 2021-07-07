@@ -39,6 +39,7 @@ type Props = $ReadOnly<{|
 export default function SettingsScreen(props: Props) {
   const theme = useSelector(state => getSettings(state).theme);
   const browser = useSelector(state => getSettings(state).browser);
+  const doNotMarkMessagesAsRead = useSelector(state => getSettings(state).doNotMarkMessagesAsRead);
   const dispatch = useDispatch();
 
   const handleThemeChange = useCallback(() => {
@@ -53,6 +54,13 @@ export default function SettingsScreen(props: Props) {
         value={shouldUseInAppBrowser(browser)}
         onValueChange={value => {
           dispatch(settingsChange({ browser: value ? 'embedded' : 'external' }));
+        }}
+      />
+      <SwitchRow
+        label="Do not mark messages read on scroll"
+        value={doNotMarkMessagesAsRead}
+        onValueChange={value => {
+          dispatch(settingsChange({ doNotMarkMessagesAsRead: value }));
         }}
       />
       <NestedNavRow
