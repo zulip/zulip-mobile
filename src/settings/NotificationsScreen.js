@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -22,60 +22,55 @@ type Props = $ReadOnly<{|
   streamNotification: boolean,
 |}>;
 
-class NotificationsScreen extends PureComponent<Props> {
-  handleOfflineNotificationChange = () => {
-    const { auth, dispatch, offlineNotification } = this.props;
+function NotificationsScreen(props: Props) {
+  const { auth, dispatch, offlineNotification, onlineNotification, streamNotification } = props;
+
+  const handleOfflineNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
       auth,
       opp: 'offline_notification_change',
       value: !offlineNotification,
     });
     dispatch(settingsChange({ offlineNotification: !offlineNotification }));
-  };
+  }, [offlineNotification, auth, dispatch]);
 
-  handleOnlineNotificationChange = () => {
-    const { auth, dispatch, onlineNotification } = this.props;
+  const handleOnlineNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
       auth,
       opp: 'online_notification_change',
       value: !onlineNotification,
     });
     dispatch(settingsChange({ onlineNotification: !onlineNotification }));
-  };
+  }, [onlineNotification, auth, dispatch]);
 
-  handleStreamNotificationChange = () => {
-    const { auth, dispatch, streamNotification } = this.props;
+  const handleStreamNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
       auth,
       opp: 'stream_notification_change',
       value: !streamNotification,
     });
     dispatch(settingsChange({ streamNotification: !streamNotification }));
-  };
+  }, [streamNotification, auth, dispatch]);
 
-  render() {
-    const { offlineNotification, onlineNotification, streamNotification } = this.props;
-
-    return (
-      <Screen title="Notifications">
-        <OptionRow
-          label="Notifications when offline"
-          value={offlineNotification}
-          onValueChange={this.handleOfflineNotificationChange}
-        />
-        <OptionRow
-          label="Notifications when online"
-          value={onlineNotification}
-          onValueChange={this.handleOnlineNotificationChange}
-        />
-        <OptionRow
-          label="Stream notifications"
-          value={streamNotification}
-          onValueChange={this.handleStreamNotificationChange}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Notifications">
+      <OptionRow
+        label="Notifications when offline"
+        value={offlineNotification}
+        onValueChange={handleOfflineNotificationChange}
+      />
+      <OptionRow
+        label="Notifications when online"
+        value={onlineNotification}
+        onValueChange={handleOnlineNotificationChange}
+      />
+      <OptionRow
+        label="Stream notifications"
+        value={streamNotification}
+        onValueChange={handleStreamNotificationChange}
+      />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
