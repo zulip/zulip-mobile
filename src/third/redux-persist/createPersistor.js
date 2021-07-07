@@ -27,9 +27,16 @@ export default function createPersistor (store, config) {
 
   // pluggable state shape (e.g. immutablejs)
   const stateInit = {}
-  const stateIterator = defaultStateIterator
-  const stateGetter = defaultStateGetter
-  const stateSetter = defaultStateSetter
+  function stateIterator (collection, callback) {
+    return Object.keys(collection).forEach((key) => callback(collection[key], key))
+  }
+  function stateGetter (state, key) {
+    return state[key]
+  }
+  function stateSetter (state, key, value) {
+    state[key] = value
+    return state
+  }
 
   const storage = config.storage;
 
@@ -141,17 +148,4 @@ function rehydrateAction (data) {
     type: REHYDRATE,
     payload: data
   }
-}
-
-function defaultStateIterator (collection, callback) {
-  return Object.keys(collection).forEach((key) => callback(collection[key], key))
-}
-
-function defaultStateGetter (state, key) {
-  return state[key]
-}
-
-function defaultStateSetter (state, key, value) {
-  state[key] = value
-  return state
 }
