@@ -49,13 +49,17 @@ export default function createPersistor (store, config) {
   async function writeOnce(state) {
     writeInProgress = true
 
-    const updatedSubstates = []
-
-    Object.keys(state).forEach((key) => {
-      if (!passWhitelistBlacklist(key)) return
-      if (lastWrittenState[key] === state[key]) return
-      updatedSubstates.push([key, state[key]])
-    });
+    // Atomically collect the subtrees that need to be written out.
+    const updatedSubstates = [];
+    for (const key of Object.keys(state)) {
+      if (!passWhitelistBlacklist(key)) {
+        continue;
+      }
+      if (state[key] === lastWrittenState[key]) {
+        continue;
+      }
+      updatedSubstates.push([key, state[key]]);
+    }
 
     const writes = []
     while (updatedSubstates.length > 0) {
