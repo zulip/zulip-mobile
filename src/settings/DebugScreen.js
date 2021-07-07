@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -18,25 +18,25 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-class DebugScreen extends PureComponent<Props> {
-  handleSettingToggle = (key: string) => {
-    const { debug, dispatch } = this.props;
-    dispatch(debugFlagToggle(key, !debug[key]));
-  };
+function DebugScreen(props: Props) {
+  const { debug, dispatch } = props;
 
-  render() {
-    const { debug } = this.props;
+  const handleSettingToggle = useCallback(
+    (key: string) => {
+      dispatch(debugFlagToggle(key, !debug[key]));
+    },
+    [debug, dispatch],
+  );
 
-    return (
-      <Screen title="Debug">
-        <OptionRow
-          label="Do not mark messages read on scroll"
-          value={debug.doNotMarkMessagesAsRead}
-          onValueChange={() => this.handleSettingToggle('doNotMarkMessagesAsRead')}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Debug">
+      <OptionRow
+        label="Do not mark messages read on scroll"
+        value={debug.doNotMarkMessagesAsRead}
+        onValueChange={() => handleSettingToggle('doNotMarkMessagesAsRead')}
+      />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
