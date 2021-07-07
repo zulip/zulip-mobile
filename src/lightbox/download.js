@@ -72,5 +72,4 @@ export const downloadImage = async (url: string, fileName: string, auth: Auth): 
 export const downloadFileToCache = async (tempUrl: string, fileName: string): Promise<mixed> =>
   RNFetchBlob.config({
     path: `${RNFetchBlob.fs.dirs.CacheDir}/${fileName}`,
-    fileCache: true,
   }).fetch('GET', tempUrl);
