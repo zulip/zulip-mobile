@@ -4,8 +4,7 @@ import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Debug, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { getSession } from '../selectors';
 import { OptionRow, Screen } from '../common';
 import { debugFlagToggle } from '../actions';
@@ -13,13 +12,11 @@ import { debugFlagToggle } from '../actions';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'debug'>,
   route: RouteProp<'debug', void>,
-
-  debug: Debug,
-  dispatch: Dispatch,
 |}>;
 
-function DebugScreen(props: Props) {
-  const { debug, dispatch } = props;
+export default function DebugScreen(props: Props) {
+  const dispatch = useDispatch();
+  const debug = useSelector(state => getSession(state).debug);
 
   const handleSettingToggle = useCallback(
     (key: string) => {
@@ -38,7 +35,3 @@ function DebugScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  debug: getSession(state).debug,
-}))(DebugScreen);
