@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -19,32 +19,25 @@ type Props = $ReadOnly<{|
   locale: string,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function LanguageScreen(props: Props) {
+  const { locale } = props;
+  const [filter, setFilter] = useState<string>('');
 
-class LanguageScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const handleLocaleChange = useCallback(
+    (value: string) => {
+      const { dispatch } = props;
+      dispatch(settingsChange({ locale: value }));
+    },
+    [props],
+  );
 
-  handleLocaleChange = (value: string) => {
-    const { dispatch } = this.props;
-    dispatch(settingsChange({ locale: value }));
-  };
+  const handleFilterChange = useCallback((f: string) => setFilter(f), []);
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
-
-  render() {
-    const { locale } = this.props;
-    const { filter } = this.state;
-
-    return (
-      <Screen search searchBarOnChange={this.handleFilterChange} scrollEnabled={false}>
-        <LanguagePicker value={locale} onValueChange={this.handleLocaleChange} filter={filter} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen search searchBarOnChange={handleFilterChange} scrollEnabled={false}>
+      <LanguagePicker value={locale} onValueChange={handleLocaleChange} filter={filter} />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
