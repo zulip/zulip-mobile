@@ -61,11 +61,10 @@ export default function createPersistor (store, config) {
       updatedSubstates.push([key, state[key]]);
     }
 
+    // Serialize those subtrees, with yields after each one.
     const writes = []
-    while (updatedSubstates.length > 0) {
-      const [key, substate] = updatedSubstates.shift()
+    for (const [key, substate] of updatedSubstates) {
       writes.push([key, serializer(substate)])
-
       await new Promise(r => setTimeout(r, 0));
     }
 
