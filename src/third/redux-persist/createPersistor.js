@@ -47,12 +47,10 @@ export default function createPersistor (store, config) {
       storesToProcess.push(key)
     })
 
-    const len = storesToProcess.length
-
     if (!writeInProgress) {
       writeInProgress = true
       const timeIterator = setInterval(() => {
-        if ((paused && len === storesToProcess.length) || storesToProcess.length === 0) {
+        if (storesToProcess.length === 0) {
           clearInterval(timeIterator)
           writeInProgress = false
           return
