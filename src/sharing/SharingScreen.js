@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
@@ -50,49 +50,47 @@ const styles = createStyleSheet({
   },
 });
 
-class SharingScreen extends PureComponent<Props> {
-  render() {
-    const { auth } = this.props;
-    const { params } = this.props.route;
+function SharingScreen(props: Props) {
+  const { auth } = props;
+  const { params } = props.route;
 
-    // If there is no active logged-in account, abandon the sharing attempt,
-    // and present the account picker screen to the user.
-    if (auth === undefined) {
-      NavigationService.dispatch(navigateToAccountPicker());
-      return null;
-    }
-
-    return (
-      <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-        <Tab.Navigator
-          {...materialTopTabNavigatorConfig({
-            showLabel: true,
-            showIcon: false,
-          })}
-          swipeEnabled
-        >
-          <Tab.Screen
-            name="share-to-stream"
-            component={ShareToStream}
-            initialParams={params}
-            options={{
-              tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Stream" />,
-            }}
-          />
-          <Tab.Screen
-            name="share-to-pm"
-            component={ShareToPm}
-            initialParams={params}
-            options={{
-              tabBarLabel: ({ color }) => (
-                <Label style={[styles.tab, { color }]} text="Private Message" />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </Screen>
-    );
+  // If there is no active logged-in account, abandon the sharing attempt,
+  // and present the account picker screen to the user.
+  if (auth === undefined) {
+    NavigationService.dispatch(navigateToAccountPicker());
+    return null;
   }
+
+  return (
+    <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
+      <Tab.Navigator
+        {...materialTopTabNavigatorConfig({
+          showLabel: true,
+          showIcon: false,
+        })}
+        swipeEnabled
+      >
+        <Tab.Screen
+          name="share-to-stream"
+          component={ShareToStream}
+          initialParams={params}
+          options={{
+            tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Stream" />,
+          }}
+        />
+        <Tab.Screen
+          name="share-to-pm"
+          component={ShareToPm}
+          initialParams={params}
+          options={{
+            tabBarLabel: ({ color }) => (
+              <Label style={[styles.tab, { color }]} text="Private Message" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </Screen>
+  );
 }
 
 export default connect(state => ({
