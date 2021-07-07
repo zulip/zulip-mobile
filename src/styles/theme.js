@@ -6,6 +6,7 @@ import type { ThemeName } from '../reduxTypes';
 
 export type ThemeData = {|
   color: string,
+  textColor: string,
   backgroundColor: string,
   cardColor: string,
   dividerColor: string,
@@ -14,6 +15,7 @@ export type ThemeData = {|
 export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
   night: {
     color: 'hsl(210, 11%, 85%)',
+    textColor: 'hsl(200, 11%, 65%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
     cardColor: 'hsl(212, 31%, 21%)',
     // Dividers follow Material Design: opacity 12% black or 12% white.
@@ -22,6 +24,7 @@ export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
   },
   light: {
     color: 'hsl(0, 0%, 20%)',
+    textColor: 'hsl(0, 0%, 20%)',
     backgroundColor: 'white',
     cardColor: 'hsl(0, 0%, 97%)',
     // Dividers follow Material Design: opacity 12% black or 12% white.
