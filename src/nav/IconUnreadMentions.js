@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import type { Dispatch } from '../types';
@@ -15,18 +15,16 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-class IconUnreadMentions extends PureComponent<Props> {
-  render() {
-    const { unreadMentionsTotal, color } = this.props;
+function IconUnreadMentions(props: Props) {
+  const { unreadMentionsTotal, color } = props;
 
-    return (
-      <View>
-        <CountOverlay unreadCount={unreadMentionsTotal}>
-          <IconMention size={24} color={color} />
-        </CountOverlay>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <CountOverlay unreadCount={unreadMentionsTotal}>
+        <IconMention size={24} color={color} />
+      </CountOverlay>
+    </View>
+  );
 }
 
 export default connect(state => ({
