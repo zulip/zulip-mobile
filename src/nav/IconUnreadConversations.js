@@ -3,21 +3,19 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getUnreadPmsTotal, getUnreadHuddlesTotal } from '../selectors';
 import { IconPeople } from '../common/Icons';
 import { CountOverlay } from '../common';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  unreadHuddlesTotal: number,
-  unreadPmsTotal: number,
   color: string,
 |}>;
 
-function IconUnreadConversations(props: Props) {
-  const { unreadHuddlesTotal, unreadPmsTotal, color } = props;
+export default function IconUnreadConversations(props: Props) {
+  const { color } = props;
+  const unreadHuddlesTotal = useSelector(getUnreadHuddlesTotal);
+  const unreadPmsTotal = useSelector(getUnreadPmsTotal);
   const unreadCount = unreadHuddlesTotal + unreadPmsTotal;
 
   return (
@@ -28,8 +26,3 @@ function IconUnreadConversations(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  unreadHuddlesTotal: getUnreadHuddlesTotal(state),
-  unreadPmsTotal: getUnreadPmsTotal(state),
-}))(IconUnreadConversations);
