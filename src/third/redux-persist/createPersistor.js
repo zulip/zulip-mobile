@@ -27,10 +27,6 @@ export default function createPersistor (store, config) {
 
   // pluggable state shape (e.g. immutablejs)
   const stateInit = {}
-  function stateSetter (state, key, value) {
-    state[key] = value
-    return state
-  }
 
   const storage = config.storage;
 
@@ -87,7 +83,7 @@ export default function createPersistor (store, config) {
         try {
           let data = deserializer(subState)
           let value = data
-          state = stateSetter(state, key, value)
+          state[key] = value
         } catch (err) {
           if (process.env.NODE_ENV !== 'production') console.warn(`Error rehydrating data for key "${key}"`, subState, err)
         }
