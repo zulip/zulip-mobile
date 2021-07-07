@@ -28,10 +28,8 @@ export default function LanguageScreen(props: Props) {
     [dispatch],
   );
 
-  const handleFilterChange = useCallback((f: string) => setFilter(f), []);
-
   return (
-    <Screen search searchBarOnChange={handleFilterChange} scrollEnabled={false}>
+    <Screen search searchBarOnChange={setFilter} scrollEnabled={false}>
       <LanguagePicker value={locale} onValueChange={handleLocaleChange} filter={filter} />
     </Screen>
   );
