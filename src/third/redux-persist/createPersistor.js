@@ -48,18 +48,14 @@ export default function createPersistor (store, config) {
     });
 
     (async () => {
-      while (true) { // eslint-disable-line no-constant-condition
+      while (updatedSubstates.length > 0) {
         await new Promise(r => setTimeout(r, 0));
-
-        if (updatedSubstates.length === 0) {
-          writeInProgress = false
-          break
-        }
 
         const [key, substate] = updatedSubstates.shift()
         const storageKey = createStorageKey(key)
         storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
       }
+      writeInProgress = false
     })()
 
     lastState = state
