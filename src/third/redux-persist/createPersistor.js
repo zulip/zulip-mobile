@@ -37,42 +37,49 @@ export default function createPersistor (store, config) {
   store.subscribe(() => {
     if (paused || writeInProgress) return;
 
-    (async () => {
-      writeInProgress = true
-
-      const state = store.getState()
-      const updatedSubstates = []
-
-      Object.keys(state).forEach((key) => {
-        if (!passWhitelistBlacklist(key)) return
-        if (lastWrittenState[key] === state[key]) return
-        updatedSubstates.push([key, state[key]])
-      });
-
-      const writes = []
-      while (updatedSubstates.length > 0) {
-        await new Promise(r => setTimeout(r, 0));
-
-        const [key, substate] = updatedSubstates.shift()
-        writes.push([key, serializer(substate)])
-      }
-
-      if (writes.length > 0) { // `multiSet` doesn't like an empty array
-        try {
-          // Warning: not guaranteed to be done in a transaction.
-          await storage.multiSet(
-            writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
-          )
-        } catch (e) {
-          warnIfSetError(writes.map(([key, _]) => key))(e)
-          throw e
-        }
-      }
-
-      writeInProgress = false
-      lastWrittenState = state
-    })()
+    writeOnce(store.getState());
   })
+
+  /**
+   * Update the storage to the given state.
+   *
+   * The storage is assumed to already reflect `lastWrittenState`.
+   * On completion, sets `lastWrittenState` to `state`.
+   */
+  async function writeOnce(state) {
+    writeInProgress = true
+
+    const updatedSubstates = []
+
+    Object.keys(state).forEach((key) => {
+      if (!passWhitelistBlacklist(key)) return
+      if (lastWrittenState[key] === state[key]) return
+      updatedSubstates.push([key, state[key]])
+    });
+
+    const writes = []
+    while (updatedSubstates.length > 0) {
+      await new Promise(r => setTimeout(r, 0));
+
+      const [key, substate] = updatedSubstates.shift()
+      writes.push([key, serializer(substate)])
+    }
+
+    if (writes.length > 0) { // `multiSet` doesn't like an empty array
+      try {
+        // Warning: not guaranteed to be done in a transaction.
+        await storage.multiSet(
+          writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+        )
+      } catch (e) {
+        warnIfSetError(writes.map(([key, _]) => key))(e)
+        throw e
+      }
+    }
+
+    writeInProgress = false
+    lastWrittenState = state
+  }
 
   function passWhitelistBlacklist (key) {
     if (whitelist && whitelist.indexOf(key) === -1) return false
