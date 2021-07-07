@@ -39,24 +39,24 @@ export default function createPersistor (store, config) {
     writeInProgress = true
 
     const state = store.getState()
-    const storesToProcess = []
+    const updatedSubstates = []
 
     Object.keys(state).forEach((key) => {
       if (!passWhitelistBlacklist(key)) return
       if (lastState[key] === state[key]) return
-      storesToProcess.push(key)
+      updatedSubstates.push([key, state[key]])
     })
 
     const timeIterator = setInterval(() => {
-      if (storesToProcess.length === 0) {
+      if (updatedSubstates.length === 0) {
         clearInterval(timeIterator)
         writeInProgress = false
         return
       }
 
-      const key = storesToProcess.shift()
+      const [key, substate] = updatedSubstates.shift()
       const storageKey = createStorageKey(key)
-      storage.setItem(storageKey, serializer(state[key])).catch(warnIfSetError(key))
+      storage.setItem(storageKey, serializer(substate)).catch(warnIfSetError(key))
     }, 0)
 
     lastState = state
