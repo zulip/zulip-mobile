@@ -28,7 +28,7 @@ export default function createPersistor (store, config) {
   // pluggable state shape (e.g. immutablejs)
   const stateInit = {}
   function stateIterator (collection, callback) {
-    return Object.keys(collection).forEach((key) => callback(key))
+    return Object.keys(collection).forEach(callback)
   }
   function stateGetter (state, key) {
     return state[key]
