@@ -17,16 +17,17 @@ import InvalidNarrow from './InvalidNarrow';
 import { fetchMessagesInNarrow } from '../message/fetchActions';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
-import { canSendToNarrow } from '../utils/narrow';
+import { canSendToNarrow, caseNarrowDefault } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import { addToOutbox } from '../actions';
-import { getCaughtUpForNarrow } from '../selectors';
+import { getAuth, getCaughtUpForNarrow } from '../selectors';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
+import * as api from '../api';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -108,8 +109,10 @@ export default function ChatScreen(props: Props): Node {
   const { backgroundColor } = React.useContext(ThemeContext);
 
   const { narrow, editMessage } = route.params;
-  const setEditMessage = (value: EditMessage | null) =>
-    navigation.setParams({ editMessage: value });
+  const setEditMessage = useCallback(
+    (value: EditMessage | null) => navigation.setParams({ editMessage: value }),
+    [navigation],
+  );
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   const draft = useSelector(state => getDraftForNarrow(state, narrow));
@@ -126,20 +129,41 @@ export default function ChatScreen(props: Props): Node {
   const sayNoMessages = haveNoMessages && !isFetching;
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
+  const auth = useSelector(getAuth);
   const dispatch = useDispatch();
   const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
   const _ = useContext(TranslationContext);
 
-  const sendMessage = useCallback(
+  const sendCallback = useCallback(
     (message: string, destinationNarrow: Narrow) => {
-      if (!caughtUp.newer) {
-        showErrorAlert(_('Failed to send message'));
-        return;
-      }
+      if (editMessage) {
+        const content = editMessage.content !== message ? message : undefined;
+        const subject = caseNarrowDefault(
+          destinationNarrow,
+          { topic: (stream, topic) => (topic !== editMessage.topic ? topic : undefined) },
+          () => undefined,
+        );
 
-      dispatch(addToOutbox(destinationNarrow, message));
+        if (
+          (content !== undefined && content !== '')
+          || (subject !== undefined && subject !== '')
+        ) {
+          api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+            showErrorAlert(_('Failed to edit message'), error.message);
+          });
+        }
+
+        setEditMessage(null);
+      } else {
+        if (!caughtUp.newer) {
+          showErrorAlert(_('Failed to send message'));
+          return;
+        }
+
+        dispatch(addToOutbox(destinationNarrow, message));
+      }
     },
-    [_, caughtUp.newer, dispatch],
+    [_, auth, caughtUp.newer, dispatch, editMessage, setEditMessage],
   );
 
   return (
@@ -170,9 +194,8 @@ export default function ChatScreen(props: Props): Node {
         <ComposeBox
           narrow={narrow}
           editMessage={editMessage}
-          completeEditMessage={() => setEditMessage(null)}
           initialMessage={draft}
-          onSend={sendMessage}
+          onSend={sendCallback}
         />
       )}
     </KeyboardAvoider>
