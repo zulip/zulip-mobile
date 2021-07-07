@@ -49,6 +49,13 @@ import { toggleSpoiler } from './spoilers';
  */
 declare var platformOS: string;
 
+/**
+ * used to control behavior based on debug settings.
+ * defined in `handleInitialLoad`.
+ * declared globally so as to use across functions.
+ */
+declare var doNotMarkMessagesAsRead: boolean;
+
 /* eslint-disable no-extend-native */
 
 /* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.
@@ -507,7 +514,9 @@ const sendScrollMessage = () => {
     startMessageId: rangeHull.first,
     endMessageId: rangeHull.last,
   });
-  setMessagesReadAttributes(rangeHull);
+  if (!doNotMarkMessagesAsRead) {
+    setMessagesReadAttributes(rangeHull);
+  }
   // If there are no visible + read messages (for instance, the entire screen
   // is taken up by a single large message), then we don't want to update
   // prevMessageRange.  This way, if the user scrolled past some messages to

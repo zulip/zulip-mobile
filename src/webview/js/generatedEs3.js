@@ -646,7 +646,10 @@ var compiledWebviewJs = (function (exports) {
       startMessageId: rangeHull.first,
       endMessageId: rangeHull.last
     });
-    setMessagesReadAttributes(rangeHull);
+
+    if (!doNotMarkMessagesAsRead) {
+      setMessagesReadAttributes(rangeHull);
+    }
 
     if (messageRange.first < messageRange.last) {
       prevMessageRange = messageRange;

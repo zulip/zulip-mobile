@@ -9,6 +9,7 @@ type InitOptionsType = {|
   scrollMessageId: number | null,
   auth: Auth,
   showMessagePlaceholders: boolean,
+  doNotMarkMessagesAsRead: boolean,
 |};
 
 /**
@@ -40,7 +41,7 @@ type InitOptionsType = {|
 const webkitBugWorkaround: string = '<script> </script>';
 
 export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
-$!${script(initOptions.scrollMessageId, initOptions.auth)}
+$!${script(initOptions.scrollMessageId, initOptions.auth, initOptions.doNotMarkMessagesAsRead)}
 $!${css(theme)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">

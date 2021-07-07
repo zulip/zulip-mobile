@@ -180,8 +180,8 @@ const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
 };
 
 const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
-  const { debug, flags, auth } = props.backgroundData;
-  if (debug.doNotMarkMessagesAsRead) {
+  const { doNotMarkMessagesAsRead, flags, auth } = props.backgroundData;
+  if (doNotMarkMessagesAsRead) {
     return;
   }
   const unreadMessageIds = filterUnreadMessagesInRange(

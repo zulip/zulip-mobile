@@ -752,6 +752,7 @@ export const backgroundData: BackgroundData = deepFreeze({
   allImageEmojiById: action.realm_init.data.realm_emoji,
   auth: selfAuth,
   debug: baseReduxState.session.debug,
+  doNotMarkMessagesAsRead: baseReduxState.session.debug.doNotMarkMessagesAsRead,
   flags: baseReduxState.flags,
   mute: [],
   mutedUsers: Immutable.Map(),
