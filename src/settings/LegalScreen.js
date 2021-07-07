@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -18,25 +18,23 @@ type Props = $ReadOnly<{|
   realm: URL,
 |}>;
 
-class LegalScreen extends PureComponent<Props> {
-  openTermsOfService = () => {
-    const { realm } = this.props;
+function LegalScreen(props: Props) {
+  const { realm } = props;
+
+  const openTermsOfService = useCallback(() => {
     openLinkEmbedded(new URL('/terms/?nav=no', realm).toString());
-  };
+  }, [realm]);
 
-  openPrivacyPolicy = () => {
-    const { realm } = this.props;
+  const openPrivacyPolicy = useCallback(() => {
     openLinkEmbedded(new URL('/privacy/?nav=no', realm).toString());
-  };
+  }, [realm]);
 
-  render() {
-    return (
-      <Screen title="Legal">
-        <OptionButton label="Terms of service" onPress={this.openTermsOfService} />
-        <OptionButton label="Privacy policy" onPress={this.openPrivacyPolicy} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Legal">
+      <OptionButton label="Terms of service" onPress={openTermsOfService} />
+      <OptionButton label="Privacy policy" onPress={openPrivacyPolicy} />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
