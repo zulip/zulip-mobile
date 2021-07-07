@@ -26,10 +26,10 @@ export default function createPersistor (store, config) {
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   // pluggable state shape (e.g. immutablejs)
-  const stateInit = config._stateInit || {}
-  const stateIterator = config._stateIterator || defaultStateIterator
-  const stateGetter = config._stateGetter || defaultStateGetter
-  const stateSetter = config._stateSetter || defaultStateSetter
+  const stateInit = {}
+  const stateIterator = defaultStateIterator
+  const stateGetter = defaultStateGetter
+  const stateSetter = defaultStateSetter
 
   const storage = config.storage;
 
