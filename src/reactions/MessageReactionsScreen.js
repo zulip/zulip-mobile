@@ -99,6 +99,7 @@ class MessageReactionsScreen extends PureComponent<Props> {
                 },
               })}
               swipeEnabled
+              tabBarOptions={{ scrollEnabled: true }}
             >
               {
                 // Generate tabs for the reaction list. The tabs depend
