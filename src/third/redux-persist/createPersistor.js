@@ -27,9 +27,6 @@ export default function createPersistor (store, config) {
 
   // pluggable state shape (e.g. immutablejs)
   const stateInit = {}
-  function stateGetter (state, key) {
-    return state[key]
-  }
   function stateSetter (state, key, value) {
     state[key] = value
     return state
@@ -50,7 +47,7 @@ export default function createPersistor (store, config) {
 
     Object.keys(state).forEach((key) => {
       if (!passWhitelistBlacklist(key)) return
-      if (stateGetter(lastState, key) === stateGetter(state, key)) return
+      if (lastState[key] === state[key]) return
       if (storesToProcess.indexOf(key) !== -1) return
       storesToProcess.push(key)
     })
@@ -68,7 +65,7 @@ export default function createPersistor (store, config) {
 
         let key = storesToProcess.shift()
         let storageKey = createStorageKey(key)
-        let endState = stateGetter(store.getState(), key)
+        let endState = store.getState()[key]
         if (typeof endState !== 'undefined') storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
       }, 0)
     }
