@@ -43,13 +43,13 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
         ...state,
         // Flow bug (unresolved):
         // https://github.com/facebook/flow/issues/8276
-        // $FlowIssue #8276
+        // $FlowIssue[cannot-spread-indexer] #8276
         [action.email]: {
           ...state[action.email],
           ...action.presence,
           // Flow bug (unresolved):
           // https://github.com/facebook/flow/issues/8276
-          // $FlowIssue #8276
+          // $FlowIssue[cannot-spread-indexer] #8276
           aggregated: getAggregatedPresence({
             ...state[action.email],
             ...action.presence,

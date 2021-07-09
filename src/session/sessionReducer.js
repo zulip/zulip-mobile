@@ -92,11 +92,12 @@ const initialState: SessionState = {
 const rehydrate = (state, action) => {
   const { payload } = action;
 
-  /* $FlowIgnore: The actual type allows any property to be null; narrow
-       that to just the one that `getHasAuth` will care about.  (What we
-       really want here is what the value of `getHasAuth` will be after the
-       rehydrate is complete.  So even if some other property is null in the
-       payload, we still do want to ask `getHasAuth` what it thinks.) */
+  /* $FlowIgnore[incompatible-cast]: The actual type allows any property to
+       be null; narrow that to just the one that `getHasAuth` will care
+       about.  (What we really want here is what the value of `getHasAuth`
+       will be after the rehydrate is complete.  So even if some other
+       property is null in the payload, we still do want to ask `getHasAuth`
+       what it thinks.) */
   const payloadForGetHasAuth = (payload: GlobalState | { accounts: null, ... } | void);
   const haveApiKey = !!(
     payloadForGetHasAuth

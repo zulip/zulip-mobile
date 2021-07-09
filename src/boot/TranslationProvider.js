@@ -10,7 +10,7 @@ import { useSelector } from '../react-redux';
 import { getSettings } from '../selectors';
 import messages from '../i18n/messages';
 
-// $FlowFixMe could put a well-typed mock value here, to help write tests
+// $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
 export const TranslationContext: Context<GetText> = React.createContext(undefined);
 
 /**

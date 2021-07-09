@@ -22,14 +22,14 @@ function testRouteParamTypes() {
     const { params } = props.route;
 
     (params.userId: string);
-    // $FlowExpectedError
+    // $FlowExpectedError[incompatible-cast]
     (params.userId: empty);
 
     (('a': string): typeof params.userId);
-    // $FlowExpectedError
+    // $FlowExpectedError[incompatible-cast]
     (('a': mixed): typeof params.userId);
 
-    // $FlowExpectedError
+    // $FlowExpectedError[prop-missing]
     params.nonsense;
   }
 }
@@ -66,7 +66,7 @@ function testNavigatorTypes() {
     <Stack.Navigator>
       {/* Happy case is happy */}
       <Stack.Screen name="Profile" component={Profile} />
-      {/* $FlowExpectedError - mismatch of name with route prop */}
+      {/* $FlowExpectedError[incompatible-type] - mismatch of name with route prop */}
       <Stack.Screen name="Profile1" component={Profile12} />
       {/* Should error but doesn't! on mismatch of name with navigation prop */}
       <Stack.Screen name="Profile2" component={Profile12} />

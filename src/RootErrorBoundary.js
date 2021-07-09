@@ -68,8 +68,8 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
 Component Stack:
 ${
-  /* $FlowFixMe - I've seen this empirically in debug and release
-     builds on iOS and Android */
+  /* $FlowFixMe[prop-missing] - I've seen this empirically in debug and
+     release builds on iOS and Android */
   error.componentStack ?? '<none available>'
 }
 

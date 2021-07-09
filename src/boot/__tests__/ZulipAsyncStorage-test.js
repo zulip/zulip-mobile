@@ -74,7 +74,7 @@ describe('getItem', () => {
     );
 
     // suppress `logging.error` output
-    // $FlowFixMe - teach Flow about mocks
+    // $FlowFixMe[prop-missing] - teach Flow about mocks
     logging.error.mockReturnValue();
   });
 

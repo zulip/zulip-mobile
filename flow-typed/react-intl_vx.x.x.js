@@ -158,19 +158,19 @@ declare module 'react-intl' {
     +MISSING_INTL_API: 'MISSING_INTL_API', // "MISSING_INTL_API"
   |};
   declare interface FieldData {
-    // $FlowFixMe - illegal name (these fixmes added in TS to Flow translation)
+    // $FlowFixMe[unsupported-syntax] - illegal name (these fixmes added in TS to Flow translation)
     '0'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '1'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '-1'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '2'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '-2'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '3'?: string;
-    // $FlowFixMe - illegal name
+    // $FlowFixMe[unsupported-syntax] - illegal name
     '-3'?: string;
     future: RelativeTimeData;
     past: RelativeTimeData;

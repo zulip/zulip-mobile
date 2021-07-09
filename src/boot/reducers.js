@@ -51,8 +51,8 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
     startMs = Date.now();
   }
 
-  /* $FlowFixMe - We make a small lie about the type, pretending that
-     globalState is not void.
+  /* $FlowFixMe[incompatible-type] - We make a small lie about the type,
+     pretending that globalState is not void.
 
      This is OK because it's only ever void at the initialization action,
      and no reducer should do anything there other than return its initial
