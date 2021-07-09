@@ -6,8 +6,7 @@
 //    static entries(object: mixed): Array<[string, mixed]>;
 // .... which is almost useless.
 
-type EntriesType = <K: string, V>({| +[K]: V |}) => $ReadOnlyArray<[K, V]>;
-
-const objectEntries: EntriesType = obj => (Object.entries(obj): $FlowFixMe);
+const objectEntries = <K: string, V>(obj: {| +[K]: V |}): $ReadOnlyArray<[K, V]> =>
+  (Object.entries(obj): $FlowFixMe);
 
 export default objectEntries;
