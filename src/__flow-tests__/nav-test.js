@@ -5,10 +5,7 @@
  */
 
 import React, { type ComponentType } from 'react';
-import {
-  createStackNavigator,
-  type StackNavigationProp,
-} from '@react-navigation/stack';
+import { createStackNavigator, type StackNavigationProp } from '@react-navigation/stack';
 
 import { type RouteProp, type RouteParamsOf } from '../react-navigation';
 
