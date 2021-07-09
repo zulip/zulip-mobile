@@ -57,7 +57,7 @@ declare module 'react-native-safe-area-context/SafeAreaContext' {
   declare export function useSafeAreaInsets(): EdgeInsets;
   declare export function useSafeAreaFrame(): Rect;
   declare export function withSafeAreaInsets<T>(
-    WrappedComponent: React.ComponentType<T>,
+    WrappedComponent: React$ComponentType<T>,
   ): React.ForwardRefExoticComponent<React.PropsWithoutRef<T> & React.RefAttributes<T>>;
 
   /**
