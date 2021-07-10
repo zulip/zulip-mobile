@@ -20,7 +20,9 @@ import type {
 import type { UnreadState } from '../unread/unreadModelTypes';
 import {
   getNarrowForReply,
+  isHomeNarrow,
   isPmNarrow,
+  isSpecialNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
@@ -315,8 +317,10 @@ export const constructMessageActionButtons = ({
   }
   if (
     message.sender_id === ownUser.user_id
-    // Our "edit message" UI only works in certain kinds of narrows.
-    && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
+    && (isStreamOrTopicNarrow(narrow)
+      || isPmNarrow(narrow)
+      || isSpecialNarrow(narrow)
+      || isHomeNarrow(narrow))
   ) {
     buttons.push(editMessage);
   }
