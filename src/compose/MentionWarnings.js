@@ -15,7 +15,7 @@ import type {
 } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getAllUsersById, getAuth } from '../selectors';
-import { is1to1PmNarrow } from '../utils/narrow';
+import { isPmNarrow } from '../utils/narrow';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 
@@ -105,7 +105,7 @@ class MentionWarnings extends PureComponent<Props, State> {
     const { narrow, auth, stream } = this.props;
     const { unsubscribedMentions } = this.state;
 
-    if (is1to1PmNarrow(narrow)) {
+    if (isPmNarrow(narrow)) {
       return;
     }
     const mentionedUser = this.getUserFromMention(completion);
@@ -146,7 +146,7 @@ class MentionWarnings extends PureComponent<Props, State> {
     const { unsubscribedMentions } = this.state;
     const { stream, narrow, allUsersById } = this.props;
 
-    if (is1to1PmNarrow(narrow)) {
+    if (isPmNarrow(narrow)) {
       return null;
     }
 
