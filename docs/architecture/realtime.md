@@ -22,7 +22,7 @@ opposite failure of showing information that's already wrong.
 (*) Or other users, or anything else separated over a network.  It'd
 be only a small overstatement to shorten this to "any high-quality
 mobile app"; the exceptions are apps that rely only on the device's
-own storage and sensors, like a camera app, or a reference app where
+own storage and sensors, like a camera app, game, or reference app where
 the data is all included with the app or is downloaded once and never
 changes.
 
@@ -34,7 +34,11 @@ request to the server makes a longer delay), low-bandwidth (so
 downloading a lot of data pre-emptively is expensive), and flaky (so
 it's often impossible to just stay up to date) -- and because they run
 on memory- and power-constrained devices where the system is ruthless
-in shutting them down when the user's attention goes elsewhere.
+in shutting them down when the user's attention goes elsewhere.  The 
+one big advantage that mobile apps have over webapps is that mobile 
+devices have access to a large amount of built-in persistent storage.  
+In contrast, browser "local storage" feature available to webapps is often 
+limited to a few megabytes and may be disabled by user privacy settings.
 
 The Zulip server provides a sophisticated architecture -- the ["events
 system"][subsystem-events] -- for a client to handle the problem of
@@ -153,6 +157,10 @@ When the update machine is *live*:
     `static/js/server_events_dispatch.js`; in the Zulip mobile app,
     this means dispatching a Redux action with a type like `EVENT_*`
     which is handled by relevant Redux reducers.
+  * SUGGESTION: Should we make the `server_events.js` stuff above links?  Might make them more clickable.
+  * (The Redux reducers handle rerendering the UI to handle these update; 
+     since the Zulip webapp doesn't use React, in that system, this is 
+     generally done via direct function calls in `server_events_dispatch.js`)
   * We update the finger's "last event ID" to the ID of the last event
     received.
   * We update timestamps etc. in the obvious ways.
@@ -169,7 +177,13 @@ When the update machine is *live*:
     state is reflected in the UI as a loading screen.  This is OK
     because while the browser tab is open, we continuously long-poll,
     even when the user is away for hours at a time, so the user
-    doesn't see this often.
+    doesn't see this often.  Additionally, because desktops generally
+    have access to decent network, the loading delay when this happens
+    is generally low.  And finally, the Zulip webapp passes key state
+    (narrow, selected message, scroll position, open compose box content, 
+    etc.) to its reloaded self via browser local storage, so that unless
+    the user was watching the tab at the time it was reloaded, they wouldn't
+    know that a reload had happened; see `static/js/reload.js` for details.
   * The Zulip mobile app has striven to avoid that solution, because
     it can't continuously long-poll the way the webapp does; any time
     the user opens the app after more than a few minutes away, it's
@@ -279,7 +293,23 @@ Key examples for Zulip today:
     `caughtUp` state, a pair of booleans that indicate whether the
     special values "very beginning" and "very end" respectively apply;
     when false, the first/last known message ID is used.
-  * The webapp does something else whose details I don't recall.
+  * The webapp calls this data structure `message_list_data`, and only keeps 
+    three narrows: `all_msg_list`, which is a 
+    contiguous block of message IDs corresponding roughly to at last 1200 messages from
+    the "All Messages" view, but with muted streams (but not muted topics) included.
+    (`home_msg_list` corresponds exactly to the "All Messages" view).  
+    And finally `narrowed_msg_list`, the current narrow.  
+    The core algorithm is when entering a narrow to start rendering a new narrow
+    using data from `all_msg_list`; if it contains the range of message IDs needed to 
+    render the new narrow, we will render locally; othewise we will go to the server.  
+    `static/js/narrow_state.js` 
+    has much of the implementation here.  There is room for improvement in the webapp here;
+    the webapp should be storing and maintaining data for past recent narrows as well
+    as the `all_msg_list` effort; the recent extraction of the `message_list_data`
+    from the `message_list` class is a key part of supporting said improvement.  
+    But because the "last 1200+" messages of history (as of browser open, and of 
+    course much more if the browser is open for a long time) is likely to include whatever 
+    message a user clicks on, further optimization here is not absolutely critical.
   * This specific design, I came up with just today while thinking
     about this overall problem.  It's more information but I think
     should actually reduce the complexity of the code.  The difference
