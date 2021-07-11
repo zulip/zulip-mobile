@@ -537,6 +537,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 defaultValue={topic}
+                clearButtonMode="always"
                 selectTextOnFocus
                 textInputRef={this.topicInputRef}
                 onChangeText={this.handleTopicChange}
