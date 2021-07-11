@@ -1,13 +1,13 @@
 /* @flow strict-local */
 
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getMutedUsers } from '../selectors';
 import type { UserId } from '../types';
 import * as NavigationService from '../nav/NavigationService';
-import styles, { createStyleSheet } from '../styles';
+import { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { navigateToAccountDetails } from '../nav/navActions';
 
@@ -26,7 +26,8 @@ export default function TitleGroup(props: Props) {
   const mutedUsers = useSelector(getMutedUsers);
 
   return (
-    <View style={styles.navWrapper}>
+    /* fadingEdgeLength is an android-only prop used to fade the edges so that they don't end abruptly */
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} fadingEdgeLength={50}>
       {userIds.map(userId => (
         <View key={userId} style={componentStyles.titleAvatar}>
           <UserAvatarWithPresenceById
@@ -39,6 +40,6 @@ export default function TitleGroup(props: Props) {
           />
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
