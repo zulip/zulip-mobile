@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Message, Narrow } from '../types';
 import { createStyleSheet } from '../styles';
@@ -42,7 +42,10 @@ export default class SearchMessagesCard extends PureComponent<Props> {
     }
 
     return (
-      <View style={styles.results}>
+      // TODO: Keep the meaningful content within the safe areas, but
+      // let the background elements extend through the insets all the
+      // way to the left and right of the screen.
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.results}>
         <MessageList
           initialScrollMessageId={
             // This access is OK only because of the `.length === 0` check
@@ -56,7 +59,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
           // or make this prop optional
           startEditMessage={() => undefined}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

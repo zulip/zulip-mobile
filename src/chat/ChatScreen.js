@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
@@ -152,13 +152,18 @@ export default function ChatScreen(props: Props): Node {
           return <NoMessages narrow={narrow} />;
         } else {
           return (
-            <MessageList
-              narrow={narrow}
-              messages={messages}
-              initialScrollMessageId={firstUnreadIdInNarrow}
-              showMessagePlaceholders={showMessagePlaceholders}
-              startEditMessage={setEditMessage}
-            />
+            // TODO: Keep the meaningful content within the safe areas, but
+            // let the background elements extend through the insets all the
+            // way to the left and right of the screen.
+            <SafeAreaView mode="padding" edges={['right', 'left']} style={{ flex: 1 }}>
+              <MessageList
+                narrow={narrow}
+                messages={messages}
+                initialScrollMessageId={firstUnreadIdInNarrow}
+                showMessagePlaceholders={showMessagePlaceholders}
+                startEditMessage={setEditMessage}
+              />
+            </SafeAreaView>
           );
         }
       })()}
