@@ -18,17 +18,10 @@ export const updateExistingStream = (
   newValues: {| name: string, description: string, isPrivate: boolean |},
 ) => async (dispatch: Dispatch, getState: GetState) => {
   if (initialValues.name !== newValues.name) {
-    // Stream names might contain unsafe characters so we must encode it first.
-    await api.updateStream(getAuth(getState()), id, 'new_name', JSON.stringify(newValues.name));
+    await api.updateStream(getAuth(getState()), id, 'new_name', newValues.name);
   }
   if (initialValues.description !== newValues.description) {
-    // Description might contain unsafe characters so we must encode it first.
-    await api.updateStream(
-      getAuth(getState()),
-      id,
-      'description',
-      JSON.stringify(newValues.description),
-    );
+    await api.updateStream(getAuth(getState()), id, 'description', newValues.description);
   }
   if (initialValues.invite_only !== newValues.isPrivate) {
     await api.updateStream(getAuth(getState()), id, 'is_private', newValues.isPrivate);
