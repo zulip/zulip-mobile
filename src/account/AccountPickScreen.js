@@ -10,7 +10,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useSelector, useDispatch } from '../react-redux';
 import { getAccountStatuses } from '../selectors';
-import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
+import { ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
 import {
   navigateToRealmInputScreen,
@@ -84,21 +84,19 @@ export default function AccountPickScreen(props: Props) {
       canGoBack={navigation.canGoBack()}
       shouldShowLoadingBanner={false}
     >
-      <Centerer>
-        {accounts.length === 0 && <Logo />}
-        <AccountList
-          accounts={accounts}
-          onAccountSelect={handleAccountSelect}
-          onAccountRemove={handleAccountRemove}
-        />
-        <ViewPlaceholder height={16} />
-        <ZulipButton
-          text="Add new account"
-          onPress={() => {
-            NavigationService.dispatch(navigateToRealmInputScreen());
-          }}
-        />
-      </Centerer>
+      {accounts.length === 0 && <Logo />}
+      <AccountList
+        accounts={accounts}
+        onAccountSelect={handleAccountSelect}
+        onAccountRemove={handleAccountRemove}
+      />
+      <ViewPlaceholder height={16} />
+      <ZulipButton
+        text="Add new account"
+        onPress={() => {
+          NavigationService.dispatch(navigateToRealmInputScreen());
+        }}
+      />
     </Screen>
   );
 }

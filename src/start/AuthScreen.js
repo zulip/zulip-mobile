@@ -26,7 +26,7 @@ import {
 import type { SpecificIconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
-import { Centerer, Screen, ZulipButton } from '../common';
+import { Screen, ZulipButton } from '../common';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
@@ -316,36 +316,34 @@ class AuthScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Log in" centerContent padding shouldShowLoadingBanner={false}>
-        <Centerer>
-          <RealmInfo
-            name={serverSettings.realm_name}
-            iconUrl={new URL(serverSettings.realm_icon, this.props.realm).toString()}
-          />
-          {activeAuthentications(
-            serverSettings.authentication_methods,
-            serverSettings.external_authentication_methods,
-          ).map(auth =>
-            auth.name === 'apple' && Platform.OS === 'ios' ? (
-              <IosCompliantAppleAuthButton
-                key={auth.name}
-                style={styles.halfMarginTop}
-                onPress={() => this.handleAuth(auth)}
-              />
-            ) : (
-              <ZulipButton
-                key={auth.name}
-                style={styles.halfMarginTop}
-                secondary
-                text={{
-                  text: 'Sign in with {method}',
-                  values: { method: auth.displayName },
-                }}
-                Icon={auth.Icon}
-                onPress={() => this.handleAuth(auth)}
-              />
-            ),
-          )}
-        </Centerer>
+        <RealmInfo
+          name={serverSettings.realm_name}
+          iconUrl={new URL(serverSettings.realm_icon, this.props.realm).toString()}
+        />
+        {activeAuthentications(
+          serverSettings.authentication_methods,
+          serverSettings.external_authentication_methods,
+        ).map(auth =>
+          auth.name === 'apple' && Platform.OS === 'ios' ? (
+            <IosCompliantAppleAuthButton
+              key={auth.name}
+              style={styles.halfMarginTop}
+              onPress={() => this.handleAuth(auth)}
+            />
+          ) : (
+            <ZulipButton
+              key={auth.name}
+              style={styles.halfMarginTop}
+              secondary
+              text={{
+                text: 'Sign in with {method}',
+                values: { method: auth.displayName },
+              }}
+              Icon={auth.Icon}
+              onPress={() => this.handleAuth(auth)}
+            />
+          ),
+        )}
       </Screen>
     );
   }
