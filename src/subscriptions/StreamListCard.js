@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
@@ -69,18 +70,20 @@ class StreamListCard extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <LoadingBanner />
-        {canCreateStreams && (
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Create new stream"
-            onPress={() =>
-              delay(() => {
-                NavigationService.dispatch(navigateToCreateStream());
-              })
-            }
-          />
-        )}
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          {canCreateStreams && (
+            <ZulipButton
+              style={styles.button}
+              secondary
+              text="Create new stream"
+              onPress={() =>
+                delay(() => {
+                  NavigationService.dispatch(navigateToCreateStream());
+                })
+              }
+            />
+          )}
+        </SafeAreaView>
         <StreamList
           streams={subsAndStreams}
           showSwitch

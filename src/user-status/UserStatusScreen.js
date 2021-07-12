@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
 
@@ -83,14 +84,16 @@ class UserStatusScreen extends PureComponent<Props, State> {
 
     return (
       <Screen title="User status">
-        <Input
-          autoFocus
-          maxLength={60}
-          style={styles.statusTextInput}
-          placeholder="What’s your status?"
-          value={statusText}
-          onChangeText={this.setStatusTextState}
-        />
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          <Input
+            autoFocus
+            maxLength={60}
+            style={styles.statusTextInput}
+            placeholder="What’s your status?"
+            value={statusText}
+            onChangeText={this.setStatusTextState}
+          />
+        </SafeAreaView>
         <FlatList
           data={statusSuggestions}
           keyboardShouldPersistTaps="always"
@@ -107,7 +110,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
             />
           )}
         />
-        <View style={styles.buttonsWrapper}>
+        <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.buttonsWrapper}>
           <ZulipButton
             style={styles.button}
             secondary
@@ -121,7 +124,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
             onPress={this.handleStatusTextUpdate}
             Icon={IconDone}
           />
-        </View>
+        </SafeAreaView>
       </Screen>
     );
   }

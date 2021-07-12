@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
@@ -44,7 +45,7 @@ export default function HomeScreen(props: Props) {
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.iconList}>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.iconList}>
         <NavButton
           name="globe"
           onPress={() => {
@@ -70,7 +71,7 @@ export default function HomeScreen(props: Props) {
             NavigationService.dispatch(navigateToSearch());
           }}
         />
-      </View>
+      </SafeAreaView>
       <ServerCompatBanner />
       <LoadingBanner />
       <UnreadCards />
