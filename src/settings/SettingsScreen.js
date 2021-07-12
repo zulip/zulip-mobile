@@ -37,6 +37,12 @@ type Props = $ReadOnly<{|
   route: RouteProp<'settings', void>,
 |}>;
 
+/**
+ * A screen for general settings, linking to more specific settings screens.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * `SwitchRow`s and `NestedNavRow`s) do.
+ */
 export default function SettingsScreen(props: Props): Node {
   const theme = useSelector(state => getSettings(state).theme);
   const browser = useSelector(state => getSettings(state).browser);

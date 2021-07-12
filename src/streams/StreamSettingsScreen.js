@@ -38,6 +38,12 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * A screen to adjust a stream's settings.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * `SwitchRow`s) do.
+ */
 class StreamSettingsScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;

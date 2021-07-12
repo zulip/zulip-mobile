@@ -30,6 +30,12 @@ type State = {|
   filter: string,
 |};
 
+/**
+ * A screen for searching topics in a stream.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * topic items) do.
+ */
 class TopicListScreen extends PureComponent<Props, State> {
   state = {
     filter: '',

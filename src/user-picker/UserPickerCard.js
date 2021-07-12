@@ -39,6 +39,12 @@ const getUsersToShow: Selector<User[]> = createSelector(
   (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
 );
 
+/**
+ * A multi-select for users.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 export default function UserPickerCard(props: Props) {
   const { filter } = props;
 

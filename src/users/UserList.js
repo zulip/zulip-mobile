@@ -25,6 +25,12 @@ type Props = $ReadOnly<{|
   onPress: (user: UserOrBot) => void,
 |}>;
 
+/**
+ * A list of users, grouped by status, optionally selectable.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 export default function UserList(props: Props): Node {
   const { filter, users, presences, onPress, selected = [] } = props;
   const mutedUsers = useSelector(getMutedUsers);

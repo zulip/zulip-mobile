@@ -16,6 +16,12 @@ type Props = $ReadOnly<{|
   route: RouteProp<'language', void>,
 |}>;
 
+/**
+ * A screen to choose the language for the app UI.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * language items) do.
+ */
 export default function LanguageScreen(props: Props): Node {
   const dispatch = useDispatch();
   const language = useSelector(state => getSettings(state).language);

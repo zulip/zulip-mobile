@@ -15,6 +15,11 @@ type Props = $ReadOnly<{|
   route: RouteProp<'create-stream', void>,
 |}>;
 
+/**
+ * A screen for creating a new stream.
+ *
+ * Needs to occupy the horizontal insets because `EditStreamCard` does.
+ */
 export default function CreateStreamScreen(props: Props) {
   const dispatch = useDispatch();
   const ownEmail = useSelector(getOwnEmail);

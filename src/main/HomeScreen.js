@@ -33,6 +33,12 @@ type Props = $ReadOnly<{|
   route: RouteProp<'home', void>,
 |}>;
 
+/**
+ * The first tab in the main-tabs screen, showing unread counts.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * unread conversation items) do.
+ */
 export default function HomeScreen(props: Props) {
   const dispatch = useDispatch();
 

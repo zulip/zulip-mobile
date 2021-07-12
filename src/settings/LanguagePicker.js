@@ -15,6 +15,12 @@ type Props = $ReadOnly<{|
   filter: string,
 |}>;
 
+/**
+ * A filterable list of languages to choose from, for the app UI.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * language items) do.
+ */
 export default class LanguagePicker extends PureComponent<Props> {
   static contextType: Context<GetText> = TranslationContext;
   context: GetText;

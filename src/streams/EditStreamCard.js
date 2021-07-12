@@ -30,6 +30,13 @@ type State = {|
   isPrivate: boolean,
 |};
 
+/**
+ * (TODO: usefulness of these "card" components as separate from "screen"
+ * components?)
+ *
+ * Needs to occupy the horizontal insets because some descendents (a
+ * `SwitchRow`) do.
+ */
 export default class EditStreamCard extends PureComponent<Props, State> {
   state: State = {
     name: this.props.initialValues.name,

@@ -37,6 +37,12 @@ type Props = $ReadOnly<{|
   subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
+/**
+ * A list of all streams, with the option to toggle subscribed/unsubscribed.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * stream items) do.
+ */
 class StreamListCard extends PureComponent<Props> {
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;

@@ -41,6 +41,12 @@ type State = {|
   statusText: string,
 |};
 
+/**
+ * A screen for the user to update their status, with suggestions.
+ *
+ * Needs to occupy the horizontal insets because some descendents (the
+ * status suggestions) need to.
+ */
 class UserStatusScreen extends PureComponent<Props, State> {
   static contextType = TranslationContext;
   context: GetText;

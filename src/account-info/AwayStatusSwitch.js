@@ -13,6 +13,8 @@ type Props = $ReadOnly<{||}>;
  * This is a stand-alone component that:
  *  * retrieves the current user's `user status` data and presents it
  *  * allows by switching it to control the `away` status
+ *
+ * Needs to occupy the horizontal insets because `SwitchRow` does.
  */
 export default function AwayStatusSwitch(props: Props): Node {
   const awayStatus = useSelector(getSelfUserAwayStatus);
