@@ -46,7 +46,11 @@ export default class SearchMessagesCard extends PureComponent<Props> {
     return (
       <View style={styles.results}>
         <MessageList
-          initialScrollMessageId={messages[0].id}
+          initialScrollMessageId={
+            // This access is OK only because of the `.length === 0` check
+            // above.
+            messages[messages.length - 1].id
+          }
           messages={messages}
           narrow={narrow}
           showMessagePlaceholders={false}
