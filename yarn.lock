@@ -2133,10 +2133,10 @@
   dependencies:
     "@octokit/openapi-types" "^8.2.0"
 
-"@react-native-async-storage/async-storage@1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.13.0.tgz#7b26b04fd2acf95353e7697927939817e46d3166"
-  integrity sha512-c+pKuUe54sysxnqsfG17kaAcd9xJQyTNYDQhZhYf3Ej5khAQPPM85eN2nc1sj1qEnxDde4mcfi3slrOd/KtoSw==
+"@react-native-async-storage/async-storage@^1.13.0":
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.5.tgz#0d221a5ef1cd7a6494a42fcaad43136d68379afb"
+  integrity sha512-4AYehLH39B9a8UXCMf3ieOK+G61wGMP72ikx6/XSMA0DUnvx0PgaeaT2Wyt06kTrDTy8edewKnbrbeqwaM50TQ==
   dependencies:
     deep-assign "^3.0.0"
 
