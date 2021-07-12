@@ -7,7 +7,6 @@ import type { EventAction } from '../actionTypes';
 import { EVENT_NEW_MESSAGE, EVENT_TYPING_START } from '../actionConstants';
 import { isHomeNarrow, isMessageInNarrow } from '../utils/narrow';
 import { getActiveAccount, getChatScreenParams } from '../selectors';
-import { playMessageSound } from '../utils/sound';
 import { NULL_ARRAY } from '../nullObjects';
 import { ensureTypingStatusExpiryLoop } from '../typing/typingActions';
 import { getOwnUserId } from '../users/userSelectors';
@@ -38,7 +37,6 @@ const messageEvent = (state: GlobalState, message: Message): void => {
     && isMessageInNarrow(message, flags, narrow, getOwnUserId(state));
   const isSenderSelf = getOwnUserId(state) === message.sender_id;
   if (!isUserInSameNarrow && !isSenderSelf) {
-    playMessageSound();
     // Vibration.vibrate();
   }
 };
