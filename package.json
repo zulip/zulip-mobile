@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.8.0",
-    "@react-native-community/async-storage": "^1.6.3",
+    "@react-native-async-storage/async-storage": "1.13.0",
     "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.5",

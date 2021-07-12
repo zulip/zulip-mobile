@@ -1,7 +1,7 @@
 // All definitions taken directly from:
-//    @react-native-community/async-storage/lib/AsyncStorage.js
+//    @react-native-async-storage/async-storage/lib/AsyncStorage.js
 
-declare module '@react-native-community/async-storage' {
+declare module '@react-native-async-storage/async-storage' {
   declare type ReadOnlyArrayString = $ReadOnlyArray<string>;
 
   declare export default {

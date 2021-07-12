@@ -336,7 +336,7 @@ PODS:
     - React-jsi (= 0.63.4)
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNCAsyncStorage (1.12.1):
+  - RNCAsyncStorage (1.13.0):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
@@ -447,7 +447,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -574,7 +574,7 @@ EXTERNAL SOURCES:
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
-    :path: "../node_modules/@react-native-community/async-storage"
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPushNotificationIOS:
@@ -674,7 +674,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCAsyncStorage: a52e45079e7df6cee380be6af676a8441d38c42a
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
   RNDeviceInfo: 9b6aba9ffaed69ecb72bd13c7bcb0debf277bc9f

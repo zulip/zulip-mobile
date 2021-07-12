@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeModules } from 'react-native';
 import * as logging from '../utils/logging';
 
