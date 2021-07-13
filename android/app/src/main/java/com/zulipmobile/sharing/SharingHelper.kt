@@ -58,8 +58,16 @@ private fun handleSend(intent: Intent, application: ReactApplication) {
 }
 
 private fun getParamsFromIntent(intent: Intent): WritableMap {
-    // For documentation of what fields to expect here, see:
+    // For documentation of what fields to expect in the Intent, see:
     //   https://developer.android.com/reference/android/content/Intent#ACTION_SEND
+    //
+    // params is constructed to be sent over to React/JS, and must contain data in
+    // sync with the code over there.
+    //
+    // To Ensure this make sure to keep the construction logic in sync with what is 
+    // expected there.
+    //
+    // it corresponds with `src/types.js#SharedData`.
     val params = Arguments.createMap()
     when {
         "text/plain" == intent.type -> {
