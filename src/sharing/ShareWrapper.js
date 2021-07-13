@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import { ImageBackground, ScrollView, View, Text } from 'react-native';
 
 import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
 import * as api from '../api';
@@ -42,6 +42,15 @@ const styles = createStyleSheet({
   button: {
     flex: 1,
     margin: 8,
+  },
+  previewText: {
+    color: 'white',
+    textAlign: 'center',
+    backgroundColor: '#000000a0',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
 
@@ -170,9 +179,19 @@ class ShareWrapper extends React.Component<Props, State> {
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>
             {sharedData.type === 'image' && (
-              <Image source={{ uri: sharedData.sharedImageUrl }} style={styles.imagePreview} />
+              <ImageBackground
+                source={{ uri: sharedData.sharedImageUrl }}
+                style={styles.imagePreview}
+              >
+                <Text style={styles.previewText}>{sharedData.fileName}</Text>
+              </ImageBackground>
             )}
-            {sharedData.type === 'file' && <IconAttachment size={200} color={BRAND_COLOR} />}
+            {sharedData.type === 'file' && (
+              <View style={styles.imagePreview}>
+                <IconAttachment size={200} color={BRAND_COLOR} />
+                <Text style={styles.previewText}>{sharedData.fileName}</Text>
+              </View>
+            )}
           </View>
           {children}
           <Input
