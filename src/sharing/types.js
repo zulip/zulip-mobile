@@ -1,5 +1,11 @@
 /* @flow strict-local */
 
+export type SharedFile = {|
+  name: string,
+  mimeType: string,
+  url: string,
+|};
+
 /**
  * The data we get when the user "shares" to Zulip from another app.
  *
@@ -9,8 +15,8 @@
  *
  * (On iOS, we don't currently support this feature in the first place.)
  */
+// prettier-ignore
 export type SharedData =
   // Note: Keep these in sync with platform-native code.
   | {| type: 'text', sharedText: string |}
-  | {| type: 'image', sharedImageUrl: string, fileName: string |}
-  | {| type: 'file', sharedFileUrl: string, fileName: string |};
+  | {| type: 'file', file: SharedFile |};

@@ -108,10 +108,9 @@ class ShareWrapper extends React.Component<Props, State> {
 
     this.setSending();
     showToast(_('Sending Message...'));
-    if (sharedData.type === 'image' || sharedData.type === 'file') {
-      const url =
-        sharedData.type === 'image' ? sharedData.sharedImageUrl : sharedData.sharedFileUrl;
-      const fileName = sharedData.fileName;
+    if (sharedData.type === 'file') {
+      const url = sharedData.file.url;
+      const fileName = sharedData.file.name;
       const response = await api.uploadFile(auth, url, fileName);
       messageToSend += `\n[${fileName}](${response.uri})`;
     }
@@ -179,20 +178,17 @@ class ShareWrapper extends React.Component<Props, State> {
       <>
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>
-            {sharedData.type === 'image' && (
-              <ImageBackground
-                source={{ uri: sharedData.sharedImageUrl }}
-                style={styles.imagePreview}
-              >
-                <Text style={styles.previewText}>{sharedData.fileName}</Text>
-              </ImageBackground>
-            )}
-            {sharedData.type === 'file' && (
-              <View style={styles.imagePreview}>
-                <IconAttachment size={200} color={BRAND_COLOR} />
-                <Text style={styles.previewText}>{sharedData.fileName}</Text>
-              </View>
-            )}
+            {sharedData.type === 'file'
+              && (sharedData.file.mimeType.startsWith('image') ? (
+                <ImageBackground source={{ uri: sharedData.file.url }} style={styles.imagePreview}>
+                  <Text style={styles.previewText}>{sharedData.file.name}</Text>
+                </ImageBackground>
+              ) : (
+                <View style={styles.imagePreview}>
+                  <IconAttachment size={200} color={BRAND_COLOR} />
+                  <Text style={styles.previewText}>{sharedData.file.name}</Text>
+                </View>
+              ))}
           </View>
           {children}
           <Input
