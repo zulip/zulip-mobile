@@ -47,7 +47,7 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
     const json = await response.json().catch(() => undefined);
-    if (response.ok && json !== undefined) {
+    if (response.status >= 200 && response.status <= 299 && json !== undefined) {
       return json;
     }
     throw makeErrorFromApi(response.status, json);
