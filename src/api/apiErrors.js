@@ -27,17 +27,18 @@ export class ApiError extends Error {
  * Error.
  */
 export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
+  if (httpStatus >= 500 && httpStatus <= 599) {
+    // Server error.  Ignore `data`; it's unlikely to be a well-formed Zulip
+    // API error blob, and its meaning is undefined if it somehow is.
+    return new Error(`Network request failed: HTTP error ${httpStatus}`);
+  }
+
   if (typeof data === 'object' && data !== null) {
     const { result, msg, code = 'BAD_REQUEST' } = data;
     if (result === 'error' && typeof msg === 'string' && typeof code === 'string') {
       // Hooray, we have a well-formed Zulip API error blob.  Use that.
       return new ApiError(httpStatus, { ...data, result, msg, code });
     }
-  }
-
-  // HTTP 5xx errors aren't generally expected to come with JSON data.
-  if (httpStatus >= 500 && httpStatus <= 599) {
-    return new Error(`Network request failed: HTTP error ${httpStatus}`);
   }
 
   // Server has responded, but the response is not a valid error-object.
