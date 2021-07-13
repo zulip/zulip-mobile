@@ -6,7 +6,8 @@ import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
-import { makeErrorFromApi } from './apiErrors';
+import { makeErrorFromApi, MalformedResponseError } from './apiErrors';
+import * as logging from '../utils/logging';
 
 const apiVersion = 'api/v1';
 
@@ -49,6 +50,8 @@ export const apiCall = async (
     if (response.ok && json !== undefined) {
       return json;
     }
+    const error = makeErrorFromApi(response.status, json);
+
     // eslint-disable-next-line no-console
     console.log({ route, params, httpStatus: response.status, json });
     Sentry.addBreadcrumb({
@@ -56,7 +59,11 @@ export const apiCall = async (
       level: 'info',
       data: { route, params, httpStatus: response.status, json },
     });
-    throw makeErrorFromApi(response.status, json);
+    if (error instanceof MalformedResponseError) {
+      logging.warn(`Bad response from server: ${JSON.stringify(error.data) ?? 'undefined'}`);
+    }
+
+    throw error;
   } finally {
     networkActivityStop(isSilent);
   }
