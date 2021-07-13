@@ -3,6 +3,16 @@ import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
 import * as logging from '../utils/logging';
 
 /**
+ * Some kind of error from a Zulip API network request.
+ *
+ * See subclasses: {@link ApiError}, {@link ServerError}.
+ */
+export class RequestError extends Error {
+  +httpStatus: number | void;
+  +data: mixed;
+}
+
+/**
  * An error returned by the Zulip server API.
  *
  * This always represents a situation where the server said there was a
@@ -11,7 +21,7 @@ import * as logging from '../utils/logging';
  * See docs: https://zulip.com/api/rest-error-handling
  */
 // TODO we currently raise these in more situations; fix that.
-export class ApiError extends Error {
+export class ApiError extends RequestError {
   +code: ApiErrorCode;
 
   +httpStatus: number;
@@ -41,7 +51,7 @@ export class ApiError extends Error {
  * server, or a bug in the server where its responses don't agree with the
  * documented API.
  */
-export class ServerError extends Error {
+export class ServerError extends RequestError {
   +httpStatus: number;
 
   constructor(msg: string, httpStatus: number) {
