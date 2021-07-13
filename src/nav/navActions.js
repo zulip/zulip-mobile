@@ -6,12 +6,23 @@ import {
   type GenericNavigationAction,
 } from '@react-navigation/native';
 
+import * as NavigationService from './NavigationService';
 import type { Message, Narrow, UserId } from '../types';
 import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
-import { getSameRoutesCount } from '../selectors';
 
-export const navigateBack = (): PopAction => StackActions.pop(getSameRoutesCount());
+export const navigateBack = (): PopAction => {
+  const routes = NavigationService.getState().routes;
+  let i = routes.length - 1;
+  while (i >= 0) {
+    if (routes[i].name !== routes[routes.length - 1].name) {
+      break;
+    }
+    i--;
+  }
+  const sameRoutesCount = routes.length - i - 1;
+  return StackActions.pop(sameRoutesCount);
+};
 
 /*
  * "Reset" actions, to explicitly prohibit back navigation.

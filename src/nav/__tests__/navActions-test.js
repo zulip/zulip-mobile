@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import { getSameRoutesCount } from '../navSelectors';
+import { navigateBack } from '../navActions';
 import * as NavigationService from '../NavigationService';
 
-describe('getSameRoutesCount', () => {
+describe('navigateBack', () => {
   test('if no routes the count of same routes is 0', () => {
     // $FlowFixMe[cannot-write] Make Flow understand about mocking.
     NavigationService.getState = jest.fn().mockReturnValue(
@@ -13,9 +13,9 @@ describe('getSameRoutesCount', () => {
       }),
     );
 
-    const count = getSameRoutesCount();
+    const action = navigateBack();
 
-    expect(count).toEqual(0);
+    expect(action.payload.count).toEqual(0);
   });
 
   test('if last route differs from  routes the count of same routes is 0', () => {
@@ -26,9 +26,9 @@ describe('getSameRoutesCount', () => {
       }),
     );
 
-    const count = getSameRoutesCount();
+    const action = navigateBack();
 
-    expect(count).toEqual(1);
+    expect(action.payload.count).toEqual(1);
   });
 
   test('if several of the routes are the same ignore the params and return their count', () => {
@@ -45,8 +45,8 @@ describe('getSameRoutesCount', () => {
       }),
     );
 
-    const count = getSameRoutesCount();
+    const action = navigateBack();
 
-    expect(count).toEqual(3);
+    expect(action.payload.count).toEqual(3);
   });
 });
