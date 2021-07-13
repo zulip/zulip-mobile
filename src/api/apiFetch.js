@@ -6,7 +6,7 @@ import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
-import { makeErrorFromApi, MalformedResponseError, RequestError } from './apiErrors';
+import { interpretApiResponse, MalformedResponseError, RequestError } from './apiErrors';
 import * as logging from '../utils/logging';
 
 const apiVersion = 'api/v1';
@@ -48,10 +48,10 @@ export const apiCall = async (
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
     const json = await response.json().catch(() => undefined);
-    if (response.status >= 200 && response.status <= 299 && json !== undefined) {
-      return json;
-    }
-    throw makeErrorFromApi(response.status, json);
+    const result = interpretApiResponse(response.status, json);
+    /* $FlowFixMe[incompatible-type] We let the caller pretend this data
+         is whatever it wants it to be. */
+    return result;
   } catch (errorIllTyped) {
     const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
 

@@ -82,30 +82,30 @@ export class MalformedResponseError extends ServerError {
 }
 
 /**
- * Given a server response (allegedly) denoting an error, produce an Error to be
- * thrown.
- *
- * If the `data` argument is actually of the form expected from the server, the
- * returned error will be an {@link ApiError}.
+ * Return the data on success; otherwise, throw a nice {@link RequestError}.
  */
-export const makeErrorFromApi = (httpStatus: number, data: mixed): RequestError => {
+export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => {
+  if (httpStatus >= 200 && httpStatus <= 299 && data !== undefined) {
+    return data;
+  }
+
   if (httpStatus >= 500 && httpStatus <= 599) {
     // Server error.  Ignore `data`; it's unlikely to be a well-formed Zulip
     // API error blob, and its meaning is undefined if it somehow is.
-    return new Server5xxError(httpStatus);
+    throw new Server5xxError(httpStatus);
   }
 
   if (typeof data === 'object' && data !== null) {
     const { result, msg, code = 'BAD_REQUEST' } = data;
     if (result === 'error' && typeof msg === 'string' && typeof code === 'string') {
       // Hooray, we have a well-formed Zulip API error blob.  Use that.
-      return new ApiError(httpStatus, { ...data, result, msg, code });
+      throw new ApiError(httpStatus, { ...data, result, msg, code });
     }
   }
 
   // Server has responded, but the response is not a valid error-object.
   // (This should never happen, even on old versions of the Zulip server.)
-  return new MalformedResponseError(httpStatus, data);
+  throw new MalformedResponseError(httpStatus, data);
 };
 
 /**
