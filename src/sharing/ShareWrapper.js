@@ -100,7 +100,7 @@ class ShareWrapper extends React.Component<Props, State> {
     if (sharedData.type === 'image' || sharedData.type === 'file') {
       const url =
         sharedData.type === 'image' ? sharedData.sharedImageUrl : sharedData.sharedFileUrl;
-      const fileName = url.split('/').pop();
+      const fileName = sharedData.fileName;
       const response = await api.uploadFile(auth, url, fileName);
       messageToSend += `\n[${fileName}](${response.uri})`;
     }
