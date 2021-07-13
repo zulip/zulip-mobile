@@ -35,18 +35,42 @@ export class ApiError extends Error {
 }
 
 /**
+ * Some kind of server-side error in handling the request.
+ *
+ * This should always represent either some kind of operational issue on the
+ * server, or a bug in the server where its responses don't agree with the
+ * documented API.
+ */
+export class ServerError extends Error {
+  +httpStatus: number;
+
+  constructor(msg: string, httpStatus: number) {
+    super(msg);
+    this.httpStatus = httpStatus;
+  }
+}
+
+/**
+ * A server error, acknowledged by the server via a 5xx HTTP status code.
+ */
+export class Server5xxError extends ServerError {
+  constructor(httpStatus: number) {
+    super(`Network request failed: HTTP error ${httpStatus}`, httpStatus);
+  }
+}
+
+/**
  * Given a server response (allegedly) denoting an error, produce an Error to be
  * thrown.
  *
  * If the `data` argument is actually of the form expected from the server, the
- * returned error will be an {@link ApiError}; otherwise it will be a generic
- * Error.
+ * returned error will be an {@link ApiError}.
  */
 export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
   if (httpStatus >= 500 && httpStatus <= 599) {
     // Server error.  Ignore `data`; it's unlikely to be a well-formed Zulip
     // API error blob, and its meaning is undefined if it somehow is.
-    return new Error(`Network request failed: HTTP error ${httpStatus}`);
+    return new Server5xxError(httpStatus);
   }
 
   if (typeof data === 'object' && data !== null) {
