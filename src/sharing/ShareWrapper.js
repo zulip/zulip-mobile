@@ -2,11 +2,11 @@
 import React from 'react';
 import { FlatList, ImageBackground, ScrollView, View, Text } from 'react-native';
 
-import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
+import type { Auth, Dispatch, GetText, File, SharedData, UserId } from '../types';
 import * as api from '../api';
 import * as logging from '../utils/logging';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { Input, ZulipButton } from '../common';
+import { Input, ZulipButton, ComponentWithOverlay } from '../common';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as NavigationService from '../nav/NavigationService';
 import { navigateBack, replaceWithChat } from '../nav/navActions';
@@ -16,7 +16,7 @@ import { connect } from '../react-redux';
 import { streamNarrow, pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { ensureUnreachable } from '../generics';
-import { IconAttachment } from '../common/Icons';
+import { IconAttachment, IconCancel } from '../common/Icons';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -68,6 +68,7 @@ type Props = $ReadOnly<{|
 type State = $ReadOnly<{|
   message: string,
   sending: boolean,
+  files: File[],
 |}>;
 
 /**
@@ -83,6 +84,7 @@ class ShareWrapper extends React.Component<Props, State> {
     return {
       message: sharedData.type === 'text' ? sharedData.sharedText : '',
       sending: false,
+      files: sharedData.type === 'text' ? [] : sharedData.files,
     };
   })();
 
@@ -108,7 +110,7 @@ class ShareWrapper extends React.Component<Props, State> {
     this.setSending();
     showToast(_('Sending Message...'));
     if (sharedData.type === 'file') {
-      const { files } = sharedData;
+      const { files } = this.state;
       for (let i = 0; i < files.length; i++) {
         const response = await api.uploadFile(auth, files[i].url, files[i].name);
         messageToSend += `\n[${files[i].name}](${response.uri})\n`;
@@ -169,17 +171,35 @@ class ShareWrapper extends React.Component<Props, State> {
     }
   };
 
-  renderItem = ({ item, index, separators }) =>
-    item.mimeType.startsWith('image') ? (
-      <ImageBackground source={{ uri: item.url }} style={styles.imagePreview}>
-        <Text style={styles.previewText}>{item.name}</Text>
-      </ImageBackground>
-    ) : (
-      <View style={styles.imagePreview}>
-        <IconAttachment size={200} color={BRAND_COLOR} />
-        <Text style={styles.previewText}>{item.name}</Text>
-      </View>
-    );
+  deleteItem = toDelete => {
+    const files = [...this.state.files];
+    const filteredItems = files.filter(item => item.url !== toDelete.url);
+    this.setState({ files: filteredItems });
+    if (filteredItems.length === 0) {
+      showToast('Cancelled Share');
+      this.onShareCancelled();
+    }
+  };
+
+  renderItem = ({ item, index, separators }) => (
+    <ComponentWithOverlay
+      overlaySize={20}
+      overlayColor="white"
+      overlayPosition="bottom-right"
+      overlay={<IconCancel color="gray" size={20} onPress={() => this.deleteItem(item)} />}
+    >
+      {item.mimeType.startsWith('image') ? (
+        <ImageBackground source={{ uri: item.url }} style={styles.imagePreview}>
+          <Text style={styles.previewText}>{item.name}</Text>
+        </ImageBackground>
+      ) : (
+        <View style={styles.imagePreview}>
+          <IconAttachment size={200} color={BRAND_COLOR} />
+          <Text style={styles.previewText}>{item.name}</Text>
+        </View>
+      )}
+    </ComponentWithOverlay>
+  );
 
   render() {
     const { children, isSendButtonEnabled, sharedData } = this.props;
@@ -191,7 +211,7 @@ class ShareWrapper extends React.Component<Props, State> {
           <View style={styles.container}>
             {sharedData.type === 'file' && (
               <FlatList
-                data={sharedData.files}
+                data={this.state.files}
                 renderItem={this.renderItem}
                 keyExtractor={i => i.url}
                 horizontal
