@@ -25,13 +25,12 @@ fun maybeHandleIntent(
     contentResolver: ContentResolver
 ): Boolean {
     // We handle intents from "sharing" something to Zulip.
-    if (intent?.action == Intent.ACTION_SEND) {
-        handleSend(intent, application, contentResolver)
-        return true
+    when (intent?.action) {
+        Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
+            handleSend(intent, application, contentResolver)
+            return true
+        }
     }
-    // TODO also handle ACTION_SEND_MULTIPLE?
-    //   See: https://developer.android.com/training/sharing/receive#receiving-data-activity
-
     // For other intents, let RN handle it.  In particular this is
     // important for VIEW intents with zulip: URLs.
     return false
@@ -63,6 +62,14 @@ private fun handleSend(intent: Intent, application: ReactApplication, contentRes
     }
 }
 
+private fun urlToSharedFile(url: Uri, contentResolver: ContentResolver): WritableMap {
+    val file = Arguments.createMap()
+    file.putString("name", getFileName(url, contentResolver))
+    file.putString("mimeType", contentResolver.getType(url)?: "application/octet-stream")
+    file.putString("url", url.toString())
+    return file
+}
+
 private fun getParamsFromIntent(intent: Intent, contentResolver: ContentResolver): WritableMap {
     // For documentation of what fields to expect in the Intent, see:
     //   https://developer.android.com/reference/android/content/Intent#ACTION_SEND
@@ -80,14 +87,24 @@ private fun getParamsFromIntent(intent: Intent, contentResolver: ContentResolver
         params.putString("type", "text")
         params.putString("sharedText", sharedText)
     } else {
-        val file = Arguments.createMap()
-        val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-            ?: throw ShareParamsParseException("Could not extract URL from File Intent")
-        file.putString("name", getFileName(url, contentResolver))
-        file.putString("mimeType", contentResolver.getType(url)?: "application/octet-stream")
-        file.putString("url", url.toString())
+        val files = Arguments.createArray()
+        when (intent.action) {
+            Intent.ACTION_SEND -> {
+                val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+                    ?: throw ShareParamsParseException("Could not extract URL from File Intent")
+                val file = urlToSharedFile(url, contentResolver)
+                files.pushMap(file)
+            }
+            Intent.ACTION_SEND_MULTIPLE -> {
+                val urls = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)
+                    ?: throw ShareParamsParseException("Could not extract URLs from File Intent")
+                for (url in urls) {
+                    files.pushMap(urlToSharedFile(url, contentResolver))
+                }
+            }
+        }
         params.putString("type", "file")
-        params.putMap("file", file)
+        params.putArray("files", files)
     }
     return params
 }
