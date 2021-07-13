@@ -3,7 +3,9 @@
 package com.zulipmobile.sharing
 
 import android.content.Intent
+import android.content.ContentResolver
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.Arguments
@@ -17,10 +19,14 @@ import com.zulipmobile.notifications.tryGetReactInstanceManager
 val TAG = "ShareToZulip"
 
 /* Returns true just if we did handle the intent. */
-fun maybeHandleIntent(intent: Intent?, application: ReactApplication): Boolean {
+fun maybeHandleIntent(
+    intent: Intent?,
+    application: ReactApplication,
+    contentResolver: ContentResolver
+): Boolean {
     // We handle intents from "sharing" something to Zulip.
     if (intent?.action == Intent.ACTION_SEND) {
-        handleSend(intent, application)
+        handleSend(intent, application, contentResolver)
         return true
     }
     // TODO also handle ACTION_SEND_MULTIPLE?
@@ -31,9 +37,9 @@ fun maybeHandleIntent(intent: Intent?, application: ReactApplication): Boolean {
     return false
 }
 
-private fun handleSend(intent: Intent, application: ReactApplication) {
+private fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
     val params: WritableMap = try {
-        getParamsFromIntent(intent)
+        getParamsFromIntent(intent, contentResolver)
     } catch (e: ShareParamsParseException) {
         Log.w(TAG, "Ignoring malformed share Intent: ${e.message}")
         return
@@ -57,7 +63,7 @@ private fun handleSend(intent: Intent, application: ReactApplication) {
     }
 }
 
-private fun getParamsFromIntent(intent: Intent): WritableMap {
+private fun getParamsFromIntent(intent: Intent, contentResolver: ContentResolver): WritableMap {
     // For documentation of what fields to expect in the Intent, see:
     //   https://developer.android.com/reference/android/content/Intent#ACTION_SEND
     //
@@ -80,15 +86,25 @@ private fun getParamsFromIntent(intent: Intent): WritableMap {
                 ?: throw ShareParamsParseException("Could not extract URL from Image Intent")
             params.putString("type", "image")
             params.putString("sharedImageUrl", url.toString())
+            params.putString("fileName", getFileName(url, contentResolver))
         }
         else -> {
             val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
                 ?: throw ShareParamsParseException("Could not extract URL from File Intent")
             params.putString("type", "file")
             params.putString("sharedFileUrl", url.toString())
+            params.putString("fileName", getFileName(url, contentResolver))
         }
     }
     return params
+}
+
+fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
+    return contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+        cursor.moveToFirst()
+        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        cursor.getString(nameIndex)
+    }?: "unknown." + (contentResolver.getType(uri)?.split('/')?.last() ?: "bin")
 }
 
 class ShareParamsParseException(errorMessage: String) : RuntimeException(errorMessage)

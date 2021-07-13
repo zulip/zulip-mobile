@@ -396,11 +396,13 @@ export type SharedText = {|
 export type SharedImage = {|
   type: 'image',
   sharedImageUrl: string,
+  fileName: string,
 |};
 
 export type SharedFile = {|
   type: 'file',
   sharedFileUrl: string,
+  fileName: string,
 |};
 
 /**

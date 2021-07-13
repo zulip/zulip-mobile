@@ -36,11 +36,11 @@ open class MainActivity : ReactActivity() {
         if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
             return;
         }
-        maybeHandleIntent(intent, application as ReactApplication)
+        maybeHandleIntent(intent, application as ReactApplication, contentResolver)
     }
 
     override fun onNewIntent(intent: Intent?) {
-        if (maybeHandleIntent(intent, application as ReactApplication)) {
+        if (maybeHandleIntent(intent, application as ReactApplication, contentResolver)) {
             return
         }
         super.onNewIntent(intent)
