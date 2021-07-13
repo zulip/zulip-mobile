@@ -70,13 +70,26 @@ export class Server5xxError extends ServerError {
 }
 
 /**
+ * An error where the server's response doesn't match the general Zulip API.
+ *
+ * This means the server's response didn't contain appropriately-shaped JSON
+ * as documented at the page https://zulip.com/api/rest-error-handling .
+ */
+export class MalformedResponseError extends ServerError {
+  constructor(httpStatus: number, data: mixed) {
+    super('Server responded with invalid message', httpStatus);
+    this.data = data;
+  }
+}
+
+/**
  * Given a server response (allegedly) denoting an error, produce an Error to be
  * thrown.
  *
  * If the `data` argument is actually of the form expected from the server, the
  * returned error will be an {@link ApiError}.
  */
-export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
+export const makeErrorFromApi = (httpStatus: number, data: mixed): RequestError => {
   if (httpStatus >= 500 && httpStatus <= 599) {
     // Server error.  Ignore `data`; it's unlikely to be a well-formed Zulip
     // API error blob, and its meaning is undefined if it somehow is.
@@ -94,7 +107,7 @@ export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
   // Server has responded, but the response is not a valid error-object.
   // (This should never happen, even on old versions of the Zulip server.)
   logging.warn(`Bad response from server: ${JSON.stringify(data) ?? 'undefined'}`);
-  return new Error('Server responded with invalid message');
+  return new MalformedResponseError(httpStatus, data);
 };
 
 /**
