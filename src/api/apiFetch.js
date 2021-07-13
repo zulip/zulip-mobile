@@ -6,7 +6,7 @@ import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
-import { makeErrorFromApi, MalformedResponseError } from './apiErrors';
+import { makeErrorFromApi, MalformedResponseError, RequestError } from './apiErrors';
 import * as logging from '../utils/logging';
 
 const apiVersion = 'api/v1';
@@ -50,9 +50,11 @@ export const apiCall = async (
     if (response.ok && json !== undefined) {
       return json;
     }
-    const error = makeErrorFromApi(response.status, json);
+    throw makeErrorFromApi(response.status, json);
+  } catch (errorIllTyped) {
+    const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
 
-    const { httpStatus, data } = error;
+    const { httpStatus, data } = error instanceof RequestError ? error : {};
 
     logging.info({ route, params, httpStatus, response: data });
     Sentry.addBreadcrumb({

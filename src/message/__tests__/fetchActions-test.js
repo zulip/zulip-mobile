@@ -22,6 +22,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 import { ApiError, Server5xxError } from '../../api/apiErrors';
 import { fakeSleep } from '../../__tests__/lib/fakeTimers';
 import { BackoffMachine } from '../../utils/async';
+import * as logging from '../../utils/logging';
 
 const mockStore = configureStore([thunk]);
 
@@ -334,12 +335,19 @@ describe('fetchActions', () => {
         const fetchError = new Error('Network request failed (or something)');
 
         fetch.mockResponseFailure(fetchError);
+        // $FlowFixMe[prop-missing]: Jest mock
+        logging.info.mockReturnValue();
 
         await expect(
           store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
           ),
         ).rejects.toThrow(fetchError);
+
+        // $FlowFixMe[prop-missing]: Jest mock
+        expect(logging.info.mock.calls).toHaveLength(1);
+        // $FlowFixMe[prop-missing]: Jest mock
+        logging.info.mockReset();
       });
     });
 
