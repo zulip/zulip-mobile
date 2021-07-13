@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
-import { BackHandler, Image, ScrollView, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 
 import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
 import * as api from '../api';
@@ -9,10 +9,13 @@ import { createStyleSheet } from '../styles';
 import { Input, ZulipButton } from '../common';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as NavigationService from '../nav/NavigationService';
-import { navigateBack } from '../nav/navActions';
+import { navigateBack, replaceWithChat } from '../nav/navActions';
 import { showToast } from '../utils/info';
-import { getAuth } from '../selectors';
+import { getAuth, getOwnUserId } from '../selectors';
 import { connect } from '../react-redux';
+import { streamNarrow, pmNarrowFromRecipients } from '../utils/narrow';
+import { pmKeyRecipientsFromIds } from '../utils/recipient';
+import { ensureUnreachable } from '../generics';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -49,6 +52,7 @@ type Props = $ReadOnly<{|
 
   dispatch: Dispatch,
   auth: Auth,
+  ownUserId: UserId,
 |}>;
 
 type State = $ReadOnly<{|
@@ -119,15 +123,41 @@ class ShareWrapper extends React.Component<Props, State> {
     } catch (err) {
       showToast(_('Failed to send message'));
       logging.error(err);
+      this.onShareCancelled();
       return;
     }
     showToast(_('Message sent'));
-    this.finishShare();
+    this.onShareSuccess();
   };
 
-  finishShare = () => {
+  onShareCancelled = () => {
     NavigationService.dispatch(navigateBack());
-    BackHandler.exitApp();
+  };
+
+  onShareSuccess = () => {
+    const { sendTo } = this.props;
+    switch (sendTo.type) {
+      case 'pm': {
+        const { selectedRecipients } = sendTo;
+        const { ownUserId } = this.props;
+        const recipients = pmKeyRecipientsFromIds(selectedRecipients, ownUserId);
+        const narrow = pmNarrowFromRecipients(recipients);
+        NavigationService.dispatch(replaceWithChat(narrow));
+        break;
+      }
+
+      case 'stream': {
+        const { stream } = sendTo;
+        const narrow = streamNarrow(stream);
+        NavigationService.dispatch(replaceWithChat(narrow));
+        break;
+      }
+
+      default:
+        ensureUnreachable(sendTo.type);
+        logging.error('Unknown type encountered in `sendTo`.');
+        this.onShareCancelled();
+    }
   };
 
   render() {
@@ -151,7 +181,12 @@ class ShareWrapper extends React.Component<Props, State> {
           />
         </ScrollView>
         <View style={styles.actions}>
-          <ZulipButton onPress={this.finishShare} style={styles.button} secondary text="Cancel" />
+          <ZulipButton
+            onPress={this.onShareCancelled}
+            style={styles.button}
+            secondary
+            text="Cancel"
+          />
           <ZulipButton
             style={styles.button}
             onPress={this.handleSend}
@@ -167,4 +202,5 @@ class ShareWrapper extends React.Component<Props, State> {
 
 export default connect(state => ({
   auth: getAuth(state),
+  ownUserId: getOwnUserId(state),
 }))(ShareWrapper);
