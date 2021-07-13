@@ -85,3 +85,4 @@ export const IconPlusSquare = makeIcon(Feather, 'plus-square');
 export const IconVideo = makeIcon(Feather, 'video');
 export const IconUserMuted = makeIcon(FontAwesome, 'user');
 export const IconAttach = makeIcon(Feather, 'paperclip');
+export const IconAttachment = makeIcon(IoniconsIcon, 'document-attach-outline');

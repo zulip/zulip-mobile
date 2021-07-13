@@ -5,7 +5,7 @@ import { Image, ScrollView, View } from 'react-native';
 import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
 import * as api from '../api';
 import * as logging from '../utils/logging';
-import { createStyleSheet } from '../styles';
+import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { Input, ZulipButton } from '../common';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as NavigationService from '../nav/NavigationService';
@@ -16,6 +16,7 @@ import { connect } from '../react-redux';
 import { streamNarrow, pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { ensureUnreachable } from '../generics';
+import { IconAttachment } from '../common/Icons';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -171,6 +172,7 @@ class ShareWrapper extends React.Component<Props, State> {
             {sharedData.type === 'image' && (
               <Image source={{ uri: sharedData.sharedImageUrl }} style={styles.imagePreview} />
             )}
+            {sharedData.type === 'file' && <IconAttachment size={200} color={BRAND_COLOR} />}
           </View>
           {children}
           <Input
