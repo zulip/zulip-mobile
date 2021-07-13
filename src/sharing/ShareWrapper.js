@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
-import { ImageBackground, ScrollView, View, Text } from 'react-native';
+import { FlatList, ImageBackground, ScrollView, View, Text } from 'react-native';
 
 import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
 import * as api from '../api';
@@ -108,10 +108,11 @@ class ShareWrapper extends React.Component<Props, State> {
     this.setSending();
     showToast(_('Sending Message...'));
     if (sharedData.type === 'file') {
-      const url = sharedData.file.url;
-      const fileName = sharedData.file.name;
-      const response = await api.uploadFile(auth, url, fileName);
-      messageToSend += `\n[${fileName}](${response.uri})`;
+      const { files } = sharedData;
+      for (let i = 0; i < files.length; i++) {
+        const response = await api.uploadFile(auth, files[i].url, files[i].name);
+        messageToSend += `\n[${files[i].name}](${response.uri})\n`;
+      }
     }
     const messageData =
       sendTo.type === 'pm'
@@ -168,6 +169,18 @@ class ShareWrapper extends React.Component<Props, State> {
     }
   };
 
+  renderItem = ({ item, index, separators }) =>
+    item.mimeType.startsWith('image') ? (
+      <ImageBackground source={{ uri: item.url }} style={styles.imagePreview}>
+        <Text style={styles.previewText}>{item.name}</Text>
+      </ImageBackground>
+    ) : (
+      <View style={styles.imagePreview}>
+        <IconAttachment size={200} color={BRAND_COLOR} />
+        <Text style={styles.previewText}>{item.name}</Text>
+      </View>
+    );
+
   render() {
     const { children, isSendButtonEnabled, sharedData } = this.props;
     const { message, sending } = this.state;
@@ -176,17 +189,14 @@ class ShareWrapper extends React.Component<Props, State> {
       <>
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>
-            {sharedData.type === 'file'
-              && (sharedData.file.mimeType.startsWith('image') ? (
-                <ImageBackground source={{ uri: sharedData.file.url }} style={styles.imagePreview}>
-                  <Text style={styles.previewText}>{sharedData.file.name}</Text>
-                </ImageBackground>
-              ) : (
-                <View style={styles.imagePreview}>
-                  <IconAttachment size={200} color={BRAND_COLOR} />
-                  <Text style={styles.previewText}>{sharedData.file.name}</Text>
-                </View>
-              ))}
+            {sharedData.type === 'file' && (
+              <FlatList
+                data={sharedData.files}
+                renderItem={this.renderItem}
+                keyExtractor={i => i.url}
+                horizontal
+              />
+            )}
           </View>
           {children}
           <Input

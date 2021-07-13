@@ -400,12 +400,12 @@ export type File = {|
   url: string,
 |};
 
-export type SharedFile = {|
+export type SharedFiles = {|
   type: 'file',
-  file: File,
+  files: File[],
 |};
 
 /**
  * The data we get when the user "shares" to Zulip from another app.
  */
-export type SharedData = SharedText | SharedFile;
+export type SharedData = SharedText | SharedFiles;
