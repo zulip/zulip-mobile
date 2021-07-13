@@ -75,26 +75,19 @@ private fun getParamsFromIntent(intent: Intent, contentResolver: ContentResolver
     //
     // it corresponds with `src/types.js#SharedData`.
     val params = Arguments.createMap()
-    when {
-        "text/plain" == intent.type -> {
-            val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
-            params.putString("type", "text")
-            params.putString("sharedText", sharedText)
-        }
-        intent.type?.startsWith("image/") == true -> {
-            val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                ?: throw ShareParamsParseException("Could not extract URL from Image Intent")
-            params.putString("type", "image")
-            params.putString("sharedImageUrl", url.toString())
-            params.putString("fileName", getFileName(url, contentResolver))
-        }
-        else -> {
-            val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-                ?: throw ShareParamsParseException("Could not extract URL from File Intent")
-            params.putString("type", "file")
-            params.putString("sharedFileUrl", url.toString())
-            params.putString("fileName", getFileName(url, contentResolver))
-        }
+    if ("text/plain" == intent.type) {
+        val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+        params.putString("type", "text")
+        params.putString("sharedText", sharedText)
+    } else {
+        val file = Arguments.createMap()
+        val url = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+            ?: throw ShareParamsParseException("Could not extract URL from File Intent")
+        file.putString("name", getFileName(url, contentResolver))
+        file.putString("mimeType", contentResolver.getType(url)?: "application/octet-stream")
+        file.putString("url", url.toString())
+        params.putString("type", "file")
+        params.putMap("file", file)
     }
     return params
 }

@@ -394,19 +394,18 @@ export type SharedText = {|
   sharedText: string,
 |};
 
-export type SharedImage = {|
-  type: 'image',
-  sharedImageUrl: string,
-  fileName: string,
+export type File = {|
+  name: string,
+  mimeType: string,
+  url: string,
 |};
 
 export type SharedFile = {|
   type: 'file',
-  sharedFileUrl: string,
-  fileName: string,
+  file: File,
 |};
 
 /**
  * The data we get when the user "shares" to Zulip from another app.
  */
-export type SharedData = SharedText | SharedImage | SharedFile;
+export type SharedData = SharedText | SharedFile;
