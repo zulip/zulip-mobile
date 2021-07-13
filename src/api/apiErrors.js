@@ -65,7 +65,7 @@ export class ServerError extends RequestError {
  */
 export class Server5xxError extends ServerError {
   constructor(httpStatus: number) {
-    super(`Network request failed: HTTP error ${httpStatus}`, httpStatus);
+    super(`Network request failed: HTTP status ${httpStatus}`, httpStatus);
   }
 }
 
