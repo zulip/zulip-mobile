@@ -519,7 +519,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
         </View>
         <SafeAreaView
           mode="padding"
-          edges={['bottom']}
+          edges={['right', 'bottom', 'left']}
           style={[this.styles.composeBox, style]}
           onLayout={this.handleLayoutChange}
         >
