@@ -27,20 +27,11 @@ export class ApiError extends Error {
  * Error.
  */
 export const makeErrorFromApi = (httpStatus: number, data: mixed): Error => {
-  // Validate `data`, and construct the resultant error object.
   if (typeof data === 'object' && data !== null) {
-    const { result, msg, code } = data;
-    if (result === 'error' && typeof msg === 'string') {
-      // If `code` is present, it must be a string.
-      if (code === undefined || typeof code === 'string') {
-        // Default to 'BAD_REQUEST' if `code` is not present.
-        return new ApiError(httpStatus, {
-          ...data,
-          result,
-          msg,
-          code: code ?? 'BAD_REQUEST',
-        });
-      }
+    const { result, msg, code = 'BAD_REQUEST' } = data;
+    if (result === 'error' && typeof msg === 'string' && typeof code === 'string') {
+      // Hooray, we have a well-formed Zulip API error blob.  Use that.
+      return new ApiError(httpStatus, { ...data, result, msg, code });
     }
   }
 
