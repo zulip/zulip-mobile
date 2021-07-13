@@ -1,11 +1,10 @@
 /* @flow strict-local */
-import type { NavigationState, Route } from '@react-navigation/native';
+import type { Route } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
 
-export const getNavState = (): NavigationState => NavigationService.getState();
-
-export const getNavigationRoutes = (): $ReadOnlyArray<Route<string>> => getNavState().routes;
+export const getNavigationRoutes = (): $ReadOnlyArray<Route<string>> =>
+  NavigationService.getState().routes;
 
 export const getSameRoutesCount = (): number => {
   const routes = getNavigationRoutes();
