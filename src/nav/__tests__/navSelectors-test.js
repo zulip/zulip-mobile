@@ -1,3 +1,4 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import { getSameRoutesCount } from '../navSelectors';
@@ -5,6 +6,7 @@ import * as NavigationService from '../NavigationService';
 
 describe('getSameRoutesCount', () => {
   test('if no routes the count of same routes is 0', () => {
+    // $FlowFixMe[cannot-write] Make Flow understand about mocking.
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
         routes: [],
@@ -17,6 +19,7 @@ describe('getSameRoutesCount', () => {
   });
 
   test('if last route differs from  routes the count of same routes is 0', () => {
+    // $FlowFixMe[cannot-write] Make Flow understand about mocking.
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
         routes: [{ name: 'main-tabs' }, { name: 'chat' }],
@@ -29,6 +32,7 @@ describe('getSameRoutesCount', () => {
   });
 
   test('if several of the routes are the same ignore the params and return their count', () => {
+    // $FlowFixMe[cannot-write] Make Flow understand about mocking.
     NavigationService.getState = jest.fn().mockReturnValue(
       deepFreeze({
         routes: [
