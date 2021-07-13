@@ -11,6 +11,7 @@ import type { Message, Narrow, UserId } from '../types';
 import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 
+// TODO: Probably just do a StackActions.pop()?
 export const navigateBack = (): PopAction => {
   const routes = NavigationService.getState().routes;
   let i = routes.length - 1;
