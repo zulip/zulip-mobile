@@ -4,7 +4,7 @@ import * as ReactNative from 'react-native';
 import { polyfillGlobal } from 'react-native/Libraries/Utilities/PolyfillFunctions';
 import { URL, URLSearchParams } from 'react-native-url-polyfill';
 // $FlowIgnore[untyped-import] - this is not anywhere near critical
-import mockAsyncStorage from '@react-native-community/async-storage/jest/async-storage-mock';
+import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
 // Use the same `URL` polyfill we do in the app.
 //
@@ -91,7 +91,7 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-jest.mock('@react-native-community/async-storage', () => mockAsyncStorage);
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 // Without this, we get lots of these errors on importing the module:
 // `Invariant Violation: Native module cannot be null.`
