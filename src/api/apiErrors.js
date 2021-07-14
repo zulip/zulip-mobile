@@ -90,7 +90,15 @@ export class MalformedResponseError extends ServerError {
  * Return the data on success; otherwise, throw a nice {@link RequestError}.
  */
 export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => {
-  if (httpStatus >= 200 && httpStatus <= 299 && data !== undefined) {
+  if (httpStatus >= 200 && httpStatus <= 299) {
+    // Status code says success…
+
+    if (data === undefined) {
+      // … but response couldn't be parsed as JSON.  Seems like a server bug.
+      throw new MalformedResponseError(httpStatus, data);
+    }
+
+    // … and we got a JSON response, too.  So we can return the data.
     return data;
   }
 
