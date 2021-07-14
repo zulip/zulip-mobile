@@ -29,8 +29,8 @@ import {
   getOwnUser,
   getStreamInNarrow,
 } from '../selectors';
-import { showTopicActionSheet } from '../message/messageActionSheet';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { showTopicActionSheet } from '../action-sheets';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
 

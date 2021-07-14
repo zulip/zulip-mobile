@@ -7,7 +7,7 @@ import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage, UserId } from '../types';
 import type { BackgroundData } from './MessageList';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { streamNameOfStreamMessage, pmUiRecipientsFromMessage } from '../utils/recipient';
@@ -24,7 +24,7 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
-import { showTopicActionSheet, showMessageActionSheet } from '../message/messageActionSheet';
+import { showTopicActionSheet, showMessageActionSheet } from '../action-sheets';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
 
