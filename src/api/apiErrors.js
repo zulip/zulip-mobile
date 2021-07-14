@@ -2,11 +2,27 @@
 import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
 import * as logging from '../utils/logging';
 
-/** Runtime class of custom API error types. */
+/**
+ * An error returned by the Zulip server API.
+ *
+ * This always represents a situation where the server said there was a
+ * client-side error in the request, giving a 4xx HTTP status code.
+ *
+ * See docs: https://zulip.com/api/rest-error-handling
+ */
+// TODO we currently raise these in more situations; fix that.
 export class ApiError extends Error {
   code: ApiErrorCode;
-  data: $ReadOnly<{ ... }>;
+
   httpStatus: number;
+
+  /**
+   * This error's data, if any, beyond the properties common to all errors.
+   *
+   * This consists of the properties in the response other than `result`,
+   * `code`, and `msg`.
+   */
+  data: $ReadOnly<{ ... }>;
 
   constructor(httpStatus: number, data: $ReadOnly<ApiResponseErrorData>) {
     // eslint-disable-next-line no-unused-vars
