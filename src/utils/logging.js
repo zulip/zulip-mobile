@@ -168,7 +168,7 @@ const makeLogFunction = ({ consoleMethod, severity }: LogParams): LogFunction =>
  * failure to reach the server), consider `logging.warn`.
  *
  * See also:
- *  * `logging.warn` for logging at lower severity
+ *  * `logging.warn` and `logging.info` for logging at lower severity
  *
  * @param event A string describing the nature of the event to be logged, or an
  *   exception whose `.message` is such a string. Related events should have
@@ -193,6 +193,7 @@ export const error: (event: string | Error, extras?: Extras) => void = makeLogFu
  *
  * See also:
  *  * `logging.error` for logging at higher severity
+ *  * `logging.info` for logging at lower severity
  *
  * @param event A string describing the nature of the event to be logged, or an
  *   exception whose `.message` is such a string. Related events should have
@@ -204,3 +205,20 @@ export const warn: (event: string | Error, extras?: Extras) => void = makeLogFun
   consoleMethod: console.warn,
   severity: Severity.Warning,
 });
+
+/**
+ * Log an event at "info" severity.
+ *
+ * The event will be logged to the console as appropriate.
+ *
+ * This will *not* log any information to Sentry.  Consider also calling
+ * `Sentry.addBreadcrumb`.
+ *
+ * See also:
+ *  * `logging.warn` and `logging.error` for logging at higher severity
+ */
+export const info = (event: string | Error | { ... }) => {
+  if (config.enableErrorConsoleLogging) {
+    console.log(event);
+  }
+};

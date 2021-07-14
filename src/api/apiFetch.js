@@ -54,8 +54,7 @@ export const apiCall = async (
 
     const { httpStatus, data } = error;
 
-    // eslint-disable-next-line no-console
-    console.log({ route, params, httpStatus, response: data });
+    logging.info({ route, params, httpStatus, response: data });
     Sentry.addBreadcrumb({
       category: 'api',
       level: 'info',
