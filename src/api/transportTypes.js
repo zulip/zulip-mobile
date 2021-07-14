@@ -31,8 +31,8 @@ export type Auth = {|
  *  * {@link ApiResponseErrorData}
  */
 export type ApiResponse = {
-  result: string,
-  msg: string,
+  +result: string,
+  +msg: string,
   ...
 };
 
@@ -46,8 +46,8 @@ export type ApiResponse = {
  *  * {@link ApiResponseErrorData}
  */
 export type ApiResponseSuccess = {
-  result: 'success',
-  msg: '',
+  +result: 'success',
+  +msg: '',
   ...
 };
 
@@ -93,8 +93,8 @@ export type ApiErrorCode = string;
  * This type is not exact: some error responses may contain additional data.
  */
 export type ApiResponseErrorData = {
-  code: ApiErrorCode,
-  msg: string,
-  result: 'error',
+  +code: ApiErrorCode,
+  +msg: string,
+  +result: 'error',
   ...
 };
