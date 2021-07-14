@@ -19,7 +19,7 @@ import type { ServerMessage } from '../../api/messages/getMessages';
 import { streamNarrow, HOME_NARROW, HOME_NARROW_STR, keyFromNarrow } from '../../utils/narrow';
 import { GravatarURL } from '../../utils/avatar';
 import * as eg from '../../__tests__/lib/exampleData';
-import { ApiError } from '../../api/apiErrors';
+import { ApiError, Server5xxError } from '../../api/apiErrors';
 import { fakeSleep } from '../../__tests__/lib/fakeTimers';
 import { BackoffMachine } from '../../utils/async';
 
@@ -121,11 +121,7 @@ describe('fetchActions', () => {
     // errors should actually cause the retry loop to break; we'll fix
     // that soon.
     test('retries a call if there is a non-client error', async () => {
-      const serverError = new ApiError(500, {
-        code: 'SOME_ERROR_CODE',
-        msg: 'Internal Server Error',
-        result: 'error',
-      });
+      const serverError = new Server5xxError(500);
 
       // fail on first call, succeed second time
       let callCount = 0;
