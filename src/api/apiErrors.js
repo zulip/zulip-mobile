@@ -12,9 +12,9 @@ import * as logging from '../utils/logging';
  */
 // TODO we currently raise these in more situations; fix that.
 export class ApiError extends Error {
-  code: ApiErrorCode;
+  +code: ApiErrorCode;
 
-  httpStatus: number;
+  +httpStatus: number;
 
   /**
    * This error's data, if any, beyond the properties common to all errors.
@@ -22,7 +22,7 @@ export class ApiError extends Error {
    * This consists of the properties in the response other than `result`,
    * `code`, and `msg`.
    */
-  data: $ReadOnly<{ ... }>;
+  +data: $ReadOnly<{ ... }>;
 
   constructor(httpStatus: number, data: $ReadOnly<ApiResponseErrorData>) {
     // eslint-disable-next-line no-unused-vars
