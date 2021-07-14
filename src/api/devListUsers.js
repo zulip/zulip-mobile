@@ -4,7 +4,7 @@ import type { DevUser } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 type ApiResponseDevListUsers = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   direct_admins: DevUser[],
   direct_users: DevUser[],
 |};

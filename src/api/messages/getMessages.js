@@ -8,7 +8,7 @@ import { identityOfAuth } from '../../account/accountMisc';
 import { AvatarURL } from '../../utils/avatar';
 
 type ApiResponseMessages = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   anchor: number,
   found_anchor?: boolean,
   found_newest?: boolean,

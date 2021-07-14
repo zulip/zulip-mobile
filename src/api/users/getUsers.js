@@ -4,7 +4,7 @@ import type { User } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseUsers = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   members: $ReadOnlyArray<{| ...User, avatar_url: string | null |}>,
 |};
 

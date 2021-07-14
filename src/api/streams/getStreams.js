@@ -4,7 +4,7 @@ import type { Stream } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseStreams = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   streams: Stream[],
 |};
 

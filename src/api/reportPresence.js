@@ -4,7 +4,7 @@ import type { UserPresence } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 type ApiResponseWithPresence = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   server_timestamp: number,
   presences: {| [email: string]: UserPresence |},
 |};

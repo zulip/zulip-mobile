@@ -23,7 +23,7 @@ export type ExternalAuthenticationMethod = {|
 |};
 
 export type ApiResponseServerSettings = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   authentication_methods: AuthenticationMethods,
   // external_authentication_methods added for server v2.1
   external_authentication_methods?: ExternalAuthenticationMethod[],

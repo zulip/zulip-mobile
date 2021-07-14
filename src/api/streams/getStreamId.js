@@ -3,7 +3,7 @@ import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseStreamId = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   stream_id: number,
 |};
 

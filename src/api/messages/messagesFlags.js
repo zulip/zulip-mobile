@@ -3,7 +3,7 @@ import type { ApiResponseSuccess, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 export type ApiResponseMessagesFlags = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   messages: number[],
 |};
 

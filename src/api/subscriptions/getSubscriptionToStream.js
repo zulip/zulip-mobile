@@ -4,7 +4,7 @@ import { type UserId } from '../idTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseSubscriptionStatus = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   is_subscribed: boolean,
 |};
 

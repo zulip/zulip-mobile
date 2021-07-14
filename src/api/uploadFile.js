@@ -4,7 +4,7 @@ import { apiFile } from './apiFetch';
 import { getFileExtension, getMimeTypeFromFileExtension } from '../utils/url';
 
 type ApiResponseUploadFile = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   uri: string,
 |};
 

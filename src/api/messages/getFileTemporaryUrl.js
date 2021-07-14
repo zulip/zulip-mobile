@@ -3,7 +3,7 @@ import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseTempFileUrl = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   url: string,
 |};
 

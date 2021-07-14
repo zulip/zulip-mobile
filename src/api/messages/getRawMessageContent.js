@@ -3,7 +3,7 @@ import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseMessageContent = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   raw_content: string,
 |};
 

@@ -4,7 +4,7 @@ import type { MessageSnapshot } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseMessageHistory = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   message_history: MessageSnapshot[],
 |};
 

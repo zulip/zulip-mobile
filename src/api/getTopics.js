@@ -4,7 +4,7 @@ import type { Topic } from './apiTypes';
 import { apiGet } from './apiFetch';
 
 type ApiResponseTopics = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   topics: Topic[],
 |};
 

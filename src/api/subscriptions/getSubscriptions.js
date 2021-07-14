@@ -4,7 +4,7 @@ import type { Subscription } from '../apiTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseSubscriptions = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   subscriptions: Subscription[],
 |};
 

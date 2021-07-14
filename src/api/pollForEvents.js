@@ -4,7 +4,7 @@ import type { GeneralEvent } from './eventTypes';
 import { apiGet } from './apiFetch';
 
 type ApiResponsePollEvents = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   events: GeneralEvent[],
 |};
 

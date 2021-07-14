@@ -4,7 +4,7 @@ import { type UserId } from '../idTypes';
 import { apiGet } from '../apiFetch';
 
 type ApiResponseUserProfile = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   client_id: string,
   email: string,
   full_name: string,

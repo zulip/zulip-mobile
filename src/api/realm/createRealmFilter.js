@@ -3,7 +3,7 @@ import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 type ApiResponseRealmCreateFilters = {|
-  ...ApiResponseSuccess,
+  ...$Exact<ApiResponseSuccess>,
   id: number,
 |};
 
