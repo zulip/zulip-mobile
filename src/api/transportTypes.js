@@ -21,10 +21,20 @@ export type Auth = {|
   email: string,
 |};
 
-export type ApiResponse = {|
+/**
+ * The type shared by all Zulip API responses.
+ *
+ * See docs: https://zulip.com/api/rest-error-handling
+ *
+ * For more specific types, see:
+ *  * {@link ApiResponseSuccess}
+ *  * {@link ApiResponseErrorData}
+ */
+export type ApiResponse = {
   result: string,
   msg: string,
-|};
+  ...
+};
 
 export type ApiResponseSuccess = {|
   result: 'success',
