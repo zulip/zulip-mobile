@@ -53,11 +53,11 @@ export const apiCall = async (
     const error = makeErrorFromApi(response.status, json);
 
     // eslint-disable-next-line no-console
-    console.log({ route, params, httpStatus: response.status, json });
+    console.log({ route, params, httpStatus: response.status, response: json });
     Sentry.addBreadcrumb({
       category: 'api',
       level: 'info',
-      data: { route, params, httpStatus: response.status, json },
+      data: { route, params, httpStatus: response.status, response: json },
     });
     if (error instanceof MalformedResponseError) {
       logging.warn(`Bad response from server: ${JSON.stringify(error.data) ?? 'undefined'}`);
