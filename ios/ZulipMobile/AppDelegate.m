@@ -146,6 +146,9 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   completionHandler(
     UNNotificationPresentationOptionBadge
     | UNNotificationPresentationOptionSound
+    | UNNotificationPresentationOptionBanner
+    // Deprecated; we use this to get banners on iOS <14.
+    | UNNotificationPresentationOptionAlert
  );
 }
 
