@@ -37,12 +37,13 @@ export const apiFetch = async (
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
 ) => fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
 
+/** (Caller beware! Return type is the magic `empty`.) */
 export const apiCall = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
   isSilent: boolean = false,
-) => {
+): Promise<empty> => {
   try {
     networkActivityStart(isSilent);
     const response = await apiFetch(auth, route, params);
