@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 import { HOME_NARROW } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { constructMessageActionButtons, constructTopicActionButtons } from '../messageActionSheet';
+import { constructMessageActionButtons, constructTopicActionButtons } from '../index';
 import { reducer } from '../../unread/unreadModel';
 import { initialState } from '../../unread/__tests__/unread-testlib';
 

@@ -47,7 +47,7 @@ import {
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getMessageListElementsMemoized } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
