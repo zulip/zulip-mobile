@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import type { ApiResponse, Auth } from './transportTypes';
+import type { ApiResponseSuccess, Auth } from './transportTypes';
 import type { UserPresence } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 type ApiResponseWithPresence = {|
-  ...ApiResponse,
+  ...ApiResponseSuccess,
   server_timestamp: number,
   presences: {| [email: string]: UserPresence |},
 |};
