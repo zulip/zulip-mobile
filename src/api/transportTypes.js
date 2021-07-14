@@ -36,10 +36,20 @@ export type ApiResponse = {
   ...
 };
 
-export type ApiResponseSuccess = {|
+/**
+ * The type shared by all non-error Zulip API responses.
+ *
+ * See docs: https://zulip.com/api/rest-error-handling
+ *
+ * See also:
+ *  * {@link ApiResponse}
+ *  * {@link ApiResponseErrorData}
+ */
+export type ApiResponseSuccess = {
   result: 'success',
   msg: '',
-|};
+  ...
+};
 
 /**
  * A list of current error codes can be found at:
