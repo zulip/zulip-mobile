@@ -4,7 +4,7 @@ import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
 /**
  * Some kind of error from a Zulip API network request.
  *
- * See subclasses: {@link ApiError}, {@link ServerError}.
+ * See subclasses: {@link ApiError}, {@link NetworkError}, {@link ServerError}.
  */
 export class RequestError extends Error {
   +httpStatus: number | void;
@@ -42,6 +42,11 @@ export class ApiError extends RequestError {
     this.httpStatus = httpStatus;
   }
 }
+
+/**
+ * A network-level error that prevented even getting an HTTP response.
+ */
+export class NetworkError extends RequestError {}
 
 /**
  * Some kind of server-side error in handling the request.

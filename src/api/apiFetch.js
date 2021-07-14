@@ -6,7 +6,12 @@ import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
 import { networkActivityStart, networkActivityStop } from '../utils/networkActivity';
-import { interpretApiResponse, MalformedResponseError, RequestError } from './apiErrors';
+import {
+  interpretApiResponse,
+  MalformedResponseError,
+  NetworkError,
+  RequestError,
+} from './apiErrors';
 import * as logging from '../utils/logging';
 
 const apiVersion = 'api/v1';
@@ -46,8 +51,21 @@ export const apiCall = async (
 ): Promise<empty> => {
   try {
     networkActivityStart(isSilent);
-    const response = await apiFetch(auth, route, params);
-    const json = await response.json().catch(() => undefined);
+
+    let response = undefined;
+    let json = undefined;
+    try {
+      response = await apiFetch(auth, route, params);
+      json = await response.json().catch(() => undefined);
+    } catch (error) {
+      if (error instanceof TypeError) {
+        // This really is how `fetch` is supposed to signal a network error:
+        //   https://fetch.spec.whatwg.org/#ref-for-concept-network-error⑥⓪
+        throw new NetworkError(error.message);
+      }
+      throw error;
+    }
+
     const result = interpretApiResponse(response.status, json);
     /* $FlowFixMe[incompatible-type] We let the caller pretend this data
          is whatever it wants it to be. */
