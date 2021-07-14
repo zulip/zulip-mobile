@@ -3,7 +3,7 @@ import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId }
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
-import { isClientError } from '../api/apiErrors';
+import { ApiError } from '../api/apiErrors';
 import {
   getAuth,
   getSession,
@@ -265,10 +265,9 @@ export async function tryFetch<T>(func: () => Promise<T>): Promise<T> {
     try {
       return await func();
     } catch (e) {
-      // TODO: This should be narrowed to `!isServerError(e)`; we
-      // should fail early if we encounter unrecognized / unexpected
-      // errors.
-      if (isClientError(e)) {
+      // TODO: This should be narrowed; we should fail early if we encounter
+      //   unrecognized / unexpected errors.
+      if (e instanceof ApiError) {
         throw e;
       }
       await backoffMachine.wait();

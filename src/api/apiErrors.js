@@ -141,14 +141,3 @@ export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => 
   // the API says that shouldn't happen.
   throw new UnexpectedHttpStatusError(httpStatus, data);
 };
-
-/**
- * Is exception caused by a Client Error (4xx)?
- *
- * Client errors are often caused by incorrect parameters given to the backend
- * by the client application.
- *
- * A notable difference between a Server (5xx) and Client (4xx) errors is that
- * a client error will not be resolved by waiting and retrying the same request.
- */
-export const isClientError = (e: Error): boolean => e instanceof ApiError;
