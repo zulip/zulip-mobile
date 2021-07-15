@@ -60,6 +60,7 @@ import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
+import { caseNarrow } from '../utils/narrow';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -300,6 +301,18 @@ class MessageListInner extends Component<Props> {
   }
 }
 
+const marksMessagesAsRead = (narrow: Narrow): boolean =>
+  caseNarrow(narrow, {
+    stream: () => true,
+    topic: () => true,
+    pm: () => true,
+    search: () => false,
+    home: () => true,
+    starred: () => false,
+    mentioned: () => false,
+    allPrivate: () => true,
+  });
+
 const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
   (state, props: OuterProps) => {
     // TODO Ideally this ought to be a caching selector that doesn't change
@@ -311,7 +324,8 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       allImageEmojiById: getAllImageEmojiById(state),
       auth: getAuth(state),
       debug: getDebug(state),
-      doNotMarkMessagesAsRead: getSettings(state).doNotMarkMessagesAsRead,
+      doNotMarkMessagesAsRead:
+        !marksMessagesAsRead(props.narrow) || getSettings(state).doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),
