@@ -39,6 +39,16 @@ export type ShowActionSheetWithOptions = (
   (number) => void,
 ) => void;
 
+type StreamArgs = {
+  auth: Auth,
+  streamId: number,
+  subscriptions: Map<number, Subscription>,
+  streams: Map<number, Stream>,
+  dispatch: Dispatch,
+  _: GetText,
+  ...
+};
+
 type TopicArgs = {
   auth: Auth,
   streamId: number,
@@ -60,7 +70,7 @@ type MessageArgs = {
   ...
 };
 
-type Button<Args: TopicArgs | MessageArgs> = {|
+type Button<Args: StreamArgs | TopicArgs | MessageArgs> = {|
   (Args): void | Promise<void>,
 
   /** The label for the button. */
@@ -232,6 +242,32 @@ const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
+export const constructStreamActionButtons = ({
+  backgroundData: { ownUser, subscriptions },
+  streamId,
+}: {|
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    subscriptions: Map<number, Subscription>,
+    ...
+  }>,
+  streamId: number,
+|}): Button<StreamArgs>[] => {
+  const buttons = [];
+
+  const sub = subscriptions.get(streamId);
+  if (sub) {
+    if (!sub.in_home_view) {
+      buttons.push(unmuteStream);
+    } else {
+      buttons.push(muteStream);
+    }
+  }
+  buttons.push(showStreamSettings);
+  buttons.push(cancel);
+  return buttons;
+};
+
 export const constructTopicActionButtons = ({
   backgroundData: { mute, ownUser, streams, subscriptions, unread },
   streamId,
@@ -352,7 +388,10 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-function makeButtonCallback<Args: TopicArgs | MessageArgs>(buttonList: Button<Args>[], args: Args) {
+function makeButtonCallback<Args: StreamArgs | TopicArgs | MessageArgs>(
+  buttonList: Button<Args>[],
+  args: Args,
+) {
   return buttonIndex => {
     (async () => {
       const pressedButton: Button<Args> = buttonList[buttonIndex];
@@ -446,6 +485,46 @@ export const showTopicActionSheet = ({
       ...callbacks,
       streamId,
       topic,
+    }),
+  );
+};
+
+export const showStreamActionSheet = ({
+  showActionSheetWithOptions,
+  callbacks,
+  backgroundData,
+  streamId,
+}: {|
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+  callbacks: {|
+    dispatch: Dispatch,
+    _: GetText,
+  |},
+  backgroundData: $ReadOnly<{
+    auth: Auth,
+    ownUser: User,
+    streams: Map<number, Stream>,
+    subscriptions: Map<number, Subscription>,
+    ...
+  }>,
+  streamId: number,
+|}): void => {
+  const buttonList = constructStreamActionButtons({
+    backgroundData,
+    streamId,
+  });
+  const stream = backgroundData.streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  showActionSheetWithOptions(
+    {
+      title: `#${stream.name}`,
+      options: buttonList.map(button => callbacks._(button.title)),
+      cancelButtonIndex: buttonList.length - 1,
+    },
+    makeButtonCallback(buttonList, {
+      ...backgroundData,
+      ...callbacks,
+      streamId,
     }),
   );
 };
