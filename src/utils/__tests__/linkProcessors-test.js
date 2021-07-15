@@ -8,7 +8,7 @@ import {
   getNarrowFromLink,
   getMessageIdFromLink,
   decodeHashComponent,
-} from '../internalLinks';
+} from '../linkProcessors';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const realm = new URL('https://example.com');
@@ -174,8 +174,8 @@ describe('isMessageLink', () => {
 });
 
 describe('getLinkType', () => {
-  test('links to a different domain are of "external" type', () => {
-    expect(getLinkType('https://google.com/some-path', realm)).toBe('external');
+  test('links to a different domain are of "other" type', () => {
+    expect(getLinkType('https://google.com/some-path', realm)).toBe('other');
   });
 
   test('only in-app link containing "stream" is a stream link', () => {

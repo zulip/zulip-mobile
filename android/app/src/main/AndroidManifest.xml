@@ -55,9 +55,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="login"
-                    android:scheme="zulip" />
+                <data android:scheme="zulip" />
             </intent-filter>
         </activity>
 

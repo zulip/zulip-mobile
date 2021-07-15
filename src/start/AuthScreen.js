@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { Linking, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
@@ -30,7 +30,7 @@ import { Centerer, Screen, ZulipButton } from '../common';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
-import { loginSuccess, navigateToDevAuth, navigateToPasswordAuth } from '../actions';
+import { navigateToDevAuth, navigateToPasswordAuth } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
 import { openLinkEmbedded } from '../utils/openLink';
 
@@ -175,30 +175,8 @@ type Props = $ReadOnly<{|
   realm: URL,
 |}>;
 
-let otp = '';
-
-/**
- * An event emitted by `Linking`.
- *
- * Determined by reading the implementation source code, and documentation:
- *   https://reactnative.dev/docs/linking
- *
- * TODO move this to a libdef, and/or get an explicit type into upstream.
- */
-type LinkingEvent = {
-  url: string,
-  ...
-};
-
 class AuthScreen extends PureComponent<Props> {
   componentDidMount = () => {
-    Linking.addEventListener('url', this.endWebAuth);
-    Linking.getInitialURL().then((initialUrl: ?string) => {
-      if (initialUrl !== null && initialUrl !== undefined) {
-        this.endWebAuth({ url: initialUrl });
-      }
-    });
-
     const { serverSettings } = this.props.route.params;
     const authList = activeAuthentications(
       serverSettings.authentication_methods,
@@ -206,31 +184,6 @@ class AuthScreen extends PureComponent<Props> {
     );
     if (authList.length === 1) {
       this.handleAuth(authList[0]);
-    }
-  };
-
-  componentWillUnmount = () => {
-    Linking.removeEventListener('url', this.endWebAuth);
-  };
-
-  /**
-   * Hand control to the browser for an external auth method.
-   *
-   * @param url The `login_url` string, a relative URL, from an
-   * `external_authentication_method` object from `/server_settings`.
-   */
-  beginWebAuth = async (url: string) => {
-    otp = await webAuth.generateOtp();
-    webAuth.openBrowser(new URL(url, this.props.realm).toString(), otp);
-  };
-
-  endWebAuth = (event: LinkingEvent) => {
-    webAuth.closeBrowser();
-
-    const { dispatch, realm } = this.props;
-    const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
-    if (auth) {
-      dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
     }
   };
 
@@ -262,7 +215,7 @@ class AuthScreen extends PureComponent<Props> {
       throw new Error('`state` mismatch');
     }
 
-    otp = await webAuth.generateOtp();
+    const otp = await webAuth.generateOtp();
 
     const params = encodeParamsForUrl({
       mobile_flow_otp: otp,
@@ -307,7 +260,7 @@ class AuthScreen extends PureComponent<Props> {
     } else if (method.name === 'apple' && (await this.canUseNativeAppleFlow())) {
       this.handleNativeAppleAuth();
     } else {
-      this.beginWebAuth(action.url);
+      webAuth.beginWebAuth(action.url, this.props.realm);
     }
   };
 

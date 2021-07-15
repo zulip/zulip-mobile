@@ -169,3 +169,18 @@ find something in its docs, it's worth
 [flow-typed]: https://github.com/flowtype/flow-typed
 [flow-issues]: https://github.com/facebook/flow/issues?q=is%3Aissue
 [flow-cheat-sheet]: https://www.saltycrane.com/flow-type-cheat-sheet/latest/
+
+## Manual Testing
+
+### Deep Link
+
+Testing deep link url is much more productive when one uses cli instead of going to the browser and typing the link.  
+
+#### Android
+
+To send a deeplink event to android (debug build) use the following:
+```bash
+adb shell am start -W -a android.intent.action.VIEW -d "zulip://test.realm.com/?email=test@example.com#narrow/valid-narrow" com.zulipmobile.debug
+```
+
+Make sure to change the domain name, email parameter and narrow as required.
