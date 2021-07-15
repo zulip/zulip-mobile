@@ -76,6 +76,7 @@ export const IconRight = makeIcon(Feather, 'chevron-right');
 export const IconPlusCircle = makeIcon(Feather, 'plus-circle');
 export const IconLeft = makeIcon(Feather, 'chevron-left');
 export const IconPeople = makeIcon(Feather, 'users');
+export const IconPerson = makeIcon(Feather, 'user');
 export const IconImage = makeIcon(Feather, 'image');
 export const IconCamera = makeIcon(Feather, 'camera');
 export const IconTerminal = makeIcon(Feather, 'terminal');
