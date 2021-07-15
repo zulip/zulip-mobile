@@ -190,8 +190,36 @@ function streamsReducer(
       }
 
       if (action.op === 'remove') {
-        // Zulip doesn't support un-reading a message.  Ignore it.
-        return state;
+        let newlyUnreadState = new Immutable.Map();
+
+        for (const id of action.messages) {
+          const message = action.allMessages.get(id);
+
+          if (message && message.type === 'stream') {
+            newlyUnreadState = newlyUnreadState.updateIn(
+              [message.stream_id, message.subject],
+              new Immutable.List(),
+              messages => messages.push(message.id).sort(),
+            );
+          }
+        }
+
+        return state.mergeWith(
+          (
+            oldTopicsMap: Immutable.Map<string, Immutable.List<number>>,
+            newTopicsMap: Immutable.Map<string, Immutable.List<number>>,
+            streamKey: number,
+          ) =>
+            oldTopicsMap.mergeWith(
+              (
+                oldUnreadMessages: Immutable.List<number>,
+                newUnreadMessages: Immutable.List<number>,
+                topicKey: string,
+              ) => oldUnreadMessages.concat(newUnreadMessages).sort(),
+              newTopicsMap,
+            ),
+          newlyUnreadState,
+        );
       }
 
       // TODO optimize by looking up directly; see #4684.

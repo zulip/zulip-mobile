@@ -138,11 +138,17 @@ describe('stream substate', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     const mkAction = args => {
-      const { all = false, messages, flag = 'read', op = 'add' } = args;
+      const {
+        all = false,
+        allMessages = eg.makeMessagesState([]),
+        messages,
+        flag = 'read',
+        op = 'add',
+      } = args;
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        allMessages: eg.makeMessagesState([]),
+        allMessages,
         all,
         messages,
         flag,
@@ -212,9 +218,18 @@ describe('stream substate', () => {
       expect(newState.streams.get(234)).toBe(state.streams.get(234));
     });
 
-    test('when operation is "remove" do nothing', () => {
-      const action = mkAction({ messages: [1, 2], op: 'remove' });
-      expect(reducer(baseState, action, eg.plusReduxState)).toBe(baseState);
+    test('when operation is "remove", add stream messages to unreads', () => {
+      const action = mkAction({
+        messages: [42, 99],
+        allMessages: eg.makeMessagesState([
+          eg.streamMessage({ id: 42 }),
+          eg.streamMessage({ id: 99 }),
+        ]),
+        op: 'remove',
+      });
+      const newState = reducer(baseState, action, eg.plusReduxState);
+      expect(newState.streams.valueSeq().flatten()).toContain(42);
+      expect(newState.streams.valueSeq().flatten()).toContain(99);
     });
 
     test('when "all" is true reset state', () => {
