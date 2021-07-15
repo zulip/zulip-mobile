@@ -1,8 +1,9 @@
 /* @flow strict-local */
 
 /** Like setTimeout(..., 0), but returns a Promise of the result. */
-export function delay<T>(callback: () => T): Promise<T> {
-  return new Promise(resolve => resolve()).then(callback);
+export async function delay<T>(callback: () => T): Promise<T> {
+  await new Promise(resolve => resolve());
+  return callback();
 }
 
 export const sleep = (ms: number = 0): Promise<void> =>
