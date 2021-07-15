@@ -29,7 +29,7 @@ import {
   getOwnUser,
   getStreamInNarrow,
 } from '../selectors';
-import { showTopicActionSheet } from '../action-sheets';
+import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
@@ -87,7 +87,14 @@ const TitleStream = (props: Props) => {
                 topic: topicOfNarrow(narrow),
               });
             }
-          : undefined
+          : () => {
+              showStreamActionSheet({
+                showActionSheetWithOptions,
+                callbacks: { dispatch, _ },
+                backgroundData,
+                streamId: stream.stream_id,
+              });
+            }
       }
     >
       <View style={componentStyles.outer}>
