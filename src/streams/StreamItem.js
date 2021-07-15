@@ -2,7 +2,23 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+// $FlowFixMe[untyped-import]
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import invariant from 'invariant';
 
+import { showStreamActionSheet } from '../action-sheets';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
+import { TranslationContext } from '../boot/TranslationProvider';
+import { useDispatch, useSelector } from '../react-redux';
+import {
+  getAuth,
+  getFlags,
+  getSubscriptionsById,
+  getStreamsById,
+  getStreamsByName,
+  getOwnUser,
+  getSettings,
+} from '../selectors';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
@@ -75,6 +91,21 @@ export default function StreamItem(props: Props): Node {
     onSwitch,
   } = props;
 
+  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
+    .showActionSheetWithOptions;
+  const _ = useContext(TranslationContext);
+  const dispatch = useDispatch();
+  const backgroundData = useSelector(state => ({
+    auth: getAuth(state),
+    ownUser: getOwnUser(state),
+    streams: getStreamsById(state),
+    subscriptions: getSubscriptionsById(state),
+    flags: getFlags(state),
+    userSettingStreamNotification: getSettings(state).streamNotification,
+  }));
+  const stream = useSelector(state => getStreamsByName(state).get(name));
+  invariant(stream !== undefined, 'No stream with provided stream name was found.');
+
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
   const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && componentStyles.muted];
@@ -90,7 +121,17 @@ export default function StreamItem(props: Props): Node {
       : themeColor;
 
   return (
-    <Touchable onPress={() => onPress(name)}>
+    <Touchable
+      onPress={() => onPress(name)}
+      onLongPress={() => {
+        showStreamActionSheet({
+          showActionSheetWithOptions,
+          callbacks: { dispatch, _ },
+          backgroundData,
+          streamId: stream.stream_id,
+        });
+      }}
+    >
       <View style={wrapperStyle}>
         <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
         <View style={componentStyles.text}>

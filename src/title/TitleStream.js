@@ -20,8 +20,9 @@ import {
   getStreamsById,
   getOwnUser,
   getStreamInNarrow,
+  getSettings,
 } from '../selectors';
-import { showTopicActionSheet } from '../action-sheets';
+import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
 
@@ -56,6 +57,7 @@ export default function TitleStream(props: Props): Node {
     unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
+    userSettingStreamNotification: getSettings(state).streamNotification,
   }));
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
@@ -75,7 +77,14 @@ export default function TitleStream(props: Props): Node {
                 topic: topicOfNarrow(narrow),
               });
             }
-          : undefined
+          : () => {
+              showStreamActionSheet({
+                showActionSheetWithOptions,
+                callbacks: { dispatch, _ },
+                backgroundData,
+                streamId: stream.stream_id,
+              });
+            }
       }
     >
       <View style={componentStyles.outer}>
