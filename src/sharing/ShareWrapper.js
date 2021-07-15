@@ -14,6 +14,10 @@ import { showToast } from '../utils/info';
 import { getAuth } from '../selectors';
 import { connect } from '../react-redux';
 
+type SendTo =
+  | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
+  | {| type: 'stream', stream: string, topic: string |};
+
 const styles = createStyleSheet({
   wrapper: {
     flex: 1,
@@ -37,21 +41,10 @@ const styles = createStyleSheet({
   },
 });
 
-type SendStream = {|
-  stream: string,
-  topic: string,
-  type: 'stream',
-|};
-
-type SendPm = {|
-  selectedRecipients: $ReadOnlyArray<UserId>,
-  type: 'pm',
-|};
-
 type Props = $ReadOnly<{|
   children: React$Node,
   isSendButtonEnabled: (message: string) => boolean,
-  sendTo: SendStream | SendPm,
+  sendTo: SendTo,
   sharedData: SharedData,
 
   dispatch: Dispatch,
