@@ -68,6 +68,8 @@ export class ServerError extends RequestError {
  */
 export class Server5xxError extends ServerError {
   constructor(httpStatus: number) {
+    // This text is looked for by the `ignoreErrors` we pass to `Sentry.init`.
+    // If changing this text, update the pattern there to match it.
     super(`Network request failed: HTTP status ${httpStatus}`, httpStatus);
   }
 }
