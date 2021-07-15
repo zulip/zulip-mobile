@@ -39,7 +39,7 @@ import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
 import type { BackgroundData } from '../../webview/MessageList';
-import { getStreamsById, getStreamsByName } from '../../selectors';
+import { getStreamsById, getStreamsByName, getSubscriptionsById } from '../../selectors';
 
 /* ========================================================================
  * Utilities
@@ -759,7 +759,7 @@ export const backgroundData: BackgroundData = deepFreeze({
   ownUser: selfUser,
   streams: getStreamsById(baseReduxState),
   streamsByName: getStreamsByName(baseReduxState),
-  subscriptions: [],
+  subscriptions: getSubscriptionsById(baseReduxState),
   unread: baseReduxState.unread,
   theme: 'default',
   twentyFourHourTime: false,

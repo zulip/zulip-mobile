@@ -97,7 +97,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    const subscriptions = [{ ...eg.subscription, in_home_view: false, ...stream }];
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, in_home_view: false, ...stream }]]),
+    );
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions, streams },
       streamId,
@@ -107,7 +109,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show mute stream option if stream is in home view', () => {
-    const subscriptions = [{ ...eg.subscription, in_home_view: true, ...stream }];
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, in_home_view: true, ...stream }]]),
+    );
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, subscriptions, streams },
       streamId,

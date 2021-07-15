@@ -62,7 +62,7 @@ export default (
 
   if (item.type === 'stream' && headerStyle === 'full') {
     const streamName = streamNameOfStreamMessage(item);
-    const stream = subscriptions.find(x => x.name === streamName);
+    const stream = [...subscriptions.values()].find(x => x.name === streamName);
 
     const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
     const textColor = foregroundColorFromBackground(backgroundColor);
