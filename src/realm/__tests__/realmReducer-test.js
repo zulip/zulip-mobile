@@ -29,6 +29,7 @@ describe('realmReducer', () => {
         filters: [],
         videoChatProvider: null,
         nonActiveUsers: [],
+        mandatoryTopics: false,
       };
 
       const actualState = realmReducer(initialState, action);

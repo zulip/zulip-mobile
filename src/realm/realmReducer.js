@@ -24,7 +24,10 @@ const initialState = {
   twentyFourHourTime: false,
   canCreateStreams: true,
   isAdmin: false,
+  mandatoryTopics: false,
 };
+// Add `mandatoryTopics` to `state.realm`.
+// No migration; just use default from initial state.
 
 const convertRealmEmoji = (data): RealmEmojiById =>
   objectFromEntries(Object.keys(data).map(id => [id, { ...data[id], code: id.toString() }]));
@@ -72,6 +75,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         twentyFourHourTime: action.data.twenty_four_hour_time,
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        mandatoryTopics: action.data.realm_mandatory_topics,
       };
     }
 
