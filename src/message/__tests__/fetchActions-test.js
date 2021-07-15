@@ -309,6 +309,12 @@ describe('fetchActions', () => {
     });
 
     describe('failure', () => {
+      beforeAll(() => {
+        // suppress `logging.warn` output
+        // $FlowFixMe[prop-missing]: Jest mock
+        logging.warn.mockReturnValue();
+      });
+
       test('rejects when user is not logged in, dispatches MESSAGE_FETCH_ERROR', async () => {
         const stateWithoutAccount = {
           ...baseState,

@@ -30,7 +30,7 @@ import {
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { showErrorAlert } from '../utils/info';
-import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow } from '../utils/narrow';
+import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow } from '../utils/narrow';
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
@@ -133,6 +133,25 @@ export const fetchMessages = (fetchArgs: {|
         error: e,
       }),
     );
+    logging.warn(e, {
+      message: 'Message-fetch error',
+
+      // Describe the narrow without sending sensitive data to Sentry.
+      narrow: caseNarrow(fetchArgs.narrow, {
+        stream: name => 'stream',
+        topic: (streamName, topic) => 'topic',
+        pm: ids => (ids.length > 1 ? 'pm (group)' : 'pm (1:1)'),
+        home: () => 'all',
+        starred: () => 'starred',
+        mentioned: () => 'mentioned',
+        allPrivate: () => 'all-pm',
+        search: query => 'search',
+      }),
+
+      anchor: fetchArgs.anchor,
+      numBefore: fetchArgs.numBefore,
+      numAfter: fetchArgs.numAfter,
+    });
     throw e;
   }
 };
