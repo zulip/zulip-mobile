@@ -27,7 +27,13 @@ import {
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
+import {
+  doNarrow,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+  navigateToStream,
+  setSubscriptionProperty,
+} from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -39,11 +45,21 @@ export type ShowActionSheetWithOptions = (
   (number) => void,
 ) => void;
 
+type StreamArgs = {
+  auth: Auth,
+  streamId: number,
+  subscriptions: Map<number, Subscription>,
+  streams: Map<number, Stream>,
+  dispatch: Dispatch,
+  _: GetText,
+  ...
+};
+
 type TopicArgs = {
   auth: Auth,
   streamId: number,
   topic: string,
-  subscriptions: Subscription[],
+  subscriptions: Map<number, Subscription>,
   streams: Map<number, Stream>,
   dispatch: Dispatch,
   _: GetText,
@@ -60,7 +76,7 @@ type MessageArgs = {
   ...
 };
 
-type Button<Args: TopicArgs | MessageArgs> = {|
+type Button<Args: StreamArgs | TopicArgs | MessageArgs> = {|
   (Args): void | Promise<void>,
 
   /** The label for the button. */
@@ -196,6 +212,46 @@ const showStreamSettings = ({ streamId, subscriptions }) => {
 showStreamSettings.title = 'Stream settings';
 showStreamSettings.errorMessage = 'Failed to show stream settings';
 
+const subscribe = async ({ auth, streamId, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  await api.subscriptionAdd(auth, [{ name: stream.name }]);
+};
+subscribe.title = 'Subscribe';
+subscribe.errorMessage = 'Failed to subscribe';
+
+const unsubscribe = async ({ auth, streamId, subscriptions }) => {
+  const sub = subscriptions.get(streamId);
+  invariant(sub !== undefined, 'Subscription with provided streamId not found.');
+  await api.subscriptionRemove(auth, [sub.name]);
+};
+unsubscribe.title = 'Unsubscribe';
+unsubscribe.errorMessage = 'Failed to unsubscribe';
+
+const pinToTop = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'pin_to_top', true));
+};
+pinToTop.title = 'Pin to top';
+pinToTop.errorMessage = 'Failed to pin to top';
+
+const unpinFromTop = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'pin_to_top', false));
+};
+unpinFromTop.title = 'Unpin from top';
+unpinFromTop.errorMessage = 'Failed to unpin from top';
+
+const enableNotifications = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'push_notifications', true));
+};
+enableNotifications.title = 'Enable notifications';
+enableNotifications.errorMessage = 'Failed to enable notifications';
+
+const disableNotifications = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'push_notifications', false));
+};
+disableNotifications.title = 'Disable notifications';
+disableNotifications.errorMessage = 'Failed to disable notifications';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -232,6 +288,45 @@ const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
+export const constructStreamActionButtons = ({
+  backgroundData: { ownUser, subscriptions },
+  streamId,
+}: {|
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    subscriptions: Map<number, Subscription>,
+    ...
+  }>,
+  streamId: number,
+|}): Button<StreamArgs>[] => {
+  const buttons = [];
+
+  const sub = subscriptions.get(streamId);
+  if (sub) {
+    if (!sub.in_home_view) {
+      buttons.push(unmuteStream);
+    } else {
+      buttons.push(muteStream);
+    }
+    if (sub.pin_to_top) {
+      buttons.push(unpinFromTop);
+    } else {
+      buttons.push(pinToTop);
+    }
+    if (sub.push_notifications === true) {
+      buttons.push(disableNotifications);
+    } else {
+      buttons.push(enableNotifications);
+    }
+    buttons.push(unsubscribe);
+  } else {
+    buttons.push(subscribe);
+  }
+  buttons.push(showStreamSettings);
+  buttons.push(cancel);
+  return buttons;
+};
+
 export const constructTopicActionButtons = ({
   backgroundData: { mute, ownUser, streams, subscriptions, unread },
   streamId,
@@ -240,7 +335,7 @@ export const constructTopicActionButtons = ({
   backgroundData: $ReadOnly<{
     mute: MuteState,
     streams: Map<number, Stream>,
-    subscriptions: Subscription[],
+    subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
     ...
@@ -263,7 +358,7 @@ export const constructTopicActionButtons = ({
   } else {
     buttons.push(muteTopic);
   }
-  const sub = subscriptions.find(x => x.stream_id === streamId);
+  const sub = subscriptions.get(streamId);
   if (sub && !sub.in_home_view) {
     buttons.push(unmuteStream);
   } else {
@@ -352,7 +447,10 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-function makeButtonCallback<Args: TopicArgs | MessageArgs>(buttonList: Button<Args>[], args: Args) {
+function makeButtonCallback<Args: StreamArgs | TopicArgs | MessageArgs>(
+  buttonList: Button<Args>[],
+  args: Args,
+) {
   return buttonIndex => {
     (async () => {
       const pressedButton: Button<Args> = buttonList[buttonIndex];
@@ -380,7 +478,7 @@ export const showMessageActionSheet = ({
   |},
   backgroundData: $ReadOnly<{
     auth: Auth,
-    subscriptions: Subscription[],
+    subscriptions: Map<number, Subscription>,
     ownUser: User,
     flags: FlagsState,
     ...
@@ -419,7 +517,7 @@ export const showTopicActionSheet = ({
     auth: Auth,
     mute: MuteState,
     streams: Map<number, Stream>,
-    subscriptions: Subscription[],
+    subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
     flags: FlagsState,
@@ -446,6 +544,46 @@ export const showTopicActionSheet = ({
       ...callbacks,
       streamId,
       topic,
+    }),
+  );
+};
+
+export const showStreamActionSheet = ({
+  showActionSheetWithOptions,
+  callbacks,
+  backgroundData,
+  streamId,
+}: {|
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+  callbacks: {|
+    dispatch: Dispatch,
+    _: GetText,
+  |},
+  backgroundData: $ReadOnly<{
+    auth: Auth,
+    ownUser: User,
+    streams: Map<number, Stream>,
+    subscriptions: Map<number, Subscription>,
+    ...
+  }>,
+  streamId: number,
+|}): void => {
+  const buttonList = constructStreamActionButtons({
+    backgroundData,
+    streamId,
+  });
+  const stream = backgroundData.streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  showActionSheetWithOptions(
+    {
+      title: `#${stream.name}`,
+      options: buttonList.map(button => callbacks._(button.title)),
+      cancelButtonIndex: buttonList.length - 1,
+    },
+    makeButtonCallback(buttonList, {
+      ...backgroundData,
+      ...callbacks,
+      streamId,
     }),
   );
 };

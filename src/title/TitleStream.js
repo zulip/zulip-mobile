@@ -24,13 +24,13 @@ import {
   getAuth,
   getMute,
   getFlags,
-  getSubscriptions,
+  getSubscriptionsById,
   getStreamsById,
   getOwnUser,
   getStreamInNarrow,
 } from '../selectors';
-import { showTopicActionSheet } from '../message/messageActionSheet';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
 
@@ -40,7 +40,7 @@ type SelectorProps = {|
     auth: Auth,
     mute: MuteState,
     streams: Map<number, Stream>,
-    subscriptions: Subscription[],
+    subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
     flags: FlagsState,
@@ -87,7 +87,14 @@ const TitleStream = (props: Props) => {
                 topic: topicOfNarrow(narrow),
               });
             }
-          : undefined
+          : () => {
+              showStreamActionSheet({
+                showActionSheetWithOptions,
+                callbacks: { dispatch, _ },
+                backgroundData,
+                streamId: stream.stream_id,
+              });
+            }
       }
     >
       <View style={componentStyles.outer}>
@@ -119,7 +126,7 @@ export default connect<SelectorProps, _, _>((state, props) => ({
     auth: getAuth(state),
     mute: getMute(state),
     streams: getStreamsById(state),
-    subscriptions: getSubscriptions(state),
+    subscriptions: getSubscriptionsById(state),
     unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),

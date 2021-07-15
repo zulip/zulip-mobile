@@ -41,13 +41,13 @@ import {
   getMutedUsers,
   getOwnUser,
   getSettings,
-  getSubscriptions,
+  getSubscriptionsById,
   getStreamsById,
   getStreamsByName,
   getRealm,
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getHtmlPieceDescriptorsForMessages } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
@@ -87,7 +87,7 @@ export type BackgroundData = $ReadOnly<{|
   ownUser: User,
   streams: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
-  subscriptions: Subscription[],
+  subscriptions: Map<number, Subscription>,
   unread: UnreadState,
   theme: ThemeName,
   twentyFourHourTime: boolean,
@@ -318,7 +318,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       ownUser: getOwnUser(state),
       streams: getStreamsById(state),
       streamsByName: getStreamsByName(state),
-      subscriptions: getSubscriptions(state),
+      subscriptions: getSubscriptionsById(state),
       unread: getUnread(state),
       theme: getSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,

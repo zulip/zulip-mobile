@@ -7,15 +7,15 @@ import invariant from 'invariant';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
-import { showTopicActionSheet } from '../message/messageActionSheet';
-import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
+import { showTopicActionSheet } from '../action-sheets';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
 import {
   getAuth,
   getMute,
   getFlags,
-  getSubscriptions,
+  getSubscriptionsById,
   getStreamsById,
   getStreamsByName,
   getOwnUser,
@@ -58,7 +58,7 @@ export default function TopicItem(props: Props) {
     mute: getMute(state),
     streams: getStreamsById(state),
     streamsByName: getStreamsByName(state),
-    subscriptions: getSubscriptions(state),
+    subscriptions: getSubscriptionsById(state),
     unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
