@@ -3,7 +3,11 @@ import deepFreeze from 'deep-freeze';
 import { HOME_NARROW } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { constructMessageActionButtons, constructTopicActionButtons } from '../index';
+import {
+  constructMessageActionButtons,
+  constructTopicActionButtons,
+  constructStreamActionButtons,
+} from '../index';
 import { reducer } from '../../unread/unreadModel';
 import { initialState } from '../../unread/__tests__/unread-testlib';
 
@@ -118,6 +122,67 @@ describe('constructTopicActionButtons', () => {
       topic,
     });
     expect(buttonTitles(buttons)).toContain('Mute stream');
+  });
+
+  test('show "subscribe" option, if stream is not subscribed yet', () => {
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, streams },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Subscribe');
+  });
+
+  test('show "unsubscribe" option, if stream is subscribed', () => {
+    const subscriptions = deepFreeze(new Map([[eg.subscription.stream_id, eg.subscription]]));
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId: eg.subscription.stream_id,
+    });
+    expect(buttonTitles(buttons)).toContain('Unsubscribe');
+  });
+
+  test('show "enable notification" if push notifications are not enabled for stream', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: false, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Enable notifications');
+  });
+
+  test('show "disable notification" if push notifications are enabled for stream', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: true, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Disable notifications');
+  });
+
+  test('show "pin to top" if stream is not pinned to top', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: false, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Pin to top');
+  });
+
+  test('show "unpin from top" if stream is pinned to top', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: true, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Unpin from top');
   });
 
   test('show delete topic option if current user is an admin', () => {

@@ -27,7 +27,13 @@ import {
 import { isTopicMuted } from '../utils/message';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
+import {
+  doNarrow,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+  navigateToStream,
+  setSubscriptionProperty,
+} from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -206,6 +212,46 @@ const showStreamSettings = ({ streamId, subscriptions }) => {
 showStreamSettings.title = 'Stream settings';
 showStreamSettings.errorMessage = 'Failed to show stream settings';
 
+const subscribe = async ({ auth, streamId, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  await api.subscriptionAdd(auth, [{ name: stream.name }]);
+};
+subscribe.title = 'Subscribe';
+subscribe.errorMessage = 'Failed to subscribe';
+
+const unsubscribe = async ({ auth, streamId, subscriptions }) => {
+  const sub = subscriptions.get(streamId);
+  invariant(sub !== undefined, 'Subscription with provided streamId not found.');
+  await api.subscriptionRemove(auth, [sub.name]);
+};
+unsubscribe.title = 'Unsubscribe';
+unsubscribe.errorMessage = 'Failed to unsubscribe';
+
+const pinToTop = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'pin_to_top', true));
+};
+pinToTop.title = 'Pin to top';
+pinToTop.errorMessage = 'Failed to pin to top';
+
+const unpinFromTop = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'pin_to_top', false));
+};
+unpinFromTop.title = 'Unpin from top';
+unpinFromTop.errorMessage = 'Failed to unpin from top';
+
+const enableNotifications = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'push_notifications', true));
+};
+enableNotifications.title = 'Enable notifications';
+enableNotifications.errorMessage = 'Failed to enable notifications';
+
+const disableNotifications = async ({ streamId, dispatch }) => {
+  dispatch(setSubscriptionProperty(streamId, 'push_notifications', false));
+};
+disableNotifications.title = 'Disable notifications';
+disableNotifications.errorMessage = 'Failed to disable notifications';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -262,6 +308,19 @@ export const constructStreamActionButtons = ({
     } else {
       buttons.push(muteStream);
     }
+    if (sub.pin_to_top) {
+      buttons.push(unpinFromTop);
+    } else {
+      buttons.push(pinToTop);
+    }
+    if (sub.push_notifications === true) {
+      buttons.push(disableNotifications);
+    } else {
+      buttons.push(enableNotifications);
+    }
+    buttons.push(unsubscribe);
+  } else {
+    buttons.push(subscribe);
   }
   buttons.push(showStreamSettings);
   buttons.push(cancel);
