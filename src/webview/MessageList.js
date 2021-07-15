@@ -60,6 +60,7 @@ import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
+import { isSearchNarrow, isSpecialNarrow } from '../utils/narrow';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
@@ -311,7 +312,10 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       allImageEmojiById: getAllImageEmojiById(state),
       auth: getAuth(state),
       debug: getDebug(state),
-      doNotMarkMessagesAsRead: getSettings(state).doNotMarkMessagesAsRead,
+      doNotMarkMessagesAsRead:
+        isSearchNarrow(props.narrow) || isSpecialNarrow(props.narrow)
+          ? true
+          : getSettings(state).doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),
