@@ -1,17 +1,9 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type {
-  Narrow,
-  GlobalState,
-  Selector,
-  StreamsState,
-  TopicExtended,
-  TopicsState,
-} from '../types';
+import type { Narrow, Selector, StreamsState, TopicExtended, TopicsState } from '../types';
 import { getMute, getStreams, getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
-import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
@@ -57,8 +49,3 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
     });
   },
 );
-
-export const getLastMessageTopic = (state: GlobalState, narrow: Narrow): string => {
-  const messages = getShownMessagesForNarrow(state, narrow);
-  return messages.length === 0 ? '' : messages[messages.length - 1].subject;
-};

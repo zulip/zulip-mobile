@@ -14,11 +14,9 @@ import { ThemeContext } from '../styles';
 import type {
   Auth,
   Narrow,
-  EditMessage,
   InputSelection,
   UserOrBot,
   Dispatch,
-  CaughtUp,
   GetText,
   Subscription,
   Stream,
@@ -27,16 +25,17 @@ import type {
 } from '../types';
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
-import { addToOutbox, draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
-import * as api from '../api';
+import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import { FloatingActionButton, Input } from '../common';
-import { showErrorAlert, showToast } from '../utils/info';
+import { showToast } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
   isStreamNarrow,
   isStreamOrTopicNarrow,
+  isTopicNarrow,
   streamNameOfNarrow,
   topicNarrow,
+  topicOfNarrow,
 } from '../utils/narrow';
 import ComposeMenu from './ComposeMenu';
 import getComposeInputPlaceholder from './getComposeInputPlaceholder';
@@ -44,22 +43,15 @@ import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 import MentionWarnings from './MentionWarnings';
 
-import {
-  getAuth,
-  getIsAdmin,
-  getLastMessageTopic,
-  getCaughtUpForNarrow,
-  getStreamInNarrow,
-  getVideoChatProvider,
-} from '../selectors';
+import { getAuth, getIsAdmin, getStreamInNarrow, getVideoChatProvider } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
 } from '../subscriptions/subscriptionSelectors';
-import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import * as api from '../api';
 
 type SelectorProps = {|
   auth: Auth,
@@ -68,9 +60,6 @@ type SelectorProps = {|
   isAdmin: boolean,
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
-  draft: string,
-  lastMessageTopic: string,
-  caughtUp: CaughtUp,
   videoChatProvider: VideoChatProvider | null,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
@@ -79,8 +68,23 @@ type Props = $ReadOnly<{|
   insets: EdgeInsets,
 
   narrow: Narrow,
-  editMessage: EditMessage | null,
-  completeEditMessage: () => void,
+  isEditing: boolean,
+
+  onSend: (string, Narrow) => void,
+
+  /** The contents of the message that the ComposeBox should contain when it's first rendered */
+  initialMessage?: string,
+  /** The topic of the message that the ComposeBox should contain when it's first rendered */
+  initialTopic?: string,
+
+  /** Whether the topic input box should auto-foucs when the component renders.
+   *
+   * Passed through to the TextInput's autofocus prop. */
+  autoFocusTopic: boolean,
+  /** Whether the message input box should auto-foucs when the component renders.
+   *
+   * Passed through to the TextInput's autofocus prop. */
+  autoFocusMessage: boolean,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -128,6 +132,11 @@ const updateTextInput = (textInput, text) => {
 };
 
 class ComposeBox extends PureComponent<Props, State> {
+  static defaultProps = {
+    autoFocusTopic: false,
+    autoFocusMessage: false,
+  };
+
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -155,8 +164,13 @@ class ComposeBox extends PureComponent<Props, State> {
     isFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic: this.props.lastMessageTopic,
-    message: this.props.draft,
+    topic:
+      this.props.initialTopic !== undefined
+        ? this.props.initialTopic
+        : isTopicNarrow(this.props.narrow)
+        ? topicOfNarrow(this.props.narrow)
+        : '',
+    message: this.props.initialMessage || '',
     selection: { start: 0, end: 0 },
     numUploading: 0,
   };
@@ -174,8 +188,8 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   getCanSelectTopic = () => {
-    const { editMessage, narrow } = this.props;
-    if (editMessage) {
+    const { isEditing, narrow } = this.props;
+    if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
     if (!isStreamNarrow(narrow)) {
@@ -291,9 +305,11 @@ class ComposeBox extends PureComponent<Props, State> {
 
   handleMessageChange = (message: string) => {
     this.setState({ message, isMenuExpanded: false });
-    const { dispatch, narrow } = this.props;
+    const { dispatch, isEditing, narrow } = this.props;
     dispatch(sendTypingStart(narrow));
-    dispatch(draftUpdate(narrow, message));
+    if (!isEditing) {
+      dispatch(draftUpdate(narrow, message));
+    }
   };
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
@@ -320,13 +336,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
-    this.setState((state, { lastMessageTopic }) => ({
-      ...state,
-      topic: state.topic || lastMessageTopic,
+    this.setState({
       isMessageFocused: true,
       isFocused: true,
       isMenuExpanded: false,
-    }));
+    });
   };
 
   handleMessageBlur = () => {
@@ -363,7 +377,7 @@ class ComposeBox extends PureComponent<Props, State> {
 
   getDestinationNarrow = (): Narrow => {
     const { narrow } = this.props;
-    if (isStreamNarrow(narrow)) {
+    if (isStreamNarrow(narrow) || isTopicNarrow(narrow)) {
       const streamName = streamNameOfNarrow(narrow);
       const topic = this.state.topic.trim();
       return topicNarrow(streamName, topic || '(no topic)');
@@ -372,15 +386,11 @@ class ComposeBox extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { dispatch, narrow, caughtUp, _ } = this.props;
+    const { dispatch } = this.props;
     const { message } = this.state;
+    const narrow = this.getDestinationNarrow();
 
-    if (!caughtUp.newer) {
-      showErrorAlert(_('Failed to send message'));
-      return;
-    }
-
-    dispatch(addToOutbox(this.getDestinationNarrow(), message));
+    this.props.onSend(message, narrow);
 
     this.setMessageInputValue('');
 
@@ -390,41 +400,6 @@ class ComposeBox extends PureComponent<Props, State> {
 
     dispatch(sendTypingStop(narrow));
   };
-
-  handleEdit = () => {
-    const { auth, editMessage, completeEditMessage, _ } = this.props;
-    if (!editMessage) {
-      throw new Error('expected editMessage');
-    }
-    const { message, topic } = this.state;
-    const content = editMessage.content !== message ? message : undefined;
-    const subject = topic !== editMessage.topic ? topic : undefined;
-    if ((content !== undefined && content !== '') || (subject !== undefined && subject !== '')) {
-      api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
-        showErrorAlert(_('Failed to edit message'), error.message);
-      });
-    }
-    completeEditMessage();
-    if (this.messageInputRef.current !== null) {
-      // `.current` is not type-checked; see definition.
-      this.messageInputRef.current.blur();
-    }
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.editMessage !== this.props.editMessage) {
-      const topic = nextProps.editMessage
-        ? nextProps.editMessage.topic
-        : nextProps.lastMessageTopic;
-      const message = nextProps.editMessage ? nextProps.editMessage.content : '';
-      this.setMessageInputValue(message);
-      this.setTopicInputValue(topic);
-      if (this.messageInputRef.current !== null) {
-        // `.current` is not type-checked; see definition.
-        this.messageInputRef.current.focus();
-      }
-    }
-  }
 
   inputMarginPadding = {
     paddingHorizontal: 8,
@@ -477,7 +452,7 @@ class ComposeBox extends PureComponent<Props, State> {
       ownUserId,
       narrow,
       allUsersById,
-      editMessage,
+      isEditing,
       insets,
       isAdmin,
       isAnnouncementOnly,
@@ -537,6 +512,7 @@ class ComposeBox extends PureComponent<Props, State> {
                 underlineColorAndroid="transparent"
                 placeholder="Topic"
                 defaultValue={topic}
+                autoFocus={this.props.autoFocusTopic}
                 selectTextOnFocus
                 textInputRef={this.topicInputRef}
                 onChangeText={this.handleTopicChange}
@@ -554,6 +530,7 @@ class ComposeBox extends PureComponent<Props, State> {
               underlineColorAndroid="transparent"
               placeholder={placeholder}
               defaultValue={message}
+              autoFocus={this.props.autoFocusMessage}
               textInputRef={this.messageInputRef}
               onBlur={this.handleMessageBlur}
               onChangeText={this.handleMessageChange}
@@ -565,10 +542,10 @@ class ComposeBox extends PureComponent<Props, State> {
           <FloatingActionButton
             accessibilityLabel="Send message"
             style={this.styles.composeSendButton}
-            Icon={editMessage === null ? IconSend : IconDone}
+            Icon={isEditing ? IconDone : IconSend}
             size={32}
             disabled={message.trim().length === 0 || this.state.numUploading > 0}
-            onPress={editMessage === null ? this.handleSend : this.handleEdit}
+            onPress={this.handleSend}
           />
         </View>
       </View>
@@ -584,9 +561,6 @@ export default compose(
     isAdmin: getIsAdmin(state),
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-    draft: getDraftForNarrow(state, props.narrow),
-    lastMessageTopic: getLastMessageTopic(state, props.narrow),
-    caughtUp: getCaughtUpForNarrow(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
     videoChatProvider: getVideoChatProvider(state),
   })),

@@ -1,8 +1,6 @@
 /* @flow strict-local */
-import Immutable from 'immutable';
-
-import { getTopicsForNarrow, getLastMessageTopic, getTopicsForStream } from '../topicSelectors';
-import { HOME_NARROW, streamNarrow, keyFromNarrow } from '../../utils/narrow';
+import { getTopicsForNarrow, getTopicsForStream } from '../topicSelectors';
+import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
 import { reducer as unreadReducer } from '../../unread/unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -28,38 +26,6 @@ describe('getTopicsForNarrow', () => {
     const topics = getTopicsForNarrow(state, streamNarrow(stream.name));
 
     expect(topics).toEqual(['hi', 'wow']);
-  });
-});
-
-describe('getLastMessageTopic', () => {
-  test('when no messages in narrow return an empty string', () => {
-    const state = eg.reduxState({
-      narrows: Immutable.Map({}),
-      users: [eg.selfUser],
-      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
-    });
-
-    const topic = getLastMessageTopic(state, HOME_NARROW);
-
-    expect(topic).toEqual('');
-  });
-
-  test('when one or more messages return the topic of the last one', () => {
-    const narrow = streamNarrow('hello');
-    const message1 = eg.streamMessage({ id: 1 });
-    const message2 = eg.streamMessage({ id: 2, subject: 'some topic' });
-    const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [keyFromNarrow(narrow)]: [1, 2],
-      }),
-      messages: eg.makeMessagesState([message1, message2]),
-      users: [eg.selfUser],
-      realm: eg.realmState({ user_id: eg.selfUser.user_id, email: eg.selfUser.email }),
-    });
-
-    const topic = getLastMessageTopic(state, narrow);
-
-    expect(topic).toEqual(message2.subject);
   });
 });
 
