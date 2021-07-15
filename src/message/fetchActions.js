@@ -413,6 +413,7 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
     } else if (e instanceof TimeoutError) {
       dispatch(initialFetchAbort('timeout'));
     } else {
+      dispatch(initialFetchAbort('unexpected'));
       logging.warn(e, {
         message: 'Unexpected error during initial fetch and serverSettings fetch.',
       });
