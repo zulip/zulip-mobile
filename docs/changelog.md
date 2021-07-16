@@ -36,6 +36,31 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) You can now share content from other apps to Zulip. (#117)
+* Fixed a bug where network or server issues could cause an infinite
+  full-screen loading spinner. It now times out after 60 seconds. (#4165)
+* New setting to not mark messages as read when you view them, which is
+  useful for certain workflows. (#4850)
+* Basic support for polls. More to come! (#3205)
+
+
+### Highlights for developers
+
+* All object types are now exact or explicitly inexact. (#3452)
+* We're now using @react-native-community/push-notifications-ios instead of
+  two different libraries. (#4115)
+* `tools/test jest` now picks Android or iOS codepaths at random, rather
+  than always iOS. (#4795)
+* Resolved issues (latest to earliest): #117, #4165, #4858, #4850, #4849,
+  #3205, part of #4309 (PR #4817), #4635, #3244, #3452, parts of #4540 and
+  #2366 (PR #4590), #4657, PR #4797, PR #4815, PR #4820, PR #4821, #4795,
+  #4115
+
+  * Relative to the beta-only release v27.164, also #4818, which was
+    cherry-picked into stable release v27.165.
+
 
 ## 27.165 (2021-06-24)
 
