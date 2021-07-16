@@ -22,6 +22,11 @@ type Props = $ReadOnly<{|
   editMessage: EditMessage | null,
 |}>;
 
+/**
+ * `ChatScreen`'s top nav bar / app bar.
+ *
+ * Pads the top, right, and left insets with its background.
+ */
 export default function ChatNavBar(props: Props): Node {
   const { narrow, editMessage } = props;
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));

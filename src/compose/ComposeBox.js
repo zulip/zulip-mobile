@@ -134,6 +134,11 @@ const updateTextInput = (textInput, text) => {
   }
 };
 
+/**
+ * The compose box, for new messages or editing messages (PM or stream).
+ *
+ * Pads the bottom inset with its background.
+ */
 class ComposeBoxInner extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;

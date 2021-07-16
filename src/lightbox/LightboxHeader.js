@@ -48,6 +48,8 @@ type Props = $ReadOnly<{|
 /**
  * Shows sender's name and date of photo being displayed.
  *
+ * Pads the top, right, and left insets with its background.
+ *
  * @prop [senderName] - The sender's full name.
  * @prop [avatarUrl]
  * @prop [timestamp]
