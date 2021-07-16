@@ -80,7 +80,8 @@ link as above.)
 Any time a reviewer asks a "why" question about a PR, we'll want the answer
 to make it into the actual commits.  Or if they find something confusing,
 we'll want it to be clear in the actual commits: ideally the code itself
-makes it clear, or if not then comments or the commit messages explain it.
+makes it clear, or if not then code comments or the commit messages explain
+it.
 
 
 **Answer questions the reviewer *should* ask.**
