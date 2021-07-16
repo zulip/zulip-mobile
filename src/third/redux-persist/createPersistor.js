@@ -93,7 +93,13 @@ export default function createPersistor (store, config) {
           writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
         )
       } catch (e) {
-        warnIfSetError(writes.map(([key, _]) => key))(e)
+        logging.warn(
+          e,
+          {
+            message: 'An error was encountered while trying to persist this set of keys',
+            keys: writes.map(([key, _]) => key)
+          }
+        );
         throw e
       }
     }
@@ -150,20 +156,6 @@ export default function createPersistor (store, config) {
      *   https://github.com/zulip/zulip-mobile/pull/4694#discussion_r691739007.
      */
     _resetLastWrittenState: () => { lastWrittenState = store.getState() }
-  }
-}
-
-function warnIfSetError (keys) {
-  return function setError (err) {
-    if (err) {
-      logging.warn(
-        err,
-        {
-          message: 'An error was encountered while trying to persist this set of keys',
-          keys
-        }
-      );
-    }
   }
 }
 
