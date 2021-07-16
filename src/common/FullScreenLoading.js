@@ -2,7 +2,6 @@
 import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 // eslint-disable-next-line import/no-useless-path-segments
@@ -23,18 +22,10 @@ type Props = $ReadOnly<{||}>;
  * Meant to be used to cover the whole screen.
  */
 export default function FullScreenLoading(props: Props): Node {
-  const insets = useSafeAreaInsets();
-
   return (
     <>
       <ZulipStatusBar backgroundColor={BRAND_COLOR} />
       <View style={componentStyles.center}>
-        <View
-          style={{
-            height: insets.top,
-            backgroundColor: BRAND_COLOR,
-          }}
-        />
         <LoadingIndicator color="black" size={80} showLogo />
       </View>
     </>
