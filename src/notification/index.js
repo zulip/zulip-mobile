@@ -53,13 +53,14 @@ export const getAccountFromNotificationData = (
     }
   });
 
+  const knownUrls = identities.map(({ realm }) => realm.href);
+
   if (urlMatches.length === 0) {
     // No match.  Either we logged out of this account and didn't
     // successfully tell the server to stop sending notifications (possibly
     // just a race -- this notification was sent before the logout); or
     // there's some confusion where the realm_uri we have is different from
     // the one the server sends in notifications.
-    const knownUrls = identities.map(({ realm }) => realm.href);
     logging.warn('notification realm_uri not found in accounts', {
       realm_uri,
       parsed_url: realmUrl,
@@ -77,6 +78,10 @@ export const getAccountFromNotificationData = (
       realm_uri,
       parsed_url: realmUrl,
       match_count: urlMatches.length,
+      known_urls: knownUrls,
+      unique_identities_count: urlMatches
+        .map(matchIndex => `${identities[matchIndex].realm.origin} ${identities[matchIndex].email}`)
+        .filter((value, index, self) => self.indexOf(value) === index).length,
     });
     // TODO get user_id into accounts data, and use that
     return null;
