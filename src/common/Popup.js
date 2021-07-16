@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemeContext, createStyleSheet } from '../styles';
 
@@ -21,11 +21,20 @@ type Props = $ReadOnly<{|
   children: Node,
 |}>;
 
+/**
+ * A floating box to contain autocomplete popups.
+ *
+ * Avoids the horizontal insets by adding appropriate margin.
+ */
 export default function Popup(props: Props): Node {
   const themeContext = useContext(ThemeContext);
   return (
-    <View style={[{ backgroundColor: themeContext.backgroundColor }, styles.popup]}>
+    <SafeAreaView
+      mode="margin"
+      edges={['right', 'left']}
+      style={[{ backgroundColor: themeContext.backgroundColor }, styles.popup]}
+    >
       {props.children}
-    </View>
+    </SafeAreaView>
   );
 }
