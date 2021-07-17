@@ -113,9 +113,7 @@ export default function createPersistor (store, config) {
       Object.keys(incoming).forEach((key) => {
         const subState = incoming[key]
         try {
-          let data = deserializer(subState)
-          let value = data
-          state[key] = value
+          state[key] = deserializer(subState)
         } catch (err) {
           logging.warn(err, { message: 'Error rehydrating data for a key', key })
         }
