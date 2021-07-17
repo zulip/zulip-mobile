@@ -351,7 +351,6 @@ overrides:
   - files: ['src/third/redux-persist/**']
     rules:
       space-before-function-paren: off # `function myFunc (arg1) { ... }`
-      object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
 
       # function declarations are made (we favor function expressions
       # with `const`), so these functions may be used above the

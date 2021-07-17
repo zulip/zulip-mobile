@@ -51,7 +51,7 @@ function logPreRehydrate (preRehydrateActions) {
 }
 
 function defaultStateReconciler (state, inboundState, reducedState, log) {
-  const newState = {...reducedState};
+  const newState = { ...reducedState };
 
   Object.keys(inboundState).forEach((key) => {
     // if initialState does not have key, skip auto rehydration
@@ -79,7 +79,7 @@ function defaultStateReconciler (state, inboundState, reducedState, log) {
     // otherwise take the inboundState
     if (isStatePlainEnough(inboundState[key]) && isStatePlainEnough(state[key])) {
       // shallow merge
-      newState[key] = {...state[key], ...inboundState[key]};
+      newState[key] = { ...state[key], ...inboundState[key] };
     } else {
       // hard set
       newState[key] = inboundState[key];

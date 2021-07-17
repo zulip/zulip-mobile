@@ -53,7 +53,7 @@ export default function getStoredState (config, onComplete) {
           err = e;
         }
         if (err) {
-          logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key});
+          logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key });
         } else {
           restoredState[key] = rehydrate(key, serialized);
         }

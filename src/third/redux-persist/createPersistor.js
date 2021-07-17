@@ -139,7 +139,7 @@ export default function createPersistor (store, config) {
     rehydrate: adhocRehydrate,
     pause: () => { paused = true; },
     resume: () => { paused = false; },
-    purge: (keys) => purgeStoredState({storage, keyPrefix}, keys),
+    purge: (keys) => purgeStoredState({ storage, keyPrefix }, keys),
 
     /**
      * Set `lastWrittenState` to the current `store.getState()`.
