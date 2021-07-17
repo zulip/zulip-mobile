@@ -4,7 +4,7 @@ import * as logging from '../../utils/logging';
 import { KEY_PREFIX, REHYDRATE } from './constants';
 import purgeStoredState from './purgeStoredState';
 
-export default function createPersistor (store, config) {
+export default function createPersistor(store, config) {
   // defaults
   const serializer = config.serialize;
   const deserializer = config.deserialize;
@@ -111,7 +111,7 @@ export default function createPersistor (store, config) {
     outstandingKeys.clear();
   }
 
-  function adhocRehydrate (incoming, options = {}) {
+  function adhocRehydrate(incoming, options = {}) {
     let state = {};
     if (options.serial) {
       Object.keys(incoming).forEach((key) => {
@@ -130,7 +130,7 @@ export default function createPersistor (store, config) {
     return state;
   }
 
-  function createStorageKey (key) {
+  function createStorageKey(key) {
     return `${keyPrefix}${key}`;
   }
 
@@ -152,7 +152,7 @@ export default function createPersistor (store, config) {
   };
 }
 
-function rehydrateAction (data) {
+function rehydrateAction(data) {
   return {
     type: REHYDRATE,
     payload: data

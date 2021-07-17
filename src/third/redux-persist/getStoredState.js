@@ -5,7 +5,7 @@ import { KEY_PREFIX } from './constants';
 // TODO(consistent-return): Let's work with Promises instead of callbacks,
 //   after these files are covered by Flow.
 // eslint-disable-next-line consistent-return
-export default function getStoredState (config, onComplete) {
+export default function getStoredState(config, onComplete) {
   const storage = config.storage;
   let deserializer;
   if (config.deserialize === false) {
@@ -65,7 +65,7 @@ export default function getStoredState (config, onComplete) {
     });
   })();
 
-  function rehydrate (key, serialized) {
+  function rehydrate(key, serialized) {
     let state = null;
 
     try {
@@ -78,7 +78,7 @@ export default function getStoredState (config, onComplete) {
     return state;
   }
 
-  function createStorageKey (key) {
+  function createStorageKey(key) {
     return `${keyPrefix}${key}`;
   }
 
@@ -95,6 +95,6 @@ export default function getStoredState (config, onComplete) {
   }
 }
 
-function defaultDeserializer (serial) {
+function defaultDeserializer(serial) {
   return JSON.parse(serial);
 }

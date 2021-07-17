@@ -2,7 +2,7 @@ import * as logging from '../../utils/logging';
 
 import { KEY_PREFIX } from './constants';
 
-export default function purgeStoredState (config, keys) {
+export default function purgeStoredState(config, keys) {
   const storage = config.storage;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
 
@@ -44,8 +44,8 @@ export default function purgeStoredState (config, keys) {
   }
 }
 
-function warnIfRemoveError (key) {
-  return function removeError (err) {
+function warnIfRemoveError(key) {
+  return function removeError(err) {
     if (err) { logging.warn(err, { message: 'Error storing data for a key.', key }); }
   };
 }

@@ -3,7 +3,7 @@ import * as logging from '../../utils/logging';
 import { REHYDRATE } from './constants';
 import isStatePlainEnough from './utils/isStatePlainEnough';
 
-export default function autoRehydrate (config = {}) {
+export default function autoRehydrate(config = {}) {
   const stateReconciler = config.stateReconciler || defaultStateReconciler;
 
   return (next) => (reducer, initialState, enhancer) => {
@@ -14,7 +14,7 @@ export default function autoRehydrate (config = {}) {
     };
   };
 
-  function liftReducer (reducer) {
+  function liftReducer(reducer) {
     let rehydrated = false;
     const preRehydrateActions = [];
     return (state, action) => {
@@ -39,7 +39,7 @@ export default function autoRehydrate (config = {}) {
   }
 }
 
-function logPreRehydrate (preRehydrateActions) {
+function logPreRehydrate(preRehydrateActions) {
   const concernedActions = preRehydrateActions.slice(1);
   if (concernedActions.length > 0) {
     logging.warn(`
@@ -50,7 +50,7 @@ function logPreRehydrate (preRehydrateActions) {
   }
 }
 
-function defaultStateReconciler (state, inboundState, reducedState, log) {
+function defaultStateReconciler(state, inboundState, reducedState, log) {
   const newState = { ...reducedState };
 
   Object.keys(inboundState).forEach((key) => {

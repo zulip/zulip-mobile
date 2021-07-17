@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash.isplainobject';
 
-export default function isStatePlainEnough (a) {
+export default function isStatePlainEnough(a) {
   // isPlainObject + duck type not immutable
   if (!a) {
     return false;

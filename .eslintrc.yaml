@@ -350,8 +350,6 @@ overrides:
   # We leave this code in the style we received it in.
   - files: ['src/third/redux-persist/**']
     rules:
-      space-before-function-paren: off # `function myFunc (arg1) { ... }`
-
       # function declarations are made (we favor function expressions
       # with `const`), so these functions may be used above the
       # declaration because they are hoisted. Don't change them to our

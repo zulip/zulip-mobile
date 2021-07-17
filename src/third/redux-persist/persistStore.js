@@ -6,7 +6,7 @@ import getStoredState from './getStoredState';
 import createPersistor from './createPersistor';
 import setImmediate from './utils/setImmediate';
 
-export default function persistStore (store, config = {}, onComplete) {
+export default function persistStore(store, config = {}, onComplete) {
   // defaults
   // @TODO remove shouldRestore
   const shouldRestore = !config.skipRestore;
@@ -110,7 +110,7 @@ export default function persistStore (store, config = {}, onComplete) {
     setImmediate(complete);
   }
 
-  function complete (err, restoredState) {
+  function complete(err, restoredState) {
     persistor.resume();
 
     // As mentioned in a comment above, the current strategy of using
@@ -144,7 +144,7 @@ export default function persistStore (store, config = {}, onComplete) {
   };
 }
 
-function rehydrateAction (payload, error = null) {
+function rehydrateAction(payload, error = null) {
   return {
     type: REHYDRATE,
     payload,
