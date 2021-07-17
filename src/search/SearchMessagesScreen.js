@@ -30,12 +30,14 @@ type State = {|
   messages: Message[] | null,
   /** Whether there is currently an active valid network request. */
   isFetching: boolean,
+  query: string,
 |};
 
 class SearchMessagesScreen extends PureComponent<Props, State> {
   state = {
     messages: null,
     isFetching: false,
+    query: '',
   };
 
   /**
@@ -44,9 +46,9 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
    * Stores the fetched messages in the Redux store. Does not read any
    * of the component's data except `props.dispatch`.
    */
-  fetchSearchMessages = async (query: string): Promise<Message[]> => {
+  fetchSearchMessages = async (): Promise<Message[]> => {
     const fetchArgs = {
-      narrow: SEARCH_NARROW(query),
+      narrow: SEARCH_NARROW(this.state.query),
       anchor: LAST_MESSAGE_ANCHOR,
       numBefore: 20,
       numAfter: 0,
@@ -71,37 +73,39 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   // invalidate outstanding requests on change will require more work.
 
   handleQueryChange = async (query: string) => {
-    const id = ++this.lastIdSent;
+    this.setState({ query }, async () => {
+      const id = ++this.lastIdSent;
 
-    if (query === '') {
-      // The empty query can be resolved without a network call.
-      this.lastIdReceived = id;
-      this.lastIdSuccess = id;
-      this.setState({ messages: null, isFetching: false });
-      return;
-    }
-
-    this.setState({ isFetching: true });
-    try {
-      const messages = await this.fetchSearchMessages(query);
-
-      // Update `state.messages` if this is our new latest result.
-      if (id > this.lastIdSuccess) {
-        this.lastIdSuccess = id;
-        this.setState({ messages });
-      }
-    } finally {
-      // Updating `isFetching` is the same for success or failure.
-      if (id > this.lastIdReceived) {
+      if (this.state.query === '') {
+        // The empty query can be resolved without a network call.
         this.lastIdReceived = id;
-        if (this.lastIdReceived === this.lastIdSent) {
-          this.setState({ isFetching: false });
-        }
-
-        // TODO: if the request failed, should we arrange to display
-        // something to the user?
+        this.lastIdSuccess = id;
+        this.setState({ messages: null, isFetching: false });
+        return;
       }
-    }
+
+      this.setState({ isFetching: true });
+      try {
+        const messages = await this.fetchSearchMessages();
+
+        // Update `state.messages` if this is our new latest result.
+        if (id > this.lastIdSuccess) {
+          this.lastIdSuccess = id;
+          this.setState({ messages });
+        }
+      } finally {
+        // Updating `isFetching` is the same for success or failure.
+        if (id > this.lastIdReceived) {
+          this.lastIdReceived = id;
+          if (this.lastIdReceived === this.lastIdSent) {
+            this.setState({ isFetching: false });
+          }
+
+          // TODO: if the request failed, should we arrange to display
+          // something to the user?
+        }
+      }
+    });
   };
 
   // The real work to be done on a query is async.  This wrapper exists
@@ -121,7 +125,11 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
         searchBarOnChange={this.handleQueryChangeWrapper}
         style={styles.flexed}
       >
-        <SearchMessagesCard messages={messages} isFetching={isFetching} />
+        <SearchMessagesCard
+          messages={messages}
+          isFetching={isFetching}
+          narrow={SEARCH_NARROW(this.state.query)}
+        />
       </Screen>
     );
   }
