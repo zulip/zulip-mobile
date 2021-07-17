@@ -108,8 +108,7 @@ export default function createPersistor (store, config) {
   }
 
   function passWhitelist (key) {
-    if (whitelist.indexOf(key) === -1) return false
-    return true
+    return whitelist.indexOf(key) !== -1
   }
 
   function adhocRehydrate (incoming, options = {}) {
