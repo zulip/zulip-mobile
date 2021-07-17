@@ -8,7 +8,7 @@ export default function createPersistor (store, config) {
   // defaults
   const serializer = config.serialize;
   const deserializer = config.deserialize;
-  const whitelist = config.whitelist || false
+  const whitelist = config.whitelist;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   const storage = config.storage;
@@ -108,7 +108,7 @@ export default function createPersistor (store, config) {
   }
 
   function passWhitelist (key) {
-    if (whitelist && whitelist.indexOf(key) === -1) return false
+    if (whitelist.indexOf(key) === -1) return false
     return true
   }
 

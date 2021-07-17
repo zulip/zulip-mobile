@@ -17,7 +17,7 @@ declare type Storage = {
   ...
 }
 declare type Config = {|
-  whitelist?: Whitelist,
+  whitelist: Whitelist,
   storage?: Storage,
   serialize: Function,
   deserialize: Function,

@@ -12,7 +12,7 @@ export default function getStoredState (config, onComplete) {
   } else {
     deserializer = defaultDeserializer
   }
-  const whitelist = config.whitelist || false
+  const whitelist = config.whitelist
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
   let restoredState = {}
@@ -73,7 +73,7 @@ export default function getStoredState (config, onComplete) {
   }
 
   function passWhitelist (key) {
-    if (whitelist && whitelist.indexOf(key) === -1) return false
+    if (whitelist.indexOf(key) === -1) return false
     return true
   }
 
