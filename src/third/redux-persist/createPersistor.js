@@ -8,7 +8,6 @@ export default function createPersistor (store, config) {
   // defaults
   const serializer = config.serialize;
   const deserializer = config.deserialize;
-  const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
@@ -66,7 +65,7 @@ export default function createPersistor (store, config) {
     // This includes anything already in outstandingKeys, because we don't
     // know what value was last successfully stored for those.
     for (const key of Object.keys(state)) {
-      if (!passWhitelistBlacklist(key)) {
+      if (!passWhitelist(key)) {
         continue;
       }
       if (state[key] === lastWrittenState[key]) {
@@ -108,9 +107,8 @@ export default function createPersistor (store, config) {
     outstandingKeys.clear();
   }
 
-  function passWhitelistBlacklist (key) {
+  function passWhitelist (key) {
     if (whitelist && whitelist.indexOf(key) === -1) return false
-    if (blacklist.indexOf(key) !== -1) return false
     return true
   }
 

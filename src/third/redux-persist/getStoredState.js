@@ -12,7 +12,6 @@ export default function getStoredState (config, onComplete) {
   } else {
     deserializer = defaultDeserializer
   }
-  const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
@@ -35,7 +34,7 @@ export default function getStoredState (config, onComplete) {
     }
 
     let persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))
-    let keysToRestore = persistKeys.filter(passWhitelistBlacklist)
+    let keysToRestore = persistKeys.filter(passWhitelist)
 
     let restoreCount = keysToRestore.length
     if (restoreCount === 0) complete(null, restoredState)
@@ -73,9 +72,8 @@ export default function getStoredState (config, onComplete) {
     onComplete(err, restoredState)
   }
 
-  function passWhitelistBlacklist (key) {
+  function passWhitelist (key) {
     if (whitelist && whitelist.indexOf(key) === -1) return false
-    if (blacklist.indexOf(key) !== -1) return false
     return true
   }
 
