@@ -21,8 +21,8 @@ declare type Config = {|
   blacklist?: Blacklist,
   whitelist?: Whitelist,
   storage?: Storage,
-  serialize?: boolean | Function,
-  deserialize?: boolean | Function,
+  serialize: Function,
+  deserialize: Function,
   keyPrefix?: string,
 |}
 declare type Purge = (keys?: Array<string>) => void

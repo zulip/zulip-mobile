@@ -357,7 +357,6 @@ overrides:
       arrow-body-style: off # `() => { return 1; }` used over `() => 1`
       object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
       no-underscore-dangle: off # various identifiers beginning with '_'
-      import/order: off # imports not ordered a particular way
 
       # function declarations are made (we favor function expressions
       # with `const`), so these functions may be used above the

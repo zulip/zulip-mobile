@@ -1,29 +1,13 @@
-import * as logging from '../../utils/logging';
+import invariant from 'invariant';
 
+import * as logging from '../../utils/logging';
 import { KEY_PREFIX, REHYDRATE } from './constants'
 import purgeStoredState from './purgeStoredState'
-import stringify from 'json-stringify-safe'
-import invariant from 'invariant';
 
 export default function createPersistor (store, config) {
   // defaults
-  let serializer;
-  if (config.serialize === false) {
-    serializer = (data) => data
-  } else if (typeof config.serialize === 'function') {
-    serializer = config.serialize
-  } else {
-    serializer = defaultSerializer
-  }
-
-  let deserializer;
-  if (config.deserialize === false) {
-    deserializer = (data) => data
-  } else if (typeof config.deserialize === 'function') {
-    deserializer = config.deserialize
-  } else {
-    deserializer = defaultDeserializer
-  }
+  const serializer = config.serialize;
+  const deserializer = config.deserialize;
   const blacklist = config.blacklist || []
   const whitelist = config.whitelist || false
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
@@ -169,22 +153,6 @@ export default function createPersistor (store, config) {
      */
     _resetLastWrittenState: () => { lastWrittenState = store.getState() }
   }
-}
-
-function defaultSerializer (data) {
-  return stringify(data, null, null, (k, v) => {
-    if (process.env.NODE_ENV !== 'production') return null
-    throw new Error(`
-      redux-persist: cannot process cyclical state.
-      Consider changing your state structure to have no cycles.
-      Alternatively blacklist the corresponding reducer key.
-      Cycle encounted at key "${k}" with value "${v}".
-    `)
-  })
-}
-
-function defaultDeserializer (serial) {
-  return JSON.parse(serial)
 }
 
 function rehydrateAction (data) {
