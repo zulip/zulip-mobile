@@ -36,6 +36,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed a bug where network or server issues could cause an infinite
+  full-screen loading spinner. It now times out after 60 seconds. (#4165)
+* Search screen now opens at the newest messages, not the oldest. (#4858)
+* "Do not mark messages read on scroll" option is now more discoverable.
+  (#4850)
+* Basic support for polls. More to come! (#3205)
+
+### Highlights for developers
+
+* All object types are now exact or explicitly inexact. (#3452)
+* We're now using @react-native-community/push-notifications-ios instead of
+  two different libraries. (#4115)
+* Resolved issues (latest to earliest): #4165, #4858, #4850, #4849, #3205,
+  part of #4309 (PR #4817), #3244, #3452, parts of #4540 and #2366 (PR
+  #4590), #4657, #4115
 
 ## 27.165 (2021-06-24)
 
