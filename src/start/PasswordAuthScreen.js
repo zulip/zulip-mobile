@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -45,6 +46,11 @@ type State = {|
   progress: boolean,
 |};
 
+/**
+ * A screen with email and password inputs, to log in that way.
+ *
+ * Pads the horizontal insets with its background.
+ */
 class PasswordAuthScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
@@ -105,38 +111,40 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
         keyboardShouldPersistTaps="always"
         shouldShowLoadingBanner={false}
       >
-        <Input
-          autoFocus={email.length === 0}
-          autoCapitalize="none"
-          autoCorrect={false}
-          blurOnSubmit={false}
-          keyboardType={requireEmailFormat ? 'email-address' : 'default'}
-          placeholder={requireEmailFormat ? 'Email' : 'Username'}
-          defaultValue={email}
-          onChangeText={newEmail => this.setState({ email: newEmail })}
-        />
-        <ViewPlaceholder height={8} />
-        <PasswordInput
-          autoFocus={email.length !== 0}
-          placeholder="Password"
-          value={password}
-          onChangeText={newPassword => this.setState({ password: newPassword })}
-          blurOnSubmit={false}
-          onSubmitEditing={this.validateForm}
-        />
-        <ViewPlaceholder height={16} />
-        <ZulipButton
-          disabled={isButtonDisabled}
-          text="Log in"
-          progress={progress}
-          onPress={this.validateForm}
-        />
-        <ErrorMsg error={error} />
-        <View style={styles.linksTouchable}>
-          <RawLabel style={styles.forgotPasswordText}>
-            <WebLink label="Forgot password?" url={new URL('/accounts/password/reset/', realm)} />
-          </RawLabel>
-        </View>
+        <SafeAreaView mode="padding" edges={['right', 'left']}>
+          <Input
+            autoFocus={email.length === 0}
+            autoCapitalize="none"
+            autoCorrect={false}
+            blurOnSubmit={false}
+            keyboardType={requireEmailFormat ? 'email-address' : 'default'}
+            placeholder={requireEmailFormat ? 'Email' : 'Username'}
+            defaultValue={email}
+            onChangeText={newEmail => this.setState({ email: newEmail })}
+          />
+          <ViewPlaceholder height={8} />
+          <PasswordInput
+            autoFocus={email.length !== 0}
+            placeholder="Password"
+            value={password}
+            onChangeText={newPassword => this.setState({ password: newPassword })}
+            blurOnSubmit={false}
+            onSubmitEditing={this.validateForm}
+          />
+          <ViewPlaceholder height={16} />
+          <ZulipButton
+            disabled={isButtonDisabled}
+            text="Log in"
+            progress={progress}
+            onPress={this.validateForm}
+          />
+          <ErrorMsg error={error} />
+          <View style={styles.linksTouchable}>
+            <RawLabel style={styles.forgotPasswordText}>
+              <WebLink label="Forgot password?" url={new URL('/accounts/password/reset/', realm)} />
+            </RawLabel>
+          </View>
+        </SafeAreaView>
       </Screen>
     );
   }

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
 
@@ -41,6 +42,12 @@ type State = {|
   statusText: string,
 |};
 
+/**
+ * A screen for the user to update their status, with suggestions.
+ *
+ * Needs to occupy the horizontal insets because some descendents (the
+ * status suggestions) need to.
+ */
 class UserStatusScreen extends PureComponent<Props, State> {
   static contextType = TranslationContext;
   context: GetText;
@@ -77,14 +84,16 @@ class UserStatusScreen extends PureComponent<Props, State> {
 
     return (
       <Screen title="User status">
-        <Input
-          autoFocus
-          maxLength={60}
-          style={styles.statusTextInput}
-          placeholder="What’s your status?"
-          value={statusText}
-          onChangeText={this.setStatusTextState}
-        />
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          <Input
+            autoFocus
+            maxLength={60}
+            style={styles.statusTextInput}
+            placeholder="What’s your status?"
+            value={statusText}
+            onChangeText={this.setStatusTextState}
+          />
+        </SafeAreaView>
         <FlatList
           data={statusSuggestions}
           keyboardShouldPersistTaps="always"
@@ -101,7 +110,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
             />
           )}
         />
-        <View style={styles.buttonsWrapper}>
+        <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.buttonsWrapper}>
           <ZulipButton
             style={styles.button}
             secondary
@@ -115,7 +124,7 @@ class UserStatusScreen extends PureComponent<Props, State> {
             onPress={this.handleStatusTextUpdate}
             Icon={IconDone}
           />
-        </View>
+        </SafeAreaView>
       </Screen>
     );
   }

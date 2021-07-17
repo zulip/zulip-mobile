@@ -15,6 +15,12 @@ type State = {|
   filter: string,
 |};
 
+/**
+ * A screen for a searchable list of users.
+ *
+ * Covers the horizontal insets because its descendents (the user items
+ * and section headers) need to.
+ */
 export default class UsersScreen extends PureComponent<Props, State> {
   state = {
     filter: '',

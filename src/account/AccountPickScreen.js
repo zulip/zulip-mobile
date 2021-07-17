@@ -2,6 +2,7 @@
 
 import React, { useContext, useCallback } from 'react';
 import { Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import * as api from '../api';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -26,6 +27,11 @@ type Props = $ReadOnly<{|
   route: RouteProp<'account-pick', void>,
 |}>;
 
+/**
+ * A screen to choose an account the app knows about, to make it active.
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default function AccountPickScreen(props: Props) {
   const { navigation } = props;
   const accounts = useSelector(getAccountStatuses);
@@ -84,21 +90,23 @@ export default function AccountPickScreen(props: Props) {
       canGoBack={navigation.canGoBack()}
       shouldShowLoadingBanner={false}
     >
-      <Centerer>
-        {accounts.length === 0 && <Logo />}
-        <AccountList
-          accounts={accounts}
-          onAccountSelect={handleAccountSelect}
-          onAccountRemove={handleAccountRemove}
-        />
-        <ViewPlaceholder height={16} />
-        <ZulipButton
-          text="Add new account"
-          onPress={() => {
-            NavigationService.dispatch(navigateToRealmInputScreen());
-          }}
-        />
-      </Centerer>
+      <SafeAreaView mode="padding" edges={['right', 'left']}>
+        <Centerer>
+          {accounts.length === 0 && <Logo />}
+          <AccountList
+            accounts={accounts}
+            onAccountSelect={handleAccountSelect}
+            onAccountRemove={handleAccountRemove}
+          />
+          <ViewPlaceholder height={16} />
+          <ZulipButton
+            text="Add new account"
+            onPress={() => {
+              NavigationService.dispatch(navigateToRealmInputScreen());
+            }}
+          />
+        </Centerer>
+      </SafeAreaView>
     </Screen>
   );
 }

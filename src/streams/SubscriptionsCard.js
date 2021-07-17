@@ -35,6 +35,12 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * Shows all subscribed streams (pinned ones at top), with unread counts.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * stream items) do.
+ */
 class SubscriptionsCard extends PureComponent<Props> {
   handleNarrow = (streamName: string) => {
     this.props.dispatch(doNarrow(streamNarrow(streamName)));

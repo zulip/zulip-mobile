@@ -12,6 +12,11 @@ type Props = $ReadOnly<{|
   canGoBack?: boolean,
 |}>;
 
+/**
+ * A flavor of top nav / app bar for Screen with search bar and back button.
+ *
+ * Pads the top, right, and left insets with its background.
+ */
 export default function ModalSearchNavBar(props: Props) {
   const { autoFocus, searchBarOnChange, canGoBack = true } = props;
   const { backgroundColor } = useContext(ThemeContext);

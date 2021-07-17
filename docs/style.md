@@ -556,6 +556,15 @@ code where we're using a given aspect of the `display_recipient`
 semantics, which makes refactoring easier.
 
 
+
+<div id="visual-layout-principles" />
+
+### Layout principles
+
+See our [architecture doc on handling safe
+areas](architecture/safe-areas.md) in the visual layout.
+
+
 <div id="webview" />
 
 ## WebView: HTML, CSS, JS

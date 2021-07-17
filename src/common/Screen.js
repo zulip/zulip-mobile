@@ -56,6 +56,8 @@ type Props = $ReadOnly<{|
  * Provides a nav bar, colors the status bar, can center the contents, etc.
  * The `children` are ultimately wrapped in a `ScrollView` from upstream.
  *
+ * Pads the bottom inset with a theme-appropriate background color.
+ *
  * @prop [centerContent] - Should the contents be centered.
  * @prop children - Components to render inside the screen.
  * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.

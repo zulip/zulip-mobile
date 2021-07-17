@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { createSelector } from 'reselect';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePrevious } from '../reactUtils';
 import type { User, UserId, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
@@ -34,6 +35,12 @@ type Props = $ReadOnly<{|
   onComplete: (selected: UserOrBot[]) => void,
 |}>;
 
+/**
+ * A multi-select for users.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 function UserPickerCard(props: Props) {
   const { filter, users, presences } = props;
 
@@ -49,17 +56,21 @@ function UserPickerCard(props: Props) {
     }
   }, [selectedState, prevSelectedState, listRef]);
 
+  const insets = useSafeAreaInsets();
+
   return (
     <View style={styles.wrapper}>
-      <AnimatedScaleComponent visible={selectedState.length > 0}>
-        <AvatarList
-          listRef={listRef}
-          users={selectedState}
-          onPress={(userId: UserId) => {
-            setSelectedState(state => state.filter(x => x.user_id !== userId));
-          }}
-        />
-      </AnimatedScaleComponent>
+      <SafeAreaView mode="margin" edges={['right', 'left']}>
+        <AnimatedScaleComponent visible={selectedState.length > 0}>
+          <AvatarList
+            listRef={listRef}
+            users={selectedState}
+            onPress={(userId: UserId) => {
+              setSelectedState(state => state.filter(x => x.user_id !== userId));
+            }}
+          />
+        </AnimatedScaleComponent>
+      </SafeAreaView>
       {selectedState.length > 0 && <LineSeparator />}
       <UserList
         filter={filter}
@@ -76,7 +87,10 @@ function UserPickerCard(props: Props) {
           });
         }}
       />
-      <AnimatedScaleComponent style={styles.button} visible={selectedState.length > 0}>
+      <AnimatedScaleComponent
+        style={{ ...styles.button, right: styles.button.right + insets.right }}
+        visible={selectedState.length > 0}
+      >
         <FloatingActionButton
           Icon={IconDone}
           size={50}

@@ -23,6 +23,11 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * A screen for editing a stream.
+ *
+ * Needs to occupy the horizontal insets because `EditStreamCard` does.
+ */
 class EditStreamScreen extends PureComponent<Props> {
   handleComplete = (name: string, description: string, isPrivate: boolean) => {
     const { dispatch, stream } = this.props;

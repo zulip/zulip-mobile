@@ -25,7 +25,10 @@ type Props = $ReadOnly<{|
 
 /**
  * A list describing all PM conversations.
- * */
+ *
+ * Needs to occupy the horizontal insets because its descendents (the PM
+ * conversation items) do.
+ */
 export default function PmConversationList(props: Props) {
   const dispatch = useDispatch();
 

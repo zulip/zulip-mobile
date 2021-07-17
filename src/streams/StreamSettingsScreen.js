@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -38,6 +38,12 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * A screen to adjust a stream's settings.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * `SwitchRow`s) do.
+ */
 class StreamSettingsScreen extends PureComponent<Props> {
   handleTogglePinStream = (newValue: boolean) => {
     const { dispatch, stream } = this.props;
@@ -80,7 +86,9 @@ class StreamSettingsScreen extends PureComponent<Props> {
 
     return (
       <Screen title="Stream">
-        <StreamCard stream={stream} subscription={subscription} />
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          <StreamCard stream={stream} subscription={subscription} />
+        </SafeAreaView>
         {subscription && (
           <>
             <SwitchRow
@@ -103,7 +111,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
             />
           </>
         )}
-        <View style={styles.padding}>
+        <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.padding}>
           {isAdmin && (
             <ZulipButton
               style={styles.marginTop}
@@ -135,7 +143,7 @@ class StreamSettingsScreen extends PureComponent<Props> {
               onPress={() => delay(this.handlePressSubscribe)}
             />
           )}
-        </View>
+        </SafeAreaView>
       </Screen>
     );
   }

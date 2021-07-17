@@ -15,6 +15,12 @@ type Props = $ReadOnly<{|
   route: RouteProp<'notifications', void>,
 |}>;
 
+/**
+ * A screen to adjust notification settings.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * `SwitchRow`s) do.
+ */
 export default function NotificationsScreen(props: Props) {
   const auth = useSelector(getAuth);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);

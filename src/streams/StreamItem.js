@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
@@ -43,6 +44,8 @@ type Props = $ReadOnly<{|
  *
  * Many of the props must correspond to certain properties of a Stream or
  * Subscription.
+ *
+ * Pads the horizontal insets with its background.
  *
  * @prop name - the stream's name
  * @prop description - the stream's description
@@ -90,7 +93,7 @@ export default function StreamItem(props: Props) {
 
   return (
     <Touchable onPress={() => onPress(name)}>
-      <View style={wrapperStyle}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={wrapperStyle}>
         <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
         <View style={componentStyles.text}>
           <RawLabel
@@ -120,7 +123,7 @@ export default function StreamItem(props: Props) {
             disabled={!isSubscribed && isPrivate}
           />
         )}
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

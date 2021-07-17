@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
-import { ScrollView, View, Alert } from 'react-native';
+import { ScrollView, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
@@ -101,21 +102,26 @@ type Props = $ReadOnly<{|
  * It does not have a "Send private message" but has "Switch account" and "Log out" buttons.
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
+ *
+ * Needs to occupy the horizontal insets because the away-status switch
+ * does.
  */
 export default function ProfileScreen(props: Props) {
   const ownUser = useSelector(getOwnUser);
 
   return (
     <ScrollView>
-      <AccountDetails user={ownUser} />
+      <SafeAreaView mode="margin" edges={['right', 'left']}>
+        <AccountDetails user={ownUser} />
+      </SafeAreaView>
       <AwayStatusSwitch />
-      <View style={styles.buttonRow}>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.buttonRow}>
         <SetStatusButton />
-      </View>
-      <View style={styles.buttonRow}>
+      </SafeAreaView>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.buttonRow}>
         <SwitchAccountButton />
         <LogoutButton />
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }

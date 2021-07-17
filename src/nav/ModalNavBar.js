@@ -14,6 +14,11 @@ type Props = $ReadOnly<{|
   title: LocalizableText,
 |}>;
 
+/**
+ * A flavor of top nav bar / app bar for Screen, with title and back button.
+ *
+ * Pads the top, right, and left insets with its background.
+ */
 export default function ModalNavBar(props: Props) {
   const { canGoBack, title } = props;
   const { backgroundColor } = useContext(ThemeContext);

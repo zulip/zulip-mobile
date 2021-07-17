@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Keyboard } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -22,6 +23,11 @@ type State = {|
   progress: boolean,
 |};
 
+/**
+ * A screen for entering a server URL to connect to, before authenticating.
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default class RealmInputScreen extends PureComponent<Props, State> {
   state = {
     progress: false,
@@ -81,29 +87,31 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
         keyboardShouldPersistTaps="always"
         shouldShowLoadingBanner={false}
       >
-        <Label text="Enter your Zulip server URL:" />
-        <SmartUrlInput
-          style={styles.input}
-          navigation={navigation}
-          defaultProtocol="https://"
-          defaultOrganization="your-org"
-          defaultDomain="zulipchat.com"
-          onChangeText={this.handleRealmChange}
-          onSubmitEditing={this.tryRealm}
-          enablesReturnKeyAutomatically
-        />
-        {error !== null ? (
-          <ErrorMsg error={error} />
-        ) : (
-          <Label text="e.g. zulip.example.com" style={styles.hintText} />
-        )}
-        <ZulipButton
-          style={styles.button}
-          text="Enter"
-          progress={progress}
-          onPress={this.tryRealm}
-          disabled={tryParseUrl(realmInputValue) === undefined}
-        />
+        <SafeAreaView mode="padding" edges={['right', 'left']}>
+          <Label text="Enter your Zulip server URL:" />
+          <SmartUrlInput
+            style={styles.input}
+            navigation={navigation}
+            defaultProtocol="https://"
+            defaultOrganization="your-org"
+            defaultDomain="zulipchat.com"
+            onChangeText={this.handleRealmChange}
+            onSubmitEditing={this.tryRealm}
+            enablesReturnKeyAutomatically
+          />
+          {error !== null ? (
+            <ErrorMsg error={error} />
+          ) : (
+            <Label text="e.g. zulip.example.com" style={styles.hintText} />
+          )}
+          <ZulipButton
+            style={styles.button}
+            text="Enter"
+            progress={progress}
+            onPress={this.tryRealm}
+            disabled={tryParseUrl(realmInputValue) === undefined}
+          />
+        </SafeAreaView>
       </Screen>
     );
   }

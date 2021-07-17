@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -38,6 +39,11 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+/**
+ * Details about a selected user.
+ *
+ * Pads the horizontal insets with its background.
+ */
 class AccountDetailsScreen extends PureComponent<Props> {
   handleChatPress = () => {
     const { user, dispatch } = this.props;
@@ -56,16 +62,18 @@ class AccountDetailsScreen extends PureComponent<Props> {
 
     return (
       <Screen title={title}>
-        <AccountDetails user={user} />
-        {!isActive && (
-          <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
-        )}
-        <ZulipButton
-          style={styles.pmButton}
-          text={isActive ? 'Send private message' : 'View private messages'}
-          onPress={this.handleChatPress}
-          Icon={IconPrivateChat}
-        />
+        <SafeAreaView mode="padding" edges={['right', 'left']}>
+          <AccountDetails user={user} />
+          {!isActive && (
+            <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
+          )}
+          <ZulipButton
+            style={styles.pmButton}
+            text={isActive ? 'Send private message' : 'View private messages'}
+            onPress={this.handleChatPress}
+            Icon={IconPrivateChat}
+          />
+        </SafeAreaView>
       </Screen>
     );
   }

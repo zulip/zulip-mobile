@@ -19,6 +19,11 @@ type Props = $ReadOnly<{|
   ownEmail: string,
 |}>;
 
+/**
+ * A screen for creating a new stream.
+ *
+ * Needs to occupy the horizontal insets because `EditStreamCard` does.
+ */
 class CreateStreamScreen extends PureComponent<Props> {
   handleComplete = (name: string, description: string, isPrivate: boolean) => {
     const { dispatch, ownEmail } = this.props;

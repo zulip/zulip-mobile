@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
@@ -17,6 +17,11 @@ type Props = $ReadOnly<{|
   text: string,
 |}>;
 
+/**
+ * (TODO: Is this meant to be reusable? How?)
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default class SectionHeader extends PureComponent<Props> {
   static contextType = ThemeContext;
   context: ThemeData;
@@ -24,9 +29,13 @@ export default class SectionHeader extends PureComponent<Props> {
   render() {
     const { text } = this.props;
     return (
-      <View style={[styles.header, { backgroundColor: this.context.backgroundColor }]}>
+      <SafeAreaView
+        mode="padding"
+        edges={['right', 'left']}
+        style={[styles.header, { backgroundColor: this.context.backgroundColor }]}
+      >
         <Label text={text} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

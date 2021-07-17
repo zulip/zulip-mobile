@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback, useContext } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
@@ -25,7 +25,9 @@ type Props<U> = $ReadOnly<{|
 
 /**
  * A list item describing one group PM conversation.
- * */
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(props: Props<U>) {
   const { users, unreadCount, onPress } = props;
 
@@ -41,7 +43,7 @@ export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(pr
 
   return (
     <Touchable onPress={handlePress}>
-      <View style={styles.listItem}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.listItem}>
         <GroupAvatar size={48} names={names} />
         <RawLabel
           style={componentStyles.text}
@@ -50,7 +52,7 @@ export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(pr
           text={names.join(', ')}
         />
         <UnreadCount count={unreadCount} />
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

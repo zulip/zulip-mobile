@@ -46,6 +46,12 @@ type Props = $ReadOnly<{|
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;
 
+/**
+ * TODO: Split into two components; #3767
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * stream items) do.
+ */
 export default class StreamList extends PureComponent<Props> {
   static defaultProps = {
     showDescriptions: false,

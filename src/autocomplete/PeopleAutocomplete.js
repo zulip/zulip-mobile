@@ -80,6 +80,9 @@ export default function PeopleAutocomplete(props: Props) {
         // synthetic "users" to represent @all and @everyone.
         // TODO display those in a UI that makes more sense for them,
         //   and drop the fake "users" and use the normal UserItem.
+        // TODO: Make and use a new user-item component with no padding for
+        //   the insets. The rows' content should be bounded by the popup,
+        //   which renders within the safe area.
         <UserItemRaw
           key={item.user_id}
           user={item}

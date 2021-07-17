@@ -33,6 +33,9 @@ export default function EmojiAutocomplete(props: Props) {
         data={emojiNames.slice(0, MAX_CHOICES)}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
+          // TODO: Make and use a new emoji-item component with no padding
+          //   for the insets. The rows' content should be bounded by the
+          //   popup, which renders within the safe area.
           <EmojiRow
             type={item.emoji_type}
             code={item.code}

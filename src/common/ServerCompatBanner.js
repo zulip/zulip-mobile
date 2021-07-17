@@ -44,6 +44,8 @@ type Props = $ReadOnly<{||}>;
 
 /**
  * A "nag banner" saying the server version is unsupported, if so.
+ *
+ * Pads the horizontal insets with its background.
  */
 // Made with somewhat careful attention to
 // https://material.io/components/banners. Please consult that before making

@@ -17,6 +17,13 @@ type Props = $ReadOnly<{|
   presences: PresenceState,
 |}>;
 
+/**
+ * (TODO: usefulness of these "card" components as separate from "screen"
+ * components?)
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 class UsersCard extends PureComponent<Props> {
   handleUserNarrow = (user: UserOrBot) => {
     const { dispatch } = this.props;

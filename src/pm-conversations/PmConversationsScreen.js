@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
@@ -40,14 +41,17 @@ type Props = $ReadOnly<{|
 
 /**
  * The "PMs" page in the main tabs navigation.
- * */
+ *
+ * Needs to occupy the horizontal insets because its descendents (the PM
+ * conversation items) do.
+ */
 export default function PmConversationsScreen(props: Props) {
   const conversations = useSelector(getRecentConversations);
   const context = useContext(ThemeContext);
 
   return (
     <View style={[styles.container, { backgroundColor: context.backgroundColor }]}>
-      <View style={styles.row}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.row}>
         <ZulipButton
           secondary
           Icon={IconPeople}
@@ -66,7 +70,7 @@ export default function PmConversationsScreen(props: Props) {
             setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
           }}
         />
-      </View>
+      </SafeAreaView>
       <LoadingBanner />
       {conversations.length === 0 ? (
         <Label style={styles.emptySlate} text="No recent conversations" />
