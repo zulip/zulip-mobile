@@ -350,7 +350,6 @@ overrides:
   # We leave this code in the style we received it in.
   - files: ['src/third/redux-persist/**']
     rules:
-      semi: off # semicolons are omitted
       curly: off # one-line `if`s and `else`s without semicolons
       nonblock-statement-body-position: off # same reason as `curly`
       space-before-function-paren: off # `function myFunc (arg1) { ... }`

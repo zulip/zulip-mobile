@@ -1,35 +1,35 @@
 import * as logging from '../../utils/logging';
 import { cacheKeys } from '../../boot/store';
 
-import { REHYDRATE } from './constants'
-import getStoredState from './getStoredState'
-import createPersistor from './createPersistor'
-import setImmediate from './utils/setImmediate'
+import { REHYDRATE } from './constants';
+import getStoredState from './getStoredState';
+import createPersistor from './createPersistor';
+import setImmediate from './utils/setImmediate';
 
 export default function persistStore (store, config = {}, onComplete) {
   // defaults
   // @TODO remove shouldRestore
-  const shouldRestore = !config.skipRestore
-  if (config.skipRestore) logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead')
+  const shouldRestore = !config.skipRestore;
+  if (config.skipRestore) logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead');
 
-  let purgeKeys = null
+  let purgeKeys = null;
 
   // create and pause persistor
-  const persistor = createPersistor(store, config)
-  persistor.pause()
+  const persistor = createPersistor(store, config);
+  persistor.pause();
 
   // restore
   if (shouldRestore) {
     setImmediate(() => {
       getStoredState(config, async (err, restoredState) => {
         if (err) {
-          complete(err)
-          return
+          complete(err);
+          return;
         }
         // do not persist state for purgeKeys
         if (purgeKeys) {
-          if (purgeKeys === '*') restoredState = {}
-          else purgeKeys.forEach((key) => delete restoredState[key])
+          if (purgeKeys === '*') restoredState = {};
+          else purgeKeys.forEach((key) => delete restoredState[key]);
         }
         try {
           // The version (in redux-persist-migrate's terms) that was
@@ -51,7 +51,7 @@ export default function persistStore (store, config = {}, onComplete) {
             await persistor.purge(cacheKeys);
           }
 
-          store.dispatch(rehydrateAction(restoredState, err))
+          store.dispatch(rehydrateAction(restoredState, err));
 
           // The version (in redux-persist-migrate's terms) that is
           // current now, after rehydration.
@@ -94,17 +94,17 @@ export default function persistStore (store, config = {}, onComplete) {
             // result of `REHYDRATE` when the persistor is paused; we
             // can do that because we've exposed `_resetLastWrittenState` on
             // the persistor.
-            persistor._resetLastWrittenState() // eslint-disable-line no-underscore-dangle
+            persistor._resetLastWrittenState(); // eslint-disable-line no-underscore-dangle
           }
         } finally {
-          complete(err, restoredState)
+          complete(err, restoredState);
         }
-      })
-    })
-  } else setImmediate(complete)
+      });
+    });
+  } else setImmediate(complete);
 
   function complete (err, restoredState) {
-    persistor.resume()
+    persistor.resume();
 
     // As mentioned in a comment above, the current strategy of using
     // `.pause()` and `.resume()` means that the time at which the
@@ -124,17 +124,17 @@ export default function persistStore (store, config = {}, onComplete) {
     });
 
     if (onComplete) {
-      onComplete(err, restoredState)
+      onComplete(err, restoredState);
     }
   }
 
   return {
     ...persistor,
     purge: (keys) => {
-      purgeKeys = keys || '*'
-      return persistor.purge(keys)
+      purgeKeys = keys || '*';
+      return persistor.purge(keys);
     }
-  }
+  };
 }
 
 function rehydrateAction (payload, error = null) {
@@ -142,5 +142,5 @@ function rehydrateAction (payload, error = null) {
     type: REHYDRATE,
     payload,
     error
-  }
+  };
 }

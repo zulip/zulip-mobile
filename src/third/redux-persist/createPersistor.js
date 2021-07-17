@@ -1,23 +1,23 @@
 import invariant from 'invariant';
 
 import * as logging from '../../utils/logging';
-import { KEY_PREFIX, REHYDRATE } from './constants'
-import purgeStoredState from './purgeStoredState'
+import { KEY_PREFIX, REHYDRATE } from './constants';
+import purgeStoredState from './purgeStoredState';
 
 export default function createPersistor (store, config) {
   // defaults
   const serializer = config.serialize;
   const deserializer = config.deserialize;
   const whitelist = config.whitelist;
-  const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
+  const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
 
   const storage = config.storage;
 
-  let paused = false
-  let writeInProgress = false
+  let paused = false;
+  let writeInProgress = false;
 
   // This is the last state we've attempted to write out.
-  let lastWrittenState = {}
+  let lastWrittenState = {};
 
   // These are the keys for which we have a failed, or not yet completed,
   // write since the last successful write.
@@ -27,7 +27,7 @@ export default function createPersistor (store, config) {
     if (paused) return;
 
     write();
-  })
+  });
 
   async function write() {
     // Take the lock…
@@ -73,7 +73,7 @@ export default function createPersistor (store, config) {
       }
       outstandingKeys.add(key);
     }
-    lastWrittenState = state
+    lastWrittenState = state;
 
     if (outstandingKeys.size === 0) {
       // `multiSet` doesn't like an empty array, so return early.
@@ -81,9 +81,9 @@ export default function createPersistor (store, config) {
     }
 
     // Serialize those keys' subtrees, with yields after each one.
-    const writes = []
+    const writes = [];
     for (const key of outstandingKeys) {
-      writes.push([createStorageKey(key), serializer(state[key])])
+      writes.push([createStorageKey(key), serializer(state[key])]);
       await new Promise(r => setTimeout(r, 0));
     }
 
@@ -100,7 +100,7 @@ export default function createPersistor (store, config) {
           keys: [...outstandingKeys.values()],
         }
       );
-      throw e
+      throw e;
     }
 
     // Record success.
@@ -108,31 +108,31 @@ export default function createPersistor (store, config) {
   }
 
   function adhocRehydrate (incoming, options = {}) {
-    let state = {}
+    let state = {};
     if (options.serial) {
       Object.keys(incoming).forEach((key) => {
-        const subState = incoming[key]
+        const subState = incoming[key];
         try {
-          state[key] = deserializer(subState)
+          state[key] = deserializer(subState);
         } catch (err) {
-          logging.warn(err, { message: 'Error rehydrating data for a key', key })
+          logging.warn(err, { message: 'Error rehydrating data for a key', key });
         }
-      })
-    } else state = incoming
+      });
+    } else state = incoming;
 
-    store.dispatch(rehydrateAction(state))
-    return state
+    store.dispatch(rehydrateAction(state));
+    return state;
   }
 
   function createStorageKey (key) {
-    return `${keyPrefix}${key}`
+    return `${keyPrefix}${key}`;
   }
 
   // return `persistor`
   return {
     rehydrate: adhocRehydrate,
-    pause: () => { paused = true },
-    resume: () => { paused = false },
+    pause: () => { paused = true; },
+    resume: () => { paused = false; },
     purge: (keys) => purgeStoredState({storage, keyPrefix}, keys),
 
     /**
@@ -142,13 +142,13 @@ export default function createPersistor (store, config) {
      * update with the results of `REHYDRATE` even when the persistor is
      * paused.
      */
-    _resetLastWrittenState: () => { lastWrittenState = store.getState() }
-  }
+    _resetLastWrittenState: () => { lastWrittenState = store.getState(); }
+  };
 }
 
 function rehydrateAction (data) {
   return {
     type: REHYDRATE,
     payload: data
-  }
+  };
 }
