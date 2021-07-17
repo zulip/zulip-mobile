@@ -7,12 +7,9 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 target 'ZulipMobile' do
-  # Pods from React Native
-  use_react_native!
+  config = use_native_modules!
 
-  # "Autolinking": automatically link pods that depend on React
-  # Native, unless omitted in our own `react-native.config.js`.
-  use_native_modules!
+  use_react_native!(:path => config[:reactNativePath])
 
   # Enables Flipper.
   #

@@ -7,10 +7,6 @@
 ; Ignore polyfills
 node_modules/react-native/Libraries/polyfills/.*
 
-; These should not be required directly
-; require from fbjs/lib instead: require('fbjs/lib/warning')
-node_modules/warning/.*
-
 ; Flow doesn't support platforms
 .*/Libraries/Utilities/LoadingView.js
 
@@ -85,7 +81,6 @@ deprecated-type=warn
 unsafe-getters-setters=warn
 unnecessary-invariant=warn
 signature-verification-failure=warn
-deprecated-utility=error
 
 ; ours
 sketchy-number=error

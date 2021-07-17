@@ -13,4 +13,5 @@ module.exports = {
   parser: 'babel-flow',
   singleQuote: true,
   trailingComma: 'all',
+  arrowParens: 'avoid',
 };
