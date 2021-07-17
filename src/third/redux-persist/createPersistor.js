@@ -30,43 +30,75 @@ export default function createPersistor (store, config) {
   const storage = config.storage;
 
   // initialize stateful values
-  let lastState = {}
+  let lastWrittenState = {}
   let paused = false
-  let storesToProcess = []
-  let timeIterator = null
+  let writeInProgress = false
 
   store.subscribe(() => {
-    if (paused) return
+    if (paused || writeInProgress) return;
 
-    const state = store.getState()
+    write();
+  })
 
-    Object.keys(state).forEach((key) => {
-      if (!passWhitelistBlacklist(key)) return
-      if (lastState[key] === state[key]) return
-      if (storesToProcess.indexOf(key) !== -1) return
-      storesToProcess.push(key)
-    })
+  async function write() {
+    // Take the lock.
+    writeInProgress = true;
+    // Then yield so the `subscribe` callback can promptly return.
+    await new Promise(r => setTimeout(r, 0));
 
-    const len = storesToProcess.length
+    try {
+      let state = undefined;
+      // eslint-disable-next-line no-cond-assign
+      while ((state = store.getState()) !== lastWrittenState) {
+        await writeOnce(state);
+      }
+    } finally {
+      // Release the lock, so the next `subscribe` will start the loop again.
+      writeInProgress = false;
+    }
+  }
 
-    // time iterator (read: debounce)
-    if (timeIterator === null) {
-      timeIterator = setInterval(() => {
-        if ((paused && len === storesToProcess.length) || storesToProcess.length === 0) {
-          clearInterval(timeIterator)
-          timeIterator = null
-          return
-        }
-
-        const key = storesToProcess.shift()
-        const storageKey = createStorageKey(key)
-        const endState = store.getState()[key]
-        storage.setItem(storageKey, serializer(endState)).catch(warnIfSetError(key))
-      }, 0)
+  /**
+   * Update the storage to the given state.
+   *
+   * The storage is assumed to already reflect `lastWrittenState`.
+   * On completion, sets `lastWrittenState` to `state`.
+   */
+  async function writeOnce(state) {
+    // Atomically collect the subtrees that need to be written out.
+    const updatedSubstates = [];
+    for (const key of Object.keys(state)) {
+      if (state[key] === lastWrittenState[key] || !passWhitelistBlacklist(key)) {
+        continue;
+      }
+      updatedSubstates.push([key, state[key]]);
     }
 
-    lastState = state
-  })
+    // Serialize those subtrees, with yields after each one.
+    const writes = []
+    for (const [key, substate] of updatedSubstates) {
+      writes.push([key, serializer(substate)])
+      await new Promise(r => setTimeout(r, 0));
+    }
+
+    // Write them all out, in one `storage.multiSet` operation.
+    try {
+      // Warning: not guaranteed to be done in a transaction.
+      await storage.multiSet(
+        writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+      )
+    } catch (e) {
+      logging.warn(
+        'An error (below) was encountered while trying to persist this set of keys:',
+        updatedSubstates.map(([key]) => key).join(', ')
+      );
+      logging.warn(e);
+      throw e
+    }
+
+    // Record success.
+    lastWrittenState = state
+  }
 
   function passWhitelistBlacklist (key) {
     if (whitelist && whitelist.indexOf(key) === -1) return false
@@ -107,13 +139,7 @@ export default function createPersistor (store, config) {
     // Only used in `persistStore`, to force `lastState` to update
     // with the results of `REHYDRATE` even when the persistor is
     // paused.
-    _resetLastState: () => { lastState = store.getState() }
-  }
-}
-
-function warnIfSetError (key) {
-  return function setError (err) {
-    if (err) { logging.warn('Error storing data for key:', key, err) }
+    _resetLastState: () => { lastWrittenState = store.getState() }
   }
 }
 
