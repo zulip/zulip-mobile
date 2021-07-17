@@ -10,7 +10,9 @@ export default function persistStore (store, config = {}, onComplete) {
   // defaults
   // @TODO remove shouldRestore
   const shouldRestore = !config.skipRestore;
-  if (config.skipRestore) logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead');
+  if (config.skipRestore) {
+    logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead');
+  }
 
   let purgeKeys = null;
 
@@ -28,8 +30,11 @@ export default function persistStore (store, config = {}, onComplete) {
         }
         // do not persist state for purgeKeys
         if (purgeKeys) {
-          if (purgeKeys === '*') restoredState = {};
-          else purgeKeys.forEach((key) => delete restoredState[key]);
+          if (purgeKeys === '*') {
+            restoredState = {};
+          } else {
+            purgeKeys.forEach((key) => delete restoredState[key]);
+          }
         }
         try {
           // The version (in redux-persist-migrate's terms) that was
@@ -101,7 +106,9 @@ export default function persistStore (store, config = {}, onComplete) {
         }
       });
     });
-  } else setImmediate(complete);
+  } else {
+    setImmediate(complete);
+  }
 
   function complete (err, restoredState) {
     persistor.resume();

@@ -40,7 +40,9 @@ export default function getStoredState (config, onComplete) {
     const keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1);
 
     const restoreCount = keysToRestore.length;
-    if (restoreCount === 0) onComplete(null, restoredState);
+    if (restoreCount === 0) {
+      onComplete(null, restoredState);
+    }
     keysToRestore.forEach((key) => {
       (async () => {
         let err = null;
@@ -50,10 +52,15 @@ export default function getStoredState (config, onComplete) {
         } catch (e) {
           err = e;
         }
-        if (err) logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key});
-        else restoredState[key] = rehydrate(key, serialized);
+        if (err) {
+          logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key});
+        } else {
+          restoredState[key] = rehydrate(key, serialized);
+        }
         completionCount += 1;
-        if (completionCount === restoreCount) onComplete(null, restoredState);
+        if (completionCount === restoreCount) {
+          onComplete(null, restoredState);
+        }
       })();
     });
   })();
@@ -78,8 +85,11 @@ export default function getStoredState (config, onComplete) {
   if (typeof onComplete !== 'function' && !!Promise) {
     return new Promise((resolve, reject) => {
       onComplete = (err, restoredState) => {
-        if (err) reject(err);
-        else resolve(restoredState);
+        if (err) {
+          reject(err);
+        } else {
+          resolve(restoredState);
+        }
       };
     });
   }

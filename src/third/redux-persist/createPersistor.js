@@ -24,14 +24,18 @@ export default function createPersistor (store, config) {
   const outstandingKeys = new Set();
 
   store.subscribe(() => {
-    if (paused) return;
+    if (paused) {
+      return;
+    }
 
     write();
   });
 
   async function write() {
     // Take the lock…
-    if (writeInProgress) return;
+    if (writeInProgress) {
+      return;
+    }
     writeInProgress = true;
     try {
       // … and immediately enter a try/finally to release it.
@@ -118,7 +122,9 @@ export default function createPersistor (store, config) {
           logging.warn(err, { message: 'Error rehydrating data for a key', key });
         }
       });
-    } else state = incoming;
+    } else {
+      state = incoming;
+    }
 
     store.dispatch(rehydrateAction(state));
     return state;
