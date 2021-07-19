@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -19,25 +19,26 @@ type Props = $ReadOnly<{|
   ownEmail: string,
 |}>;
 
-class CreateStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
-    const { dispatch, ownEmail } = this.props;
+function CreateStreamScreen(props: Props) {
+  const { dispatch, ownEmail } = props;
 
-    dispatch(createNewStream(name, description, [ownEmail], isPrivate));
-    NavigationService.dispatch(navigateBack());
-  };
+  const handleComplete = useCallback(
+    (name: string, description: string, isPrivate: boolean) => {
+      dispatch(createNewStream(name, description, [ownEmail], isPrivate));
+      NavigationService.dispatch(navigateBack());
+    },
+    [ownEmail, dispatch],
+  );
 
-  render() {
-    return (
-      <Screen title="Create new stream" padding>
-        <EditStreamCard
-          isNewStream
-          initialValues={{ name: '', description: '', invite_only: false }}
-          onComplete={this.handleComplete}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Create new stream" padding>
+      <EditStreamCard
+        isNewStream
+        initialValues={{ name: '', description: '', invite_only: false }}
+        onComplete={handleComplete}
+      />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
