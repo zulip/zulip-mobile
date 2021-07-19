@@ -388,18 +388,18 @@ export type PmConversationData = {|
  *
  * Note: Keep in sync with platform-native code.
  */
-export type SharedText = {|
+type SharedText = {|
   type: 'text',
   sharedText: string,
 |};
 
-export type SharedImage = {|
+type SharedImage = {|
   type: 'image',
   sharedImageUrl: string,
   fileName: string,
 |};
 
-export type SharedFile = {|
+type SharedFile = {|
   type: 'file',
   sharedFileUrl: string,
   fileName: string,
