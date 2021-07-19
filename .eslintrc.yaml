@@ -358,8 +358,6 @@ overrides:
       object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
       no-underscore-dangle: off # various identifiers beginning with '_'
       import/order: off # imports not ordered a particular way
-      func-names: off # anonymous non-arrow functions sometimes used
-      object-shorthand: off # ES6 object method syntax not used
 
       # function declarations are made (we favor function expressions
       # with `const`), so these functions may be used above the
@@ -367,15 +365,9 @@ overrides:
       # style without addressing this!
       no-use-before-define: off
 
-      no-console: off
       prefer-const: off # `let` is sometimes used unnecessarily
       consistent-return: off # defense against accidental `undefined` return
       no-unused-expressions: off # `myFn && myFn()` used
-      no-var: off # var is rarely, but sometimes, used (avoid new uses)
-
-      # a few `var`s not *quite* at the top of function scope (they're
-      # very near to it); no bugs known to result from this
-      vars-on-top: off
 
       # a few variables already declared in upper scope; no bugs known
       # to result from this
