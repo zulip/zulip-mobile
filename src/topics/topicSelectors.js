@@ -7,6 +7,7 @@ import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
+import { isTopicMuted } from '../mute/muteModel';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
   (state, narrow) => narrow,
@@ -43,7 +44,7 @@ export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSe
     }
 
     return topicList.map(({ name, max_id }) => {
-      const isMuted = !!mute.find(x => x[0] === stream.name && x[1] === name);
+      const isMuted = isTopicMuted(stream.name, name, mute);
       const unreadCount = getUnreadCountForTopic(unread, stream.stream_id, name);
       return { name, max_id, isMuted, unreadCount };
     });

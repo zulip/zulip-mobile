@@ -154,7 +154,7 @@ export const getUnreadStreamsAndTopics: Selector<UnreadStreamItem[]> = createSel
       totals.set(streamId, total);
 
       for (const [topic, msgIds] of streamData) {
-        const isMuted = !mute.every(x => x[0] !== name || x[1] !== topic);
+        const isMuted = isTopicMuted(name, topic, mute);
         if (!isMuted) {
           total.unread += msgIds.size;
         }

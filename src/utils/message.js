@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { isTopicMuted } from '../mute/muteModel';
 import type { Narrow, Message, MuteState, Outbox, Subscription } from '../types';
 import { isHomeNarrow, isTopicNarrow, isMentionedNarrow } from './narrow';
 import { streamNameOfStreamMessage } from './recipient';
@@ -42,5 +43,5 @@ export const shouldBeMuted = (
     }
   }
 
-  return mutes.some(x => x[0] === streamName && x[1] === message.subject);
+  return isTopicMuted(streamName, message.subject, mutes);
 };
