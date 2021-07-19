@@ -123,7 +123,9 @@ export default function persistStore (store, config = {}, onComplete) {
       type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`
     });
 
-    onComplete && onComplete(err, restoredState)
+    if (onComplete) {
+      onComplete(err, restoredState)
+    }
   }
 
   return {

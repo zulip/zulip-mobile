@@ -363,7 +363,6 @@ overrides:
       no-use-before-define: off
 
       prefer-const: off # `let` is sometimes used unnecessarily
-      no-unused-expressions: off # `myFn && myFn()` used
 
       # a few variables already declared in upper scope; no bugs known
       # to result from this
