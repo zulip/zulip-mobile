@@ -7,7 +7,7 @@ export default function autoRehydrate (config = {}) {
   const stateReconciler = config.stateReconciler || defaultStateReconciler
 
   return (next) => (reducer, initialState, enhancer) => {
-    let store = next(liftReducer(reducer), initialState, enhancer)
+    const store = next(liftReducer(reducer), initialState, enhancer)
     return {
       ...store,
       replaceReducer: (reducer) => store.replaceReducer(liftReducer(reducer))
@@ -16,7 +16,7 @@ export default function autoRehydrate (config = {}) {
 
   function liftReducer (reducer) {
     let rehydrated = false
-    let preRehydrateActions = []
+    const preRehydrateActions = []
     return (state, action) => {
       if (action.type !== REHYDRATE) {
         if (config.log && !rehydrated) preRehydrateActions.push(action) // store pre-rehydrate actions for debugging
@@ -25,8 +25,8 @@ export default function autoRehydrate (config = {}) {
         if (config.log && !rehydrated) logPreRehydrate(preRehydrateActions)
         rehydrated = true
 
-        let inboundState = action.payload
-        let reducedState = reducer(state, action)
+        const inboundState = action.payload
+        const reducedState = reducer(state, action)
 
         return stateReconciler(state, inboundState, reducedState, config.log)
       }
@@ -46,7 +46,7 @@ function logPreRehydrate (preRehydrateActions) {
 }
 
 function defaultStateReconciler (state, inboundState, reducedState, log) {
-  let newState = {...reducedState}
+  const newState = {...reducedState}
 
   Object.keys(inboundState).forEach((key) => {
     // if initialState does not have key, skip auto rehydration

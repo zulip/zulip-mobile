@@ -6,7 +6,7 @@ import { KEY_PREFIX } from './constants'
 //   after these files are covered by Flow.
 // eslint-disable-next-line consistent-return
 export default function getStoredState (config, onComplete) {
-  let storage = config.storage
+  const storage = config.storage
   let deserializer;
   if (config.deserialize === false) {
     deserializer = (data) => data
@@ -18,7 +18,7 @@ export default function getStoredState (config, onComplete) {
   const whitelist = config.whitelist
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX
 
-  let restoredState = {}
+  const restoredState = {}
   let completionCount = 0;
 
   (async () => {
@@ -36,10 +36,10 @@ export default function getStoredState (config, onComplete) {
       return
     }
 
-    let persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))
-    let keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1)
+    const persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))
+    const keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1)
 
-    let restoreCount = keysToRestore.length
+    const restoreCount = keysToRestore.length
     if (restoreCount === 0) onComplete(null, restoredState)
     keysToRestore.forEach((key) => {
       (async () => {
@@ -62,7 +62,7 @@ export default function getStoredState (config, onComplete) {
     let state = null
 
     try {
-      let data = deserializer(serialized)
+      const data = deserializer(serialized)
       state = data
     } catch (err) {
       logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key })

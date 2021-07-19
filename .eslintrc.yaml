@@ -362,8 +362,6 @@ overrides:
       # style without addressing this!
       no-use-before-define: off
 
-      prefer-const: off # `let` is sometimes used unnecessarily
-
       # a few variables already declared in upper scope; no bugs known
       # to result from this
       no-shadow: off
