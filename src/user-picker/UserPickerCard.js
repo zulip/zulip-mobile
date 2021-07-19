@@ -4,9 +4,9 @@ import { View, FlatList } from 'react-native';
 import { createSelector } from 'reselect';
 
 import { usePrevious } from '../reactUtils';
-import type { User, UserId, UserOrBot, PresenceState, Selector, Dispatch } from '../types';
+import type { User, UserId, UserOrBot, Selector } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { FloatingActionButton, LineSeparator } from '../common';
 import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
@@ -27,9 +27,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  users: User[],
-  presences: PresenceState,
   filter: string,
   onComplete: (selected: UserOrBot[]) => void,
 |}>;
@@ -42,8 +39,11 @@ const getUsersToShow: Selector<User[]> = createSelector(
   (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
 );
 
-function UserPickerCard(props: Props) {
-  const { filter, users, presences } = props;
+export default function UserPickerCard(props: Props) {
+  const { filter } = props;
+
+  const users = useSelector(getUsersToShow);
+  const presences = useSelector(getPresence);
 
   const [selectedState, setSelectedState] = useState<UserOrBot[]>([]);
   const listRef = useRef<FlatList<UserOrBot> | null>(null);
@@ -98,8 +98,3 @@ function UserPickerCard(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  users: getUsersToShow(state),
-  presences: getPresence(state),
-}))(UserPickerCard);
