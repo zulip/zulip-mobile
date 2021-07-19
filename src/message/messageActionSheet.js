@@ -24,7 +24,7 @@ import {
   isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
-import { isTopicMuted } from '../utils/message';
+import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';

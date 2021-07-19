@@ -6,7 +6,7 @@ import { caseInsensitiveCompareFunc } from '../utils/misc';
 import { getMute, getStreams } from '../directSelectors';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
-import { isTopicMuted } from '../utils/message';
+import { isTopicMuted } from '../mute/muteModel';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
