@@ -163,7 +163,7 @@ class ShareToPm extends React.Component<Props, State> {
 
     return (
       <>
-        <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always">
+        <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>{sharePreview}</View>
           <View style={styles.usersPreview}>{this.renderUsersPreview()}</View>
           <ZulipButton
