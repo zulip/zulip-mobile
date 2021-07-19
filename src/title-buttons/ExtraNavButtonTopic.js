@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { Dispatch, Narrow, Stream } from '../types';
 import { connect } from '../react-redux';
@@ -16,21 +16,18 @@ type Props = $ReadOnly<{|
   streams: Stream[],
 |}>;
 
-class ExtraNavButtonTopic extends PureComponent<Props> {
-  handlePress = () => {
-    const { dispatch, narrow, streams } = this.props;
+function ExtraNavButtonTopic(props: Props) {
+  const { dispatch, narrow, streams, color } = props;
+
+  const handlePress = useCallback(() => {
     const streamName = streamNameOfNarrow(narrow);
     const stream = streams.find(x => x.name === streamName);
     if (stream) {
       dispatch(doNarrow(streamNarrow(stream.name)));
     }
-  };
+  }, [dispatch, narrow, streams]);
 
-  render() {
-    const { color } = this.props;
-
-    return <NavButton name="arrow-up" color={color} onPress={this.handlePress} />;
-  }
+  return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
 }
 
 export default connect(state => ({
