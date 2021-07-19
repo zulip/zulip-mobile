@@ -65,7 +65,7 @@ export default function createPersistor (store, config) {
     // This includes anything already in outstandingKeys, because we don't
     // know what value was last successfully stored for those.
     for (const key of Object.keys(state)) {
-      if (!passWhitelist(key)) {
+      if (whitelist.indexOf(key) === -1) {
         continue;
       }
       if (state[key] === lastWrittenState[key]) {
@@ -105,10 +105,6 @@ export default function createPersistor (store, config) {
 
     // Record success.
     outstandingKeys.clear();
-  }
-
-  function passWhitelist (key) {
-    return whitelist.indexOf(key) !== -1
   }
 
   function adhocRehydrate (incoming, options = {}) {

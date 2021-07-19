@@ -34,7 +34,7 @@ export default function getStoredState (config, onComplete) {
     }
 
     let persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))
-    let keysToRestore = persistKeys.filter(passWhitelist)
+    let keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1)
 
     let restoreCount = keysToRestore.length
     if (restoreCount === 0) complete(null, restoredState)
@@ -70,10 +70,6 @@ export default function getStoredState (config, onComplete) {
 
   function complete (err, restoredState) {
     onComplete(err, restoredState)
-  }
-
-  function passWhitelist (key) {
-    return whitelist.indexOf(key) !== -1
   }
 
   function createStorageKey (key) {
