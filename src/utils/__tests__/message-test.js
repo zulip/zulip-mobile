@@ -17,7 +17,7 @@ describe('shouldBeMuted', () => {
 
   test('private messages are never muted', () => {
     const pmMessage = eg.pmMessage();
-    expect(shouldBeMuted(pmMessage, HOME_NARROW, [])).toBe(false);
+    expect(shouldBeMuted(pmMessage, HOME_NARROW, [], [])).toBe(false);
   });
 
   test('messages when narrowed to a topic are never muted', () => {
@@ -27,11 +27,11 @@ describe('shouldBeMuted', () => {
   });
 
   test('message in a stream is not muted if stream and topic not muted', () => {
-    expect(shouldBeMuted(message, HOME_NARROW, [subscription])).toBe(false);
+    expect(shouldBeMuted(message, HOME_NARROW, [subscription], [])).toBe(false);
   });
 
   test('message in a stream is muted if stream is not in subscriptions', () => {
-    expect(shouldBeMuted(message, HOME_NARROW, [])).toBe(true);
+    expect(shouldBeMuted(message, HOME_NARROW, [], [])).toBe(true);
   });
 
   test('message in a stream is muted if the stream is muted', () => {
@@ -39,7 +39,7 @@ describe('shouldBeMuted', () => {
       stream,
       in_home_view: false,
     });
-    expect(shouldBeMuted(message, HOME_NARROW, [mutedSubscription])).toBe(true);
+    expect(shouldBeMuted(message, HOME_NARROW, [mutedSubscription], [])).toBe(true);
   });
 
   test('message in a stream is muted if the topic is muted and topic matches', () => {
