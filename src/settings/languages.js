@@ -41,6 +41,7 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
   { tag: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
   { tag: 'cs', name: 'Czech', nativeName: 'Čeština' },
+  { tag: 'da', name: 'Danish', nativeName: 'Dansk' },
   { tag: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
   // TODO: add `en_GB` -- it's "100% translated", though that just means
   //   the one string mentioning "organization" has s/z/s/ in that word
