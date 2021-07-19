@@ -94,7 +94,7 @@ export default function persistStore (store, config = {}, onComplete) {
             // result of `REHYDRATE` when the persistor is paused; we
             // can do that because we've exposed `_resetLastWrittenState` on
             // the persistor.
-            persistor._resetLastWrittenState()
+            persistor._resetLastWrittenState() // eslint-disable-line no-underscore-dangle
           }
         } finally {
           complete(err, restoredState)

@@ -355,7 +355,6 @@ overrides:
       nonblock-statement-body-position: off # same reason as `curly`
       space-before-function-paren: off # `function myFunc (arg1) { ... }`
       object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
-      no-underscore-dangle: off # various identifiers beginning with '_'
 
       # function declarations are made (we favor function expressions
       # with `const`), so these functions may be used above the
