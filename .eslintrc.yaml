@@ -354,7 +354,6 @@ overrides:
       curly: off # one-line `if`s and `else`s without semicolons
       nonblock-statement-body-position: off # same reason as `curly`
       space-before-function-paren: off # `function myFunc (arg1) { ... }`
-      arrow-body-style: off # `() => { return 1; }` used over `() => 1`
       object-curly-spacing: off # `{foo: 'bar'}` used over { foo: 'bar' }
       no-underscore-dangle: off # various identifiers beginning with '_'
 

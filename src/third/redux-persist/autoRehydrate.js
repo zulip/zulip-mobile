@@ -10,9 +10,7 @@ export default function autoRehydrate (config = {}) {
     let store = next(liftReducer(reducer), initialState, enhancer)
     return {
       ...store,
-      replaceReducer: (reducer) => {
-        return store.replaceReducer(liftReducer(reducer))
-      }
+      replaceReducer: (reducer) => store.replaceReducer(liftReducer(reducer))
     }
   }
 
