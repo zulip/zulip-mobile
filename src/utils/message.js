@@ -34,7 +34,13 @@ export const shouldBeMuted = (
 
   if (isHomeNarrow(narrow)) {
     const sub = subscriptions.find(x => x.name === streamName);
-    if (!sub || !sub.in_home_view) {
+    if (!sub) {
+      // If there's no matching subscription, then the user must have
+      // unsubscribed from the stream since the message was received.  Leave
+      // those messages out of this view, just like for a muted stream.
+      return true;
+    }
+    if (!sub.in_home_view) {
       return true;
     }
   }

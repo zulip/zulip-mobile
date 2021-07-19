@@ -26,7 +26,11 @@ describe('shouldBeMuted', () => {
     expect(shouldBeMuted(message, narrow, [], mutes)).toBe(false);
   });
 
-  test('message in a stream is muted if stream is not in mute list', () => {
+  test('message in a stream is not muted if stream and topic not muted', () => {
+    expect(shouldBeMuted(message, HOME_NARROW, [subscription])).toBe(false);
+  });
+
+  test('message in a stream is muted if stream is not in subscriptions', () => {
     expect(shouldBeMuted(message, HOME_NARROW, [])).toBe(true);
   });
 
