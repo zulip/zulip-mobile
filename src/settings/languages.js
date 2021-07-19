@@ -43,8 +43,7 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'cs', name: 'Czech', nativeName: 'Čeština' },
   { tag: 'da', name: 'Danish', nativeName: 'Dansk' },
   { tag: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
-  // TODO: add `en_GB` -- it's "100% translated", though that just means
-  //   the one string mentioning "organization" has s/z/s/ in that word
+  { tag: 'en-GB', name: 'English (U.K.)', nativeName: 'English (U.K.)' },
   { tag: 'fi', name: 'Finnish', nativeName: 'Suomi' },
   { tag: 'fr', name: 'French', nativeName: 'Français' },
   { tag: 'gl', name: 'Galician', nativeName: 'Galego' },

@@ -13,6 +13,7 @@ export default {
   de: require('../../static/translations/messages_de.json'),
   el: require('../../static/translations/messages_el.json'),
   en: require('../../static/translations/messages_en.json'),
+  'en-GB': require('../../static/translations/messages_en-GB.json'),
   eo: require('../../static/translations/messages_eo.json'),
   es: require('../../static/translations/messages_es.json'),
   fa: require('../../static/translations/messages_fa.json'),
