@@ -7,9 +7,10 @@
  * constructed there by `getParamsFromIntent` in `SharingHelper.kt`.
  * The correspondence of that code with this type isn't type-checked.
  *
- * Note: Keep in sync with platform-native code.
+ * (On iOS, we don't currently support this feature in the first place.)
  */
 export type SharedData =
+  // Note: Keep these in sync with platform-native code.
   | {| type: 'text', sharedText: string |}
   | {| type: 'image', sharedImageUrl: string, fileName: string |}
   | {| type: 'file', sharedFileUrl: string, fileName: string |};
