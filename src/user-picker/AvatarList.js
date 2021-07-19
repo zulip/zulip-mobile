@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class AvatarList extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { listRef, users, onPress } = this.props;
 
     return (

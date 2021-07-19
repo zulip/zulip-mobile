@@ -22,7 +22,7 @@ type Props = $ReadOnly<{|
  * @prop size - Diameter of the circle in pixels.
  */
 export default class SpinningProgress extends React.PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { color, size } = this.props;
     const style = { width: size, height: size };
     const source = (() => {

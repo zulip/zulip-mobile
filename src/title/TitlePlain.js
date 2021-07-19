@@ -10,7 +10,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class TitlePlain extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { text, color } = this.props;
     return <Text style={[styles.navTitle, styles.flexed, { color }]}>{text}</Text>;
   }

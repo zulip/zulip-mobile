@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
 
 const MAX_CHOICES = 30;
 
-export default function EmojiAutocomplete(props: Props) {
+export default function EmojiAutocomplete(props: Props): React$Node {
   const { filter, onAutocomplete } = props;
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);

@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
 |}>;
 
-export default function MarkAsReadButton(props: Props) {
+export default function MarkAsReadButton(props: Props): React$Node {
   const { narrow } = props;
   const auth = useSelector(getAuth);
   const streams = useSelector(getStreams);

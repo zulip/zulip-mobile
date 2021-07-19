@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
   title: LocalizableText,
 |}>;
 
-export default function ModalNavBar(props: Props) {
+export default function ModalNavBar(props: Props): React$Node {
   const { canGoBack, title } = props;
   const { backgroundColor } = useContext(ThemeContext);
   const textStyle = [

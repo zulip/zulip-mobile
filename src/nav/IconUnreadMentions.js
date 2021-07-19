@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function IconUnreadMentions(props: Props) {
+export default function IconUnreadMentions(props: Props): React$Node {
   const { color } = props;
   const unreadMentionsTotal = useSelector(getUnreadMentionsTotal);
 

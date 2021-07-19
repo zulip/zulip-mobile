@@ -38,7 +38,7 @@ type Props = $ReadOnly<{|
  * to that component.
  */
 export default class KeyboardAvoider extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = this.props;
 
     if (Platform.OS === 'android') {

@@ -15,7 +15,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'language', void>,
 |}>;
 
-export default function LanguageScreen(props: Props) {
+export default function LanguageScreen(props: Props): React$Node {
   const dispatch = useDispatch();
   const locale = useSelector(state => getSettings(state).locale);
 

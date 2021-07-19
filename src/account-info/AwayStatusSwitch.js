@@ -13,7 +13,7 @@ type Props = $ReadOnly<{||}>;
  *  * retrieves the current user's `user status` data and presents it
  *  * allows by switching it to control the `away` status
  */
-export default function AwayStatusSwitch(props: Props) {
+export default function AwayStatusSwitch(props: Props): React$Node {
   const awayStatus = useSelector(getSelfUserAwayStatus);
   const dispatch = useDispatch();
 

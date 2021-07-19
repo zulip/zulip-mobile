@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
   onAccountRemove: number => Promise<void> | void,
 |}>;
 
-export default function AccountList(props: Props) {
+export default function AccountList(props: Props): React$Node {
   const { accounts, onAccountSelect, onAccountRemove } = props;
 
   return (

@@ -55,7 +55,7 @@ type Props = $ReadOnly<{|
  * button should be used.
  */
 export default class Custom extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { style, onPress, theme } = this.props;
     const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
     const frameStyle = [

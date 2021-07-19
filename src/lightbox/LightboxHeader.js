@@ -53,7 +53,7 @@ type Props = $ReadOnly<{|
  * @prop [onPressBack]
  */
 export default class LightboxHeader extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));
     const time = shortTime(new Date(timestamp * 1000));

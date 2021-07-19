@@ -47,7 +47,7 @@ type Props = $ReadOnly<{|
   onRemove: (index: number) => Promise<void> | void,
 |}>;
 
-export default function AccountItem(props: Props) {
+export default function AccountItem(props: Props): React$Node {
   const { email, realm, isLoggedIn } = props.account;
 
   const showDoneIcon = props.index === 0 && isLoggedIn;

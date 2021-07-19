@@ -21,7 +21,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function TitleGroup(props: Props) {
+export default function TitleGroup(props: Props): React$Node {
   const { userIds } = props;
   const mutedUsers = useSelector(getMutedUsers);
 

@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class InfoItem extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { label, value } = this.props;
 
     return (

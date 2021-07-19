@@ -85,7 +85,7 @@ const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNa
 
 type Props = $ReadOnly<{||}>;
 
-export default function AppNavigator(props: Props) {
+export default function AppNavigator(props: Props): React$Node {
   const hasAuth = useSelector(getHasAuth);
   const accounts = useSelector(getAccounts);
 

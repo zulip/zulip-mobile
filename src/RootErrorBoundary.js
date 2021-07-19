@@ -33,7 +33,7 @@ type State = $ReadOnly<{|
  * [1] https://reactjs.org/docs/error-boundaries.html#how-about-event-handlers
  */
 export default class ErrorBoundary extends React.Component<Props, State> {
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(error: Error): State {
     return { error };
   }
 
@@ -57,11 +57,11 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     logging.error(error, errorInfo);
   }
 
-  state = {
+  state: State = {
     error: null,
   };
 
-  render() {
+  render(): React$Node {
     const { error } = this.state;
     if (error) {
       const details = `${error.toString()}

@@ -13,7 +13,7 @@ const styles = createStyleSheet({
 });
 
 export default class SectionSeparator extends PureComponent<{||}> {
-  render() {
+  render(): React$Node {
     return <View style={styles.separator} />;
   }
 }

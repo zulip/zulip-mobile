@@ -18,7 +18,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class Title extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { narrow, color, editMessage } = this.props;
     if (editMessage != null) {
       return <TitlePlain text="Edit message" color={color} />;

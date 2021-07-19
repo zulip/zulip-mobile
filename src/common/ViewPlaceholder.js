@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
  * @prop [height] - Height of the component in pixels.
  */
 export default class ViewPlaceholder extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { width, height } = this.props;
     const style = { width, height };
     return <View style={style} />;

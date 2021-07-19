@@ -41,7 +41,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'stream-tabs', void>,
 |}>;
 
-export default function StreamTabsScreen(props: Props) {
+export default function StreamTabsScreen(props: Props): React$Node {
   return (
     <Tab.Navigator
       {...materialTopTabNavigatorConfig({

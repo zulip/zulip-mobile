@@ -47,7 +47,7 @@ const styles = createStyleSheet({
   },
 });
 
-export default function SharingScreen(props: Props) {
+export default function SharingScreen(props: Props): React$Node {
   const { params } = props.route;
   const hasAuth = useSelector(getHasAuth);
 

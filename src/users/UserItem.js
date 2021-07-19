@@ -50,7 +50,7 @@ type Props<UserT> = $ReadOnly<{|
  */
 export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: string, ... }>(
   props: Props<UserT>,
-) {
+): React$Node {
   const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
   const _ = useContext(TranslationContext);
   const isMuted = useSelector(getMutedUsers).has(user.user_id);
@@ -108,7 +108,7 @@ type OuterProps = $ReadOnly<{|
  * encapsulate getting user data where it's needed.
  */
 // eslint-disable-next-line func-names
-export default function (props: OuterProps) {
+export default function (props: OuterProps): React$Node {
   const { userId, ...restProps } = props;
   const user = useSelector(state => getUserForId(state, userId));
   return <UserItemRaw {...restProps} user={user} />;

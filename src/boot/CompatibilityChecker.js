@@ -14,7 +14,7 @@ type State = {|
 |};
 
 export default class CompatibilityChecker extends PureComponent<Props, State> {
-  state = {
+  state: State = {
     compatibilityCheckFail: false,
   };
 
@@ -28,7 +28,7 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
     });
   }
 
-  render() {
+  render(): React$Node {
     const { compatibilityCheckFail } = this.state;
 
     return compatibilityCheckFail ? <CompatibilityScreen /> : this.props.children;

@@ -46,7 +46,7 @@ export const initialsForGroupIcon = (names: string[]): string => {
  * @prop onPress - Event fired on pressing the component.
  */
 export default class GroupAvatar extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { children, names, size, onPress } = this.props;
 
     const frameSize = {

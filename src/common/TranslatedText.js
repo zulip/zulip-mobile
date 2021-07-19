@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
  *
  * @prop text - The text to be translated.
  */
-export default ({ text }: Props) => {
+export default ({ text }: Props): React$Node => {
   const message = typeof text === 'object' ? text.text : text;
   const values = typeof text === 'object' ? text.values : undefined;
 

@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class TitleSpecial extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { code, color } = this.props;
     const { name, icon } = specials[code];
 

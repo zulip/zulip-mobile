@@ -15,7 +15,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function ExtraNavButtonStream(props: Props) {
+export default function ExtraNavButtonStream(props: Props): React$Node {
   const streams = useSelector(getStreams);
   const { color } = props;
 

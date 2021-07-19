@@ -15,7 +15,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'notifications', void>,
 |}>;
 
-export default function NotificationsScreen(props: Props) {
+export default function NotificationsScreen(props: Props): React$Node {
   const auth = useSelector(getAuth);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);

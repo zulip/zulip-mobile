@@ -28,7 +28,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class DiagnosticsScreen extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     return (
       <Screen title="Diagnostics">
         <RawLabel style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />

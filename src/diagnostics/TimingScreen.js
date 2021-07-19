@@ -13,7 +13,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'timing', void>,
 |}>;
 
-export default function TimingScreen(props: Props) {
+export default function TimingScreen(props: Props): React$Node {
   return (
     <Screen title="Timing" scrollEnabled={false}>
       <FlatList

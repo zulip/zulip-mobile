@@ -15,7 +15,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function InfoNavButtonStream(props: Props) {
+export default function InfoNavButtonStream(props: Props): React$Node {
   const streams = useSelector(getStreams);
   const { color } = props;
 

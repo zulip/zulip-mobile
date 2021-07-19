@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'account-pick', void>,
 |}>;
 
-export default function AccountPickScreen(props: Props) {
+export default function AccountPickScreen(props: Props): React$Node {
   const { navigation } = props;
   const accounts = useSelector(getAccountStatuses);
   const dispatch = useDispatch();

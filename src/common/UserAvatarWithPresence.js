@@ -38,7 +38,7 @@ type Props = $ReadOnly<{|
  * @prop [onPress] - Event fired on pressing the component.
  */
 export default class UserAvatarWithPresence extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { avatarUrl, email, isMuted, size, onPress } = this.props;
 
     return (
@@ -69,7 +69,7 @@ export function UserAvatarWithPresenceById(
     ...$Diff<Props, {| avatarUrl: mixed, email: mixed |}>,
     userId: UserId,
   |}>,
-) {
+): React$Node {
   const { userId, ...restProps } = props;
 
   const user = useSelector(state => tryGetUserForId(state, userId));

@@ -41,7 +41,7 @@ type Props = $ReadOnly<{|
 /**
  * The "PMs" page in the main tabs navigation.
  * */
-export default function PmConversationsScreen(props: Props) {
+export default function PmConversationsScreen(props: Props): React$Node {
   const conversations = useSelector(getRecentConversations);
   const context = useContext(ThemeContext);
 

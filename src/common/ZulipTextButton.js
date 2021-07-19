@@ -97,7 +97,7 @@ type Props = $ReadOnly<{|
 // (https://callstack.github.io/react-native-paper/button.html), encoding
 // things like project-specific styles and making any sensible adjustments
 // to the interface.
-export default function ZulipTextButton(props: Props) {
+export default function ZulipTextButton(props: Props): React$Node {
   const { variant = 'standard', leftMargin, rightMargin, label, onPress } = props;
 
   const variantStyles = useMemo(() => styleSheetForVariant(variant), [variant]);

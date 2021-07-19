@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { Node as React$Node } from 'react';
 import { Animated, Easing } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import type { Style } from '../types';
 
@@ -11,7 +12,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {
-  rotation = new Animated.Value(0);
+  rotation: AnimatedValue = new Animated.Value(0);
 
   componentDidMount() {
     this.rotation.setValue(0);
@@ -23,7 +24,7 @@ export default class AnimatedRotateComponent extends PureComponent<Props> {
     }).start();
   }
 
-  render() {
+  render(): React$Node {
     const { children, style } = this.props;
     const rotation = this.rotation.interpolate({
       inputRange: [0, 360],

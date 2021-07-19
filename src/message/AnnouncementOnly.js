@@ -6,7 +6,7 @@ import { Label } from '../common';
 import styles from '../styles';
 
 class AnnouncementOnly extends PureComponent<{||}> {
-  render() {
+  render(): React$Node {
     return (
       <View style={styles.disabledComposeBox}>
         <Label

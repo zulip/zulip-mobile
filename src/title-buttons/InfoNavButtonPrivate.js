@@ -11,7 +11,7 @@ type Props = $ReadOnly<{|
   userId: UserId,
 |}>;
 
-export default function InfoNavButtonPrivate(props: Props) {
+export default function InfoNavButtonPrivate(props: Props): React$Node {
   const { color } = props;
   return (
     <NavButton

@@ -28,7 +28,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class RealmInfo extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { name, iconUrl } = this.props;
 
     return (

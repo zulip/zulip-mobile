@@ -11,7 +11,7 @@ type Props = $ReadOnly<{|
   userIds: $ReadOnlyArray<UserId>,
 |}>;
 
-export default function InfoNavButtonGroup(props: Props) {
+export default function InfoNavButtonGroup(props: Props): React$Node {
   const { color } = props;
 
   return (

@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class VariablesScreen extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const variables = {
       enableReduxLogging: config.enableReduxLogging,
       enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,

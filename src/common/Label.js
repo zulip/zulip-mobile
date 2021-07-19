@@ -20,7 +20,7 @@ type Props = $ReadOnly<{|
  * prop, and doesn't support `children`.
  */
 export default class Label extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { text, ...restProps } = this.props;
 
     return (

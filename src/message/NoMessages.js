@@ -51,7 +51,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class NoMessages extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { narrow } = this.props;
 
     const message = messages.find(x => x.isFunc(narrow)) || {};

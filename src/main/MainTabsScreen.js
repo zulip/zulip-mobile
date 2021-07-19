@@ -44,7 +44,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'main-tabs', void>,
 |}>;
 
-export default function MainTabsScreen(props: Props) {
+export default function MainTabsScreen(props: Props): React$Node {
   const { backgroundColor } = useContext(ThemeContext);
 
   return (

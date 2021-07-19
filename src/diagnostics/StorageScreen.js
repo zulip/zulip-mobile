@@ -22,7 +22,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'storage', void>,
 |}>;
 
-export default function StorageScreen(props: Props) {
+export default function StorageScreen(props: Props): React$Node {
   const state = useSelector(s => s);
   const storageSizes = calculateKeyStorageSizes(state);
 

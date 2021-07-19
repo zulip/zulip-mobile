@@ -48,7 +48,7 @@ type Props = $ReadOnly<{|
  * @prop [onLongPress] - Passed through; see upstream docs.
  */
 export default class Touchable extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { accessibilityLabel, style, onPress, onLongPress } = this.props;
     const child: React$Node = React.Children.only(this.props.children);
 

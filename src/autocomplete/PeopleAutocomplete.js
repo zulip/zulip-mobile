@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
   onAutocomplete: (name: string) => void,
 |}>;
 
-export default function PeopleAutocomplete(props: Props) {
+export default function PeopleAutocomplete(props: Props): React$Node {
   const { filter, onAutocomplete } = props;
   const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);

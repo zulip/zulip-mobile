@@ -46,7 +46,7 @@ type Props = $ReadOnly<{|
   onPress: (stream: string, topic: string) => void,
 |}>;
 
-export default function TopicItem(props: Props) {
+export default function TopicItem(props: Props): React$Node {
   const { name, streamName, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()

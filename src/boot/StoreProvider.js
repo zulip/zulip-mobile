@@ -38,7 +38,7 @@ export default class StoreProvider extends PureComponent<Props> {
     }
   }
 
-  render() {
+  render(): React$Node {
     return <Provider store={store}>{this.props.children}</Provider>;
   }
 }

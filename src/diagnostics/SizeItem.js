@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SizeItem extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { text, size } = this.props;
 
     return (

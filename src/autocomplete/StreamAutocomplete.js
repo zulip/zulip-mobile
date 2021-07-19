@@ -13,7 +13,7 @@ type Props = $ReadOnly<{|
   onAutocomplete: (name: string) => void,
 |}>;
 
-export default function StreamAutocomplete(props: Props) {
+export default function StreamAutocomplete(props: Props): React$Node {
   const { filter, onAutocomplete } = props;
   const subscriptions = useSelector(getSubscribedStreams);
 

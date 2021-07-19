@@ -27,7 +27,7 @@ type Props = $ReadOnly<{||}>;
  * Displays a notice that the app is working in offline mode.
  * Not rendered if state is 'online'.
  */
-export default function OfflineNotice(props: Props) {
+export default function OfflineNotice(props: Props): React$Node {
   const isOnline = useSelector(state => getSession(state).isOnline);
   if (isOnline) {
     return null;

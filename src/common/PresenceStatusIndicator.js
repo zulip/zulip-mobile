@@ -113,7 +113,7 @@ type Props = $ReadOnly<{|
  * @prop email - email of the user whose status we are showing.
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
-export default function PresenceStatusIndicator(props: Props) {
+export default function PresenceStatusIndicator(props: Props): React$Node {
   const { email, style, hideIfOffline, useOpaqueBackground } = props;
   const presence = useSelector(getPresence);
   const allUsersByEmail = useSelector(getAllUsersByEmail);

@@ -76,7 +76,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-export default function TranslationProvider(props: Props) {
+export default function TranslationProvider(props: Props): React$Node {
   const { children } = props;
   const locale = useSelector(state => getSettings(state).locale);
 

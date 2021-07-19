@@ -31,7 +31,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class StreamCard extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { stream, subscription } = this.props;
 
     return (

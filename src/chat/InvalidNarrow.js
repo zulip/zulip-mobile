@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class InvalidNarrow extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     return (
       <View style={styles.container}>
         <Label style={styles.text} text="That conversation doesn't seem to exist." />

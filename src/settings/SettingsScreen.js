@@ -36,7 +36,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'settings', void>,
 |}>;
 
-export default function SettingsScreen(props: Props) {
+export default function SettingsScreen(props: Props): React$Node {
   const theme = useSelector(state => getSettings(state).theme);
   const browser = useSelector(state => getSettings(state).browser);
   const doNotMarkMessagesAsRead = useSelector(state => getSettings(state).doNotMarkMessagesAsRead);

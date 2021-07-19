@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-export default function ThemeProvider(props: Props) {
+export default function ThemeProvider(props: Props): React$Node {
   const { children } = props;
   const theme = useSelector(state => getSettings(state).theme);
   return (

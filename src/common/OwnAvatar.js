@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
  *
  * @prop size - Sets width and height in logical pixels.
  */
-export default function OwnAvatar(props: Props) {
+export default function OwnAvatar(props: Props): React$Node {
   const { size } = props;
   const user = useSelector(getOwnUser);
   return <UserAvatar avatarUrl={user.avatar_url} size={size} />;

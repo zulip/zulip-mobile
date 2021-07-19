@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import { Animated, Easing, View } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import type { UserId, UserOrBot } from '../types';
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
@@ -35,7 +36,7 @@ type Props = $ReadOnly<{|
  * Pressable avatar for items in the user-picker card.
  */
 export default class AvatarItem extends PureComponent<Props> {
-  animatedValue = new Animated.Value(0);
+  animatedValue: AnimatedValue = new Animated.Value(0);
 
   componentDidMount() {
     Animated.timing(this.animatedValue, {
@@ -56,7 +57,7 @@ export default class AvatarItem extends PureComponent<Props> {
     }).start(() => onPress(user.user_id));
   };
 
-  render() {
+  render(): React$Node {
     const { user } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],

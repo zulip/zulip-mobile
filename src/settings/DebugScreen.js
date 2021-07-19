@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'debug', void>,
 |}>;
 
-export default function DebugScreen(props: Props) {
+export default function DebugScreen(props: Props): React$Node {
   return (
     <Screen title="Debug">
       <View />

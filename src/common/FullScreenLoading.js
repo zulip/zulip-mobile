@@ -21,7 +21,7 @@ type Props = $ReadOnly<{||}>;
 /**
  * Meant to be used to cover the whole screen.
  */
-export default function FullScreenLoading(props: Props) {
+export default function FullScreenLoading(props: Props): React$Node {
   const insets = useSafeAreaInsets();
 
   return (

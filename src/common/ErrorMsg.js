@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
  * @prop error - The error message string.
  */
 export default class ErrorMsg extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { error } = this.props;
 
     if (!error) {

@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SearchMessagesCard extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { isFetching, messages } = this.props;
 
     if (isFetching) {

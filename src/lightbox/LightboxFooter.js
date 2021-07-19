@@ -33,7 +33,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class LightboxFooter extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (
       <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>

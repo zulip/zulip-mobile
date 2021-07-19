@@ -24,7 +24,7 @@ const componentStyles = createStyleSheet({
   textWrapper: { flex: 1 },
 });
 
-export default function TitlePrivate(props: Props) {
+export default function TitlePrivate(props: Props): React$Node {
   const { userId, color } = props;
   const user = useSelector(state => tryGetUserForId(state, userId));
   if (!user) {

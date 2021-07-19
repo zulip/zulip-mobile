@@ -14,4 +14,6 @@ const styles = createStyleSheet({
   },
 });
 
-export default () => <Image style={styles.logo} source={logoImg} resizeMode="contain" />;
+export default (): React$Node => (
+  <Image style={styles.logo} source={logoImg} resizeMode="contain" />
+);

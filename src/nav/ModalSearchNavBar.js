@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
   canGoBack?: boolean,
 |}>;
 
-export default function ModalSearchNavBar(props: Props) {
+export default function ModalSearchNavBar(props: Props): React$Node {
   const { autoFocus, searchBarOnChange, canGoBack = true } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (

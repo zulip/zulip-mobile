@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
   editMessage: EditMessage | null,
 |}>;
 
-export default function ChatNavBar(props: Props) {
+export default function ChatNavBar(props: Props): React$Node {
   const { narrow, editMessage } = props;
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const buttonColor =

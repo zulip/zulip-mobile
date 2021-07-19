@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
  *
  * Used within `MessageReactionsScreen`.
  */
-export default function ReactionUserList(props: Props) {
+export default function ReactionUserList(props: Props): React$Node {
   const { reactedUserIds } = props;
 
   return (

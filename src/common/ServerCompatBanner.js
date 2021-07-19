@@ -49,7 +49,7 @@ type Props = $ReadOnly<{||}>;
 // https://material.io/components/banners. Please consult that before making
 // layout changes, and try to make them in a direction that brings us closer
 // to those guidelines.
-export default function ServerCompatBanner(props: Props) {
+export default function ServerCompatBanner(props: Props): React$Node {
   const dispatch = useDispatch();
   const hasDismissedServerCompatNotice = useSelector(
     state => getSession(state).hasDismissedServerCompatNotice,

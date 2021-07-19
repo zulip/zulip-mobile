@@ -22,7 +22,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'lightbox', {| src: string, message: Message |}>,
 |}>;
 
-export default function LightboxScreen(props: Props) {
+export default function LightboxScreen(props: Props): React$Node {
   const { src, message } = props.route.params;
 
   return (

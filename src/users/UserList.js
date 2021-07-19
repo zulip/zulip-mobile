@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
   onPress: (user: UserOrBot) => void,
 |}>;
 
-export default function UserList(props: Props) {
+export default function UserList(props: Props): React$Node {
   const { filter, users, presences, onPress, selected = [] } = props;
   const mutedUsers = useSelector(getMutedUsers);
   const filteredUsers = filterUserList(users, filter).filter(user => !mutedUsers.has(user.user_id));

@@ -11,7 +11,7 @@ type Props = $ReadOnly<{|
   children: React$Node,
 |}>;
 
-export default function AppDataFetcher(props: Props) {
+export default function AppDataFetcher(props: Props): React$Node {
   const needsInitialFetch = useSelector(state => getSession(state).needsInitialFetch);
   const dispatch = useDispatch();
 

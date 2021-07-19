@@ -10,7 +10,7 @@ type Props = $ReadOnly<{|
   PlaceholderComponent?: React$ComponentType<{||}>,
 |}>;
 
-export default function HideIfNotHydrated(props: Props) {
+export default function HideIfNotHydrated(props: Props): React$Node {
   const isHydrated = useSelector(getIsHydrated);
 
   const { children, PlaceholderComponent } = props;

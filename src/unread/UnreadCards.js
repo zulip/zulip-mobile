@@ -15,7 +15,7 @@ import { doNarrow } from '../actions';
 
 type Props = $ReadOnly<{||}>;
 
-export default function UnreadCards(props: Props) {
+export default function UnreadCards(props: Props): React$Node {
   const dispatch = useDispatch();
   const conversations = useSelector(getUnreadConversations);
   const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);

@@ -44,7 +44,7 @@ type Props = $ReadOnly<{|
   message: Message,
 |}>;
 
-export default function Lightbox(props: Props) {
+export default function Lightbox(props: Props): React$Node {
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;

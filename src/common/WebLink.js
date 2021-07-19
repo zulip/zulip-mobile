@@ -20,7 +20,7 @@ const componentStyles = createStyleSheet({
 /**
  * A button styled like a web link.
  */
-export default function WebLink(props: Props) {
+export default function WebLink(props: Props): React$Node {
   return (
     <Label
       style={componentStyles.link}

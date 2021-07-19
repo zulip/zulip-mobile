@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class FetchError extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     return (
       <View style={styles.container}>
         {(() => {

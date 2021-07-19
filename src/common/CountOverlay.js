@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class CountOverlay extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { children, unreadCount } = this.props;
 
     return (

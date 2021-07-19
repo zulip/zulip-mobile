@@ -58,7 +58,7 @@ type Props = $ReadOnly<{|
  * @prop onPress - press handler for the item; receives the stream name
  * @prop onSwitch - if switch exists; receives stream name and new value
  */
-export default function StreamItem(props: Props) {
+export default function StreamItem(props: Props): React$Node {
   const {
     name,
     description,

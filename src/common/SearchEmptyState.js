@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SearchEmptyState extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { text } = this.props;
 
     return (

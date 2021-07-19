@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
 /**
  * A list describing all PM conversations.
  * */
-export default function PmConversationList(props: Props) {
+export default function PmConversationList(props: Props): React$Node {
   const dispatch = useDispatch();
 
   const handleUserNarrow = useCallback(

@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class TopicList extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { stream, topics, onPress } = this.props;
 
     if (!topics) {

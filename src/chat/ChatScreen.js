@@ -97,7 +97,7 @@ const useMessagesWithFetch = args => {
   return { fetchError, isFetching, messages, haveNoMessages, firstUnreadIdInNarrow };
 };
 
-export default function ChatScreen(props: Props) {
+export default function ChatScreen(props: Props): React$Node {
   const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
 

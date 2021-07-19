@@ -13,7 +13,7 @@ type Props = $ReadOnly<{|
 
 /** Can be passed to RN's `SectionList` as `SectionSeparatorComponent`. */
 export default class SectionSeparatorBetween extends PureComponent<Props> {
-  render() {
+  render(): React$Node {
     const { leadingItem, leadingSection } = this.props;
 
     if (leadingItem || !leadingSection || leadingSection.data.length === 0) {

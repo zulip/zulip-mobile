@@ -26,7 +26,9 @@ type Props<U> = $ReadOnly<{|
 /**
  * A list item describing one group PM conversation.
  * */
-export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(props: Props<U>) {
+export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(
+  props: Props<U>,
+): React$Node {
   const { users, unreadCount, onPress } = props;
 
   const handlePress = useCallback(() => {

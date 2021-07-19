@@ -26,7 +26,7 @@ type Props = $ReadOnly<{|
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-function UserAvatar(props: Props) {
+function UserAvatar(props: Props): React$Node {
   const { avatarUrl, children, size, isMuted = false, onPress } = props;
   const borderRadius = size / 8;
   const style = {

@@ -71,7 +71,7 @@ type Props = $ReadOnly<{|
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
  */
-export default function Screen(props: Props) {
+export default function Screen(props: Props): React$Node {
   const { backgroundColor } = useContext(ThemeContext);
   const {
     autoFocus = false,

@@ -56,7 +56,9 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
  * things that aren't related to that state, like navigating to a
  * different screen.
  */
-export default function SelectableOptionRow<TItemKey: string | number>(props: Props<TItemKey>) {
+export default function SelectableOptionRow<TItemKey: string | number>(
+  props: Props<TItemKey>,
+): React$Node {
   const { itemKey, title, subtitle, selected, onRequestSelectionChange } = props;
 
   return (

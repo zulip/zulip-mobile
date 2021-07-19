@@ -19,7 +19,7 @@ import * as NavigationService from './NavigationService';
  * https://material.io/design/navigation/understanding-navigation.html
  */
 // TODO: on iOS, give the right label for a back button
-export default function NavBarBackButton(props: {| +color?: string |}) {
+export default function NavBarBackButton(props: {| +color?: string |}): React$Node {
   const { color } = props;
   const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
 
