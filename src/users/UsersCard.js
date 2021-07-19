@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Dispatch, PresenceState, User, UserOrBot } from '../types';
@@ -17,24 +17,20 @@ type Props = $ReadOnly<{|
   presences: PresenceState,
 |}>;
 
-class UsersCard extends PureComponent<Props> {
-  handleUserNarrow = (user: UserOrBot) => {
-    const { dispatch } = this.props;
-    NavigationService.dispatch(navigateBack());
-    dispatch(doNarrow(pm1to1NarrowFromUser(user)));
-  };
+function UsersCard(props: Props) {
+  const { dispatch, users, filter, presences } = props;
 
-  render() {
-    const { users, filter, presences } = this.props;
-    return (
-      <UserList
-        users={users}
-        filter={filter}
-        presences={presences}
-        onPress={this.handleUserNarrow}
-      />
-    );
-  }
+  const handleUserNarrow = useCallback(
+    (user: UserOrBot) => {
+      NavigationService.dispatch(navigateBack());
+      dispatch(doNarrow(pm1to1NarrowFromUser(user)));
+    },
+    [dispatch],
+  );
+
+  return (
+    <UserList users={users} filter={filter} presences={presences} onPress={handleUserNarrow} />
+  );
 }
 
 export default connect(state => ({
