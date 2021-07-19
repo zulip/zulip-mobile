@@ -97,7 +97,7 @@ export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = crea
  *
  * Gives undefined for narrows that are not stream or topic narrows.
  */
-export const getStreamColorForNarrow = (state: GlobalState, narrow: Narrow) => {
+export const getStreamColorForNarrow = (state: GlobalState, narrow: Narrow): string | void => {
   if (!isStreamOrTopicNarrow(narrow)) {
     return undefined;
   }

@@ -22,7 +22,7 @@ const katexFraclineHackStyle = `<style id="katex-frac-line-hack">
 .katex .mfrac .frac-line { border-bottom-width: 1px !important; }
 </style>`;
 
-export default (theme: ThemeName) => `
+export default (theme: ThemeName): string => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>

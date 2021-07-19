@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 export class TimeoutError extends Error {
-  name = 'TimeoutError';
+  name: string = 'TimeoutError';
 }
 
 /**

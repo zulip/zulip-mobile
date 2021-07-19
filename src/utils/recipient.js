@@ -112,7 +112,7 @@ const filterRecipientsAsUserIds = (
     ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
-export const normalizeRecipientsAsUserIds = (recipients: UserId[]) =>
+export const normalizeRecipientsAsUserIds = (recipients: UserId[]): string =>
   recipients.sort((a, b) => a - b).join(',');
 
 /**
@@ -125,7 +125,7 @@ export const normalizeRecipientsAsUserIds = (recipients: UserId[]) =>
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<UserId>,
   ownUserId: UserId,
-) => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
+): string => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 /**
  * The set of users to show in the UI to identify a PM conversation.

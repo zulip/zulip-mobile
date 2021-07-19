@@ -20,7 +20,7 @@ import { ZulipVersion } from '../utils/zulipVersion';
 // but this is cleaner, and 2.1 is out long enough that few people, if any,
 // will be running a 2.1-dev version anymore (and nobody should be.)
 // TODO(server-2.1): Delete this and all code conditioned on older than it.
-export const MIN_RECENTPMS_SERVER_VERSION = new ZulipVersion('2.1');
+export const MIN_RECENTPMS_SERVER_VERSION: ZulipVersion = new ZulipVersion('2.1');
 
 //
 //
@@ -176,7 +176,10 @@ function insertMessage(state, message, ownUserId) {
   return insert(state, keyOfPrivateMessage(message, ownUserId), message.id);
 }
 
-export function reducer(state: PmConversationsState = initialState, action: Action) {
+export function reducer(
+  state: PmConversationsState = initialState,
+  action: Action,
+): PmConversationsState {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

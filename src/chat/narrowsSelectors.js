@@ -57,7 +57,7 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
   },
 );
 
-export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow) =>
+export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow): number[] =>
   getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
 
 const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(

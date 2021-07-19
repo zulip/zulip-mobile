@@ -70,7 +70,7 @@ export const getActiveAccount = (state: GlobalState): Account => {
 };
 
 /** The realm of the active account; throws if none. */
-export const getCurrentRealm = (state: GlobalState) => getActiveAccount(state).realm;
+export const getCurrentRealm = (state: GlobalState): URL => getActiveAccount(state).realm;
 
 /**
  * The realm currently foregrounded in the UI; undefined if none.

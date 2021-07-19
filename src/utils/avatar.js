@@ -164,7 +164,7 @@ export class GravatarURL extends AvatarURL {
     }
   }
 
-  static ORIGIN = 'https://secure.gravatar.com';
+  static ORIGIN: string = 'https://secure.gravatar.com';
 
   /**
    * Standard URL from which to generate others. PRIVATE.

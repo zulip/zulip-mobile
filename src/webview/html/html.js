@@ -40,7 +40,11 @@ type InitOptionsType = {|
  */
 const webkitBugWorkaround: string = '<script> </script>';
 
-export default (content: string, theme: ThemeName, initOptions: InitOptionsType) => template`
+export default (
+  content: string,
+  theme: ThemeName,
+  initOptions: InitOptionsType,
+): string => template`
 $!${script(initOptions.scrollMessageId, initOptions.auth, initOptions.doNotMarkMessagesAsRead)}
 $!${css(theme)}
 

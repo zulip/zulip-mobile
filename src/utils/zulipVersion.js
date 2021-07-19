@@ -39,21 +39,21 @@ export class ZulipVersion {
   /**
    * The raw version string that was passed to the constructor.
    */
-  raw() {
+  raw(): string {
     return this._raw;
   }
 
   /**
    * Data to be sent to Sentry to help with event aggregation.
    */
-  elements() {
+  elements(): VersionElements {
     return this._elements;
   }
 
   /**
    * True if this version is later than or equal to a given threshold.
    */
-  isAtLeast(otherZulipVersion: string | ZulipVersion) {
+  isAtLeast(otherZulipVersion: string | ZulipVersion): boolean {
     const otherZulipVersionInstance =
       otherZulipVersion instanceof ZulipVersion
         ? otherZulipVersion

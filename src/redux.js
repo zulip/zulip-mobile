@@ -17,7 +17,7 @@ export function observeStore<T>(
   store: Store<GlobalState, Action>,
   select: Selector<T>,
   onChange: (state: T) => void,
-) {
+): () => void {
   // Start as a nonce object, so the initial `prevState !== state`
   // must return true.
   let prevState = {};

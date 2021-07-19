@@ -137,7 +137,7 @@ export const parseProtocol = (value: string): [Protocol | null, string] => {
   return [null, value];
 };
 
-export const fixRealmUrl = (url: string = '') => {
+export const fixRealmUrl = (url: string = ''): string => {
   if (url === '') {
     return '';
   }

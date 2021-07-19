@@ -187,7 +187,7 @@ export default (
   message: Message | Outbox,
   isBrief: boolean,
   _: GetText,
-) => {
+): string => {
   const { id, timestamp } = message;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const isUserMuted = !!message.sender_id && backgroundData.mutedUsers.has(message.sender_id);

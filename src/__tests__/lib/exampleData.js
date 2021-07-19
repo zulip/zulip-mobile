@@ -91,13 +91,13 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
 };
 
 /** Return a string that's almost surely different every time. */
-export const randString = () => randInt(2 ** 54).toString(36);
+export const randString = (): string => randInt(2 ** 54).toString(36);
 
 const intRange = (start, len) => Array.from({ length: len }, (k, i) => i + start);
 
 /** A string with diverse characters to exercise encoding/decoding bugs. */
 /* eslint-disable prefer-template */
-export const diverseCharacters =
+export const diverseCharacters: string =
   // The whole range of lowest code points, including control codes
   // and ASCII punctuation like `"` and `&` used in various syntax...
   String.fromCharCode(...intRange(0, 0x100))
@@ -166,9 +166,9 @@ export const makeCrossRealmBot = (
     is_bot: true,
   });
 
-export const realm = new URL('https://zulip.example.org');
+export const realm: URL = new URL('https://zulip.example.org');
 
-export const zulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
+export const zulipVersion: ZulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
 
 export const zulipFeatureLevel = 1;
 

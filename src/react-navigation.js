@@ -9,6 +9,7 @@ import {
   useNavigation as useNavigationInner,
   type LeafRoute,
   type ScreenParams,
+  type NavigationProp,
 } from '@react-navigation/native';
 
 import type { GlobalParamList } from './nav/globalTypes';
@@ -82,6 +83,6 @@ export type RouteParamsOf<-C> = $PropertyType<
  *
  * In particular, we use our `GlobalParamList` type.
  */
-export function useNavigation() {
+export function useNavigation(): NavigationProp<GlobalParamList> {
   return useNavigationInner<GlobalParamList>();
 }

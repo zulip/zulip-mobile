@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import base64 from 'base-64';
 
-export const xorHexStrings = (hex1: string, hex2: string) => {
+export const xorHexStrings = (hex1: string, hex2: string): string => {
   if (hex1.length !== hex2.length) {
     throw new Error('Both inputs must have the same length.');
   }
@@ -13,7 +13,7 @@ export const xorHexStrings = (hex1: string, hex2: string) => {
     .toUpperCase();
 };
 
-export const hexToAscii = (hex: string) => {
+export const hexToAscii = (hex: string): string => {
   let ascii = '';
   for (let i = 0; i < hex.length; i += 2) {
     ascii += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
@@ -21,16 +21,16 @@ export const hexToAscii = (hex: string) => {
   return ascii;
 };
 
-export const asciiToHex = (ascii: string) =>
+export const asciiToHex = (ascii: string): string =>
   ascii
     .split('')
     .map(char => `0${char.charCodeAt(0).toString(16)}`.slice(-2))
     .join('')
     .toUpperCase();
 
-export const base64ToHex = (bytes: string) => asciiToHex(base64.decode(bytes));
+export const base64ToHex = (bytes: string): string => asciiToHex(base64.decode(bytes));
 
-export const hexToBase64 = (hex: string) => base64.encode(hexToAscii(hex));
+export const hexToBase64 = (hex: string): string => base64.encode(hexToAscii(hex));
 
 /**
  * Encode a string as the base64 representation of its UTF-8 bytes.

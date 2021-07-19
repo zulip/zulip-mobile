@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 import createActionBuffer from 'redux-action-buffer';
 import Immutable from 'immutable';
 import { persistStore, autoRehydrate } from '../third/redux-persist';
-import type { Config } from '../third/redux-persist';
+import type { Config, Persistor } from '../third/redux-persist';
 
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -401,7 +401,7 @@ const reduxPersistConfig: Config = {
 };
 
 /** Invoke redux-persist.  We do this once at launch. */
-export const restore = (onFinished?: () => void) =>
+export const restore = (onFinished?: () => void): Persistor =>
   persistStore(store, reduxPersistConfig, onFinished);
 
 export default store;

@@ -1,7 +1,10 @@
 /* @flow strict-local */
 import type { InputSelection } from '../types';
 
-export default (textWhole: string, selection: InputSelection) => {
+export default (
+  textWhole: string,
+  selection: InputSelection,
+): {| lastWordPrefix: string, filter: string |} => {
   const { start, end } = selection;
   let text = textWhole;
   if (start === end && start !== text.length) {
