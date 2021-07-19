@@ -4,7 +4,8 @@ import { View, Modal } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { SharingNavigationProp } from './SharingScreen';
-import type { GetText, SharedData, UserId } from '../types';
+import type { GetText, UserId } from '../types';
+import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { ZulipButton, Label } from '../common';

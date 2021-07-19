@@ -2,7 +2,8 @@
 import React from 'react';
 import { ImageBackground, ScrollView, View, Text } from 'react-native';
 
-import type { Auth, Dispatch, GetText, SharedData, UserId } from '../types';
+import type { Auth, Dispatch, GetText, UserId } from '../types';
+import type { SharedData } from './types';
 import * as api from '../api';
 import * as logging from '../utils/logging';
 import { BRAND_COLOR, createStyleSheet } from '../styles';

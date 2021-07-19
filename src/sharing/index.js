@@ -2,7 +2,8 @@
 import { NativeModules, DeviceEventEmitter, Platform } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, SharedData, GetState } from '../types';
+import type { Dispatch, GetState } from '../types';
+import type { SharedData } from './types';
 import { navigateToSharing } from '../actions';
 
 const Sharing = NativeModules.Sharing ?? {

@@ -10,7 +10,7 @@ import type { RouteParamsOf, RouteProp } from '../react-navigation';
 
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { SharedData } from '../types';
+import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { useSelector } from '../react-redux';

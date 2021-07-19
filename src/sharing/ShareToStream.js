@@ -3,7 +3,8 @@ import React from 'react';
 
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
-import type { Dispatch, Subscription, Auth, GetText, SharedData } from '../types';
+import type { Dispatch, Subscription, Auth, GetText } from '../types';
+import type { SharedData } from './types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { Input } from '../common';

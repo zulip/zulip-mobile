@@ -5,7 +5,8 @@ import {
   type GenericNavigationAction,
 } from '@react-navigation/native';
 
-import type { Message, Narrow, SharedData, UserId } from '../types';
+import type { Message, Narrow, UserId } from '../types';
+import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { getSameRoutesCount } from '../selectors';
 
