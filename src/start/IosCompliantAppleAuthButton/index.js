@@ -3,17 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { connect } from '../../react-redux';
+import { useSelector } from '../../react-redux';
 
 import type { SubsetProperties } from '../../generics';
 import Custom from './Custom';
-import type { ThemeName } from '../../reduxTypes';
-import type { Dispatch } from '../../types';
 import { getSettings } from '../../selectors';
-
-type SelectorProps = $ReadOnly<{|
-  theme: ThemeName,
-|}>;
 
 type Props = $ReadOnly<{|
   // See `ZulipButton`'s `style` prop, where a comment discusses this
@@ -26,9 +20,6 @@ type Props = $ReadOnly<{|
     |},
   >,
   onPress: () => void | Promise<void>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
@@ -41,8 +32,9 @@ type Props = $ReadOnly<{|
  * Apple", but without marking it with a different style from the
  * other buttons.
  */
-function IosCompliantAppleAuthButton(props: Props) {
-  const { style, onPress, theme } = props;
+export default function IosCompliantAppleAuthButton(props: Props) {
+  const { style, onPress } = props;
+  const theme = useSelector(state => getSettings(state).theme);
   const [isNativeButtonAvailable, setIsNativeButtonAvailable] = useState<boolean | void>(undefined);
 
   useEffect(() => {
@@ -77,7 +69,3 @@ function IosCompliantAppleAuthButton(props: Props) {
     return <Custom style={style} onPress={onPress} theme={theme} />;
   }
 }
-
-export default connect(state => ({
-  theme: getSettings(state).theme,
-}))(IosCompliantAppleAuthButton);
