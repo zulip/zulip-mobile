@@ -32,7 +32,7 @@ export default function getStoredState (config, onComplete) {
 
     if (err) {
       logging.warn(err, { message: 'redux-persist/getStoredState: Error in storage.getAllKeys' })
-      complete(err)
+      onComplete(err)
       return
     }
 
@@ -40,7 +40,7 @@ export default function getStoredState (config, onComplete) {
     let keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1)
 
     let restoreCount = keysToRestore.length
-    if (restoreCount === 0) complete(null, restoredState)
+    if (restoreCount === 0) onComplete(null, restoredState)
     keysToRestore.forEach((key) => {
       (async () => {
         let err = null;
@@ -53,7 +53,7 @@ export default function getStoredState (config, onComplete) {
         if (err) logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key})
         else restoredState[key] = rehydrate(key, serialized)
         completionCount += 1
-        if (completionCount === restoreCount) complete(null, restoredState)
+        if (completionCount === restoreCount) onComplete(null, restoredState)
       })()
     })
   })();
@@ -69,10 +69,6 @@ export default function getStoredState (config, onComplete) {
     }
 
     return state
-  }
-
-  function complete (err, restoredState) {
-    onComplete(err, restoredState)
   }
 
   function createStorageKey (key) {
