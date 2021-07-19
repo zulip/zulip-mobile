@@ -50,7 +50,7 @@ function defaultStateReconciler (state, inboundState, reducedState, log) {
 
   Object.keys(inboundState).forEach((key) => {
     // if initialState does not have key, skip auto rehydration
-    if (!state.hasOwnProperty(key)) return
+    if (!Object.prototype.hasOwnProperty.call(state, key)) return
 
     // if initial state is an object but inbound state is null/undefined, skip
     if (typeof state[key] === 'object' && !inboundState[key]) {

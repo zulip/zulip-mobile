@@ -370,7 +370,3 @@ overrides:
       # a few variables already declared in upper scope; no bugs known
       # to result from this
       no-shadow: off
-
-      # foo.hasOwnProperty("bar") used instead of
-      # Object.prototype.hasOwnProperty.call(foo, "bar")
-      no-prototype-builtins: off
