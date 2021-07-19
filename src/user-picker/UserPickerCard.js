@@ -34,6 +34,14 @@ type Props = $ReadOnly<{|
   onComplete: (selected: UserOrBot[]) => void,
 |}>;
 
+// The users we want to show in this particular UI.
+// We exclude (a) users with `is_active` false; (b) cross-realm bots; (c) self.
+const getUsersToShow: Selector<User[]> = createSelector(
+  getUsers,
+  getOwnUserId,
+  (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
+);
+
 function UserPickerCard(props: Props) {
   const { filter, users, presences } = props;
 
@@ -90,14 +98,6 @@ function UserPickerCard(props: Props) {
     </View>
   );
 }
-
-// The users we want to show in this particular UI.
-// We exclude (a) users with `is_active` false; (b) cross-realm bots; (c) self.
-const getUsersToShow: Selector<User[]> = createSelector(
-  getUsers,
-  getOwnUserId,
-  (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
-);
 
 export default connect(state => ({
   users: getUsersToShow(state),
