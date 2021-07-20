@@ -19,6 +19,7 @@ import {
   getMute,
   getStreams,
   getOutbox,
+  getFlags,
 } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
@@ -124,11 +125,15 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
     getMessagesForNarrow,
     state => getSubscriptions(state),
     state => getMute(state),
-    (narrow, messagesForNarrow, subscriptions, mute) =>
+    state => getFlags(state),
+    (narrow, messagesForNarrow, subscriptions, mute, flags) =>
       caseNarrow(narrow, {
         home: _ =>
           messagesForNarrow.filter(message => {
             if (message.type === 'private') {
+              return true;
+            }
+            if (flags.mentioned[message.id]) {
               return true;
             }
             const streamName = streamNameOfStreamMessage(message);
@@ -141,6 +146,9 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
         stream: _ =>
           messagesForNarrow.filter(message => {
             if (message.type === 'private') {
+              return true;
+            }
+            if (flags.mentioned[message.id]) {
               return true;
             }
             const streamName = streamNameOfStreamMessage(message);
@@ -158,12 +166,8 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
         // In a PM narrow, no messages can be in a muted stream or topic.
         pm: _ => messagesForNarrow,
 
-        // This logic isn't quite right - we want to make sure we never hide a
-        // message that has a mention, even if we aren't in the "Mentioned"
-        // narrow. (#3472)  However, it's more complex to do that, and this code
-        // fixes the largest problem we'd had with muted mentioned messages, which
-        // is that they show up in the count for the "Mentions" tab, but without
-        // this conditional they wouldn't in the actual narrow.
+        // In the @-mentions narrow, all messages are mentions, which we
+        // always show despite stream or topic mutes.
         mentioned: _ => messagesForNarrow,
 
         // The all-PMs narrow doesn't matter here, because we don't offer a

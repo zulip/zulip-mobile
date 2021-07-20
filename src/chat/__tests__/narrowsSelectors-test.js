@@ -136,6 +136,13 @@ describe('getShownMessagesForNarrow', () => {
     test('message in a stream is muted if the topic is muted and topic matches', () => {
       expect(shown(makeState({ mute: mutes }))).toEqual(false);
     });
+
+    test('@-mention message is never muted', () => {
+      const flags = { ...eg.plusReduxState.flags, mentioned: { [message.id]: true } };
+      expect(shown(makeState({ flags, subscriptions: [] }))).toEqual(true);
+      expect(shown(makeState({ flags, subscriptions: [mutedSubscription] }))).toEqual(true);
+      expect(shown(makeState({ flags, mute: mutes }))).toEqual(true);
+    });
   });
 
   describe('stream narrow', () => {
@@ -153,6 +160,13 @@ describe('getShownMessagesForNarrow', () => {
 
     test('message muted if topic is muted', () => {
       expect(shown(makeState({ mute: mutes }))).toEqual(false);
+    });
+
+    test('@-mention message is never muted', () => {
+      const flags = { ...eg.plusReduxState.flags, mentioned: { [message.id]: true } };
+      expect(shown(makeState({ flags, subscriptions: [] }))).toEqual(true);
+      expect(shown(makeState({ flags, subscriptions: [mutedSubscription] }))).toEqual(true);
+      expect(shown(makeState({ flags, mute: mutes }))).toEqual(true);
     });
   });
 
