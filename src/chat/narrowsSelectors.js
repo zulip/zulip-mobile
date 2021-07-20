@@ -24,14 +24,11 @@ import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import {
   isStreamOrTopicNarrow,
-  isHomeNarrow,
-  isTopicNarrow,
-  isMentionedNarrow,
   isMessageInNarrow,
   caseNarrowDefault,
   keyFromNarrow,
   streamNameOfNarrow,
-  isPmNarrow,
+  caseNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../mute/muteModel';
 import { streamNameOfStreamMessage } from '../utils/recipient';
@@ -127,59 +124,66 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
     getMessagesForNarrow,
     state => getSubscriptions(state),
     state => getMute(state),
-    (narrow, messagesForNarrow, subscriptions, mute) => {
-      if (isTopicNarrow(narrow)) {
+    (narrow, messagesForNarrow, subscriptions, mute) =>
+      caseNarrow(narrow, {
+        home: _ =>
+          messagesForNarrow.filter(message => {
+            if (message.type === 'private') {
+              return true;
+            }
+            const streamName = streamNameOfStreamMessage(message);
+            return (
+              showStreamInHomeNarrow(streamName, subscriptions)
+              && !isTopicMuted(streamName, message.subject, mute)
+            );
+          }),
+
+        stream: _ =>
+          messagesForNarrow.filter(message => {
+            if (message.type === 'private') {
+              return true;
+            }
+            const streamName = streamNameOfStreamMessage(message);
+            return !isTopicMuted(streamName, message.subject, mute);
+          }),
+
+        // TODO: What about starred messages, and the starred-messages view?
+        //   Do we really want to filter starred messages out because the
+        //   topic (or stream) is muted?
+        starred: _ =>
+          messagesForNarrow.filter(message => {
+            if (message.type === 'private') {
+              return true;
+            }
+            const streamName = streamNameOfStreamMessage(message);
+            return !isTopicMuted(streamName, message.subject, mute);
+          }),
+
         // When viewing a topic narrow, we show all the messages even if the
         // topic or stream is muted.
-        return messagesForNarrow;
-      }
+        topic: _ => messagesForNarrow,
 
-      if (isPmNarrow(narrow)) {
         // In a PM narrow, no messages can be in a muted stream or topic.
-        return messagesForNarrow;
-      }
+        pm: _ => messagesForNarrow,
 
-      // This logic isn't quite right - we want to make sure we never hide a
-      // message that has a mention, even if we aren't in the "Mentioned"
-      // narrow. (#3472)  However, it's more complex to do that, and this code
-      // fixes the largest problem we'd had with muted mentioned messages, which
-      // is that they show up in the count for the "Mentions" tab, but without
-      // this conditional they wouldn't in the actual narrow.
-      if (isMentionedNarrow(narrow)) {
-        return messagesForNarrow;
-      }
+        // This logic isn't quite right - we want to make sure we never hide a
+        // message that has a mention, even if we aren't in the "Mentioned"
+        // narrow. (#3472)  However, it's more complex to do that, and this code
+        // fixes the largest problem we'd had with muted mentioned messages, which
+        // is that they show up in the count for the "Mentions" tab, but without
+        // this conditional they wouldn't in the actual narrow.
+        mentioned: _ => messagesForNarrow,
 
-      // TODO: What about starred messages, and the starred-messages view?
-      //   Do we really want to filter starred messages out because the
-      //   topic (or stream) is muted?
+        // The all-PMs narrow doesn't matter here, because we don't offer a
+        // message list for it in the UI.  (It exists for the sake of
+        // `getRecentConversationsLegacy`.)
+        allPrivate: _ => messagesForNarrow,
 
-      // Search narrows don't matter here, because we never reach this code
-      // when searching (we don't get the messages from Redux.)
-
-      // The all-PMs narrow doesn't matter here, because we don't offer a
-      // message list for it in the UI.  (It exists for the sake of
-      // `getRecentConversationsLegacy`.)
-
-      if (isHomeNarrow(narrow)) {
-        return messagesForNarrow.filter(message => {
-          if (message.type === 'private') {
-            return true;
-          }
-          const streamName = streamNameOfStreamMessage(message);
-          return showStreamInHomeNarrow(streamName, subscriptions)
-            && !isTopicMuted(streamName, message.subject, mute);
-        });
-      }
-
-      return messagesForNarrow.filter(message => {
-        if (message.type === 'private') {
-          return true;
-        }
-        const streamName = streamNameOfStreamMessage(message);
-        return !isTopicMuted(streamName, message.subject, mute);
-      });
-    }
-  );
+        // Search narrows don't matter here, because we never reach this code
+        // when searching (we don't get the messages from Redux.)
+        search: _ => messagesForNarrow,
+      }),
+);
 
 export const getFirstMessageId = (state: GlobalState, narrow: Narrow): number | void => {
   const ids = getFetchedMessageIdsForNarrow(state, narrow);
