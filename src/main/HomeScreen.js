@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -36,45 +36,43 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-class HomeScreen extends PureComponent<Props> {
-  render() {
-    const { dispatch } = this.props;
+function HomeScreen(props: Props) {
+  const { dispatch } = props;
 
-    return (
-      <View style={styles.wrapper}>
-        <View style={styles.iconList}>
-          <NavButton
-            name="globe"
-            onPress={() => {
-              dispatch(doNarrow(HOME_NARROW));
-            }}
-          />
-          <NavButton
-            name="star"
-            onPress={() => {
-              dispatch(doNarrow(STARRED_NARROW));
-            }}
-          />
-          <NavButtonGeneral
-            onPress={() => {
-              dispatch(doNarrow(MENTIONED_NARROW));
-            }}
-          >
-            <IconUnreadMentions color={BRAND_COLOR} />
-          </NavButtonGeneral>
-          <NavButton
-            name="search"
-            onPress={() => {
-              NavigationService.dispatch(navigateToSearch());
-            }}
-          />
-        </View>
-        <ServerCompatBanner />
-        <LoadingBanner />
-        <UnreadCards />
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.iconList}>
+        <NavButton
+          name="globe"
+          onPress={() => {
+            dispatch(doNarrow(HOME_NARROW));
+          }}
+        />
+        <NavButton
+          name="star"
+          onPress={() => {
+            dispatch(doNarrow(STARRED_NARROW));
+          }}
+        />
+        <NavButtonGeneral
+          onPress={() => {
+            dispatch(doNarrow(MENTIONED_NARROW));
+          }}
+        >
+          <IconUnreadMentions color={BRAND_COLOR} />
+        </NavButtonGeneral>
+        <NavButton
+          name="search"
+          onPress={() => {
+            NavigationService.dispatch(navigateToSearch());
+          }}
+        />
       </View>
-    );
-  }
+      <ServerCompatBanner />
+      <LoadingBanner />
+      <UnreadCards />
+    </View>
+  );
 }
 
 export default connect<{||}, _, _>()(HomeScreen);
