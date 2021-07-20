@@ -55,21 +55,22 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
+const componentStyles = createStyleSheet({
+  outer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    height: '100%',
+  },
+  streamRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
+
 function TitleStream(props: Props) {
   const { narrow, stream, color, dispatch, backgroundData } = props;
-  const componentStyles = createStyleSheet({
-    outer: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      height: '100%',
-    },
-    streamRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-  });
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
