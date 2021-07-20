@@ -518,6 +518,7 @@ export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
  * In particular:
  *  * The self-user is `selfUser`.
  *  * Users `otherUser` and `thirdUser` also exist.
+ *  * The stream `stream` exists, with subscription `subscription`.
  *
  * More generally, each object in the Zulip app model -- a user, a stream,
  * etc. -- that this module exports as a constant value (rather than only as
@@ -550,7 +551,8 @@ export const plusReduxState: GlobalState = reduxState({
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
-  // TODO add stream and subscription
+  streams: [stream],
+  subscriptions: [subscription],
 });
 
 /**
