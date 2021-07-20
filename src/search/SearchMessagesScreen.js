@@ -41,10 +41,6 @@ type State = {|
 
 class SearchMessagesScreen extends PureComponent<Props, State> {
   state = {
-    // TODO remove disable-next-line once we start using
-    // `this.state.query` to provide `SEARCH_NARROW` in
-    // `SearchMessagesCard`.
-    // eslint-disable-next-line react/no-unused-state
     query: '',
     messages: null,
     isFetching: false,
@@ -89,10 +85,6 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
       // The empty query can be resolved without a network call.
       this.lastIdReceived = id;
       this.lastIdSuccess = id;
-      // TODO remove disable-next-line once we start using
-      // `this.state.query` to provide `SEARCH_NARROW` in
-      // `SearchMessagesCard`.
-      // eslint-disable-next-line react/no-unused-state
       this.setState({ query, messages: null, isFetching: false });
       return;
     }
@@ -104,10 +96,6 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
       // Update `state.messages` if this is our new latest result.
       if (id > this.lastIdSuccess) {
         this.lastIdSuccess = id;
-        // TODO remove disable-next-line once we start using
-        // `this.state.query` to provide `SEARCH_NARROW` in
-        // `SearchMessagesCard`.
-        // eslint-disable-next-line react/no-unused-state
         this.setState({ query, messages });
       }
     } finally {
@@ -141,7 +129,11 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
         searchBarOnChange={this.handleQueryChangeWrapper}
         style={styles.flexed}
       >
-        <SearchMessagesCard messages={messages} isFetching={isFetching} />
+        <SearchMessagesCard
+          messages={messages}
+          isFetching={isFetching}
+          narrow={SEARCH_NARROW(this.state.query)}
+        />
       </Screen>
     );
   }

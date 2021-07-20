@@ -3,10 +3,9 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 
-import type { Message } from '../types';
+import type { Message, Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { LoadingIndicator, SearchEmptyState } from '../common';
-import { HOME_NARROW } from '../utils/narrow';
 import MessageList from '../webview/MessageList';
 
 const styles = createStyleSheet({
@@ -17,6 +16,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   messages: Message[] | null,
+  narrow: Narrow,
   isFetching: boolean,
 |}>;
 
@@ -40,9 +40,6 @@ export default class SearchMessagesCard extends PureComponent<Props> {
       return <SearchEmptyState text="No results" />;
     }
 
-    // TODO: This is kind of a hack.
-    const narrow = HOME_NARROW;
-
     return (
       <View style={styles.results}>
         <MessageList
@@ -52,7 +49,7 @@ export default class SearchMessagesCard extends PureComponent<Props> {
             messages[messages.length - 1].id
           }
           messages={messages}
-          narrow={narrow}
+          narrow={this.props.narrow}
           showMessagePlaceholders={false}
           // TODO: handle editing a message from the search results,
           // or make this prop optional
