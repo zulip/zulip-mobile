@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
 
-import type { Dispatch, Narrow } from '../types';
+import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
 import { Popup, RawLabel, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -17,22 +17,17 @@ const styles = createStyleSheet({
   },
 });
 
-type SelectorProps = $ReadOnly<{|
-  topics: string[],
-|}>;
-
 type Props = $ReadOnly<{|
   narrow: Narrow,
   isFocused: boolean,
   text: string,
   onAutocomplete: (name: string) => void,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function TopicAutocomplete(props: Props) {
-  const { dispatch, narrow, isFocused, topics, text, onAutocomplete } = props;
+export default function TopicAutocomplete(props: Props) {
+  const { narrow, isFocused, text, onAutocomplete } = props;
+  const dispatch = useDispatch();
+  const topics = useSelector(state => getTopicsForNarrow(state, narrow));
 
   useEffect(() => {
     // The following should be sufficient to ensure we're up-to-date
@@ -77,7 +72,3 @@ function TopicAutocomplete(props: Props) {
     </AnimatedScaleComponent>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  topics: getTopicsForNarrow(state, props.narrow),
-}))(TopicAutocomplete);
