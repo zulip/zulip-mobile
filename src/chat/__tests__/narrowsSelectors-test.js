@@ -97,13 +97,10 @@ describe('getMessagesForNarrow', () => {
 });
 
 describe('shouldBeMuted', () => {
-  const stream = eg.makeStream();
-
-  const subscription = eg.makeSubscription({ stream });
-  const mutedSubscription = eg.makeSubscription({ stream, in_home_view: false });
-
-  const message = eg.streamMessage({ stream });
-
+  const stream = eg.stream;
+  const message = eg.streamMessage();
+  const subscription = eg.subscription;
+  const mutedSubscription = { ...subscription, in_home_view: false };
   const mutes = [[stream.name, message.subject]];
 
   describe('HOME_NARROW', () => {
