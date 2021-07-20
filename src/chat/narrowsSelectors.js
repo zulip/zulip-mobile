@@ -97,8 +97,7 @@ export const getMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Na
     },
   );
 
-/** Private helper; exported only for tests. */
-export const shouldBeMuted = (
+const shouldBeMuted = (
   message: Message | Outbox,
   narrow: Narrow,
   subscriptions: $ReadOnlyArray<Subscription>,
