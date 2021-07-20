@@ -147,17 +147,9 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             return !isTopicMuted(streamName, message.subject, mute);
           }),
 
-        // TODO: What about starred messages, and the starred-messages view?
-        //   Do we really want to filter starred messages out because the
-        //   topic (or stream) is muted?
-        starred: _ =>
-          messagesForNarrow.filter(message => {
-            if (message.type === 'private') {
-              return true;
-            }
-            const streamName = streamNameOfStreamMessage(message);
-            return !isTopicMuted(streamName, message.subject, mute);
-          }),
+        // In the starred-message view, ignore stream/topic mutes.
+        // TODO: What about starred messages in other views?
+        starred: _ => messagesForNarrow,
 
         // When viewing a topic narrow, we show all the messages even if the
         // topic or stream is muted.

@@ -174,6 +174,24 @@ describe('getShownMessagesForNarrow', () => {
     });
   });
 
+  describe('starred-messages narrow', () => {
+    const narrow = STARRED_NARROW;
+    const makeState = extra => makeStateGeneral(message, narrow, extra);
+    const shown = state => shownGeneral(state, narrow);
+
+    test('message not muted even if stream not subscribed', () => {
+      expect(shown(makeState({ subscriptions: [] }))).toEqual(true);
+    });
+
+    test('message not muted even if stream is muted', () => {
+      expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(true);
+    });
+
+    test('message not muted even if topic is muted', () => {
+      expect(shown(makeState({ mute: mutes }))).toEqual(true);
+    });
+  });
+
   describe('@-mentions narrow', () => {
     const narrow = MENTIONED_NARROW;
     const makeState = extra => makeStateGeneral(message, narrow, extra);
