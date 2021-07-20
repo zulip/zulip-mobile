@@ -6,18 +6,9 @@ import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import { TranslationContext } from '../boot/TranslationProvider';
-import type {
-  Narrow,
-  Stream,
-  Subscription,
-  Dispatch,
-  Auth,
-  MuteState,
-  User,
-  FlagsState,
-} from '../types';
+import type { Narrow } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow, topicOfNarrow } from '../utils/narrow';
 import {
@@ -31,28 +22,11 @@ import {
 } from '../selectors';
 import { showTopicActionSheet } from '../message/messageActionSheet';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import type { UnreadState } from '../unread/unreadModelTypes';
 import { getUnread } from '../unread/unreadModel';
-
-type SelectorProps = {|
-  stream: Subscription | {| ...Stream, in_home_view: boolean |},
-  backgroundData: {|
-    auth: Auth,
-    mute: MuteState,
-    streams: Map<number, Stream>,
-    subscriptions: Subscription[],
-    unread: UnreadState,
-    ownUser: User,
-    flags: FlagsState,
-  |},
-|};
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
   color: string,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -69,8 +43,20 @@ const componentStyles = createStyleSheet({
   },
 });
 
-function TitleStream(props: Props) {
-  const { narrow, stream, color, dispatch, backgroundData } = props;
+export default function TitleStream(props: Props) {
+  const { narrow, color } = props;
+  const dispatch = useDispatch();
+  const stream = useSelector(state => getStreamInNarrow(state, narrow));
+  const backgroundData = useSelector(state => ({
+    auth: getAuth(state),
+    mute: getMute(state),
+    streams: getStreamsById(state),
+    subscriptions: getSubscriptions(state),
+    unread: getUnread(state),
+    ownUser: getOwnUser(state),
+    flags: getFlags(state),
+  }));
+
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
@@ -113,16 +99,3 @@ function TitleStream(props: Props) {
     </TouchableWithoutFeedback>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  stream: getStreamInNarrow(state, props.narrow),
-  backgroundData: {
-    auth: getAuth(state),
-    mute: getMute(state),
-    streams: getStreamsById(state),
-    subscriptions: getSubscriptions(state),
-    unread: getUnread(state),
-    ownUser: getOwnUser(state),
-    flags: getFlags(state),
-  },
-}))(TitleStream);
