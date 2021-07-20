@@ -140,6 +140,12 @@ export const shouldBeMuted = (
   return isTopicMuted(streamName, message.subject, mutes);
 };
 
+/**
+ * The known messages that should appear in the given narrow's message list.
+ *
+ * This is like {@link getMessagesForNarrow} but returns a subset of the
+ * messages, to implement the muted-stream and muted-topic features.
+ */
 // Prettier mishandles this Flow syntax.
 // prettier-ignore
 export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Narrow> =
