@@ -55,7 +55,7 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-const TitleStream = (props: Props) => {
+function TitleStream(props: Props) {
   const { narrow, stream, color, dispatch, backgroundData } = props;
   const componentStyles = createStyleSheet({
     outer: {
@@ -111,7 +111,7 @@ const TitleStream = (props: Props) => {
       </View>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 export default connect<SelectorProps, _, _>((state, props) => ({
   stream: getStreamInNarrow(state, props.narrow),
