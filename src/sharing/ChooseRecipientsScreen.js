@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Dispatch, UserId, UserOrBot } from '../types';
 import { connect } from '../react-redux';
 import { Screen } from '../common';
@@ -10,35 +10,24 @@ type Props = $ReadOnly<{|
   onComplete: ($ReadOnlyArray<UserId>) => void,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function ChooseRecipientsScreen(props: Props) {
+  const { onComplete } = props;
+  const [filter, setFilter] = useState<string>('');
 
-class ChooseRecipientsScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
+  const handleComplete = useCallback(
+    (selected: Array<UserOrBot>) => {
+      onComplete(selected.map(u => u.user_id));
+    },
+    [onComplete],
+  );
 
-  handleComplete = (selected: Array<UserOrBot>) => {
-    const { onComplete } = this.props;
-    onComplete(selected.map(u => u.user_id));
-  };
-
-  render() {
-    const { filter } = this.state;
-    return (
-      <Screen
-        search
-        scrollEnabled={false}
-        searchBarOnChange={this.handleFilterChange}
-        canGoBack={false}
-      >
-        <UserPickerCard filter={filter} onComplete={this.handleComplete} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange} canGoBack={false}>
+      <UserPickerCard filter={filter} onComplete={handleComplete} />
+    </Screen>
+  );
 }
 
 export default connect<{||}, _, _>()(ChooseRecipientsScreen);
