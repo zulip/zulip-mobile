@@ -1,16 +1,14 @@
 /* @flow strict-local */
 import React, { useState, useCallback } from 'react';
-import type { Dispatch, UserId, UserOrBot } from '../types';
-import { connect } from '../react-redux';
+import type { UserId, UserOrBot } from '../types';
 import { Screen } from '../common';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = $ReadOnly<{|
-  dispatch: Dispatch,
   onComplete: ($ReadOnlyArray<UserId>) => void,
 |}>;
 
-function ChooseRecipientsScreen(props: Props) {
+export default function ChooseRecipientsScreen(props: Props) {
   const { onComplete } = props;
   const [filter, setFilter] = useState<string>('');
 
@@ -29,5 +27,3 @@ function ChooseRecipientsScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect<{||}, _, _>()(ChooseRecipientsScreen);
