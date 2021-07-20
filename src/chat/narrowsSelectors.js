@@ -97,6 +97,22 @@ export const getMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Na
     },
   );
 
+/** Whether this stream's messages should appear in the "all messages" narrow. */
+const showStreamInHomeNarrow = (
+  streamName: string,
+  subscriptions: $ReadOnlyArray<Subscription>,
+): boolean => {
+  const sub = subscriptions.find(x => x.name === streamName);
+  if (!sub) {
+    // If there's no matching subscription, then the user must have
+    // unsubscribed from the stream since the message was received.  Leave
+    // those messages out of this view, just like for a muted stream.
+    return false;
+  }
+
+  return sub.in_home_view;
+};
+
 const shouldBeMuted = (
   message: Message | Outbox,
   narrow: Narrow,
@@ -125,17 +141,8 @@ const shouldBeMuted = (
 
   const streamName = streamNameOfStreamMessage(message);
 
-  if (isHomeNarrow(narrow)) {
-    const sub = subscriptions.find(x => x.name === streamName);
-    if (!sub) {
-      // If there's no matching subscription, then the user must have
-      // unsubscribed from the stream since the message was received.  Leave
-      // those messages out of this view, just like for a muted stream.
-      return true;
-    }
-    if (!sub.in_home_view) {
-      return true;
-    }
+  if (isHomeNarrow(narrow) && !showStreamInHomeNarrow(streamName, subscriptions)) {
+    return true;
   }
 
   return isTopicMuted(streamName, message.subject, mutes);
