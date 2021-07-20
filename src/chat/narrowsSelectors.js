@@ -32,6 +32,7 @@ import {
   caseNarrowDefault,
   keyFromNarrow,
   streamNameOfNarrow,
+  isPmNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../mute/muteModel';
 import { streamNameOfStreamMessage } from '../utils/recipient';
@@ -151,6 +152,11 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
     (narrow, messagesForNarrow, subscriptions, mute) => {
       if (isTopicNarrow(narrow)) {
         return messagesForNarrow; // never hide a message when narrowed to topic
+      }
+
+      if (isPmNarrow(narrow)) {
+        // In a PM narrow, no messages can be in a muted stream or topic.
+        return messagesForNarrow;
       }
 
       // This logic isn't quite right - we want to make sure we never hide a
