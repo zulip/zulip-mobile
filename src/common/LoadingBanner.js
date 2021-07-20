@@ -3,8 +3,7 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
 
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getLoading } from '../selectors';
 // eslint-disable-next-line import/no-useless-path-segments
 import { Label, LoadingIndicator } from './'; // Like '.'; see #4818.
@@ -22,26 +21,20 @@ const styles = createStyleSheet({
   none: { display: 'none' },
 });
 
-type SelectorProps = $ReadOnly<{|
-  loading: boolean,
-|}>;
-
 type Props = $ReadOnly<{|
   spinnerColor?: 'black' | 'white' | 'default',
   textColor?: string,
   backgroundColor?: string,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
  * Display a notice that the app is connecting to the server, when appropriate.
  */
-function LoadingBanner(props: Props) {
+export default function LoadingBanner(props: Props) {
+  const loading = useSelector(getLoading);
   const themeContext = useContext(ThemeContext);
 
-  if (!props.loading) {
+  if (!loading) {
     return <View key={key} style={styles.none} />;
   }
   const {
@@ -72,7 +65,3 @@ function LoadingBanner(props: Props) {
     </View>
   );
 }
-
-export default connect<SelectorProps, _, _>(state => ({
-  loading: getLoading(state),
-}))(LoadingBanner);
