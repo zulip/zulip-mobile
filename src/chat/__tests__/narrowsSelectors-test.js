@@ -97,17 +97,14 @@ describe('getMessagesForNarrow', () => {
 });
 
 describe('shouldBeMuted', () => {
-  const stream = eg.makeStream({
-    name: 'stream',
-  });
+  const stream = eg.makeStream();
 
   const subscription = eg.makeSubscription({ stream });
   const mutedSubscription = eg.makeSubscription({ stream, in_home_view: false });
 
-  const message = eg.streamMessage({
-    stream,
-    subject: 'some topic',
-  });
+  const message = eg.streamMessage({ stream });
+
+  const mutes = [[stream.name, message.subject]];
 
   describe('HOME_NARROW', () => {
     test('private messages are never muted', () => {
@@ -128,13 +125,12 @@ describe('shouldBeMuted', () => {
     });
 
     test('message in a stream is muted if the topic is muted and topic matches', () => {
-      const mutes = [['stream', 'some topic']];
       expect(shouldBeMuted(message, HOME_NARROW, [subscription], mutes)).toBe(true);
     });
   });
 
   describe('stream narrow', () => {
-    const narrow = streamNarrow('stream');
+    const narrow = streamNarrow(stream.name);
 
     test('message not muted even if stream not subscribed', () => {
       expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
@@ -145,13 +141,12 @@ describe('shouldBeMuted', () => {
     });
 
     test('message muted if topic is muted', () => {
-      const mutes = [['stream', 'some topic']];
       expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(true);
     });
   });
 
   describe('topic narrow', () => {
-    const narrow = topicNarrow('stream', 'some topic');
+    const narrow = topicNarrow(stream.name, message.subject);
 
     test('message not muted even if stream not subscribed', () => {
       expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
@@ -162,7 +157,6 @@ describe('shouldBeMuted', () => {
     });
 
     test('message not muted even if topic is muted', () => {
-      const mutes = [['stream', 'some topic']];
       expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(false);
     });
   });
@@ -179,7 +173,6 @@ describe('shouldBeMuted', () => {
     });
 
     test('message not muted even if topic is muted', () => {
-      const mutes = [['stream', 'some topic']];
       expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(false);
     });
   });
