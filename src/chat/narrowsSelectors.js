@@ -125,20 +125,6 @@ const shouldBeMuted = (
     return false;
   }
 
-  if (isTopicNarrow(narrow)) {
-    return false; // never hide a message when narrowed to topic
-  }
-
-  // This logic isn't quite right - we want to make sure we never hide a
-  // message that has a mention, even if we aren't in the "Mentioned"
-  // narrow. (#3472)  However, it's more complex to do that, and this code
-  // fixes the largest problem we'd had with muted mentioned messages, which
-  // is that they show up in the count for the "Mentions" tab, but without
-  // this conditional they wouldn't in the actual narrow.
-  if (isMentionedNarrow(narrow)) {
-    return false;
-  }
-
   const streamName = streamNameOfStreamMessage(message);
 
   if (isHomeNarrow(narrow) && !showStreamInHomeNarrow(streamName, subscriptions)) {
@@ -162,8 +148,23 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
     getMessagesForNarrow,
     state => getSubscriptions(state),
     state => getMute(state),
-    (narrow, messagesForNarrow, subscriptions, mute) =>
-      messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute)),
+    (narrow, messagesForNarrow, subscriptions, mute) => {
+      if (isTopicNarrow(narrow)) {
+        return messagesForNarrow; // never hide a message when narrowed to topic
+      }
+
+      // This logic isn't quite right - we want to make sure we never hide a
+      // message that has a mention, even if we aren't in the "Mentioned"
+      // narrow. (#3472)  However, it's more complex to do that, and this code
+      // fixes the largest problem we'd had with muted mentioned messages, which
+      // is that they show up in the count for the "Mentions" tab, but without
+      // this conditional they wouldn't in the actual narrow.
+      if (isMentionedNarrow(narrow)) {
+        return messagesForNarrow;
+      }
+
+      return messagesForNarrow.filter(item => !shouldBeMuted(item, narrow, subscriptions, mute));
+    }
   );
 
 export const getFirstMessageId = (state: GlobalState, narrow: Narrow): number | void => {
