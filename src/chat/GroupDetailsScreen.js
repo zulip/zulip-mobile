@@ -5,8 +5,7 @@ import { FlatList } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch, UserOrBot, UserId } from '../types';
-import { connect } from '../react-redux';
+import type { UserOrBot, UserId } from '../types';
 import { Screen } from '../common';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
@@ -14,11 +13,9 @@ import { navigateToAccountDetails } from '../actions';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'group-details'>,
   route: RouteProp<'group-details', {| recipients: $ReadOnlyArray<UserId> |}>,
-
-  dispatch: Dispatch,
 |}>;
 
-function GroupDetailsScreen(props: Props) {
+export default function GroupDetailsScreen(props: Props) {
   const { recipients } = props.route.params;
   const handlePress = useCallback((user: UserOrBot) => {
     NavigationService.dispatch(navigateToAccountDetails(user.user_id));
@@ -37,5 +34,3 @@ function GroupDetailsScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect<{||}, _, _>()(GroupDetailsScreen);
