@@ -96,6 +96,7 @@ describe('getMessagesForNarrow', () => {
   });
 });
 
+/* eslint-disable no-shadow */
 describe('shouldBeMuted', () => {
   const stream = eg.stream;
   const message = eg.streamMessage();
@@ -104,73 +105,78 @@ describe('shouldBeMuted', () => {
   const mutes = [[stream.name, message.subject]];
 
   describe('HOME_NARROW', () => {
+    const narrow = HOME_NARROW;
+    const shown = (subscriptions, mutes) => !shouldBeMuted(message, narrow, subscriptions, mutes);
+
     test('private messages are never muted', () => {
-      const pmMessage = eg.pmMessage();
-      expect(shouldBeMuted(pmMessage, HOME_NARROW, [], [])).toBe(false);
+      expect(shouldBeMuted(eg.pmMessage(), narrow, [], [])).toBe(false);
     });
 
     test('message in a stream is not muted if stream and topic not muted', () => {
-      expect(shouldBeMuted(message, HOME_NARROW, [subscription], [])).toBe(false);
+      expect(shown([subscription], [])).toBe(true);
     });
 
     test('message in a stream is muted if stream is not in subscriptions', () => {
-      expect(shouldBeMuted(message, HOME_NARROW, [], [])).toBe(true);
+      expect(shown([], [])).toBe(false);
     });
 
     test('message in a stream is muted if the stream is muted', () => {
-      expect(shouldBeMuted(message, HOME_NARROW, [mutedSubscription], [])).toBe(true);
+      expect(shown([mutedSubscription], [])).toBe(false);
     });
 
     test('message in a stream is muted if the topic is muted and topic matches', () => {
-      expect(shouldBeMuted(message, HOME_NARROW, [subscription], mutes)).toBe(true);
+      expect(shown([subscription], mutes)).toBe(false);
     });
   });
 
   describe('stream narrow', () => {
     const narrow = streamNarrow(stream.name);
+    const shown = (subscriptions, mutes) => !shouldBeMuted(message, narrow, subscriptions, mutes);
 
     test('message not muted even if stream not subscribed', () => {
-      expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
+      expect(shown([], [])).toBe(true);
     });
 
     test('message not muted even if stream is muted', () => {
-      expect(shouldBeMuted(message, narrow, [mutedSubscription], [])).toBe(false);
+      expect(shown([mutedSubscription], [])).toBe(true);
     });
 
     test('message muted if topic is muted', () => {
-      expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(true);
+      expect(shown([subscription], mutes)).toBe(false);
     });
   });
 
   describe('topic narrow', () => {
     const narrow = topicNarrow(stream.name, message.subject);
+    const shown = (subscriptions, mutes) => !shouldBeMuted(message, narrow, subscriptions, mutes);
 
     test('message not muted even if stream not subscribed', () => {
-      expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
+      expect(shown([], [])).toBe(true);
     });
 
     test('message not muted even if stream is muted', () => {
-      expect(shouldBeMuted(message, narrow, [mutedSubscription], [])).toBe(false);
+      expect(shown([mutedSubscription], [])).toBe(true);
     });
 
     test('message not muted even if topic is muted', () => {
-      expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(false);
+      expect(shown([subscription], mutes)).toBe(true);
     });
   });
 
   describe('@-mentions narrow', () => {
     const narrow = MENTIONED_NARROW;
+    const shown = (subscriptions, mutes) => !shouldBeMuted(message, narrow, subscriptions, mutes);
 
     test('message not muted even if stream not subscribed', () => {
-      expect(shouldBeMuted(message, narrow, [], [])).toBe(false);
+      expect(shown([], [])).toBe(true);
     });
 
     test('message not muted even if stream is muted', () => {
-      expect(shouldBeMuted(message, narrow, [mutedSubscription], [])).toBe(false);
+      expect(shown([mutedSubscription], [])).toBe(true);
     });
 
     test('message not muted even if topic is muted', () => {
-      expect(shouldBeMuted(message, narrow, [subscription], mutes)).toBe(false);
+      expect(shown([subscription], mutes)).toBe(true);
     });
   });
 });
