@@ -305,6 +305,15 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // Add `doNotMarkMessagesAsRead` in `SettingsState`.
   // (Handled automatically by merging with the new initial state.)
 
+  // Use valid language tag for Portuguese (Portugal)
+  '30': state => ({
+    ...state,
+    settings: {
+      ...state.settings,
+      locale: state.settings.locale === 'pt_PT' ? 'pt-PT' : state.settings.locale,
+    },
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

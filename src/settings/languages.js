@@ -58,7 +58,7 @@ const languages: $ReadOnlyArray<Language> = [
   { locale: 'fa', name: 'Persian', nativeName: 'فارسی' },
   { locale: 'pl', name: 'Polish', nativeName: 'Polski' },
   { locale: 'pt', name: 'Portuguese', nativeName: 'Português' },
-  { locale: 'pt_PT', name: 'Portuguese (Portugal)', nativeName: 'Português (Portugal)' },
+  { locale: 'pt-PT', name: 'Portuguese (Portugal)', nativeName: 'Português (Portugal)' },
   { locale: 'ro', name: 'Romanian', nativeName: 'Română' },
   { locale: 'ru', name: 'Russian', nativeName: 'Русский' },
   { locale: 'sr', name: 'Serbian', nativeName: 'Српски' },
