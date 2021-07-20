@@ -8,7 +8,7 @@ import {
 import { ensureUnreachable } from '../types';
 
 const initialState: SettingsState = {
-  locale: 'en',
+  language: 'en',
   theme: 'default',
   offlineNotification: true,
   onlineNotification: true,

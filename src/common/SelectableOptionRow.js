@@ -51,7 +51,7 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
  *
  * NOTE: This isn't an all-purpose action button. The component has
  * two essential states: selected and deselected. These must clearly
- * represent two states in the app; e.g., for each supported locale,
+ * represent two states in the app; e.g., for each supported language,
  * it is either active or not. The event handler shouldn't do random
  * things that aren't related to that state, like navigating to a
  * different screen.

@@ -161,8 +161,10 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // Convert old locale names to new, more-specific locale names.
   '10': state => {
     const newLocaleNames = { zh: 'zh-Hans', id: 'id-ID' };
+    // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
     const { locale } = state.settings;
     const newLocale = newLocaleNames[locale] ?? locale;
+    // $FlowIgnore[prop-missing]
     return {
       ...state,
       settings: {
@@ -269,8 +271,10 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
 
   // Rename locale `id-ID` back to `id`.
   '26': state => {
+    // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
     const { locale } = state.settings;
     const newLocale = locale === 'id-ID' ? 'id' : locale;
+    // $FlowIgnore[prop-missing]
     return {
       ...state,
       settings: {
@@ -306,11 +310,14 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // (Handled automatically by merging with the new initial state.)
 
   // Use valid language tag for Portuguese (Portugal)
+  // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
   '30': state => ({
     ...state,
     settings: {
       ...state.settings,
-      locale: state.settings.locale === 'pt_PT' ? 'pt-PT' : state.settings.locale,
+      locale:
+        // $FlowIgnore[prop-missing]
+        state.settings.locale === 'pt_PT' ? 'pt-PT' : state.settings.locale,
     },
   }),
 

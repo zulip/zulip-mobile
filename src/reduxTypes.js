@@ -288,7 +288,9 @@ export type ThemeName = 'default' | 'night';
 export type BrowserPreference = 'embedded' | 'external' | 'default';
 
 export type SettingsState = {|
-  locale: string,
+  // The user's chosen language, as an IETF BCP 47 language tag.
+  language: string,
+
   theme: ThemeName,
   offlineNotification: boolean,
   onlineNotification: boolean,

@@ -17,20 +17,20 @@ type Props = $ReadOnly<{|
 
 export default function LanguageScreen(props: Props): React$Node {
   const dispatch = useDispatch();
-  const locale = useSelector(state => getSettings(state).locale);
+  const language = useSelector(state => getSettings(state).language);
 
   const [filter, setFilter] = useState<string>('');
 
   const handleLocaleChange = useCallback(
     (value: string) => {
-      dispatch(settingsChange({ locale: value }));
+      dispatch(settingsChange({ language: value }));
     },
     [dispatch],
   );
 
   return (
     <Screen search searchBarOnChange={setFilter} scrollEnabled={false}>
-      <LanguagePicker value={locale} onValueChange={handleLocaleChange} filter={filter} />
+      <LanguagePicker value={language} onValueChange={handleLocaleChange} filter={filter} />
     </Screen>
   );
 }

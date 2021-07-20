@@ -10,7 +10,7 @@ import type { Language } from './languages';
 
 type Props = $ReadOnly<{|
   value: string,
-  onValueChange: (locale: string) => void,
+  onValueChange: (tag: string) => void,
   filter: string,
 |}>;
 
@@ -53,12 +53,12 @@ export default class LanguagePicker extends PureComponent<Props> {
         initialNumToRender={languages.length}
         data={data}
         keyboardShouldPersistTaps="always"
-        keyExtractor={item => item.locale}
+        keyExtractor={item => item.tag}
         renderItem={({ item }) => (
           <SelectableOptionRow
-            selected={item.locale === value}
+            selected={item.tag === value}
             onRequestSelectionChange={onValueChange}
-            itemKey={item.locale}
+            itemKey={item.tag}
             subtitle={item.name}
             title={item.nativeName}
           />

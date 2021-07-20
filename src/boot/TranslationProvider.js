@@ -78,10 +78,10 @@ type Props = $ReadOnly<{|
 
 export default function TranslationProvider(props: Props): React$Node {
   const { children } = props;
-  const locale = useSelector(state => getSettings(state).locale);
+  const language = useSelector(state => getSettings(state).language);
 
   return (
-    <IntlProvider locale={locale} textComponent={Text} messages={messages[locale]}>
+    <IntlProvider locale={language} textComponent={Text} messages={messages[language]}>
       <TranslationContextTranslator>{children}</TranslationContextTranslator>
     </IntlProvider>
   );
