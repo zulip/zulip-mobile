@@ -6,8 +6,7 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useDispatch } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import NavButton from '../nav/NavButton';
 import NavButtonGeneral from '../nav/NavButtonGeneral';
@@ -32,12 +31,10 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'home'>,
   route: RouteProp<'home', void>,
-
-  dispatch: Dispatch,
 |}>;
 
-function HomeScreen(props: Props) {
-  const { dispatch } = props;
+export default function HomeScreen(props: Props) {
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.wrapper}>
@@ -74,5 +71,3 @@ function HomeScreen(props: Props) {
     </View>
   );
 }
-
-export default connect<{||}, _, _>()(HomeScreen);
