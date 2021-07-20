@@ -105,7 +105,9 @@ export const shouldBeMuted = (
   mutes: MuteState,
 ): boolean => {
   if (message.type === 'private') {
-    return false; // private/group messages are not muted
+    // When viewing a topic narrow, we show all the messages even if the
+    // topic or stream is muted.
+    return false;
   }
 
   if (isTopicNarrow(narrow)) {
