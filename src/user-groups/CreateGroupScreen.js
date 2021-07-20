@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -25,31 +25,26 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function CreateGroupScreen(props: Props) {
+  const { dispatch, ownUserId } = props;
 
-class CreateGroupScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const [filter, setFilter] = useState<string>('');
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
+  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
 
-  handleCreateGroup = (selected: UserOrBot[]) => {
-    const { dispatch, ownUserId } = this.props;
-    NavigationService.dispatch(navigateBack());
-    dispatch(doNarrow(pmNarrowFromUsers(pmKeyRecipientsFromUsers(selected, ownUserId))));
-  };
+  const handleCreateGroup = useCallback(
+    (selected: UserOrBot[]) => {
+      NavigationService.dispatch(navigateBack());
+      dispatch(doNarrow(pmNarrowFromUsers(pmKeyRecipientsFromUsers(selected, ownUserId))));
+    },
+    [dispatch, ownUserId],
+  );
 
-  render() {
-    const { filter } = this.state;
-    return (
-      <Screen search scrollEnabled={false} searchBarOnChange={this.handleFilterChange}>
-        <UserPickerCard filter={filter} onComplete={this.handleCreateGroup} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange}>
+      <UserPickerCard filter={filter} onComplete={handleCreateGroup} />
+    </Screen>
+  );
 }
 
 export default connect<SelectorProps, _, _>(state => ({
