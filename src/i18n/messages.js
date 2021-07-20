@@ -1,6 +1,8 @@
 /* @flow strict-local */
 /* eslint-disable global-require */
 
+// Languages we have some message data for. Languages that are selectable in
+// the UI are chosen from these. Keys are IETF BCP 47 language tags.
 export default {
   ar: require('../../static/translations/messages_ar.json'),
   bg: require('../../static/translations/messages_bg.json'),

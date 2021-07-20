@@ -1,9 +1,8 @@
 /* @flow strict-local */
+import messages from '../i18n/messages';
 
 export type Language = {|
-  // IETF BCP 47 language tag
-  tag: string,
-
+  tag: $Keys<typeof messages>,
   name: string,
   nativeName: string,
 |};
