@@ -1,8 +1,7 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 
-import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 
 const componentStyles = createStyleSheet({
@@ -11,13 +10,9 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default class OptionDivider extends PureComponent<{||}> {
-  static contextType = ThemeContext;
-  context: ThemeData;
-
-  render() {
-    return (
-      <View style={[componentStyles.divider, { borderBottomColor: this.context.dividerColor }]} />
-    );
-  }
+export default function OptionDivider(props: {||}) {
+  const themeContext = useContext(ThemeContext);
+  return (
+    <View style={[componentStyles.divider, { borderBottomColor: themeContext.dividerColor }]} />
+  );
 }
