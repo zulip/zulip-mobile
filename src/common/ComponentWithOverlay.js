@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -36,7 +36,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   children: Node,
   overlay: Node,
-  showOverlay: boolean,
+  showOverlay?: boolean,
   overlaySize: number,
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
@@ -54,40 +54,34 @@ type Props = $ReadOnly<{|
  * @prop overlayPosition - What corner to align the overlay to.
  * @prop [style] - Applied to a wrapper View.
  */
-export default class ComponentWithOverlay extends PureComponent<Props> {
-  static defaultProps = {
-    showOverlay: true,
-  };
+export default function ComponentWithOverlay(props: Props) {
+  const {
+    children,
+    style,
+    overlay,
+    showOverlay = true,
+    overlayPosition,
+    overlaySize,
+    overlayColor,
+  } = props;
 
-  render() {
-    const {
-      children,
-      style,
-      overlay,
-      showOverlay,
-      overlayPosition,
-      overlaySize,
-      overlayColor,
-    } = this.props;
+  const wrapperStyle = [styles.wrapper, style];
+  const overlayStyle = [
+    styles.wrapper,
+    styles.overlay,
+    styles[overlayPosition],
+    {
+      minWidth: overlaySize,
+      height: overlaySize,
+      borderRadius: overlaySize,
+      backgroundColor: overlayColor,
+    },
+  ];
 
-    const wrapperStyle = [styles.wrapper, style];
-    const overlayStyle = [
-      styles.wrapper,
-      styles.overlay,
-      styles[overlayPosition],
-      {
-        minWidth: overlaySize,
-        height: overlaySize,
-        borderRadius: overlaySize,
-        backgroundColor: overlayColor,
-      },
-    ];
-
-    return (
-      <View style={wrapperStyle}>
-        {children}
-        {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
-      </View>
-    );
-  }
+  return (
+    <View style={wrapperStyle}>
+      {children}
+      {showOverlay && overlaySize > 0 && <View style={overlayStyle}>{overlay}</View>}
+    </View>
+  );
 }
