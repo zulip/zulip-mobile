@@ -3,6 +3,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import type { Node } from 'react';
 import { Animated, Easing } from 'react-native';
 
+import { usePrevious } from '../reactUtils';
 import type { Style } from '../types';
 
 type Props = $ReadOnly<{|
@@ -15,6 +16,9 @@ type Props = $ReadOnly<{|
   delay?: number,
 |}>;
 
+/**
+ * Animates the specified style property on visibility change.
+ */
 export default function AnimatedComponent(props: Props) {
   const {
     visible = true,
@@ -25,6 +29,8 @@ export default function AnimatedComponent(props: Props) {
     stylePropertyName,
     style,
   } = props;
+
+  const prevVisible = usePrevious(visible);
 
   const targetValue = visible ? fullValue : 0;
 
@@ -41,8 +47,10 @@ export default function AnimatedComponent(props: Props) {
   }, [delay, targetValue, useNativeDriver]);
 
   useEffect(() => {
-    animate();
-  });
+    if (prevVisible !== visible) {
+      animate();
+    }
+  }, [animate, prevVisible, visible]);
 
   const animatedStyle = {
     [stylePropertyName]: animatedValue.current,
