@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, LayoutAnimation } from 'react-native';
 
 import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
@@ -15,6 +15,7 @@ type SelectorProps = {|
 |};
 
 type Props = $ReadOnly<{|
+  height: number,
   user: UserOrBot,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
   onDismiss: (user: UserOrBot) => void,
@@ -24,6 +25,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 const styles = createStyleSheet({
+  wrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+  },
   outer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -43,8 +49,6 @@ const styles = createStyleSheet({
 
     // Based on MarkAsReadButton.
     // TODO make these less ad hoc.
-    // TODO also make the actual touch target taller, like 48px.
-    //   (Can extend beyond the visual representation of the button itself.)
     borderWidth: 0,
     borderRadius: 16,
     height: 32,
@@ -67,12 +71,23 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
     const { user, onDismiss } = this.props;
     onDismiss(user);
   };
-
+  componentDidMount() {
+    LayoutAnimation.configureNext({ ...LayoutAnimation.Presets.easeInEaseOut, duration: 100 });
+  }
+  componentWillUnmount() {
+    LayoutAnimation.configureNext({ ...LayoutAnimation.Presets.easeInEaseOut, duration: 100 });
+  }
   render() {
-    const { user } = this.props;
+    const { user, height } = this.props;
+    const hitSlop = {
+      top: 6,
+      right: 0,
+      bottom: 6,
+      left: 0,
+    };
 
     return (
-      <View>
+      <View style={[styles.wrapper, { bottom: height }]}>
         <TouchableOpacity onPress={this.handleDismiss} style={styles.outer}>
           <Label
             text={{
@@ -86,6 +101,7 @@ class MentionedUserNotSubscribed extends PureComponent<Props> {
             textStyle={styles.buttonText}
             text="Subscribe"
             onPress={this.subscribeToStream}
+            hitSlop={hitSlop}
           />
         </TouchableOpacity>
       </View>

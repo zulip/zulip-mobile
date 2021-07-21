@@ -507,7 +507,12 @@ class ComposeBox extends PureComponent<Props, State> {
           $FlowFixMe[incompatible-use]:
           `MentionWarnings` should use a type-checked `connect`
         */}
-        <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
+        <MentionWarnings
+          narrow={narrow}
+          stream={stream}
+          ref={this.mentionWarnings}
+          height={height}
+        />
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete
             isFocused={isTopicFocused}
