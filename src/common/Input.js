@@ -4,7 +4,7 @@ import { TextInput, Platform } from 'react-native';
 
 import type { LocalizableText, GetText } from '../types';
 import type { ThemeData } from '../styles';
-import { ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
+import { createStyleSheet, ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
 import { withGetText } from '../boot/TranslationProvider';
 
 export type Props = $ReadOnly<{|
@@ -25,6 +25,19 @@ type State = {|
   isFocused: boolean,
 |};
 
+const componentStyles = createStyleSheet({
+  input: {
+    ...Platform.select({
+      ios: {
+        borderWidth: 1,
+        borderColor: BORDER_COLOR,
+        borderRadius: 2,
+        padding: 8,
+      },
+    }),
+  },
+});
+
 /**
  * A light abstraction over the standard TextInput component
  * that allows us to seamlessly provide internationalization
@@ -42,19 +55,6 @@ type State = {|
 class Input extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
-
-  styles = {
-    input: {
-      ...Platform.select({
-        ios: {
-          borderWidth: 1,
-          borderColor: BORDER_COLOR,
-          borderRadius: 2,
-          padding: 8,
-        },
-      }),
-    },
-  };
 
   state = {
     isFocused: false,
@@ -82,7 +82,7 @@ class Input extends PureComponent<Props, State> {
 
     return (
       <TextInput
-        style={[this.styles.input, { color: this.context.color }, style]}
+        style={[componentStyles.input, { color: this.context.color }, style]}
         placeholder={_(fullPlaceholder.text, fullPlaceholder.values)}
         placeholderTextColor={HALF_COLOR}
         underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
