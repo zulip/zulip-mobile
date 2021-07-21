@@ -79,6 +79,9 @@ export default function SmartUrlInput(props: Props) {
 
   const themeContext = useContext(ThemeContext);
 
+  // When the route is focused in the navigation, focus the input.
+  // Otherwise, if you go back to this screen from the auth screen, the
+  // input won't be focused.
   useFocusEffect(
     useCallback(() => {
       if (textInputRef.current) {
