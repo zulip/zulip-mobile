@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -21,14 +21,12 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default class NavButtonGeneral extends PureComponent<Props> {
-  render() {
-    const { children, onPress, accessibilityLabel } = this.props;
+export default function NavButtonGeneral(props: Props) {
+  const { children, onPress, accessibilityLabel } = props;
 
-    return (
-      <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <View style={componentStyles.navButtonFrame}>{children}</View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
+      <View style={componentStyles.navButtonFrame}>{children}</View>
+    </Touchable>
+  );
 }
