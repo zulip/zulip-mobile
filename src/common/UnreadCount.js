@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -33,12 +33,12 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
-  borderRadius: number,
-  color: string,
-  count: number,
-  isMuted: boolean,
-  inverse: boolean,
-  limited: boolean,
+  borderRadius?: number,
+  color?: string,
+  count?: number,
+  isMuted?: boolean,
+  inverse?: boolean,
+  limited?: boolean,
 |}>;
 
 /**
@@ -53,42 +53,39 @@ type Props = $ReadOnly<{|
  * @prop [inverse] - Indicate if styling should be inverted (dark on light).
  * @prop [limited] - If set values over 100 will display as `99+`.
  */
-export default class UnreadCount extends PureComponent<Props> {
-  static defaultProps = {
-    borderRadius: 2,
-    color: BRAND_COLOR,
-    count: 0,
-    isMuted: false,
-    inverse: false,
-    limited: false,
-  };
+export default function UnreadCount(props: Props) {
+  const {
+    style,
+    isMuted = false,
+    borderRadius = 2,
+    color = BRAND_COLOR,
+    count = 0,
+    inverse = false,
+    limited = false,
+  } = props;
 
-  render() {
-    const { style, isMuted, borderRadius, color, count, inverse, limited } = this.props;
-
-    if (!count) {
-      return null;
-    }
-
-    const frameStyle = [
-      styles.frame,
-      inverse && styles.frameInverse,
-      isMuted && styles.frameMuted,
-      { borderRadius },
-      { backgroundColor: color },
-      style,
-    ];
-
-    const textColor = foregroundColorFromBackground(color);
-    const textStyle = [styles.text, inverse && styles.textInverse, { color: textColor }];
-
-    const countString = limited && count >= 100 ? '99+' : count.toString();
-    return (
-      <View style={frameStyle}>
-        <Text style={textStyle} numberOfLines={1}>
-          {countString}
-        </Text>
-      </View>
-    );
+  if (!count) {
+    return null;
   }
+
+  const frameStyle = [
+    styles.frame,
+    inverse && styles.frameInverse,
+    isMuted && styles.frameMuted,
+    { borderRadius },
+    { backgroundColor: color },
+    style,
+  ];
+
+  const textColor = foregroundColorFromBackground(color);
+  const textStyle = [styles.text, inverse && styles.textInverse, { color: textColor }];
+
+  const countString = limited && count >= 100 ? '99+' : count.toString();
+  return (
+    <View style={frameStyle}>
+      <Text style={textStyle} numberOfLines={1}>
+        {countString}
+      </Text>
+    </View>
+  );
 }
