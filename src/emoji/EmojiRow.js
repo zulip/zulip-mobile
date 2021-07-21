@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
 import type { EmojiType } from '../types';
@@ -25,22 +25,19 @@ type Props = $ReadOnly<{|
   onPress: (name: string) => void,
 |}>;
 
-export default class EmojiRow extends PureComponent<Props> {
-  handlePress = () => {
-    const { name, onPress } = this.props;
+export default function EmojiRow(props: Props) {
+  const { code, name, type, onPress } = props;
+
+  const handlePress = useCallback(() => {
     onPress(name);
-  };
+  }, [onPress, name]);
 
-  render() {
-    const { code, name, type } = this.props;
-
-    return (
-      <Touchable onPress={this.handlePress}>
-        <View style={styles.emojiRow}>
-          <Emoji code={code} type={type} />
-          <RawLabel style={styles.text} text={name} />
-        </View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable onPress={handlePress}>
+      <View style={styles.emojiRow}>
+        <Emoji code={code} type={type} />
+        <RawLabel style={styles.text} text={name} />
+      </View>
+    </Touchable>
+  );
 }
