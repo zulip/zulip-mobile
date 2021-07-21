@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View } from 'react-native';
 
 import Input from './Input';
@@ -29,42 +29,25 @@ type Props = $ReadOnly<$Diff<InputProps,
   // `InputProps` allows for these, don't allow them here."
   {| secureTextEntry: mixed, autoCorrect: mixed, autoCapitalize: mixed, _: mixed |}>>;
 
-type State = {|
-  isHidden: boolean,
-|};
-
 /**
  * A password input component using Input internally.
  * Provides a 'show'/'hide' button to show the password.
  *
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
-export default class PasswordInput extends PureComponent<Props, State> {
-  state = {
-    isHidden: true,
-  };
+export default function PasswordInput(props: Props) {
+  const [isHidden, setIsHidden] = useState<boolean>(true);
 
-  handleShow = () => {
-    this.setState(({ isHidden }) => ({
-      isHidden: !isHidden,
-    }));
-  };
+  const handleShow = useCallback(() => {
+    setIsHidden(prevIsHidden => !prevIsHidden);
+  }, []);
 
-  render() {
-    const { isHidden } = this.state;
-
-    return (
-      <View>
-        <Input
-          {...this.props}
-          secureTextEntry={isHidden}
-          autoCorrect={false}
-          autoCapitalize="none"
-        />
-        <Touchable style={styles.showPasswordButton} onPress={this.handleShow}>
-          <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
-        </Touchable>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <Input {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none" />
+      <Touchable style={styles.showPasswordButton} onPress={handleShow}>
+        <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+      </Touchable>
+    </View>
+  );
 }
