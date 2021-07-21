@@ -1,8 +1,7 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 
-import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 
 const componentStyles = createStyleSheet({
@@ -12,13 +11,9 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default class LineSeparator extends PureComponent<{||}> {
-  static contextType = ThemeContext;
-  context: ThemeData;
-
-  render() {
-    return (
-      <View style={[componentStyles.lineSeparator, { backgroundColor: this.context.cardColor }]} />
-    );
-  }
+export default function LineSeparator(props: {||}) {
+  const themeContext = useContext(ThemeContext);
+  return (
+    <View style={[componentStyles.lineSeparator, { backgroundColor: themeContext.cardColor }]} />
+  );
 }
