@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { View } from 'react-native';
 
 import Input from './Input';
@@ -16,63 +16,47 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<$Diff<InputProps, {| textInputRef: mixed, value: mixed, _: mixed |}>>;
 
-type State = {|
-  text: string,
-|};
-
 /**
  * A component wrapping Input and providing an 'X' button
  * to clear the entered text.
  *
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
-export default class InputWithClearButton extends PureComponent<Props, State> {
-  state = {
-    text: '',
-  };
+export default function InputWithClearButton(props: Props) {
+  const { onChangeText } = props;
+
+  const [text, setText] = useState<string>('');
+
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
-  textInputRef = React.createRef<$FlowFixMe>();
+  const textInputRef = useRef<$FlowFixMe>();
 
-  handleChangeText = (text: string) => {
-    this.setState({
-      text,
-    });
-    if (this.props.onChangeText) {
-      this.props.onChangeText(text);
-    }
-  };
+  const handleChangeText = useCallback(
+    (_text: string) => {
+      setText(_text);
+      if (onChangeText) {
+        onChangeText(_text);
+      }
+    },
+    [onChangeText],
+  );
 
-  handleClear = () => {
-    this.handleChangeText('');
-    if (this.textInputRef.current) {
+  const handleClear = useCallback(() => {
+    handleChangeText('');
+    if (textInputRef.current) {
       // `.current` is not type-checked; see definition.
-      this.textInputRef.current.clear();
+      textInputRef.current.clear();
     }
-  };
+  }, [handleChangeText]);
 
-  render() {
-    const { text } = this.state;
-
-    return (
-      <View style={styles.row}>
-        <Input
-          {...this.props}
-          textInputRef={this.textInputRef}
-          onChangeText={this.handleChangeText}
-          value={text}
-        />
-        {text.length > 0 && (
-          <Icon
-            name="x"
-            size={24}
-            onPress={this.handleClear}
-            style={componentStyles.clearButtonIcon}
-          />
-        )}
-      </View>
-    );
-  }
+  return (
+    <View style={styles.row}>
+      <Input {...props} textInputRef={textInputRef} onChangeText={handleChangeText} value={text} />
+      {text.length > 0 && (
+        <Icon name="x" size={24} onPress={handleClear} style={componentStyles.clearButtonIcon} />
+      )}
+    </View>
+  );
 }
