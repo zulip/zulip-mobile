@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import type { Node } from 'react';
 import { Animated, Easing } from 'react-native';
 
@@ -10,44 +10,41 @@ type Props = $ReadOnly<{|
   fullValue: number,
   children: Node,
   style?: Style,
-  visible: boolean,
-  useNativeDriver: boolean,
-  delay: number,
+  visible?: boolean,
+  useNativeDriver?: boolean,
+  delay?: number,
 |}>;
 
-export default class AnimatedComponent extends PureComponent<Props> {
-  static defaultProps = {
-    visible: true,
-    useNativeDriver: true,
-    delay: 0,
-  };
+export default function AnimatedComponent(props: Props) {
+  const {
+    visible = true,
+    useNativeDriver = true,
+    delay = 0,
+    fullValue,
+    children,
+    stylePropertyName,
+    style,
+  } = props;
 
-  animatedValue = new Animated.Value(0);
+  const animatedValue = useRef(new Animated.Value(0));
 
-  animate() {
-    Animated.timing(this.animatedValue, {
-      toValue: this.props.visible ? this.props.fullValue : 0,
-      delay: this.props.delay,
+  const animate = useCallback(() => {
+    Animated.timing(animatedValue.current, {
+      toValue: visible ? fullValue : 0,
+      delay,
       duration: 300,
-      useNativeDriver: this.props.useNativeDriver,
+      useNativeDriver,
       easing: Easing.out(Easing.poly(4)),
     }).start();
-  }
+  }, [delay, fullValue, useNativeDriver, visible]);
 
-  componentDidMount() {
-    this.animate();
-  }
+  useEffect(() => {
+    animate();
+  });
 
-  componentDidUpdate() {
-    this.animate();
-  }
+  const animatedStyle = {
+    [stylePropertyName]: animatedValue.current,
+  };
 
-  render() {
-    const { children, stylePropertyName, style } = this.props;
-    const animatedStyle = {
-      [stylePropertyName]: this.animatedValue,
-    };
-
-    return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
-  }
+  return <Animated.View style={[animatedStyle, style]}>{children}</Animated.View>;
 }
