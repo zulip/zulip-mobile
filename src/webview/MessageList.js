@@ -301,16 +301,35 @@ class MessageListInner extends Component<Props> {
   }
 }
 
+/**
+ * Whether reading messages in this narrow can mark them as read.
+ *
+ * "Can", not "will": other conditions can mean we don't want to mark
+ * messages as read even when in a narrow where this is true.
+ */
 const marksMessagesAsRead = (narrow: Narrow): boolean =>
+  // Generally we want these to agree with the web/desktop app, so that user
+  // expectations transfer between the different apps.
   caseNarrow(narrow, {
-    stream: () => true,
+    // These narrows show one conversation in full.  Each message appears
+    // in its full context, so it makes sense to say the user's read it
+    // and doesn't need to be shown it as unread again.
     topic: () => true,
     pm: () => true,
-    search: () => false,
+
+    // These narrows show several conversations interleaved.  They always
+    // show entire conversations, so each message still appears in its
+    // full context and it still makes sense to mark it as read.
+    stream: () => true,
     home: () => true,
+    allPrivate: () => true,
+
+    // These narrows show selected messages out of context.  The user will
+    // typically still want to see them another way, in context, before
+    // letting them disappear from their list of unread messages.
+    search: () => false,
     starred: () => false,
     mentioned: () => false,
-    allPrivate: () => true,
   });
 
 const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
