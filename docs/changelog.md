@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.166 (2021-07-21)
+
 ### Highlights for users
 
 * (Android) You can now share content from other apps to Zulip. (#117)
