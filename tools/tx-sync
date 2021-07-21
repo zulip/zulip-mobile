@@ -32,6 +32,11 @@ A third type of change is left uncommitted (and a link to docs is
 provided) because some steps are not yet automated:
  * new target languages
 
+All of the resulting changes should be pushed to the central repo
+without too much delay. The command is meant to synchronize the
+state between the central repo and Transifex, and that can only
+happen if they are both updated synchronously.
+
 EOF
 }
 

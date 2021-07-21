@@ -141,10 +141,13 @@ You'll want Transifex's CLI client, `tx`.
 
 ### Regular operation
 
-To sync with Transifex, run `tools/tx-sync`.
+To sync with Transifex, run `tools/tx-sync` and `git push` the resulting
+commit(s) to the central repo without too much delay. The command is meant
+to synchronize the state between the central repo and Transifex, and that
+can only happen if they are both updated synchronously.
 
-This syncs in both directions, and makes local commits with any
-changes.  Review the results and then push to the central repo.
+A `tools/tx-sync`-and-push task can be done at any time, but we should do
+one just before each release.
 
 The sync uploads from `static/translations/messages_en.json` to the
 set of strings Transifex shows for contributors to translate, and
