@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useRef, useCallback, useContext } from 'react';
+import type { Node } from 'react';
 import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -54,7 +55,7 @@ type Props = $ReadOnly<{|
   enablesReturnKeyAutomatically: boolean,
 |}>;
 
-export default function SmartUrlInput(props: Props) {
+export default function SmartUrlInput(props: Props): Node {
   const {
     defaultProtocol,
     defaultOrganization,

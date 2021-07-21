@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { EmojiType } from '../types';
@@ -25,7 +26,7 @@ type Props = $ReadOnly<{|
   onPress: (name: string) => void,
 |}>;
 
-export default function EmojiRow(props: Props) {
+export default function EmojiRow(props: Props): Node {
   const { code, name, type, onPress } = props;
 
   const handlePress = useCallback(() => {

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -11,7 +12,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'users', void>,
 |}>;
 
-export default function UsersScreen(props: Props) {
+export default function UsersScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   return (

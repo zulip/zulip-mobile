@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 /**
  * Animates the specified style property on visibility change.
  */
-export default function AnimatedComponent(props: Props) {
+export default function AnimatedComponent(props: Props): Node {
   const {
     visible = true,
     useNativeDriver = true,

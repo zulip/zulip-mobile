@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback, useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
@@ -25,7 +26,7 @@ type Props = $ReadOnly<{|
   onPress: (name: string) => void,
 |}>;
 
-export default function UserGroupItem(props: Props) {
+export default function UserGroupItem(props: Props): Node {
   const { name, description, onPress } = props;
 
   const handlePress = useCallback(() => {

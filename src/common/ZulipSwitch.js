@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Switch } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
@@ -19,7 +20,7 @@ type Props = $ReadOnly<{|
  * @prop value - value of the switch.
  * @prop onValueChange - Event called on switch.
  */
-export default function ZulipSwitch(props: Props) {
+export default function ZulipSwitch(props: Props): Node {
   const { disabled = false, onValueChange, value } = props;
   return (
     <Switch

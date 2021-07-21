@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -25,7 +26,7 @@ const componentStyles = createStyleSheet({
 /**
  * A row with a label and a switch component.
  */
-export default function SwitchRow(props: Props) {
+export default function SwitchRow(props: Props): Node {
   const { label, value, onValueChange, style, Icon } = props;
 
   const themeContext = useContext(ThemeContext);

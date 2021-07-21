@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { InputSelection } from '../types';
 import getAutocompletedText from './getAutocompletedText';
@@ -31,7 +32,7 @@ type Props = $ReadOnly<{|
   onAutocomplete: (input: string, completion: string, lastWordPrefix: string) => void,
 |}>;
 
-export default function AutocompleteView(props: Props) {
+export default function AutocompleteView(props: Props): Node {
   const { isFocused, text, onAutocomplete, selection } = props;
 
   const handleAutocomplete = useCallback(

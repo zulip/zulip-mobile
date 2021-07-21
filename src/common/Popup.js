@@ -21,7 +21,7 @@ type Props = $ReadOnly<{|
   children: Node,
 |}>;
 
-export default function Popup(props: Props) {
+export default function Popup(props: Props): Node {
   const themeContext = useContext(ThemeContext);
   return (
     <View style={[{ backgroundColor: themeContext.backgroundColor }, styles.popup]}>

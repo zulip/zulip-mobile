@@ -21,7 +21,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function NavButtonGeneral(props: Props) {
+export default function NavButtonGeneral(props: Props): Node {
   const { children, onPress, accessibilityLabel } = props;
 
   return (

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Image, View } from 'react-native';
 
 import SpinningProgress from './SpinningProgress';
@@ -36,7 +37,7 @@ type Props = $ReadOnly<{|
  * @prop [showLogo] - Show or not a Zulip logo in the center.
  * @prop [size] - Diameter of the indicator in pixels.
  */
-export default function LoadingIndicator(props: Props) {
+export default function LoadingIndicator(props: Props): Node {
   const { color = 'default', showLogo = false, size = 40 } = props;
 
   return (

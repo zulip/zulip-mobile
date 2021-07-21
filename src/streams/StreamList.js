@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
@@ -46,7 +47,7 @@ type Props = $ReadOnly<{|
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;
 
-export default function StreamList(props: Props) {
+export default function StreamList(props: Props): Node {
   const {
     streams = [],
     showDescriptions = false,

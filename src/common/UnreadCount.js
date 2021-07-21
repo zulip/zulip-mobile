@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Text, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -54,7 +55,7 @@ type Props = $ReadOnly<{|
  * @prop [inverse] - Indicate if styling should be inverted (dark on light).
  * @prop [limited] - If set values over 100 will display as `99+`.
  */
-export default function UnreadCount(props: Props) {
+export default function UnreadCount(props: Props): Node {
   const {
     style,
     isMuted = false,

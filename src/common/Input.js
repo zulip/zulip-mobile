@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useCallback, useContext } from 'react';
+import type { Node } from 'react';
 import { TextInput, Platform } from 'react-native';
 
 import type { LocalizableText } from '../types';
@@ -45,7 +46,7 @@ const componentStyles = createStyleSheet({
  * @prop ...all other TextInput props - Passed through verbatim to TextInput.
  *   See upstream: https://reactnative.dev/docs/textinput
  */
-export default function Input(props: Props) {
+export default function Input(props: Props): Node {
   const { style, placeholder, textInputRef, ...restProps } = props;
 
   const [isFocused, setIsFocused] = useState<boolean>(false);

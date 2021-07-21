@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
  * @prop [style] - Style of the wrapper container.
  * @prop [itemStyle] - Style applied to each child.
  */
-export default function ComponentList(props: Props) {
+export default function ComponentList(props: Props): Node {
   const { children, itemStyle, spacing = 16, outerSpacing = true, style } = props;
   const outerStyle = outerSpacing ? { margin: spacing } : {};
   const marginStyle = { marginBottom: spacing };

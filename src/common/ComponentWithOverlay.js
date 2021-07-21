@@ -54,7 +54,7 @@ type Props = $ReadOnly<{|
  * @prop overlayPosition - What corner to align the overlay to.
  * @prop [style] - Applied to a wrapper View.
  */
-export default function ComponentWithOverlay(props: Props) {
+export default function ComponentWithOverlay(props: Props): Node {
   const {
     children,
     style,

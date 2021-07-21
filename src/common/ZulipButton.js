@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
@@ -121,7 +122,7 @@ type Props = $ReadOnly<{|
  * @prop [secondary] - Less prominent styling, the button is not as important.
  * @prop onPress - Event called on button press.
  */
-export default function ZulipButton(props: Props) {
+export default function ZulipButton(props: Props): Node {
   const {
     style,
     text,

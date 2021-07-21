@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
 import { createStyleSheet } from '../styles';
@@ -29,7 +30,7 @@ type Props = $ReadOnly<{|
  * @prop [autoFocus] - should the component be focused when mounted.
  * @prop onChangeText - Event called when search query is edited.
  */
-export default function SearchInput(props: Props) {
+export default function SearchInput(props: Props): Node {
   const { autoFocus = true, onChangeText } = props;
 
   return (
