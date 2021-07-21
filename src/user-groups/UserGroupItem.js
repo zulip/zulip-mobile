@@ -1,11 +1,10 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
 import { RawLabel, Touchable } from '../common';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import type { ThemeData } from '../styles';
 
 const componentStyles = createStyleSheet({
   text: {
@@ -26,38 +25,34 @@ type Props = $ReadOnly<{|
   onPress: (name: string) => void,
 |}>;
 
-export default class UserGroupItem extends PureComponent<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
+export default function UserGroupItem(props: Props) {
+  const { name, description, onPress } = props;
 
-  handlePress = () => {
-    const { name, onPress } = this.props;
+  const handlePress = useCallback(() => {
     onPress(name);
-  };
+  }, [onPress, name]);
 
-  render() {
-    const { name, description } = this.props;
+  const themeContext = useContext(ThemeContext);
 
-    return (
-      <Touchable onPress={this.handlePress}>
-        <View style={styles.listItem}>
-          <IconPeople size={32} color={this.context.color} />
-          <View style={componentStyles.textWrapper}>
-            <RawLabel
-              style={componentStyles.text}
-              text={name}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            />
-            <RawLabel
-              style={[componentStyles.text, componentStyles.textEmail]}
-              text={description}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            />
-          </View>
+  return (
+    <Touchable onPress={handlePress}>
+      <View style={styles.listItem}>
+        <IconPeople size={32} color={themeContext.color} />
+        <View style={componentStyles.textWrapper}>
+          <RawLabel
+            style={componentStyles.text}
+            text={name}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          />
+          <RawLabel
+            style={[componentStyles.text, componentStyles.textEmail]}
+            text={description}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          />
         </View>
-      </Touchable>
-    );
-  }
+      </View>
+    </Touchable>
+  );
 }
