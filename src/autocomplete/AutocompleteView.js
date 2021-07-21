@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { InputSelection } from '../types';
 import getAutocompletedText from './getAutocompletedText';
@@ -31,26 +31,25 @@ type Props = $ReadOnly<{|
   onAutocomplete: (input: string, completion: string, lastWordPrefix: string) => void,
 |}>;
 
-export default class AutocompleteView extends PureComponent<Props> {
-  handleAutocomplete = (autocomplete: string) => {
-    const { text, onAutocomplete, selection } = this.props;
-    const { lastWordPrefix } = getAutocompleteFilter(text, selection);
-    const newText = getAutocompletedText(text, autocomplete, selection);
-    onAutocomplete(newText, autocomplete, lastWordPrefix);
-  };
+export default function AutocompleteView(props: Props) {
+  const { isFocused, text, onAutocomplete, selection } = props;
 
-  render() {
-    const { isFocused, text, selection } = this.props;
-    const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
-    const AutocompleteComponent = prefixToComponent[lastWordPrefix];
-    const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
+  const handleAutocomplete = useCallback(
+    (autocomplete: string) => {
+      const { lastWordPrefix } = getAutocompleteFilter(text, selection);
+      const newText = getAutocompletedText(text, autocomplete, selection);
+      onAutocomplete(newText, autocomplete, lastWordPrefix);
+    },
+    [onAutocomplete, selection, text],
+  );
 
-    return (
-      <AnimatedScaleComponent visible={shouldShow}>
-        {shouldShow && (
-          <AutocompleteComponent filter={filter} onAutocomplete={this.handleAutocomplete} />
-        )}
-      </AnimatedScaleComponent>
-    );
-  }
+  const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
+  const AutocompleteComponent = prefixToComponent[lastWordPrefix];
+  const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
+
+  return (
+    <AnimatedScaleComponent visible={shouldShow}>
+      {shouldShow && <AutocompleteComponent filter={filter} onAutocomplete={handleAutocomplete} />}
+    </AnimatedScaleComponent>
+  );
 }
