@@ -1,6 +1,7 @@
 /* @flow strict-local */
-import React, { useState, useRef, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useContext } from 'react';
 import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -62,7 +63,6 @@ export default function SmartUrlInput(props: Props) {
     onChangeText,
     onSubmitEditing,
     enablesReturnKeyAutomatically,
-    navigation,
   } = props;
 
   // We should replace the fixme with
@@ -70,8 +70,6 @@ export default function SmartUrlInput(props: Props) {
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
   const textInputRef = useRef<$FlowFixMe>();
-
-  const unsubscribeFocusListener = useRef<(() => void) | void>(undefined);
 
   /**
    * The actual input string, exactly as entered by the user,
@@ -81,20 +79,14 @@ export default function SmartUrlInput(props: Props) {
 
   const themeContext = useContext(ThemeContext);
 
-  const { addListener } = navigation;
-  useEffect(() => {
-    unsubscribeFocusListener.current = addListener('focus', () => {
+  useFocusEffect(
+    useCallback(() => {
       if (textInputRef.current) {
         // `.current` is not type-checked; see definition.
         textInputRef.current.focus();
       }
-    });
-    return () => {
-      if (unsubscribeFocusListener.current) {
-        unsubscribeFocusListener.current();
-      }
-    };
-  }, [addListener]);
+    }, []),
+  );
 
   const handleChange = useCallback(
     (_value: string) => {
