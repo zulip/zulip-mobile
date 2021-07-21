@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Image, View } from 'react-native';
 
 import SpinningProgress from './SpinningProgress';
@@ -22,9 +22,9 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  color: 'default' | 'black' | 'white',
-  showLogo: boolean,
-  size: number,
+  color?: 'default' | 'black' | 'white',
+  showLogo?: boolean,
+  size?: number,
 |}>;
 
 /**
@@ -36,32 +36,24 @@ type Props = $ReadOnly<{|
  * @prop [showLogo] - Show or not a Zulip logo in the center.
  * @prop [size] - Diameter of the indicator in pixels.
  */
-export default class LoadingIndicator extends PureComponent<Props> {
-  static defaultProps = {
-    color: 'default',
-    showLogo: false,
-    size: 40,
-  };
+export default function LoadingIndicator(props: Props) {
+  const { color = 'default', showLogo = false, size = 40 } = props;
 
-  render() {
-    const { color, showLogo, size } = this.props;
-
-    return (
-      <View style={styles.wrapper}>
-        <View>
-          <SpinningProgress color={color} size={size} />
-          {showLogo && (
-            <Image
-              style={[
-                styles.logo,
-                { width: (size / 3) * 2, height: (size / 3) * 2, marginTop: size / 6 },
-              ]}
-              source={messageLoadingImg}
-              resizeMode="contain"
-            />
-          )}
-        </View>
+  return (
+    <View style={styles.wrapper}>
+      <View>
+        <SpinningProgress color={color} size={size} />
+        {showLogo && (
+          <Image
+            style={[
+              styles.logo,
+              { width: (size / 3) * 2, height: (size / 3) * 2, marginTop: size / 6 },
+            ]}
+            source={messageLoadingImg}
+            resizeMode="contain"
+          />
+        )}
       </View>
-    );
-  }
+    </View>
+  );
 }
