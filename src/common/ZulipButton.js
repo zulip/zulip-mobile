@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Text, View, ActivityIndicator } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import TranslatedText from './TranslatedText';
@@ -97,11 +97,11 @@ type Props = $ReadOnly<{|
     |},
   >,
   textStyle?: SubsetProperties<TextStyle, {| color?: mixed |}>,
-  progress: boolean,
-  disabled: boolean,
+  progress?: boolean,
+  disabled?: boolean,
   Icon?: SpecificIconType,
   text: LocalizableText,
-  secondary: boolean,
+  secondary?: boolean,
   onPress: () => void | Promise<void>,
 |}>;
 
@@ -121,54 +121,54 @@ type Props = $ReadOnly<{|
  * @prop [secondary] - Less prominent styling, the button is not as important.
  * @prop onPress - Event called on button press.
  */
-export default class ZulipButton extends PureComponent<Props> {
-  static defaultProps = {
-    secondary: false,
-    disabled: false,
-    progress: false,
-  };
+export default function ZulipButton(props: Props) {
+  const {
+    style,
+    text,
+    disabled = false,
+    secondary = false,
+    progress = false,
+    onPress,
+    Icon,
+  } = props;
+  const frameStyle = [
+    styles.frame,
+    // Prettier bug on nested ternary
+    /* prettier-ignore */
+    disabled
+      ? secondary
+        ? styles.disabledSecondaryFrame
+        : styles.disabledPrimaryFrame
+      : secondary
+        ? styles.secondaryFrame
+        : styles.primaryFrame,
+    style,
+  ];
+  const textStyle = [
+    styles.text,
+    disabled ? styles.disabledText : secondary ? styles.secondaryText : styles.primaryText,
+    props.textStyle,
+  ];
+  const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
 
-  render() {
-    const { style, text, disabled, secondary, progress, onPress, Icon } = this.props;
-    const frameStyle = [
-      styles.frame,
-      // Prettier bug on nested ternary
-      /* prettier-ignore */
-      disabled
-        ? secondary
-          ? styles.disabledSecondaryFrame
-          : styles.disabledPrimaryFrame
-        : secondary
-          ? styles.secondaryFrame
-          : styles.primaryFrame,
-      style,
-    ];
-    const textStyle = [
-      styles.text,
-      disabled ? styles.disabledText : secondary ? styles.secondaryText : styles.primaryText,
-      this.props.textStyle,
-    ];
-    const iconStyle = [styles.icon, secondary ? styles.secondaryIcon : styles.primaryIcon];
-
-    if (progress) {
-      return (
-        <View style={frameStyle}>
-          <ActivityIndicator color="white" />
-        </View>
-      );
-    }
-
+  if (progress) {
     return (
       <View style={frameStyle}>
-        <Touchable onPress={disabled ? undefined : onPress}>
-          <View style={styles.buttonContent}>
-            {!!Icon && <Icon style={iconStyle} size={25} />}
-            <Text style={textStyle}>
-              <TranslatedText text={text} />
-            </Text>
-          </View>
-        </Touchable>
+        <ActivityIndicator color="white" />
       </View>
     );
   }
+
+  return (
+    <View style={frameStyle}>
+      <Touchable onPress={disabled ? undefined : onPress}>
+        <View style={styles.buttonContent}>
+          {!!Icon && <Icon style={iconStyle} size={25} />}
+          <Text style={textStyle}>
+            <TranslatedText text={text} />
+          </Text>
+        </View>
+      </Touchable>
+    </View>
+  );
 }
