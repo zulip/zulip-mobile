@@ -1,10 +1,9 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useRef, useCallback, useContext, useEffect } from 'react';
 import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import type { Protocol } from '../utils/url';
@@ -54,55 +53,63 @@ type Props = $ReadOnly<{|
   enablesReturnKeyAutomatically: boolean,
 |}>;
 
-type State = {|
-  /**
-   * The actual input string, exactly as entered by the user,
-   * without modifications by autocomplete.
-   */
-  value: string,
-|};
-
-export default class SmartUrlInput extends PureComponent<Props, State> {
-  static contextType = ThemeContext;
-  context: ThemeData;
-  state = {
-    value: '',
-  };
+export default function SmartUrlInput(props: Props) {
+  const {
+    defaultProtocol,
+    defaultOrganization,
+    defaultDomain,
+    style,
+    onChangeText,
+    onSubmitEditing,
+    enablesReturnKeyAutomatically,
+    navigation,
+  } = props;
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
-  textInputRef = React.createRef<$FlowFixMe>();
+  const textInputRef = useRef<$FlowFixMe>();
 
-  unsubscribeFocusListener: () => void;
+  const unsubscribeFocusListener = useRef<(() => void) | void>(undefined);
 
-  componentDidMount() {
-    this.unsubscribeFocusListener = this.props.navigation.addListener('focus', () => {
-      if (this.textInputRef.current) {
+  /**
+   * The actual input string, exactly as entered by the user,
+   * without modifications by autocomplete.
+   */
+  const [value, setValue] = useState<string>('');
+
+  const themeContext = useContext(ThemeContext);
+
+  const { addListener } = navigation;
+  useEffect(() => {
+    unsubscribeFocusListener.current = addListener('focus', () => {
+      if (textInputRef.current) {
         // `.current` is not type-checked; see definition.
-        this.textInputRef.current.focus();
+        textInputRef.current.focus();
       }
     });
-  }
+    return () => {
+      if (unsubscribeFocusListener.current) {
+        unsubscribeFocusListener.current();
+      }
+    };
+  }, [addListener]);
 
-  componentWillUnmount() {
-    if (this.unsubscribeFocusListener) {
-      this.unsubscribeFocusListener();
-    }
-  }
+  const handleChange = useCallback(
+    (_value: string) => {
+      setValue(_value);
 
-  handleChange = (value: string) => {
-    this.setState({ value });
+      onChangeText(
+        fixRealmUrl(
+          autocompleteRealm(_value, { protocol: defaultProtocol, domain: defaultDomain }),
+        ),
+      );
+    },
+    [defaultDomain, defaultProtocol, onChangeText],
+  );
 
-    const { onChangeText, defaultProtocol, defaultDomain } = this.props;
-    onChangeText(
-      fixRealmUrl(autocompleteRealm(value, { protocol: defaultProtocol, domain: defaultDomain })),
-    );
-  };
-
-  urlPress = () => {
-    const { textInputRef } = this;
+  const urlPress = useCallback(() => {
     if (textInputRef.current) {
       // `.current` is not type-checked; see definition.
       textInputRef.current.blur();
@@ -113,57 +120,45 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
         }
       }, 100);
     }
-  };
+  }, []);
 
-  renderPlaceholderPart = (text: string) => (
-    <TouchableWithoutFeedback onPress={this.urlPress}>
+  const renderPlaceholderPart = (text: string) => (
+    <TouchableWithoutFeedback onPress={urlPress}>
       <RawLabel
-        style={[styles.realmInput, { color: this.context.color }, styles.realmPlaceholder]}
+        style={[styles.realmInput, { color: themeContext.color }, styles.realmPlaceholder]}
         text={text}
       />
     </TouchableWithoutFeedback>
   );
 
-  render() {
-    const {
-      defaultProtocol,
-      defaultOrganization,
-      defaultDomain,
-      style,
-      onSubmitEditing,
-      enablesReturnKeyAutomatically,
-    } = this.props;
-    const { value } = this.state;
+  const [prefix, , suffix] = autocompleteRealmPieces(value, {
+    domain: defaultDomain,
+    protocol: defaultProtocol,
+  });
 
-    const [prefix, , suffix] = autocompleteRealmPieces(value, {
-      domain: defaultDomain,
-      protocol: defaultProtocol,
-    });
-
-    return (
-      <View style={[styles.wrapper, style]}>
-        {prefix !== null && this.renderPlaceholderPart(prefix)}
-        <TextInput
-          style={[
-            styles.realmInput,
-            { color: this.context.color },
-            value.length === 0 && styles.realmInputEmpty,
-          ]}
-          autoFocus
-          autoCorrect={false}
-          autoCapitalize="none"
-          returnKeyType="go"
-          onChangeText={this.handleChange}
-          blurOnSubmit={false}
-          keyboardType="url"
-          underlineColorAndroid="transparent"
-          onSubmitEditing={onSubmitEditing}
-          enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
-          ref={this.textInputRef}
-        />
-        {!value && this.renderPlaceholderPart(defaultOrganization)}
-        {suffix !== null && this.renderPlaceholderPart(suffix)}
-      </View>
-    );
-  }
+  return (
+    <View style={[styles.wrapper, style]}>
+      {prefix !== null && renderPlaceholderPart(prefix)}
+      <TextInput
+        style={[
+          styles.realmInput,
+          { color: themeContext.color },
+          value.length === 0 && styles.realmInputEmpty,
+        ]}
+        autoFocus
+        autoCorrect={false}
+        autoCapitalize="none"
+        returnKeyType="go"
+        onChangeText={handleChange}
+        blurOnSubmit={false}
+        keyboardType="url"
+        underlineColorAndroid="transparent"
+        onSubmitEditing={onSubmitEditing}
+        enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
+        ref={textInputRef}
+      />
+      {!value && renderPlaceholderPart(defaultOrganization)}
+      {suffix !== null && renderPlaceholderPart(suffix)}
+    </View>
+  );
 }
