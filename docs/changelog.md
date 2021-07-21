@@ -53,10 +53,10 @@ It doesn't include
   two different libraries. (#4115)
 * `tools/test jest` now picks Android or iOS codepaths at random, rather
   than always iOS. (#4795)
-* Resolved issues (latest to earliest): #117, #4165, #4858, #4850, #4849,
-  #3205, part of #4309 (PR #4817), #4635, #3244, #3452, parts of #4540 and
-  #2366 (PR #4590), #4657, PR #4797, PR #4815, PR #4820, PR #4821, #4795,
-  #4115
+* Resolved issues (latest to earliest): PR #4807, #117, #4165, #4858, #4850,
+  #4849, #3205, part of #4309 (PR #4817), #4635, #3244, #3452, parts of
+  #4540 and #2366 (PR #4590), #4657, PR #4797, PR #4815, PR #4820, PR #4821,
+  #4795, #4115
 
   * Relative to the beta-only release v27.164, also #4818, which was
     cherry-picked into stable release v27.165.
