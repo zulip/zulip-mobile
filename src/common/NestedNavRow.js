@@ -1,12 +1,11 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
-import type { ThemeData } from '../styles';
 import styles, { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -23,25 +22,20 @@ type Props = $ReadOnly<{|
  * Shows a right-facing arrow to indicate its purpose. If you need a
  * selectable option row instead, use `SelectableOptionRow`.
  */
-export default class NestedNavRow extends PureComponent<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
+export default function NestedNavRow(props: Props) {
+  const { label, onPress, Icon } = props;
 
-  render() {
-    const { label, onPress, Icon } = this.props;
+  const themeContext = useContext(ThemeContext);
 
-    return (
-      <Touchable onPress={onPress}>
-        <View style={styles.listItem}>
-          {!!Icon && (
-            <Icon size={24} style={[styles.settingsIcon, { color: this.context.color }]} />
-          )}
-          <Label text={label} />
-          <View style={styles.rightItem}>
-            <IconRight size={24} style={[styles.settingsIcon, { color: this.context.color }]} />
-          </View>
+  return (
+    <Touchable onPress={onPress}>
+      <View style={styles.listItem}>
+        {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
+        <Label text={label} />
+        <View style={styles.rightItem}>
+          <IconRight size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />
         </View>
-      </Touchable>
-    );
-  }
+      </View>
+    </Touchable>
+  );
 }
