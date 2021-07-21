@@ -95,8 +95,10 @@ export default class SmartUrlInput extends PureComponent<Props, State> {
   handleChange = (value: string) => {
     this.setState({ value });
 
-    const { onChangeText, defaultProtocol: protocol, defaultDomain: domain } = this.props;
-    onChangeText(fixRealmUrl(autocompleteRealm(value, { protocol, domain })));
+    const { onChangeText, defaultProtocol, defaultDomain } = this.props;
+    onChangeText(
+      fixRealmUrl(autocompleteRealm(value, { protocol: defaultProtocol, domain: defaultDomain })),
+    );
   };
 
   urlPress = () => {
