@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
 import { createStyleSheet } from '../styles';
@@ -18,7 +18,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  autoFocus: boolean,
+  autoFocus?: boolean,
   onChangeText: (text: string) => void,
 |}>;
 
@@ -29,29 +29,23 @@ type Props = $ReadOnly<{|
  * @prop [autoFocus] - should the component be focused when mounted.
  * @prop onChangeText - Event called when search query is edited.
  */
-export default class SearchInput extends PureComponent<Props> {
-  static defaultProps = {
-    autoFocus: true,
-  };
+export default function SearchInput(props: Props) {
+  const { autoFocus = true, onChangeText } = props;
 
-  render() {
-    const { autoFocus, onChangeText } = this.props;
-
-    return (
-      <View style={styles.wrapper}>
-        <InputWithClearButton
-          style={styles.input}
-          autoCorrect={false}
-          enablesReturnKeyAutomatically
-          selectTextOnFocus
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-          placeholder="Search"
-          returnKeyType="search"
-          onChangeText={onChangeText}
-          autoFocus={autoFocus}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.wrapper}>
+      <InputWithClearButton
+        style={styles.input}
+        autoCorrect={false}
+        enablesReturnKeyAutomatically
+        selectTextOnFocus
+        underlineColorAndroid="transparent"
+        autoCapitalize="none"
+        placeholder="Search"
+        returnKeyType="search"
+        onChangeText={onChangeText}
+        autoFocus={autoFocus}
+      />
+    </View>
+  );
 }
