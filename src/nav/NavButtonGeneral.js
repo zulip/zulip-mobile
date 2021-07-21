@@ -12,22 +12,22 @@ type Props = $ReadOnly<{|
   accessibilityLabel?: string,
 |}>;
 
-export default class NavButtonGeneral extends PureComponent<Props> {
-  styles = createStyleSheet({
-    navButtonFrame: {
-      width: NAVBAR_SIZE,
-      height: NAVBAR_SIZE,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-  });
+const componentStyles = createStyleSheet({
+  navButtonFrame: {
+    width: NAVBAR_SIZE,
+    height: NAVBAR_SIZE,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
+export default class NavButtonGeneral extends PureComponent<Props> {
   render() {
     const { children, onPress, accessibilityLabel } = this.props;
 
     return (
       <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <View style={this.styles.navButtonFrame}>{children}</View>
+        <View style={componentStyles.navButtonFrame}>{children}</View>
       </Touchable>
     );
   }
