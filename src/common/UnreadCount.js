@@ -31,6 +31,7 @@ const styles = createStyleSheet({
   },
 });
 
+// TODO: Not all of these are used; can we tidy up?
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   borderRadius?: number,
