@@ -48,6 +48,9 @@ It doesn't include
   useful for certain workflows. (#4850)
 * Basic support for polls. More to come! (#3205)
 
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
 
 ### Highlights for developers
 
