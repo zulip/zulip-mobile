@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { UserPresence, UserStatus, Dispatch, UserOrBot } from '../types';
@@ -22,18 +22,16 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class ActivityText extends PureComponent<Props> {
-  render() {
-    const { style, presence, userStatus } = this.props;
+function ActivityText(props: Props) {
+  const { style, presence, userStatus } = props;
 
-    if (!presence) {
-      return null;
-    }
-
-    const activity = presenceToHumanTime(presence, userStatus);
-
-    return <RawLabel style={style} text={`Active ${activity}`} />;
+  if (!presence) {
+    return null;
   }
+
+  const activity = presenceToHumanTime(presence, userStatus);
+
+  return <RawLabel style={style} text={`Active ${activity}`} />;
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
