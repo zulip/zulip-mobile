@@ -37,6 +37,8 @@ class TopicListScreen extends PureComponent<Props, State> {
 
   componentDidMount() {
     const { dispatch, stream } = this.props;
+    // TODO: Also fetch whenever `stream` changes in the lifetime of the
+    // component. (Currently it doesn't ever change, so happens to be OK.)
     dispatch(fetchTopics(stream.stream_id));
   }
 
