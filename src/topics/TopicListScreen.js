@@ -31,8 +31,6 @@ export default function TopicListScreen(props: Props) {
     [dispatch, stream],
   );
 
-  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
-
   useEffect(() => {
     dispatch(fetchTopics(stream.stream_id));
   }, [stream, dispatch]);
@@ -41,13 +39,7 @@ export default function TopicListScreen(props: Props) {
     topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <Screen
-      title="Topics"
-      centerContent
-      search
-      searchBarOnChange={handleFilterChange}
-      scrollEnabled={false}
-    >
+    <Screen title="Topics" centerContent search searchBarOnChange={setFilter} scrollEnabled={false}>
       <TopicList stream={stream} topics={filteredTopics} onPress={handlePress} />
     </Screen>
   );
