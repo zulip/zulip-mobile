@@ -3,27 +3,21 @@
 import React from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { UserPresence, UserStatus, Dispatch, UserOrBot } from '../types';
-import { connect } from '../react-redux';
+import type { UserOrBot } from '../types';
+import { useSelector } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { RawLabel } from '../common';
 
-type SelectorProps = $ReadOnly<{|
-  presence: UserPresence,
-  userStatus: UserStatus,
-|}>;
-
 type Props = $ReadOnly<{|
   style: TextStyleProp,
   user: UserOrBot,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function ActivityText(props: Props) {
-  const { style, presence, userStatus } = props;
+export default function ActivityText(props: Props) {
+  const { style } = props;
+  const presence = useSelector(state => getPresence(state)[props.user.email]);
+  const userStatus = useSelector(state => getUserStatus(state)[props.user.user_id]);
 
   if (!presence) {
     return null;
@@ -33,8 +27,3 @@ function ActivityText(props: Props) {
 
   return <RawLabel style={style} text={`Active ${activity}`} />;
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  presence: getPresence(state)[props.user.email],
-  userStatus: getUserStatus(state)[props.user.user_id],
-}))(ActivityText);
