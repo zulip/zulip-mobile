@@ -12,8 +12,6 @@ export default function ChooseRecipientsScreen(props: Props) {
   const { onComplete } = props;
   const [filter, setFilter] = useState<string>('');
 
-  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
-
   const handleComplete = useCallback(
     (selected: Array<UserOrBot>) => {
       onComplete(selected.map(u => u.user_id));
@@ -22,7 +20,7 @@ export default function ChooseRecipientsScreen(props: Props) {
   );
 
   return (
-    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange} canGoBack={false}>
+    <Screen search scrollEnabled={false} searchBarOnChange={setFilter} canGoBack={false}>
       <UserPickerCard filter={filter} onComplete={handleComplete} />
     </Screen>
   );
