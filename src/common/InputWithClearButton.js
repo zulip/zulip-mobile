@@ -17,7 +17,6 @@ const componentStyles = createStyleSheet({
 type Props = $ReadOnly<$Diff<InputProps, {| textInputRef: mixed, value: mixed, _: mixed |}>>;
 
 type State = {|
-  canBeCleared: boolean,
   text: string,
 |};
 
@@ -29,7 +28,6 @@ type State = {|
  */
 export default class InputWithClearButton extends PureComponent<Props, State> {
   state = {
-    canBeCleared: false,
     text: '',
   };
   // We should replace the fixme with
@@ -40,7 +38,6 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
 
   handleChangeText = (text: string) => {
     this.setState({
-      canBeCleared: text.length > 0,
       text,
     });
     if (this.props.onChangeText) {
@@ -57,7 +54,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
   };
 
   render() {
-    const { canBeCleared, text } = this.state;
+    const { text } = this.state;
 
     return (
       <View style={styles.row}>
@@ -67,7 +64,7 @@ export default class InputWithClearButton extends PureComponent<Props, State> {
           onChangeText={this.handleChangeText}
           value={text}
         />
-        {canBeCleared && (
+        {text.length > 0 && (
           <Icon
             name="x"
             size={24}
