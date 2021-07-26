@@ -11,8 +11,8 @@ import { unicodeCodeByName } from './codePointMap';
 import { Screen } from '../common';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojis } from './data';
-import type { RealmEmojiById, Auth, Dispatch, ReactionType } from '../types';
-import { connect } from '../react-redux';
+import type { ReactionType } from '../types';
+import { useSelector } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
@@ -22,15 +22,14 @@ import { showToast } from '../utils/info';
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
   route: RouteProp<'emoji-picker', {| messageId: number |}>,
-
-  activeImageEmojiByName: RealmEmojiById,
-  auth: Auth,
-  dispatch: Dispatch,
 |}>;
 
-function EmojiPickerScreen(props: Props) {
-  const { activeImageEmojiByName, auth, route } = props;
+export default function EmojiPickerScreen(props: Props) {
+  const { route } = props;
   const { messageId } = route.params;
+
+  const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
+  const auth = useSelector(getAuth);
 
   const [filter, setFilter] = useState<string>('');
 
@@ -90,8 +89,3 @@ function EmojiPickerScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  activeImageEmojiByName: getActiveImageEmojiByName(state),
-  auth: getAuth(state),
-}))(EmojiPickerScreen);
