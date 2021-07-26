@@ -5,8 +5,7 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Stream, Subscription } from '../types';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import { delay } from '../utils/async';
 import { SwitchRow, Screen, ZulipButton } from '../common';
 import { getSettings } from '../directSelectors';
@@ -22,24 +21,21 @@ import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 
-type SelectorProps = $ReadOnly<{|
-  auth: Auth,
-  isAdmin: boolean,
-  stream: Stream,
-  subscription?: Subscription,
-  userSettingStreamNotification: boolean,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'stream-settings'>,
   route: RouteProp<'stream-settings', {| streamId: number |}>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function StreamSettingsScreen(props: Props) {
-  const { dispatch, auth, isAdmin, stream, subscription, userSettingStreamNotification } = props;
+export default function StreamSettingsScreen(props: Props) {
+  const dispatch = useDispatch();
+
+  const auth = useSelector(getAuth);
+  const isAdmin = useSelector(getIsAdmin);
+  const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
+  const subscription = useSelector(state =>
+    getSubscriptionsById(state).get(props.route.params.streamId),
+  );
+  const userSettingStreamNotification = useSelector(state => getSettings(state).streamNotification);
 
   const handleTogglePinStream = useCallback(
     (newValue: boolean) => {
@@ -137,11 +133,3 @@ function StreamSettingsScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect((state, props) => ({
-  auth: getAuth(state),
-  isAdmin: getIsAdmin(state),
-  stream: getStreamForId(state, props.route.params.streamId),
-  subscription: getSubscriptionsById(state).get(props.route.params.streamId),
-  userSettingStreamNotification: getSettings(state).streamNotification,
-}))(StreamSettingsScreen);
