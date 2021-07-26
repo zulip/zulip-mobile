@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Image } from 'react-native';
 import { createIconSet } from 'react-native-vector-icons';
 
@@ -30,14 +30,12 @@ const componentStyles = createStyleSheet({
   image: { width: 20, height: 20 },
 });
 
-class Emoji extends PureComponent<Props> {
-  render() {
-    const { code, imageEmoji } = this.props;
-    if (imageEmoji) {
-      return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
-    }
-    return <UnicodeEmoji name={code} size={20} />;
+function Emoji(props: Props) {
+  const { code, imageEmoji } = props;
+  if (imageEmoji) {
+    return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
   }
+  return <UnicodeEmoji name={code} size={20} />;
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
