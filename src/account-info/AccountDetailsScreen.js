@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -38,37 +38,35 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class AccountDetailsScreen extends PureComponent<Props> {
-  handleChatPress = () => {
-    const { user, dispatch } = this.props;
+function AccountDetailsScreen(props: Props) {
+  const { user, dispatch, isActive } = props;
+
+  const handleChatPress = useCallback(() => {
     dispatch(doNarrow(pm1to1NarrowFromUser(user)));
+  }, [user, dispatch]);
+
+  const title = {
+    text: '{_}',
+    values: {
+      // This causes the name not to get translated.
+      _: user.full_name || ' ',
+    },
   };
 
-  render() {
-    const { user, isActive } = this.props;
-    const title = {
-      text: '{_}',
-      values: {
-        // This causes the name not to get translated.
-        _: user.full_name || ' ',
-      },
-    };
-
-    return (
-      <Screen title={title}>
-        <AccountDetails user={user} />
-        {!isActive && (
-          <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
-        )}
-        <ZulipButton
-          style={styles.pmButton}
-          text={isActive ? 'Send private message' : 'View private messages'}
-          onPress={this.handleChatPress}
-          Icon={IconPrivateChat}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title={title}>
+      <AccountDetails user={user} />
+      {!isActive && (
+        <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
+      )}
+      <ZulipButton
+        style={styles.pmButton}
+        text={isActive ? 'Send private message' : 'View private messages'}
+        onPress={handleChatPress}
+        Icon={IconPrivateChat}
+      />
+    </Screen>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
