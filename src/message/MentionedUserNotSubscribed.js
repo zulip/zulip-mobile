@@ -3,24 +3,17 @@
 import React, { useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
-import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
+import type { Stream, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import * as api from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth } from '../selectors';
-
-type SelectorProps = {|
-  auth: Auth,
-|};
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
   onDismiss: (user: UserOrBot) => void,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 const styles = createStyleSheet({
@@ -56,8 +49,10 @@ const styles = createStyleSheet({
   },
 });
 
-function MentionedUserNotSubscribed(props: Props) {
-  const { user, auth, stream, onDismiss } = props;
+export default function MentionedUserNotSubscribed(props: Props) {
+  const { user, stream, onDismiss } = props;
+  const auth = useSelector(getAuth);
+
   const handleDismiss = useCallback(() => {
     onDismiss(user);
   }, [user, onDismiss]);
@@ -87,7 +82,3 @@ function MentionedUserNotSubscribed(props: Props) {
     </View>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-}))(MentionedUserNotSubscribed);
