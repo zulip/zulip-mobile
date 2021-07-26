@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
 import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
@@ -56,41 +56,36 @@ const styles = createStyleSheet({
   },
 });
 
-class MentionedUserNotSubscribed extends PureComponent<Props> {
-  subscribeToStream = () => {
-    const { auth, stream, user } = this.props;
-    api.subscriptionAdd(auth, [{ name: stream.name }], [user.email]);
-    this.handleDismiss();
-  };
-
-  handleDismiss = () => {
-    const { user, onDismiss } = this.props;
+function MentionedUserNotSubscribed(props: Props) {
+  const { user, auth, stream, onDismiss } = props;
+  const handleDismiss = useCallback(() => {
     onDismiss(user);
-  };
+  }, [user, onDismiss]);
 
-  render() {
-    const { user } = this.props;
+  const subscribeToStream = useCallback(() => {
+    api.subscriptionAdd(auth, [{ name: stream.name }], [user.email]);
+    handleDismiss();
+  }, [auth, handleDismiss, stream, user]);
 
-    return (
-      <View>
-        <TouchableOpacity onPress={this.handleDismiss} style={styles.outer}>
-          <Label
-            text={{
-              text: '{username} will not be notified unless you subscribe them to this stream.',
-              values: { username: user.full_name },
-            }}
-            style={styles.text}
-          />
-          <ZulipButton
-            style={styles.button}
-            textStyle={styles.buttonText}
-            text="Subscribe"
-            onPress={this.subscribeToStream}
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <TouchableOpacity onPress={handleDismiss} style={styles.outer}>
+        <Label
+          text={{
+            text: '{username} will not be notified unless you subscribe them to this stream.',
+            values: { username: user.full_name },
+          }}
+          style={styles.text}
+        />
+        <ZulipButton
+          style={styles.button}
+          textStyle={styles.buttonText}
+          text="Subscribe"
+          onPress={subscribeToStream}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
