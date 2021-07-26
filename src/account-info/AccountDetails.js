@@ -2,9 +2,9 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import type { User, UserOrBot, Dispatch } from '../types';
+import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { UserAvatar, ComponentList, RawLabel } from '../common';
 import { getOwnUser, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
@@ -29,20 +29,15 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type SelectorProps = {|
-  ownUser: User,
-  userStatusText: string | void,
-|};
-
 type Props = $ReadOnly<{|
   user: UserOrBot,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function AccountDetails(props: Props) {
-  const { ownUser, user, userStatusText } = props;
+export default function AccountDetails(props: Props) {
+  const { user } = props;
+
+  const ownUser = useSelector(getOwnUser);
+  const userStatusText = useSelector(state => getUserStatusTextForUser(state, props.user.user_id));
 
   const isSelf = user.user_id === ownUser.user_id;
 
@@ -87,8 +82,3 @@ function AccountDetails(props: Props) {
     </ComponentList>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  ownUser: getOwnUser(state),
-  userStatusText: getUserStatusTextForUser(state, props.user.user_id),
-}))(AccountDetails);
