@@ -6,9 +6,8 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import { ZulipButton, LoadingBanner } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
@@ -29,16 +28,15 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: StreamTabsNavigationProp<'allStreams'>,
   route: RouteProp<'allStreams', void>,
-
-  dispatch: Dispatch,
-  auth: Auth,
-  canCreateStreams: boolean,
-  streams: $ReadOnlyArray<Stream>,
-  subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
-function StreamListCard(props: Props) {
-  const { dispatch, auth, canCreateStreams, streams, subscriptions } = props;
+export default function StreamListCard(props: Props) {
+  const dispatch = useDispatch();
+  const auth = useSelector(getAuth);
+  const canCreateStreams = useSelector(getCanCreateStreams);
+  const streams = useSelector(getStreams);
+  const subscriptions = useSelector(getSubscriptions);
+
   const subsAndStreams = streams.map(x => ({
     ...x,
     subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
@@ -87,10 +85,3 @@ function StreamListCard(props: Props) {
     </View>
   );
 }
-
-export default connect(state => ({
-  auth: getAuth(state),
-  canCreateStreams: getCanCreateStreams(state),
-  streams: getStreams(state),
-  subscriptions: getSubscriptions(state),
-}))(StreamListCard);
