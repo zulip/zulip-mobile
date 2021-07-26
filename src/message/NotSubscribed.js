@@ -3,27 +3,22 @@
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
-import type { Auth, Stream, Dispatch, Narrow } from '../types';
-import { connect } from '../react-redux';
+import type { Stream, Narrow } from '../types';
+import { useSelector } from '../react-redux';
 import * as api from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
-type SelectorProps = $ReadOnly<{|
-  auth: Auth,
-  stream: $ReadOnly<{ ...Stream, ... }>,
-|}>;
-
 type Props = $ReadOnly<{|
   narrow: Narrow,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function NotSubscribed(props: Props) {
-  const { auth, stream } = props;
+export default function NotSubscribed(props: Props) {
+  const auth = useSelector(getAuth);
+  const stream: $ReadOnly<{ ...Stream, ... }> = useSelector(state =>
+    getStreamInNarrow(state, props.narrow),
+  );
 
   const subscribeToStream = useCallback(() => {
     api.subscriptionAdd(auth, [{ name: stream.name }]);
@@ -42,8 +37,3 @@ function NotSubscribed(props: Props) {
     </View>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-  stream: getStreamInNarrow(state, props.narrow),
-}))(NotSubscribed);
