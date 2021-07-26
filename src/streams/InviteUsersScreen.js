@@ -4,29 +4,22 @@ import React, { useState, useCallback } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Stream, UserOrBot } from '../types';
-import { connect } from '../react-redux';
+import type { UserOrBot } from '../types';
+import { useSelector } from '../react-redux';
 import { Screen } from '../common';
 import { navigateBack } from '../actions';
 import * as api from '../api';
 import { getAuth, getStreamForId } from '../selectors';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
-type SelectorProps = $ReadOnly<{|
-  auth: Auth,
-  stream: Stream,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'invite-users'>,
   route: RouteProp<'invite-users', {| streamId: number |}>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function InviteUsersScreen(props: Props) {
-  const { auth, stream } = props;
+export default function InviteUsersScreen(props: Props) {
+  const auth = useSelector(getAuth);
+  const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
   const [filter, setFilter] = useState<string>('');
 
@@ -47,8 +40,3 @@ function InviteUsersScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-  stream: getStreamForId(state, props.route.params.streamId),
-}))(InviteUsersScreen);
