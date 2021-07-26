@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'home', void>,
 |}>;
 
-export default function HomeScreen(props: Props) {
+export default function HomeScreen(props: Props): Node {
   const dispatch = useDispatch();
 
   return (

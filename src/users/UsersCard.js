@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
   filter: string,
 |}>;
 
-export default function UsersCard(props: Props) {
+export default function UsersCard(props: Props): Node {
   const { filter } = props;
   const dispatch = useDispatch();
   const users = useSelector(getUsers);

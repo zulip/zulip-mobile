@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { Narrow } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function ExtraNavButtonTopic(props: Props) {
+export default function ExtraNavButtonTopic(props: Props): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
   const streams = useSelector(getStreams);

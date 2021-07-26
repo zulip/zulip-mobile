@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -43,7 +44,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function TitleStream(props: Props) {
+export default function TitleStream(props: Props): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
   const stream = useSelector(state => getStreamInNarrow(state, narrow));

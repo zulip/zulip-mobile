@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -15,7 +16,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'create-stream', void>,
 |}>;
 
-export default function CreateStreamScreen(props: Props) {
+export default function CreateStreamScreen(props: Props): Node {
   const dispatch = useDispatch();
   const ownEmail = useSelector(getOwnEmail);
 
