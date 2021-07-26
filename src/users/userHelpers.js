@@ -123,7 +123,9 @@ export const getUniqueUsers = (
   users: $ReadOnlyArray<AutocompleteOption>,
 ): $ReadOnlyArray<AutocompleteOption> => uniqby(users, 'email');
 
-export const getUsersAndWildcards = (users: $ReadOnlyArray<AutocompleteOption>) => [
+export const getUsersAndWildcards = (
+  users: $ReadOnlyArray<AutocompleteOption>,
+): $ReadOnlyArray<AutocompleteOption> => [
   // TODO stop using makeUserId on these fake "user IDs"; have some
   //   more-explicit UI logic instead of these pseudo-users.
   { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
