@@ -110,10 +110,6 @@ jest.mock('@react-native-community/push-notification-ios', () => ({
   // etc. (incomplete)
 }));
 
-jest.mock('react-native-sound', () => () => ({
-  play: jest.fn(),
-}));
-
 jest.mock('rn-fetch-blob', () => ({
   DocumentDir: () => {},
 }));
