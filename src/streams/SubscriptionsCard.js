@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -35,25 +35,22 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class SubscriptionsCard extends PureComponent<Props> {
-  handleNarrow = (streamName: string) => {
-    this.props.dispatch(doNarrow(streamNarrow(streamName)));
-  };
+function SubscriptionsCard(props: Props) {
+  const { dispatch, subscriptions, unreadByStream } = props;
 
-  render() {
-    const { subscriptions, unreadByStream } = this.props;
+  const handleNarrow = useCallback(
+    (streamName: string) => {
+      dispatch(doNarrow(streamNarrow(streamName)));
+    },
+    [dispatch],
+  );
 
-    return (
-      <View style={styles.container}>
-        <LoadingBanner />
-        <StreamList
-          streams={subscriptions}
-          unreadByStream={unreadByStream}
-          onPress={this.handleNarrow}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <LoadingBanner />
+      <StreamList streams={subscriptions} unreadByStream={unreadByStream} onPress={handleNarrow} />
+    </View>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
