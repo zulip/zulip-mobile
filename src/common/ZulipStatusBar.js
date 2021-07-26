@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Platform, StatusBar } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
@@ -27,7 +27,7 @@ type SelectorProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   backgroundColor?: string | void,
-  hidden: boolean,
+  hidden?: boolean,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -50,30 +50,24 @@ type Props = $ReadOnly<{|
  * top inset grows to accommodate a visible status bar, and shrinks to
  * give more room to the app's content when the status bar is hidden.
  */
-class ZulipStatusBar extends PureComponent<Props> {
-  static defaultProps = {
-    hidden: false,
-  };
-
-  render() {
-    const { theme, hidden, orientation } = this.props;
-    const backgroundColor = this.props.backgroundColor;
-    const statusBarColor = getStatusBarColor(backgroundColor, theme);
-    return (
-      orientation === 'PORTRAIT' && (
-        <StatusBar
-          animated
-          showHideTransition="slide"
-          hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={Color(statusBarColor)
-            .darken(0.1)
-            .hsl()
-            .string()}
-          barStyle={getStatusBarStyle(statusBarColor)}
-        />
-      )
-    );
-  }
+function ZulipStatusBar(props: Props) {
+  const { theme, hidden = false, orientation } = props;
+  const backgroundColor = props.backgroundColor;
+  const statusBarColor = getStatusBarColor(backgroundColor, theme);
+  return (
+    orientation === 'PORTRAIT' && (
+      <StatusBar
+        animated
+        showHideTransition="slide"
+        hidden={hidden && Platform.OS !== 'android'}
+        backgroundColor={Color(statusBarColor)
+          .darken(0.1)
+          .hsl()
+          .string()}
+        barStyle={getStatusBarStyle(statusBarColor)}
+      />
+    )
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
