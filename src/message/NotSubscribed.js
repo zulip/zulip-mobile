@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
 import type { Auth, Stream, Dispatch, Narrow } from '../types';
@@ -22,28 +22,25 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class NotSubscribed extends PureComponent<Props> {
-  subscribeToStream = () => {
-    const { auth, stream } = this.props;
+function NotSubscribed(props: Props) {
+  const { auth, stream } = props;
+
+  const subscribeToStream = useCallback(() => {
     api.subscriptionAdd(auth, [{ name: stream.name }]);
-  };
+  }, [auth, stream]);
 
-  render() {
-    const { stream } = this.props;
-
-    return (
-      <View style={styles.disabledComposeBox}>
-        <Label style={styles.disabledComposeText} text="You are not subscribed to this stream" />
-        {!stream.invite_only && (
-          <ZulipButton
-            style={styles.disabledComposeButton}
-            text="Subscribe"
-            onPress={this.subscribeToStream}
-          />
-        )}
-      </View>
-    );
-  }
+  return (
+    <View style={styles.disabledComposeBox}>
+      <Label style={styles.disabledComposeText} text="You are not subscribed to this stream" />
+      {!stream.invite_only && (
+        <ZulipButton
+          style={styles.disabledComposeButton}
+          text="Subscribe"
+          onPress={subscribeToStream}
+        />
+      )}
+    </View>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
