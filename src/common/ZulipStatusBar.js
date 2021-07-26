@@ -5,8 +5,8 @@ import { Platform, StatusBar } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
 
-import type { Orientation, ThemeName, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { ThemeName } from '../types';
+import { useSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
@@ -20,17 +20,9 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type SelectorProps = $ReadOnly<{|
-  theme: ThemeName,
-  orientation: Orientation,
-|}>;
-
 type Props = $ReadOnly<{|
   backgroundColor?: string | void,
   hidden?: boolean,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
@@ -50,8 +42,10 @@ type Props = $ReadOnly<{|
  * top inset grows to accommodate a visible status bar, and shrinks to
  * give more room to the app's content when the status bar is hidden.
  */
-function ZulipStatusBar(props: Props) {
-  const { theme, hidden = false, orientation } = props;
+export default function ZulipStatusBar(props: Props) {
+  const { hidden = false } = props;
+  const theme = useSelector(state => getSettings(state).theme);
+  const orientation = useSelector(state => getSession(state).orientation);
   const backgroundColor = props.backgroundColor;
   const statusBarColor = getStatusBarColor(backgroundColor, theme);
   return (
@@ -69,8 +63,3 @@ function ZulipStatusBar(props: Props) {
     )
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  theme: getSettings(state).theme,
-  orientation: getSession(state).orientation,
-}))(ZulipStatusBar);
