@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -26,47 +26,38 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function TopicListScreen(props: Props) {
+  const { dispatch, stream, topics } = props;
 
-class TopicListScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const [filter, setFilter] = useState<string>('');
 
-  componentDidMount() {
-    const { dispatch, stream } = this.props;
-    // TODO: Also fetch whenever `stream` changes in the lifetime of the
-    // component. (Currently it doesn't ever change, so happens to be OK.)
+  const handlePress = useCallback(
+    (streamObj: string, topic: string) => {
+      dispatch(doNarrow(topicNarrow(stream.name, topic)));
+    },
+    [dispatch, stream],
+  );
+
+  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
+
+  useEffect(() => {
     dispatch(fetchTopics(stream.stream_id));
-  }
+  }, [stream, dispatch]);
 
-  handlePress = (streamObj: string, topic: string) => {
-    const { dispatch, stream } = this.props;
-    dispatch(doNarrow(topicNarrow(stream.name, topic)));
-  };
+  const filteredTopics =
+    topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
-
-  render() {
-    const { stream, topics } = this.props;
-    const { filter } = this.state;
-    const filteredTopics =
-      topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
-
-    return (
-      <Screen
-        title="Topics"
-        centerContent
-        search
-        searchBarOnChange={this.handleFilterChange}
-        scrollEnabled={false}
-      >
-        <TopicList stream={stream} topics={filteredTopics} onPress={this.handlePress} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen
+      title="Topics"
+      centerContent
+      search
+      searchBarOnChange={handleFilterChange}
+      scrollEnabled={false}
+    >
+      <TopicList stream={stream} topics={filteredTopics} onPress={handlePress} />
+    </Screen>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
