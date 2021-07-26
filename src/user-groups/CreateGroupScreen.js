@@ -24,8 +24,6 @@ export default function CreateGroupScreen(props: Props) {
 
   const [filter, setFilter] = useState<string>('');
 
-  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
-
   const handleCreateGroup = useCallback(
     (selected: UserOrBot[]) => {
       NavigationService.dispatch(navigateBack());
@@ -35,7 +33,7 @@ export default function CreateGroupScreen(props: Props) {
   );
 
   return (
-    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange}>
+    <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
       <UserPickerCard filter={filter} onComplete={handleCreateGroup} />
     </Screen>
   );
