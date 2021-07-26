@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -25,33 +25,27 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function InviteUsersScreen(props: Props) {
+  const { auth, stream } = props;
 
-class InviteUsersScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const [filter, setFilter] = useState<string>('');
 
-  handleFilterChange = (filter: string) => this.setState({ filter });
+  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
 
-  handleInviteUsers = (selected: UserOrBot[]) => {
-    const { auth, stream } = this.props;
+  const handleInviteUsers = useCallback(
+    (selected: UserOrBot[]) => {
+      const recipients = selected.map(user => user.email);
+      api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
+      NavigationService.dispatch(navigateBack());
+    },
+    [auth, stream],
+  );
 
-    const recipients = selected.map(user => user.email);
-    api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
-    NavigationService.dispatch(navigateBack());
-  };
-
-  render() {
-    const { filter } = this.state;
-    return (
-      <Screen search scrollEnabled={false} searchBarOnChange={this.handleFilterChange}>
-        <UserPickerCard filter={filter} onComplete={this.handleInviteUsers} />
-      </Screen>
-    );
-  }
+  return (
+    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange}>
+      <UserPickerCard filter={filter} onComplete={handleInviteUsers} />
+    </Screen>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
