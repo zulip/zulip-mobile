@@ -5,9 +5,8 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import type { Dispatch, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import StreamList from './StreamList';
 import { LoadingBanner } from '../common';
 import { streamNarrow } from '../utils/narrow';
@@ -22,21 +21,15 @@ const styles = createStyleSheet({
   },
 });
 
-type SelectorProps = $ReadOnly<{|
-  subscriptions: Subscription[],
-  unreadByStream: $ReadOnly<{| [number]: number |}>,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: StreamTabsNavigationProp<'subscribed'>,
   route: RouteProp<'subscribed', void>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function SubscriptionsCard(props: Props) {
-  const { dispatch, subscriptions, unreadByStream } = props;
+export default function SubscriptionsCard(props: Props) {
+  const dispatch = useDispatch();
+  const subscriptions = useSelector(getSubscribedStreams);
+  const unreadByStream = useSelector(getUnreadByStream);
 
   const handleNarrow = useCallback(
     (streamName: string) => {
@@ -52,8 +45,3 @@ function SubscriptionsCard(props: Props) {
     </View>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  subscriptions: getSubscribedStreams(state),
-  unreadByStream: getUnreadByStream(state),
-}))(SubscriptionsCard);
