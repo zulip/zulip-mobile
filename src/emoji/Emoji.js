@@ -26,15 +26,15 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class Emoji extends PureComponent<Props> {
-  styles = createStyleSheet({
-    image: { width: 20, height: 20 },
-  });
+const componentStyles = createStyleSheet({
+  image: { width: 20, height: 20 },
+});
 
+class Emoji extends PureComponent<Props> {
   render() {
     const { code, imageEmoji } = this.props;
     if (imageEmoji) {
-      return <Image style={this.styles.image} source={{ uri: imageEmoji.source_url }} />;
+      return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
     }
     return <UnicodeEmoji name={code} size={20} />;
   }
