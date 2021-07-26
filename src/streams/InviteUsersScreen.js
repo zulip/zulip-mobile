@@ -23,8 +23,6 @@ export default function InviteUsersScreen(props: Props) {
 
   const [filter, setFilter] = useState<string>('');
 
-  const handleFilterChange = useCallback((_filter: string) => setFilter(_filter), []);
-
   const handleInviteUsers = useCallback(
     (selected: UserOrBot[]) => {
       const recipients = selected.map(user => user.email);
@@ -35,7 +33,7 @@ export default function InviteUsersScreen(props: Props) {
   );
 
   return (
-    <Screen search scrollEnabled={false} searchBarOnChange={handleFilterChange}>
+    <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
       <UserPickerCard filter={filter} onComplete={handleInviteUsers} />
     </Screen>
   );
