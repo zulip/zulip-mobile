@@ -3,9 +3,9 @@ import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Dispatch, UserOrBot, UserId } from '../types';
+import type { UserId } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { Screen, ZulipButton, Label } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { pm1to1NarrowFromUser } from '../utils/narrow';
@@ -25,21 +25,15 @@ const styles = createStyleSheet({
   },
 });
 
-type SelectorProps = $ReadOnly<{|
-  isActive: boolean,
-  user: UserOrBot,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-details'>,
   route: RouteProp<'account-details', {| userId: UserId |}>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function AccountDetailsScreen(props: Props) {
-  const { user, dispatch, isActive } = props;
+export default function AccountDetailsScreen(props: Props) {
+  const dispatch = useDispatch();
+  const user = useSelector(state => getUserForId(state, props.route.params.userId));
+  const isActive = useSelector(state => getUserIsActive(state, props.route.params.userId));
 
   const handleChatPress = useCallback(() => {
     dispatch(doNarrow(pm1to1NarrowFromUser(user)));
@@ -68,8 +62,3 @@ function AccountDetailsScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  user: getUserForId(state, props.route.params.userId),
-  isActive: getUserIsActive(state, props.route.params.userId),
-}))(AccountDetailsScreen);
