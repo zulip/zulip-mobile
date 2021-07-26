@@ -2,21 +2,13 @@
 import React, { useContext, useEffect } from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
-import type { Dispatch, ThemeName } from '../types';
 import { getSettings } from '../selectors';
 import AppNavigator from './AppNavigator';
 
-type SelectorProps = $ReadOnly<{|
-  theme: ThemeName,
-|}>;
-
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
-  ...SelectorProps,
-|}>;
+type Props = $ReadOnly<{||}>;
 
 /**
  * Wrapper for React Nav's component given by `createAppContainer`.
@@ -28,8 +20,8 @@ type Props = $ReadOnly<{|
  * - Call `createAppContainer` with the appropriate `initialRouteName`
  *   and `initialRouteParams` which we get from data in Redux.
  */
-function ZulipAppContainer(props: Props) {
-  const { theme: themeName } = props;
+export default function ZulipAppContainer(props: Props) {
+  const themeName = useSelector(state => getSettings(state).theme);
 
   useEffect(
     () =>
@@ -69,7 +61,3 @@ function ZulipAppContainer(props: Props) {
     </NavigationContainer>
   );
 }
-
-export default connect(state => ({
-  theme: getSettings(state).theme,
-}))(ZulipAppContainer);
