@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -37,54 +37,55 @@ type Props = $ReadOnly<{|
   subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
-class StreamListCard extends PureComponent<Props> {
-  handleSwitchChange = (streamName: string, switchValue: boolean) => {
-    const { auth } = this.props;
+function StreamListCard(props: Props) {
+  const { dispatch, auth, canCreateStreams, streams, subscriptions } = props;
+  const subsAndStreams = streams.map(x => ({
+    ...x,
+    subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
+  }));
 
-    if (switchValue) {
-      api.subscriptionAdd(auth, [{ name: streamName }]);
-    } else {
-      api.subscriptionRemove(auth, [streamName]);
-    }
-  };
+  const handleSwitchChange = useCallback(
+    (streamName: string, switchValue: boolean) => {
+      if (switchValue) {
+        api.subscriptionAdd(auth, [{ name: streamName }]);
+      } else {
+        api.subscriptionRemove(auth, [streamName]);
+      }
+    },
+    [auth],
+  );
 
-  handleNarrow = (streamName: string) => {
-    const { dispatch } = this.props;
-    dispatch(doNarrow(streamNarrow(streamName)));
-  };
+  const handleNarrow = useCallback(
+    (streamName: string) => {
+      dispatch(doNarrow(streamNarrow(streamName)));
+    },
+    [dispatch],
+  );
 
-  render() {
-    const { canCreateStreams, streams, subscriptions } = this.props;
-    const subsAndStreams = streams.map(x => ({
-      ...x,
-      subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
-    }));
-
-    return (
-      <View style={styles.wrapper}>
-        <LoadingBanner />
-        {canCreateStreams && (
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Create new stream"
-            onPress={() =>
-              delay(() => {
-                NavigationService.dispatch(navigateToCreateStream());
-              })
-            }
-          />
-        )}
-        <StreamList
-          streams={subsAndStreams}
-          showSwitch
-          showDescriptions
-          onSwitch={this.handleSwitchChange}
-          onPress={this.handleNarrow}
+  return (
+    <View style={styles.wrapper}>
+      <LoadingBanner />
+      {canCreateStreams && (
+        <ZulipButton
+          style={styles.button}
+          secondary
+          text="Create new stream"
+          onPress={() =>
+            delay(() => {
+              NavigationService.dispatch(navigateToCreateStream());
+            })
+          }
         />
-      </View>
-    );
-  }
+      )}
+      <StreamList
+        streams={subsAndStreams}
+        showSwitch
+        showDescriptions
+        onSwitch={handleSwitchChange}
+        onPress={handleNarrow}
+      />
+    </View>
+  );
 }
 
 export default connect(state => ({
