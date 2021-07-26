@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -28,72 +28,67 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
 |}>;
 
-type State = {|
-  filter: string,
-|};
+function EmojiPickerScreen(props: Props) {
+  const { activeImageEmojiByName, auth, route } = props;
+  const { messageId } = route.params;
 
-class EmojiPickerScreen extends PureComponent<Props, State> {
-  state = {
-    filter: '',
-  };
+  const [filter, setFilter] = useState<string>('');
 
-  handleInputChange = (text: string) => {
-    this.setState({
-      filter: text.toLowerCase(),
-    });
-  };
+  const handleInputChange = useCallback((text: string) => {
+    setFilter(text.toLowerCase());
+  }, []);
 
-  getReactionTypeAndCode = (
-    emojiName: string,
-  ): {| reactionType: ReactionType, emojiCode: string |} => {
-    const { activeImageEmojiByName } = this.props;
-    const imageEmoji = activeImageEmojiByName[emojiName];
-    if (imageEmoji) {
-      return {
-        reactionType: zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji',
-        emojiCode: imageEmoji.code,
-      };
-    }
-    return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
-  };
+  const getReactionTypeAndCode = useCallback(
+    (
+      emojiName: string,
+    ): {|
+      reactionType: ReactionType,
+      emojiCode: string,
+    |} => {
+      const imageEmoji = activeImageEmojiByName[emojiName];
+      if (imageEmoji) {
+        return {
+          reactionType: zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji',
+          emojiCode: imageEmoji.code,
+        };
+      }
+      return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
+    },
+    [activeImageEmojiByName],
+  );
 
-  addReaction = (emojiName: string) => {
-    const { auth, route } = this.props;
-    const { messageId } = route.params;
+  const addReaction = useCallback(
+    (emojiName: string) => {
+      const { reactionType, emojiCode } = getReactionTypeAndCode(emojiName);
+      api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
+        logging.error('Error adding reaction emoji', err);
+        showToast(`${err}`);
+      });
+      NavigationService.dispatch(navigateBack());
+    },
+    [auth, messageId, getReactionTypeAndCode],
+  );
 
-    const { reactionType, emojiCode } = this.getReactionTypeAndCode(emojiName);
-    api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
-      logging.error('Error adding reaction emoji', err);
-      showToast(`${err}`);
-    });
-    NavigationService.dispatch(navigateBack());
-  };
+  const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
-  render() {
-    const { activeImageEmojiByName } = this.props;
-    const { filter } = this.state;
-
-    const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
-
-    return (
-      <Screen search autoFocus scrollEnabled={false} searchBarOnChange={this.handleInputChange}>
-        <FlatList
-          keyboardShouldPersistTaps="always"
-          initialNumToRender={20}
-          data={emojiNames}
-          keyExtractor={item => item.name}
-          renderItem={({ item }) => (
-            <EmojiRow
-              type={item.emoji_type}
-              code={item.code}
-              name={item.name}
-              onPress={this.addReaction}
-            />
-          )}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen search autoFocus scrollEnabled={false} searchBarOnChange={handleInputChange}>
+      <FlatList
+        keyboardShouldPersistTaps="always"
+        initialNumToRender={20}
+        data={emojiNames}
+        keyExtractor={item => item.name}
+        renderItem={({ item }) => (
+          <EmojiRow
+            type={item.emoji_type}
+            code={item.code}
+            name={item.name}
+            onPress={addReaction}
+          />
+        )}
+      />
+    </Screen>
+  );
 }
 
 export default connect(state => ({
