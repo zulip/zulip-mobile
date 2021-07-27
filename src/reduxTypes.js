@@ -390,5 +390,7 @@ export type PlainDispatch = <A: Action>(action: A) => A;
 
 export interface Dispatch {
   <A: Action>(action: A): A;
-  <T>((Dispatch, GetState) => T): T;
+  <T>(ThunkAction<T>): T; // eslint-disable-line no-use-before-define
 }
+
+export type ThunkAction<T> = (Dispatch, GetState) => T;

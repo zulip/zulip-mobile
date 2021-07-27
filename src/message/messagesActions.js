@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { Narrow, Dispatch, GetState } from '../types';
+import type { Narrow, ThunkAction } from '../types';
 import { getAuth } from '../selectors';
 import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import { openLinkWithUserPreference } from '../utils/openLink';
@@ -14,17 +14,17 @@ import { getOwnUserId } from '../users/userSelectors';
 /**
  * Navigate to the given narrow.
  */
-export const doNarrow = (narrow: Narrow, anchor: number = FIRST_UNREAD_ANCHOR) => (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const doNarrow = (
+  narrow: Narrow,
+  anchor: number = FIRST_UNREAD_ANCHOR,
+): ThunkAction<void> => (dispatch, getState) => {
   // TODO: Use `anchor` to open the message list to a particular message.
   NavigationService.dispatch(navigateToChat(narrow));
 };
 
-export const messageLinkPress = (href: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
+export const messageLinkPress = (href: string): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
 ) => {
   const state = getState();
   const auth = getAuth(state);

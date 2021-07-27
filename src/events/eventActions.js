@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Dispatch, GeneralEvent, GetState } from '../types';
+import type { Dispatch, GeneralEvent, GetState, ThunkAction } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -42,10 +42,10 @@ const handleEvent = (event: GeneralEvent, dispatch: Dispatch, getState: GetState
  * This is part of our use of the Zulip events system; see `doInitialFetch`
  * for discussion.
  */
-export const startEventPolling = (queueId: number, eventId: number) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const startEventPolling = (
+  queueId: number,
+  eventId: number,
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   let lastEventId = eventId;
 
   const backoffMachine = new BackoffMachine();

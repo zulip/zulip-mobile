@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action, Dispatch, GetState } from '../types';
+import type { Action, ThunkAction, Dispatch, GetState } from '../types';
 
 import { sleep } from '../utils/async';
 import { getTyping } from '../directSelectors';
@@ -30,9 +30,9 @@ const typingStatusExpiryLoop = () => async (dispatch: Dispatch, getState: GetSta
 };
 
 /** Start the typing-status expiry loop, if there isn't one already. */
-export const ensureTypingStatusExpiryLoop = () => async (
-  dispatch: Dispatch,
-  getState: GetState,
+export const ensureTypingStatusExpiryLoop = (): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
 ) => {
   const state = getState();
   if (Object.keys(state.typing).length === 0) {

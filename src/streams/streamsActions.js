@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GetState, Dispatch, Stream } from '../types';
+import type { Stream, ThunkAction } from '../types';
 import * as api from '../api';
 import { getAuth } from '../selectors';
 
@@ -8,7 +8,7 @@ export const createNewStream = (
   description: string,
   principals: string[],
   isPrivate: boolean,
-) => async (dispatch: Dispatch, getState: GetState) => {
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   await api.createStream(getAuth(getState()), name, description, principals, isPrivate);
 };
 
@@ -16,7 +16,7 @@ export const updateExistingStream = (
   id: number,
   initialValues: Stream,
   newValues: {| name: string, description: string, isPrivate: boolean |},
-) => async (dispatch: Dispatch, getState: GetState) => {
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   if (initialValues.name !== newValues.name) {
     // Stream names might contain unsafe characters so we must encode it first.
     await api.updateStream(getAuth(getState()), id, 'new_name', JSON.stringify(newValues.name));

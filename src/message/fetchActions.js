@@ -1,7 +1,16 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type { Narrow, Dispatch, GetState, GlobalState, Message, Action, UserId } from '../types';
+import type {
+  Narrow,
+  Dispatch,
+  GetState,
+  GlobalState,
+  Message,
+  Action,
+  ThunkAction,
+  UserId,
+} from '../types';
 import { ensureUnreachable } from '../types';
 import type { InitialFetchAbortReason } from '../actionTypes';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -102,7 +111,7 @@ export const fetchMessages = (fetchArgs: {|
   anchor: number,
   numBefore: number,
   numAfter: number,
-|}) => async (dispatch: Dispatch, getState: GetState): Promise<Message[]> => {
+|}): ThunkAction<Promise<Message[]>> => async (dispatch, getState) => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   try {
     const { messages, found_newest, found_oldest } =
@@ -156,7 +165,7 @@ export const fetchMessages = (fetchArgs: {|
   }
 };
 
-export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
+export const fetchOlder = (narrow: Narrow): ThunkAction<void> => (dispatch, getState) => {
   const state = getState();
   const firstMessageId = getFirstMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
@@ -175,7 +184,7 @@ export const fetchOlder = (narrow: Narrow) => (dispatch: Dispatch, getState: Get
   }
 };
 
-export const fetchNewer = (narrow: Narrow) => (dispatch: Dispatch, getState: GetState) => {
+export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getState) => {
   const state = getState();
   const lastMessageId = getLastMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
@@ -207,10 +216,9 @@ const initialFetchAbortPlain = (reason: InitialFetchAbortReason): Action => ({
   reason,
 });
 
-export const initialFetchAbort = (reason: InitialFetchAbortReason) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const initialFetchAbort = (
+  reason: InitialFetchAbortReason,
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   showErrorAlert(
     // TODO: Set up these user-facing strings for translation once
     // `initialFetchAbort`'s callers all have access to a `GetText`
@@ -277,7 +285,7 @@ export const isFetchNeededAtAnchor = (
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
-) => async (dispatch: Dispatch, getState: GetState): Promise<Message[] | void> => {
+): ThunkAction<Promise<Message[] | void>> => async (dispatch, getState) => {
   if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
     return undefined;
   }
@@ -399,7 +407,7 @@ export async function tryFetch<T>(
  * (`fetchOlder` and `fetchNewer`), and to grab search results
  * (`SearchMessagesScreen`).
  */
-export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetState) => {
+export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   dispatch(initialFetchStart());
   const auth = getAuth(getState());
 
@@ -479,10 +487,11 @@ export const doInitialFetch = () => async (dispatch: Dispatch, getState: GetStat
   dispatch(initNotifications());
 };
 
-export const uploadFile = (narrow: Narrow, uri: string, name: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const uploadFile = (
+  narrow: Narrow,
+  uri: string,
+  name: string,
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const auth = getAuth(getState());
   const response = await api.uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${response.uri})`;

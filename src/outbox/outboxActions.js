@@ -12,6 +12,7 @@ import type {
   UserOrBot,
   UserId,
   Action,
+  ThunkAction,
 } from '../types';
 import type { SubsetProperties } from '../generics';
 import {
@@ -94,7 +95,7 @@ export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean
   }
 };
 
-export const sendOutbox = () => async (dispatch: Dispatch, getState: GetState) => {
+export const sendOutbox = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
   if (state.outbox.length === 0 || state.session.outboxSending) {
     return;
@@ -166,9 +167,9 @@ const getContentPreview = (content: string, state: GlobalState): string => {
   }
 };
 
-export const addToOutbox = (narrow: Narrow, content: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
+export const addToOutbox = (narrow: Narrow, content: string): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
 ) => {
   const state = getState();
   const ownUser = getOwnUser(state);

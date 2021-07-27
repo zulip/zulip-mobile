@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GetState, Dispatch, Narrow, Topic, Action, Outbox } from '../types';
+import type { Narrow, Topic, Action, ThunkAction, Outbox } from '../types';
 import * as api from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
@@ -14,15 +14,18 @@ export const initTopics = (topics: Topic[], streamId: number): Action => ({
   streamId,
 });
 
-export const fetchTopics = (streamId: number) => async (dispatch: Dispatch, getState: GetState) => {
+export const fetchTopics = (streamId: number): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+) => {
   const auth = getAuth(getState());
   const { topics } = await api.getTopics(auth, streamId);
   dispatch(initTopics(topics, streamId));
 };
 
-export const fetchTopicsForStream = (narrow: Narrow) => async (
-  dispatch: Dispatch,
-  getState: GetState,
+export const fetchTopicsForStream = (narrow: Narrow): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
 ) => {
   const state = getState();
 
@@ -40,10 +43,10 @@ export const fetchTopicsForStream = (narrow: Narrow) => async (
   dispatch(fetchTopics(stream.stream_id));
 };
 
-export const deleteMessagesForTopic = (streamId: number, topic: string) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
+export const deleteMessagesForTopic = (
+  streamId: number,
+  topic: string,
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
   const outbox = getOutbox(state);
   const stream = getStreamsById(state).get(streamId);

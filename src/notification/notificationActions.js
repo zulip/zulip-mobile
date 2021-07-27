@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import type { Account, Dispatch, GetState, Identity, Action } from '../types';
+import type { Account, Dispatch, Identity, Action, ThunkAction } from '../types';
 import * as api from '../api';
 import {
   getNotificationToken,
@@ -36,9 +36,9 @@ const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   pushToken,
 });
 
-export const narrowToNotification = (data: ?Notification) => (
-  dispatch: Dispatch,
-  getState: GetState,
+export const narrowToNotification = (data: ?Notification): ThunkAction<void> => (
+  dispatch,
+  getState,
 ) => {
   if (!data) {
     return;
@@ -79,7 +79,7 @@ const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushTo
 };
 
 /** Tell all logged-in accounts' servers about our device token, as needed. */
-export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetState) => {
+export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const { pushToken } = getSession(getState());
   if (pushToken === null) {
     return;
@@ -89,7 +89,7 @@ export const sendAllPushToken = () => async (dispatch: Dispatch, getState: GetSt
 };
 
 /** Tell the active account's server about our device token, if needed. */
-export const initNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
+export const initNotifications = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const { pushToken } = getSession(getState());
   if (pushToken === null) {
     // Probably, we just don't have the token yet.  When we learn it,
@@ -112,7 +112,10 @@ export const initNotifications = () => async (dispatch: Dispatch, getState: GetS
   await sendPushToken(dispatch, account, pushToken);
 };
 
-export const tryStopNotifications = () => async (dispatch: Dispatch, getState: GetState) => {
+export const tryStopNotifications = (): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+) => {
   const auth = getAuth(getState());
   const { ackedPushToken } = getActiveAccount(getState());
   innerStopNotifications(auth, ackedPushToken, dispatch);
