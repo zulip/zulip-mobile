@@ -2,6 +2,7 @@
 import * as Sentry from '@sentry/react-native';
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
+import type { FixmeUntypedFetchResult } from './apiTypes';
 import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -36,7 +37,7 @@ export const getFetchParams = <P: $Diff<$Exact<RequestOptions>, {| headers: mixe
   };
 };
 
-export const apiFetch = async (
+const apiFetch = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
@@ -48,7 +49,7 @@ export const apiCall = async (
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
   isSilent: boolean = false,
-): Promise<empty> => {
+): Promise<FixmeUntypedFetchResult> => {
   try {
     networkActivityStart(isSilent);
 
@@ -67,7 +68,7 @@ export const apiCall = async (
     }
 
     const result = interpretApiResponse(response.status, json);
-    /* $FlowFixMe[incompatible-type] We let the caller pretend this data
+    /* $FlowFixMe[incompatible-return] We let the caller pretend this data
          is whatever it wants it to be. */
     return result;
   } catch (errorIllTyped) {
@@ -97,7 +98,7 @@ export const apiGet = async (
   route: string,
   params: UrlParams = {},
   isSilent: boolean = false,
-) =>
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(
     auth,
     `${route}?${encodeParamsForUrl(params)}`,
@@ -107,37 +108,61 @@ export const apiGet = async (
     isSilent,
   );
 
-export const apiPost = async (auth: Auth, route: string, params: UrlParams = {}) =>
+export const apiPost = async (
+  auth: Auth,
+  route: string,
+  params: UrlParams = {},
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, route, {
     method: 'post',
     body: encodeParamsForUrl(params),
   });
 
-export const apiFile = async (auth: Auth, route: string, body: FormData) =>
+export const apiFile = async (
+  auth: Auth,
+  route: string,
+  body: FormData,
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, route, {
     method: 'post',
     body,
   });
 
-export const apiPut = async (auth: Auth, route: string, params: UrlParams = {}) =>
+export const apiPut = async (
+  auth: Auth,
+  route: string,
+  params: UrlParams = {},
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, route, {
     method: 'put',
     body: encodeParamsForUrl(params),
   });
 
-export const apiDelete = async (auth: Auth, route: string, params: UrlParams = {}) =>
+export const apiDelete = async (
+  auth: Auth,
+  route: string,
+  params: UrlParams = {},
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, route, {
     method: 'delete',
     body: encodeParamsForUrl(params),
   });
 
-export const apiPatch = async (auth: Auth, route: string, params: UrlParams = {}) =>
+export const apiPatch = async (
+  auth: Auth,
+  route: string,
+  params: UrlParams = {},
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, route, {
     method: 'patch',
     body: encodeParamsForUrl(params),
   });
 
-export const apiHead = async (auth: Auth, route: string, params: UrlParams = {}) =>
+export const apiHead = async (
+  auth: Auth,
+  route: string,
+  params: UrlParams = {},
+): Promise<FixmeUntypedFetchResult> =>
   apiCall(auth, `${route}?${encodeParamsForUrl(params)}`, {
     method: 'head',
   });
