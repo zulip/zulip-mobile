@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { Platform, StatusBar } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
@@ -42,7 +43,7 @@ type Props = $ReadOnly<{|
  * top inset grows to accommodate a visible status bar, and shrinks to
  * give more room to the app's content when the status bar is hidden.
  */
-export default function ZulipStatusBar(props: Props) {
+export default function ZulipStatusBar(props: Props): Node {
   const { hidden = false } = props;
   const theme = useSelector(state => getSettings(state).theme);
   const orientation = useSelector(state => getSession(state).orientation);

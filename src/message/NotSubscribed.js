@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { Stream, Narrow } from '../types';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
 |}>;
 
-export default function NotSubscribed(props: Props) {
+export default function NotSubscribed(props: Props): Node {
   const auth = useSelector(getAuth);
   const stream: $ReadOnly<{ ...Stream, ... }> = useSelector(state =>
     getStreamInNarrow(state, props.narrow),

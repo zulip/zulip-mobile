@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Image } from 'react-native';
 import { createIconSet } from 'react-native-vector-icons';
 
@@ -23,7 +24,7 @@ const componentStyles = createStyleSheet({
   image: { width: 20, height: 20 },
 });
 
-export default function Emoji(props: Props) {
+export default function Emoji(props: Props): Node {
   const { code } = props;
   const imageEmoji = useSelector(state =>
     props.type === 'image' ? getAllImageEmojiByCode(state)[props.code] : undefined,

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useContext, useCallback } from 'react';
+import type { Node } from 'react';
 import { FlatList, View } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { createStyleSheet } from '../styles';
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'user-status', void>,
 |}>;
 
-export default function UserStatusScreen(props: Props) {
+export default function UserStatusScreen(props: Props): Node {
   const dispatch = useDispatch();
   const userStatusText = useSelector(getSelfUserStatusText);
 

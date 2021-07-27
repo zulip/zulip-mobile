@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -30,7 +31,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'account-details', {| userId: UserId |}>,
 |}>;
 
-export default function AccountDetailsScreen(props: Props) {
+export default function AccountDetailsScreen(props: Props): Node {
   const dispatch = useDispatch();
   const user = useSelector(state => getUserForId(state, props.route.params.userId));
   const isActive = useSelector(state => getUserIsActive(state, props.route.params.userId));

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -24,7 +25,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'emoji-picker', {| messageId: number |}>,
 |}>;
 
-export default function EmojiPickerScreen(props: Props) {
+export default function EmojiPickerScreen(props: Props): Node {
   const { route } = props;
   const { messageId } = route.params;
 

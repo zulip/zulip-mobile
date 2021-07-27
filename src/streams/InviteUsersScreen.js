@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -17,7 +18,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'invite-users', {| streamId: number |}>,
 |}>;
 
-export default function InviteUsersScreen(props: Props) {
+export default function InviteUsersScreen(props: Props): Node {
   const auth = useSelector(getAuth);
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 

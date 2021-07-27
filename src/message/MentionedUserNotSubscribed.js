@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
 import type { Stream, UserOrBot, Subscription } from '../types';
@@ -49,7 +50,7 @@ const styles = createStyleSheet({
   },
 });
 
-export default function MentionedUserNotSubscribed(props: Props) {
+export default function MentionedUserNotSubscribed(props: Props): Node {
   const { user, stream, onDismiss } = props;
   const auth = useSelector(getAuth);
 

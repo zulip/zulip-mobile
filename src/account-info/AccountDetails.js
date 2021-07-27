@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { UserOrBot } from '../types';
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
   user: UserOrBot,
 |}>;
 
-export default function AccountDetails(props: Props) {
+export default function AccountDetails(props: Props): Node {
   const { user } = props;
 
   const ownUser = useSelector(getOwnUser);

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback, useEffect } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -17,7 +18,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'topic-list', {| streamId: number |}>,
 |}>;
 
-export default function TopicListScreen(props: Props) {
+export default function TopicListScreen(props: Props): Node {
   const dispatch = useDispatch();
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
   const topics = useSelector(state => getTopicsForStream(state, props.route.params.streamId));

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -30,7 +31,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'allStreams', void>,
 |}>;
 
-export default function StreamListCard(props: Props) {
+export default function StreamListCard(props: Props): Node {
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
   const canCreateStreams = useSelector(getCanCreateStreams);
