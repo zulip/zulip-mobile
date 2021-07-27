@@ -768,10 +768,10 @@ var compiledWebviewJs = (function (exports) {
         messageId: uevent.scrollMessageId
       };
     } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
-        target = {
-          type: 'bottom'
-        };
-      } else {
+      target = {
+        type: 'bottom'
+      };
+    } else {
       target = findPreserveTarget();
     }
 
