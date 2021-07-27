@@ -4,8 +4,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Dispatch, Stream, TopicExtended } from '../types';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { Screen } from '../common';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsForStream } from '../selectors';
@@ -13,21 +12,15 @@ import { getStreamForId } from '../subscriptions/subscriptionSelectors';
 import TopicList from './TopicList';
 import { fetchTopics, doNarrow } from '../actions';
 
-type SelectorProps = $ReadOnly<{|
-  stream: Stream,
-  topics: ?(TopicExtended[]),
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'topic-list'>,
   route: RouteProp<'topic-list', {| streamId: number |}>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-function TopicListScreen(props: Props) {
-  const { dispatch, stream, topics } = props;
+export default function TopicListScreen(props: Props) {
+  const dispatch = useDispatch();
+  const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
+  const topics = useSelector(state => getTopicsForStream(state, props.route.params.streamId));
 
   const [filter, setFilter] = useState<string>('');
 
@@ -59,8 +52,3 @@ function TopicListScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  stream: getStreamForId(state, props.route.params.streamId),
-  topics: getTopicsForStream(state, props.route.params.streamId),
-}))(TopicListScreen);
