@@ -7,8 +7,7 @@ import { createStyleSheet } from '../styles';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import type { Dispatch } from '../types';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { Input, SelectableOptionRow, Screen, ZulipButton } from '../common';
 import { getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
@@ -32,15 +31,13 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'user-status'>,
   route: RouteProp<'user-status', void>,
-
-  dispatch: Dispatch,
-  userStatusText: string,
 |}>;
 
-function UserStatusScreen(props: Props) {
-  const { dispatch } = props;
+export default function UserStatusScreen(props: Props) {
+  const dispatch = useDispatch();
+  const userStatusText = useSelector(getSelfUserStatusText);
 
-  const [statusText, setStatusText] = useState<string>(props.userStatusText);
+  const [statusText, setStatusText] = useState<string>(userStatusText);
   const _ = useContext(TranslationContext);
 
   const setStatusTextState = useCallback((_statusText: string) => {
@@ -108,7 +105,3 @@ function UserStatusScreen(props: Props) {
     </Screen>
   );
 }
-
-export default connect(state => ({
-  userStatusText: getSelfUserStatusText(state),
-}))(UserStatusScreen);
