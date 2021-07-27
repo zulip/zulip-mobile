@@ -43,9 +43,21 @@ export function createStyleSheet<+S: ____Styles_Internal>(obj: S): S {
   return Object.freeze(obj);
 }
 
-export default createStyleSheet({
+// By `Object.freeze`, we really mean `createStyleSheet`. But that's too
+// much for Flow in types-first mode, and it can't tell the exported
+// object's type on a quick skim. But apparently it has no problem if we
+// just do an `Object.freeze` directly. So, do that, and get
+// `createStyleSheet` to type-check the contents of `styles` separately, in
+// a trivial bit of code below.
+const styles = Object.freeze({
   ...composeBoxStyles,
   ...miscStyles,
   ...navStyles,
   ...utilityStyles,
 });
+
+// Check the contents of `styles` (see comment above).
+// eslint-disable-next-line no-unused-expressions
+() => createStyleSheet(styles);
+
+export default styles;
