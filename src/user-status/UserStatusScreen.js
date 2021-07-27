@@ -40,10 +40,6 @@ export default function UserStatusScreen(props: Props) {
   const [statusText, setStatusText] = useState<string>(userStatusText);
   const _ = useContext(TranslationContext);
 
-  const setStatusTextState = useCallback((_statusText: string) => {
-    setStatusText(_statusText);
-  }, []);
-
   const updateStatusText = useCallback(
     (_statusText: string) => {
       dispatch(updateUserStatusText(_statusText));
@@ -57,9 +53,9 @@ export default function UserStatusScreen(props: Props) {
   }, [statusText, updateStatusText]);
 
   const handleStatusTextClear = useCallback(() => {
-    setStatusTextState('');
+    setStatusText('');
     updateStatusText('');
-  }, [setStatusTextState, updateStatusText]);
+  }, [updateStatusText]);
 
   return (
     <Screen title="User status">
@@ -69,7 +65,7 @@ export default function UserStatusScreen(props: Props) {
         style={styles.statusTextInput}
         placeholder="What’s your status?"
         value={statusText}
-        onChangeText={setStatusTextState}
+        onChangeText={setStatusText}
       />
       <FlatList
         data={statusSuggestions}
@@ -82,7 +78,7 @@ export default function UserStatusScreen(props: Props) {
             title={item}
             selected={item === statusText}
             onRequestSelectionChange={itemKey => {
-              setStatusTextState(_(itemKey));
+              setStatusText(_(itemKey));
             }}
           />
         )}
