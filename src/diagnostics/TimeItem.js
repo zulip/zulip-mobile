@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import format from 'date-fns/format';
 import type { TimingItemType } from '../types';
@@ -25,7 +26,7 @@ const styles = createStyleSheet({
 export default class TimeItem extends PureComponent<TimingItemType> {
   props: TimingItemType;
 
-  render(): React$Node {
+  render(): Node {
     const { text, startMs, endMs } = this.props;
     const startStr = format(startMs, 'HH:mm:ss.S'); // eslint-disable-line
     const durationStrMs = numberWithSeparators(endMs - startMs);

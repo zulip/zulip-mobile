@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -13,7 +14,7 @@ type Props = $ReadOnly<{|
   onAutocomplete: (name: string) => void,
 |}>;
 
-export default function StreamAutocomplete(props: Props): React$Node {
+export default function StreamAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
   const subscriptions = useSelector(getSubscribedStreams);
 

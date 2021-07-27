@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -22,7 +23,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'storage', void>,
 |}>;
 
-export default function StorageScreen(props: Props): React$Node {
+export default function StorageScreen(props: Props): Node {
   const state = useSelector(s => s);
   const storageSizes = calculateKeyStorageSizes(state);
 

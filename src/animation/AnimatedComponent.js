@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { Animated, Easing } from 'react-native';
 
 import type { Style } from '../types';
@@ -8,7 +8,7 @@ import type { Style } from '../types';
 type Props = $ReadOnly<{|
   stylePropertyName: string,
   fullValue: number,
-  children: React$Node,
+  children: Node,
   style?: Style,
   visible: boolean,
   useNativeDriver: boolean,

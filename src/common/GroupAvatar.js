@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Text, View } from 'react-native';
 
-import type { Node as React$Node } from 'react';
 import Touchable from './Touchable';
 import { createStyleSheet } from '../styles';
 import { colorHashFromString, foregroundColorFromBackground } from '../utils/color';
@@ -20,7 +20,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   names: string[],
   size: number,
-  children?: React$Node,
+  children?: Node,
   onPress?: () => void,
 |}>;
 
@@ -46,7 +46,7 @@ export const initialsForGroupIcon = (names: string[]): string => {
  * @prop onPress - Event fired on pressing the component.
  */
 export default class GroupAvatar extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { children, names, size, onPress } = this.props;
 
     const frameSize = {

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 
 import { useSelector, useDispatch } from '../react-redux';
 import { SwitchRow } from '../common';
@@ -13,7 +14,7 @@ type Props = $ReadOnly<{||}>;
  *  * retrieves the current user's `user status` data and presents it
  *  * allows by switching it to control the `away` status
  */
-export default function AwayStatusSwitch(props: Props): React$Node {
+export default function AwayStatusSwitch(props: Props): Node {
   const awayStatus = useSelector(getSelfUserAwayStatus);
   const dispatch = useDispatch();
 

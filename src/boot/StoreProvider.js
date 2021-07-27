@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Provider } from 'react-redux';
-import type { Node as React$Node } from 'react';
 
 import { observeStore } from '../redux';
 import * as logging from '../utils/logging';
@@ -10,7 +10,7 @@ import store, { restore } from './store';
 import timing from '../utils/timing';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
 export default class StoreProvider extends PureComponent<Props> {
@@ -38,7 +38,7 @@ export default class StoreProvider extends PureComponent<Props> {
     }
   }
 
-  render(): React$Node {
+  render(): Node {
     return <Provider store={store}>{this.props.children}</Provider>;
   }
 }

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { nativeApplicationVersion } from 'expo-application';
 
 import type { RouteProp } from '../react-navigation';
@@ -28,7 +29,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class DiagnosticsScreen extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     return (
       <Screen title="Diagnostics">
         <RawLabel style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />

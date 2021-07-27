@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -12,7 +13,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function IconUnreadConversations(props: Props): React$Node {
+export default function IconUnreadConversations(props: Props): Node {
   const { color } = props;
   const unreadHuddlesTotal = useSelector(getUnreadHuddlesTotal);
   const unreadPmsTotal = useSelector(getUnreadPmsTotal);

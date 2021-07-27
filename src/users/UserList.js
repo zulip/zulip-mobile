@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { SectionList } from 'react-native';
 import { useSelector } from '../react-redux';
 
@@ -24,7 +25,7 @@ type Props = $ReadOnly<{|
   onPress: (user: UserOrBot) => void,
 |}>;
 
-export default function UserList(props: Props): React$Node {
+export default function UserList(props: Props): Node {
   const { filter, users, presences, onPress, selected = [] } = props;
   const mutedUsers = useSelector(getMutedUsers);
   const filteredUsers = filterUserList(users, filter).filter(user => !mutedUsers.has(user.user_id));

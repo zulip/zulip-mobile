@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 // eslint-disable-next-line import/no-useless-path-segments
@@ -14,12 +15,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
   unreadCount: number,
 |}>;
 
 export default class CountOverlay extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { children, unreadCount } = this.props;
 
     return (

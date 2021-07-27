@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import React, { type Node as React$Node, useContext } from 'react';
+import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { Image, View, PixelRatio } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
   avatarUrl: AvatarURL,
   size: number,
   isMuted?: boolean,
-  children?: React$Node,
+  children?: Node,
   onPress?: () => void,
 |}>;
 
@@ -26,7 +27,7 @@ type Props = $ReadOnly<{|
  * @prop [children] - If provided, will render inside the component body.
  * @prop [onPress] - Event fired on pressing the component.
  */
-function UserAvatar(props: Props): React$Node {
+function UserAvatar(props: Props): Node {
   const { avatarUrl, children, size, isMuted = false, onPress } = props;
   const borderRadius = size / 8;
   const style = {

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { RawLabel, Touchable } from '.';
@@ -58,7 +59,7 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
  */
 export default function SelectableOptionRow<TItemKey: string | number>(
   props: Props<TItemKey>,
-): React$Node {
+): Node {
   const { itemKey, title, subtitle, selected, onRequestSelectionChange } = props;
 
   return (

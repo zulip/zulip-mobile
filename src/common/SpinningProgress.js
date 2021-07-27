@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Image } from 'react-native';
 
 import AnimatedRotateComponent from '../animation/AnimatedRotateComponent';
@@ -22,7 +23,7 @@ type Props = $ReadOnly<{|
  * @prop size - Diameter of the circle in pixels.
  */
 export default class SpinningProgress extends React.PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { color, size } = this.props;
     const style = { width: size, height: size };
     const source = (() => {

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 
 import { caseNarrow } from '../utils/narrow';
 
@@ -18,7 +19,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class Title extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { narrow, color, editMessage } = this.props;
     if (editMessage != null) {
       return <TitlePlain text="Edit message" color={color} />;

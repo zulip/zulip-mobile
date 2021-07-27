@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { FlatList, ImageBackground, ScrollView, View, Text } from 'react-native';
 
 import type { Auth, Dispatch, GetText, UserId } from '../types';
@@ -56,7 +57,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
   isSendButtonEnabled: (message: string) => boolean,
   sendTo: SendTo,
   sharedData: SharedData,

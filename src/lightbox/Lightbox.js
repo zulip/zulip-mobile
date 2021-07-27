@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 import { View, Dimensions, LayoutAnimation } from 'react-native';
 // $FlowFixMe[untyped-import]
 import PhotoView from 'react-native-photo-view';
@@ -44,7 +45,7 @@ type Props = $ReadOnly<{|
   message: Message,
 |}>;
 
-export default function Lightbox(props: Props): React$Node {
+export default function Lightbox(props: Props): Node {
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { Platform } from 'react-native';
 import {
   createBottomTabNavigator,
@@ -44,7 +45,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'main-tabs', void>,
 |}>;
 
-export default function MainTabsScreen(props: Props): React$Node {
+export default function MainTabsScreen(props: Props): Node {
   const { backgroundColor } = useContext(ThemeContext);
 
   return (

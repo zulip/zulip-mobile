@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -61,7 +62,7 @@ function MaybeOpaqueBackgroundWrapper(
   props: $ReadOnly<{|
     useOpaqueBackground: boolean,
     style?: ViewStyleProp,
-    children: React$Node,
+    children: Node,
   |}>,
 ) {
   const { useOpaqueBackground, style, children } = props;
@@ -113,7 +114,7 @@ type Props = $ReadOnly<{|
  * @prop email - email of the user whose status we are showing.
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
-export default function PresenceStatusIndicator(props: Props): React$Node {
+export default function PresenceStatusIndicator(props: Props): Node {
   const { email, style, hideIfOffline, useOpaqueBackground } = props;
   const presence = useSelector(getPresence);
   const allUsersByEmail = useSelector(getAllUsersByEmail);

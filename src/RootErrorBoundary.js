@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View, Text, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
 import * as logging from './utils/logging';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
 type State = $ReadOnly<{|
@@ -61,7 +62,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     error: null,
   };
 
-  render(): React$Node {
+  render(): Node {
     const { error } = this.state;
     if (error) {
       const details = `${error.toString()}

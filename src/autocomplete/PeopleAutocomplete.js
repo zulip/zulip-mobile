@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
 import type { UserGroup } from '../types';
@@ -21,7 +22,7 @@ type Props = $ReadOnly<{|
   onAutocomplete: (name: string) => void,
 |}>;
 
-export default function PeopleAutocomplete(props: Props): React$Node {
+export default function PeopleAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
   const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);

@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
@@ -19,7 +19,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
 export default class Popup extends PureComponent<Props> {

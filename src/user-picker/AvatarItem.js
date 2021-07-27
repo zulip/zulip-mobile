@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Animated, Easing, View } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
@@ -57,7 +58,7 @@ export default class AvatarItem extends PureComponent<Props> {
     }).start(() => onPress(user.user_id));
   };
 
-  render(): React$Node {
+  render(): Node {
     const { user } = this.props;
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],

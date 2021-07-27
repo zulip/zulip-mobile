@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class LightboxFooter extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { displayMessage, onOptionsPress, style } = this.props;
     return (
       <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>

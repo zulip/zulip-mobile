@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
@@ -21,7 +22,7 @@ type Props = $ReadOnly<{|
   editMessage: EditMessage | null,
 |}>;
 
-export default function ChatNavBar(props: Props): React$Node {
+export default function ChatNavBar(props: Props): Node {
   const { narrow, editMessage } = props;
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const buttonColor =

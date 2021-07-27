@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Platform } from 'react-native';
 import {
   createStackNavigator,
@@ -85,7 +86,7 @@ const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNa
 
 type Props = $ReadOnly<{||}>;
 
-export default function AppNavigator(props: Props): React$Node {
+export default function AppNavigator(props: Props): Node {
   const hasAuth = useSelector(getHasAuth);
   const accounts = useSelector(getAccounts);
 

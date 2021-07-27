@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -16,7 +17,7 @@ type Props = $ReadOnly<{|
  *
  * Used within `MessageReactionsScreen`.
  */
-export default function ReactionUserList(props: Props): React$Node {
+export default function ReactionUserList(props: Props): Node {
   const { reactedUserIds } = props;
 
   return (

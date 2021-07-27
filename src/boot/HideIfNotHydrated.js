@@ -1,16 +1,17 @@
 /* @flow strict-local */
-import React, { type Node as React$Node } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getIsHydrated } from '../selectors';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 
   PlaceholderComponent?: React$ComponentType<{||}>,
 |}>;
 
-export default function HideIfNotHydrated(props: Props): React$Node {
+export default function HideIfNotHydrated(props: Props): Node {
   const isHydrated = useSelector(getIsHydrated);
 
   const { children, PlaceholderComponent } = props;

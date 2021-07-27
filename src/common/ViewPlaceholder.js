@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 type Props = $ReadOnly<{|
@@ -16,7 +17,7 @@ type Props = $ReadOnly<{|
  * @prop [height] - Height of the component in pixels.
  */
 export default class ViewPlaceholder extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { width, height } = this.props;
     const style = { width, height };
     return <View style={style} />;

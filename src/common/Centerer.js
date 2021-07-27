@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Node as React$Node } from 'react';
 import styles, { createStyleSheet } from '../styles';
 
 const componentStyles = createStyleSheet({
@@ -21,7 +21,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
-  children: React$Node,
+  children: Node,
   padding: boolean,
 |}>;
 

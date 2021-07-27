@@ -1,13 +1,13 @@
 /* @flow strict-local */
-import type { Node as React$Node } from 'react';
 import { PureComponent } from 'react';
+import type { Node } from 'react';
 import { BackHandler } from 'react-native';
 
 import * as NavigationService from './NavigationService';
 import { navigateBack } from '../actions';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
 export default class BackNavigationHandler extends PureComponent<Props> {

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { RawLabel } from '../common';
@@ -26,7 +27,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class InfoItem extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { label, value } = this.props;
 
     return (

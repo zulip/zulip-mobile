@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -70,7 +71,7 @@ class MessageReactionsScreen extends PureComponent<Props> {
     const { message, route, ownUserId } = this.props;
     const { reactionName } = route.params;
 
-    const content: React$Node = (() => {
+    const content: Node = (() => {
       if (message === undefined) {
         return <View style={styles.flexed} />;
       } else if (message.reactions.length === 0) {

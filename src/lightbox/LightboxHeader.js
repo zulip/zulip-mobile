@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -53,7 +54,7 @@ type Props = $ReadOnly<{|
  * @prop [onPressBack]
  */
 export default class LightboxHeader extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = this.props;
     const displayDate = humanDate(new Date(timestamp * 1000));
     const time = shortTime(new Date(timestamp * 1000));

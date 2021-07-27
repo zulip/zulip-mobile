@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -21,7 +22,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function TitleGroup(props: Props): React$Node {
+export default function TitleGroup(props: Props): Node {
   const { userIds } = props;
   const mutedUsers = useSelector(getMutedUsers);
 

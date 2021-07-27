@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { Animated, Easing } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import type { Style } from '../types';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
   visible: boolean,
   style?: Style,
 |}>;
@@ -35,7 +35,7 @@ export default class AnimatedScaleComponent extends PureComponent<Props, State> 
     }).start(() => this.setState({ visible: nextProps.visible }));
   }
 
-  render(): React$Node {
+  render(): Node {
     const { children, style } = this.props;
     const { visible } = this.state;
     const animatedStyle = {

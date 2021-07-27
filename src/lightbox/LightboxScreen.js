@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { Message } from '../types';
@@ -22,7 +23,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'lightbox', {| src: string, message: Message |}>,
 |}>;
 
-export default function LightboxScreen(props: Props): React$Node {
+export default function LightboxScreen(props: Props): Node {
   const { src, message } = props.route.params;
 
   return (

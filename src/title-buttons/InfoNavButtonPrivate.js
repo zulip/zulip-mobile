@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 
 import type { UserId } from '../types';
 import * as NavigationService from '../nav/NavigationService';
@@ -11,7 +12,7 @@ type Props = $ReadOnly<{|
   userId: UserId,
 |}>;
 
-export default function InfoNavButtonPrivate(props: Props): React$Node {
+export default function InfoNavButtonPrivate(props: Props): Node {
   const { color } = props;
   return (
     <NavButton

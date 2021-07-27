@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import Label from './Label';
@@ -29,7 +30,7 @@ type Props = $ReadOnly<{|
  * @prop error - The error message string.
  */
 export default class ErrorMsg extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { error } = this.props;
 
     if (!error) {

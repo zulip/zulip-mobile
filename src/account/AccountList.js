@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View, FlatList } from 'react-native';
 
 import type { AccountStatus } from './accountsSelectors';
@@ -12,7 +13,7 @@ type Props = $ReadOnly<{|
   onAccountRemove: number => Promise<void> | void,
 |}>;
 
-export default function AccountList(props: Props): React$Node {
+export default function AccountList(props: Props): Node {
   const { accounts, onAccountSelect, onAccountRemove } = props;
 
   return (

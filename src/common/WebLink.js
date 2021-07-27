@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 
 import Label from './Label';
 import { openLinkEmbedded } from '../utils/openLink';
@@ -20,7 +21,7 @@ const componentStyles = createStyleSheet({
 /**
  * A button styled like a web link.
  */
-export default function WebLink(props: Props): React$Node {
+export default function WebLink(props: Props): Node {
   return (
     <Label
       style={componentStyles.link}

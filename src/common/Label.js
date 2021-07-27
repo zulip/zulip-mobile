@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import TranslatedText from './TranslatedText';
 
 import type { BoundedDiff } from '../generics';
@@ -7,7 +8,7 @@ import RawLabel from './RawLabel';
 import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
-  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| children: ?React$Node |}>,
+  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| children: ?Node |}>,
   text: LocalizableText,
 |}>;
 
@@ -20,7 +21,7 @@ type Props = $ReadOnly<{|
  * prop, and doesn't support `children`.
  */
 export default class Label extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { text, ...restProps } = this.props;
 
     return (

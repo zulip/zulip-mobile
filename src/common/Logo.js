@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Image } from 'react-native';
 
 import logoImg from '../../static/img/logo.png';
@@ -14,6 +15,4 @@ const styles = createStyleSheet({
   },
 });
 
-export default (): React$Node => (
-  <Image style={styles.logo} source={logoImg} resizeMode="contain" />
-);
+export default (): Node => <Image style={styles.logo} source={logoImg} resizeMode="contain" />;

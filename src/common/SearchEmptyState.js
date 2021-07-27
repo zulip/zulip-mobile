@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import Label from './Label';
@@ -23,7 +24,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SearchEmptyState extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { text } = this.props;
 
     return (

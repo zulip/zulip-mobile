@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { Animated, Easing } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
@@ -8,7 +8,7 @@ import type { Style } from '../types';
 
 type Props = $ReadOnly<{|
   style?: Style,
-  children: React$Node,
+  children: Node,
 |}>;
 
 export default class AnimatedRotateComponent extends PureComponent<Props> {
@@ -24,7 +24,7 @@ export default class AnimatedRotateComponent extends PureComponent<Props> {
     }).start();
   }
 
-  render(): React$Node {
+  render(): Node {
     const { children, style } = this.props;
     const rotation = this.rotation.interpolate({
       inputRange: [0, 360],

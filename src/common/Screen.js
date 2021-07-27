@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -35,7 +35,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   centerContent?: boolean,
-  +children: React$Node,
+  +children: Node,
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   scrollEnabled?: boolean,
@@ -71,7 +71,7 @@ type Props = $ReadOnly<{|
  * @prop [title] - Text shown as the title of the screen.
  *                 Required unless `search` is true.
  */
-export default function Screen(props: Props): React$Node {
+export default function Screen(props: Props): Node {
   const { backgroundColor } = useContext(ThemeContext);
   const {
     autoFocus = false,

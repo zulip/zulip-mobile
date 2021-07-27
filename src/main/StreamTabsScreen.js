@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
@@ -41,7 +42,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'stream-tabs', void>,
 |}>;
 
-export default function StreamTabsScreen(props: Props): React$Node {
+export default function StreamTabsScreen(props: Props): Node {
   return (
     <Tab.Navigator
       {...materialTopTabNavigatorConfig({

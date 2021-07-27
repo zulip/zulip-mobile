@@ -1,12 +1,12 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { AppState, View, Platform, NativeModules } from 'react-native';
 // $FlowFixMe[untyped-import]
 import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import type { Node as React$Node } from 'react';
 import type { Dispatch, Orientation as OrientationT } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
@@ -65,7 +65,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   dispatch: Dispatch,
-  children: React$Node,
+  children: Node,
   unreadCount: number,
 |}>;
 

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback, useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -28,7 +29,7 @@ type Props<U> = $ReadOnly<{|
  * */
 export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(
   props: Props<U>,
-): React$Node {
+): Node {
   const { users, unreadCount, onPress } = props;
 
   const handlePress = useCallback(() => {

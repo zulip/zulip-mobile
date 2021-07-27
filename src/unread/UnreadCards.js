@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
 import type { UnreadStreamItem } from '../types';
@@ -15,7 +16,7 @@ import { doNarrow } from '../actions';
 
 type Props = $ReadOnly<{||}>;
 
-export default function UnreadCards(props: Props): React$Node {
+export default function UnreadCards(props: Props): Node {
   const dispatch = useDispatch();
   const conversations = useSelector(getUnreadConversations);
   const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);

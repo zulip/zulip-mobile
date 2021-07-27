@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext, useCallback } from 'react';
+import type { Node } from 'react';
 import { Alert } from 'react-native';
 
 import * as api from '../api';
@@ -26,7 +27,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'account-pick', void>,
 |}>;
 
-export default function AccountPickScreen(props: Props): React$Node {
+export default function AccountPickScreen(props: Props): Node {
   const { navigation } = props;
   const accounts = useSelector(getAccountStatuses);
   const dispatch = useDispatch();

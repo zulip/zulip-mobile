@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import styles, { createStyleSheet, ThemeContext } from '../styles';
@@ -58,7 +59,7 @@ type Props = $ReadOnly<{|
  * @prop onPress - press handler for the item; receives the stream name
  * @prop onSwitch - if switch exists; receives stream name and new value
  */
-export default function StreamItem(props: Props): React$Node {
+export default function StreamItem(props: Props): Node {
   const {
     name,
     description,

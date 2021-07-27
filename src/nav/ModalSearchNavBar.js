@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemeContext } from '../styles';
@@ -12,7 +13,7 @@ type Props = $ReadOnly<{|
   canGoBack?: boolean,
 |}>;
 
-export default function ModalSearchNavBar(props: Props): React$Node {
+export default function ModalSearchNavBar(props: Props): Node {
   const { autoFocus, searchBarOnChange, canGoBack = true } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (

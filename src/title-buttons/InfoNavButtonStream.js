@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Narrow } from '../types';
@@ -15,7 +16,7 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default function InfoNavButtonStream(props: Props): React$Node {
+export default function InfoNavButtonStream(props: Props): Node {
   const streams = useSelector(getStreams);
   const { color } = props;
 

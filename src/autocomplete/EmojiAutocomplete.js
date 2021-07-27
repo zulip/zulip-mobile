@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import { Popup } from '../common';
@@ -16,7 +17,7 @@ type Props = $ReadOnly<{|
 
 const MAX_CHOICES = 30;
 
-export default function EmojiAutocomplete(props: Props): React$Node {
+export default function EmojiAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);

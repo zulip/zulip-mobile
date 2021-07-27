@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent, type Context } from 'react';
-import type { ComponentType, ElementConfig, Node as React$Node } from 'react';
+import type { ComponentType, ElementConfig, Node } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider, IntlContext } from 'react-intl';
 import type { IntlShape } from 'react-intl';
@@ -58,7 +58,7 @@ const makeGetText = (intl: IntlShape): GetText => {
  * See the `GetTypes` type for why we like the new shape.
  */
 class TranslationContextTranslator extends PureComponent<{|
-  +children: React$Node,
+  +children: Node,
 |}> {
   static contextType = IntlContext;
   context: IntlShape;
@@ -73,10 +73,10 @@ class TranslationContextTranslator extends PureComponent<{|
 }
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
-export default function TranslationProvider(props: Props): React$Node {
+export default function TranslationProvider(props: Props): Node {
   const { children } = props;
   const language = useSelector(state => getSettings(state).language);
 

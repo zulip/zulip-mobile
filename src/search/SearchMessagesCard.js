@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { Message, Narrow } from '../types';
@@ -21,7 +22,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class SearchMessagesCard extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { isFetching, messages } = this.props;
 
     if (isFetching) {

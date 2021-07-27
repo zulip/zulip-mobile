@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { type ElementConfig, useCallback, useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -50,7 +51,7 @@ type Props<UserT> = $ReadOnly<{|
  */
 export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: string, ... }>(
   props: Props<UserT>,
-): React$Node {
+): Node {
   const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
   const _ = useContext(TranslationContext);
   const isMuted = useSelector(getMutedUsers).has(user.user_id);
@@ -108,7 +109,7 @@ type OuterProps = $ReadOnly<{|
  * encapsulate getting user data where it's needed.
  */
 // eslint-disable-next-line func-names
-export default function (props: OuterProps): React$Node {
+export default function (props: OuterProps): Node {
   const { userId, ...restProps } = props;
   const user = useSelector(state => getUserForId(state, userId));
   return <UserItemRaw {...restProps} user={user} />;

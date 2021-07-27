@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { ScrollView, View, Alert } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -102,7 +103,7 @@ type Props = $ReadOnly<{|
  *
  * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
  */
-export default function ProfileScreen(props: Props): React$Node {
+export default function ProfileScreen(props: Props): Node {
   const ownUser = useSelector(getOwnUser);
 
   return (

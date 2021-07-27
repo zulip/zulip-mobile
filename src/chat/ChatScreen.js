@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from '../react-redux';
@@ -97,7 +98,7 @@ const useMessagesWithFetch = args => {
   return { fetchError, isFetching, messages, haveNoMessages, firstUnreadIdInNarrow };
 };
 
-export default function ChatScreen(props: Props): React$Node {
+export default function ChatScreen(props: Props): Node {
   const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
 

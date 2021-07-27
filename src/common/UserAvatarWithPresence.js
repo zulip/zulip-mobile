@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 
 import type { UserId } from '../types';
 import { createStyleSheet } from '../styles';
@@ -38,7 +39,7 @@ type Props = $ReadOnly<{|
  * @prop [onPress] - Event fired on pressing the component.
  */
 export default class UserAvatarWithPresence extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { avatarUrl, email, isMuted, size, onPress } = this.props;
 
     return (
@@ -69,7 +70,7 @@ export function UserAvatarWithPresenceById(
     ...$Diff<Props, {| avatarUrl: mixed, email: mixed |}>,
     userId: UserId,
   |}>,
-): React$Node {
+): Node {
   const { userId, ...restProps } = props;
 
   const user = useSelector(state => tryGetUserForId(state, userId));

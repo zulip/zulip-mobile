@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
@@ -31,7 +32,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class StreamCard extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { stream, subscription } = this.props;
 
     return (

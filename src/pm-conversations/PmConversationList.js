@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch, useSelector } from '../react-redux';
 
@@ -26,7 +27,7 @@ type Props = $ReadOnly<{|
 /**
  * A list describing all PM conversations.
  * */
-export default function PmConversationList(props: Props): React$Node {
+export default function PmConversationList(props: Props): Node {
   const dispatch = useDispatch();
 
   const handleUserNarrow = useCallback(

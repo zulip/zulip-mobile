@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
@@ -29,7 +30,7 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
 |}>;
 
-export default function MarkAsReadButton(props: Props): React$Node {
+export default function MarkAsReadButton(props: Props): Node {
   const { narrow } = props;
   const auth = useSelector(getAuth);
   const streams = useSelector(getStreams);

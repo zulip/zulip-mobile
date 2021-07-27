@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
-import type { Node as React$Node } from 'react';
 
 import { NAVBAR_SIZE, createStyleSheet } from '../styles';
 import { Touchable } from '../common';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
   onPress: () => void,
   accessibilityLabel?: string,
 |}>;

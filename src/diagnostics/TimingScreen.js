@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -13,7 +14,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'timing', void>,
 |}>;
 
-export default function TimingScreen(props: Props): React$Node {
+export default function TimingScreen(props: Props): Node {
   return (
     <Screen title="Timing" scrollEnabled={false}>
       <FlatList

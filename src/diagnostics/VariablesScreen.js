@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class VariablesScreen extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const variables = {
       enableReduxLogging: config.enableReduxLogging,
       enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -41,7 +42,7 @@ type Props = $ReadOnly<{|
 /**
  * The "PMs" page in the main tabs navigation.
  * */
-export default function PmConversationsScreen(props: Props): React$Node {
+export default function PmConversationsScreen(props: Props): Node {
   const conversations = useSelector(getRecentConversations);
   const context = useContext(ThemeContext);
 

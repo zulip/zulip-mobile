@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { createStyleSheet, HALF_COLOR } from '../styles';
@@ -27,7 +28,7 @@ type Props = $ReadOnly<{||}>;
  * Displays a notice that the app is working in offline mode.
  * Not rendered if state is 'online'.
  */
-export default function OfflineNotice(props: Props): React$Node {
+export default function OfflineNotice(props: Props): Node {
   const isOnline = useSelector(state => getSession(state).isOnline);
   if (isOnline) {
     return null;

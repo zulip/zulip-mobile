@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -47,7 +48,7 @@ type Props = $ReadOnly<{|
   onRemove: (index: number) => Promise<void> | void,
 |}>;
 
-export default function AccountItem(props: Props): React$Node {
+export default function AccountItem(props: Props): Node {
   const { email, realm, isLoggedIn } = props.account;
 
   const showDoneIcon = props.index === 0 && isLoggedIn;

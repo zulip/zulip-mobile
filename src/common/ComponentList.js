@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node as React$Node } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { Style } from '../types';
 
 type Props = $ReadOnly<{|
-  children: $ReadOnlyArray<React$Node>,
+  children: $ReadOnlyArray<Node>,
   spacing?: number,
   outerSpacing: boolean,
   style?: ViewStyleProp,

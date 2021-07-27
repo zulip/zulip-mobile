@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { Stream, TopicExtended } from '../types';
@@ -21,7 +22,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class TopicList extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { stream, topics, onPress } = this.props;
 
     if (!topics) {

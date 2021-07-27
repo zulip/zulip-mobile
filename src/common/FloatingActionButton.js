@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -38,7 +39,7 @@ type Props = $ReadOnly<{|
  * @prop onPress - Event called on component press.
  */
 export default class FloatingActionButton extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { style, size, disabled, onPress, Icon, accessibilityLabel } = this.props;
     const iconSize = Math.trunc(size / 2);
     const customWrapperStyle = {

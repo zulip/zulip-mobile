@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -15,7 +16,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'notifications', void>,
 |}>;
 
-export default function NotificationsScreen(props: Props): React$Node {
+export default function NotificationsScreen(props: Props): Node {
   const auth = useSelector(getAuth);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);

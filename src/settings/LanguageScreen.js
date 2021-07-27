@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -15,7 +16,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'language', void>,
 |}>;
 
-export default function LanguageScreen(props: Props): React$Node {
+export default function LanguageScreen(props: Props): Node {
   const dispatch = useDispatch();
   const language = useSelector(state => getSettings(state).language);
 

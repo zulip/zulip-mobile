@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { ScrollView } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -36,7 +37,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'settings', void>,
 |}>;
 
-export default function SettingsScreen(props: Props): React$Node {
+export default function SettingsScreen(props: Props): Node {
   const theme = useSelector(state => getSettings(state).theme);
   const browser = useSelector(state => getSettings(state).browser);
   const doNotMarkMessagesAsRead = useSelector(state => getSettings(state).doNotMarkMessagesAsRead);

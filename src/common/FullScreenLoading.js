@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -21,7 +22,7 @@ type Props = $ReadOnly<{||}>;
 /**
  * Meant to be used to cover the whole screen.
  */
-export default function FullScreenLoading(props: Props): React$Node {
+export default function FullScreenLoading(props: Props): Node {
   const insets = useSafeAreaInsets();
 
   return (

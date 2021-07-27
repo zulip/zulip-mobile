@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { createStyleSheet } from '../styles';
@@ -13,7 +14,7 @@ const styles = createStyleSheet({
 });
 
 export default class SectionSeparator extends PureComponent<{||}> {
-  render(): React$Node {
+  render(): Node {
     return <View style={styles.separator} />;
   }
 }

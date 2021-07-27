@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -46,7 +47,7 @@ type Props = $ReadOnly<{|
   onPress: (stream: string, topic: string) => void,
 |}>;
 
-export default function TopicItem(props: Props): React$Node {
+export default function TopicItem(props: Props): Node {
   const { name, streamName, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()

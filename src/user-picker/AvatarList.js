@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { UserId, UserOrBot } from '../types';
@@ -12,7 +13,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class AvatarList extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { listRef, users, onPress } = this.props;
 
     return (

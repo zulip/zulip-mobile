@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useMemo } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { LocalizableText } from '../types';
@@ -97,7 +98,7 @@ type Props = $ReadOnly<{|
 // (https://callstack.github.io/react-native-paper/button.html), encoding
 // things like project-specific styles and making any sensible adjustments
 // to the interface.
-export default function ZulipTextButton(props: Props): React$Node {
+export default function ZulipTextButton(props: Props): Node {
   const { variant = 'standard', leftMargin, rightMargin, label, onPress } = props;
 
   const variantStyles = useMemo(() => styleSheetForVariant(variant), [variant]);

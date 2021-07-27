@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React from 'react';
+import type { Node } from 'react';
 import { Text, View } from 'react-native';
 
 import * as NavigationService from '../nav/NavigationService';
@@ -24,7 +25,7 @@ const componentStyles = createStyleSheet({
   textWrapper: { flex: 1 },
 });
 
-export default function TitlePrivate(props: Props): React$Node {
+export default function TitlePrivate(props: Props): Node {
   const { userId, color } = props;
   const user = useSelector(state => tryGetUserForId(state, userId));
   if (!user) {

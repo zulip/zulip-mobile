@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 
-import type { Node as React$Node } from 'react';
 import * as api from '../api';
 import CompatibilityScreen from '../start/CompatibilityScreen';
 
 type Props = $ReadOnly<{|
-  children: React$Node,
+  children: Node,
 |}>;
 
 type State = {|
@@ -28,7 +28,7 @@ export default class CompatibilityChecker extends PureComponent<Props, State> {
     });
   }
 
-  render(): React$Node {
+  render(): Node {
     const { compatibilityCheckFail } = this.state;
 
     return compatibilityCheckFail ? <CompatibilityScreen /> : this.props.children;

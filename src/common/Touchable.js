@@ -1,15 +1,15 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { Node as React$Node } from 'react';
 import { HIGHLIGHT_COLOR } from '../styles';
 
 type Props = $ReadOnly<{|
   accessibilityLabel?: string,
   style?: ViewStyleProp,
-  children: React$Node,
+  children: Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
 |}>;
@@ -48,9 +48,9 @@ type Props = $ReadOnly<{|
  * @prop [onLongPress] - Passed through; see upstream docs.
  */
 export default class Touchable extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { accessibilityLabel, style, onPress, onLongPress } = this.props;
-    const child: React$Node = React.Children.only(this.props.children);
+    const child: Node = React.Children.only(this.props.children);
 
     if (!onPress && !onLongPress) {
       return (

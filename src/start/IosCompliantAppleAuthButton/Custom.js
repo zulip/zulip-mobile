@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -55,7 +56,7 @@ type Props = $ReadOnly<{|
  * button should be used.
  */
 export default class Custom extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     const { style, onPress, theme } = this.props;
     const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
     const frameStyle = [

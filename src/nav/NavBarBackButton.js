@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { Platform } from 'react-native';
 
 import { navigateBack } from '../actions';
@@ -19,7 +20,7 @@ import * as NavigationService from './NavigationService';
  * https://material.io/design/navigation/understanding-navigation.html
  */
 // TODO: on iOS, give the right label for a back button
-export default function NavBarBackButton(props: {| +color?: string |}): React$Node {
+export default function NavBarBackButton(props: {| +color?: string |}): Node {
   const { color } = props;
   const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
 

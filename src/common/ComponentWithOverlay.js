@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import type { Node as React$Node } from 'react';
 
 import { createStyleSheet } from '../styles';
 
@@ -34,8 +34,8 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  children: React$Node,
-  overlay: React$Node,
+  children: Node,
+  overlay: Node,
   showOverlay: boolean,
   overlaySize: number,
   overlayColor: string,

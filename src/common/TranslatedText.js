@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import type { LocalizableText } from '../types';
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
  *
  * @prop text - The text to be translated.
  */
-export default ({ text }: Props): React$Node => {
+export default ({ text }: Props): Node => {
   const message = typeof text === 'object' ? text.text : text;
   const values = typeof text === 'object' ? text.values : undefined;
 

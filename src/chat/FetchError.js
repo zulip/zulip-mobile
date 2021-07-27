@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
@@ -26,7 +27,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default class FetchError extends PureComponent<Props> {
-  render(): React$Node {
+  render(): Node {
     return (
       <View style={styles.container}>
         {(() => {

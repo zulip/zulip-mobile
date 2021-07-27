@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
@@ -47,7 +48,7 @@ const styles = createStyleSheet({
   },
 });
 
-export default function SharingScreen(props: Props): React$Node {
+export default function SharingScreen(props: Props): Node {
   const { params } = props.route;
   const hasAuth = useSelector(getHasAuth);
 

@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,7 +15,7 @@ type Props = $ReadOnly<{|
   title: LocalizableText,
 |}>;
 
-export default function ModalNavBar(props: Props): React$Node {
+export default function ModalNavBar(props: Props): Node {
   const { canGoBack, title } = props;
   const { backgroundColor } = useContext(ThemeContext);
   const textStyle = [
