@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -23,31 +23,30 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-class EditStreamScreen extends PureComponent<Props> {
-  handleComplete = (name: string, description: string, isPrivate: boolean) => {
-    const { dispatch, stream } = this.props;
+function EditStreamScreen(props: Props) {
+  const { dispatch, stream } = props;
 
-    dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
-    NavigationService.dispatch(navigateBack());
-  };
+  const handleComplete = useCallback(
+    (name: string, description: string, isPrivate: boolean) => {
+      dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
+      NavigationService.dispatch(navigateBack());
+    },
+    [stream, dispatch],
+  );
 
-  render() {
-    const { stream } = this.props;
-
-    return (
-      <Screen title="Edit stream" padding>
-        <EditStreamCard
-          isNewStream={false}
-          initialValues={{
-            name: stream.name,
-            description: stream.description,
-            invite_only: stream.invite_only,
-          }}
-          onComplete={this.handleComplete}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Edit stream" padding>
+      <EditStreamCard
+        isNewStream={false}
+        initialValues={{
+          name: stream.name,
+          description: stream.description,
+          invite_only: stream.invite_only,
+        }}
+        onComplete={handleComplete}
+      />
+    </Screen>
+  );
 }
 
 export default connect<SelectorProps, _, _>((state, props) => ({
