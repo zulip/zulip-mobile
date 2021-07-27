@@ -40,7 +40,7 @@ export default function UserStatusScreen(props: Props) {
   const [statusText, setStatusText] = useState<string>(userStatusText);
   const _ = useContext(TranslationContext);
 
-  const updateStatusText = useCallback(
+  const sendToServer = useCallback(
     (_statusText: string) => {
       dispatch(updateUserStatusText(_statusText));
       NavigationService.dispatch(navigateBack());
@@ -48,14 +48,14 @@ export default function UserStatusScreen(props: Props) {
     [dispatch],
   );
 
-  const handleStatusTextUpdate = useCallback(() => {
-    updateStatusText(statusText);
-  }, [statusText, updateStatusText]);
+  const handlePressUpdate = useCallback(() => {
+    sendToServer(statusText);
+  }, [statusText, sendToServer]);
 
-  const handleStatusTextClear = useCallback(() => {
+  const handlePressClear = useCallback(() => {
     setStatusText('');
-    updateStatusText('');
-  }, [updateStatusText]);
+    sendToServer('');
+  }, [sendToServer]);
 
   return (
     <Screen title="User status">
@@ -88,13 +88,13 @@ export default function UserStatusScreen(props: Props) {
           style={styles.button}
           secondary
           text="Clear"
-          onPress={handleStatusTextClear}
+          onPress={handlePressClear}
           Icon={IconCancel}
         />
         <ZulipButton
           style={styles.button}
           text="Update"
-          onPress={handleStatusTextUpdate}
+          onPress={handlePressUpdate}
           Icon={IconDone}
         />
       </View>
