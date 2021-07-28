@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import React from 'react';
-import { SectionList } from 'react-native';
+import { FlatList } from 'react-native';
 import { useSelector } from '../react-redux';
 
 import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
-import { SectionHeader, SearchEmptyState } from '../common';
-import UserItem from './UserItem';
-import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
+import { SearchEmptyState } from '../common';
+import UserItem, { USER_ITEM_HEIGHT } from './UserItem';
+import { sortUserList, filterUserList } from './userHelpers';
 import { getMutedUsers } from '../selectors';
 
 const styles = createStyleSheet({
@@ -33,21 +33,19 @@ export default function UserList(props: Props): React$Node {
     return <SearchEmptyState text="No users found" />;
   }
 
-  const sortedUsers = sortUserList(filteredUsers, presences);
-  const groupedUsers = groupUsersByStatus(sortedUsers, presences);
-  const sections = Object.keys(groupedUsers).map(key => ({
-    key: `${key.charAt(0).toUpperCase()}${key.slice(1)}`,
-    data: groupedUsers[key].map(u => u.user_id),
-  }));
+  const sortedUsers = sortUserList(filteredUsers, presences).map(user => user.user_id);
 
   return (
-    <SectionList
+    <FlatList
       style={styles.list}
-      stickySectionHeadersEnabled
+      data={sortedUsers}
       keyboardShouldPersistTaps="always"
       initialNumToRender={20}
-      sections={sections}
-      keyExtractor={item => item}
+      getItemLayout={(data, index) => ({
+        length: USER_ITEM_HEIGHT,
+        offset: USER_ITEM_HEIGHT * index,
+        index,
+      })}
       renderItem={({ item }) => (
         <UserItem
           key={item}
@@ -56,12 +54,6 @@ export default function UserList(props: Props): React$Node {
           isSelected={!!selected.find(user => user.user_id === item)}
         />
       )}
-      renderSectionHeader={({ section }) =>
-        section.data.length === 0 ? null : (
-          // $FlowFixMe[incompatible-type]
-          <SectionHeader text={section.key} />
-        )
-      }
     />
   );
 }

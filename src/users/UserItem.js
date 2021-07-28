@@ -11,6 +11,10 @@ import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
 
+const AVATAR_SIZE = 48;
+export const USER_ITEM_HEIGHT =
+  styles.listItem.paddingBottom + AVATAR_SIZE + styles.listItem.paddingTop;
+
 const componentStyles = createStyleSheet({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
@@ -65,7 +69,7 @@ export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: 
     <Touchable onPress={onPress && handlePress}>
       <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
         <UserAvatarWithPresenceById
-          size={48}
+          size={AVATAR_SIZE}
           userId={user.user_id}
           isMuted={isMuted}
           onPress={onPress && handlePress}
