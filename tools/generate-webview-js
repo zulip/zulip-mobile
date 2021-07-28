@@ -22,7 +22,7 @@ const outputFilename = 'src/webview/js/generatedEs3.js';
   Fun tip for seeing which transforms will stop being needed on an upgrade:
     $ jq -c '
          to_entries | map(.value + { name: .key })
-         | sort_by(.chrome | tonumber)  # or (.ios // "999" | tonumber)
+         | sort_by(.chrome // "999" | tonumber)  # or (.ios // "999" | tonumber)
          | .[] | { chrome, safari, ios, name }
        ' node_modules/@babel/compat-data/data/plugins.json
 */
