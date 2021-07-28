@@ -26,17 +26,19 @@ export default function AnimatedComponent(props: Props) {
     style,
   } = props;
 
-  const animatedValue = useRef(new Animated.Value(visible === true ? fullValue : 0));
+  const targetValue = visible ? fullValue : 0;
+
+  const animatedValue = useRef(new Animated.Value(targetValue));
 
   const animate = useCallback(() => {
     Animated.timing(animatedValue.current, {
-      toValue: visible ? fullValue : 0,
+      toValue: targetValue,
       delay,
       duration: 300,
       useNativeDriver,
       easing: Easing.out(Easing.poly(4)),
     }).start();
-  }, [delay, fullValue, useNativeDriver, visible]);
+  }, [delay, targetValue, useNativeDriver]);
 
   useEffect(() => {
     animate();
