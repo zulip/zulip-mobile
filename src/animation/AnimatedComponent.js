@@ -26,7 +26,7 @@ export default function AnimatedComponent(props: Props) {
     style,
   } = props;
 
-  const animatedValue = useRef(new Animated.Value(0));
+  const animatedValue = useRef(new Animated.Value(visible === true ? fullValue : 0));
 
   const animate = useCallback(() => {
     Animated.timing(animatedValue.current, {
