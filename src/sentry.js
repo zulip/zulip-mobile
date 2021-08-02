@@ -1,7 +1,14 @@
 /* @flow strict-local */
 import * as Sentry from '@sentry/react-native';
+import type { Breadcrumb, BreadcrumbHint } from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
+// $FlowFixMe[untyped-import]
+import md5 from 'blueimp-md5';
 
+import type { AccountStatus } from './account/accountsSelectors';
+import isAppOwnDomain from './isAppOwnDomain';
+import store from './boot/store';
+import { getAccountStatuses } from './account/accountsSelectors';
 import { sentryKey } from './sentryConfig';
 
 export const isSentryActive = (): boolean => {
@@ -45,6 +52,88 @@ const preventNoise = (): void => {
   }
 };
 
+/**
+ * An HTTP request made by the app.
+ *
+ * One of the builtin "recognized breadcrumb types":
+ *   https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/#breadcrumb-types
+ */
+type HttpBreadcrumb = $ReadOnly<{|
+  ...Breadcrumb,
+  type: 'http',
+  data: {|
+    url?: string,
+    method?: string,
+    status_code?: number,
+    reason?: string,
+  |},
+|}>;
+
+function shouldScrubHost(url: URL, accountStatuses: $ReadOnlyArray<AccountStatus>) {
+  if (isAppOwnDomain(url)) {
+    return false;
+  }
+
+  if (url.pathname.startsWith('/api/v1')) {
+    // Most likely an API request to a Zulip realm. This will catch
+    // `/api/v1/server_settings` and `/api/v1/fetch_api_key` requests to a
+    // realm before the account is added to the account-statuses state.
+    return true;
+  }
+
+  if (accountStatuses.some(({ realm }) => url.origin === realm.origin)) {
+    // Definitely a request to a Zulip realm. Will catch requests to realms
+    // in the account-statuses state, including those without `/api/v1`,
+    // like `/avatar/{user_id}` (zulip/zulip@0f9970fd3 confirms that this
+    // and potentially others don't / won't use `/api/v1`).
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Scrubs possibly personal information from a breadcrumb.
+ *
+ * - Removes the realm hostnames in API requests, except if the realm is
+ *   hosted by the organization that publishes the app and gets Sentry
+ *   reports from the published app. That organization knows which realms it
+ *   hosts and already has their server logs.
+ */
+function scrubBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb {
+  switch (breadcrumb.type) {
+    case 'http': {
+      // $FlowIgnore[incompatible-indexer] | We assume it's an
+      // $FlowIgnore[incompatible-type]    | HttpBreadcrumb; see jsdoc.
+      const httpBreadcrumb: HttpBreadcrumb = breadcrumb;
+
+      const unscrubbedUrl = httpBreadcrumb.data.url;
+      let scrubbedUrl = undefined;
+      if (unscrubbedUrl !== undefined) {
+        const parsedUrl = new URL(unscrubbedUrl);
+        const accountStatuses = getAccountStatuses(store.getState());
+        if (shouldScrubHost(parsedUrl, accountStatuses)) {
+          parsedUrl.host = `hidden-${
+            // So different realms are still distinguishable
+            md5(parsedUrl.host).substring(0, 6)
+          }.zulip.invalid`;
+        }
+        scrubbedUrl = parsedUrl.toString();
+      }
+
+      return {
+        ...httpBreadcrumb,
+        data: {
+          ...httpBreadcrumb.data,
+          url: scrubbedUrl,
+        },
+      };
+    }
+    default:
+      return breadcrumb;
+  }
+}
+
 /** Initialize Sentry into its default configuration. */
 export const initializeSentry = () => {
   // Check to make sure it's safe to run Sentry. Abort if not.
@@ -63,6 +152,43 @@ export const initializeSentry = () => {
         // RN's fetch implementation can raise these; we sometimes mimic it
         'Network request failed',
       ],
+      beforeBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb | null {
+        let result = undefined;
+        try {
+          result = scrubBreadcrumb(breadcrumb, hint);
+        } catch (_e) {
+          const e: Error = _e; // For Flow's sake (we know it's an Error)
+
+          // We don't expect any errors here. But:
+          // - We can't just drop breadcrumbs on the floor, which is what
+          //   would happen on an uncaught Error in `beforeBreadcrumb`. We'd
+          //   lose valuable information, including the fact that there was
+          //   supposed to be a breadcrumb in the first place.
+          // - We shouldn't knowingly send an un-scrubbed breadcrumb.
+          //
+          // So, make a substitute breadcrumb with none of the real
+          // breadcrumb's data, and include `e.message` from the scrubbing
+          // error.
+          //
+          // We currently don't send a separate event for the scrubbing
+          // error. It would be easy for that code to accidentally add a
+          // breadcrumb of its own, starting an infinite loop if
+          // `beforeBreadcrumb` fails on it too. And we mustn't break the
+          // First Law of debuggers, which is that they not break the
+          // program's normal functionality.
+
+          // One of the builtin "recognized breadcrumb types":
+          //   https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/#breadcrumb-types
+          result = {
+            type: 'error',
+            category: 'error',
+            level: 'error',
+            message: `Breadcrumb scrub failed: ${e.message}`,
+            timestamp: breadcrumb.timestamp,
+          };
+        }
+        return result;
+      },
     });
   } else {
     // This is normal behavior when running locally; only published release
