@@ -35,10 +35,6 @@ import { ensureUnreachable } from '../../generics';
  *     the large majority of Android users have a fully-updated Chrome --
  *     more recent than the Safari on most iOS devices.)
  *
- *   * Below Chrome 44, it's possible (but rare) for a user to be on a
- *     version as old as Chrome 37, which shipped with Android 5 Lollipop.
- *     We sometimes fix issues affecting those versions, only when trivial.
- *
  * * See docs/architecture/platform-versions.md for data and discussion
  *   about our version-support strategy.
  */

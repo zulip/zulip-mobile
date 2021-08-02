@@ -32,7 +32,7 @@ const targetPlatforms = {
   //
   // Keep this at the Chrome version originally shipped with the oldest
   // Android version we support.
-  chrome: 37,
+  chrome: 44,
 
   // (Babel accepts an "android" key here too.  But that refers to the old
   // Android System WebView, which Android 5 replaced with an auto-updating
