@@ -434,12 +434,12 @@ var compiledWebviewJs = (function (exports) {
     sendMessage({
       type: 'error',
       details: {
-        message: message,
-        source: source,
-        line: line,
-        column: column,
-        userAgent: userAgent,
-        error: error
+        message,
+        source,
+        line,
+        column,
+        userAgent,
+        error
       }
     });
     return true;
@@ -593,8 +593,8 @@ var compiledWebviewJs = (function (exports) {
     walkElements(start, 'nextElementSibling');
     walkElements(start, 'previousElementSibling');
     return {
-      first: first,
-      last: last
+      first,
+      last
     };
   }
 
@@ -1022,7 +1022,7 @@ var compiledWebviewJs = (function (exports) {
         type: 'vote',
         messageId: requireNumericAttribute(_messageElement, 'data-msg-id'),
         key: requireAttribute(target, 'data-key'),
-        vote: vote
+        vote
       });
       target.setAttribute('data-voted', (!current_vote).toString());
       target.innerText = (parseInt(target.innerText, 10) + vote).toString();
@@ -1033,7 +1033,7 @@ var compiledWebviewJs = (function (exports) {
       var originalText = requireAttribute(target, 'original-text');
       sendMessage({
         type: 'time',
-        originalText: originalText
+        originalText
       });
     }
 

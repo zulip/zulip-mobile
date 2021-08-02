@@ -7,7 +7,7 @@ buildscript {
         // The oldest Android version we support.  Increasing this stops updates
         // for users on old devices, but can simplify the system.  Synced with
         // our dev docs: docs/developer-guide.md
-        minSdkVersion = 21
+        minSdkVersion = 23
 
         // A bit subtle: we should try to keep this at the latest version,
         // but some testing is required and code changes are often required.
