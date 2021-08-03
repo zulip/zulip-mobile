@@ -188,7 +188,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -203,7 +203,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: anotherNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -218,7 +218,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: anotherNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('replace');
   });
@@ -233,7 +233,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -248,7 +248,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('preserve-position');
   });
@@ -263,7 +263,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('preserve-position');
   });
@@ -278,7 +278,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-bottom-if-near-bottom');
   });
@@ -293,7 +293,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(getMessageTransitionProps(prevProps, nextProps));
+    const result = getMessageUpdateStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });

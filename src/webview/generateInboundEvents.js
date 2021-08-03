@@ -8,7 +8,7 @@ import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
 import contentHtmlFromPieceDescriptors from './html/contentHtmlFromPieceDescriptors';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
-import { getMessageTransitionProps, getMessageUpdateStrategy } from '../message/messageUpdates';
+import { getMessageUpdateStrategy } from '../message/messageUpdates';
 
 export type WebViewInboundEventContent = {|
   type: 'content',
@@ -56,8 +56,7 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventC
     }),
     nextProps.showMessagePlaceholders,
   );
-  const transitionProps = getMessageTransitionProps(prevProps, nextProps);
-  const updateStrategy = getMessageUpdateStrategy(transitionProps);
+  const updateStrategy = getMessageUpdateStrategy(prevProps, nextProps);
 
   return {
     type: 'content',
