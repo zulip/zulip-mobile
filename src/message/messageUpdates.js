@@ -29,8 +29,7 @@ export type UpdateStrategy =
   | 'scroll-to-anchor'
   | 'scroll-to-bottom-if-near-bottom';
 
-/** Private; exported only for tests. */
-export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): TransitionProps => {
+const getMessageTransitionProps = (prevProps: Props, nextProps: Props): TransitionProps => {
   const sameNarrow = isEqual(prevProps.narrow, nextProps.narrow);
   const noMessages = nextProps.messages.length === 0;
   const noNewMessages = sameNarrow && prevProps.messages.length === nextProps.messages.length;
