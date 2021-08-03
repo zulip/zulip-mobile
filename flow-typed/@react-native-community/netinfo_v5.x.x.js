@@ -40,7 +40,7 @@ declare module '@react-native-community/netinfo/types' {
   declare type NetInfoConnectedState<T: $Values<typeof NetInfoStateType>, D: { ... } = { ... }> = {|
     type: T,
     isConnected: true,
-    isInternetReachable: boolean | null | void,
+    isInternetReachable: boolean | null,
     details: {| ...D, ...NetInfoConnectedDetails |},
     isWifiEnabled?: boolean,
   |};
@@ -50,8 +50,12 @@ declare module '@react-native-community/netinfo/types' {
     isInternetReachable: false,
     details: null,
   |};
-  declare export type NetInfoUnknownState = NetInfoDisconnectedState<
-    typeof NetInfoStateType.unknown, >;
+  declare export type NetInfoUnknownState = {|
+    type: typeof NetInfoStateType.unknown,
+    isConnected: null,
+    isInternetReachable: null,
+    details: null,
+  |};
   declare export type NetInfoNoConnectionState = NetInfoDisconnectedState<
     typeof NetInfoStateType.none, >;
   declare export type NetInfoDisconnectedStates = NetInfoUnknownState | NetInfoNoConnectionState;
