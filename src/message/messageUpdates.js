@@ -49,19 +49,20 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'preserve-position';
   }
 
-  const newMessagesAdded =
-    prevProps.messages[prevProps.messages.length - 1].id
-    < nextProps.messages[nextProps.messages.length - 1].id;
-  const onlyOneNewMessage =
+  if (
     nextProps.messages.length > 1
     && prevProps.messages[prevProps.messages.length - 1].id
-      === nextProps.messages[nextProps.messages.length - 2].id;
-
-  if (onlyOneNewMessage) {
+      === nextProps.messages[nextProps.messages.length - 2].id
+  ) {
+    // Only one new message.
     return 'scroll-to-bottom-if-near-bottom';
   }
 
-  if (newMessagesAdded) {
+  if (
+    prevProps.messages[prevProps.messages.length - 1].id
+    < nextProps.messages[nextProps.messages.length - 1].id
+  ) {
+    // New messages added.
     return 'preserve-position';
   }
 
