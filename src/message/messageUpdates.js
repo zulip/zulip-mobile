@@ -29,27 +29,26 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'scroll-to-anchor';
   }
 
+  if (prevProps.messages.length === 0) {
+    // All new messages.
+    return 'scroll-to-anchor';
+  }
+
   const noNewMessages = prevProps.messages.length === nextProps.messages.length;
-  const allNewMessages = prevProps.messages.length === 0;
-  const oldMessagesAdded =
-    prevProps.messages.length > 0 && prevProps.messages[0].id > nextProps.messages[0].id;
+  const oldMessagesAdded = prevProps.messages[0].id > nextProps.messages[0].id;
   const newMessagesAdded =
-    prevProps.messages.length > 0
-    && prevProps.messages[prevProps.messages.length - 1].id
-      < nextProps.messages[nextProps.messages.length - 1].id;
+    prevProps.messages[prevProps.messages.length - 1].id
+    < nextProps.messages[nextProps.messages.length - 1].id;
   const onlyOneNewMessage =
-    prevProps.messages.length > 0
-    && nextProps.messages.length > 1
+    nextProps.messages.length > 1
     && prevProps.messages[prevProps.messages.length - 1].id
       === nextProps.messages[nextProps.messages.length - 2].id;
   const messagesReplaced =
-    prevProps.messages.length > 0
-    && prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
+    prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
 
   // prettier-ignore
   if (
-    allNewMessages
-    || messagesReplaced
+    messagesReplaced
   ) {
     return 'scroll-to-anchor';
   } else if (
