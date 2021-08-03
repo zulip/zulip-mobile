@@ -86,7 +86,8 @@ class AppEventHandlersInner extends PureComponent<Props> {
         //
         // 1. A request loop is started. A HEAD request is made to
         //    https://clients3.google.com/generate_204, with a timeout of
-        //    15s, to see if the Internet is reachable.
+        //    15s (`reachabilityRequestTimeout`), to see if the Internet is
+        //    reachable.
         //    - If the `fetch` succeeds and a 204 is received, this will be
         //      made `true`. We'll then sleep for 60s before making the
         //      request again.
@@ -130,7 +131,13 @@ class AppEventHandlersInner extends PureComponent<Props> {
     handleInitialNotification(dispatch);
     handleInitialShare(dispatch);
 
+    NetInfo.configure({
+      // This is the default, as of 6.0.0, but `OfflineNotice` depends on this
+      // value being stable.
+      reachabilityRequestTimeout: 15 * 1000,
+    });
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
+
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);
