@@ -19,7 +19,10 @@ export type UpdateStrategy =
   | 'scroll-to-bottom-if-near-bottom';
 
 export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): UpdateStrategy => {
-  if (nextProps.messages.length === 0) {
+  const prevMessages = prevProps.messages;
+  const nextMessages = nextProps.messages;
+
+  if (nextMessages.length === 0) {
     // No messages.
     return 'replace';
   }
@@ -29,39 +32,35 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'scroll-to-anchor';
   }
 
-  if (prevProps.messages.length === 0) {
+  if (prevMessages.length === 0) {
     // All new messages.
     return 'scroll-to-anchor';
   }
 
-  if (prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id) {
+  if (prevMessages[prevMessages.length - 1].id < nextMessages[0].id) {
     // Messages replaced.
     return 'scroll-to-anchor';
   }
 
-  if (prevProps.messages.length === nextProps.messages.length) {
+  if (prevMessages.length === nextMessages.length) {
     // No new messages.
     return 'preserve-position';
   }
 
-  if (prevProps.messages[0].id > nextProps.messages[0].id) {
+  if (prevMessages[0].id > nextMessages[0].id) {
     // Old messages added.
     return 'preserve-position';
   }
 
   if (
-    nextProps.messages.length > 1
-    && prevProps.messages[prevProps.messages.length - 1].id
-      === nextProps.messages[nextProps.messages.length - 2].id
+    nextMessages.length > 1
+    && prevMessages[prevMessages.length - 1].id === nextMessages[nextMessages.length - 2].id
   ) {
     // Only one new message.
     return 'scroll-to-bottom-if-near-bottom';
   }
 
-  if (
-    prevProps.messages[prevProps.messages.length - 1].id
-    < nextProps.messages[nextProps.messages.length - 1].id
-  ) {
+  if (prevMessages[prevMessages.length - 1].id < nextMessages[nextMessages.length - 1].id) {
     // New messages added.
     return 'preserve-position';
   }
