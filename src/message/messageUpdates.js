@@ -24,33 +24,31 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'replace';
   }
 
-  const sameNarrow = isEqual(prevProps.narrow, nextProps.narrow);
-  const noNewMessages = sameNarrow && prevProps.messages.length === nextProps.messages.length;
-  const allNewMessages = sameNarrow && prevProps.messages.length === 0;
+  if (!isEqual(prevProps.narrow, nextProps.narrow)) {
+    // Different narrow.
+    return 'scroll-to-anchor';
+  }
+
+  const noNewMessages = prevProps.messages.length === nextProps.messages.length;
+  const allNewMessages = prevProps.messages.length === 0;
   const oldMessagesAdded =
-    sameNarrow
-    && prevProps.messages.length > 0
-    && prevProps.messages[0].id > nextProps.messages[0].id;
+    prevProps.messages.length > 0 && prevProps.messages[0].id > nextProps.messages[0].id;
   const newMessagesAdded =
-    sameNarrow
-    && prevProps.messages.length > 0
+    prevProps.messages.length > 0
     && prevProps.messages[prevProps.messages.length - 1].id
       < nextProps.messages[nextProps.messages.length - 1].id;
   const onlyOneNewMessage =
-    sameNarrow
-    && prevProps.messages.length > 0
+    prevProps.messages.length > 0
     && nextProps.messages.length > 1
     && prevProps.messages[prevProps.messages.length - 1].id
       === nextProps.messages[nextProps.messages.length - 2].id;
   const messagesReplaced =
-    sameNarrow
-    && prevProps.messages.length > 0
+    prevProps.messages.length > 0
     && prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
 
   // prettier-ignore
   if (
-    !sameNarrow
-    || allNewMessages
+    allNewMessages
     || messagesReplaced
   ) {
     return 'scroll-to-anchor';
