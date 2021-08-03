@@ -57,13 +57,12 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     && prevProps.messages[prevProps.messages.length - 1].id
       === nextProps.messages[nextProps.messages.length - 2].id;
 
-  // prettier-ignore
-  if (
-    (newMessagesAdded && !onlyOneNewMessage)
-  ) {
-    return 'preserve-position';
-  } else if (onlyOneNewMessage) {
+  if (onlyOneNewMessage) {
     return 'scroll-to-bottom-if-near-bottom';
+  }
+
+  if (newMessagesAdded) {
+    return 'preserve-position';
   }
 
   return 'default';
