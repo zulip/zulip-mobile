@@ -664,7 +664,6 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
       target = isNearBottom() ? { type: 'bottom' } : findPreserveTarget();
       break;
     case 'preserve-position':
-    case 'default':
       target = findPreserveTarget();
       break;
     default:

@@ -780,7 +780,6 @@ var compiledWebviewJs = (function (exports) {
         break;
 
       case 'preserve-position':
-      case 'default':
         target = findPreserveTarget();
         break;
 

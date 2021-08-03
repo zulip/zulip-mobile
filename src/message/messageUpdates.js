@@ -12,7 +12,6 @@ type Props = $ReadOnly<{
 }>;
 
 export type UpdateStrategy =
-  | 'default'
   | 'replace'
   | 'preserve-position'
   | 'scroll-to-anchor'
@@ -60,10 +59,5 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'scroll-to-bottom-if-near-bottom';
   }
 
-  if (prevMessages[prevMessages.length - 1].id < nextMessages[nextMessages.length - 1].id) {
-    // New messages added.
-    return 'preserve-position';
-  }
-
-  return 'default';
+  return 'preserve-position';
 };
