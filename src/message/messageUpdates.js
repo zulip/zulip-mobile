@@ -11,17 +11,6 @@ type Props = $ReadOnly<{
   ...
 }>;
 
-type TransitionProps = {|
-  sameNarrow: boolean,
-  noMessages: boolean,
-  noNewMessages: boolean,
-  allNewMessages: boolean,
-  onlyOneNewMessage: boolean,
-  oldMessagesAdded: boolean,
-  newMessagesAdded: boolean,
-  messagesReplaced: boolean,
-|};
-
 export type UpdateStrategy =
   | 'default'
   | 'replace'
@@ -29,7 +18,7 @@ export type UpdateStrategy =
   | 'scroll-to-anchor'
   | 'scroll-to-bottom-if-near-bottom';
 
-const getMessageTransitionProps = (prevProps: Props, nextProps: Props): TransitionProps => {
+export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): UpdateStrategy => {
   const sameNarrow = isEqual(prevProps.narrow, nextProps.narrow);
   const noMessages = nextProps.messages.length === 0;
   const noNewMessages = sameNarrow && prevProps.messages.length === nextProps.messages.length;
@@ -57,30 +46,6 @@ const getMessageTransitionProps = (prevProps: Props, nextProps: Props): Transiti
     && prevProps.messages.length > 0
     && nextProps.messages.length > 0
     && prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
-
-  return {
-    sameNarrow,
-    noMessages,
-    noNewMessages,
-    allNewMessages,
-    onlyOneNewMessage,
-    oldMessagesAdded,
-    newMessagesAdded,
-    messagesReplaced,
-  };
-};
-
-export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): UpdateStrategy => {
-  const {
-    sameNarrow,
-    noMessages,
-    noNewMessages,
-    allNewMessages,
-    onlyOneNewMessage,
-    oldMessagesAdded,
-    newMessagesAdded,
-    messagesReplaced,
-  } = getMessageTransitionProps(prevProps, nextProps);
 
   // prettier-ignore
   if (noMessages) {
