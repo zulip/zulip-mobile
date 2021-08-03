@@ -65,9 +65,49 @@ class AppEventHandlersInner extends PureComponent<Props> {
 
   handleConnectivityChange = netInfoState => {
     const { dispatch } = this.props;
-    const { type: connectionType } = netInfoState;
-    const isConnected = connectionType !== 'none' && connectionType !== 'unknown';
-    dispatch(appOnline(isConnected));
+
+    dispatch(
+      appOnline(
+        // From reading code at @react-native-community/net-info v6.0.0 (the
+        // docs and types don't really give these answers):
+        //
+        // This will be `null` on both platforms while the first known value
+        // of `true` or `false` is being shipped across the asynchronous RN
+        // bridge.
+        //
+        // On Android, it shouldn't otherwise be `null`. The value is set to the
+        // result of an Android function that only returns a boolean:
+        // https://developer.android.com/reference/android/net/NetworkInfo#isConnected()
+        //
+        // On iOS, this can also be `null` while the app asynchronously
+        // evaluates whether a network change should cause this to go from
+        // `false` to `true`. Read on for details (gathered from
+        // src/internal/internetReachability.ts in the library).
+        //
+        // 1. A request loop is started. A HEAD request is made to
+        //    https://clients3.google.com/generate_204, with a timeout of
+        //    15s, to see if the Internet is reachable.
+        //    - If the `fetch` succeeds and a 204 is received, this will be
+        //      made `true`. We'll then sleep for 60s before making the
+        //      request again.
+        //    - If the `fetch` succeeds and a 204 is not received, or if the
+        //      fetch fails, or if the timeout expires, this will be made
+        //      `false`. We'll then sleep for only 5s before making the
+        //      request again.
+        // 2. The request loop is interrupted if we get a
+        //    'netInfo.networkStatusDidChange' event from the library's
+        //    native code, signaling a change in the network state. If that
+        //    change would make `netInfoState.type` become or remain
+        //    something good (i.e., not 'none' or 'unknown'), and this
+        //    (`.isInternetReachable`) is currently `false`, then this will
+        //    be made `null`, and the request loop described above will
+        //    start again.
+        //
+        // (Several of those parameters are configurable -- timeout durations,
+        // URL, etc.)
+        netInfoState.isInternetReachable,
+      ),
+    );
   };
 
   /** For the type, see docs: https://reactnative.dev/docs/appstate */

@@ -8,7 +8,7 @@ import {
   DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
 
-export const appOnline = (isOnline: boolean): Action => ({
+export const appOnline = (isOnline: boolean | null): Action => ({
   type: APP_ONLINE,
   isOnline,
 });

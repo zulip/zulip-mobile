@@ -30,7 +30,7 @@ type Props = $ReadOnly<{||}>;
  */
 export default function OfflineNotice(props: Props): Node {
   const isOnline = useSelector(state => getSession(state).isOnline);
-  if (isOnline) {
+  if (isOnline === true || isOnline === null) {
     return null;
   }
 
