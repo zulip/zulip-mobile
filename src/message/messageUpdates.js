@@ -34,8 +34,21 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     return 'scroll-to-anchor';
   }
 
-  const noNewMessages = prevProps.messages.length === nextProps.messages.length;
-  const oldMessagesAdded = prevProps.messages[0].id > nextProps.messages[0].id;
+  if (prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id) {
+    // Messages replaced.
+    return 'scroll-to-anchor';
+  }
+
+  if (prevProps.messages.length === nextProps.messages.length) {
+    // No new messages.
+    return 'preserve-position';
+  }
+
+  if (prevProps.messages[0].id > nextProps.messages[0].id) {
+    // Old messages added.
+    return 'preserve-position';
+  }
+
   const newMessagesAdded =
     prevProps.messages[prevProps.messages.length - 1].id
     < nextProps.messages[nextProps.messages.length - 1].id;
@@ -43,18 +56,10 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
     nextProps.messages.length > 1
     && prevProps.messages[prevProps.messages.length - 1].id
       === nextProps.messages[nextProps.messages.length - 2].id;
-  const messagesReplaced =
-    prevProps.messages[prevProps.messages.length - 1].id < nextProps.messages[0].id;
 
   // prettier-ignore
   if (
-    messagesReplaced
-  ) {
-    return 'scroll-to-anchor';
-  } else if (
-    noNewMessages
-    || oldMessagesAdded
-    || (newMessagesAdded && !onlyOneNewMessage)
+    (newMessagesAdded && !onlyOneNewMessage)
   ) {
     return 'preserve-position';
   } else if (onlyOneNewMessage) {
