@@ -72,23 +72,33 @@ export const getMessageTransitionProps = (prevProps: Props, nextProps: Props): T
 };
 
 export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): UpdateStrategy => {
-  const transitionProps = getMessageTransitionProps(prevProps, nextProps);
+  const {
+    sameNarrow,
+    noMessages,
+    noNewMessages,
+    allNewMessages,
+    onlyOneNewMessage,
+    oldMessagesAdded,
+    newMessagesAdded,
+    messagesReplaced,
+  } = getMessageTransitionProps(prevProps, nextProps);
 
-  if (transitionProps.noMessages) {
+  // prettier-ignore
+  if (noMessages) {
     return 'replace';
   } else if (
-    !transitionProps.sameNarrow
-    || transitionProps.allNewMessages
-    || transitionProps.messagesReplaced
+    !sameNarrow
+    || allNewMessages
+    || messagesReplaced
   ) {
     return 'scroll-to-anchor';
   } else if (
-    transitionProps.noNewMessages
-    || transitionProps.oldMessagesAdded
-    || (transitionProps.newMessagesAdded && !transitionProps.onlyOneNewMessage)
+    noNewMessages
+    || oldMessagesAdded
+    || (newMessagesAdded && !onlyOneNewMessage)
   ) {
     return 'preserve-position';
-  } else if (transitionProps.onlyOneNewMessage) {
+  } else if (onlyOneNewMessage) {
     return 'scroll-to-bottom-if-near-bottom';
   }
 
