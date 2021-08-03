@@ -756,23 +756,37 @@ var compiledWebviewJs = (function (exports) {
   };
 
   var handleInboundEventContent = function handleInboundEventContent(uevent) {
+    var updateStrategy = uevent.updateStrategy;
     var target;
 
-    if (uevent.updateStrategy === 'replace') {
-      target = {
-        type: 'none'
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-      target = {
-        type: 'anchor',
-        messageId: uevent.scrollMessageId
-      };
-    } else if (uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom' && isNearBottom()) {
+    switch (updateStrategy) {
+      case 'replace':
         target = {
-          type: 'bottom'
+          type: 'none'
         };
-      } else {
-      target = findPreserveTarget();
+        break;
+
+      case 'scroll-to-anchor':
+        target = {
+          type: 'anchor',
+          messageId: uevent.scrollMessageId
+        };
+        break;
+
+      case 'scroll-to-bottom-if-near-bottom':
+        target = isNearBottom() ? {
+          type: 'bottom'
+        } : findPreserveTarget();
+        break;
+
+      case 'preserve-position':
+      case 'default':
+        target = findPreserveTarget();
+        break;
+
+      default:
+        target = findPreserveTarget();
+        break;
     }
 
     documentBody.innerHTML = uevent.content;

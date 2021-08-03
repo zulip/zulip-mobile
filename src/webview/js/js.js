@@ -15,6 +15,7 @@ import InboundEventLogger from './InboundEventLogger';
 import sendMessage from './sendMessage';
 import rewriteHtml from './rewriteHtml';
 import { toggleSpoiler } from './spoilers';
+import { ensureUnreachable } from '../../generics';
 
 /*
  * Supported platforms:
@@ -650,19 +651,26 @@ const runAfterLayout = (fn: () => void) => {
 };
 
 const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
+  const { updateStrategy } = uevent;
   let target: ScrollTarget;
-  if (uevent.updateStrategy === 'replace') {
-    target = { type: 'none' };
-  } else if (uevent.updateStrategy === 'scroll-to-anchor') {
-    target = { type: 'anchor', messageId: uevent.scrollMessageId };
-  } else if (
-    uevent.updateStrategy === 'scroll-to-bottom-if-near-bottom'
-    && isNearBottom() /* align */
-  ) {
-    target = { type: 'bottom' };
-  } else {
-    // including 'default' and 'preserve-position'
-    target = findPreserveTarget();
+  switch (updateStrategy) {
+    case 'replace':
+      target = { type: 'none' };
+      break;
+    case 'scroll-to-anchor':
+      target = { type: 'anchor', messageId: uevent.scrollMessageId };
+      break;
+    case 'scroll-to-bottom-if-near-bottom':
+      target = isNearBottom() ? { type: 'bottom' } : findPreserveTarget();
+      break;
+    case 'preserve-position':
+    case 'default':
+      target = findPreserveTarget();
+      break;
+    default:
+      ensureUnreachable(updateStrategy);
+      target = findPreserveTarget();
+      break;
   }
 
   documentBody.innerHTML = uevent.content;
