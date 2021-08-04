@@ -167,12 +167,21 @@ export const activeAuthentications = (
   return result;
 };
 
-type Props = $ReadOnly<{|
+type OuterProps = $ReadOnly<{|
+  // These should be passed from React Navigation
   navigation: AppNavigationProp<'auth'>,
   route: RouteProp<'auth', {| serverSettings: ApiResponseServerSettings |}>,
+|}>;
+
+type SelectorProps = $ReadOnly<{|
+  realm: URL,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
 
   dispatch: Dispatch,
-  realm: URL,
+  ...SelectorProps,
 |}>;
 
 let otp = '';
