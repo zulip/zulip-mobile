@@ -28,15 +28,21 @@ const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
   return 'image';
 };
 
+type OuterProps = $ReadOnly<{|
+  // These should be passed from React Navigation
+  navigation: AppNavigationProp<'message-reactions'>,
+  route: RouteProp<'message-reactions', {| reactionName?: string, messageId: number |}>,
+|}>;
+
 type SelectorProps = $ReadOnly<{|
   message: Message | void,
   ownUserId: UserId,
 |}>;
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'message-reactions'>,
-  route: RouteProp<'message-reactions', {| reactionName?: string, messageId: number |}>,
+  ...OuterProps,
 
+  // from `connect`
   dispatch: Dispatch,
   ...SelectorProps,
 |}>;
