@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { Platform, View, findNodeHandle } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
@@ -133,7 +134,7 @@ const updateTextInput = (textInput, text) => {
   }
 };
 
-class ComposeBox extends PureComponent<Props, State> {
+class ComposeBoxInner extends PureComponent<Props, State> {
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -571,7 +572,7 @@ class ComposeBox extends PureComponent<Props, State> {
   }
 }
 
-export default compose(
+const ComposeBox: ComponentType<OuterProps> = compose(
   connect<SelectorProps, _, _>((state, props) => ({
     auth: getAuth(state),
     ownUserId: getOwnUserId(state),
@@ -586,4 +587,6 @@ export default compose(
     videoChatProvider: getVideoChatProvider(state),
   })),
   withSafeAreaInsets,
-)(withGetText(ComposeBox));
+)(withGetText(ComposeBoxInner));
+
+export default ComposeBox;
