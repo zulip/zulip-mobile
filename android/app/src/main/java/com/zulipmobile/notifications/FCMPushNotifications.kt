@@ -18,6 +18,8 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.graphics.drawable.IconCompat
 import com.facebook.react.ReactApplication
 import me.leolin.shortcutbadger.ShortcutBadger
 
@@ -153,14 +155,83 @@ private fun createSummaryNotification(
     }
 }
 
+private fun extractGroupKey(identity: Identity): String {
+    return "${identity.realmUri.toString()}|${identity.userId}"
+}
+
+private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
+    val groupKey = extractGroupKey(fcmMessage.identity)
+    val conversation = when (fcmMessage.recipient) {
+        is Recipient.Stream -> "stream:${fcmMessage.recipient.stream}\u0000${fcmMessage.recipient.topic}"
+        is Recipient.GroupPm -> "groupPM:${fcmMessage.recipient.pmUsers.toString()}"
+        is Recipient.Pm -> "private:${fcmMessage.sender.id}"
+    }
+    return "$groupKey|$conversation"
+}
+
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
-    if (conversations.isEmpty()) {
-        NotificationManagerCompat.from(context).cancelAll()
-        return
+    val selfUser = Person.Builder().setName(context.getString(R.string.selfUser)).build()
+    val sender = Person.Builder()
+        .setName(fcmMessage.sender.fullName)
+        .setIcon(IconCompat.createWithBitmap(fetchBitmap(fcmMessage.sender.avatarURL)))
+        .build()
+
+    val title = when (fcmMessage.recipient) {
+        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
+        // TODO use proper title for GroupPM, we will need
+        // to have a way to get names of PM users here.
+        is Recipient.GroupPm -> context.resources.getQuantityString(
+            R.plurals.group_pm,
+            fcmMessage.recipient.pmUsers.size - 2,
+            fcmMessage.sender.fullName,
+            fcmMessage.recipient.pmUsers.size - 2
+        )
+        is Recipient.Pm -> fcmMessage.sender.fullName
     }
-    val notification = getNotificationBuilder(context, conversations, fcmMessage).build()
-    NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+    val isGroupConversation = when (fcmMessage.recipient) {
+        is Recipient.Stream -> true
+        is Recipient.GroupPm -> true
+        is Recipient.Pm -> false
+    }
+    val groupKey = extractGroupKey(fcmMessage.identity)
+    val conversationKey = extractConversationKey(fcmMessage)
+    val notification = getActiveNotification(context, conversationKey)
+
+    val messagingStyle = notification?.let {
+        NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it)
+    } ?: NotificationCompat.MessagingStyle(selfUser)
+    messagingStyle
+        .setConversationTitle(title)
+        .setGroupConversation(isGroupConversation)
+        .addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
+
+    val messageCount = messagingStyle.messages.size
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+    builder.apply {
+        color = context.getColor(R.color.brandColor)
+        if (BuildConfig.DEBUG) {
+            setSmallIcon(R.mipmap.ic_launcher)
+        } else {
+            setSmallIcon(R.drawable.zulip_notification)
+        }
+        setAutoCancel(true)
+        setStyle(messagingStyle)
+        setGroup(groupKey)
+        setSound(getNotificationSoundUri())
+        setContentIntent(createViewPendingIntent(fcmMessage, context))
+        setNumber(messageCount)
+    }
+
+    val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
+
+    NotificationManagerCompat.from(context).apply {
+        // We use `tag` param only, to uniquely identify notifications,
+        // and hence `id` param is provided as an arbitrary constant.
+        notify(groupKey, NOTIFICATION_ID, summaryNotification.build())
+        notify(conversationKey, NOTIFICATION_ID, builder.build())
+    }
 }
 
 private fun getNotificationSoundUri(): Uri {
