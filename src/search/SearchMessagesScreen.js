@@ -13,12 +13,21 @@ import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
 import { fetchMessages } from '../message/fetchActions';
 
-type Props = $ReadOnly<{|
+type OuterProps = $ReadOnly<{|
+  // These should be passed from React Navigation
   navigation: AppNavigationProp<'search-messages'>,
   route: RouteProp<'search-messages', void>,
+|}>;
 
+type SelectorProps = $ReadOnly<{|
   auth: Auth,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
   dispatch: Dispatch,
+  ...SelectorProps,
   // Warning: do not add new props without considering their effect on the
   // behavior of this component's non-React internal state. See comment below.
 |}>;
