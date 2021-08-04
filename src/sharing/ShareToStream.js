@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { ComponentType } from 'react';
 
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
@@ -42,7 +43,7 @@ type State = $ReadOnly<{|
   isTopicFocused: boolean,
 |}>;
 
-class ShareToStream extends React.Component<Props, State> {
+class ShareToStreamInner extends React.Component<Props, State> {
   static contextType = TranslationContext;
   context: GetText;
 
@@ -147,7 +148,9 @@ class ShareToStream extends React.Component<Props, State> {
   }
 }
 
-export default connect(state => ({
+const ShareToStream: ComponentType<OuterProps> = connect(state => ({
   subscriptions: getSubscriptionsById(state),
   auth: getAuth(state),
-}))(ShareToStream);
+}))(ShareToStreamInner);
+
+export default ShareToStream;
