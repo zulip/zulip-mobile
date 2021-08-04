@@ -20,13 +20,22 @@ import {
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type OuterProps = $ReadOnly<{|
   expanded: boolean,
   destinationNarrow: Narrow,
   insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
+|}>;
+
+type SelectorProps = $ReadOnly<{||}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
+  // from `connect`
+  ...SelectorProps,
+  dispatch: Dispatch,
 |}>;
 
 /**
@@ -208,4 +217,4 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect<{||}, _, _>()(ComposeMenu);
+export default connect<SelectorProps, _, _>()(ComposeMenu);
