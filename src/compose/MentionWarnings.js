@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useState, useCallback, useContext, forwardRef, useImperativeHandle } from 'react';
+import type { AbstractComponent, Node } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { Stream, Narrow, UserOrBot, Subscription, UserId } from '../types';
@@ -36,7 +37,7 @@ type ImperativeHandle = {|
   clearMentionWarnings(): void,
 |};
 
-function MentionWarnings(props: Props, ref) {
+function MentionWarningsInner(props: Props, ref): Node {
   const { stream, narrow } = props;
 
   const auth = useSelector(getAuth);
@@ -166,4 +167,8 @@ function MentionWarnings(props: Props, ref) {
   return mentionWarnings;
 }
 
-export default forwardRef<Props, ImperativeHandle>(MentionWarnings);
+const MentionWarnings: AbstractComponent<Props, ImperativeHandle> = forwardRef(
+  MentionWarningsInner,
+);
+
+export default MentionWarnings;
