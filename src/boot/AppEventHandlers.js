@@ -63,10 +63,20 @@ const styles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type OuterProps = $ReadOnly<{|
   children: Node,
+|}>;
+
+type SelectorProps = $ReadOnly<{|
   unreadCount: number,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
+  // from `connect`
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type OrientationLookup = {|
