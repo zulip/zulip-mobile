@@ -302,7 +302,6 @@ private fun getNotificationBuilder(
 internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
     logNotificationData("notif opened", data)
     notifyReact(application, data)
-    NotificationManagerCompat.from(application as Context).cancelAll()
     clearConversations(conversations)
     try {
         ShortcutBadger.removeCount(application as Context)
@@ -314,5 +313,4 @@ internal fun onOpened(application: ReactApplication, conversations: Conversation
 
 internal fun onClear(context: Context, conversations: ConversationMap) {
     clearConversations(conversations)
-    NotificationManagerCompat.from(context).cancelAll()
 }
