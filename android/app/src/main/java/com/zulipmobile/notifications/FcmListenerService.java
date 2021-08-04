@@ -15,9 +15,7 @@ public class FcmListenerService extends FirebaseMessagingService {
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        final ConversationMap conversations =
-                ((MainApplication) applicationContext).getConversations();
-        FCMPushNotifications.onReceived(this, conversations, message.getData());
+        FCMPushNotifications.onReceived(this, message.getData());
     }
 
     @Override

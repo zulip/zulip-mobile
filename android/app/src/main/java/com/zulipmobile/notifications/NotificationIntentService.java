@@ -13,7 +13,9 @@ import static com.zulipmobile.notifications.FCMPushNotifications.ACTION_CLEAR;
 import static com.zulipmobile.notifications.FCMPushNotifications.EXTRA_NOTIFICATION_DATA;
 
 public class NotificationIntentService extends IntentService {
-    public NotificationIntentService() { super("NotificationIntentService"); }
+    public NotificationIntentService() {
+        super("NotificationIntentService");
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -21,13 +23,9 @@ public class NotificationIntentService extends IntentService {
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        final ConversationMap conversations =
-                ((MainApplication) applicationContext).getConversations();
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
-            FCMPushNotifications.onOpened((ReactApplication) getApplication(), conversations, data);
-        } else if (ACTION_CLEAR.equals(intent.getAction())) {
-            FCMPushNotifications.onClear(this, conversations);
+            FCMPushNotifications.onOpened((ReactApplication) getApplication(), data);
         }
     }
 }
