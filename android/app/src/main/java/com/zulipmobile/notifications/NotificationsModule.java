@@ -35,7 +35,9 @@ class NotificationsModule extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void getToken(Promise promise) {
-        promise.resolve(FirebaseInstanceId.getInstance().getToken());
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnSuccessListener(instanceId -> promise.resolve(instanceId.getToken()))
+                .addOnFailureListener(e -> promise.reject(e));
     }
 
     @ReactMethod
