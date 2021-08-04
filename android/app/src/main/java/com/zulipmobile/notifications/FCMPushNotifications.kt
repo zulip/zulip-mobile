@@ -80,6 +80,13 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     }
 }
 
+fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
+    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
+    val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
+    viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
+    return PendingIntent.getService(context, 0, viewIntent, 0)
+}
+
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
     if (conversations.isEmpty()) {
@@ -100,10 +107,7 @@ private fun getNotificationBuilder(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): NotificationCompat.Builder {
     val builder = NotificationCompat.Builder(context, CHANNEL_ID)
 
-    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
-    val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
-    viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
-    val viewPendingIntent = PendingIntent.getService(context, 0, viewIntent, 0)
+    val viewPendingIntent = createViewPendingIntent(fcmMessage, context)
     builder.setContentIntent(viewPendingIntent)
     builder.setAutoCancel(true)
 
