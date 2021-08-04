@@ -8,9 +8,18 @@ import { tryGetAuth } from '../account/accountsSelectors';
 import { reportPresence } from '../actions';
 import Heartbeat from './heartbeat';
 
-type Props = $ReadOnly<{|
-  dispatch: Dispatch,
+type OuterProps = $ReadOnly<{||}>;
+
+type SelectorProps = $ReadOnly<{|
   auth: Auth | void,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
+  // from `connect`
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 /**
