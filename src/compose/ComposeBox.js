@@ -138,14 +138,7 @@ class ComposeBox extends PureComponent<Props, State> {
   messageInputRef = React.createRef<$FlowFixMe>();
   topicInputRef = React.createRef<$FlowFixMe>();
 
-  // TODO: Type-check this, once we've adjusted our `react-redux`
-  // wrapper to do the right thing. It should be
-  //
-  //   mentionWarnings = React.createRef<React$ElementRef<MentionWarnings>>()
-  //
-  // but we need our `react-redux` wrapper to be aware of
-  // `{ forwardRef: true }`, since we use that.
-  mentionWarnings = React.createRef();
+  mentionWarnings = React.createRef<React$ElementRef<typeof MentionWarnings>>();
 
   inputBlurTimeoutId: ?TimeoutID = null;
 
@@ -503,10 +496,6 @@ class ComposeBox extends PureComponent<Props, State> {
 
     return (
       <View style={this.styles.wrapper}>
-        {/*
-          $FlowFixMe[incompatible-use]:
-          `MentionWarnings` should use a type-checked `connect`
-        */}
         <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
         <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
           <TopicAutocomplete

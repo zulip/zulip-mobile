@@ -1,9 +1,9 @@
 /* @flow strict-local */
 
-import { connect } from 'react-redux';
 import React, { useState, useCallback, useContext, forwardRef, useImperativeHandle } from 'react';
+import { useSelector } from 'react-redux';
 
-import type { Auth, Stream, Dispatch, Narrow, UserOrBot, Subscription, UserId } from '../types';
+import type { Stream, Narrow, UserOrBot, Subscription, UserId } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getAllUsersById, getAuth } from '../selectors';
 import { is1to1PmNarrow } from '../utils/narrow';
@@ -13,17 +13,9 @@ import { showToast } from '../utils/info';
 import MentionedUserNotSubscribed from '../message/MentionedUserNotSubscribed';
 import { makeUserId } from '../api/idTypes';
 
-type SelectorProps = {|
-  auth: Auth,
-  allUsersById: Map<UserId, UserOrBot>,
-|};
-
 type Props = $ReadOnly<{|
   narrow: Narrow,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 type ImperativeHandle = {|
@@ -32,7 +24,10 @@ type ImperativeHandle = {|
 |};
 
 function MentionWarnings(props: Props, ref) {
-  const { stream, narrow, auth, allUsersById } = props;
+  const { stream, narrow } = props;
+
+  const auth = useSelector(getAuth);
+  const allUsersById = useSelector(getAllUsersById);
 
   const [unsubscribedMentions, setUnsubscribedMentions] = useState<UserId[]>([]);
 
@@ -169,13 +164,4 @@ function MentionWarnings(props: Props, ref) {
   return mentionWarnings;
 }
 
-// $FlowFixMe[missing-annot]. TODO: Use a type checked connect call.
-export default connect(
-  state => ({
-    auth: getAuth(state),
-    allUsersById: getAllUsersById(state),
-  }),
-  null,
-  null,
-  { forwardRef: true },
-)(forwardRef<Props, ImperativeHandle>(MentionWarnings));
+export default forwardRef<Props, ImperativeHandle>(MentionWarnings);
