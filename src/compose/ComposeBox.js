@@ -75,18 +75,24 @@ type SelectorProps = {|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
-type Props = $ReadOnly<{|
-  insets: EdgeInsets,
-
+type OuterProps = $ReadOnly<{|
   narrow: Narrow,
   editMessage: EditMessage | null,
   completeEditMessage: () => void,
+|}>;
 
-  dispatch: Dispatch,
-  ...SelectorProps,
+type Props = $ReadOnly<{|
+  ...OuterProps,
 
   // From 'withGetText'
   _: GetText,
+
+  // from withSafeAreaInsets
+  insets: EdgeInsets,
+
+  // from `connect`
+  dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
