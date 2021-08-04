@@ -18,17 +18,18 @@ type Props = $ReadOnly<{|
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |}>;
 
+/**
+ * Functions expected to be called by ComposeBox using a ref to this
+ *   component.
+ */
 type ImperativeHandle = {|
   /**
    * Check whether the message text entered by the user contains
    * an @-mention to a user unsubscribed to the current stream, and if
    * so, shows a warning.
    *
-   * This function is expected to be called by `ComposeBox` using a ref
-   * to this component.
-   *
    * @param completion The autocomplete option chosend by the user.
-      See JSDoc for AutoCompleteView for details.
+   * See JSDoc for AutoCompleteView for details.
    */
   handleMentionSubscribedCheck(completion: string): Promise<void>,
 
