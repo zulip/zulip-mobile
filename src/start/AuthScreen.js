@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { Linking, Platform } from 'react-native';
 import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -199,7 +200,7 @@ type LinkingEvent = {
   ...
 };
 
-class AuthScreen extends PureComponent<Props> {
+class AuthScreenInner extends PureComponent<Props> {
   componentDidMount = () => {
     Linking.addEventListener('url', this.endWebAuth);
     Linking.getInitialURL().then((initialUrl: ?string) => {
@@ -360,8 +361,10 @@ class AuthScreen extends PureComponent<Props> {
   }
 }
 
-export default connect((state, props) => ({
+const AuthScreen: ComponentType<OuterProps> = connect((state, props) => ({
   // Not from the Redux state, but it's convenient to validate the URL
   // in one central place, like here.
   realm: new URL(props.route.params.serverSettings.realm_uri),
-}))(AuthScreen);
+}))(AuthScreenInner);
+
+export default AuthScreen;
