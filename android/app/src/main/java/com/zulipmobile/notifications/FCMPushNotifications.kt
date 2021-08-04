@@ -18,6 +18,8 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.Person
+import androidx.core.graphics.drawable.IconCompat
 import com.facebook.react.ReactApplication
 import me.leolin.shortcutbadger.ShortcutBadger
 
@@ -25,7 +27,6 @@ import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 
 private val CHANNEL_ID = "default"
-private val NOTIFICATION_ID = 435
 
 @JvmField
 val ACTION_CLEAR = "ACTION_CLEAR"
@@ -157,12 +158,68 @@ private fun createSummaryNotification(
 
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
-    if (conversations.isEmpty()) {
-        NotificationManagerCompat.from(context).cancelAll()
-        return
+    val user = Person.Builder().setName("You").build()
+    val sender = Person.Builder()
+        .setName(fcmMessage.sender.fullName)
+        .setIcon(IconCompat.createWithBitmap(fetchBitmap(fcmMessage.sender.avatarURL)))
+        .build()
+
+    var isGroupConversation = true
+    val title = when (fcmMessage.recipient) {
+        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
+        // TODO use proper title for GroupPM, we will need
+        // to have a way to get names of PM users here.
+        is Recipient.GroupPm -> context.getString(R.string.group_pm, fcmMessage.recipient.pmUsers)
+        is Recipient.Pm -> {
+            isGroupConversation = false
+            fcmMessage.sender.fullName
+        }
     }
-    val notification = getNotificationBuilder(context, conversations, fcmMessage).build()
-    NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
+    val groupKey = "${fcmMessage.identity?.realmUri.toString()};${fcmMessage.identity?.userId}"
+    val conversationKey = "$groupKey;$title"
+    val extraData = Bundle()
+    extraData.putString("conversationKey", conversationKey)
+    var (notificationId, notification) = getActiveNotification(context, conversationKey)
+    notificationId = notificationId?: fcmMessage.zulipMessageId
+
+    val messagingStyle = when (notification) {
+        null -> NotificationCompat.MessagingStyle(user)
+        else -> NotificationCompat.MessagingStyle
+            .extractMessagingStyleFromNotification(notification)
+            ?: NotificationCompat.MessagingStyle(user)
+    }
+    messagingStyle
+        .setConversationTitle(title)
+        .setGroupConversation(isGroupConversation)
+        .addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
+
+    val messageCount = messagingStyle.messages.size
+
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+    builder.apply {
+        color = Color.rgb(100, 146, 254)
+        if (BuildConfig.DEBUG) {
+            setSmallIcon(R.mipmap.ic_launcher)
+        } else {
+            setSmallIcon(R.drawable.zulip_notification)
+        }
+        setAutoCancel(true)
+        setStyle(messagingStyle)
+        setGroup(groupKey)
+        setContentIntent(createViewPendingIntent(fcmMessage, context))
+        setNumber(messageCount)
+        extras = extraData
+    }
+
+    val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
+
+    NotificationManagerCompat.from(context).apply {
+        // here notifications are identified by TAG + notificationId
+        // simply using notificationId is not sufficient and will
+        // fail in case of different account in same realm.
+        notify(groupKey, fcmMessage.identity!!.realmId, summaryNotification.build())
+        notify(conversationKey, notificationId, builder.build())
+    }
 }
 
 private fun getNotificationSoundUri(context: Context): Uri {

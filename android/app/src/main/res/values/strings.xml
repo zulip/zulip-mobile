@@ -8,4 +8,5 @@
         <item quantity="other">%d conversations</item>
     </plurals>
     <string name="send_to">Share To</string>
+    <string name="group_pm">Group PM from %1$s.</string>
 </resources>
