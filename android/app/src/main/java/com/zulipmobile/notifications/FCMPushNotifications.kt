@@ -3,7 +3,9 @@
 package com.zulipmobile.notifications
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -96,6 +98,34 @@ private fun createDismissAction(context: Context): NotificationCompat.Action {
         "Clear",
         piDismiss
     )
+}
+
+/**
+ * @param context
+ * @param conversationKey Unique Key identifying a conversation, the current
+ * implementation assumes that each notification corresponds to 1 and only 1
+ * conversation.
+ *
+ * A conversation can be any of: Topic in Stream, GroupPM or PM for a
+ * specific user in a specific realm.
+ */
+private fun getActiveNotification(context: Context, conversationKey: String):
+    Pair<Int?, Notification?> {
+    // activeNotifications are not available in NotificationCompatManager
+    // Hence we have to use instance of NotificationManager.
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+
+    val activeStatusBarNotifications = notificationManager?.activeNotifications
+    if (activeStatusBarNotifications != null) {
+        for (statusBarNotification in activeStatusBarNotifications) {
+            val notification = statusBarNotification.notification
+            if (notification.extras.getString("conversationKey") == conversationKey) {
+                return Pair(statusBarNotification.id, notification)
+            }
+        }
+    }
+    return Pair(null, null)
 }
 
 private fun updateNotification(
