@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node } from 'react';
+import type { Node, ComponentType } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -53,7 +53,7 @@ type Props = $ReadOnly<{|
  * The `reactionName` nav-prop controls what reaction is focused when the
  * screen first appears.
  */
-class MessageReactionsScreen extends PureComponent<Props> {
+class MessageReactionsScreenInner extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.message === undefined) {
       const { messageId } = this.props.route.params;
@@ -144,8 +144,12 @@ class MessageReactionsScreen extends PureComponent<Props> {
   }
 }
 
-export default connect<SelectorProps, _, _>((state, props) => ({
-  // message *can* be undefined; see componentDidUpdate for explanation and handling.
-  message: state.messages.get(props.route.params.messageId),
-  ownUserId: getOwnUserId(state),
-}))(MessageReactionsScreen);
+const MessageReactionsScreen: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
+  (state, props) => ({
+    // message *can* be undefined; see componentDidUpdate for explanation and handling.
+    message: state.messages.get(props.route.params.messageId),
+    ownUserId: getOwnUserId(state),
+  }),
+)(MessageReactionsScreenInner);
+
+export default MessageReactionsScreen;
