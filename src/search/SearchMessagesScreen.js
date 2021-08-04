@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -48,7 +49,7 @@ type State = {|
   isFetching: boolean,
 |};
 
-class SearchMessagesScreen extends PureComponent<Props, State> {
+class SearchMessagesScreenInner extends PureComponent<Props, State> {
   state = {
     query: '',
     messages: null,
@@ -148,6 +149,8 @@ class SearchMessagesScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect(state => ({
+const SearchMessagesScreen: ComponentType<OuterProps> = connect(state => ({
   auth: getAuth(state),
-}))(SearchMessagesScreen);
+}))(SearchMessagesScreenInner);
+
+export default SearchMessagesScreen;
