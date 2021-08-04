@@ -21,13 +21,11 @@ public class NotificationIntentService extends IntentService {
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        final ConversationMap conversations =
-                ((MainApplication) applicationContext).getConversations();
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
-            FCMPushNotifications.onOpened((ReactApplication) getApplication(), conversations, data);
+            FCMPushNotifications.onOpened((ReactApplication) getApplication(), data);
         } else if (ACTION_CLEAR.equals(intent.getAction())) {
-            FCMPushNotifications.onClear(this, conversations);
+            // TODO implement dismiss
         }
     }
 }

@@ -13,8 +13,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
@@ -56,7 +54,7 @@ private fun logNotificationData(msg: String, data: Bundle) {
     Log.v(TAG, "$msg: $data")
 }
 
-internal fun onReceived(context: Context, conversations: ConversationMap, mapData: Map<String, String>) {
+internal fun onReceived(context: Context, mapData: Map<String, String>) {
     // TODO refactor to not need this; reflects a juxtaposition of FCM with old GCM interfaces.
     val data = Bundle()
     for ((key, value) in mapData) {
@@ -73,14 +71,8 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     }
 
     if (fcmMessage is MessageFcmMessage) {
-        addConversationToMap(fcmMessage, conversations)
-        updateNotification(context, conversations, fcmMessage)
-    } else if (fcmMessage is RemoveFcmMessage) {
-        removeMessagesFromMap(conversations, fcmMessage)
-        if (conversations.isEmpty()) {
-            NotificationManagerCompat.from(context).cancelAll()
-        }
-    }
+        updateNotification(context, fcmMessage)
+    } // TODO handle case for RemoveFcmMessage
 }
 
 private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
@@ -157,7 +149,7 @@ private fun createSummaryNotification(
 }
 
 private fun updateNotification(
-    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
+    context: Context, fcmMessage: MessageFcmMessage) {
     val user = Person.Builder().setName("You").build()
     val sender = Person.Builder()
         .setName(fcmMessage.sender.fullName)
@@ -222,95 +214,13 @@ private fun updateNotification(
     }
 }
 
-private fun getNotificationSoundUri(context: Context): Uri {
-    // Note: Provide default notification sound until we found a good sound
-    // return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.zulip}")
-    return Settings.System.DEFAULT_NOTIFICATION_URI
-}
-
-private fun getNotificationBuilder(
-    context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage): NotificationCompat.Builder {
-    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-
-    val viewPendingIntent = createViewPendingIntent(fcmMessage, context)
-    builder.setContentIntent(viewPendingIntent)
-    builder.setAutoCancel(true)
-
-    val totalMessagesCount = extractTotalMessagesCount(conversations)
-
-    if (BuildConfig.DEBUG) {
-        builder.setSmallIcon(R.mipmap.ic_launcher)
-    } else {
-        builder.setSmallIcon(R.drawable.zulip_notification)
-    }
-
-    // This should agree with `BRAND_COLOR` in the JS code.
-    builder.setColor(Color.rgb(100, 146, 254))
-
-    val nameList = extractNames(conversations)
-
-    if (conversations.size == 1 && nameList.size == 1) {
-        //Only one 1 notification therefore no using of big view styles
-        if (totalMessagesCount > 1) {
-            builder.setContentTitle("${fcmMessage.sender.fullName} ($totalMessagesCount)")
-        } else {
-            builder.setContentTitle(fcmMessage.sender.fullName)
-        }
-        builder.setContentText(fcmMessage.content)
-        if (fcmMessage.recipient is Recipient.Stream) {
-            val (stream, topic) = fcmMessage.recipient
-            val displayTopic = "$stream > $topic"
-            builder.setSubText("Message on $displayTopic")
-        }
-        fetchBitmap(sizedURL(context, fcmMessage.sender.avatarURL, 64f))
-            ?.let { builder.setLargeIcon(it) }
-        builder.setStyle(NotificationCompat.BigTextStyle().bigText(fcmMessage.content))
-    } else {
-        val numConversations = context.resources.getQuantityString(
-            R.plurals.numConversations, conversations.size, conversations.size)
-        builder.setContentTitle("$totalMessagesCount messages in $numConversations")
-        builder.setContentText("Messages from ${TextUtils.join(",", nameList)}")
-        val inboxStyle = NotificationCompat.InboxStyle(builder)
-        inboxStyle.setSummaryText(numConversations)
-        buildNotificationContent(conversations, inboxStyle)
-        builder.setStyle(inboxStyle)
-    }
-
-    try {
-        ShortcutBadger.applyCount(context, totalMessagesCount)
-    } catch (e: Exception) {
-        Log.e(TAG, "BADGE ERROR: $e")
-    }
-
-    builder.setWhen(fcmMessage.timeMs)
-    builder.setShowWhen(true)
-
-    val vPattern = longArrayOf(0, 100, 200, 100)
-    // NB the DEFAULT_VIBRATE flag below causes this to have no effect.
-    // TODO: choose a vibration pattern we like, and unset DEFAULT_VIBRATE.
-    builder.setVibrate(vPattern)
-
-    builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE or NotificationCompat.DEFAULT_LIGHTS)
-
-    builder.addAction(createDismissAction(context))
-
-    val soundUri = getNotificationSoundUri(context)
-    builder.setSound(soundUri)
-    return builder
-}
-
-internal fun onOpened(application: ReactApplication, conversations: ConversationMap, data: Bundle) {
+internal fun onOpened(application: ReactApplication, data: Bundle) {
     logNotificationData("notif opened", data)
     notifyReact(application, data)
-    clearConversations(conversations)
     try {
         ShortcutBadger.removeCount(application as Context)
     } catch (e: Exception) {
         Log.e(TAG, "BADGE ERROR: $e")
     }
 
-}
-
-internal fun onClear(context: Context, conversations: ConversationMap) {
-    clearConversations(conversations)
 }
