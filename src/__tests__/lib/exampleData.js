@@ -18,6 +18,11 @@ import type {
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type {
+  AccountSwitchAction,
+  LoginSuccessAction,
+  RealmInitAction,
+  MessageFetchStartAction,
+  MessageFetchCompleteAction,
   Action,
   GlobalState,
   CaughtUpState,
@@ -561,18 +566,18 @@ export const realmState = (extra?: $Rest<RealmState, { ... }>): RealmState =>
  * Complete actions which need no further data.
  */
 
-export const action = deepFreeze({
-  account_switch: {
+export const action = Object.freeze({
+  account_switch: (deepFreeze({
     type: ACCOUNT_SWITCH,
     index: 0,
-  },
-  login_success: {
+  }): AccountSwitchAction),
+  login_success: (deepFreeze({
     type: LOGIN_SUCCESS,
     realm: selfAccount.realm,
     email: selfAccount.email,
     apiKey: selfAccount.apiKey,
-  },
-  realm_init: {
+  }): LoginSuccessAction),
+  realm_init: (deepFreeze({
     type: REALM_INIT,
     data: {
       last_event_id: 34,
@@ -678,14 +683,14 @@ export const action = deepFreeze({
       user_status: {},
     },
     zulipVersion,
-  },
-  message_fetch_start: {
+  }): RealmInitAction),
+  message_fetch_start: (deepFreeze({
     type: MESSAGE_FETCH_START,
     narrow: HOME_NARROW,
     numBefore: 0,
     numAfter: 20,
-  },
-  message_fetch_complete: {
+  }): MessageFetchStartAction),
+  message_fetch_complete: (deepFreeze({
     type: MESSAGE_FETCH_COMPLETE,
     messages: [],
     narrow: HOME_NARROW,
@@ -695,14 +700,12 @@ export const action = deepFreeze({
     foundNewest: undefined,
     foundOldest: undefined,
     ownUserId: selfUser.user_id,
-  },
+  }): MessageFetchCompleteAction),
   // If a given action is only relevant to a single test file, no need to
   // provide a generic example of it here; just define it there.
 });
 
-// Ensure every `eg.action.foo` is some well-typed action.  (We don't simply
-// annotate `action` itself, because we want to keep the information of
-// which one has which specific type.)
+// Ensure every `eg.action.foo` is some well-typed action.
 /* eslint-disable-next-line no-unused-expressions */
 (action: {| [string]: Action |});
 

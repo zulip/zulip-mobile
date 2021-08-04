@@ -139,7 +139,7 @@ type DismissServerCompatNoticeAction = {|
   type: typeof DISMISS_SERVER_COMPAT_NOTICE,
 |};
 
-type AccountSwitchAction = {|
+export type AccountSwitchAction = {|
   type: typeof ACCOUNT_SWITCH,
   index: number,
 |};
@@ -149,7 +149,7 @@ type AccountRemoveAction = {|
   index: number,
 |};
 
-type LoginSuccessAction = {|
+export type LoginSuccessAction = {|
   type: typeof LOGIN_SUCCESS,
   realm: URL,
   email: string,
@@ -160,7 +160,7 @@ type LogoutAction = {|
   type: typeof LOGOUT,
 |};
 
-type RealmInitAction = {|
+export type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
   zulipVersion: ZulipVersion,
@@ -185,7 +185,7 @@ type AckPushTokenAction = {|
   pushToken: string,
 |};
 
-type MessageFetchStartAction = {|
+export type MessageFetchStartAction = {|
   type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,
   numBefore: number,
@@ -216,7 +216,7 @@ type MessageFetchErrorAction = {|
   error: Error,
 |};
 
-type MessageFetchCompleteAction = {|
+export type MessageFetchCompleteAction = {|
   type: typeof MESSAGE_FETCH_COMPLETE,
   messages: Message[],
   narrow: Narrow,
