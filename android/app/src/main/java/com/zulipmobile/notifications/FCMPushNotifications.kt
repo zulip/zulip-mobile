@@ -128,6 +128,33 @@ private fun getActiveNotification(context: Context, conversationKey: String):
     return Pair(null, null)
 }
 
+private fun createSummaryNotification(
+    context: Context,
+    fcmMessage: MessageFcmMessage,
+    groupKey: String
+): NotificationCompat.Builder {
+    val realmUri = fcmMessage.identity!!.realmUri.toString()
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+
+    builder.apply {
+        // This should agree with `BRAND_COLOR` in the JS code.
+        builder.color = Color.rgb(100, 146, 254)
+        if (BuildConfig.DEBUG) {
+            builder.setSmallIcon(R.mipmap.ic_launcher)
+        } else {
+            builder.setSmallIcon(R.drawable.zulip_notification)
+        }
+        setStyle(NotificationCompat.InboxStyle()
+            .setSummaryText(realmUri)
+        )
+        setGroup(groupKey)
+        setGroupSummary(true)
+        setAutoCancel(true)
+    }
+
+    return builder
+}
+
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
     if (conversations.isEmpty()) {
