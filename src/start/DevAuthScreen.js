@@ -27,11 +27,19 @@ const componentStyles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
+type OuterProps = $ReadOnly<{|
+  // These should be passed from React Navigation
   navigation: AppNavigationProp<'dev-auth'>,
   route: RouteProp<'dev-auth', {| realm: URL |}>,
+|}>;
+
+type SelectorProps = $ReadOnly<{||}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
 
   dispatch: Dispatch,
+  ...SelectorProps,
 |}>;
 
 type State = {|
