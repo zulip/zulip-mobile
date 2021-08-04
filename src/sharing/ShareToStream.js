@@ -17,13 +17,22 @@ import { getAuth } from '../selectors';
 import { fetchTopicsForStream } from '../topics/topicActions';
 import ShareWrapper from './ShareWrapper';
 
-type Props = $ReadOnly<{|
+type OuterProps = $ReadOnly<{|
+  // These should be passed from React Navigation
   navigation: SharingNavigationProp<'share-to-stream'>,
   route: RouteProp<'share-to-stream', {| sharedData: SharedData |}>,
+|}>;
 
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   subscriptions: Map<number, Subscription>,
   auth: Auth,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
+  ...SelectorProps,
+  dispatch: Dispatch,
 |}>;
 
 type State = $ReadOnly<{|
