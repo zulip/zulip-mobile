@@ -1,5 +1,6 @@
 // @flow strict-local
 import { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { AppState } from 'react-native';
 import type { Auth, Dispatch } from '../types';
 
@@ -32,7 +33,7 @@ type Props = $ReadOnly<{|
 // (This is merely a misnomer on React's part, rather than a functional error. A
 // `PureComponent` is simply one which never updates except when its props have
 // changed -- which is exactly what we want.)
-class PresenceHeartbeat extends PureComponent<Props> {
+class PresenceHeartbeatInner extends PureComponent<Props> {
   /** Callback for Heartbeat object. */
   onHeartbeat = () => {
     if (this.props.auth) {
@@ -71,6 +72,8 @@ class PresenceHeartbeat extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+const PresenceHeartbeat: ComponentType<OuterProps> = connect(state => ({
   auth: tryGetAuth(state),
-}))(PresenceHeartbeat);
+}))(PresenceHeartbeatInner);
+
+export default PresenceHeartbeat;
