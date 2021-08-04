@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { ActivityIndicator, View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -49,7 +50,7 @@ type State = {|
   error: string,
 |};
 
-class DevAuthScreen extends PureComponent<Props, State> {
+class DevAuthScreenInner extends PureComponent<Props, State> {
   state = {
     progress: false,
     directAdmins: [],
@@ -133,4 +134,6 @@ class DevAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect<{||}, _, _>()(DevAuthScreen);
+const DevAuthScreen: ComponentType<OuterProps> = connect<{||}, _, _>()(DevAuthScreenInner);
+
+export default DevAuthScreen;
