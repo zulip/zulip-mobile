@@ -19,7 +19,19 @@ type Props = $ReadOnly<{|
 |}>;
 
 type ImperativeHandle = {|
+  /**
+   * Check whether the message text entered by the user contains
+   * an @-mention to a user unsubscribed to the current stream, and if
+   * so, shows a warning.
+   *
+   * This function is expected to be called by `ComposeBox` using a ref
+   * to this component.
+   *
+   * @param completion The autocomplete option chosend by the user.
+      See JSDoc for AutoCompleteView for details.
+   */
   handleMentionSubscribedCheck(completion: string): Promise<void>,
+
   clearMentionWarnings(): void,
 |};
 
@@ -81,17 +93,6 @@ function MentionWarnings(props: Props, ref) {
   useImperativeHandle(
     ref,
     () => ({
-      /**
-       * Check whether the message text entered by the user contains
-       * an @-mention to a user unsubscribed to the current stream, and if
-       * so, shows a warning.
-       *
-       * This function is expected to be called by `ComposeBox` using a ref
-       * to this component.
-       *
-       * @param completion The autocomplete option chosend by the user.
-          See JSDoc for AutoCompleteView for details.
-       */
       handleMentionSubscribedCheck: async (completion: string) => {
         if (is1to1PmNarrow(narrow)) {
           return;
