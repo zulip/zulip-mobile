@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -53,7 +54,7 @@ type State = {|
   progress: boolean,
 |};
 
-class PasswordAuthScreen extends PureComponent<Props, State> {
+class PasswordAuthScreenInner extends PureComponent<Props, State> {
   state = {
     progress: false,
     email: '',
@@ -150,4 +151,8 @@ class PasswordAuthScreen extends PureComponent<Props, State> {
   }
 }
 
-export default connect<{||}, _, _>()(PasswordAuthScreen);
+const PasswordAuthScreen: ComponentType<OuterProps> = connect<{||}, _, _>()(
+  PasswordAuthScreenInner,
+);
+
+export default PasswordAuthScreen;
