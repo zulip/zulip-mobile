@@ -125,6 +125,30 @@ private fun getActiveNotification(context: Context, conversationKey: String): No
     return null
 }
 
+// TODO: Add a Text saying n messages in m conversations. (this will
+// only be visible in API < 24)
+private fun createSummaryNotification(
+    context: Context,
+    fcmMessage: MessageFcmMessage,
+    groupKey: String
+): NotificationCompat.Builder {
+    val realmUri = fcmMessage.identity.realmUri.toString()
+    return NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        color = context.getColor(R.color.brandColor)
+        if (BuildConfig.DEBUG) {
+            setSmallIcon(R.mipmap.ic_launcher)
+        } else {
+            setSmallIcon(R.drawable.zulip_notification)
+        }
+        setStyle(NotificationCompat.InboxStyle()
+            .setSummaryText(realmUri)
+        )
+        setGroup(groupKey)
+        setGroupSummary(true)
+        setAutoCancel(true)
+    }
+}
+
 private fun updateNotification(
     context: Context, conversations: ConversationMap, fcmMessage: MessageFcmMessage) {
     if (conversations.isEmpty()) {
