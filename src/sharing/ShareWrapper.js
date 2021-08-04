@@ -56,15 +56,23 @@ const styles = createStyleSheet({
   },
 });
 
-type Props = $ReadOnly<{|
+type OuterProps = $ReadOnly<{|
   children: Node,
   isSendButtonEnabled: (message: string) => boolean,
   sendTo: SendTo,
   sharedData: SharedData,
+|}>;
 
-  dispatch: Dispatch,
+type SelectorProps = $ReadOnly<{|
   auth: Auth,
   ownUserId: UserId,
+|}>;
+
+type Props = $ReadOnly<{|
+  ...OuterProps,
+
+  ...SelectorProps,
+  dispatch: Dispatch,
 |}>;
 
 type State = $ReadOnly<{|
