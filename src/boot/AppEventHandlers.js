@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import React, { PureComponent } from 'react';
-import type { Node } from 'react';
+import type { Node, ComponentType } from 'react';
 import { AppState, View, Platform, NativeModules } from 'react-native';
 // $FlowFixMe[untyped-import]
 import NetInfo from '@react-native-community/netinfo';
@@ -91,7 +91,7 @@ const orientationLookup: OrientationLookup = {
   [ScreenOrientation.Orientation.LANDSCAPE_RIGHT]: 'LANDSCAPE',
 };
 
-class AppEventHandlers extends PureComponent<Props> {
+class AppEventHandlersInner extends PureComponent<Props> {
   /** NetInfo disconnection callback. */
   netInfoDisconnectCallback: (() => void) | null = null;
 
@@ -161,6 +161,8 @@ class AppEventHandlers extends PureComponent<Props> {
   }
 }
 
-export default connect(state => ({
+const AppEventHandlers: ComponentType<OuterProps> = connect(state => ({
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
-}))(AppEventHandlers);
+}))(AppEventHandlersInner);
+
+export default AppEventHandlers;
