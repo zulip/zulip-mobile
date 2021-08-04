@@ -80,11 +80,22 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     }
 }
 
-fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
+private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
     val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     return PendingIntent.getService(context, 0, viewIntent, 0)
+}
+
+private fun createDismissAction(context: Context): NotificationCompat.Action {
+    val dismissIntent = Intent(context, NotificationIntentService::class.java)
+    dismissIntent.action = ACTION_CLEAR
+    val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
+    return NotificationCompat.Action(
+        android.R.drawable.ic_menu_close_clear_cancel,
+        "Clear",
+        piDismiss
+    )
 }
 
 private fun updateNotification(
@@ -167,11 +178,7 @@ private fun getNotificationBuilder(
 
     builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE or NotificationCompat.DEFAULT_LIGHTS)
 
-    val dismissIntent = Intent(context, NotificationIntentService::class.java)
-    dismissIntent.action = ACTION_CLEAR
-    val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
-    val action = NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel, "Clear", piDismiss)
-    builder.addAction(action)
+    builder.addAction(createDismissAction(context))
 
     val soundUri = getNotificationSoundUri(context)
     builder.setSound(soundUri)
