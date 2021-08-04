@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { ComponentType } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 // $FlowFixMe[untyped-import]
@@ -69,7 +70,7 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
   return name;
 };
 
-class ComposeMenu extends PureComponent<Props> {
+class ComposeMenuInner extends PureComponent<Props> {
   uploadFile = (uri: string, fileName: ?string) => {
     const { dispatch, destinationNarrow } = this.props;
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
@@ -217,4 +218,6 @@ class ComposeMenu extends PureComponent<Props> {
   }
 }
 
-export default connect<SelectorProps, _, _>()(ComposeMenu);
+const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(ComposeMenuInner);
+
+export default ComposeMenu;
