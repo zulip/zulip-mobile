@@ -145,7 +145,7 @@ private fun createReplyAction(
  * A conversation can be any of: Topic in Stream, GroupPM or PM for a
  * specific user in a specific realm.
  */
-private fun getActiveNotification(context: Context, conversationKey: String):
+fun getActiveNotification(context: Context, conversationKey: String):
     Pair<Int?, Notification?> {
     // activeNotifications are not available in NotificationCompatManager
     // Hence we have to use instance of NotificationManager.
