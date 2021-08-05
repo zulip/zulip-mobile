@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
+import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -88,7 +89,8 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
   // reconstructed anyway. However, addition of any new props which need to
   // invalidate outstanding requests on change will require more work.
 
-  handleQueryChange = async (query: string) => {
+  handleQuerySubmit = async (e: EditingEvent) => {
+    const query = e.nativeEvent.text;
     const id = ++this.lastIdSent;
 
     if (query === '') {
@@ -123,10 +125,10 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
   };
 
   // The real work to be done on a query is async.  This wrapper exists
-  // just to fire off `handleQueryChange` without waiting for it.
+  // just to fire off `handleQuerySubmit` without waiting for it.
   // TODO do we even need this wrapper?
-  handleQueryChangeWrapper = (query: string) => {
-    this.handleQueryChange(query);
+  handleQuerySubmitWrapper = (e: EditingEvent) => {
+    this.handleQuerySubmit(e);
   };
 
   render() {
@@ -136,7 +138,7 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
       <Screen
         search
         autoFocus
-        searchBarOnChange={this.handleQueryChangeWrapper}
+        searchBarOnSubmit={this.handleQuerySubmitWrapper}
         style={styles.flexed}
       >
         <SearchMessagesCard

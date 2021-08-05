@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
+import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 import { View } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
 import { createStyleSheet } from '../styles';
@@ -21,6 +22,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   autoFocus?: boolean,
   onChangeText: (text: string) => void,
+  onSubmitEditing: (e: EditingEvent) => mixed,
 |}>;
 
 /**
@@ -31,7 +33,7 @@ type Props = $ReadOnly<{|
  * @prop onChangeText - Event called when search query is edited.
  */
 export default function SearchInput(props: Props): Node {
-  const { autoFocus = true, onChangeText } = props;
+  const { autoFocus = true, onChangeText, onSubmitEditing } = props;
 
   return (
     <View style={styles.wrapper}>
@@ -46,6 +48,7 @@ export default function SearchInput(props: Props): Node {
         returnKeyType="search"
         onChangeText={onChangeText}
         autoFocus={autoFocus}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );

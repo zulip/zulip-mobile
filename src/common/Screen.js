@@ -5,6 +5,7 @@ import type { Node } from 'react';
 import { ScrollView } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText } from '../types';
@@ -44,6 +45,7 @@ type Props = $ReadOnly<{|
   search?: boolean,
   autoFocus?: boolean,
   searchBarOnChange?: (text: string) => void,
+  searchBarOnSubmit?: (e: EditingEvent) => void,
   shouldShowLoadingBanner?: boolean,
 
   canGoBack?: boolean,
@@ -66,6 +68,7 @@ type Props = $ReadOnly<{|
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
  * @prop [searchBarOnChange] - Event called on search query change.
+ * @prop [searchBarOnSubmit] - Event called on search query submit.
  *
  * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [title] - Text shown as the title of the screen.
@@ -86,6 +89,7 @@ export default function Screen(props: Props): Node {
     style,
     title = '',
     shouldShowLoadingBanner = true,
+    searchBarOnSubmit = (e: EditingEvent) => {},
   } = props;
 
   return (
@@ -99,6 +103,7 @@ export default function Screen(props: Props): Node {
           autoFocus={autoFocus}
           canGoBack={canGoBack}
           searchBarOnChange={searchBarOnChange}
+          searchBarOnSubmit={searchBarOnSubmit}
         />
       ) : (
         <ModalNavBar canGoBack={canGoBack} title={title} />

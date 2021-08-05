@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
 import { ThemeContext } from '../styles';
 import SearchInput from '../common/SearchInput';
@@ -10,11 +11,12 @@ import NavBarBackButton from './NavBarBackButton';
 type Props = $ReadOnly<{|
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
+  searchBarOnSubmit: (e: EditingEvent) => void,
   canGoBack?: boolean,
 |}>;
 
 export default function ModalSearchNavBar(props: Props): Node {
-  const { autoFocus, searchBarOnChange, canGoBack = true } = props;
+  const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (
     <SafeAreaView
@@ -29,7 +31,11 @@ export default function ModalSearchNavBar(props: Props): Node {
       }}
     >
       {canGoBack && <NavBarBackButton />}
-      <SearchInput autoFocus={autoFocus} onChangeText={searchBarOnChange} />
+      <SearchInput
+        autoFocus={autoFocus}
+        onChangeText={searchBarOnChange}
+        onSubmitEditing={searchBarOnSubmit}
+      />
     </SafeAreaView>
   );
 }
