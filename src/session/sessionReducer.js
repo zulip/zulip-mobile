@@ -27,7 +27,7 @@ import { getHasAuth } from '../account/accountsSelectors';
  * won't be persisted between sessions; on startup, they'll all be
  * initialized to their default values.
  */
-export type SessionState = {|
+export type SessionState = $ReadOnly<{|
   eventQueueId: number,
   isOnline: boolean,
   isHydrated: boolean,
@@ -75,7 +75,7 @@ export type SessionState = {|
    * doesn't act on the notice.
    */
   hasDismissedServerCompatNotice: boolean,
-|};
+|}>;
 
 const initialState: SessionState = {
   eventQueueId: -1,

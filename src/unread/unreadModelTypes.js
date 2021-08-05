@@ -66,9 +66,9 @@ export type UnreadMentionsState = $ReadOnlyArray<number>;
  * Starting from that initial version, we keep this data structure up to
  * date as new messages arrive, as messages are marked as read, etc.
  */
-export type UnreadState = {|
+export type UnreadState = $ReadOnly<{|
   streams: UnreadStreamsState,
   huddles: UnreadHuddlesState,
   pms: UnreadPmsState,
   mentions: UnreadMentionsState,
-|};
+|}>;

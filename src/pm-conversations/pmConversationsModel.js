@@ -72,13 +72,13 @@ export function usersOfKey(key: PmConversationKey): UserId[] {
  * kept up to date as we learn about new or newly-fetched messages.
  */
 // (Compare the webapp's implementation, in static/js/pm_conversations.js.)
-export type PmConversationsState = {|
+export type PmConversationsState = $ReadOnly<{|
   // The latest message ID in each conversation.
   map: Immutable.Map<PmConversationKey, number>,
 
   // The keys of the map, sorted by latest message descending.
   sorted: Immutable.List<PmConversationKey>,
-|};
+|}>;
 
 const initialState: PmConversationsState = { map: Immutable.Map(), sorted: Immutable.List() };
 
