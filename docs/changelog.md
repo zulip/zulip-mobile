@@ -37,6 +37,9 @@ It doesn't include
 ## Unreleased
 
 
+## 27.167 (2021-08-05)
+
+
 ### Highlights for users, vs v27.165 (last prod release)
 
 * (Android) You can now share content from other apps to Zulip. (#117)
