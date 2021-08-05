@@ -87,12 +87,13 @@ export const getOutbox = (state: GlobalState): OutboxState => state.outbox;
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
 
-export const getCrossRealmBots = (state: GlobalState): CrossRealmBot[] =>
+export const getCrossRealmBots = (state: GlobalState): $ReadOnlyArray<CrossRealmBot> =>
   state.realm.crossRealmBots;
 
 export const getRawRealmEmoji = (state: GlobalState): RealmEmojiById => state.realm.emoji;
 
-export const getNonActiveUsers = (state: GlobalState): User[] => state.realm.nonActiveUsers;
+export const getNonActiveUsers = (state: GlobalState): $ReadOnlyArray<User> =>
+  state.realm.nonActiveUsers;
 
 export const getIsAdmin = (state: GlobalState): boolean => state.realm.isAdmin;
 

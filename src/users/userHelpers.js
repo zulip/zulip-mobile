@@ -53,7 +53,12 @@ export const sortUserList = (users: UserOrBot[], presences: PresenceState): User
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
-export type AutocompleteOption = { user_id: UserId, email: string, full_name: string, ... };
+export type AutocompleteOption = $ReadOnly<{
+  user_id: UserId,
+  email: string,
+  full_name: string,
+  ...
+}>;
 
 export const filterUserList = (
   users: $ReadOnlyArray<UserOrBot>,

@@ -49,9 +49,9 @@ type Props<UserT> = $ReadOnly<{|
  * user, one that doesn't exist in the database.  (But anywhere we're doing
  * that, there's probably a better UI anyway than showing a fake user.)
  */
-export function UserItemRaw<UserT: { user_id: UserId, email: string, full_name: string, ... }>(
-  props: Props<UserT>,
-): Node {
+export function UserItemRaw<
+  UserT: $ReadOnly<{ user_id: UserId, email: string, full_name: string, ... }>,
+>(props: Props<UserT>): Node {
   const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
   const _ = useContext(TranslationContext);
   const isMuted = useSelector(getMutedUsers).has(user.user_id);

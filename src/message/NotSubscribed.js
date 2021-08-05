@@ -12,7 +12,7 @@ import styles from '../styles';
 
 type SelectorProps = $ReadOnly<{|
   auth: Auth,
-  stream: { ...Stream, ... },
+  stream: $ReadOnly<{ ...Stream, ... }>,
 |}>;
 
 type Props = $ReadOnly<{|

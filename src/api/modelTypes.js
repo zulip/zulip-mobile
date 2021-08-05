@@ -54,11 +54,11 @@ export type RealmFilter = [string, string, number];
 //   `realm_linkifiers`.)
 // - When we drop support for servers older than 54, we can remove all
 //   our code that knows about the `realm_filters` format.
-export type RealmLinkifier = {|
+export type RealmLinkifier = $ReadOnly<{|
   id: number,
   pattern: string,
   url_format: string,
-|};
+|}>;
 
 //
 //
@@ -68,10 +68,10 @@ export type RealmLinkifier = {|
 //
 //
 
-export type DevUser = {|
+export type DevUser = $ReadOnly<{|
   realm_uri: string,
   email: string,
-|};
+|}>;
 
 /**
  * A Zulip user, which might be a human or a bot, as found in one realm.
@@ -101,7 +101,7 @@ export type DevUser = {|
  *    different part of a `/register` response
  *  * `UserOrBot` for a convenience union of the two
  */
-export type User = {|
+export type User = $ReadOnly<{|
   user_id: UserId,
   email: string,
 
@@ -156,7 +156,7 @@ export type User = {|
   // see also e3aed0f7b (in 2.0.0)
   // (This one doesn't appear in `/users` responses.)
   profile_data?: empty, // TODO describe actual type
-|};
+|}>;
 
 /**
  * A "cross-realm bot", a bot user shared across the realms on a Zulip server.
@@ -170,7 +170,7 @@ export type User = {|
  *    realm are, like human users, represented by a `User` value.
  *  * `UserOrBot`, a convenience union
  */
-export type CrossRealmBot = {|
+export type CrossRealmBot = $ReadOnly<{|
   /**
    * See note for this property on User.
    */
@@ -192,7 +192,7 @@ export type CrossRealmBot = {|
   // omitted later to reduce payload sizes. So, we're future-proofing this field
   // by making it optional. See comment on the same field in User.
   timezone?: string,
-|};
+|}>;
 
 /**
  * A Zulip user/account, which might be a cross-realm bot.
@@ -208,12 +208,12 @@ export type UserOrBot = User | CrossRealmBot;
  *
  * This feature is not related to group PMs.
  */
-export type UserGroup = {|
+export type UserGroup = $ReadOnly<{|
   description: string,
   id: number,
-  members: UserId[],
+  members: $ReadOnlyArray<UserId>,
   name: string,
-|};
+|}>;
 
 /**
  * Specifies user status related properties
@@ -223,19 +223,19 @@ export type UserGroup = {|
  * @prop status_text - a string representing information the user decided to
  *   manually set as their 'current status'
  */
-export type UserStatus = {|
+export type UserStatus = $ReadOnly<{|
   away?: true,
   status_text?: string,
-|};
+|}>;
 
-export type UserStatusMapObject = {|
+export type UserStatusMapObject = $ReadOnly<{|
   // TODO(flow): The key here is really UserId, not just any number; but
   //   this Flow bug:
   //     https://github.com/facebook/flow/issues/5407
   //   means that doesn't work right, and the best workaround is to
   //   leave it as `number`.
   [userId: number]: UserStatus,
-|};
+|}>;
 
 /** See ClientPresence, and the doc linked there. */
 export type PresenceStatus = 'active' | 'idle' | 'offline';
@@ -252,7 +252,7 @@ export type PresenceStatus = 'active' | 'idle' | 'offline';
  * @prop client
  * @prop pushable - Legacy; unused.
  */
-export type ClientPresence = {|
+export type ClientPresence = $ReadOnly<{|
   status: PresenceStatus,
   timestamp: number,
   client: string,
@@ -269,7 +269,7 @@ export type ClientPresence = {|
    * `aggregated`.  By writing `empty` we make it an error to actually use it.
    */
   pushable?: empty,
-|};
+|}>;
 
 /**
  * A user's presence status, including all information from all their clients.
@@ -280,18 +280,18 @@ export type ClientPresence = {|
  * See also the app's `getAggregatedPresence`, which reimplements a version
  * of the logic to compute `aggregated`.
  */
-export type UserPresence = {|
+export type UserPresence = $ReadOnly<{|
   aggregated: ClientPresence,
   [client: string]: ClientPresence,
-|};
+|}>;
 
 /** This is what appears in the `muted_users` server event.
  * See https://chat.zulip.org/api/get-events#muted_users for details.
  */
-export type MutedUser = {|
+export type MutedUser = $ReadOnly<{|
   id: UserId,
   timestamp: number,
-|};
+|}>;
 
 //
 //
@@ -301,16 +301,16 @@ export type MutedUser = {|
 //
 //
 
-export type Stream = {|
+export type Stream = $ReadOnly<{|
   stream_id: number,
   description: string,
   name: string,
   invite_only: boolean,
   is_announcement_only: boolean,
   history_public_to_subscribers: boolean,
-|};
+|}>;
 
-export type Subscription = {|
+export type Subscription = $ReadOnly<{|
   ...$Exact<Stream>,
   color: string,
   in_home_view: boolean,
@@ -321,12 +321,12 @@ export type Subscription = {|
   is_old_stream: boolean,
   push_notifications: null | boolean,
   stream_weekly_traffic: number,
-|};
+|}>;
 
-export type Topic = {|
+export type Topic = $ReadOnly<{|
   name: string,
   max_id: number,
-|};
+|}>;
 
 //
 //
@@ -716,9 +716,9 @@ export type Message = PmMessage | StreamMessage;
  * as [], which is unlike the behaviour found in some other parts of the
  * codebase.
  */
-export type RecentPrivateConversation = {|
+export type RecentPrivateConversation = $ReadOnly<{|
   max_message_id: number,
   // When received from the server, these are guaranteed to be sorted only after
   // 2.2-dev-53-g405a529340. To be safe, we always sort them on receipt.
-  user_ids: UserId[],
-|};
+  user_ids: $ReadOnlyArray<UserId>,
+|}>;

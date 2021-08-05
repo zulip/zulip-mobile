@@ -2,7 +2,7 @@
 import type { HuddlesUnreadItem, PmsUnreadItem, UserId } from '../types';
 import { addItemsToArray, removeItemsFromArray, filterArray } from '../utils/immutability';
 
-type SomeUnreadItem = { unread_message_ids: $ReadOnlyArray<number>, ... };
+type SomeUnreadItem = $ReadOnly<{ unread_message_ids: $ReadOnlyArray<number>, ... }>;
 
 export function removeItemsDeeply<T: SomeUnreadItem>(
   objArray: $ReadOnlyArray<T>,

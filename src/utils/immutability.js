@@ -22,7 +22,7 @@ export function filterArray<T>(
 }
 
 export function replaceItemInArray<T>(
-  input: T[],
+  input: $ReadOnlyArray<T>,
   predicate: (item: T) => boolean,
   replaceFunc: (item?: T) => T,
 ): T[] {

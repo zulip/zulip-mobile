@@ -60,10 +60,10 @@ export type AlertWordsState = $ReadOnlyArray<string>;
  *   the narrow.  Of course their may always be new messages, but we should
  *   learn about them through events; so again, no need to fetch more.
  */
-export type CaughtUp = {|
+export type CaughtUp = $ReadOnly<{|
   older: boolean,
   newer: boolean,
-|};
+|}>;
 
 /**
  * Info about how completely we know the messages in each narrow.
@@ -72,23 +72,23 @@ export type CaughtUp = {|
  *
  * See `CaughtUp` for details on what each value means.
  */
-export type CaughtUpState = {|
+export type CaughtUpState = $ReadOnly<{|
   [narrow: string]: CaughtUp,
-|};
+|}>;
 
 /**
  * The user's draft message, if any, in each conversation.
  *
  * The keys correspond to the keys in `NarrowsState`.
  */
-export type DraftsState = {|
+export type DraftsState = $ReadOnly<{|
   [narrow: string]: string,
-|};
+|}>;
 
-export type Fetching = {|
+export type Fetching = $ReadOnly<{|
   older: boolean,
   newer: boolean,
-|};
+|}>;
 
 /**
  * Info about which narrows we're actively fetching more messages from.
@@ -97,9 +97,9 @@ export type Fetching = {|
  *
  * See also: `CaughtUpState`, `NarrowsState`.
  */
-export type FetchingState = {|
+export type FetchingState = $ReadOnly<{|
   [narrow: string]: Fetching,
-|};
+|}>;
 
 /**
  * The message flags corresponding to all the messages in `MessagesState`.
@@ -117,20 +117,20 @@ export type FetchingState = {|
  * "message without flag", we can look up the message ID in
  * `state.messages`.
  */
-export type FlagsState = {|
-  read: {| [messageId: number]: true |},
-  starred: {| [messageId: number]: true |},
-  collapsed: {| [messageId: number]: true |},
-  mentioned: {| [messageId: number]: true |},
-  wildcard_mentioned: {| [messageId: number]: true |},
-  summarize_in_home: {| [messageId: number]: true |},
-  summarize_in_stream: {| [messageId: number]: true |},
-  force_expand: {| [messageId: number]: true |},
-  force_collapse: {| [messageId: number]: true |},
-  has_alert_word: {| [messageId: number]: true |},
-  historical: {| [messageId: number]: true |},
-  is_me_message: {| [messageId: number]: true |},
-|};
+export type FlagsState = $ReadOnly<{|
+  read: {| +[messageId: number]: true |},
+  starred: {| +[messageId: number]: true |},
+  collapsed: {| +[messageId: number]: true |},
+  mentioned: {| +[messageId: number]: true |},
+  wildcard_mentioned: {| +[messageId: number]: true |},
+  summarize_in_home: {| +[messageId: number]: true |},
+  summarize_in_stream: {| +[messageId: number]: true |},
+  force_expand: {| +[messageId: number]: true |},
+  force_collapse: {| +[messageId: number]: true |},
+  has_alert_word: {| +[messageId: number]: true |},
+  historical: {| +[messageId: number]: true |},
+  is_me_message: {| +[messageId: number]: true |},
+|}>;
 
 export type FlagName = $Keys<FlagsState>;
 
@@ -170,9 +170,9 @@ export type FlagName = $Keys<FlagsState>;
  */
 export type MessagesState = Immutable.Map<number, Message>;
 
-export type MigrationsState = {|
+export type MigrationsState = $ReadOnly<{|
   version?: string,
-|};
+|}>;
 
 export type MuteState = $ReadOnlyArray<MuteTuple>;
 
@@ -207,9 +207,9 @@ export type OutboxState = $ReadOnlyArray<Outbox>;
  * @prop (email) - Indexes over all users for which the app has received a
  *   presence status.
  */
-export type PresenceState = {|
+export type PresenceState = $ReadOnly<{|
   [email: string]: UserPresence,
-|};
+|}>;
 
 /**
  * Configuration for a video chat provider, as specified by the server.
@@ -223,7 +223,7 @@ export type PresenceState = {|
  */
 // Right now there's just one branch here; if we add another provider, this
 // should become a disjoint union on `name`.
-export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |};
+export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl: string |}>;
 
 /**
  * State with miscellaneous data from the server; our state subtree `realm`.
@@ -253,11 +253,11 @@ export type VideoChatProvider = {| name: 'jitsi_meet', jitsiServerUrl: string |}
  * @prop canCreateStreams
  * @prop isAdmin
  */
-export type RealmState = {|
-  crossRealmBots: CrossRealmBot[],
+export type RealmState = $ReadOnly<{|
+  crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
 
-  nonActiveUsers: User[],
-  filters: RealmFilter[],
+  nonActiveUsers: $ReadOnlyArray<User>,
+  filters: $ReadOnlyArray<RealmFilter>,
   emoji: RealmEmojiById,
   videoChatProvider: VideoChatProvider | null,
 
@@ -266,7 +266,7 @@ export type RealmState = {|
   twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,
-|};
+|}>;
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should
 // only apply the device level, not within the app. See
@@ -287,7 +287,7 @@ export type ThemeName = 'default' | 'night';
  */
 export type BrowserPreference = 'embedded' | 'external' | 'default';
 
-export type SettingsState = {|
+export type SettingsState = $ReadOnly<{|
   // The user's chosen language, as an IETF BCP 47 language tag.
   language: string,
 
@@ -298,22 +298,22 @@ export type SettingsState = {|
   streamNotification: boolean,
   browser: BrowserPreference,
   doNotMarkMessagesAsRead: boolean,
-|};
+|}>;
 
 export type StreamsState = $ReadOnlyArray<Stream>;
 
 export type SubscriptionsState = $ReadOnlyArray<Subscription>;
 
-export type TopicsState = {|
-  [number]: Topic[],
-|};
+export type TopicsState = $ReadOnly<{|
+  [number]: $ReadOnlyArray<Topic>,
+|}>;
 
-export type TypingState = {|
-  [normalizedRecipients: string]: {|
+export type TypingState = $ReadOnly<{|
+  [normalizedRecipients: string]: $ReadOnly<{|
     time: number,
-    userIds: UserId[],
-  |},
-|};
+    userIds: $ReadOnlyArray<UserId>,
+  |}>,
+|}>;
 
 export type UserGroupsState = $ReadOnlyArray<UserGroup>;
 
