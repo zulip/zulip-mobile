@@ -17,6 +17,7 @@ import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
+import androidx.core.app.RemoteInput
 import androidx.core.graphics.drawable.IconCompat
 import com.facebook.react.ReactApplication
 import me.leolin.shortcutbadger.ShortcutBadger
@@ -31,6 +32,9 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
+
+@JvmField
+val REPLY = "REPLY"
 
 fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= 26) {
@@ -91,6 +95,45 @@ private fun createDismissAction(context: Context): NotificationCompat.Action {
         "Clear",
         piDismiss
     )
+}
+
+private fun createReplyAction(
+    context: Context,
+    fcmMessage: MessageFcmMessage,
+    conversationKey: String
+): NotificationCompat.Action {
+    val sendTo: String
+    var topic: String? = null
+    var type = "private"
+    when (fcmMessage.recipient) {
+        is Recipient.Stream -> {
+            sendTo = fcmMessage.recipient.stream
+            topic = fcmMessage.recipient.topic
+            type = "stream"
+        }
+        is Recipient.GroupPm -> sendTo = fcmMessage.recipient.pmUsers.toString()
+        is Recipient.Pm -> sendTo  = fcmMessage.sender.id.toString()
+    }
+
+    val remoteInput = RemoteInput.Builder(REPLY).build()
+    val replyIntent = Intent(context, ReplyService::class.java)
+    replyIntent.putExtra("sendTo", sendTo)
+    replyIntent.putExtra("topic", topic)
+    replyIntent.putExtra("type", type)
+    replyIntent.putExtra("conversationKey", conversationKey)
+
+    val resultPendingIntent = PendingIntent.getService(
+        context,
+        0,
+        replyIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    return NotificationCompat.Action.Builder(
+        android.R.drawable.edit_text,
+        "Reply", resultPendingIntent)
+        .addRemoteInput(remoteInput)
+        .build()
 }
 
 /**
