@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Image, Text, View, Platform } from 'react-native';
 
 import { openLinkExternal } from '../utils/openLink';
@@ -46,16 +47,16 @@ const GooglePlayBadge = () => (
 );
 
 export default class CompatibilityScreen extends PureComponent<{||}> {
-  storeURL =
+  storeURL: string =
     Platform.OS === 'ios'
       ? 'https://itunes.apple.com/app/zulip/id1203036395'
       : 'https://play.google.com/store/apps/details?id=com.zulipmobile';
 
-  openStoreURL = () => {
+  openStoreURL: () => void = () => {
     openLinkExternal(this.storeURL);
   };
 
-  render() {
+  render(): Node {
     return (
       <View style={styles.screen}>
         <Text style={styles.text}>This app is too old!</Text>

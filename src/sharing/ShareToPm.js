@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node, Context } from 'react';
 import { View, Modal } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -36,24 +37,24 @@ type State = $ReadOnly<{|
 |}>;
 
 export default class ShareToPm extends React.Component<Props, State> {
-  static contextType = TranslationContext;
+  static contextType: Context<GetText> = TranslationContext;
   context: GetText;
 
-  state = {
+  state: State = {
     selectedRecipients: [],
     choosingRecipients: false,
   };
 
-  handleModalClose = () => {
+  handleModalClose: () => void = () => {
     this.setState({ choosingRecipients: false });
   };
 
-  handleChooseRecipients = (selectedRecipients: $ReadOnlyArray<UserId>) => {
+  handleChooseRecipients: ($ReadOnlyArray<UserId>) => void = selectedRecipients => {
     this.setState({ selectedRecipients });
     this.setState({ choosingRecipients: false });
   };
 
-  isSendButtonEnabled = (message: string) => {
+  isSendButtonEnabled: string => boolean = message => {
     const { selectedRecipients } = this.state;
     const { sharedData } = this.props.route.params;
 
@@ -64,7 +65,7 @@ export default class ShareToPm extends React.Component<Props, State> {
     return selectedRecipients.length > 0;
   };
 
-  renderUsersPreview = () => {
+  renderUsersPreview: () => Node = () => {
     const { selectedRecipients } = this.state;
 
     if (selectedRecipients.length === 0) {
@@ -77,7 +78,7 @@ export default class ShareToPm extends React.Component<Props, State> {
     return preview;
   };
 
-  render() {
+  render(): Node {
     const { selectedRecipients, choosingRecipients } = this.state;
     const { sharedData } = this.props.route.params;
     const sendTo = { selectedRecipients, type: 'pm' };

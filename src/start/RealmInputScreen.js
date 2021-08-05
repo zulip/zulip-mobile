@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
+import type { Node } from 'react';
 import { Keyboard } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -23,13 +24,13 @@ type State = {|
 |};
 
 export default class RealmInputScreen extends PureComponent<Props, State> {
-  state = {
+  state: State = {
     progress: false,
     realmInputValue: '',
     error: null,
   };
 
-  tryRealm = async () => {
+  tryRealm: () => Promise<void> = async () => {
     const { realmInputValue } = this.state;
 
     const parsedRealm = tryParseUrl(realmInputValue);
@@ -60,9 +61,9 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
     }
   };
 
-  handleRealmChange = (value: string) => this.setState({ realmInputValue: value });
+  handleRealmChange: string => void = value => this.setState({ realmInputValue: value });
 
-  render() {
+  render(): Node {
     const { navigation } = this.props;
     const { progress, error, realmInputValue } = this.state;
 

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
+import type { Node } from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -21,7 +22,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function NavButton(props: Props) {
+export default function NavButton(props: Props): Node {
   const { name, style, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
 
   return (

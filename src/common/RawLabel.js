@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 import React, { PureComponent } from 'react';
+import type { Node, Context } from 'react';
 import { Text } from 'react-native';
 
 import type { ThemeData } from '../styles';
@@ -24,10 +25,10 @@ type Props = $ReadOnly<{|
  *   See upstream: https://reactnative.dev/docs/text
  */
 export default class RawLabel extends PureComponent<Props> {
-  static contextType = ThemeContext;
+  static contextType: Context<ThemeData> = ThemeContext;
   context: ThemeData;
 
-  render() {
+  render(): Node {
     const { text, children, style, ...restProps } = this.props;
 
     invariant((text != null) !== (children != null), 'pass either `text` or `children`');

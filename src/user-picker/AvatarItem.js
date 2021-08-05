@@ -48,7 +48,7 @@ export default class AvatarItem extends PureComponent<Props> {
     }).start();
   }
 
-  handlePress = () => {
+  handlePress: () => void = () => {
     const { user, onPress } = this.props;
     Animated.timing(this.animatedValue, {
       toValue: 0,
