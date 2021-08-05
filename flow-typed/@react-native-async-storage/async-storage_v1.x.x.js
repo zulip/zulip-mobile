@@ -10,20 +10,20 @@ declare module '@react-native-async-storage/async-storage' {
       callback?: ?(error: ?Error, result: string | null) => void,
     ): Promise<string | null>,
 
-    setItem(key: string, value: string, callback?: ?(error: ?Error) => void): Promise<null>,
+    setItem(key: string, value: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
 
     multiSet(
       keyValuePairs: Array<Array<string>>,
       callback?: ?(errors: ?$ReadOnlyArray<?Error>) => void,
-    ): Promise<null>,
+    ): Promise<mixed>,
 
-    removeItem(key: string, callback?: ?(error: ?Error) => void): Promise<null>,
+    removeItem(key: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
 
     getAllKeys(
       callback?: ?(error: ?Error, keys: ?ReadOnlyArrayString) => void,
     ): Promise<ReadOnlyArrayString>,
 
-    clear(callback?: ?(error: ?Error) => void): Promise<null>,
+    clear(callback?: ?(error: ?Error) => void): Promise<mixed>,
 
     ...
   };
