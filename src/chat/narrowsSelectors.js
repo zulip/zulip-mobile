@@ -33,7 +33,7 @@ import { shouldBeMuted } from '../utils/message';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
 
-export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelector(
+export const outboxMessagesForNarrow: Selector<$ReadOnlyArray<Outbox>, Narrow> = createSelector(
   (state, narrow) => narrow,
   getCaughtUpForNarrow,
   state => getOutbox(state),
@@ -57,8 +57,10 @@ export const outboxMessagesForNarrow: Selector<Outbox[], Narrow> = createSelecto
   },
 );
 
-export const getFetchedMessageIdsForNarrow = (state: GlobalState, narrow: Narrow): number[] =>
-  getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
+export const getFetchedMessageIdsForNarrow = (
+  state: GlobalState,
+  narrow: Narrow,
+): $ReadOnlyArray<number> => getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
 
 const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
   getFetchedMessageIdsForNarrow,

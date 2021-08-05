@@ -47,9 +47,9 @@ export type * from './actionTypes';
  *    the app.
  *  * `Account` for details on the properties of each account object.
  */
-export type AccountsState = Account[];
+export type AccountsState = $ReadOnlyArray<Account>;
 
-export type AlertWordsState = string[];
+export type AlertWordsState = $ReadOnlyArray<string>;
 
 /**
  * Info about how complete our knowledge is of the messages in some narrow.
@@ -174,7 +174,7 @@ export type MigrationsState = {|
   version?: string,
 |};
 
-export type MuteState = MuteTuple[];
+export type MuteState = $ReadOnlyArray<MuteTuple>;
 
 /** A map from user IDs to the Unix timestamp in seconds when they were muted. */
 export type MutedUsersState = Immutable.Map<UserId, number>;
@@ -199,7 +199,7 @@ export type MutedUsersState = Immutable.Map<UserId, number>;
  */
 export type NarrowsState = Immutable.Map<string, number[]>;
 
-export type OutboxState = Outbox[];
+export type OutboxState = $ReadOnlyArray<Outbox>;
 
 /**
  * The `presence` subtree of our Redux state.
@@ -300,9 +300,9 @@ export type SettingsState = {|
   doNotMarkMessagesAsRead: boolean,
 |};
 
-export type StreamsState = Stream[];
+export type StreamsState = $ReadOnlyArray<Stream>;
 
-export type SubscriptionsState = Subscription[];
+export type SubscriptionsState = $ReadOnlyArray<Subscription>;
 
 export type TopicsState = {|
   [number]: Topic[],
@@ -315,7 +315,7 @@ export type TypingState = {|
   |},
 |};
 
-export type UserGroupsState = UserGroup[];
+export type UserGroupsState = $ReadOnlyArray<UserGroup>;
 
 export type UserStatusState = UserStatusMapObject;
 
@@ -325,7 +325,7 @@ export type UserStatusState = UserStatusMapObject;
  * This contains all users except deactivated users and cross-realm bots.
  * For those, see RealmState.
  */
-export type UsersState = User[];
+export type UsersState = $ReadOnlyArray<User>;
 
 /**
  * Our complete Redux state tree.

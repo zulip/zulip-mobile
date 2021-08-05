@@ -145,7 +145,7 @@ export const getAutocompleteSuggestion = (
 };
 
 export const getAutocompleteUserGroupSuggestions = (
-  userGroups: UserGroup[],
+  userGroups: $ReadOnlyArray<UserGroup>,
   filter: string = '',
 ): UserGroup[] =>
   userGroups.filter(

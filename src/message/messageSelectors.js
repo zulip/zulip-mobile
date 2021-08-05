@@ -21,7 +21,7 @@ import { NULL_ARRAY } from '../nullObjects';
  * Returns something which may or may not be an array, but is at least JSONable
  * and human-readable.
  */
-function truncateForLogging<T: JSONable>(arr: Array<T>, len = 10): JSONable {
+function truncateForLogging<T: JSONable>(arr: $ReadOnlyArray<T>, len = 10): JSONable {
   if (arr.length <= 2 * len) {
     return arr;
   }

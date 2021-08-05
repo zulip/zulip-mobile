@@ -9,7 +9,7 @@ export const isTopicMuted = (stream: string, topic: string, mute: MuteState = []
 export const shouldBeMuted = (
   message: Message | Outbox,
   narrow: Narrow,
-  subscriptions: Subscription[] = [],
+  subscriptions: $ReadOnlyArray<Subscription> = [],
   mutes: MuteState = [],
 ): boolean => {
   if (message.type === 'private') {

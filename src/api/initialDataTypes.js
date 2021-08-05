@@ -242,7 +242,7 @@ export type HuddlesUnreadItem = {|
   user_ids_string: string,
 
   // Sorted.
-  unread_message_ids: number[],
+  unread_message_ids: $ReadOnlyArray<number>,
 |};
 
 /** The unreads in a 1:1 PM thread, as represented in `unread_msgs`. */
@@ -259,7 +259,7 @@ export type PmsUnreadItem = {|
   sender_id: UserId,
 
   // Sorted.
-  unread_message_ids: number[],
+  unread_message_ids: $ReadOnlyArray<number>,
 |};
 
 /** Initial data for `update_message_flags` events. */

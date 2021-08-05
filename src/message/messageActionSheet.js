@@ -43,7 +43,7 @@ type TopicArgs = {
   auth: Auth,
   streamId: number,
   topic: string,
-  subscriptions: Subscription[],
+  subscriptions: $ReadOnlyArray<Subscription>,
   streams: Map<number, Stream>,
   dispatch: Dispatch,
   _: GetText,
@@ -240,7 +240,7 @@ export const constructTopicActionButtons = ({
   backgroundData: $ReadOnly<{
     mute: MuteState,
     streams: Map<number, Stream>,
-    subscriptions: Subscription[],
+    subscriptions: $ReadOnlyArray<Subscription>,
     unread: UnreadState,
     ownUser: User,
     ...
@@ -380,7 +380,7 @@ export const showMessageActionSheet = ({
   |},
   backgroundData: $ReadOnly<{
     auth: Auth,
-    subscriptions: Subscription[],
+    subscriptions: $ReadOnlyArray<Subscription>,
     ownUser: User,
     flags: FlagsState,
     ...
@@ -419,7 +419,7 @@ export const showTopicActionSheet = ({
     auth: Auth,
     mute: MuteState,
     streams: Map<number, Stream>,
-    subscriptions: Subscription[],
+    subscriptions: $ReadOnlyArray<Subscription>,
     unread: UnreadState,
     ownUser: User,
     flags: FlagsState,

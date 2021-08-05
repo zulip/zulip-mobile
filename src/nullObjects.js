@@ -3,7 +3,7 @@ import type { Subscription } from './types';
 
 export const NULL_OBJECT: {||} = Object.freeze({});
 
-export const NULL_ARRAY = Object.freeze([]);
+export const NULL_ARRAY: $ReadOnlyArray<empty> = Object.freeze([]);
 
 /*
  * All the below objects are DEPRECATED; rather than using one, choose the

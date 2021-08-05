@@ -12,7 +12,7 @@ export const getCurrentTypingUsers: Selector<$ReadOnlyArray<UserOrBot>, Narrow> 
   (state, narrow) => narrow,
   state => getTyping(state),
   state => getAllUsersById(state),
-  (narrow, typing, allUsersById): UserOrBot[] => {
+  (narrow, typing, allUsersById): $ReadOnlyArray<UserOrBot> => {
     if (!isPmNarrow(narrow)) {
       return NULL_ARRAY;
     }

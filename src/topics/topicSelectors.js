@@ -16,7 +16,7 @@ import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
 
-export const getTopicsForNarrow: Selector<string[], Narrow> = createSelector(
+export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getTopics(state),
   state => getStreams(state),

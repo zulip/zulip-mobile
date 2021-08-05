@@ -29,7 +29,7 @@ export type UnreadStreamsState =
  *
  * Part of `UnreadState`; see there for more.
  */
-export type UnreadHuddlesState = HuddlesUnreadItem[];
+export type UnreadHuddlesState = $ReadOnlyArray<HuddlesUnreadItem>;
 
 /**
  * A summary of (almost) all unread 1:1 PMs.
@@ -41,7 +41,7 @@ export type UnreadHuddlesState = HuddlesUnreadItem[];
  * Part of `UnreadState`; see there for more.
  * See in particular `UnreadHuddlesState` for group PMs.
  */
-export type UnreadPmsState = PmsUnreadItem[];
+export type UnreadPmsState = $ReadOnlyArray<PmsUnreadItem>;
 
 /**
  * A summary of (almost) all unread messages with @-mentions.
@@ -54,7 +54,7 @@ export type UnreadPmsState = PmsUnreadItem[];
  *
  * Part of `UnreadState`; see there for more.
  */
-export type UnreadMentionsState = number[];
+export type UnreadMentionsState = $ReadOnlyArray<number>;
 
 /**
  * A summary of (almost) all unread messages, even those we don't have.

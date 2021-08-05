@@ -33,8 +33,8 @@ type Props = $ReadOnly<{|
   dispatch: Dispatch,
   auth: Auth,
   canCreateStreams: boolean,
-  streams: Stream[],
-  subscriptions: Subscription[],
+  streams: $ReadOnlyArray<Stream>,
+  subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
 class StreamListCard extends PureComponent<Props> {

@@ -6,7 +6,7 @@ import type { Account } from '../types';
 
 export default (args: {|
   hasAuth: boolean,
-  accounts: Account[],
+  accounts: $ReadOnlyArray<Account>,
 |}): {| initialRouteName: string, initialRouteParams?: ScreenParams |} => {
   const { hasAuth, accounts } = args;
 

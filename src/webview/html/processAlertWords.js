@@ -21,7 +21,7 @@ function escape_user_regex(value) {
 
 /* Helper borrowed near-verbatim from webapp; see comment above. */
 // prettier-ignore
-const process_message = function (words: string[],
+const process_message = function (words: $ReadOnlyArray<string>,
                                   message: {| alerted: boolean, content: string |}) {
     // Parsing for alert words is expensive, so we rely on the host
     // to tell us there any alert words to even look for.
@@ -58,7 +58,12 @@ const process_message = function (words: string[],
 };
 
 /** Mark any alert words in `content` with an appropriate span. */
-export default (content: string, id: number, alertWords: string[], flags: FlagsState): string => {
+export default (
+  content: string,
+  id: number,
+  alertWords: $ReadOnlyArray<string>,
+  flags: FlagsState,
+): string => {
   // This is kind of funny style, but lets us borrow the webapp's code near
   // verbatim, inside `process_message`.
   let message = { content, alerted: flags.has_alert_word[id] };

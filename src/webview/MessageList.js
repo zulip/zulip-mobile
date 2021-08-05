@@ -88,7 +88,7 @@ export type BackgroundData = $ReadOnly<{|
   ownUser: User,
   streams: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
-  subscriptions: Subscription[],
+  subscriptions: $ReadOnlyArray<Subscription>,
   unread: UnreadState,
   theme: ThemeName,
   twentyFourHourTime: boolean,
