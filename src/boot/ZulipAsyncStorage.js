@@ -13,7 +13,7 @@ import * as logging from '../utils/logging';
  * for the base class.
  */
 export default class ZulipAsyncStorage extends AsyncStorage {
-  static async getItem(key: string) {
+  static async getItem(key: string): Promise<string | null> {
     const item = await super.getItem(key);
 
     // It's possible that getItem() is called on uncompressed state, for
@@ -55,7 +55,7 @@ export default class ZulipAsyncStorage extends AsyncStorage {
     return item;
   }
 
-  static async setItem(key: string, value: string) {
+  static async setItem(key: string, value: string): Promise<mixed> {
     return super.setItem(
       key,
       NativeModules.TextCompressionModule
@@ -64,7 +64,7 @@ export default class ZulipAsyncStorage extends AsyncStorage {
     );
   }
 
-  static async multiSet(keyValuePairs: Array<Array<string>>) {
+  static async multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed> {
     return super.multiSet(
       NativeModules.TextCompressionModule
         ? await Promise.all(
