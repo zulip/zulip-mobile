@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { Subscription } from './types';
 
-export const NULL_OBJECT = Object.freeze({});
+export const NULL_OBJECT: {||} = Object.freeze({});
 
 export const NULL_ARRAY = Object.freeze([]);
 
