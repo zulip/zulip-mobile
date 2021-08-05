@@ -88,6 +88,8 @@
             </intent-filter>
         </service>
 
+        <service android:name=".notifications.ReplyService" android:exported="false" />
+
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 </manifest>
