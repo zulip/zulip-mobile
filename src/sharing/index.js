@@ -46,7 +46,7 @@ export class ShareReceivedListener {
     }
   }
 
-  handleShareReceived = (data: SharedData) => {
+  handleShareReceived: SharedData => void = data => {
     this.dispatch(goToSharing(data));
   };
 

@@ -47,7 +47,7 @@ class Heartbeat {
     this._milliseconds = milliseconds;
   }
 
-  doCallback = () => {
+  doCallback: () => void = () => {
     if (!this._active) {
       clearInterval(this._intervalId);
       this._intervalId = null;
@@ -58,7 +58,7 @@ class Heartbeat {
   };
 
   /** PRIVATE. Exposed only for tests. */
-  isActive() {
+  isActive(): boolean {
     return this._active;
   }
 

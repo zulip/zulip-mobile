@@ -207,7 +207,7 @@ export class NotificationListener {
   }
 
   /** Private. */
-  handleNotificationOpen = (notification: Notification) => {
+  handleNotificationOpen: Notification => void = notification => {
     this.dispatch(narrowToNotification(notification));
   };
 
@@ -218,7 +218,7 @@ export class NotificationListener {
    *   at the registration site to allow us to ensure it. As we've been burned
    *   by unexpected types here before, we do the validation explicitly.
    */
-  handleDeviceToken = async (deviceToken: mixed) => {
+  handleDeviceToken: mixed => Promise<void> = async deviceToken => {
     // Null device tokens are known to occur (at least) on Android emulators
     // without Google Play services, and have been reported in other scenarios.
     // See https://stackoverflow.com/q/37517860 for relevant discussion.
@@ -239,7 +239,7 @@ export class NotificationListener {
   };
 
   /** Private. */
-  handleIOSRegistrationFailure = (err: NotificationRegistrationFailedEvent) => {
+  handleIOSRegistrationFailure: NotificationRegistrationFailedEvent => void = err => {
     logging.warn(`Failed to register iOS push token: ${err.code}`, {
       raw_error: err,
     });
