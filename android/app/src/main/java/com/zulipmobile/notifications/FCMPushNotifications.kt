@@ -243,6 +243,7 @@ private fun updateNotification(
         setGroup(groupKey)
         setContentIntent(createViewPendingIntent(fcmMessage, context))
         setNumber(messageCount)
+        addAction(createReplyAction(context, fcmMessage, conversationKey))
         extras = extraData
     }
 
