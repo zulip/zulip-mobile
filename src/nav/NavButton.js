@@ -15,23 +15,23 @@ type Props = $ReadOnly<{|
   accessibilityLabel?: string,
 |}>;
 
+const componentStyles = createStyleSheet({
+  navButtonIcon: {
+    textAlign: 'center',
+  },
+});
+
 export default class NavButton extends PureComponent<Props> {
   static defaultProps = {
     color: BRAND_COLOR,
   };
-
-  styles = createStyleSheet({
-    navButtonIcon: {
-      textAlign: 'center',
-    },
-  });
 
   render() {
     const { name, style, color, onPress, accessibilityLabel } = this.props;
 
     return (
       <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
-        <Icon size={24} style={[this.styles.navButtonIcon, style]} color={color} name={name} />
+        <Icon size={24} style={[componentStyles.navButtonIcon, style]} color={color} name={name} />
       </NavButtonGeneral>
     );
   }
