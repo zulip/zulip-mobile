@@ -1,10 +1,37 @@
 /* @flow strict-local */
+import store, { restore } from '../boot/store';
+import * as api from '../api';
+import { getAuth } from '../selectors';
+import * as logging from '../utils/logging';
 
-import { restore } from '../boot/store';
-
-const replyTask = async (taskData: { ... }): Promise<void> => {
+const replyTask = async (taskData: {
+  reply: string,
+  sendTo: string,
+  topic: string,
+  type: string,
+  ...
+}): Promise<void> => {
   restore(() => {
-    // TODO implement Reply logic
+    const message =
+      taskData.type === 'private'
+        ? {
+            content: taskData.reply,
+            type: 'private',
+            // todo fix this
+            to: taskData.sendTo,
+          }
+        : {
+            content: taskData.reply,
+            type: 'stream',
+            subject: taskData.topic,
+            to: taskData.sendTo,
+          };
+    const auth = getAuth(store.getState());
+    try {
+      api.sendMessage(auth, message);
+    } catch (err) {
+      logging.error(err);
+    }
   });
 };
 
