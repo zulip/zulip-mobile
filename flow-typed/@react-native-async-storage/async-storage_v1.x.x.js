@@ -4,27 +4,25 @@
 declare module '@react-native-async-storage/async-storage' {
   declare type ReadOnlyArrayString = $ReadOnlyArray<string>;
 
-  declare export default {
-    getItem(
+  declare export default class AsyncStorage {
+    static getItem(
       key: string,
       callback?: ?(error: ?Error, result: string | null) => void,
     ): Promise<string | null>,
 
-    setItem(key: string, value: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
+    static setItem(key: string, value: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
 
-    multiSet(
+    static multiSet(
       keyValuePairs: Array<Array<string>>,
       callback?: ?(errors: ?$ReadOnlyArray<?Error>) => void,
     ): Promise<mixed>,
 
-    removeItem(key: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
+    static removeItem(key: string, callback?: ?(error: ?Error) => void): Promise<mixed>,
 
-    getAllKeys(
+    static getAllKeys(
       callback?: ?(error: ?Error, keys: ?ReadOnlyArrayString) => void,
     ): Promise<ReadOnlyArrayString>,
 
-    clear(callback?: ?(error: ?Error) => void): Promise<mixed>,
-
-    ...
-  };
+    static clear(callback?: ?(error: ?Error) => void): Promise<mixed>,
+  }
 }
