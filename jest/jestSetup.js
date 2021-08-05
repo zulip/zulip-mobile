@@ -91,7 +91,14 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
+jest.mock('@react-native-async-storage/async-storage', () =>
+  // The implementation is a class with static methods `.getItem`, etc.,
+  // whereas `mockAsyncStorage` is just an object with those as properties.
+  // So, simulate the implementation: make the class with a simple class
+  // expression (and give it a name), and give it its statics from
+  // `mockAsyncStorage`.
+  Object.assign(class AsyncStorage {}, mockAsyncStorage),
+);
 
 // Without this, we get lots of these errors on importing the module:
 // `Invariant Violation: Native module cannot be null.`

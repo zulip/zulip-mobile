@@ -3,9 +3,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeModules } from 'react-native';
 import * as logging from '../utils/logging';
 
-export default class ZulipAsyncStorage {
+/**
+ * `AsyncStorage`, but with compression on Android.
+ *
+ * See
+ *   https://react-native-async-storage.github.io/async-storage/docs/api
+ * and
+ *   node_modules/@react-native-async-storage/async-storage/src/AsyncStorage.js
+ * for the base class.
+ */
+export default class ZulipAsyncStorage extends AsyncStorage {
   static async getItem(key: string) {
-    const item = await AsyncStorage.getItem(key);
+    const item = await super.getItem(key);
 
     // It's possible that getItem() is called on uncompressed state, for
     // example when a user updates their app from a version without
@@ -47,7 +56,7 @@ export default class ZulipAsyncStorage {
   }
 
   static async setItem(key: string, value: string) {
-    return AsyncStorage.setItem(
+    return super.setItem(
       key,
       NativeModules.TextCompressionModule
         ? await NativeModules.TextCompressionModule.compress(value)
@@ -56,7 +65,7 @@ export default class ZulipAsyncStorage {
   }
 
   static async multiSet(keyValuePairs: Array<Array<string>>) {
-    return AsyncStorage.multiSet(
+    return super.multiSet(
       NativeModules.TextCompressionModule
         ? await Promise.all(
             keyValuePairs.map(async ([key, value]) => [
@@ -68,9 +77,6 @@ export default class ZulipAsyncStorage {
     );
   }
 
-  static removeItem = AsyncStorage.removeItem;
-
-  static getAllKeys = AsyncStorage.getAllKeys;
-
-  static clear = AsyncStorage.clear;
+  // TODO: `mergeItem`, `multiGet`, and `multiMerge` would need compression
+  //   logic if we used them.
 }

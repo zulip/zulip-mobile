@@ -1,4 +1,5 @@
 // @flow
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // redux dependent typing
 declare type Action = Object
@@ -10,17 +11,14 @@ declare type StoreEnhancer = (next: Function) => Function
 type Whitelist = string[]
 type Blacklist = string[]
 
-declare type Storage = {
-  setItem: Function,
-  getItem: Function,
-  removeItem: Function,
-  getAllKeys: Function,
-  ...
-}
 declare type Config = {|
   blacklist?: Blacklist,
   whitelist?: Whitelist,
-  storage?: Storage,
+
+  // Flow's built-in `Class` utility type:
+  //   https://flow.org/en/docs/types/utilities/#toc-class
+  storage?: Class<AsyncStorage>,
+
   serialize?: boolean | Function,
   deserialize?: boolean | Function,
   keyPrefix?: string,
