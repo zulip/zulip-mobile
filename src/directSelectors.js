@@ -1,6 +1,12 @@
 /* @flow strict-local */
 import type {
   GlobalState,
+  AccountsState,
+  SubscriptionsState,
+  StreamsState,
+  OutboxState,
+  UsersState,
+  UserGroupsState,
   DraftsState,
   FetchingState,
   FlagsState,
@@ -15,19 +21,14 @@ import type {
   RealmState,
   SettingsState,
   TypingState,
-  Account,
   Debug,
-  Subscription,
   VideoChatProvider,
-  Stream,
-  Outbox,
   User,
-  UserGroup,
   UserStatusState,
 } from './types';
 import type { SessionState } from './session/sessionReducer';
 
-export const getAccounts = (state: GlobalState): Account[] => state.accounts;
+export const getAccounts = (state: GlobalState): AccountsState => state.accounts;
 
 export const getSession = (state: GlobalState): SessionState => state.session;
 
@@ -51,7 +52,7 @@ export const getTyping = (state: GlobalState): TypingState => state.typing;
 
 export const getTopics = (state: GlobalState): TopicsState => state.topics;
 
-export const getUserGroups = (state: GlobalState): UserGroup[] => state.userGroups;
+export const getUserGroups = (state: GlobalState): UserGroupsState => state.userGroups;
 
 export const getUserStatus = (state: GlobalState): UserStatusState => state.userStatus;
 
@@ -60,7 +61,7 @@ export const getUserStatus = (state: GlobalState): UserStatusState => state.user
  *
  * See `getAllUsers`.
  */
-export const getUsers = (state: GlobalState): User[] => state.users;
+export const getUsers = (state: GlobalState): UsersState => state.users;
 
 export const getFetching = (state: GlobalState): FetchingState => state.fetching;
 
@@ -70,7 +71,7 @@ export const getAllNarrows = (state: GlobalState): NarrowsState => state.narrows
 
 export const getSettings = (state: GlobalState): SettingsState => state.settings;
 
-export const getSubscriptions = (state: GlobalState): Subscription[] => state.subscriptions;
+export const getSubscriptions = (state: GlobalState): SubscriptionsState => state.subscriptions;
 
 /**
  * All streams in the current realm.
@@ -78,11 +79,11 @@ export const getSubscriptions = (state: GlobalState): Subscription[] => state.su
  * This is rarely the right selector to use: consider `getStreamForId`
  * or `getStreamsById` instead.
  */
-export const getStreams = (state: GlobalState): Stream[] => state.streams;
+export const getStreams = (state: GlobalState): StreamsState => state.streams;
 
 export const getPresence = (state: GlobalState): PresenceState => state.presence;
 
-export const getOutbox = (state: GlobalState): Outbox[] => state.outbox;
+export const getOutbox = (state: GlobalState): OutboxState => state.outbox;
 
 export const getRealm = (state: GlobalState): RealmState => state.realm;
 
