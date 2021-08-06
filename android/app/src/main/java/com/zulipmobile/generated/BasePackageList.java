@@ -11,7 +11,6 @@ public class BasePackageList {
         new expo.modules.constants.ConstantsPackage(),
         new expo.modules.filesystem.FileSystemPackage(),
         new expo.modules.imageloader.ImageLoaderPackage(),
-        new expo.modules.permissions.PermissionsPackage(),
         new expo.modules.screenorientation.ScreenOrientationPackage(),
         new expo.modules.webbrowser.WebBrowserPackage()
     );

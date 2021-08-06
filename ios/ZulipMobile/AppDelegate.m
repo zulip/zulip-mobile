@@ -32,6 +32,12 @@
   }
 #endif
 
+@interface AppDelegate () <RCTBridgeDelegate>
+
+@property (nonatomic, strong) UMModuleRegistryAdapter *moduleRegistryAdapter;
+
+@end
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -62,14 +68,17 @@
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
+  // Requested by react-native-unimodules
+  // (https://docs.expo.dev/bare/installing-unimodules/)
+  [super application:application didFinishLaunchingWithOptions:launchOptions];
+
   return YES;
 }
 
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
-  NSArray<id<RCTBridgeModule>> *extraModules = [self.moduleRegistryAdapter extraModulesForBridge:bridge];
-  // You can inject any extra modules that you would like here, more information at:
-  // https://reactnative.dev/docs/native-modules-ios#dependency-injection
+  NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];
+  // If you'd like to export some custom RCTBridgeModules that are not Expo modules, add them here!
   return extraModules;
 }
 
