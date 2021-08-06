@@ -19,7 +19,7 @@ PODS:
   - EXPermissions (9.0.1):
     - UMCore
     - UMPermissionsInterface
-  - EXScreenOrientation (1.1.1):
+  - EXScreenOrientation (3.2.1):
     - React-Core
     - UMCore
   - EXSplashScreen (0.5.0):
@@ -630,7 +630,7 @@ SPEC CHECKSUMS:
   EXFileSystem: 76875135b61708b9afa7e6a89b72a60ba0fdfa20
   EXImageLoader: 02ca02c9cd5cc8a97b423207a73a791e0a86bea5
   EXPermissions: 80ac3acbdb145930079810fe5b08c022b3428aa8
-  EXScreenOrientation: c9cfb33eaff7ce83330c5238eba523d027b9eb53
+  EXScreenOrientation: d94f791c7ade3639352f34fcf5353f7c554b7d69
   EXSplashScreen: 9423d258b71afa5bf128a83dcb57b636d9900a74
   EXWebBrowser: 76783ba5dcb8699237746ecf41a9643d428a4cc5
   FBLazyVector: 3bb422f41b18121b71783a905c10e58606f7dc3e
