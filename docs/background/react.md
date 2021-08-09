@@ -8,18 +8,20 @@ reflected in Flow.
 One informative source for this is the `react.js` libdef built into
 Flow; you can find it locally in `/tmp/flow/flowlib_*/react.js` when
 running Flow, or in the Flow source ([current][libdef-current];
-[permalink][libdef-permalink]).  Some very helpful background is in a
-2015 React blog post about [components, elements, and
-instances][upstream-elements].
+[permalink][libdef-permalink]).  There's also a reference [in the Flow
+documentation][https://flow.org/en/docs/react/types/], which covers
+some types that aren't described in `react.js` (because they're
+defined instead by special logic built into the type-checker.)
+
+Some very helpful background is in a 2015 React blog post about
+[components, elements, and instances][upstream-elements].
 
 [libdef-current]: https://github.com/facebook/flow/blob/main/lib/react.js
 [libdef-permalink]: https://github.com/facebook/flow/blob/v0.128.0/lib/react.js
 [upstream-elements]: https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html
 
 This page supplements those sources, because:
- * Not all of the types seen in Flow are documented; in particular
-   those that are used in `react.js` but not defined there (because
-   they're defined by special logic built into the type-checker.)
+ * Not all of the types seen in Flow are thoroughly documented.
  * The naming isn't entirely consistent, which can be confusing.
  * The blog post's terminology doesn't correspond to the types in the
    code.
