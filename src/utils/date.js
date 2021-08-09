@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import format from 'date-fns/format';
-import isToday from 'date-fns/is_today';
-import isYesterday from 'date-fns/is_yesterday';
-import isSameYear from 'date-fns/is_same_year';
-import addMinutes from 'date-fns/add_minutes';
+import isToday from 'date-fns/isToday';
+import isYesterday from 'date-fns/isYesterday';
+import isSameYear from 'date-fns/isSameYear';
+import addMinutes from 'date-fns/addMinutes';
 // $FlowFixMe[untyped-import]
 import tz from 'timezone/loaded';
 
-export { default as isSameDay } from 'date-fns/is_same_day';
+export { default as isSameDay } from 'date-fns/isSameDay';
 
 /**
  * If in tests, adjust the date to roughly pretend the timezone is UTC.
@@ -57,11 +57,11 @@ function maybePretendUtc(date: Date): Date {
 }
 
 export const shortTime = (date: Date, twentyFourHourTime: boolean = false): string =>
-  format(maybePretendUtc(date), twentyFourHourTime ? 'H:mm' : 'h:mm A');
+  format(maybePretendUtc(date), twentyFourHourTime ? 'H:mm' : 'h:mm a');
 
-export const shortDate = (date: Date): string => format(date, 'MMM D');
+export const shortDate = (date: Date): string => format(date, 'MMM d');
 
-export const longDate = (date: Date): string => format(date, 'MMM D, YYYY');
+export const longDate = (date: Date): string => format(date, 'MMM d, yyyy');
 
 export const daysInDate = (date: Date): number => Math.trunc(date / 1000 / 60 / 60 / 24);
 

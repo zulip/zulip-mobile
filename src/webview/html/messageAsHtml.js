@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { PixelRatio } from 'react-native';
 import invariant from 'invariant';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 // $FlowFixMe[untyped-import]
 import { PollData } from '@zulip/shared/js/poll_data';
 
@@ -29,7 +29,7 @@ import * as logging from '../../utils/logging';
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
   if (timeEdited !== undefined) {
-    const editedTime = distanceInWordsToNow(timeEdited * 1000);
+    const editedTime = formatDistanceToNow(timeEdited * 1000);
     pieces.push(template`<span class="message-tag">edited ${editedTime} ago</span>`);
   }
   if (isStarred) {

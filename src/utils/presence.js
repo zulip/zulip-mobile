@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import differenceInSeconds from 'date-fns/difference_in_seconds';
-import differenceInDays from 'date-fns/difference_in_days';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import differenceInSeconds from 'date-fns/differenceInSeconds';
+import differenceInDays from 'date-fns/differenceInDays';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 import { ensureUnreachable } from '../types';
@@ -91,7 +91,7 @@ export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus)
 
   return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS
     ? 'now'
-    : `${distanceInWordsToNow(lastTimeActive)} ago`;
+    : `${formatDistanceToNow(lastTimeActive)} ago`;
 };
 
 export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
