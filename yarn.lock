@@ -7613,10 +7613,15 @@ jest@^25.2.0, jest@^26.4.1, jest@^26.6.3:
     import-local "^3.0.2"
     jest-cli "^26.6.3"
 
-jetifier@^1.6.2, jetifier@^1.6.5:
+jetifier@^1.6.2:
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/jetifier/-/jetifier-1.6.8.tgz#e88068697875cbda98c32472902c4d3756247798"
   integrity sha512-3Zi16h6L5tXDRQJTb221cnRoVG9/9OvreLdLU2/ZjRv/GILL+2Cemt0IKvkowwkDpvouAU1DQPOJ7qaiHeIdrw==
+
+jetifier@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/jetifier/-/jetifier-2.0.0.tgz#699391367ca1fe7bc4da5f8bf691eb117758e4cb"
+  integrity sha512-J4Au9KuT74te+PCCCHKgAjyLlEa+2VyIAEPNCdE5aNkAJ6FAJcAqcdzEkSnzNksIa9NkGmC4tPiClk2e7tCJuQ==
 
 jimp@0.12.1:
   version "0.12.1"
