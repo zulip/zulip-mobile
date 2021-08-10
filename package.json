@@ -91,7 +91,7 @@
     "@babel/runtime": "^7.12.5",
     "@octokit/core": "^3.4.0",
     "@rollup/plugin-babel": "^5.2.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "babel-eslint": "^10.0.3",
     "core-js": "^3.1.4",
     "deep-freeze": "^0.0.1",
