@@ -89,7 +89,6 @@
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.11.0",
     "@babel/runtime": "^7.12.5",
-    "@jest/source-map": "^26.3.0",
     "@octokit/core": "^3.4.0",
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
