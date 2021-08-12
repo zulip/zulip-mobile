@@ -123,11 +123,8 @@ It's important to sync with Transifex on two kinds of occasions:
 * Just before making a release.  This way the release gets the latest
   translations people have contributed.
 
-  * An exception is that we don't sync with Transifex on side
-    branches, so we don't do so for cherry-pick releases.  This is
-    because the strings we have in Transifex reflect the latest
-    development version, and the branch may not have the same set of
-    strings to translate.
+  * An exception is that because we don't sync with Transifex on side
+    branches, we don't do so for cherry-pick releases.
 
 * Just after merging a PR that adds a new string to translate, or
   otherwise edits `static/translations/messages_en.json`.  This makes
@@ -144,6 +141,11 @@ It's fine to also do it at any other time, too.
 
 To sync with Transifex, run `tools/tx-sync`, and then `git push` the
 resulting commit(s) to the central repo.
+
+When syncing, always start from the latest development version, not an old
+version or a side branch.  This way the strings we have in Transifex reflect
+the latest development version, and don't get changed back and forth to a
+set of strings from an old or unmerged version.
 
 Do push the script's automated commits directly, without a PR; if you
 make by hand some more-interesting changes that call for code review,
