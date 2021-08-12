@@ -47,7 +47,7 @@ export default function AnimatedComponent(props: Props): Node {
   }, [delay, targetValue, useNativeDriver]);
 
   useEffect(() => {
-    if (prevVisible !== visible) {
+    if (prevVisible !== null && prevVisible !== visible) {
       animate();
     }
   }, [animate, prevVisible, visible]);
