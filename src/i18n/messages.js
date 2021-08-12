@@ -1,8 +1,17 @@
 /* @flow strict-local */
 /* eslint-disable global-require */
 
-// Languages we have some message data for. Languages that are selectable in
-// the UI are chosen from these. Keys are IETF BCP 47 language tags.
+/**
+ * Message data for all languages we have message data for.
+ *
+ * Keys here are IETF BCP 47 language tags.
+ *
+ * The languages we offer in the UI are a subset of these; see
+ * `src/settings/languages.js`.
+ */
+// Note that the filenames reflect a slightly different convention for
+// language names: they have the names given to them by the `tx` Transifex
+// client, which are based on the language names that appear in Transifex.
 export default {
   ar: require('../../static/translations/messages_ar.json'),
   bg: require('../../static/translations/messages_bg.json'),
@@ -13,18 +22,18 @@ export default {
   de: require('../../static/translations/messages_de.json'),
   el: require('../../static/translations/messages_el.json'),
   en: require('../../static/translations/messages_en.json'),
-  'en-GB': require('../../static/translations/messages_en-GB.json'),
+  'en-GB': require('../../static/translations/messages_en_GB.json'),
   eo: require('../../static/translations/messages_eo.json'),
   es: require('../../static/translations/messages_es.json'),
   fa: require('../../static/translations/messages_fa.json'),
   fi: require('../../static/translations/messages_fi.json'),
   fr: require('../../static/translations/messages_fr.json'),
-  'fr-FR': require('../../static/translations/messages_fr-FR.json'),
+  'fr-FR': require('../../static/translations/messages_fr_FR.json'),
   gl: require('../../static/translations/messages_gl.json'),
   gu: require('../../static/translations/messages_gu.json'),
   hi: require('../../static/translations/messages_hi.json'),
   hr: require('../../static/translations/messages_hr.json'),
-  'hr-HR': require('../../static/translations/messages_hr-HR.json'),
+  'hr-HR': require('../../static/translations/messages_hr_HR.json'),
   hu: require('../../static/translations/messages_hu.json'),
   id: require('../../static/translations/messages_id.json'),
   it: require('../../static/translations/messages_it.json'),
@@ -37,8 +46,8 @@ export default {
   pa: require('../../static/translations/messages_pa.json'),
   pl: require('../../static/translations/messages_pl.json'),
   pt: require('../../static/translations/messages_pt.json'),
-  'pt-BR': require('../../static/translations/messages_pt-BR.json'),
-  'pt-PT': require('../../static/translations/messages_pt-PT.json'),
+  'pt-BR': require('../../static/translations/messages_pt_BR.json'),
+  'pt-PT': require('../../static/translations/messages_pt_PT.json'),
   ro: require('../../static/translations/messages_ro.json'),
   ru: require('../../static/translations/messages_ru.json'),
   sk: require('../../static/translations/messages_sk.json'),
