@@ -31,7 +31,11 @@ export const MIN_RECENTPMS_SERVER_VERSION: ZulipVersion = new ZulipVersion('2.1'
 // User IDs, excluding self, sorted numerically, joined with commas.
 export opaque type PmConversationKey = string;
 
-/** PRIVATE.  Exported only for tests. */
+/**
+ * PRIVATE.  Exported only for tests.
+ *
+ * Sorts `ids` in-place.
+ */
 // Input must have the exact right (multi-)set of users.  Needn't be sorted.
 export function keyOfExactUsers(ids: UserId[]): PmConversationKey {
   return ids.sort((a, b) => a - b).join(',');
@@ -190,7 +194,8 @@ export function reducer(
       // TODO optimize; this is quadratic (but so is the webapp's version?!)
       let st = initialState;
       for (const r of action.data.recent_private_conversations ?? []) {
-        st = insert(st, keyOfExactUsers(r.user_ids), r.max_message_id);
+        const key = keyOfExactUsers([...r.user_ids]);
+        st = insert(st, key, r.max_message_id);
       }
       return st;
     }
