@@ -51,6 +51,10 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'hu', name: 'Hungarian', selfname: 'Magyar' },
   { tag: 'nl', name: 'Dutch', selfname: 'Nederlands' },
   { tag: 'pl', name: 'Polish', selfname: 'Polski' },
+  // `pt-BR` omitted; it's over the threshold but fragmentary compared to
+  // plain `pt`, which is meant to be the same thing.  See discussion:
+  //   https://github.com/zulip/zulip-mobile/pull/4901#discussion_r673472275
+  //   https://chat.zulip.org/#narrow/stream/58-translation/topic/language.20cleanup
   { tag: 'pt', name: 'Portuguese', selfname: 'Português' },
   { tag: 'pt-PT', name: 'Portuguese (Portugal)', selfname: 'Português (Portugal)' },
   { tag: 'ro', name: 'Romanian', selfname: 'Română' },
