@@ -48,7 +48,7 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import { getHtmlPieceDescriptorsForMessages } from '../message/messageSelectors';
+import { getHtmlPieceDescriptorsMemoized } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
 import getHtml from './html/html';
@@ -360,7 +360,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
     return {
       backgroundData,
       fetching: getFetchingForNarrow(state, props.narrow),
-      htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsForMessages(
+      htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsMemoized(
         props.messages,
         props.narrow,
       ),

@@ -61,7 +61,7 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
   },
 );
 
-export const getHtmlPieceDescriptorsForMessages: (
+export const getHtmlPieceDescriptorsMemoized: (
   $ReadOnlyArray<Message | Outbox>,
   Narrow,
 ) => $ReadOnlyArray<HtmlPieceDescriptor> = defaultMemoize(getHtmlPieceDescriptors);

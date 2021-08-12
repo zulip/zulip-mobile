@@ -4,6 +4,7 @@ import { isTopicNarrow, isPmNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
+// Prefer getHtmlPieceDescriptorsMemoized.
 export default (
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
