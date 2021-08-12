@@ -38,24 +38,24 @@ export class EventTypes {
   static user_status: 'user_status' = 'user_status';
 }
 
-type EventCommon = {|
+type EventCommon = $ReadOnly<{|
   id: number,
-|};
+|}>;
 
 /** A common supertype of all events, known or unknown. */
-export type GeneralEvent = {
+export type GeneralEvent = $ReadOnly<{
   ...EventCommon,
   type: string,
   // Note this is an inexact object type!  There will be more properties.
   ...
-};
+}>;
 
-export type HeartbeatEvent = {|
+export type HeartbeatEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.heartbeat,
-|};
+|}>;
 
-export type MessageEvent = {|
+export type MessageEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.message,
   message: Message,
@@ -70,16 +70,16 @@ export type MessageEvent = {|
    * Otherwise absent.
    */
   local_message_id?: number,
-|};
+|}>;
 
-export type MutedUsersEvent = {|
+export type MutedUsersEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.muted_users,
   muted_users: MutedUser[],
-|};
+|}>;
 
 /** A new submessage.  See the `Submessage` type for details. */
-export type SubmessageEvent = {|
+export type SubmessageEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.submessage,
   submessage_id: number,
@@ -87,15 +87,15 @@ export type SubmessageEvent = {|
   sender_id: UserId,
   msg_type: 'widget',
   content: string,
-|};
+|}>;
 
-export type PresenceEvent = {|
+export type PresenceEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.presence,
   email: string,
   server_timestamp: number,
   presence: UserPresence,
-|};
+|}>;
 
 /**
  * Updates the user status for a user
@@ -109,19 +109,19 @@ export type PresenceEvent = {|
  *
  * Not providing a property means 'leave this value unchanged'
  */
-export type UserStatusEvent = {|
+export type UserStatusEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.user_status,
   user_id: UserId,
   away?: boolean,
   status_text?: string,
-|};
+|}>;
 
-type StreamListEvent = {|
+type StreamListEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.stream,
   streams: Stream[],
-|};
+|}>;
 
 // prettier-ignore
 export type StreamEvent =
@@ -139,7 +139,7 @@ export type StreamEvent =
       value: string,
     |};
 
-export type UpdateMessageFlagsEvent = {|
+export type UpdateMessageFlagsEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.update_message_flags,
 
@@ -151,10 +151,10 @@ export type UpdateMessageFlagsEvent = {|
   flag: empty, // TODO fill in
   all: boolean,
   messages: number[],
-|};
+|}>;
 
 // https://zulip.com/api/get-events#restart
-export type RestartEvent = {|
+export type RestartEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.restart,
 
@@ -170,4 +170,4 @@ export type RestartEvent = {|
   // the /server_settings and /register responses.
   zulip_version?: string,
   zulip_feature_level?: number,
-|};
+|}>;

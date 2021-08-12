@@ -263,7 +263,7 @@ export type PmsUnreadItem = $ReadOnly<{|
 |}>;
 
 /** Initial data for `update_message_flags` events. */
-export type InitialDataUpdateMessageFlags = {|
+export type InitialDataUpdateMessageFlags = $ReadOnly<{|
   /**
    * A summary of (almost) all unread messages, even those we don't have.
    *
@@ -316,19 +316,19 @@ export type InitialDataUpdateMessageFlags = {|
      */
     count: number,
   |},
-|};
+|}>;
 
-export type InitialDataUserStatus = {|
+export type InitialDataUserStatus = $ReadOnly<{|
   /**
    * Older servers (through at least 1.9.1) don't send this.
    * A missing value is equivalent to empty.
    */
   user_status?: UserStatusMapObject,
-|};
+|}>;
 
 // Initial data snapshot sent in response to a `/register` request,
 // after validation and transformation.
-export type InitialData = {|
+export type InitialData = $ReadOnly<{|
   // The server sends different subsets of the full available data,
   // depending on what event types the client subscribes to with the
   // `fetch_event_types` field of the `/register` request. We name these
@@ -355,12 +355,12 @@ export type InitialData = {|
   ...InitialDataUpdateGlobalNotifications,
   ...InitialDataUpdateMessageFlags,
   ...InitialDataUserStatus,
-|};
+|}>;
 
 // Initial data snapshot sent in response to a `/register` request,
 // before validation and transformation.
-export type RawInitialData = {|
+export type RawInitialData = $ReadOnly<{|
   ...InitialData,
   ...RawInitialDataRealmUser,
   ...RawInitialDataRealmFilters,
-|};
+|}>;

@@ -15,11 +15,11 @@
  * leaves out the secret API key; use `identityOfAuth` to extract one from
  * an `Auth`.
  */
-export type Auth = {|
+export type Auth = $ReadOnly<{|
   realm: URL,
   apiKey: string,
   email: string,
-|};
+|}>;
 
 /**
  * The type shared by all Zulip API responses.
@@ -30,11 +30,11 @@ export type Auth = {|
  *  * {@link ApiResponseSuccess}
  *  * {@link ApiResponseErrorData}
  */
-export type ApiResponse = {
+export type ApiResponse = $ReadOnly<{
   +result: string,
   +msg: string,
   ...
-};
+}>;
 
 /**
  * The type shared by all non-error Zulip API responses.
@@ -45,11 +45,11 @@ export type ApiResponse = {
  *  * {@link ApiResponse}
  *  * {@link ApiResponseErrorData}
  */
-export type ApiResponseSuccess = {
+export type ApiResponseSuccess = $ReadOnly<{
   +result: 'success',
   +msg: '',
   ...
-};
+}>;
 
 /**
  * A list of current error codes can be found at:
@@ -92,9 +92,9 @@ export type ApiErrorCode = string;
  *
  * This type is not exact: some error responses may contain additional data.
  */
-export type ApiResponseErrorData = {
+export type ApiResponseErrorData = $ReadOnly<{
   +code: ApiErrorCode,
   +msg: string,
   +result: 'error',
   ...
-};
+}>;
