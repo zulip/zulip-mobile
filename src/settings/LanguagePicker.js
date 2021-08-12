@@ -37,7 +37,7 @@ export default class LanguagePicker extends PureComponent<Props> {
     }
 
     return list.filter(item => {
-      const itemData = `${item.name.toUpperCase()} ${item.nativeName.toUpperCase()}`;
+      const itemData = `${item.name.toUpperCase()} ${item.selfname.toUpperCase()}`;
       const filterData = filter.toUpperCase();
 
       return itemData.includes(filterData);
@@ -61,7 +61,7 @@ export default class LanguagePicker extends PureComponent<Props> {
             onRequestSelectionChange={onValueChange}
             itemKey={item.tag}
             subtitle={item.name}
-            title={item.nativeName}
+            title={item.selfname}
           />
         )}
       />

@@ -4,7 +4,7 @@ import messages from '../i18n/messages';
 export type Language = {|
   tag: $Keys<typeof messages>,
   name: string,
-  nativeName: string,
+  selfname: string,
 |};
 
 /**
@@ -24,7 +24,7 @@ export type Language = {|
  * To see translation percentages, consult Transifex:
  *   https://www.transifex.com/zulip/zulip/mobile/
  *
- * For the values of `nativeName`, consult Wikipedia:
+ * For the values of `selfname`, consult Wikipedia:
  *   https://meta.wikimedia.org/wiki/List_of_Wikipedias
  * or better yet, Wikipedia's own mobile UIs.  Wikipedia is a very
  * conscientiously international and intercultural project with a lot of
@@ -34,41 +34,41 @@ export type Language = {|
 const languages: $ReadOnlyArray<Language> = [
   // When adding a language here, remember to add the language's name
   // (in English) to messages_en.json, too, so it can be translated.
-  { tag: 'en', name: 'English', nativeName: 'English' },
-  { tag: 'ar', name: 'Arabic', nativeName: 'العربية' },
-  { tag: 'bg', name: 'Bulgarian', nativeName: 'Български' },
-  { tag: 'ca', name: 'Catalan', nativeName: 'Català' },
-  { tag: 'zh-Hans', name: 'Chinese (Simplified)', nativeName: '中文（简体）' },
-  { tag: 'zh-Hant', name: 'Chinese (Traditional)', nativeName: '中文 (繁体)' },
-  { tag: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { tag: 'da', name: 'Danish', nativeName: 'Dansk' },
-  { tag: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
-  { tag: 'en-GB', name: 'English (U.K.)', nativeName: 'English (U.K.)' },
-  { tag: 'fi', name: 'Finnish', nativeName: 'Suomi' },
-  { tag: 'fr', name: 'French', nativeName: 'Français' },
-  { tag: 'gl', name: 'Galician', nativeName: 'Galego' },
-  { tag: 'de', name: 'German', nativeName: 'Deutsch' },
-  { tag: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-  { tag: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
-  { tag: 'id', name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
-  { tag: 'it', name: 'Italian', nativeName: 'Italiano' },
-  { tag: 'ja', name: 'Japanese', nativeName: '日本語' },
-  { tag: 'ko', name: 'Korean', nativeName: '한국어' },
-  { tag: 'lt', name: 'Lithuanian', nativeName: 'Lietuvių' },
-  { tag: 'ml', name: 'Malayalam', nativeName: 'മലയാളം' },
-  { tag: 'fa', name: 'Persian', nativeName: 'فارسی' },
-  { tag: 'pl', name: 'Polish', nativeName: 'Polski' },
-  { tag: 'pt', name: 'Portuguese', nativeName: 'Português' },
-  { tag: 'pt-PT', name: 'Portuguese (Portugal)', nativeName: 'Português (Portugal)' },
-  { tag: 'ro', name: 'Romanian', nativeName: 'Română' },
-  { tag: 'ru', name: 'Russian', nativeName: 'Русский' },
-  { tag: 'sr', name: 'Serbian', nativeName: 'Српски' },
-  { tag: 'es', name: 'Spanish', nativeName: 'Español' },
-  { tag: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-  { tag: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
-  { tag: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
-  { tag: 'uk', name: 'Ukrainian', nativeName: 'Українська' },
-  { tag: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt' },
+  { tag: 'en', name: 'English', selfname: 'English' },
+  { tag: 'ar', name: 'Arabic', selfname: 'العربية' },
+  { tag: 'bg', name: 'Bulgarian', selfname: 'Български' },
+  { tag: 'ca', name: 'Catalan', selfname: 'Català' },
+  { tag: 'zh-Hans', name: 'Chinese (Simplified)', selfname: '中文（简体）' },
+  { tag: 'zh-Hant', name: 'Chinese (Traditional)', selfname: '中文 (繁体)' },
+  { tag: 'cs', name: 'Czech', selfname: 'Čeština' },
+  { tag: 'da', name: 'Danish', selfname: 'Dansk' },
+  { tag: 'nl', name: 'Dutch', selfname: 'Nederlands' },
+  { tag: 'en-GB', name: 'English (U.K.)', selfname: 'English (U.K.)' },
+  { tag: 'fi', name: 'Finnish', selfname: 'Suomi' },
+  { tag: 'fr', name: 'French', selfname: 'Français' },
+  { tag: 'gl', name: 'Galician', selfname: 'Galego' },
+  { tag: 'de', name: 'German', selfname: 'Deutsch' },
+  { tag: 'hi', name: 'Hindi', selfname: 'हिन्दी' },
+  { tag: 'hu', name: 'Hungarian', selfname: 'Magyar' },
+  { tag: 'id', name: 'Indonesian', selfname: 'Bahasa Indonesia' },
+  { tag: 'it', name: 'Italian', selfname: 'Italiano' },
+  { tag: 'ja', name: 'Japanese', selfname: '日本語' },
+  { tag: 'ko', name: 'Korean', selfname: '한국어' },
+  { tag: 'lt', name: 'Lithuanian', selfname: 'Lietuvių' },
+  { tag: 'ml', name: 'Malayalam', selfname: 'മലയാളം' },
+  { tag: 'fa', name: 'Persian', selfname: 'فارسی' },
+  { tag: 'pl', name: 'Polish', selfname: 'Polski' },
+  { tag: 'pt', name: 'Portuguese', selfname: 'Português' },
+  { tag: 'pt-PT', name: 'Portuguese (Portugal)', selfname: 'Português (Portugal)' },
+  { tag: 'ro', name: 'Romanian', selfname: 'Română' },
+  { tag: 'ru', name: 'Russian', selfname: 'Русский' },
+  { tag: 'sr', name: 'Serbian', selfname: 'Српски' },
+  { tag: 'es', name: 'Spanish', selfname: 'Español' },
+  { tag: 'sv', name: 'Swedish', selfname: 'Svenska' },
+  { tag: 'ta', name: 'Tamil', selfname: 'தமிழ்' },
+  { tag: 'tr', name: 'Turkish', selfname: 'Türkçe' },
+  { tag: 'uk', name: 'Ukrainian', selfname: 'Українська' },
+  { tag: 'vi', name: 'Vietnamese', selfname: 'Tiếng Việt' },
 ];
 
 export default languages;
