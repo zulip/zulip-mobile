@@ -14,7 +14,7 @@ import type {
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import config from '../config';
+import isAppOwnDomain from '../isAppOwnDomain';
 import type { Dispatch } from '../types';
 import {
   IconApple,
@@ -295,8 +295,6 @@ class AuthScreenInner extends PureComponent<Props> {
       return false;
     }
 
-    const { host } = this.props.realm;
-
     // The native flow for Apple auth assumes that the app and the server
     // are operated by the same organization, so that for a user to
     // entrust private information to either one is the same as entrusting
@@ -304,7 +302,7 @@ class AuthScreenInner extends PureComponent<Props> {
     //
     // (For other realms, we'll simply fall back to the web flow, which
     // handles things appropriately without relying on that assumption.)
-    return config.appOwnDomains.some(domain => host === domain || host.endsWith(`.${domain}`));
+    return isAppOwnDomain(this.props.realm);
   };
 
   handleAuth = async (method: AuthenticationMethodDetails) => {
