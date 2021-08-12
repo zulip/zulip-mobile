@@ -32,11 +32,6 @@ A third type of change is left uncommitted (and a link to docs is
 provided) because some steps are not yet automated:
  * new target languages
 
-All of the resulting changes should be pushed to the central repo
-without too much delay. The command is meant to synchronize the
-state between the central repo and Transifex, and that can only
-happen if they are both updated synchronously.
-
 EOF
 }
 
@@ -152,6 +147,18 @@ if ! git diff-files --quiet; then
     git commit -a -m '
 i18n: Sync recently-added message strings across languages.
 '
+
+    cat >&2 <<'EOF'
+
+There were new message strings.
+
+Please push this commit promptly, to keep these changes separate from any
+new translations picked up the next time someone runs `tools/tx-sync`.
+
+If your branch has other changes that still need work or review, please
+rebase/cherry-pick the automated `tools/tx-sync` changes so you can push
+them promptly in isolation.
+EOF
 else
     err_echo 'Step 3: ...none.'
 fi

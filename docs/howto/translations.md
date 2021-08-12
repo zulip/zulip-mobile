@@ -141,16 +141,38 @@ You'll want Transifex's CLI client, `tx`.
 
 ### Regular operation
 
-To sync with Transifex, run `tools/tx-sync` and `git push` the resulting
-commit(s) to the central repo without too much delay. The command is meant
-to synchronize the state between the central repo and Transifex, and that
-can only happen if they are both updated synchronously.
+It's important to sync with Transifex on two kinds of occasions:
 
-A `tools/tx-sync`-and-push task can be done at any time, but we should do
-one just before each release.
+* Just before making a release.  This way the release gets the latest
+  translations people have contributed.
 
-The sync uploads from `static/translations/messages_en.json` to the
-set of strings Transifex shows for contributors to translate, and
+  * An exception is that we don't sync with Transifex on side
+    branches, so we don't do so for cherry-pick releases.  This is
+    because the strings we have in Transifex reflect the latest
+    development version, and the branch may not have the same set of
+    strings to translate.
+
+* Just after merging a PR that adds a new string to translate, or
+  otherwise edits `static/translations/messages_en.json`.  This makes
+  the new string available for our translation contributors to
+  translate, so that by the time we make a release with the change, we
+  may already have translations for many languages.
+
+It's fine to also do it at any other time, too.
+
+To sync with Transifex, run `tools/tx-sync`, and then `git push` the
+resulting commit(s) to the central repo.
+
+Do push the script's automated commits directly, without a PR; if you
+make by hand some more-interesting changes that call for code review,
+send those separately.  This process is effectively syncing state
+between the central repo and Transifex, and ideally that's done
+synchronously.  (Don't worry much about it, though: if you run
+`tools/tx-sync` and don't push, the practical effect is that the next
+`tools/tx-sync` may produce a messier diff.)
+
+The `tools/tx-sync` script uploads from `static/translations/messages_en.json`
+to the set of strings Transifex shows for contributors to translate, and
 downloads translations to files `static/translations/messages_*.json`.
 (See `.tx/config` for how those paths are configured.)
 

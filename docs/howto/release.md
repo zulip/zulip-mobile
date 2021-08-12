@@ -79,9 +79,10 @@ simple terminology for the process we follow with both.
   * This ensures we release with the latest translations provided by
     our translation contributors.  See
     [howto/translations.md](translations.md) for background.
-  * As mentioned in that doc, don't fiddle too much with the commits that
-    are generated. They're meant to be a change to the central repo that's
-    done synchronously with the changes in Transifex caused by the command.
+
+  * Skip this step if making a release that isn't atop the latest
+    development version, i.e. a "cherry-pick release" or "stable release".
+    We sync with Transifex only from the latest development version.
 
 * Check that tests pass: `tools/test --all`.
 
