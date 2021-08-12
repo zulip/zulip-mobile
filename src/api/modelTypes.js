@@ -671,7 +671,7 @@ export type StreamMessage = $ReadOnly<{|
  *    `EVENT_NEW_MESSAGE` Redux action for the event;
  *  * `messages: Message[]` in a `/messages` (our `getMessages`) response,
  *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
- *  * `messages: {| [id]: Message |}` in our global Redux state.
+ *  * `messages: Map<number, Message>` in our global Redux state.
  *
  * References include:
  *  * the two example events at https://zulip.com/api/get-events
