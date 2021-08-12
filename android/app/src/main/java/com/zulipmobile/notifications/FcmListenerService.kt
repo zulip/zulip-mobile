@@ -18,7 +18,9 @@ class FcmListenerService : FirebaseMessagingService() {
         run {
             val service = Intent(applicationContext, HeadlessFetchService::class.java)
             val bundle = Bundle()
-            bundle.putString("foo", "bar")
+            for ((key, value) in message.data) {
+                bundle.putString(key, value)
+            }
             service.putExtras(bundle)
             applicationContext.startService(service)
         }
