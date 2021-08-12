@@ -125,11 +125,11 @@ type StreamListEvent = $ReadOnly<{|
 
 // prettier-ignore
 export type StreamEvent =
-  | {| ...StreamListEvent, op: 'create', |}
-  | {| ...StreamListEvent, op: 'delete', |}
-  | {| ...StreamListEvent, op: 'occupy', |}
-  | {| ...StreamListEvent, op: 'vacate', |}
-  | {|
+  | {| ...StreamListEvent, +op: 'create', |}
+  | {| ...StreamListEvent, +op: 'delete', |}
+  | {| ...StreamListEvent, +op: 'occupy', |}
+  | {| ...StreamListEvent, +op: 'vacate', |}
+  | $ReadOnly<{|
       ...EventCommon,
       type: typeof EventTypes.stream,
       op: 'update',
@@ -137,7 +137,7 @@ export type StreamEvent =
       name: string,
       property: string,
       value: string,
-    |};
+    |}>;
 
 export type UpdateMessageFlagsEvent = $ReadOnly<{|
   ...EventCommon,

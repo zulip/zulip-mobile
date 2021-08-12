@@ -42,7 +42,7 @@ export type InitialDataMutedUsers = $ReadOnly<{|
 |}>;
 
 export type InitialDataPresence = $ReadOnly<{|
-  presences: {| [email: string]: UserPresence |},
+  presences: {| +[email: string]: UserPresence |},
 |}>;
 
 export type AvailableVideoChatProviders = $ReadOnly<{|
@@ -288,7 +288,7 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
   // This is computed by `aggregate_unread_data` and its helper
   // `aggregate_message_dict`, consuming data supplied by
   // `get_raw_unread_data`, all found in `zerver/lib/message.py`.
-  unread_msgs: {|
+  unread_msgs: $ReadOnly<{|
     /**
      * Unread stream messages.
      *
@@ -315,7 +315,7 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
      * messages that are muted.
      */
     count: number,
-  |},
+  |}>,
 |}>;
 
 export type InitialDataUserStatus = $ReadOnly<{|
