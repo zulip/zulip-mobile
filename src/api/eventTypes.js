@@ -75,7 +75,7 @@ export type MessageEvent = $ReadOnly<{|
 export type MutedUsersEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.muted_users,
-  muted_users: MutedUser[],
+  muted_users: $ReadOnlyArray<MutedUser>,
 |}>;
 
 /** A new submessage.  See the `Submessage` type for details. */
@@ -120,7 +120,7 @@ export type UserStatusEvent = $ReadOnly<{|
 type StreamListEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.stream,
-  streams: Stream[],
+  streams: $ReadOnlyArray<Stream>,
 |}>;
 
 // prettier-ignore
@@ -150,7 +150,7 @@ export type UpdateMessageFlagsEvent = $ReadOnly<{|
 
   flag: empty, // TODO fill in
   all: boolean,
-  messages: number[],
+  messages: $ReadOnlyArray<number>,
 |}>;
 
 // https://zulip.com/api/get-events#restart

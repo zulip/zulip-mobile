@@ -23,7 +23,7 @@ export type InitialDataBase = $ReadOnly<{|
 |}>;
 
 export type InitialDataAlertWords = $ReadOnly<{|
-  alert_words: string[],
+  alert_words: $ReadOnlyArray<string>,
 |}>;
 
 export type InitialDataMessage = $ReadOnly<{|
@@ -33,12 +33,12 @@ export type InitialDataMessage = $ReadOnly<{|
 export type MuteTuple = [string, string];
 
 export type InitialDataMutedTopics = $ReadOnly<{|
-  muted_topics: MuteTuple[],
+  muted_topics: $ReadOnlyArray<MuteTuple>,
 |}>;
 
 /** Added in server version 4.0, feature level 48 */
 export type InitialDataMutedUsers = $ReadOnly<{|
-  muted_users?: MutedUser[],
+  muted_users?: $ReadOnlyArray<MutedUser>,
 |}>;
 
 export type InitialDataPresence = $ReadOnly<{|
@@ -234,7 +234,7 @@ export type StreamUnreadItem = $ReadOnly<{|
   unread_message_ids: $ReadOnlyArray<number>,
 
   /** All distinct senders of these messages; sorted. */
-  // sender_ids: UserId[],
+  // sender_ids: $ReadOnlyArray<UserId>,
 |}>;
 
 export type HuddlesUnreadItem = $ReadOnly<{|
@@ -294,18 +294,18 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
      *
      * NB this includes messages to muted streams and topics.
      */
-    streams: StreamUnreadItem[],
+    streams: $ReadOnlyArray<StreamUnreadItem>,
 
     /** Unread group PM messages, i.e. with >=3 participants. */
     // "huddle" is the server's internal term for a group PM conversation.
-    huddles: HuddlesUnreadItem[],
+    huddles: $ReadOnlyArray<HuddlesUnreadItem>,
 
     /** Unread 1:1 PM messages. */
-    pms: PmsUnreadItem[],
+    pms: $ReadOnlyArray<PmsUnreadItem>,
 
     /** Unread @-mentions. */
     // Unlike other lists of message IDs here, `mentions` is *not* sorted.
-    mentions: number[],
+    mentions: $ReadOnlyArray<number>,
 
     /**
      * Total *unmuted* unreads.

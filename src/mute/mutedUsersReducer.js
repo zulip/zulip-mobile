@@ -13,7 +13,7 @@ import type { MutedUser } from '../api/apiTypes';
 
 const initialState: MutedUsersState = Immutable.Map();
 
-function mutedUsersToMap(muted_users: MutedUser[]): Immutable.Map<UserId, number> {
+function mutedUsersToMap(muted_users: $ReadOnlyArray<MutedUser>): Immutable.Map<UserId, number> {
   return Immutable.Map(muted_users.map(muted_user => [muted_user.id, muted_user.timestamp]));
 }
 
