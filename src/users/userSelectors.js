@@ -306,6 +306,13 @@ export const getHaveServerData = (state: GlobalState): boolean => {
     return false;
   }
 
+  // TODO: A nice bonus would be to check that the account matches the
+  // server data, given any of:
+  //  * user ID in `Account` (#4951)
+  //  * realm URL in `RealmState`
+  //  * delivery email in `RealmState` and/or `User` (though not sure this
+  //    is available from server, even for self, in all configurations)
+
   // Any other subtree could also have been emptied while others weren't,
   // or otherwise be out of sync.
   //
