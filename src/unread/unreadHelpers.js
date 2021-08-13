@@ -6,7 +6,7 @@ type SomeUnreadItem = $ReadOnly<{ unread_message_ids: $ReadOnlyArray<number>, ..
 
 export function removeItemsDeeply<T: SomeUnreadItem>(
   objArray: $ReadOnlyArray<T>,
-  messageIds: number[],
+  messageIds: $ReadOnlyArray<number>,
 ): $ReadOnlyArray<T> {
   let changed = false;
   const objWithAddedUnreadIds = objArray.map(obj => {

@@ -54,7 +54,11 @@ const addFlagsForMessages = (
   };
 };
 
-const removeFlagForMessages = (state: FlagsState, messages: number[], flag: string): FlagsState => {
+const removeFlagForMessages = (
+  state: FlagsState,
+  messages: $ReadOnlyArray<number>,
+  flag: string,
+): FlagsState => {
   const newStateForFlag = { ...(state[flag] || {}) };
   messages.forEach(message => {
     delete newStateForFlag[message];
@@ -65,7 +69,10 @@ const removeFlagForMessages = (state: FlagsState, messages: number[], flag: stri
   };
 };
 
-const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsState => {
+const processFlagsForMessages = (
+  state: FlagsState,
+  messages: $ReadOnlyArray<Message>,
+): FlagsState => {
   let stateChanged = false;
   // $FlowFixMe[incompatible-exact] - #4252
   const newState: FlagsState = {};

@@ -2,7 +2,7 @@
 
 export const removeItemsFromArray = (
   input: $ReadOnlyArray<number>,
-  itemsToRemove: number[],
+  itemsToRemove: $ReadOnlyArray<number>,
 ): $ReadOnlyArray<number> => {
   const output = input.filter((item: number) => !itemsToRemove.includes(item));
   return input.length === output.length ? input : output;
