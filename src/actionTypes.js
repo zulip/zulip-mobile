@@ -217,7 +217,7 @@ type MessageFetchErrorAction = $ReadOnly<{|
 
 export type MessageFetchCompleteAction = $ReadOnly<{|
   type: typeof MESSAGE_FETCH_COMPLETE,
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
   narrow: Narrow,
   anchor: number,
   numBefore: number,
@@ -261,7 +261,7 @@ type EventAlertWordsAction = $ReadOnly<{|
 type EventRealmFiltersAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_REALM_FILTERS,
-  realm_filters: RealmFilter[],
+  realm_filters: $ReadOnlyArray<RealmFilter>,
 |}>;
 
 type EventUpdateGlobalNotificationsSettingsAction = $ReadOnly<{|
@@ -278,14 +278,14 @@ type EventSubscriptionAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'add',
-  subscriptions: Subscription[],
+  subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
 type EventSubscriptionRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
-  subscriptions: Array<{|
+  subscriptions: $ReadOnlyArray<{|
     name: string,
     stream_id: number,
   |}>,
@@ -308,7 +308,7 @@ type EventSubscriptionPeerAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_add',
-  subscriptions: string[],
+  subscriptions: $ReadOnlyArray<string>,
   user_id: UserId,
 |}>;
 
@@ -316,7 +316,7 @@ type EventSubscriptionPeerRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_remove',
-  subscriptions: string[],
+  subscriptions: $ReadOnlyArray<string>,
   user_id: UserId,
 |}>;
 
@@ -339,7 +339,7 @@ type EventSubmessageAction = $ReadOnly<{|
 
 type EventMessageDeleteAction = $ReadOnly<{|
   type: typeof EVENT_MESSAGE_DELETE,
-  messageIds: number[],
+  messageIds: $ReadOnlyArray<number>,
 |}>;
 
 // This is current to feature level 109:
@@ -364,11 +364,11 @@ type EventUpdateMessageAction = $ReadOnly<{|
   orig_subject?: string,
   subject: string,
 
-  // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from string[]
+  // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from $ReadOnlyArray<string>
   topic_links?: $ReadOnlyArray<{| +text: string, +url: string |}> | $ReadOnlyArray<string>,
 
   // TODO(server-3.0): Replaced in feat. 1 by topic_links
-  subject_links?: string[],
+  subject_links?: $ReadOnlyArray<string>,
 
   orig_content: string,
   orig_rendered_content: string,
@@ -434,7 +434,7 @@ type EventUpdateMessageFlagsAction = $ReadOnly<{|
   all: boolean,
   allMessages: MessagesState,
   flag: string,
-  messages: number[],
+  messages: $ReadOnlyArray<number>,
   op: 'add' | 'remove',
 |}>;
 
@@ -496,7 +496,7 @@ type EventUserGroupAddMembersAction = $ReadOnly<{|
   type: typeof EVENT_USER_GROUP_ADD_MEMBERS,
   op: 'add_members',
   group_id: number,
-  user_ids: UserId[],
+  user_ids: $ReadOnlyArray<UserId>,
 |}>;
 
 type EventUserGroupRemoveMembersAction = $ReadOnly<{|
@@ -504,7 +504,7 @@ type EventUserGroupRemoveMembersAction = $ReadOnly<{|
   type: typeof EVENT_USER_GROUP_REMOVE_MEMBERS,
   op: 'remove_members',
   group_id: number,
-  user_ids: UserId[],
+  user_ids: $ReadOnlyArray<UserId>,
 |}>;
 
 type EventRealmEmojiUpdateAction = $ReadOnly<{|
@@ -612,12 +612,12 @@ type ToggleOutboxSendingAction = $ReadOnly<{|
 
 type ClearTypingAction = $ReadOnly<{|
   type: typeof CLEAR_TYPING,
-  outdatedNotifications: string[],
+  outdatedNotifications: $ReadOnlyArray<string>,
 |}>;
 
 type InitTopicsAction = $ReadOnly<{|
   type: typeof INIT_TOPICS,
-  topics: Topic[],
+  topics: $ReadOnlyArray<Topic>,
   streamId: number,
 |}>;
 
