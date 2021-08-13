@@ -201,16 +201,60 @@ export const getHaveServerData = (state: GlobalState): boolean => {
   // time the app ran.  In particular, if the user switched accounts (so
   // that we cleared server data in Redux) and then the app promptly
   // crashed, or was killed, that clearing-out may have reached some
-  // subtrees but not others.  See #4587.
+  // subtrees but not others.  See #4587 for an example, and #4841 overall.
+
+  // It's important that we never stick around in a state where we're trying
+  // to show the main UI but this function returns false.  When in that
+  // state, we just show a loading screen with no UI, so there has to be
+  // something happening in the background that will get us out of it.
+  //
+  // The basic strategy is:
+  //  * When we start showing the main UI, we always kick off an initial
+  //    fetch.  Specifically:
+  //    * If at startup (upon rehydrate) we show the main UI, we do so.
+  //      This is controlled by `getInitialRouteInfo`, together with
+  //      `sessionReducer` as it sets `needsInitialFetch`.
+  //    * When we navigate to the main UI (via `resetToMainTabs`), we always
+  //      also dispatch an action that causes `needsInitialFetch` to be set.
+  //    * Plus, that initial fetch has a timeout, so it will always take us
+  //      away from a loading screen regardless of server/network behavior.
+  //
+  //  * When we had server data and we stop having it, we always also either
+  //    navigate away from the main UI, or kick off a new initial fetch.
+  //    Specifically:
+  //    * Between this function and the reducers, we should only stop having
+  //      server data upon certain actions in `accountActions`.
+  //    * Some of those actions cause `needsInitialFetch` to be set, as above.
+  //    * Those that don't should always be accompanied by navigating away
+  //      from the main UI, with `resetToAccountPicker`.
+  //
+  // Ideally the decisions "should we show the loading screen" and "should
+  // we kick off a fetch" would be made together in one place, so that it'd
+  // be possible to confirm they align without so much nonlocal reasoning.
+
+  // Specific facts used in the reasoning below (within the strategy above):
+  //  * The actions LOGIN_SUCCESS and ACCOUNT_SWITCH cause
+  //    `needsInitialFetch` to be set.
+  //  * The action LOGOUT is always accompanied by navigating away from the
+  //    main UI.
+  //  * A successful initial fetch causes a REALM_INIT action.  A failed one
+  //    causes either LOGOUT, or an abort that ensures we're not at a
+  //    loading screen.
 
   // Valid server data must have a user: the self user, at a minimum.
   if (getUsers(state).length === 0) {
+    // From `usersReducer`:
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
     return false;
   }
 
   // It must also have the self user's user ID.
   const ownUserId = state.realm.user_id;
   if (ownUserId === undefined) {
+    // From `realmReducer`:
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
     return false;
   }
 
@@ -222,6 +266,9 @@ export const getHaveServerData = (state: GlobalState): boolean => {
   // then this check would fire.  And in that situation without this check,
   // we crash early on because `getOwnUser` fails.)
   if (!getUsersById(state).get(ownUserId)) {
+    // From the reducers (and assumptions about the server's data):
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's never created (post-rehydrate.)
     return false;
   }
 
