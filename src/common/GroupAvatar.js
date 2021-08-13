@@ -1,19 +1,19 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+// $FlowFixMe[untyped-import]
+import Color from 'color';
 
 import Touchable from './Touchable';
 import { createStyleSheet } from '../styles';
-import { colorHashFromString, foregroundColorFromBackground } from '../utils/color';
+import { colorHashFromString } from '../utils/color';
+import { IconGroup } from './Icons';
 
 const styles = createStyleSheet({
   frame: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    color: 'white',
   },
 });
 
@@ -23,17 +23,6 @@ type Props = $ReadOnly<{|
   children?: Node,
   onPress?: () => void,
 |}>;
-
-/** Private; exported only for tests. */
-export const initialsForGroupIcon = (names: string[]): string => {
-  const initials = names.map(item =>
-    item === '' ? '' : String.fromCodePoint(item.codePointAt(0)).toUpperCase(),
-  );
-  if (initials.length > 4) {
-    initials[3] = '…';
-  }
-  return initials.slice(0, 4).join('');
-};
 
 /**
  * Renders a text avatar based on a single or multiple user's
@@ -53,17 +42,17 @@ export default class GroupAvatar extends PureComponent<Props> {
       height: size,
       width: size,
       borderRadius: size / 8,
-      backgroundColor: colorHashFromString(names.join(', ')),
+      backgroundColor: Color(colorHashFromString(names.join(', ')))
+        .lighten(0.6)
+        .hex(),
     };
-    const textSize = {
-      fontSize: size / 3,
-      color: foregroundColorFromBackground(frameSize.backgroundColor),
-    };
+
+    const iconColor = Color(colorHashFromString(names.join(', '))).string();
 
     return (
       <Touchable onPress={onPress}>
         <View style={[styles.frame, frameSize]}>
-          <Text style={[styles.text, textSize]}>{initialsForGroupIcon(names)}</Text>
+          <IconGroup size={size * 0.75} color={iconColor} />
           {children}
         </View>
       </Touchable>
