@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
@@ -37,6 +38,12 @@ type Props = $ReadOnly<{|
   subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
+/**
+ * A list of all streams, with the option to toggle subscribed/unsubscribed.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * stream items) do.
+ */
 class StreamListCard extends PureComponent<Props> {
   handleSwitchChange = (streamName: string, switchValue: boolean) => {
     const { auth } = this.props;
@@ -63,18 +70,20 @@ class StreamListCard extends PureComponent<Props> {
     return (
       <View style={styles.wrapper}>
         <LoadingBanner />
-        {canCreateStreams && (
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Create new stream"
-            onPress={() =>
-              delay(() => {
-                NavigationService.dispatch(navigateToCreateStream());
-              })
-            }
-          />
-        )}
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          {canCreateStreams && (
+            <ZulipButton
+              style={styles.button}
+              secondary
+              text="Create new stream"
+              onPress={() =>
+                delay(() => {
+                  NavigationService.dispatch(navigateToCreateStream());
+                })
+              }
+            />
+          )}
+        </SafeAreaView>
         <StreamList
           streams={subsAndStreams}
           showSwitch

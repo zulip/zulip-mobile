@@ -2,6 +2,7 @@
 import React from 'react';
 import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSelector, useDispatch } from '../react-redux';
 import type { RouteProp } from '../react-navigation';
@@ -121,7 +122,24 @@ export default function ChatScreen(props: Props): Node {
   const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
 
   return (
-    <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
+    <KeyboardAvoider
+      style={[componentStyles.screen, { backgroundColor }]}
+      behavior="padding"
+      keyboardVerticalOffset={
+        // This is a slight misuse of this prop: this value is not (to quote
+        // from the jsdoc) "How much the top of `KeyboardAvoider`'s layout
+        // *parent* is displaced downward from the top of the screen." That
+        // value would be zero.
+        //
+        // This addresses an issue where the strip that covers the bottom
+        // inset would scoot up above the keyboard with the rest of the
+        // compose box when the keyboard opens, leaving a blank strip of
+        // wasted space ( #3370). We haven't yet found a better way to avoid
+        // this, while still letting `ComposeBox` control how it occupies
+        // the inset (like how our header components occupy the top inset).
+        -useSafeAreaInsets().bottom
+      }
+    >
       <ChatNavBar narrow={narrow} editMessage={editMessage} />
       <OfflineNotice />
       <UnreadNotice narrow={narrow} />
@@ -134,13 +152,18 @@ export default function ChatScreen(props: Props): Node {
           return <NoMessages narrow={narrow} />;
         } else {
           return (
-            <MessageList
-              narrow={narrow}
-              messages={messages}
-              initialScrollMessageId={firstUnreadIdInNarrow}
-              showMessagePlaceholders={showMessagePlaceholders}
-              startEditMessage={setEditMessage}
-            />
+            // TODO: Keep the meaningful content within the safe areas, but
+            // let the background elements extend through the insets all the
+            // way to the left and right of the screen.
+            <SafeAreaView mode="padding" edges={['right', 'left']} style={{ flex: 1 }}>
+              <MessageList
+                narrow={narrow}
+                messages={messages}
+                initialScrollMessageId={firstUnreadIdInNarrow}
+                showMessagePlaceholders={showMessagePlaceholders}
+                startEditMessage={setEditMessage}
+              />
+            </SafeAreaView>
           );
         }
       })()}

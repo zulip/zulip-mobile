@@ -42,6 +42,9 @@ export default function StreamAutocomplete(props: Props): Node {
         data={matchingSubscriptions}
         keyExtractor={item => item.stream_id.toString()}
         renderItem={({ item }) => (
+          // TODO: Make and use a new stream-item component with no padding
+          //   for the insets. The rows' content should be bounded by the
+          //   popup, which renders within the safe area.
           <StreamItem
             name={item.name}
             isMuted={!item.in_home_view}

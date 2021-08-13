@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import invariant from 'invariant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
@@ -47,6 +47,11 @@ type Props = $ReadOnly<{|
   onPress: (stream: string, topic: string) => void,
 |}>;
 
+/**
+ * A list item to show a topic with its unread count.
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default function TopicItem(props: Props): Node {
   const { name, streamName, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
 
@@ -81,7 +86,9 @@ export default function TopicItem(props: Props): Node {
         });
       }}
     >
-      <View
+      <SafeAreaView
+        mode="padding"
+        edges={['right', 'left']}
         style={[
           styles.listItem,
           isSelected && componentStyles.selectedRow,
@@ -95,7 +102,7 @@ export default function TopicItem(props: Props): Node {
           ellipsizeMode="tail"
         />
         <UnreadCount count={unreadCount} inverse={isSelected} />
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

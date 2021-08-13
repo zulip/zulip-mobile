@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { EmojiType } from '../types';
 import { createStyleSheet } from '../styles';
@@ -26,6 +26,11 @@ type Props = $ReadOnly<{|
   onPress: (name: string) => void,
 |}>;
 
+/**
+ * A list item for an emoji, e.g., for autocomplete or the reaction picker.
+ *
+ * Pads the horizontal insets with its background.
+ */
 export default function EmojiRow(props: Props): Node {
   const { code, name, type, onPress } = props;
 
@@ -35,10 +40,10 @@ export default function EmojiRow(props: Props): Node {
 
   return (
     <Touchable onPress={handlePress}>
-      <View style={styles.emojiRow}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.emojiRow}>
         <Emoji code={code} type={type} />
         <RawLabel style={styles.text} text={name} />
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

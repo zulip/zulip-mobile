@@ -47,6 +47,12 @@ type Props = $ReadOnly<{|
   onSwitch?: (streamName: string, newValue: boolean) => void,
 |}>;
 
+/**
+ * TODO: Split into two components; #3767
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * stream items) do.
+ */
 export default function StreamList(props: Props): Node {
   const {
     streams = [],

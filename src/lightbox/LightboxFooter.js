@@ -33,6 +33,11 @@ type Props = $ReadOnly<{|
   onOptionsPress: () => void,
 |}>;
 
+/**
+ * The lightbox's footer.
+ *
+ * Pads the right, bottom, and left insets with its background.
+ */
 export default class LightboxFooter extends PureComponent<Props> {
   render(): Node {
     const { displayMessage, onOptionsPress, style } = this.props;

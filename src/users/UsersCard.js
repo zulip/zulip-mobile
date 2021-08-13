@@ -14,6 +14,13 @@ type Props = $ReadOnly<{|
   filter: string,
 |}>;
 
+/**
+ * (TODO: usefulness of these "card" components as separate from "screen"
+ * components?)
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * user items and section headers) do.
+ */
 export default function UsersCard(props: Props) {
   const { filter } = props;
   const dispatch = useDispatch();

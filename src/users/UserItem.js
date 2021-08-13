@@ -2,6 +2,7 @@
 import React, { type ElementConfig, useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { UserId } from '../types';
@@ -48,6 +49,8 @@ type Props<UserT> = $ReadOnly<{|
  * This component is potentially appropriate if displaying a synthetic fake
  * user, one that doesn't exist in the database.  (But anywhere we're doing
  * that, there's probably a better UI anyway than showing a fake user.)
+ *
+ * Pads the horizontal insets with its background.
  */
 export function UserItemRaw<
   UserT: $ReadOnly<{ user_id: UserId, email: string, full_name: string, ... }>,
@@ -64,7 +67,11 @@ export function UserItemRaw<
 
   return (
     <Touchable onPress={onPress && handlePress}>
-      <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
+      <SafeAreaView
+        mode="padding"
+        edges={['right', 'left']}
+        style={[styles.listItem, isSelected && componentStyles.selectedRow]}
+      >
         <UserAvatarWithPresenceById
           size={48}
           userId={user.user_id}
@@ -92,7 +99,7 @@ export function UserItemRaw<
           )}
         </View>
         <UnreadCount count={unreadCount} inverse={isSelected} />
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

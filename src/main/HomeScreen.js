@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
@@ -33,12 +34,18 @@ type Props = $ReadOnly<{|
   route: RouteProp<'home', void>,
 |}>;
 
+/**
+ * The first tab in the main-tabs screen, showing unread counts.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * unread conversation items) do.
+ */
 export default function HomeScreen(props: Props) {
   const dispatch = useDispatch();
 
   return (
     <View style={styles.wrapper}>
-      <View style={styles.iconList}>
+      <SafeAreaView mode="margin" edges={['right', 'left']} style={styles.iconList}>
         <NavButton
           name="globe"
           onPress={() => {
@@ -64,7 +71,7 @@ export default function HomeScreen(props: Props) {
             NavigationService.dispatch(navigateToSearch());
           }}
         />
-      </View>
+      </SafeAreaView>
       <ServerCompatBanner />
       <LoadingBanner />
       <UnreadCards />

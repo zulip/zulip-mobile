@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Input, Label, SwitchRow, ZulipButton } from '../common';
 import styles, { createStyleSheet } from '../styles';
@@ -30,6 +31,13 @@ type State = {|
   isPrivate: boolean,
 |};
 
+/**
+ * (TODO: usefulness of these "card" components as separate from "screen"
+ * components?)
+ *
+ * Needs to occupy the horizontal insets because some descendents (a
+ * `SwitchRow`) do.
+ */
 export default class EditStreamCard extends PureComponent<Props, State> {
   state: State = {
     name: this.props.initialValues.name,
@@ -61,21 +69,23 @@ export default class EditStreamCard extends PureComponent<Props, State> {
 
     return (
       <View>
-        <Label text="Name" />
-        <Input
-          style={styles.marginBottom}
-          placeholder="Name"
-          autoFocus
-          defaultValue={initialValues.name}
-          onChangeText={this.handleNameChange}
-        />
-        <Label text="Description" />
-        <Input
-          style={styles.marginBottom}
-          placeholder="Description"
-          defaultValue={initialValues.description}
-          onChangeText={this.handleDescriptionChange}
-        />
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          <Label text="Name" />
+          <Input
+            style={styles.marginBottom}
+            placeholder="Name"
+            autoFocus
+            defaultValue={initialValues.name}
+            onChangeText={this.handleNameChange}
+          />
+          <Label text="Description" />
+          <Input
+            style={styles.marginBottom}
+            placeholder="Description"
+            defaultValue={initialValues.description}
+            onChangeText={this.handleDescriptionChange}
+          />
+        </SafeAreaView>
         <SwitchRow
           style={componentStyles.switchRow}
           Icon={IconPrivate}
@@ -83,12 +93,14 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           value={this.state.isPrivate}
           onValueChange={this.handleIsPrivateChange}
         />
-        <ZulipButton
-          style={styles.marginTop}
-          text={isNewStream ? 'Create' : 'Update'}
-          disabled={name.length === 0}
-          onPress={this.handlePerformAction}
-        />
+        <SafeAreaView mode="margin" edges={['right', 'left']}>
+          <ZulipButton
+            style={styles.marginTop}
+            text={isNewStream ? 'Create' : 'Update'}
+            disabled={name.length === 0}
+            onPress={this.handlePerformAction}
+          />
+        </SafeAreaView>
       </View>
     );
   }

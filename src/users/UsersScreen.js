@@ -12,6 +12,12 @@ type Props = $ReadOnly<{|
   route: RouteProp<'users', void>,
 |}>;
 
+/**
+ * A screen for a searchable list of users.
+ *
+ * Covers the horizontal insets because its descendents (the user items
+ * and section headers) need to.
+ */
 export default function UsersScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 

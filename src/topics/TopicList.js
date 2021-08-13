@@ -21,6 +21,12 @@ type Props = $ReadOnly<{|
   onPress: (stream: string, topic: string) => void,
 |}>;
 
+/**
+ * Topic search results, or an indicator that there are none.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * topic items) do.
+ */
 export default class TopicList extends PureComponent<Props> {
   render(): Node {
     const { stream, topics, onPress } = this.props;

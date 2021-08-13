@@ -2,6 +2,7 @@
 import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RawLabel, Touchable } from '.';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -56,6 +57,8 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
  * it is either active or not. The event handler shouldn't do random
  * things that aren't related to that state, like navigating to a
  * different screen.
+ *
+ * Pads the horizontal insets with its background.
  */
 export default function SelectableOptionRow<TItemKey: string | number>(
   props: Props<TItemKey>,
@@ -64,13 +67,13 @@ export default function SelectableOptionRow<TItemKey: string | number>(
 
   return (
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
-      <View style={styles.listItem}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.listItem}>
         <View style={styles.wrapper}>
           <RawLabel text={title} />
           {subtitle !== undefined && <RawLabel text={subtitle} style={styles.subtitle} />}
         </View>
         <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }

@@ -45,6 +45,13 @@ type Props = $ReadOnly<{|
   route: RouteProp<'main-tabs', void>,
 |}>;
 
+/**
+ * Wrapper and bottom tab navigator for the app's primary interface.
+ *
+ * Pads the top inset with a theme-appropriate background color. (This could
+ * be delegated to the individual tab screens, only if the screens promise
+ * not to disrupt a consistent look-and-feel.)
+ */
 export default function MainTabsScreen(props: Props): Node {
   const { backgroundColor } = useContext(ThemeContext);
 

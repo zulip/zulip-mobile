@@ -16,6 +16,12 @@ import { doNarrow } from '../actions';
 
 type Props = $ReadOnly<{||}>;
 
+/**
+ * A list of PM conversations and stream/topics, with unread counts.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * unread conversation items) do.
+ */
 export default function UnreadCards(props: Props): Node {
   const dispatch = useDispatch();
   const conversations = useSelector(getUnreadConversations);

@@ -32,6 +32,12 @@ type State = {|
   filter: string,
 |};
 
+/**
+ * A screen to choose an emoji reaction.
+ *
+ * Needs to occupy the horizontal insets because its descendents (the
+ * `EmojiRow`s) do.
+ */
 class EmojiPickerScreen extends PureComponent<Props, State> {
   state = {
     filter: '',

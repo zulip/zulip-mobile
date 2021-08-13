@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Label from './Label';
 import Touchable from './Touchable';
@@ -22,6 +23,8 @@ type Props = $ReadOnly<{|
  *
  * Shows a right-facing arrow to indicate its purpose. If you need a
  * selectable option row instead, use `SelectableOptionRow`.
+ *
+ * Pads the horizontal insets with its background.
  */
 export default function NestedNavRow(props: Props): Node {
   const { label, onPress, Icon } = props;
@@ -30,13 +33,13 @@ export default function NestedNavRow(props: Props): Node {
 
   return (
     <Touchable onPress={onPress}>
-      <View style={styles.listItem}>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.listItem}>
         {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
         <Label text={label} />
         <View style={styles.rightItem}>
           <IconRight size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />
         </View>
-      </View>
+      </SafeAreaView>
     </Touchable>
   );
 }
