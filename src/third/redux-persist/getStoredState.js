@@ -29,7 +29,7 @@ export default function getStoredState (config, onComplete) {
     }
 
     if (err) {
-      logging.warn('redux-persist/getStoredState: Error in storage.getAllKeys')
+      logging.warn(err, { message: 'redux-persist/getStoredState: Error in storage.getAllKeys' })
       complete(err)
       return
     }
@@ -48,7 +48,7 @@ export default function getStoredState (config, onComplete) {
         } catch (e) {
           err = e
         }
-        if (err) logging.warn('redux-persist/getStoredState: Error restoring data for a key.', { key, err })
+        if (err) logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key})
         else restoredState[key] = rehydrate(key, serialized)
         completionCount += 1
         if (completionCount === restoreCount) complete(null, restoredState)
@@ -63,7 +63,7 @@ export default function getStoredState (config, onComplete) {
       let data = deserializer(serialized)
       state = data
     } catch (err) {
-      logging.warn('redux-persist/getStoredState: Error restoring data for a key.', { key, err })
+      logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key })
     }
 
     return state

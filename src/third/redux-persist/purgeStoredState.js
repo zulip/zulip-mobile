@@ -21,7 +21,7 @@ export default function purgeStoredState (config, keys) {
           err = e
         }
         if (err) {
-          logging.warn('redux-persist: error during purgeStoredState in storage.getAllKeys')
+          logging.warn(err, { message: 'redux-persist: error during purgeStoredState in storage.getAllKeys' })
           reject(err)
         } else {
           resolve(purgeStoredState(config, allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length))))
@@ -42,6 +42,6 @@ export default function purgeStoredState (config, keys) {
 
 function warnIfRemoveError (key) {
   return function removeError (err) {
-    if (err) { logging.warn('Error storing data for a key.', { key, err }) }
+    if (err) { logging.warn(err, { message: 'Error storing data for a key.', key }) }
   }
 }
