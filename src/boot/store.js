@@ -321,6 +321,19 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     },
   }),
 
+  // Rename to `state.settings.language` from `state.settings.locale`.
+  '31': state => {
+    // $FlowIgnore[prop-missing]: migration fudge
+    const { locale: language, ...settingsRest } = state.settings;
+    return {
+      ...state,
+      settings: {
+        ...settingsRest,
+        language,
+      },
+    };
+  },
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
