@@ -110,86 +110,86 @@ import type {
  *     key where an error was encountered in reading the persisted state.
  *     In any case it will only contain the keys we configure to be persisted.
  */
-type RehydrateAction = {|
+type RehydrateAction = $ReadOnly<{|
   type: typeof REHYDRATE,
   +payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>> | void,
-|};
+|}>;
 
-type AppOnlineAction = {|
+type AppOnlineAction = $ReadOnly<{|
   type: typeof APP_ONLINE,
   isOnline: boolean | null,
-|};
+|}>;
 
-type DeadQueueAction = {|
+type DeadQueueAction = $ReadOnly<{|
   type: typeof DEAD_QUEUE,
-|};
+|}>;
 
-type AppOrientationAction = {|
+type AppOrientationAction = $ReadOnly<{|
   type: typeof APP_ORIENTATION,
   orientation: Orientation,
-|};
+|}>;
 
-type DebugFlagToggleAction = {|
+type DebugFlagToggleAction = $ReadOnly<{|
   type: typeof DEBUG_FLAG_TOGGLE,
   key: string,
   value: boolean,
-|};
+|}>;
 
-type DismissServerCompatNoticeAction = {|
+type DismissServerCompatNoticeAction = $ReadOnly<{|
   type: typeof DISMISS_SERVER_COMPAT_NOTICE,
-|};
+|}>;
 
-export type AccountSwitchAction = {|
+export type AccountSwitchAction = $ReadOnly<{|
   type: typeof ACCOUNT_SWITCH,
   index: number,
-|};
+|}>;
 
-type AccountRemoveAction = {|
+type AccountRemoveAction = $ReadOnly<{|
   type: typeof ACCOUNT_REMOVE,
   index: number,
-|};
+|}>;
 
-export type LoginSuccessAction = {|
+export type LoginSuccessAction = $ReadOnly<{|
   type: typeof LOGIN_SUCCESS,
   realm: URL,
   email: string,
   apiKey: string,
-|};
+|}>;
 
-type LogoutAction = {|
+type LogoutAction = $ReadOnly<{|
   type: typeof LOGOUT,
-|};
+|}>;
 
-type DismissServerPushSetupNoticeAction = {|
+type DismissServerPushSetupNoticeAction = $ReadOnly<{|
   type: typeof DISMISS_SERVER_PUSH_SETUP_NOTICE,
   date: Date,
-|};
+|}>;
 
 /** We learned the device token from the system.  See `SessionState`. */
-type GotPushTokenAction = {|
+type GotPushTokenAction = $ReadOnly<{|
   type: typeof GOT_PUSH_TOKEN,
   pushToken: null | string,
-|};
+|}>;
 
 /** We're about to tell the server to forget our device token. */
-type UnackPushTokenAction = {|
+type UnackPushTokenAction = $ReadOnly<{|
   type: typeof UNACK_PUSH_TOKEN,
   identity: Identity,
-|};
+|}>;
 
 /** The server acknowledged our device token. */
-type AckPushTokenAction = {|
+type AckPushTokenAction = $ReadOnly<{|
   type: typeof ACK_PUSH_TOKEN,
   identity: Identity,
   pushToken: string,
-|};
+|}>;
 
-export type MessageFetchStartAction = {|
+export type MessageFetchStartAction = $ReadOnly<{|
   type: typeof MESSAGE_FETCH_START,
   narrow: Narrow,
   numBefore: number,
   numAfter: number,
-|};
+|}>;
 
 /**
  * Any unexpected failure in a message fetch.
@@ -206,16 +206,16 @@ export type MessageFetchStartAction = {|
  * [1] https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/crunchy-shell.md
  * [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/937480
  */
-type MessageFetchErrorAction = {|
+type MessageFetchErrorAction = $ReadOnly<{|
   type: typeof MESSAGE_FETCH_ERROR,
   narrow: Narrow,
   // Before storing this in state, be sure to replace/revive Error
   // instances so they aren't coerced into plain objects; see
   // bfe794955 for an example.
   error: Error,
-|};
+|}>;
 
-export type MessageFetchCompleteAction = {|
+export type MessageFetchCompleteAction = $ReadOnly<{|
   type: typeof MESSAGE_FETCH_COMPLETE,
   messages: Message[],
   narrow: Narrow,
@@ -225,11 +225,11 @@ export type MessageFetchCompleteAction = {|
   foundNewest: boolean,
   foundOldest: boolean,
   ownUserId: UserId,
-|};
+|}>;
 
-type RegisterStartAction = {|
+type RegisterStartAction = $ReadOnly<{|
   type: typeof REGISTER_START,
-|};
+|}>;
 
 export type RegisterAbortReason = 'server' | 'network' | 'timeout' | 'unexpected';
 
@@ -239,32 +239,32 @@ export type RegisterAbortReason = 'server' | 'network' | 'timeout' | 'unexpected
  * Not for unrecoverable errors, like ApiErrors, which indicate that we
  * tried and failed, not that we gave up trying.
  */
-type RegisterAbortAction = {|
+type RegisterAbortAction = $ReadOnly<{|
   type: typeof REGISTER_ABORT,
   reason: RegisterAbortReason,
-|};
+|}>;
 
-export type RegisterCompleteAction = {|
+export type RegisterCompleteAction = $ReadOnly<{|
   type: typeof REGISTER_COMPLETE,
   data: InitialData,
-|};
+|}>;
 
-type ServerEvent = {|
+type ServerEvent = $ReadOnly<{|
   id: number,
-|};
+|}>;
 
-type EventAlertWordsAction = {|
+type EventAlertWordsAction = $ReadOnly<{|
   type: typeof EVENT_ALERT_WORDS,
   alertWords: AlertWordsState,
-|};
+|}>;
 
-type EventRealmFiltersAction = {|
+type EventRealmFiltersAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_REALM_FILTERS,
   realm_filters: RealmFilter[],
-|};
+|}>;
 
-type EventUpdateGlobalNotificationsSettingsAction = {|
+type EventUpdateGlobalNotificationsSettingsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   notification_name:
@@ -272,16 +272,16 @@ type EventUpdateGlobalNotificationsSettingsAction = {|
     | 'enable_online_push_notifications'
     | 'enable_stream_push_notifications',
   setting: boolean,
-|};
+|}>;
 
-type EventSubscriptionAddAction = {|
+type EventSubscriptionAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'add',
   subscriptions: Subscription[],
-|};
+|}>;
 
-type EventSubscriptionRemoveAction = {|
+type EventSubscriptionRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
@@ -289,9 +289,9 @@ type EventSubscriptionRemoveAction = {|
     name: string,
     stream_id: number,
   |}>,
-|};
+|}>;
 
-type EventSubscriptionUpdateAction = {|
+type EventSubscriptionUpdateAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'update',
@@ -302,49 +302,49 @@ type EventSubscriptionUpdateAction = {|
   // TODO(server-4.0): Delete these commented-out properties.
   // name: string, // exists pre-4.0, but expected to be removed soon
   // email: string, // gone in 4.0; was the user's own email, so never useful
-|};
+|}>;
 
-type EventSubscriptionPeerAddAction = {|
+type EventSubscriptionPeerAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_add',
   subscriptions: string[],
   user_id: UserId,
-|};
+|}>;
 
-type EventSubscriptionPeerRemoveAction = {|
+type EventSubscriptionPeerRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'peer_remove',
   subscriptions: string[],
   user_id: UserId,
-|};
+|}>;
 
-type GenericEventAction = {|
+type GenericEventAction = $ReadOnly<{|
   type: typeof EVENT,
   event: StreamEvent | RestartEvent | RealmUpdateEvent | RealmUpdateDictEvent,
-|};
+|}>;
 
-type EventNewMessageAction = {|
+type EventNewMessageAction = $ReadOnly<{|
   ...$Diff<MessageEvent, {| flags: mixed |}>,
   type: typeof EVENT_NEW_MESSAGE,
   caughtUp: CaughtUpState,
   ownUserId: UserId,
-|};
+|}>;
 
-type EventSubmessageAction = {|
+type EventSubmessageAction = $ReadOnly<{|
   ...SubmessageEvent,
   type: typeof EVENT_SUBMESSAGE,
-|};
+|}>;
 
-type EventMessageDeleteAction = {|
+type EventMessageDeleteAction = $ReadOnly<{|
   type: typeof EVENT_MESSAGE_DELETE,
   messageIds: number[],
-|};
+|}>;
 
 // This is current to feature level 109:
 //   https://zulip.com/api/get-events#update_message
-type EventUpdateMessageAction = {|
+type EventUpdateMessageAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
   user_id: UserId,
@@ -377,32 +377,32 @@ type EventUpdateMessageAction = {|
   rendered_content: string,
   is_me_message: boolean,
   flags: $ReadOnlyArray<string>,
-|};
+|}>;
 
-type EventReactionCommon = {|
+type EventReactionCommon = $ReadOnly<{|
   ...ServerEvent,
   ...$Exact<Reaction>,
   message_id: number,
-|};
+|}>;
 
-type EventReactionAddAction = {|
+type EventReactionAddAction = $ReadOnly<{|
   ...ServerEvent,
   ...EventReactionCommon,
   type: typeof EVENT_REACTION_ADD,
-|};
+|}>;
 
-type EventReactionRemoveAction = {|
+type EventReactionRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   ...EventReactionCommon,
   type: typeof EVENT_REACTION_REMOVE,
-|};
+|}>;
 
-type EventPresenceAction = {|
+type EventPresenceAction = $ReadOnly<{|
   ...PresenceEvent,
   type: typeof EVENT_PRESENCE,
-|};
+|}>;
 
-type EventTypingCommon = {|
+type EventTypingCommon = $ReadOnly<{|
   ...ServerEvent,
   ownUserId: UserId,
   recipients: $ReadOnlyArray<{|
@@ -414,21 +414,21 @@ type EventTypingCommon = {|
     email: string,
   |},
   time: number,
-|};
+|}>;
 
-type EventTypingStartAction = {|
+type EventTypingStartAction = $ReadOnly<{|
   ...EventTypingCommon,
   type: typeof EVENT_TYPING_START,
   op: 'start',
-|};
+|}>;
 
-type EventTypingStopAction = {|
+type EventTypingStopAction = $ReadOnly<{|
   ...EventTypingCommon,
   type: typeof EVENT_TYPING_STOP,
   op: 'stop',
-|};
+|}>;
 
-type EventUpdateMessageFlagsAction = {|
+type EventUpdateMessageFlagsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
   all: boolean,
@@ -436,84 +436,84 @@ type EventUpdateMessageFlagsAction = {|
   flag: string,
   messages: number[],
   op: 'add' | 'remove',
-|};
+|}>;
 
-type EventUserAddAction = {|
+type EventUserAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_ADD,
   person: User,
-|};
+|}>;
 
-type EventUserRemoveAction = {|
+type EventUserRemoveAction = $ReadOnly<{|
   type: typeof EVENT_USER_REMOVE,
   // In reality there's more -- but this will prevent accidentally using
   // the type before going and adding those other properties here properly.
-|};
+|}>;
 
-type EventUserUpdateAction = {|
+type EventUserUpdateAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_UPDATE,
   userId: UserId,
   // Include only the fields that should be overwritten.
   person: $Shape<User>,
-|};
+|}>;
 
-type EventMutedTopicsAction = {|
+type EventMutedTopicsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_MUTED_TOPICS,
   muted_topics: MuteState,
-|};
+|}>;
 
-type EventMutedUsersAction = {|
+type EventMutedUsersAction = $ReadOnly<{|
   ...MutedUsersEvent,
   type: typeof EVENT_MUTED_USERS,
-|};
+|}>;
 
-type EventUserGroupAddAction = {|
+type EventUserGroupAddAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_ADD,
   op: 'add',
   group: UserGroup,
-|};
+|}>;
 
-type EventUserGroupRemoveAction = {|
+type EventUserGroupRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_REMOVE,
   op: 'remove',
   group_id: number,
-|};
+|}>;
 
-type EventUserGroupUpdateAction = {|
+type EventUserGroupUpdateAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_UPDATE,
   op: 'update',
   group_id: number,
   data: {| description?: string, name?: string |},
-|};
+|}>;
 
-type EventUserGroupAddMembersAction = {|
+type EventUserGroupAddMembersAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_ADD_MEMBERS,
   op: 'add_members',
   group_id: number,
   user_ids: UserId[],
-|};
+|}>;
 
-type EventUserGroupRemoveMembersAction = {|
+type EventUserGroupRemoveMembersAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_USER_GROUP_REMOVE_MEMBERS,
   op: 'remove_members',
   group_id: number,
   user_ids: UserId[],
-|};
+|}>;
 
-type EventRealmEmojiUpdateAction = {|
+type EventRealmEmojiUpdateAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_REALM_EMOJI_UPDATE,
   realm_emoji: RealmEmojiById,
-|};
+|}>;
 
-type EventUpdateDisplaySettingsAction = {|
+type EventUpdateDisplaySettingsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_DISPLAY_SETTINGS,
   setting_name: string,
@@ -521,14 +521,14 @@ type EventUpdateDisplaySettingsAction = {|
    * `setting_name` of `twenty_four_hour_time`, which is the only case we
    * currently look at. */
   setting: boolean,
-|};
+|}>;
 
 type EventReactionAction = EventReactionAddAction | EventReactionRemoveAction;
 
-type EventUserStatusUpdateAction = {|
+type EventUserStatusUpdateAction = $ReadOnly<{|
   ...UserStatusEvent,
   type: typeof EVENT_USER_STATUS_UPDATE,
-|};
+|}>;
 
 type EventSubscriptionAction =
   | EventSubscriptionAddAction
@@ -573,53 +573,53 @@ export type EventAction =
   | EventUserGroupAction
   | EventUserStatusUpdateAction;
 
-type SetGlobalSettingsAction = {|
+type SetGlobalSettingsAction = $ReadOnly<{|
   type: typeof SET_GLOBAL_SETTINGS,
   update: $Shape<$Exact<GlobalSettingsState>>,
-|};
+|}>;
 
-type DraftUpdateAction = {|
+type DraftUpdateAction = $ReadOnly<{|
   type: typeof DRAFT_UPDATE,
   narrow: Narrow,
   content: string,
-|};
+|}>;
 
-type PresenceResponseAction = {|
+type PresenceResponseAction = $ReadOnly<{|
   type: typeof PRESENCE_RESPONSE,
   presence: PresenceState,
   serverTimestamp: number,
-|};
+|}>;
 
-type MessageSendStartAction = {|
+type MessageSendStartAction = $ReadOnly<{|
   type: typeof MESSAGE_SEND_START,
   outbox: Outbox,
-|};
+|}>;
 
-type MessageSendCompleteAction = {|
+type MessageSendCompleteAction = $ReadOnly<{|
   type: typeof MESSAGE_SEND_COMPLETE,
   local_message_id: number,
-|};
+|}>;
 
-type DeleteOutboxMessageAction = {|
+type DeleteOutboxMessageAction = $ReadOnly<{|
   type: typeof DELETE_OUTBOX_MESSAGE,
   local_message_id: number,
-|};
+|}>;
 
-type ToggleOutboxSendingAction = {|
+type ToggleOutboxSendingAction = $ReadOnly<{|
   type: typeof TOGGLE_OUTBOX_SENDING,
   sending: boolean,
-|};
+|}>;
 
-type ClearTypingAction = {|
+type ClearTypingAction = $ReadOnly<{|
   type: typeof CLEAR_TYPING,
   outdatedNotifications: string[],
-|};
+|}>;
 
-type InitTopicsAction = {|
+type InitTopicsAction = $ReadOnly<{|
   type: typeof INIT_TOPICS,
   topics: Topic[],
   streamId: number,
-|};
+|}>;
 
 /* eslint-disable spaced-comment */
 
