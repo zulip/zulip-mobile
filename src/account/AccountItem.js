@@ -51,7 +51,12 @@ type Props = $ReadOnly<{|
 export default function AccountItem(props: Props): Node {
   const { email, realm, isLoggedIn } = props.account;
 
+  // Don't show the "remove account" button (the "trash" icon) for the
+  // active account when it's logged in.  This prevents removing it when the
+  // main app UI, relying on that account's data, may be on the nav stack.
+  // See `getHaveServerData`.
   const showDoneIcon = props.index === 0 && isLoggedIn;
+
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 

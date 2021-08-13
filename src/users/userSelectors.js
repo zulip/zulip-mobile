@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState, UserOrBot, Selector, User, UserId } from '../types';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
+import { tryGetActiveAccount } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -272,6 +273,23 @@ export const getHaveServerData = (state: GlobalState): boolean => {
     return false;
   }
 
+  // Any valid server data is about the active account.  So if there is no
+  // active account, then any server data we appear to have can't be valid.
+  if (!tryGetActiveAccount(state)) {
+    // From `accountsReducer`:
+    //  * This condition is resolved by LOGIN_SUCCESS.
+    //  * It's created only by ACCOUNT_REMOVE.
+    //
+    // When this condition applies, LOGIN_SUCCESS is the only way we might
+    // navigate to the main UI.
+    //
+    // ACCOUNT_REMOVE is available only from the account-picker screen (not
+    // the main UI), and moreover is available for the active account only
+    // when not logged in, in which case the main UI can't be on the
+    // navigation stack either.
+    return false;
+  }
+
   // Any other subtree could also have been emptied while others weren't,
   // or otherwise be out of sync.
   //
@@ -287,8 +305,9 @@ export const getHaveServerData = (state: GlobalState): boolean => {
   // that `state.messages` doesn't, or `state.messages` have a message sent
   // by a user that `state.users` has no record of.
   //
-  // But given that shortly after startup we go fetch fresh data from the
-  // server anyway, the checks above are hopefully enough to let the app
-  // survive that long.
+  // But given that shortly after starting to show the main app UI (whether
+  // that's at startup, or after picking an account or logging in) we go
+  // fetch fresh data from the server anyway, the checks above are hopefully
+  // enough to let the app survive that long.
   return true;
 };
