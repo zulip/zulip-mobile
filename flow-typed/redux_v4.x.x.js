@@ -17,7 +17,7 @@ declare module 'redux' {
 
   declare export type DispatchAPI<A> = (action: A) => A;
 
-  declare export type Dispatch<A: { +type: *, ... }> = DispatchAPI<A>;
+  declare export type Dispatch<A: { +type: mixed, ... }> = DispatchAPI<A>;
 
   declare export type MiddlewareAPI<S, A, D = Dispatch<A>> = {|
     dispatch: D,
@@ -32,7 +32,7 @@ declare module 'redux' {
     replaceReducer(nextReducer: Reducer<S, A>): void,
   |};
 
-  declare export type Reducer<S, A> = (state: S | void, action: A) => S;
+  declare export type Reducer<S, -A> = (state: S | void, action: A) => S;
 
   declare export type CombinedReducer<S, A> = (
     state: ($Shape<S> & { ... }) | void,
@@ -70,14 +70,14 @@ declare module 'redux' {
     ...middlewares: Array<Middleware<S, A, D>>
   ): StoreEnhancer<S, A, D>;
 
-  declare export type ActionCreator<A, B> = (...args: Array<B>) => A;
+  declare export type ActionCreator<A, -B> = (...args: $ReadOnlyArray<B>) => A;
   declare export type ActionCreators<K, A> = {|
-    [key: K]: ActionCreator<A, any>,
+    [key: K]: ActionCreator<A, empty>,
   |};
 
   declare export function bindActionCreators<
     A,
-    C: ActionCreator<A, any>,
+    C: ActionCreator<A, empty>,
     D: DispatchAPI<A>
   >(
     actionCreator: C,
@@ -95,7 +95,7 @@ declare module 'redux' {
 
   declare export function combineReducers<O: { ... }, A>(
     reducers: O
-  ): CombinedReducer<$ObjMap<O, <S>(r: Reducer<S, any>) => S>, A>;
+  ): CombinedReducer<$ObjMap<O, <S>(r: Reducer<S, A>) => S>, A>;
 
   declare export var compose: $Compose;
 }
