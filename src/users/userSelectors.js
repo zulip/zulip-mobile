@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState, UserOrBot, Selector, User, UserId } from '../types';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { tryGetActiveAccount } from '../account/accountsSelectors';
+import { getHasAuth, tryGetActiveAccount } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -287,6 +287,22 @@ export const getHaveServerData = (state: GlobalState): boolean => {
     // the main UI), and moreover is available for the active account only
     // when not logged in, in which case the main UI can't be on the
     // navigation stack either.
+    return false;
+  }
+
+  // Similarly, any valid server data comes from the active account being
+  // logged in.
+  if (!getHasAuth(state)) {
+    // From `accountsReducer`:
+    //  * This condition is resolved by LOGIN_SUCCESS.
+    //  * It's created only by ACCOUNT_REMOVE, by LOGOUT, and by (a
+    //    hypothetical) ACCOUNT_SWITCH for a logged-out account.
+    //
+    // When this condition applies, LOGIN_SUCCESS is the only way we might
+    // navigate to the main UI.
+    //
+    // For ACCOUNT_REMOVE, see the previous condition.
+    // ACCOUNT_SWITCH we only do for logged-in accounts.
     return false;
   }
 
