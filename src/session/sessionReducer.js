@@ -6,9 +6,9 @@ import {
   LOGIN_SUCCESS,
   APP_ONLINE,
   ACCOUNT_SWITCH,
-  REALM_INIT,
-  INITIAL_FETCH_ABORT,
-  INITIAL_FETCH_START,
+  REGISTER_START,
+  REGISTER_ABORT,
+  REGISTER_COMPLETE,
   APP_ORIENTATION,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
@@ -187,7 +187,7 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case REHYDRATE:
       return rehydrate(state, action);
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return {
         ...state,
         loading: false,
@@ -201,13 +201,13 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         isOnline: action.isOnline,
       };
 
-    case INITIAL_FETCH_START:
+    case REGISTER_START:
       return {
         ...state,
         loading: true,
       };
 
-    case INITIAL_FETCH_ABORT:
+    case REGISTER_ABORT:
       return {
         ...state,
         loading: false,

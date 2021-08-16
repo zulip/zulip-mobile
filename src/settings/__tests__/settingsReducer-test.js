@@ -8,7 +8,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('settingsReducer', () => {
   const baseState = eg.baseReduxState.settings;
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('changes value of all notification settings', () => {
       const prevState = deepFreeze({
         ...baseState,
@@ -18,9 +18,9 @@ describe('settingsReducer', () => {
       });
 
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           enable_offline_push_notifications: true,
           enable_online_push_notifications: true,
           enable_stream_push_notifications: true,

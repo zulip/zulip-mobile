@@ -22,11 +22,13 @@ describe('reducer', () => {
   const someKey = keyOfExactUsers([eg.makeUser().user_id]);
   const someState = { map: Immutable.Map([[someKey, 123]]), sorted: Immutable.List([someKey]) };
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('no data (old server)', () => {
       /* eslint-disable-next-line no-unused-vars */
-      const { recent_private_conversations, ...rest } = eg.action.realm_init.data;
-      expect(reducer(someState, { ...eg.action.realm_init, data: rest })).toEqual(initialState);
+      const { recent_private_conversations, ...rest } = eg.action.register_complete.data;
+      expect(reducer(someState, { ...eg.action.register_complete, data: rest })).toEqual(
+        initialState,
+      );
     });
 
     test('works in normal case', () => {
@@ -44,8 +46,8 @@ describe('reducer', () => {
       };
       expect(
         reducer(someState, {
-          ...eg.action.realm_init,
-          data: { ...eg.action.realm_init.data, recent_private_conversations },
+          ...eg.action.register_complete,
+          data: { ...eg.action.register_complete.data, recent_private_conversations },
         }),
       ).toEqual(expected);
     });

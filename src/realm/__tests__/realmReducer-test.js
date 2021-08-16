@@ -11,9 +11,9 @@ import {
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('realmReducer', () => {
-  describe('REALM_INIT', () => {
-    test('updates as appropriate on a boring but representative REALM_INIT', () => {
-      const action = eg.action.realm_init;
+  describe('REGISTER_COMPLETE', () => {
+    test('updates as appropriate on a boring but representative REGISTER_COMPLETE', () => {
+      const action = eg.action.register_complete;
       expect(realmReducer(eg.baseReduxState.realm, action)).toEqual({
         crossRealmBots: action.data.cross_realm_bots,
 

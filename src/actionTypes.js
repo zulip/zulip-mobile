@@ -9,15 +9,15 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
-  REALM_INIT,
   GOT_PUSH_TOKEN,
   UNACK_PUSH_TOKEN,
   ACK_PUSH_TOKEN,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
-  INITIAL_FETCH_START,
-  INITIAL_FETCH_ABORT,
+  REGISTER_START,
+  REGISTER_ABORT,
+  REGISTER_COMPLETE,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
   PRESENCE_RESPONSE,
@@ -158,11 +158,6 @@ type LogoutAction = {|
   type: typeof LOGOUT,
 |};
 
-export type RealmInitAction = {|
-  type: typeof REALM_INIT,
-  data: InitialData,
-|};
-
 /** We learned the device token from the system.  See `SessionState`. */
 type GotPushTokenAction = {|
   type: typeof GOT_PUSH_TOKEN,
@@ -225,11 +220,11 @@ export type MessageFetchCompleteAction = {|
   ownUserId: UserId,
 |};
 
-type InitialFetchStartAction = {|
-  type: typeof INITIAL_FETCH_START,
+type RegisterStartAction = {|
+  type: typeof REGISTER_START,
 |};
 
-export type InitialFetchAbortReason = 'server' | 'network' | 'timeout' | 'unexpected';
+export type RegisterAbortReason = 'server' | 'network' | 'timeout' | 'unexpected';
 
 /**
  * Notify Redux that we've given up on the initial fetch.
@@ -237,9 +232,14 @@ export type InitialFetchAbortReason = 'server' | 'network' | 'timeout' | 'unexpe
  * Not for unrecoverable errors, like ApiErrors, which indicate that we
  * tried and failed, not that we gave up trying.
  */
-type InitialFetchAbortAction = {|
-  type: typeof INITIAL_FETCH_ABORT,
-  reason: InitialFetchAbortReason,
+type RegisterAbortAction = {|
+  type: typeof REGISTER_ABORT,
+  reason: RegisterAbortReason,
+|};
+
+export type RegisterCompleteAction = {|
+  type: typeof REGISTER_COMPLETE,
+  data: InitialData,
 |};
 
 type ServerEvent = {|
@@ -615,15 +615,15 @@ type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAct
 
 type LoadingAction =
   | DeadQueueAction
-  | InitialFetchStartAction
-  | RealmInitAction
-  | InitialFetchAbortAction;
+  | RegisterStartAction
+  | RegisterAbortAction
+  | RegisterCompleteAction;
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-type RealmAction = RealmInitAction | UnackPushTokenAction | AckPushTokenAction;
+type RealmAction = RegisterCompleteAction | UnackPushTokenAction | AckPushTokenAction;
 
 type SessionAction =
   | RehydrateAction

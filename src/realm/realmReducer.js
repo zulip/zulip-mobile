@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { RealmState, Action, RealmEmojiById, VideoChatProvider } from '../types';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_REALM_EMOJI_UPDATE,
   LOGOUT,
   LOGIN_SUCCESS,
@@ -55,7 +55,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT: {
+    case REGISTER_COMPLETE: {
       return {
         crossRealmBots: action.data.cross_realm_bots,
 

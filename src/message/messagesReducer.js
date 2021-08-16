@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 
 import type { MessagesState, Message, Action } from '../types';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -65,7 +65,7 @@ const eventNewMessage = (state, action) => {
 
 export default (state: MessagesState = initialState, action: Action): MessagesState => {
   switch (action.type) {
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

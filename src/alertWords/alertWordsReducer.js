@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { AlertWordsState, Action } from '../types';
-import { REALM_INIT, EVENT_ALERT_WORDS, ACCOUNT_SWITCH, LOGOUT } from '../actionConstants';
+import { REGISTER_COMPLETE, EVENT_ALERT_WORDS, ACCOUNT_SWITCH, LOGOUT } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
@@ -11,7 +11,7 @@ export default (state: AlertWordsState = initialState, action: Action): AlertWor
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.alert_words || initialState;
 
     case EVENT_ALERT_WORDS:

@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import type { NarrowsState, Action } from '../types';
 import { ensureUnreachable } from '../types';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
@@ -152,7 +152,7 @@ const eventUpdateMessageFlags = (state, action) => {
 
 export default (state: NarrowsState = initialState, action: Action): NarrowsState => {
   switch (action.type) {
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

@@ -8,16 +8,16 @@ import { EVENT_USER_ADD, EVENT_USER_UPDATE, ACCOUNT_SWITCH } from '../../actionC
 import usersReducer from '../usersReducer';
 
 describe('usersReducer', () => {
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     const user1 = eg.makeUser();
 
     test('when `users` data is provided init state with it', () => {
       const prevState = deepFreeze([]);
 
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           realm_users: [user1],
         },
       });

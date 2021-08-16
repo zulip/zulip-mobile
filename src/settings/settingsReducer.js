@@ -2,7 +2,7 @@
 import type { SettingsState, Action } from '../types';
 import {
   SETTINGS_CHANGE,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
 } from '../actionConstants';
 import { ensureUnreachable } from '../types';
@@ -20,7 +20,7 @@ const initialState: SettingsState = {
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
   switch (action.type) {
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return {
         ...state,
         offlineNotification: action.data.enable_offline_push_notifications,

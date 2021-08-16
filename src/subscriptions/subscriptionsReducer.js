@@ -7,7 +7,7 @@ import {
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   EVENT_SUBSCRIPTION,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
@@ -27,7 +27,7 @@ export default (state: SubscriptionsState = initialState, action: Action): Subsc
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.subscriptions;
 
     case EVENT_SUBSCRIPTION:

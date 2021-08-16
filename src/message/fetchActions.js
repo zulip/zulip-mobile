@@ -3,7 +3,7 @@ import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, PerAccountState, Message, Action, ThunkAction, UserId } from '../types';
 import { ensureUnreachable } from '../types';
-import type { InitialFetchAbortReason } from '../actionTypes';
+import type { RegisterAbortReason } from '../actionTypes';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { ApiError, Server5xxError, NetworkError } from '../api/apiErrors';
@@ -20,8 +20,8 @@ import {
 } from '../selectors';
 import config from '../config';
 import {
-  INITIAL_FETCH_START,
-  INITIAL_FETCH_ABORT,
+  REGISTER_START,
+  REGISTER_ABORT,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
@@ -32,7 +32,7 @@ import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow } from '../utils/narr
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
-import { realmInit } from '../realm/realmActions';
+import { registerComplete } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -192,26 +192,27 @@ export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
   }
 };
 
-const initialFetchStart = (): Action => ({
-  type: INITIAL_FETCH_START,
+const registerStart = (): Action => ({
+  type: REGISTER_START,
 });
 
-const initialFetchAbortPlain = (reason: InitialFetchAbortReason): Action => ({
-  type: INITIAL_FETCH_ABORT,
+const registerAbortPlain = (reason: RegisterAbortReason): Action => ({
+  type: REGISTER_ABORT,
   reason,
 });
 
-export const initialFetchAbort = (
-  reason: InitialFetchAbortReason,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  dispatch(initialFetchAbortPlain(reason));
+export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+) => {
+  dispatch(registerAbortPlain(reason));
   if (getHaveServerData(getState())) {
     // Try again, forever if necessary; the user has an interactable UI and
     // can look at stale data while waiting.
     //
     // Do so by lying that the server has told us our queue is invalid and
     // we need a new one. Note that this must fire *after*
-    // `initialFetchAbortPlain()`, so that AppDataFetcher sees
+    // `registerAbortPlain()`, so that AppDataFetcher sees
     // `needsInitialFetch` go from `false` to `true`. We don't call
     // `doInitialFetch` directly here because that would go against
     // `AppDataFetcher`'s implicit interface. (Also, `needsInitialFetch` is
@@ -414,7 +415,7 @@ export async function tryFetch<T>(
  * (`SearchMessagesScreen`).
  */
 export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  dispatch(initialFetchStart());
+  dispatch(registerStart());
   const auth = getAuth(getState());
 
   let initData: InitialData;
@@ -460,23 +461,23 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
       // use retrying; just log out.
       dispatch(logout());
     } else if (e instanceof Server5xxError) {
-      dispatch(initialFetchAbort('server'));
+      dispatch(registerAbort('server'));
     } else if (e instanceof NetworkError) {
-      dispatch(initialFetchAbort('network'));
+      dispatch(registerAbort('network'));
     } else if (e instanceof TimeoutError) {
       // We always want to abort if we've kept the user waiting an
       // unreasonably long time.
-      dispatch(initialFetchAbort('timeout'));
+      dispatch(registerAbort('timeout'));
     } else {
-      dispatch(initialFetchAbort('unexpected'));
+      dispatch(registerAbort('unexpected'));
       logging.warn(e, {
         message: 'Unexpected error during /register.',
       });
     }
     return;
   }
+  dispatch(registerComplete(initData));
 
-  dispatch(realmInit(initData));
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
   const serverVersion = new ZulipVersion(initData.zulip_version);

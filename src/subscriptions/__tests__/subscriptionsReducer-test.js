@@ -17,14 +17,14 @@ describe('subscriptionsReducer', () => {
   const stream3 = eg.makeStream({ name: 'stream3', description: 'my third stream' });
   const sub3 = eg.makeSubscription({ stream: stream3 });
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `subscriptions` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
 
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           subscriptions: [sub1],
         },
       });
@@ -38,9 +38,9 @@ describe('subscriptionsReducer', () => {
       const initialState = deepFreeze([sub1]);
 
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           subscriptions: [],
         },
       });

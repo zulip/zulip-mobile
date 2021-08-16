@@ -21,7 +21,7 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   LOGOUT,
   MESSAGE_FETCH_COMPLETE,
-  REALM_INIT,
+  REGISTER_COMPLETE,
 } from '../actionConstants';
 
 //
@@ -127,7 +127,7 @@ function streamsReducer(
       // TODO(#4446) also LOGIN_SUCCESS, presumably
       return initialStreamsState;
 
-    case REALM_INIT: {
+    case REGISTER_COMPLETE: {
       // This may indeed be unnecessary, but it's legacy; have not investigated
       // if it's this bit of our API types that is too optimistic.
       // flowlint-next-line unnecessary-optional-chain:off

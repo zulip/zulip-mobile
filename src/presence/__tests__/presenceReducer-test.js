@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   PRESENCE_RESPONSE,
   EVENT_PRESENCE,
   ACCOUNT_SWITCH,
@@ -23,7 +23,7 @@ describe('presenceReducer', () => {
     expect(newState).toBe(prevState);
   });
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `presence` data is provided init state with it', () => {
       const presenceData = {
         'email@example.com': {
@@ -36,7 +36,7 @@ describe('presenceReducer', () => {
       };
       const initialState = deepFreeze({});
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {
           presences: presenceData,
         },
@@ -58,7 +58,7 @@ describe('presenceReducer', () => {
         },
       });
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {},
       });
       const expectedState = {};

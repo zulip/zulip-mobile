@@ -30,7 +30,7 @@ describe('unreadPmsReducer', () => {
     });
   });
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('received data from "unread_msgs.pms" key replaces the current state ', () => {
       const initialState = deepFreeze([]);
 
@@ -41,11 +41,11 @@ describe('unreadPmsReducer', () => {
       const message5 = eg.pmMessage({ id: 5, sender_id: 1 });
 
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           unread_msgs: {
-            ...eg.action.realm_init.data.unread_msgs,
+            ...eg.action.register_complete.data.unread_msgs,
             streams: [],
             huddles: [],
             pms: [

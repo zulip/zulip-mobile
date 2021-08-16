@@ -7,7 +7,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   MESSAGE_FETCH_COMPLETE,
-  REALM_INIT,
+  REGISTER_COMPLETE,
 } from '../actionConstants';
 import { makeUserId } from '../api/idTypes';
 
@@ -112,7 +112,7 @@ function insertSorted(sorted, map, key, msgId) {
 // (In fact the webapp calls `Array#sort`, which takes at *least*
 // linear time, and may be 𝛳(N log N).)
 //
-// Optimized for the EVENT_NEW_MESSAGE case; for REALM_INIT and
+// Optimized for the EVENT_NEW_MESSAGE case; for REGISTER_COMPLETE and
 // FETCH_MESSAGES_COMPLETE, if we find we want to optimize them, the first
 // thing we'll want to do is probably to batch the work and skip this
 // function.
@@ -189,7 +189,7 @@ export function reducer(
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT: {
+    case REGISTER_COMPLETE: {
       // TODO optimize; this is quadratic (but so is the webapp's version?!)
       let st = initialState;
       for (const r of action.data.recent_private_conversations ?? []) {

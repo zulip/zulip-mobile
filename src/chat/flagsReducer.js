@@ -3,7 +3,7 @@ import invariant from 'invariant';
 
 import type { Action, FlagsState, Message } from '../types';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
@@ -112,7 +112,7 @@ const eventUpdateMessageFlags = (state, action) => {
 
 export default (state: FlagsState = initialState, action: Action): FlagsState => {
   switch (action.type) {
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
     case LOGOUT:
     case LOGIN_SUCCESS:
     case ACCOUNT_SWITCH:

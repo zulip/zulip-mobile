@@ -85,7 +85,7 @@ export const cacheKeys: Array<$Keys<GlobalState>> = [
  *
  * One important difference from an expired event queue: `DEAD_QUEUE`
  * leaves the stale data mostly in place, to be clobbered by fresh data
- * by the subsequent `REALM_INIT`.  Here, because the old data may not work
+ * by the subsequent `REGISTER_COMPLETE`.  Here, because the old data may not work
  * with the current code at all, we have to actually discard it up front.
  * The behavior is similar to `ACCOUNT_SWITCH`, which also discards most
  * data: we'll show the loading screen while fetching initial data.  See

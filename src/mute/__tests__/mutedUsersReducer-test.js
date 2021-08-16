@@ -9,12 +9,12 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('mutedUsersReducer', () => {
   const baseState = Immutable.Map([[eg.otherUser.user_id, 1618822632]]);
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `muted_users` data is provided init state with it', () => {
       const action = deepFreeze({
-        ...eg.action.realm_init,
+        ...eg.action.register_complete,
         data: {
-          ...eg.action.realm_init.data,
+          ...eg.action.register_complete.data,
           muted_users: [{ id: eg.otherUser.user_id, timestamp: 1618822632 }],
         },
       });
@@ -24,7 +24,7 @@ describe('mutedUsersReducer', () => {
     });
 
     test('when no `muted_users` data is given reset state', () => {
-      expect(mutedUsersReducer(baseState, eg.action.realm_init)).toEqual(Immutable.Map());
+      expect(mutedUsersReducer(baseState, eg.action.register_complete)).toEqual(Immutable.Map());
     });
   });
 

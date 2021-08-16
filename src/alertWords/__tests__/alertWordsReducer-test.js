@@ -1,14 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import alertWordsReducer from '../alertWordsReducer';
-import { REALM_INIT, EVENT_ALERT_WORDS } from '../../actionConstants';
+import { REGISTER_COMPLETE, EVENT_ALERT_WORDS } from '../../actionConstants';
 
 describe('alertWordsReducer', () => {
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `alert_words` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {
           alert_words: ['word', '@mobile-core', 'alert'],
         },
@@ -23,7 +23,7 @@ describe('alertWordsReducer', () => {
     test('when no `alert_words` data is given reset state', () => {
       const initialState = deepFreeze(['word']);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {},
       });
       const expectedState = [];

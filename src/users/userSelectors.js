@@ -276,7 +276,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   //    `needsInitialFetch` to be set.
   //  * The action LOGOUT is always accompanied by navigating away from the
   //    main UI.
-  //  * A successful initial fetch causes a REALM_INIT action.  A failed one
+  //  * A successful initial fetch causes a REGISTER_COMPLETE action.  A failed one
   //    causes either LOGOUT, or an abort that ensures we're not at a
   //    loading screen.
   //
@@ -300,7 +300,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   // Valid server data must have a user: the self user, at a minimum.
   if (getUsers(state).length === 0) {
     // From `usersReducer`:
-    //  * This condition is resolved by REALM_INIT.
+    //  * This condition is resolved by REGISTER_COMPLETE.
     //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
     return false;
   }
@@ -309,7 +309,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   const ownUserId = state.realm.user_id;
   if (ownUserId === undefined) {
     // From `realmReducer`:
-    //  * This condition is resolved by REALM_INIT.
+    //  * This condition is resolved by REGISTER_COMPLETE.
     //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
     return false;
   }
@@ -323,7 +323,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   // we crash early on because `getOwnUser` fails.)
   if (!getUsersById(state).get(ownUserId)) {
     // From the reducers (and assumptions about the server's data):
-    //  * This condition is resolved by REALM_INIT.
+    //  * This condition is resolved by REGISTER_COMPLETE.
     //  * It's never created (post-rehydrate.)
     return false;
   }

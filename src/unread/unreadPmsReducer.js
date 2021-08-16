@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import type { Action } from '../types';
 import type { UnreadPmsState } from './unreadModelTypes';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   LOGOUT,
   ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
@@ -58,7 +58,7 @@ export default (state: UnreadPmsState = initialState, action: Action): UnreadPms
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return (action.data.unread_msgs && action.data.unread_msgs.pms) || initialState;
 
     case EVENT_NEW_MESSAGE:

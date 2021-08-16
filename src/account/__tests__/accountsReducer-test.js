@@ -15,7 +15,7 @@ import { ZulipVersion } from '../../utils/zulipVersion';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('accountsReducer', () => {
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     const account1 = eg.selfAccount;
     const account2 = eg.makeAccount();
     const account3 = eg.makeAccount();
@@ -26,8 +26,8 @@ describe('accountsReducer', () => {
         accountsReducer(
           deepFreeze([account1, account2, account3]),
           deepFreeze({
-            ...eg.action.realm_init,
-            data: { ...eg.action.realm_init.data, zulip_version: newZulipVersion.raw() },
+            ...eg.action.register_complete,
+            data: { ...eg.action.register_complete.data, zulip_version: newZulipVersion.raw() },
           }),
         ),
       ).toEqual([{ ...account1, zulipVersion: newZulipVersion }, account2, account3]);
@@ -39,8 +39,8 @@ describe('accountsReducer', () => {
         accountsReducer(
           deepFreeze([account1, account2, account3]),
           deepFreeze({
-            ...eg.action.realm_init,
-            data: { ...eg.action.realm_init.data, user_id: newUserId },
+            ...eg.action.register_complete,
+            data: { ...eg.action.register_complete.data, user_id: newUserId },
           }),
         ),
       ).toEqual([{ ...account1, userId: newUserId }, account2, account3]);
@@ -52,8 +52,11 @@ describe('accountsReducer', () => {
         accountsReducer(
           deepFreeze([account1, account2, account3]),
           deepFreeze({
-            ...eg.action.realm_init,
-            data: { ...eg.action.realm_init.data, zulip_feature_level: newZulipFeatureLevel },
+            ...eg.action.register_complete,
+            data: {
+              ...eg.action.register_complete.data,
+              zulip_feature_level: newZulipFeatureLevel,
+            },
           }),
         ),
       ).toEqual([{ ...account1, zulipFeatureLevel: newZulipFeatureLevel }, account2, account3]);

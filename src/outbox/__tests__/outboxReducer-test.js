@@ -7,14 +7,14 @@ import { MESSAGE_SEND_START } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('outboxReducer', () => {
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('filters out isSent', () => {
       const message1 = eg.streamOutbox({ content: 'New one' });
       const message2 = eg.streamOutbox({ content: 'Another one' });
       const message3 = eg.streamOutbox({ content: 'Message already sent', isSent: true });
       const initialState = deepFreeze([message1, message2, message3]);
 
-      const action = eg.action.realm_init;
+      const action = eg.action.register_complete;
 
       const expectedState = [message1, message2];
 

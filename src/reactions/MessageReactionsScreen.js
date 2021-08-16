@@ -68,7 +68,7 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
   componentDidUpdate(prevProps) {
     if (prevProps.message !== undefined && this.props.message === undefined) {
       // The message was present, but got purged (currently only caused by a
-      // REALM_INIT following a dead event queue), so go back.
+      // REGISTER_COMPLETE following a dead event queue), so go back.
       NavigationService.dispatch(navigateBack());
     }
   }

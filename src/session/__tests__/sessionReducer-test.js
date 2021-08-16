@@ -5,13 +5,13 @@ import {
   DEAD_QUEUE,
   LOGOUT,
   APP_ONLINE,
-  INITIAL_FETCH_ABORT,
+  REGISTER_ABORT,
   APP_ORIENTATION,
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
   DEBUG_FLAG_TOGGLE,
   DISMISS_SERVER_COMPAT_NOTICE,
-  INITIAL_FETCH_START,
+  REGISTER_START,
 } from '../../actionConstants';
 import sessionReducer from '../sessionReducer';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -58,11 +58,11 @@ describe('sessionReducer', () => {
     });
   });
 
-  test('REALM_INIT', () => {
+  test('REGISTER_COMPLETE', () => {
     const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
     const action = deepFreeze({
-      ...eg.action.realm_init,
-      data: { ...eg.action.realm_init.data, queue_id: '100' },
+      ...eg.action.register_complete,
+      data: { ...eg.action.register_complete.data, queue_id: '100' },
     });
     const newState = sessionReducer(state, action);
     expect(newState).toEqual({
@@ -80,18 +80,15 @@ describe('sessionReducer', () => {
     expect(newState).toEqual({ ...baseState, isOnline: true });
   });
 
-  test('INITIAL_FETCH_ABORT', () => {
+  test('REGISTER_ABORT', () => {
     const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
-    const newState = sessionReducer(
-      state,
-      deepFreeze({ type: INITIAL_FETCH_ABORT, reason: 'server' }),
-    );
+    const newState = sessionReducer(state, deepFreeze({ type: REGISTER_ABORT, reason: 'server' }));
     expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
   });
 
-  test('INITIAL_FETCH_START', () => {
+  test('REGISTER_START', () => {
     const state = deepFreeze({ ...baseState, loading: false });
-    const newState = sessionReducer(state, deepFreeze({ type: INITIAL_FETCH_START }));
+    const newState = sessionReducer(state, deepFreeze({ type: REGISTER_START }));
     expect(newState).toEqual({ ...baseState, loading: true });
   });
 

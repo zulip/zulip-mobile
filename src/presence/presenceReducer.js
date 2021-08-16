@@ -6,7 +6,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
-  REALM_INIT,
+  REGISTER_COMPLETE,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { getAggregatedPresence } from '../utils/presence';
@@ -21,7 +21,7 @@ export default (state: PresenceState = initialState, action: Action): PresenceSt
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.presences || initialState;
 
     case PRESENCE_RESPONSE:

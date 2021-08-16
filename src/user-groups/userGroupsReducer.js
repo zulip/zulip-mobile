@@ -4,7 +4,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
@@ -52,7 +52,7 @@ export default (state: UserGroupsState = initialState, action: Action): UserGrou
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.realm_user_groups || initialState;
 
     case EVENT_USER_GROUP_ADD:

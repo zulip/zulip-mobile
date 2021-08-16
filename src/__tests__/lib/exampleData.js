@@ -20,7 +20,7 @@ import { makeUserId } from '../../api/idTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
-  RealmInitAction,
+  RegisterCompleteAction,
   MessageFetchStartAction,
   MessageFetchCompleteAction,
   Action,
@@ -35,7 +35,7 @@ import { ZulipVersion } from '../../utils/zulipVersion';
 import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_NEW_MESSAGE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
@@ -593,8 +593,8 @@ export const action = Object.freeze({
     email: selfAccount.email,
     apiKey: selfAccount.apiKey,
   }): LoginSuccessAction),
-  realm_init: (deepFreeze({
-    type: REALM_INIT,
+  register_complete: (deepFreeze({
+    type: REGISTER_COMPLETE,
     data: {
       last_event_id: 34,
       msg: '',
@@ -699,7 +699,7 @@ export const action = Object.freeze({
       },
       user_status: {},
     },
-  }): RealmInitAction),
+  }): RegisterCompleteAction),
   message_fetch_start: (deepFreeze({
     type: MESSAGE_FETCH_START,
     narrow: HOME_NARROW,
@@ -770,7 +770,7 @@ export const mkActionEventNewMessage = (
 
 export const backgroundData: BackgroundData = deepFreeze({
   alertWords: [],
-  allImageEmojiById: action.realm_init.data.realm_emoji,
+  allImageEmojiById: action.register_complete.data.realm_emoji,
   auth: selfAuth,
   debug: baseReduxState.session.debug,
   doNotMarkMessagesAsRead: baseReduxState.settings.doNotMarkMessagesAsRead,

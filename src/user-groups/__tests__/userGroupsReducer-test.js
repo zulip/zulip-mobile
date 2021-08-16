@@ -1,7 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   ACCOUNT_SWITCH,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
@@ -21,11 +21,11 @@ describe('userGroupsReducer', () => {
     expect(newState).toBeDefined();
   });
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when data is provided init state with it', () => {
       const initialState = deepFreeze([]);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {
           realm_user_groups: [
             {
@@ -51,7 +51,7 @@ describe('userGroupsReducer', () => {
     test('when no data is given reset state', () => {
       const initialState = deepFreeze([['stream'], ['topic']]);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {},
       });
       const expectedState = [];

@@ -4,7 +4,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT_USER_UPDATE,
@@ -20,7 +20,7 @@ export default (state: UsersState = initialState, action: Action): UsersState =>
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.realm_users;
 
     case EVENT_USER_ADD:

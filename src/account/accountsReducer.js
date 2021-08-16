@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import {
   EVENT,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
   ACK_PUSH_TOKEN,
@@ -16,7 +16,7 @@ import { ZulipVersion } from '../utils/zulipVersion';
 
 const initialState = NULL_ARRAY;
 
-const realmInit = (state, action) => [
+const registerComplete = (state, action) => [
   {
     ...state[0],
     userId: action.data.user_id,
@@ -99,8 +99,8 @@ const accountRemove = (state, action) => {
 
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
-    case REALM_INIT:
-      return realmInit(state, action);
+    case REGISTER_COMPLETE:
+      return registerComplete(state, action);
 
     case ACCOUNT_SWITCH:
       return accountSwitch(state, action);

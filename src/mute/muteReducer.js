@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { MuteState, Action } from '../types';
-import { REALM_INIT, LOGOUT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
+import { REGISTER_COMPLETE, LOGOUT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: MuteState = NULL_ARRAY;
@@ -11,7 +11,7 @@ export default (state: MuteState = initialState, action: Action): MuteState => {
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.muted_topics || initialState;
 
     case EVENT_MUTED_TOPICS:

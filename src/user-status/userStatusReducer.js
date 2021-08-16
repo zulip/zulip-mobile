@@ -4,7 +4,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
-  REALM_INIT,
+  REGISTER_COMPLETE,
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
@@ -18,7 +18,7 @@ export default (state: UserStatusState = initialState, action: Action): UserStat
     case ACCOUNT_SWITCH:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return action.data.user_status || initialState;
 
     case EVENT_USER_STATUS_UPDATE: {

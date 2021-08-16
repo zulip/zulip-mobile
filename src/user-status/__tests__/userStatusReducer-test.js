@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { ACCOUNT_SWITCH, REALM_INIT, EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
+import { ACCOUNT_SWITCH, REGISTER_COMPLETE, EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
 import userStatusReducer from '../userStatusReducer';
 
 describe('userStatusReducer', () => {
@@ -33,11 +33,11 @@ describe('userStatusReducer', () => {
     });
   });
 
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `user_status` data is provided init state with it', () => {
       const initialState = deepFreeze({});
       const action = {
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {
           user_status: testUserStatusData,
         },
@@ -51,7 +51,7 @@ describe('userStatusReducer', () => {
     test('handles older back-ends that do not have `user_status` data by resetting the state', () => {
       const initialState = deepFreeze(testUserStatusData);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {},
       });
       const expectedState = {};

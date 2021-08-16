@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 
 import type { MutedUsersState, Action, UserId } from '../types';
 import {
-  REALM_INIT,
+  REGISTER_COMPLETE,
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_SWITCH,
@@ -24,7 +24,7 @@ export default (state: MutedUsersState = initialState, action: Action): MutedUse
     case LOGIN_SUCCESS:
       return initialState;
 
-    case REALM_INIT:
+    case REGISTER_COMPLETE:
       return mutedUsersToMap(action.data.muted_users ?? []);
 
     case EVENT_MUTED_USERS:

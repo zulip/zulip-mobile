@@ -1,14 +1,14 @@
 import deepFreeze from 'deep-freeze';
 
 import muteReducer from '../muteReducer';
-import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REALM_INIT } from '../../actionConstants';
+import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REGISTER_COMPLETE } from '../../actionConstants';
 
 describe('muteReducer', () => {
-  describe('REALM_INIT', () => {
+  describe('REGISTER_COMPLETE', () => {
     test('when `mute` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {
           muted_topics: [['stream'], ['topic']],
         },
@@ -22,7 +22,7 @@ describe('muteReducer', () => {
     test('when no `mute` data is given reset state', () => {
       const initialState = deepFreeze([['stream'], ['topic']]);
       const action = deepFreeze({
-        type: REALM_INIT,
+        type: REGISTER_COMPLETE,
         data: {},
       });
       const expectedState = [];

@@ -139,7 +139,7 @@ export type User = $ReadOnly<{|
 
   /**
    * Present under EVENT_USER_ADD, EVENT_USER_UPDATE (if change
-   * indicated), under REALM_INIT, and in `state.users`, all as an
+   * indicated), under REGISTER_COMPLETE, and in `state.users`, all as an
    * AvatarURL, because we translate into that form at the edge.
    *
    * For how it appears at the edge (and how we translate) see
