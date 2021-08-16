@@ -25,7 +25,10 @@ describe('accountsReducer', () => {
       expect(
         accountsReducer(
           deepFreeze([account1, account2, account3]),
-          deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion }),
+          deepFreeze({
+            ...eg.action.realm_init,
+            data: { ...eg.action.realm_init.data, zulip_version: newZulipVersion.raw() },
+          }),
         ),
       ).toEqual([{ ...account1, zulipVersion: newZulipVersion }, account2, account3]);
     });

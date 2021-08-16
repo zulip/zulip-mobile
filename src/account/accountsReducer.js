@@ -21,7 +21,7 @@ const realmInit = (state, action) => [
     ...state[0],
     userId: action.data.user_id,
     zulipFeatureLevel: action.data.zulip_feature_level ?? 0,
-    zulipVersion: action.zulipVersion,
+    zulipVersion: new ZulipVersion(action.data.zulip_version),
   },
   ...state.slice(1),
 ];

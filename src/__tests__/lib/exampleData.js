@@ -694,7 +694,6 @@ export const action = Object.freeze({
       },
       user_status: {},
     },
-    zulipVersion,
   }): RealmInitAction),
   message_fetch_start: (deepFreeze({
     type: MESSAGE_FETCH_START,

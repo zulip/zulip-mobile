@@ -92,7 +92,6 @@ import type {
   UserId,
   UserStatusEvent,
 } from './types';
-import type { ZulipVersion } from './utils/zulipVersion';
 
 /**
  * Dispatched by redux-persist when the stored state is loaded.
@@ -163,7 +162,6 @@ type LogoutAction = {|
 export type RealmInitAction = {|
   type: typeof REALM_INIT,
   data: InitialData,
-  zulipVersion: ZulipVersion,
 |};
 
 /** We learned the device token from the system.  See `SessionState`. */
