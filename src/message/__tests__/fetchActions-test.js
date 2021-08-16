@@ -566,12 +566,12 @@ describe('fetchActions', () => {
       expect(actions).toHaveLength(0);
     });
 
-    test('when needsInitialFetch is true, no action is dispatched', async () => {
+    test('when loading is true, no action is dispatched', async () => {
       const store = mockStore<GlobalState, Action>({
         ...baseState,
         session: {
           ...baseState.session,
-          needsInitialFetch: true,
+          loading: true,
         },
       });
 
@@ -658,12 +658,12 @@ describe('fetchActions', () => {
       expect(actions).toHaveLength(0);
     });
 
-    test('when needsInitialFetch is true, no action is dispatched', async () => {
+    test('when loading is true, no action is dispatched', async () => {
       const store = mockStore<GlobalState, Action>({
         ...baseState,
         session: {
           ...baseState.session,
-          needsInitialFetch: true,
+          loading: true,
         },
       });
 

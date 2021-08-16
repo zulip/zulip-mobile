@@ -160,9 +160,9 @@ export const fetchOlder = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
   const firstMessageId = getFirstMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
   const fetching = getFetchingForNarrow(state, narrow);
-  const { needsInitialFetch } = getSession(state);
+  const { loading } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
+  if (!loading && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
     dispatch(
       fetchMessages({
         narrow,
@@ -179,9 +179,9 @@ export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
   const lastMessageId = getLastMessageId(state, narrow);
   const caughtUp = getCaughtUpForNarrow(state, narrow);
   const fetching = getFetchingForNarrow(state, narrow);
-  const { needsInitialFetch } = getSession(state);
+  const { loading } = getSession(state);
 
-  if (!needsInitialFetch && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
+  if (!loading && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
     dispatch(
       fetchMessages({
         narrow,
