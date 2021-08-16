@@ -21,10 +21,10 @@ export type InitialDataBase = $ReadOnly<{|
   msg: string,
   queue_id: string,
 
-  // The feature level (below) is included unconditionally as of 3.0
-  // (zulip/zulip@2c6313019), which is why we put it in `InitialDataBase`.
-  // To get it from servers older than that, we have to pass `zulip_version`
-  // in `fetch_event_types`, which we do.
+  // The feature level and server version, below, are included
+  // unconditionally as of 3.0 (zulip/zulip@2c6313019), which is why we put
+  // them in `InitialDataBase`. To get them from servers older than that, we
+  // have to pass `zulip_version` in `fetch_event_types`, which we do.
   //
   // TODO(server-3.0): We can stop passing `zulip_version` in
   // `fetch_event_types` and remove this comment.
@@ -35,6 +35,14 @@ export type InitialDataBase = $ReadOnly<{|
    * https://zulip.com/api/get-server-settings. See also the comment above.
    */
   zulip_feature_level?: number,
+
+  /**
+   * Should be present as far back as 1.6.0 (zulip/zulip@d9b10727f). Same
+   * meaning as in the server_settings response:
+   * https://zulip.com/api/get-server-settings. See also the comment above
+   * `zulip_feature_level`, above.
+   */
+  zulip_version: string,
 |}>;
 
 export type InitialDataAlertWords = $ReadOnly<{|

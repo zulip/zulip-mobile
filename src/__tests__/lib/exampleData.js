@@ -641,6 +641,7 @@ export const action = Object.freeze({
       realm_video_chat_provider: 1,
       realm_waiting_period_threshold: 3,
       zulip_feature_level: 1,
+      zulip_version: zulipVersion.raw(),
       realm_emoji: {},
       realm_filters: [],
       avatar_source: 'G',
