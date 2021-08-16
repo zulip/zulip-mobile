@@ -5,7 +5,6 @@ import {
   DEAD_QUEUE,
   LOGOUT,
   APP_ONLINE,
-  INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_ABORT,
   APP_ORIENTATION,
   GOT_PUSH_TOKEN,
@@ -60,12 +59,18 @@ describe('sessionReducer', () => {
   });
 
   test('REALM_INIT', () => {
+    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
     const action = deepFreeze({
       ...eg.action.realm_init,
       data: { ...eg.action.realm_init.data, queue_id: '100' },
     });
-    const newState = sessionReducer(baseState, action);
-    expect(newState).toEqual({ ...baseState, eventQueueId: '100' });
+    const newState = sessionReducer(state, action);
+    expect(newState).toEqual({
+      ...baseState,
+      needsInitialFetch: false,
+      loading: false,
+      eventQueueId: '100',
+    });
   });
 
   test('APP_ONLINE', () => {
@@ -81,12 +86,6 @@ describe('sessionReducer', () => {
       state,
       deepFreeze({ type: INITIAL_FETCH_ABORT, reason: 'server' }),
     );
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
-  });
-
-  test('INITIAL_FETCH_COMPLETE', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
-    const newState = sessionReducer(state, deepFreeze({ type: INITIAL_FETCH_COMPLETE }));
     expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
   });
 

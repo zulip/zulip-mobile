@@ -402,9 +402,9 @@ In the current Zulip mobile app, the structure looks like
   * It's set to true on an `DEAD_QUEUE` action -- which is dispatched
     exclusively by the long-poll loop in `startEventPolling`, when it
     finds the event queue has expired.
-  * It's set to false on an `INITIAL_FETCH_COMPLETE` action -- which
-    is dispatched exclusively by `doInitialFetch`, just
-    before it dispatches a `startEventPolling` action.
+  * It's set to false on a `REALM_INIT` action -- which is dispatched
+    exclusively by `doInitialFetch`, just before it dispatches a
+    `startEventPolling` action.
 
 Essentially, the `AppDataFetcher` React component is used as a way of
 listening for certain Redux actions (notably `REHYDRATE` and

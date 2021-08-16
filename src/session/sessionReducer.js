@@ -7,7 +7,6 @@ import {
   APP_ONLINE,
   ACCOUNT_SWITCH,
   REALM_INIT,
-  INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_ABORT,
   INITIAL_FETCH_START,
   APP_ORIENTATION,
@@ -191,6 +190,8 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case REALM_INIT:
       return {
         ...state,
+        loading: false,
+        needsInitialFetch: false,
         eventQueueId: action.data.queue_id,
       };
 
@@ -207,7 +208,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       };
 
     case INITIAL_FETCH_ABORT:
-    case INITIAL_FETCH_COMPLETE:
       return {
         ...state,
         loading: false,

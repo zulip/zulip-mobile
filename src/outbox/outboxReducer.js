@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { OutboxState, Action, Outbox } from '../types';
 import {
-  INITIAL_FETCH_COMPLETE,
+  REALM_INIT,
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
   LOGOUT,
@@ -24,7 +24,7 @@ const messageSendStart = (state, action) => {
 
 export default (state: OutboxState = initialState, action: Action): OutboxState => {
   switch (action.type) {
-    case INITIAL_FETCH_COMPLETE:
+    case REALM_INIT:
       return filterArray(state, (outbox: Outbox) => !outbox.isSent);
 
     case MESSAGE_SEND_START:

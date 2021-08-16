@@ -17,7 +17,6 @@ import {
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
   INITIAL_FETCH_START,
-  INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_ABORT,
   SETTINGS_CHANGE,
   DRAFT_UPDATE,
@@ -228,10 +227,6 @@ export type MessageFetchCompleteAction = {|
 
 type InitialFetchStartAction = {|
   type: typeof INITIAL_FETCH_START,
-|};
-
-type InitialFetchCompleteAction = {|
-  type: typeof INITIAL_FETCH_COMPLETE,
 |};
 
 export type InitialFetchAbortReason = 'server' | 'network' | 'timeout' | 'unexpected';
@@ -621,7 +616,7 @@ type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAct
 type LoadingAction =
   | DeadQueueAction
   | InitialFetchStartAction
-  | InitialFetchCompleteAction
+  | RealmInitAction
   | InitialFetchAbortAction;
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;

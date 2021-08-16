@@ -21,7 +21,6 @@ import {
 import config from '../config';
 import {
   INITIAL_FETCH_START,
-  INITIAL_FETCH_COMPLETE,
   INITIAL_FETCH_ABORT,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
@@ -195,10 +194,6 @@ export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
 
 const initialFetchStart = (): Action => ({
   type: INITIAL_FETCH_START,
-});
-
-const initialFetchComplete = (): Action => ({
-  type: INITIAL_FETCH_COMPLETE,
 });
 
 const initialFetchAbortPlain = (reason: InitialFetchAbortReason): Action => ({
@@ -482,7 +477,6 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
   }
 
   dispatch(realmInit(initData));
-  dispatch(initialFetchComplete());
   dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
   const serverVersion = new ZulipVersion(initData.zulip_version);
