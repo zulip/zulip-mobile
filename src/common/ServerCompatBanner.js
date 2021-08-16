@@ -14,11 +14,9 @@ import { dismissCompatNotice } from '../session/sessionActions';
 import ZulipTextButton from './ZulipTextButton';
 import { openLinkWithUserPreference } from '../utils/openLink';
 
-// In fact the oldest version we currently support is 2.1.0, per our docs:
-//   https://zulip.readthedocs.io/en/4.2/overview/release-lifecycle.html
-// For now we only show this banner for servers older than 2.0.0, though,
-// in order to phase that in gradually.
-const minSupportedVersion = '2.0.0';
+// The oldest version we currently support. Should match what we say at
+//   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading.
+const minSupportedVersion = '2.1.0';
 
 const styles = createStyleSheet({
   wrapper: {
