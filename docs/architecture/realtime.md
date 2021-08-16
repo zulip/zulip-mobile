@@ -383,12 +383,10 @@ In the current Zulip mobile app, the structure looks like
   The code is in `eventActions.js` as `startEventPolling`, an action
   creator which takes the events finger as parameters.
 * That action creator is in turn invoked within the thunk action
-  created by the nullary action creator `fetchInitialData`
+  created by the nullary action creator `doInitialFetch`
   (in `fetchActions.js`), which does a number of other things but in
   particular first invokes `registerForEvents`, which is `/register`
   in the API binding.
-* That in turn is invoked by the thunk action created by
-  `doInitialFetch`, in the same file.
 * Which is invoked by `AppDataFetcher`.  This is a Redux-`connect`ed
   component that appears near the very top of the hierarchy in
   `ZulipMobile.js`.  The component's one job is to listen for changes
@@ -405,7 +403,7 @@ In the current Zulip mobile app, the structure looks like
     exclusively by the long-poll loop in `startEventPolling`, when it
     finds the event queue has expired.
   * It's set to false on an `INITIAL_FETCH_COMPLETE` action -- which
-    is dispatched exclusively by `fetchInitialData`, just
+    is dispatched exclusively by `doInitialFetch`, just
     before it dispatches a `startEventPolling` action.
 
 Essentially, the `AppDataFetcher` React component is used as a way of
