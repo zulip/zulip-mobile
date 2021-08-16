@@ -25,7 +25,7 @@ import { getHasAuth } from '../account/accountsSelectors';
  * See {@link SessionState} for discussion of what "non-persistent" means.
  */
 export type PerAccountSessionState = $ReadOnly<{
-  eventQueueId: number,
+  eventQueueId: string | null,
 
   /**
    * Whether the /register request is in progress.
@@ -104,7 +104,7 @@ export type SessionState = $ReadOnly<{|
 (s: SessionState): PerAccountSessionState => s; // eslint-disable-line no-unused-expressions
 
 const initialState: SessionState = {
-  eventQueueId: -1,
+  eventQueueId: null,
 
   // This will be `null` on startup, while we wait to hear `true` or `false`
   // from the native module over the RN bridge; so, have it start as `null`.

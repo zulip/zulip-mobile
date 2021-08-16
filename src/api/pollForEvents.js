@@ -9,7 +9,7 @@ type ApiResponsePollEvents = {|
 |};
 
 /** See https://zulip.com/api/get-events */
-export default (auth: Auth, queueId: number, lastEventId: number): Promise<ApiResponsePollEvents> =>
+export default (auth: Auth, queueId: string, lastEventId: number): Promise<ApiResponsePollEvents> =>
   apiGet(
     auth,
     'events',

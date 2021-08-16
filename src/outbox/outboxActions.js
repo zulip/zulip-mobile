@@ -86,7 +86,7 @@ const trySendMessages = (dispatch, getState): boolean => {
         subject: item.subject,
         content: item.markdownContent,
         localId: item.timestamp,
-        eventQueueId: state.session.eventQueueId,
+        eventQueueId: state.session.eventQueueId ?? undefined,
       });
       dispatch(messageSendComplete(item.timestamp));
     });

@@ -81,7 +81,10 @@ const useMessagesWithFetch = args => {
     }
   }, [dispatch, narrow]);
 
-  // When the event queue changes, schedule a fetch.
+  // When the event queue changes, schedule a fetch. (Currently, we never
+  // set this to null from a non-null value, so this really does mean the
+  // event queue has changed; it can't mean that we had a queue ID and
+  // dropped it.)
   React.useEffect(() => {
     shouldFetchWhenNextFocused.current = true;
   }, [eventQueueId]);

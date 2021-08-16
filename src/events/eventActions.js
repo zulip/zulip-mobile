@@ -43,7 +43,7 @@ const handleEvent = (event: GeneralEvent, dispatch, getState) => {
  * for discussion.
  */
 export const startEventPolling = (
-  queueId: number,
+  queueId: string,
   eventId: number,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   let lastEventId = eventId;

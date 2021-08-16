@@ -62,10 +62,10 @@ describe('sessionReducer', () => {
   test('REALM_INIT', () => {
     const action = deepFreeze({
       ...eg.action.realm_init,
-      data: { ...eg.action.realm_init.data, queue_id: 100 },
+      data: { ...eg.action.realm_init.data, queue_id: '100' },
     });
     const newState = sessionReducer(baseState, action);
-    expect(newState).toEqual({ ...baseState, eventQueueId: 100 });
+    expect(newState).toEqual({ ...baseState, eventQueueId: '100' });
   });
 
   test('APP_ONLINE', () => {

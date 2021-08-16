@@ -19,7 +19,7 @@ import type {
 export type InitialDataBase = $ReadOnly<{|
   last_event_id: number,
   msg: string,
-  queue_id: number,
+  queue_id: string,
 |}>;
 
 export type InitialDataAlertWords = $ReadOnly<{|
