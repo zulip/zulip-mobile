@@ -16,12 +16,13 @@ const styles = createStyleSheet({
     paddingLeft: 16,
     paddingRight: 8,
     paddingBottom: 8,
+    paddingTop: 10,
   },
   textRow: {
     flexDirection: 'row',
   },
   text: {
-    marginTop: 16,
+    marginTop: 6,
     lineHeight: 20,
   },
   buttonsRow: {
