@@ -328,6 +328,13 @@ export type Topic = $ReadOnly<{|
   max_id: number,
 |}>;
 
+/**
+ * Describes a single topic link
+ */
+export type TopicLink = $ReadOnly<{|
+  url: string,
+|}>;
+
 //
 //
 //
@@ -650,7 +657,8 @@ export type StreamMessage = $ReadOnly<{|
    * (see point 4). We assume this has always been the case.
    */
   subject: string,
-  subject_links: $ReadOnlyArray<string>,
+  /** TODO: use subject_links prior to 2.2 */
+  topic_links?: $ReadOnlyArray<TopicLink>,
 |}>;
 
 /**

@@ -42,6 +42,15 @@ describe('constructActionButtons', () => {
     });
     expect(buttonTitles(buttons)).toContain('See who reacted');
   });
+
+  test('show topic links option if message has one', () => {
+    const buttons = constructMessageActionButtons({
+      backgroundData: eg.backgroundData,
+      message: eg.streamMessage({ topic_links: [eg.topicLink] }),
+      narrow,
+    });
+    expect(buttonTitles(buttons)).toContain('Open Topic Link');
+  });
 });
 
 describe('constructTopicActionButtons', () => {

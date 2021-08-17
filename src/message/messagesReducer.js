@@ -171,7 +171,7 @@ export default (state: MessagesState = initialState, action: Action): MessagesSt
           ? {
               ...messageWithNewCommonFields,
               subject: action.subject || messageWithNewCommonFields.subject,
-              subject_links: action.subject_links || messageWithNewCommonFields.subject_links,
+              topic_links: action.topic_links || messageWithNewCommonFields.topic_links,
             }
           : {
               ...messageWithNewCommonFields,

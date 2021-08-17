@@ -91,6 +91,7 @@ import type {
   AlertWordsState,
   UserId,
   UserStatusEvent,
+  TopicLink,
 } from './types';
 import type { ZulipVersion } from './utils/zulipVersion';
 
@@ -365,7 +366,7 @@ type EventUpdateMessageAction = {|
   orig_rendered_content: string,
   prev_rendered_content_version: number,
   rendered_content: string,
-  subject_links: string[],
+  topic_links: TopicLink[],
   subject: string,
   user_id: UserId,
 |};
