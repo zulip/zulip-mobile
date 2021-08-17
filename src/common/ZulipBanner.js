@@ -20,13 +20,13 @@ const styles = createStyleSheet({
   },
   textRow: {
     flexDirection: 'row',
+    marginBottom: 12,
   },
   text: {
     marginTop: 6,
     lineHeight: 20,
   },
   buttonsRow: {
-    marginTop: 12,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
