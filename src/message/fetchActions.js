@@ -448,11 +448,11 @@ export async function tryFetch<T>(
  * (`SearchMessagesScreen`).
  */
 export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  dispatch(registerStart());
   const auth = getAuth(getState());
 
   const haveServerData = getHaveServerData(getState());
 
+  dispatch(registerStart());
   let initData: InitialData;
   try {
     initData = await tryFetch(
