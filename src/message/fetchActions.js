@@ -211,6 +211,7 @@ export const initialFetchAbort = (reason: InitialFetchAbortReason) => async (
   dispatch: Dispatch,
   getState: GetState,
 ) => {
+  dispatch(initialFetchAbortPlain(reason));
   showErrorAlert(
     // TODO: Set up these user-facing strings for translation once
     // `initialFetchAbort`'s callers all have access to a `GetText`
@@ -238,7 +239,6 @@ export const initialFetchAbort = (reason: InitialFetchAbortReason) => async (
     })(),
   );
   NavigationService.dispatch(resetToAccountPicker());
-  dispatch(initialFetchAbortPlain(reason));
 };
 
 /** Private; exported only for tests. */
