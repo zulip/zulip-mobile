@@ -219,6 +219,7 @@ const initialFetchAbortPlain = (reason: InitialFetchAbortReason): Action => ({
 export const initialFetchAbort = (
   reason: InitialFetchAbortReason,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+  dispatch(initialFetchAbortPlain(reason));
   showErrorAlert(
     // TODO: Set up these user-facing strings for translation once
     // `initialFetchAbort`'s callers all have access to a `GetText`
@@ -246,7 +247,6 @@ export const initialFetchAbort = (
     })(),
   );
   NavigationService.dispatch(resetToAccountPicker());
-  dispatch(initialFetchAbortPlain(reason));
 };
 
 /** Private; exported only for tests. */
