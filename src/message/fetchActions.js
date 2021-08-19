@@ -17,7 +17,7 @@ import type { ApiResponseServerSettings } from '../api/settings/getServerSetting
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { ApiError, Server5xxError, NetworkError } from '../api/apiErrors';
-import { resetToAccountPicker } from '../actions';
+import { resetToAccountPicker, deadQueue } from '../actions';
 import {
   getAuth,
   getSession,
@@ -220,33 +220,54 @@ export const initialFetchAbort = (
   reason: InitialFetchAbortReason,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   dispatch(initialFetchAbortPlain(reason));
-  showErrorAlert(
-    // TODO: Set up these user-facing strings for translation once
-    // `initialFetchAbort`'s callers all have access to a `GetText`
-    // function. As of adding the strings, the initial fetch is dispatched
-    // from `AppDataFetcher` which isn't a descendant of
-    // `TranslationProvider`.
-    'Connection failed',
-    (() => {
-      const realmStr = getActiveAccount(getState()).realm.toString();
-      switch (reason) {
-        case 'server':
-          return getIsAdmin(getState())
-            ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
-            : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
-        case 'network':
-          return `The network request to ${realmStr} failed.`;
-        case 'timeout':
-          return `Gave up trying to connect to ${realmStr} after waiting too long.`;
-        case 'unexpected':
-          return `Unexpected error while trying to connect to ${realmStr}.`;
-        default:
-          ensureUnreachable(reason);
-          return '';
-      }
-    })(),
-  );
-  NavigationService.dispatch(resetToAccountPicker());
+  if (getHaveServerData(getState())) {
+    // Try again, forever if necessary; the user has an interactable UI and
+    // can look at stale data while waiting.
+    //
+    // Do so by lying that the server has told us our queue is invalid and
+    // we need a new one. Note that this must fire *after*
+    // `initialFetchAbortPlain()`, so that AppDataFetcher sees
+    // `needsInitialFetch` go from `false` to `true`. We don't call
+    // `doInitialFetch` directly here because that would go against
+    // `AppDataFetcher`'s implicit interface. (Also, `needsInitialFetch` is
+    // dubiously being read outside `AppDataFetcher`, in
+    // `fetchOlder`/`fetchNewer`, and we don't want to break something
+    // there.)
+    //
+    // TODO: Clean up all this brittle logic.
+    // TODO: Instead, let the retry be on-demand, with a banner.
+    dispatch(deadQueue()); // eslint-disable-line no-use-before-define
+  } else {
+    // Tell the user we've given up and let them try the same account or a
+    // different account from the account picker.
+    showErrorAlert(
+      // TODO: Set up these user-facing strings for translation once
+      // `initialFetchAbort`'s callers all have access to a `GetText`
+      // function. As of adding the strings, the initial fetch is dispatched
+      // from `AppDataFetcher` which isn't a descendant of
+      // `TranslationProvider`.
+      'Connection failed',
+      (() => {
+        const realmStr = getActiveAccount(getState()).realm.toString();
+        switch (reason) {
+          case 'server':
+            return getIsAdmin(getState())
+              ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
+              : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
+          case 'network':
+            return `The network request to ${realmStr} failed.`;
+          case 'timeout':
+            return `Gave up trying to connect to ${realmStr} after waiting too long.`;
+          case 'unexpected':
+            return `Unexpected error while trying to connect to ${realmStr}.`;
+          default:
+            ensureUnreachable(reason);
+            return '';
+        }
+      })(),
+    );
+    NavigationService.dispatch(resetToAccountPicker());
+  }
 };
 
 /** Private; exported only for tests. */
