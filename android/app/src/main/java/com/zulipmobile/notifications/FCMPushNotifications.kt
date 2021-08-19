@@ -14,17 +14,17 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.service.notification.StatusBarNotification
 import android.util.Log
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
 import androidx.core.graphics.drawable.IconCompat
 import com.facebook.react.ReactApplication
-import me.leolin.shortcutbadger.ShortcutBadger
-
 import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 import com.zulipmobile.ZLog
+import me.leolin.shortcutbadger.ShortcutBadger
 
 private val CHANNEL_ID = "default"
 private val NOTIFICATION_ID = 435
@@ -77,7 +77,40 @@ internal fun onReceived(context: Context, mapData: Map<String, String>) {
 
     if (fcmMessage is MessageFcmMessage) {
         updateNotification(context, fcmMessage)
-    } // TODO handle case for RemoveFcmMessage
+    } else if (fcmMessage is RemoveFcmMessage) {
+        removeNotification(context, fcmMessage)
+    }
+}
+
+fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
+    val statusBarNotifications = getActiveNotifications(context) ?: return
+    val groupKey = extractGroupKey(fcmMessage.identity)
+    // Find any conversations we can cancel the notification for.
+    // The API doesn't lend itself to removing individual messages as
+    // they're read, so we wait until we're ready to remove the whole
+    // conversation's notification.
+    // See: https://github.com/zulip/zulip-mobile/pull/4842#pullrequestreview-725817909
+    for (statusBarNotification in statusBarNotifications) {
+        // Each statusBarNotification represents one Zulip conversation.
+        val notification = statusBarNotification.notification
+        val lastMessageId = notification.extras.getInt("lastZulipMessageId")
+        if (fcmMessage.messageIds.contains(lastMessageId)) {
+            // The latest Zulip message in this conversation was read.
+            // That's our cue to cancel the notification for the conversation.
+            NotificationManagerCompat.from(context).cancel(statusBarNotification.tag, statusBarNotification.id)
+        }
+    }
+    var counter = 0
+    for (statusBarNotification in statusBarNotifications) {
+        if (statusBarNotification.notification.group == groupKey) {
+            counter++
+        }
+    }
+    if (counter == 2) {
+        // counter will be 2 only when summary notification and last notification are
+        // present; in this case, we remove summary notification.
+        NotificationManagerCompat.from(context).cancel(groupKey, NOTIFICATION_ID)
+    }
 }
 
 private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
@@ -123,6 +156,10 @@ private fun getActiveNotification(context: Context, conversationKey: String): No
     }
     return null
 }
+
+
+private fun getActiveNotifications(context: Context): Array<StatusBarNotification>? =
+    (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)?.activeNotifications
 
 // TODO: Add a Text saying n messages in m conversations. (this will
 // only be visible in API < 24)
@@ -215,6 +252,10 @@ private fun updateNotification(
         setSound(getNotificationSoundUri())
         setContentIntent(createViewPendingIntent(fcmMessage, context))
         setNumber(messageCount)
+
+        val extraData = Bundle()
+        extraData.putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
+        extras = extraData
     }
 
     val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
