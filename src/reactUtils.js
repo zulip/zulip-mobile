@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import { useRef, useEffect, useState } from 'react';
 
 /**
@@ -31,6 +32,26 @@ export function usePrevious<T, U>(value: T, initValue: U): T | U {
   return ref.current;
 }
 
+const NODE_ENV = process.env.NODE_ENV;
+
+/**
+ * In debug mode, assert the given value is constant through a component's life.
+ *
+ * In production mode, do nothing.
+ *
+ * This is meant to be used as a React Hook.
+ */
+export function useDebugAssertConstant<T>(value: T) {
+  if (NODE_ENV === 'production') {
+    return;
+  }
+
+  // Conditional, but on a per-process constant.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const origValue = useRef(value);
+  invariant(value === origValue.current, '');
+}
+
 /**
  * True just when `value` has been true continuously for the past `duration`.
  *
@@ -41,6 +62,8 @@ export function usePrevious<T, U>(value: T, initValue: U): T | U {
  * component instance.
  */
 export const useHasStayedTrueForMs = (value: boolean, duration: number) => {
+  useDebugAssertConstant(duration);
+
   const [result, setResult] = useState<boolean>(false);
 
   // eslint-disable-next-line consistent-return
