@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 /**
  * A Hook for the value of a prop, state, etc., from the previous render.
@@ -30,3 +30,33 @@ export function usePrevious<T, U>(value: T, initValue: U): T | U {
   });
   return ref.current;
 }
+
+/**
+ * True just when `value` has been true continuously for the past `duration`.
+ *
+ * When the given time has elapsed so that this hook's return value becomes
+ * true, it causes a rerender through a state update.
+ *
+ * The caller must use a constant `duration` through the lifetime of a given
+ * component instance.
+ */
+export const useHasStayedTrueForMs = (value: boolean, duration: number) => {
+  const [result, setResult] = useState<boolean>(false);
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (value) {
+      const id = setTimeout(() => setResult(true), duration);
+      return () => clearTimeout(id);
+    } else {
+      setResult(false);
+    }
+    // If `duration` changes, we'll tear down the old timeout and start the
+    // timer over.  That isn't really ideal behavior... but we don't
+    // actually have a use case for a dynamic `duration`, and supporting it
+    // properly would be more complex, so we've just forbidden that as part
+    // of this hook function's interface.
+  }, [value, duration]);
+
+  return result;
+};
