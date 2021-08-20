@@ -51,7 +51,7 @@ export default function UserPickerCard(props: Props): Node {
 
   const prevSelectedState = usePrevious(selectedState);
   useEffect(() => {
-    if (prevSelectedState !== null && selectedState.length > prevSelectedState.length) {
+    if (prevSelectedState && selectedState.length > prevSelectedState.length) {
       setTimeout(() => {
         listRef.current?.scrollToEnd();
       });

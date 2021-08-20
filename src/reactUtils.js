@@ -12,8 +12,8 @@ import { useRef, useEffect } from 'react';
  * `usePrevious` Hook out of the box since it’s a relatively common
  * use case."
  */
-export function usePrevious<T>(value: T, initValue: T | null = null): T | null {
-  const ref = useRef<T | null>(initValue);
+export function usePrevious<T>(value: T, initValue: T | void): T | void {
+  const ref = useRef<T | void>(initValue);
   useEffect(() => {
     ref.current = value;
   });
