@@ -37,7 +37,58 @@ It doesn't include
 ## Unreleased
 
 
+## 27.168 (2021-08-20)
+
+### Highlights for users, vs v27.165 (last prod release)
+
+* (Android) You can now share content from other apps to Zulip. (#117)
+* Fixed a bug where network or server issues could cause an infinite
+  full-screen loading spinner. It now times out after 60 seconds. (#4165)
+* New setting to not mark messages as read when you view them, which is
+  useful for certain workflows. (#4850)
+* Basic support for polls. More to come! (#3205)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers, vs v27.167 (last beta)
+
+* Fixed regression from #4165 fix that could kick a user to the
+  pick-account screen at startup. (PR #4965)
+* Filled in missing migration for `state.settings.language` rename
+  made in v27.166. (PR #4959)
+* Resolved issues (earliest first): PR #4960, PR #4959, PR #4965
+
+
+## 27.167 (2021-08-05)
+
+This was a beta-only release.
+
+
+### Highlights for users, vs v27.165 (last prod release)
+
+* (Android) You can now share content from other apps to Zulip. (#117)
+* Fixed a bug where network or server issues could cause an infinite
+  full-screen loading spinner. It now times out after 60 seconds. (#4165)
+* New setting to not mark messages as read when you view them, which is
+  useful for certain workflows. (#4850)
+* Basic support for polls. More to come! (#3205)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs v27.166 (last beta)
+
+* Fixed a glitch on Android where alert text was the wrong color in dark
+  mode. (#4921)
+
+
 ## 27.166 (2021-07-21)
+
+This was a beta-only release. (Note to maintainers: Events from this release
+won't show up in Sentry because of a misconfiguration.)
 
 ### Highlights for users
 
