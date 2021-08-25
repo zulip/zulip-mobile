@@ -199,8 +199,8 @@ private fun extractIdentity(data: Map<String, String>): Identity =
         // likely to affect more users than the bug it'd fix.  So just ignore.
         // (data["user"] ignored)
 
-        // As of 2019-03 (with 2.0.0 the latest release), the server
-        // is expected to start sending this soon.  See zulip/zulip#11961 .
+        // `user_id` was added in server version 2.1.0 (released 2019-12-12;
+        // commit 447a517e6, PR #12172.)
         userId = data["user_id"]?.parseInt("user_id")
     )
 
