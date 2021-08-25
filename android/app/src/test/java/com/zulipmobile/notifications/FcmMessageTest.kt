@@ -149,8 +149,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             .isEqualTo(Example.stream["server"]!!)
         expect.that(parse(Example.pm.minus("realm_uri")).identity?.realmUri).isNull()
         expect.that(parse(Example.pm.minus("user_id")).identity?.userId).isNull()
-
-        expect.that(parse(Example.pm.minus("sender_id")).sender.id).isNull()
     }
 
     @Test
@@ -183,6 +181,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.plus("sender_avatar_url" to "/avatar/123.jpeg"))
         assertParseFails(Example.pm.plus("sender_avatar_url" to ""))
 
+        assertParseFails(Example.pm.minus("sender_id"))
         assertParseFails(Example.pm.minus("sender_email"))
         assertParseFails(Example.pm.minus("sender_full_name"))
         assertParseFails(Example.pm.minus("zulip_message_id"))

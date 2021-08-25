@@ -32,7 +32,7 @@ data class Identity(
  * Data about the Zulip user that sent a message.
  */
 data class Sender(
-    val id: Int?,
+    val id: Int,
     val email: String,
     val avatarURL: URL,
     val fullName: String
@@ -149,10 +149,7 @@ data class MessageFcmMessage(
             return MessageFcmMessage(
                 identity = extractIdentity(data),
                 sender = Sender(
-                    // sender_id was added in server version 1.8.0
-                    // (released 2018-04-16; commit 014900c2e).
-                    id = data["sender_id"]?.parseInt("sender_id"),
-
+                    id = data.require("sender_id").parseInt("sender_id"),
                     email = data.require("sender_email"),
                     avatarURL = avatarURL,
                     fullName = data.require("sender_full_name")
