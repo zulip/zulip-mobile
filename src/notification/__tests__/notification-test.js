@@ -25,6 +25,7 @@ describe('getNarrowFromNotificationData', () => {
 
   test('recognizes stream notifications and returns topic narrow', () => {
     const notification = {
+      realm_uri,
       recipient_type: 'stream',
       stream: 'some stream',
       topic: 'some topic',
@@ -37,6 +38,7 @@ describe('getNarrowFromNotificationData', () => {
     const users = [eg.selfUser, eg.otherUser];
     const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
     const notification = {
+      realm_uri,
       recipient_type: 'private',
       sender_email: eg.otherUser.email,
     };
@@ -49,6 +51,7 @@ describe('getNarrowFromNotificationData', () => {
     const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
 
     const notification = {
+      realm_uri,
       recipient_type: 'private',
       pm_users: users.map(u => u.user_id).join(','),
     };

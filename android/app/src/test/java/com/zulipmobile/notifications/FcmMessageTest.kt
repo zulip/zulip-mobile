@@ -144,9 +144,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `optional fields missing cause no error`() {
-        expect.that(parse(Example.pm.minus("realm_uri")).identity.serverHost)
-            .isEqualTo(Example.stream["server"]!!)
-        expect.that(parse(Example.pm.minus("realm_uri")).identity.realmUri).isNull()
         expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
     }
 
@@ -164,6 +161,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.minus("realm_id"))
         assertParseFails(Example.pm.plus("realm_id" to "12,34"))
         assertParseFails(Example.pm.plus("realm_id" to "abc"))
+        assertParseFails(Example.pm.minus("realm_uri"))
         assertParseFails(Example.pm.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
 
@@ -252,9 +250,6 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `optional fields missing cause no error`() {
-        expect.that(parse(Example.hybrid.minus("realm_uri")).identity.serverHost)
-            .isEqualTo(Example.hybrid["server"]!!)
-        expect.that(parse(Example.hybrid.minus("realm_uri")).identity.realmUri).isNull()
         expect.that(parse(Example.hybrid.minus("user_id")).identity.userId).isNull()
     }
 
@@ -264,6 +259,7 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.hybrid.minus("realm_id"))
         assertParseFails(Example.hybrid.plus("realm_id" to "abc"))
         assertParseFails(Example.hybrid.plus("realm_id" to "12,34"))
+        assertParseFails(Example.hybrid.minus("realm_uri"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "/examplecorp"))
 

@@ -21,7 +21,7 @@ data class Identity(
     /// the base for all URLs a client uses with this realm.  It corresponds
     /// to `realm_uri` in the `server_settings` API response:
     ///   https://zulip.com/api/get-server-settings
-    val realmUri: URL?,
+    val realmUri: URL,
 
     /// This user's ID within the server.  Useful mainly in the case where
     /// the user has multiple accounts in the same org.
@@ -111,7 +111,7 @@ data class MessageFcmMessage(
      */
     fun dataForOpen(): Bundle = Bundle().apply {
         // NOTE: Keep the JS-side type definition in sync with this code.
-        identity.realmUri?.let { putString("realm_uri", it.toString()) }
+        identity.realmUri.let { putString("realm_uri", it.toString()) }
         when (recipient) {
             is Recipient.Stream -> {
                 putString("recipient_type", "stream")
@@ -190,10 +190,7 @@ private fun extractIdentity(data: Map<String, String>): Identity =
     Identity(
         serverHost = data.require("server"),
         realmId = data.require("realm_id").parseInt("realm_id"),
-
-        // `realm_uri` was added in server version 1.9.0
-        // (released 2018-11-06; commit 5f8d193bb).
-        realmUri = data["realm_uri"]?.parseUrl("realm_uri"),
+        realmUri = data.require("realm_uri").parseUrl("realm_uri"),
 
         // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
         // and later) send the user's email address, as `user`.  We *could*
