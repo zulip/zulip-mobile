@@ -62,14 +62,8 @@ describe('getNarrowFromNotificationData', () => {
 describe('extract iOS notification data', () => {
   const barebones = deepFreeze({
     stream: { recipient_type: 'stream', stream: 'announce', topic: 'New channel' },
-    private: {
-      recipient_type: 'private',
-      sender_email: 'nobody@example.com',
-    },
-    'group PM': {
-      recipient_type: 'private',
-      sender_email: 'nobody@example.com',
-    },
+    '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com' },
+    'group PM': { recipient_type: 'private', pm_users: '54,321' },
   });
 
   describe('success', () => {
