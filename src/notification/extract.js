@@ -168,10 +168,12 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
   }
 
   const { realm_uri } = zulip;
-  if (realm_uri !== undefined && typeof realm_uri !== 'string') {
+  if (realm_uri === undefined) {
+    throw err('archaic (pre-1.9.x)');
+  }
+  if (typeof realm_uri !== 'string') {
     throw err('invalid');
   }
-  const realm_uri_obj = Object.freeze(realm_uri === undefined ? {} : { realm_uri });
 
   if (recipient_type === 'stream') {
     const { stream, topic } = zulip;
@@ -182,7 +184,7 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
       recipient_type: 'stream',
       stream,
       topic,
-      ...realm_uri_obj,
+      realm_uri,
     };
   } else {
     /* recipient_type === 'private' */
@@ -199,14 +201,14 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
       return {
         recipient_type: 'private',
         pm_users: ids.sort((a, b) => a - b).join(','),
-        ...realm_uri_obj,
+        realm_uri,
       };
     }
 
     if (typeof sender_email !== 'string') {
       throw err('invalid');
     }
-    return { recipient_type: 'private', sender_email, ...realm_uri_obj };
+    return { recipient_type: 'private', sender_email, realm_uri };
   }
 
   /* unreachable */
