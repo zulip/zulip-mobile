@@ -144,11 +144,10 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `optional fields missing cause no error`() {
-        expect.that(parse(Example.pm.minus("server")).identity).isNull()
-        expect.that(parse(Example.pm.minus("realm_uri")).identity?.serverHost)
+        expect.that(parse(Example.pm.minus("realm_uri")).identity.serverHost)
             .isEqualTo(Example.stream["server"]!!)
-        expect.that(parse(Example.pm.minus("realm_uri")).identity?.realmUri).isNull()
-        expect.that(parse(Example.pm.minus("user_id")).identity?.userId).isNull()
+        expect.that(parse(Example.pm.minus("realm_uri")).identity.realmUri).isNull()
+        expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
     }
 
     @Test
@@ -161,6 +160,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `parse failures on malformed 'message'`() {
+        assertParseFails(Example.pm.minus("server"))
         assertParseFails(Example.pm.minus("realm_id"))
         assertParseFails(Example.pm.plus("realm_id" to "12,34"))
         assertParseFails(Example.pm.plus("realm_id" to "abc"))
