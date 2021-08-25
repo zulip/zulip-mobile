@@ -9,9 +9,9 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.StyleSpan
-import android.util.Log
 import android.util.TypedValue
 import androidx.core.app.NotificationCompat
+import com.zulipmobile.ZLog
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
@@ -37,7 +37,7 @@ fun fetchBitmap(url: URL): Bitmap? {
         (connection.content as? InputStream)
             ?.let { BitmapFactory.decodeStream(it) }
     } catch (e: IOException) {
-        Log.e(TAG, "ERROR: $e")
+        ZLog.e(TAG, e)
         null
     }
 }

@@ -21,6 +21,7 @@ import me.leolin.shortcutbadger.ShortcutBadger
 
 import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
+import com.zulipmobile.ZLog
 
 private val CHANNEL_ID = "default"
 private val NOTIFICATION_ID = 435
@@ -64,7 +65,7 @@ internal fun onReceived(context: Context, conversations: ConversationMap, mapDat
     try {
         fcmMessage = FcmMessage.fromFcmData(mapData)
     } catch (e: FcmMessageParseException) {
-        Log.w(TAG, "Ignoring malformed FCM message: ${e.message}")
+        ZLog.w(TAG, e)
         return
     }
 
@@ -149,7 +150,7 @@ private fun getNotificationBuilder(
     try {
         ShortcutBadger.applyCount(context, totalMessagesCount)
     } catch (e: Exception) {
-        Log.e(TAG, "BADGE ERROR: $e")
+        ZLog.e(TAG, e)
     }
 
     builder.setWhen(fcmMessage.timeMs)
@@ -181,7 +182,7 @@ internal fun onOpened(application: ReactApplication, conversations: Conversation
     try {
         ShortcutBadger.removeCount(application as Context)
     } catch (e: Exception) {
-        Log.e(TAG, "BADGE ERROR: $e")
+        ZLog.e(TAG, e)
     }
 
 }

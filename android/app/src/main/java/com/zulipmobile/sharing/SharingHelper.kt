@@ -10,6 +10,7 @@ import android.util.Log
 import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
+import com.zulipmobile.ZLog
 import com.zulipmobile.notifications.ReactAppStatus
 import com.zulipmobile.notifications.appStatus
 import com.zulipmobile.notifications.emit
@@ -40,7 +41,7 @@ private fun handleSend(intent: Intent, application: ReactApplication, contentRes
     val params: WritableMap = try {
         getParamsFromIntent(intent, contentResolver)
     } catch (e: ShareParamsParseException) {
-        Log.w(TAG, "Ignoring malformed share Intent: ${e.message}")
+        ZLog.w(TAG, e)
         return
     }
 
