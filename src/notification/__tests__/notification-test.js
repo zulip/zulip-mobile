@@ -104,7 +104,11 @@ describe('extract iOS notification data', () => {
     });
 
     test('very-old-style messages', () => {
-      expect(make({ message_ids: [123] })).toThrow(/archaic/);
+      const sender_email = 'nobody@example.com';
+      // baseline
+      expect(make({ recipient_type: 'private', sender_email })).toBeTruthy();
+      // missing recipient_type
+      expect(make({ sender_email })).toThrow(/archaic/);
     });
 
     test('broken or partial messages', () => {
