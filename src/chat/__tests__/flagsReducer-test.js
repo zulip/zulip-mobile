@@ -279,7 +279,7 @@ describe('flagsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when "all" is true all messages become read', () => {
+    test('when all=true, flag=read, and op=add, all messages become read', () => {
       const prevState = deepFreeze({
         read: {
           1: true,
