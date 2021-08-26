@@ -54,7 +54,13 @@ class TopicListScreen extends PureComponent<Props, State> {
       topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
     return (
-      <Screen title="Topics" centerContent search searchBarOnChange={this.handleFilterChange}>
+      <Screen
+        title="Topics"
+        centerContent
+        search
+        searchBarOnChange={this.handleFilterChange}
+        scrollEnabled={false}
+      >
         <TopicList stream={stream} topics={filteredTopics} onPress={this.handlePress} />
       </Screen>
     );
