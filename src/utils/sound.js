@@ -13,4 +13,4 @@ const messageSound = new Sound('zulip.mp3', Sound.MAIN_BUNDLE, (error: Error) =>
   }
 });
 
-export const playMessageSound = () => messageSound.play();
+export const playMessageSound = (): $FlowFixMe => messageSound.play();
