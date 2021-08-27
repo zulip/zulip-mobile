@@ -4,7 +4,7 @@ import { NativeModules } from 'react-native';
 import * as logging from '../utils/logging';
 
 export default class ZulipAsyncStorage {
-  static async getItem(key: string) {
+  static async getItem(key: string): Promise<string | null> {
     const item = await AsyncStorage.getItem(key);
 
     // It's possible that getItem() is called on uncompressed state, for
@@ -46,7 +46,7 @@ export default class ZulipAsyncStorage {
     return item;
   }
 
-  static async setItem(key: string, value: string) {
+  static async setItem(key: string, value: string): Promise<mixed> {
     return AsyncStorage.setItem(
       key,
       NativeModules.TextCompressionModule
@@ -55,7 +55,7 @@ export default class ZulipAsyncStorage {
     );
   }
 
-  static async multiSet(keyValuePairs: Array<Array<string>>) {
+  static async multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed> {
     return AsyncStorage.multiSet(
       NativeModules.TextCompressionModule
         ? await Promise.all(
@@ -68,9 +68,9 @@ export default class ZulipAsyncStorage {
     );
   }
 
-  static removeItem = AsyncStorage.removeItem;
+  static removeItem: typeof AsyncStorage.removeItem = AsyncStorage.removeItem;
 
-  static getAllKeys = AsyncStorage.getAllKeys;
+  static getAllKeys: typeof AsyncStorage.getAllKeys = AsyncStorage.getAllKeys;
 
-  static clear = AsyncStorage.clear;
+  static clear: typeof AsyncStorage.clear = AsyncStorage.clear;
 }
