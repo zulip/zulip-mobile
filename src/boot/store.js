@@ -343,6 +343,15 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     },
   }),
 
+  // Add Accounts.userId, as UserId | null.
+  '33': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({
+      ...a,
+      userId: null,
+    })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

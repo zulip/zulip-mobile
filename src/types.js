@@ -61,6 +61,18 @@ export type Account = {|
   ...Auth,
 
   /**
+   * The user's numeric ID.
+   *
+   * We learn the user ID each time we complete an initial fetch.
+   *
+   * This is `null` briefly when we've logged in but not yet completed our
+   * first initial fetch on the account.  It's also `null` when representing
+   * an account which was last used on a version of the app which didn't
+   * record this information.
+   */
+  userId: UserId | null,
+
+  /**
    * The version of the Zulip server.
    *
    * We learn the server's version from /server_settings at the start of the

@@ -16,7 +16,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('accountsReducer', () => {
   describe('REALM_INIT', () => {
-    const account1 = eg.makeAccount();
+    const account1 = eg.selfAccount;
     const account2 = eg.makeAccount();
     const account3 = eg.makeAccount();
 
@@ -28,6 +28,19 @@ describe('accountsReducer', () => {
           deepFreeze({ ...eg.action.realm_init, zulipVersion: newZulipVersion }),
         ),
       ).toEqual([{ ...account1, zulipVersion: newZulipVersion }, account2, account3]);
+    });
+
+    test('records userId on active account', () => {
+      const newUserId = eg.makeUser().user_id;
+      expect(
+        accountsReducer(
+          deepFreeze([account1, account2, account3]),
+          deepFreeze({
+            ...eg.action.realm_init,
+            data: { ...eg.action.realm_init.data, user_id: newUserId },
+          }),
+        ),
+      ).toEqual([{ ...account1, userId: newUserId }, account2, account3]);
     });
 
     test('records zulipFeatureLevel on active account', () => {
@@ -89,7 +102,7 @@ describe('accountsReducer', () => {
 
     const prevState = deepFreeze([account1, account2]);
 
-    test('on login, if account does not exist, add as first item, with null zulipVersion, zulipFeatureLevel', () => {
+    test('on login, if account does not exist, add as first item, with null userId, zulipVersion, zulipFeatureLevel', () => {
       const newApiKey = eg.randString();
       const newEmail = 'newaccount@example.com';
       const newRealm = new URL('https://new.realm.org');
@@ -106,6 +119,7 @@ describe('accountsReducer', () => {
           realm: newRealm,
           email: newEmail,
           apiKey: newApiKey,
+          userId: null,
           zulipVersion: null,
           zulipFeatureLevel: null,
         }),

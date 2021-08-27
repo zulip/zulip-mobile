@@ -19,6 +19,7 @@ const initialState = NULL_ARRAY;
 const realmInit = (state, action) => [
   {
     ...state[0],
+    userId: action.data.user_id,
     zulipFeatureLevel: action.data.zulip_feature_level ?? 0,
     zulipVersion: action.zulipVersion,
   },
@@ -45,7 +46,15 @@ const loginSuccess = (state, action) => {
   const accountIndex = findAccount(state, { realm, email });
   if (accountIndex === -1) {
     return [
-      { realm, email, apiKey, ackedPushToken: null, zulipVersion: null, zulipFeatureLevel: null },
+      {
+        realm,
+        email,
+        apiKey,
+        userId: null,
+        ackedPushToken: null,
+        zulipVersion: null,
+        zulipFeatureLevel: null,
+      },
       ...state,
     ];
   }

@@ -183,6 +183,7 @@ export const makeAccount = (
     email?: string,
     realm?: URL,
     apiKey?: string,
+    userId?: UserId | null,
     zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
     ackedPushToken?: string | null,
@@ -190,6 +191,7 @@ export const makeAccount = (
 ): Account => {
   const {
     user = makeUser({ name: randString() }),
+    userId = user.user_id,
     email = user.email,
     realm: realmInner = realm,
     apiKey = randString() + randString(),
@@ -199,6 +201,7 @@ export const makeAccount = (
   } = args;
   return deepFreeze({
     realm: realmInner,
+    userId,
     email,
     apiKey,
     zulipFeatureLevel: zulipFeatureLevelInner,
@@ -535,7 +538,15 @@ export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
  * See `baseReduxState` for a minimal version of the state.
  */
 export const plusReduxState: GlobalState = reduxState({
-  accounts: [{ ...selfAuth, ackedPushToken: null, zulipVersion, zulipFeatureLevel }],
+  accounts: [
+    {
+      ...selfAuth,
+      userId: selfUser.user_id,
+      ackedPushToken: null,
+      zulipVersion,
+      zulipFeatureLevel,
+    },
+  ],
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
