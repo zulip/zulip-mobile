@@ -61,7 +61,7 @@ export function useDebugAssertConstant<T>(value: T) {
  * The caller must use a constant `duration` through the lifetime of a given
  * component instance.
  */
-export const useHasStayedTrueForMs = (value: boolean, duration: number) => {
+export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean => {
   useDebugAssertConstant(duration);
 
   const [result, setResult] = useState<boolean>(false);
