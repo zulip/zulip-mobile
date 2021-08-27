@@ -34,11 +34,11 @@ type Props = $ReadOnly<{|
  * @prop [padding] - Specifies if the components should be padded.
  */
 export default class Centerer extends PureComponent<Props> {
-  static defaultProps = {
+  static defaultProps: {| padding: boolean |} = {
     padding: false,
   };
 
-  render() {
+  render(): Node {
     const { children, padding, style } = this.props;
 
     return (
