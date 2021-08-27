@@ -24,7 +24,7 @@ import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import { addToOutbox } from '../actions';
-import { getAuth, getCaughtUpForNarrow } from '../selectors';
+import { getAuth } from '../selectors';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
@@ -131,7 +131,7 @@ export default function ChatScreen(props: Props): Node {
 
   const auth = useSelector(getAuth);
   const dispatch = useDispatch();
-  const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
+  const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
   const _ = useContext(TranslationContext);
 
   const sendCallback = useCallback(
@@ -155,7 +155,23 @@ export default function ChatScreen(props: Props): Node {
 
         setEditMessage(null);
       } else {
-        if (!caughtUp.newer) {
+        if (fetching.newer) {
+          // If we're fetching, that means that (a) we're scrolled near the
+          // bottom, and likely are scrolled to the very bottom so that it
+          // looks like we're showing the latest messages, but (b) we don't
+          // actually have the latest messages.  So the user may be misled
+          // and send a reply that doesn't make sense with the later context.
+          //
+          // Ideally in this condition we'd show a warning to make sure the
+          // user knows what they're getting into, and then let them send
+          // anyway.  We'd also then need to take care with how the
+          // resulting message appears in the message list: see #3800 and
+          //   https://chat.zulip.org/#narrow/stream/48-mobile/topic/Failed.20to.20send.20on.20Android/near/1158162
+          //
+          // For now, just refuse to send.  After all, this condition will
+          // resolve itself when we complete the fetch, and if that doesn't
+          // happen soon then it's unlikely we could successfully send a
+          // message anyway.
           showErrorAlert(_('Failed to send message'));
           return;
         }
@@ -163,7 +179,7 @@ export default function ChatScreen(props: Props): Node {
         dispatch(addToOutbox(destinationNarrow, message));
       }
     },
-    [_, auth, caughtUp.newer, dispatch, editMessage, setEditMessage],
+    [_, auth, fetching.newer, dispatch, editMessage, setEditMessage],
   );
 
   return (
