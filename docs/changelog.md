@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.169 (2021-08-30)
+
 ### Highlights for users
 
 * Messages are no longer marked as read when scrolling in search,
