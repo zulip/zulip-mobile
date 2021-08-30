@@ -1,5 +1,5 @@
 {
-  "Failed to connect to server: {realm}": "Échec de la connexion au serveur : {realm}",
+  "Failed to connect to server: {realm}": "Échec de la connexion au serveur: {realm}",
   "{_}": "{_}",
   "Home": "Accueil",
   "All messages": "Tous les messages",
