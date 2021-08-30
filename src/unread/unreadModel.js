@@ -18,6 +18,7 @@ import {
   ACCOUNT_SWITCH,
   EVENT_MESSAGE_DELETE,
   EVENT_NEW_MESSAGE,
+  EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   LOGOUT,
   MESSAGE_FETCH_COMPLETE,
@@ -201,6 +202,48 @@ function streamsReducer(
       //   Then when do, also optimize so deleting the oldest items is fast,
       //   as that should be the common case here.
       return deleteMessages(state, action.messages);
+    }
+
+    case EVENT_UPDATE_MESSAGE: {
+      const { stream_id } = action;
+      if (stream_id == null) {
+        // Not stream messages, or else a pure content edit (no stream/topic change.)
+        //
+        // The docs actually promise this field for all updates to stream
+        // messages.  As of 2021-12 (circa feature level 111):
+        //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.60update_message.60.20event/near/1296823
+        // empirically it's present just on edits affecting either the
+        // stream or topic (so, absent on pure content edits), and the plan
+        // is to make it indeed present for all updates to stream messages.
+        return state;
+      }
+
+      if (
+        (action.subject === action.orig_subject || action.orig_subject == null)
+        && (action.new_stream_id === stream_id || action.new_stream_id == null)
+      ) {
+        // Stream and topic didn't change.
+        return state;
+      }
+
+      const actionIds = new Set(action.message_ids);
+      const matchingIds = state
+        .getIn([stream_id, action.orig_subject ?? action.subject], Immutable.List())
+        .filter(id => actionIds.has(id));
+      if (matchingIds.size === 0) {
+        // None of the updated messages were unread.
+        return state;
+      }
+
+      return state
+        .updateIn(
+          [stream_id, action.orig_subject ?? action.subject],
+          (messages = Immutable.List()) => messages.filter(id => !actionIds.has(id)),
+        )
+        .updateIn(
+          [action.new_stream_id ?? stream_id, action.subject],
+          (messages = Immutable.List()) => messages.push(...matchingIds).sort(),
+        );
     }
 
     default:
