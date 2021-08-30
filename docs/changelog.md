@@ -36,6 +36,30 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Messages are no longer marked as read when scrolling in search,
+  @-mentions, and starred-message views (#4852).
+* We now offer a more complete translation for Chinese (Taiwan) (PR #4285).
+  Many thanks to our kind volunteer translators!
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* (Android) Dropped support for Android versions older than Android 6 (PR
+  #4938).
+* Over a dozen dependencies upgraded across major versions (PRs #4949,
+  #4950, #4952); also other minor/patch upgrades, and some deps removed.
+* Resolved issues (earliest first): #4852, #4890, #4938, #4964, #4285,
+  #4870, #4764
+
+  * Relative to the beta-only release v27.166, also #4921 (cherry-picked
+    into beta-only release v27.167); and PRs #4960, #4959, and #4965
+    (cherry-picked into stable release v27.168).
+
 
 ## 27.168 (2021-08-20)
 
