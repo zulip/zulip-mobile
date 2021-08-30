@@ -30,6 +30,11 @@ const styles = createStyleSheet({
     color: 'white',
     paddingRight: 4,
   },
+  unreadNumberExceeds: {
+      fontSize: 12,
+      color: 'white',
+      paddingRight: 4,
+    },
   unreadText: {
     fontSize: 14,
     color: 'white',
@@ -47,7 +52,7 @@ export default function UnreadNotice(props: Props): Node {
   return (
     <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
       <View style={styles.unreadTextWrapper}>
-        <RawLabel style={styles.unreadNumber} text={unreadCount.toString()} />
+        <RawLabel style={unreadCount > 99 ? styles.unreadNumberExceeds : styles.unreadNumber} text={unreadCount > 99 ? '99+' : unreadCount.toString()} />
         <Label
           style={styles.unreadText}
           text={unreadCount === 1 ? 'unread message' : 'unread messages'}
