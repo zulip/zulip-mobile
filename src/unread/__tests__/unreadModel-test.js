@@ -1,7 +1,11 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
+import {
+  ACCOUNT_SWITCH,
+  EVENT_UPDATE_MESSAGE_FLAGS,
+  EVENT_UPDATE_MESSAGE,
+} from '../../actionConstants';
 import { reducer } from '../unreadModel';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -59,6 +63,114 @@ describe('stream substate', () => {
       // prettier-ignore
       expect(summary(reducer(initialState, action, eg.plusReduxState))).toEqual(Immutable.Map([
         [message1.stream_id, Immutable.Map([[message1.subject, [1, 2]]])],
+      ]));
+    });
+  });
+
+  describe('EVENT_UPDATE_MESSAGE', () => {
+    const mkAction = args => {
+      const {
+        message_ids,
+        stream_id = 123,
+        new_stream_id = undefined,
+        orig_subject = 'foo',
+        subject = 'foo',
+      } = args;
+      return {
+        id: 1,
+        type: EVENT_UPDATE_MESSAGE,
+        user_id: eg.selfUser.user_id,
+        message_id: message_ids[0],
+        message_ids,
+        edit_timestamp: 10000,
+        stream_id,
+        new_stream_id,
+        propagate_mode: 'change_later',
+        orig_subject,
+        subject,
+        subject_links: [],
+        orig_content: '',
+        orig_rendered_content: '',
+        prev_rendered_content_version: 0,
+        content: '',
+        rendered_content: '',
+        is_me_message: false,
+        flags: [],
+      };
+    };
+
+    const baseState = (() => {
+      const streamAction = args => eg.mkActionEventNewMessage(eg.streamMessage(args));
+      const r = (state, action) => reducer(state, action, eg.plusReduxState);
+      let state = initialState;
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 4 }));
+      state = r(state, streamAction({ stream_id: 456, subject: 'zzz', id: 6 }));
+      state = r(state, streamAction({ stream_id: 456, subject: 'zzz', id: 7 }));
+      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 15 }));
+      return state;
+    })();
+
+    test('(base state, for comparison)', () => {
+      // prettier-ignore
+      expect(summary(baseState)).toEqual(Immutable.Map([
+        [123, Immutable.Map([['foo', [1, 2, 3, 4, 15]]])],
+        [456, Immutable.Map([['zzz', [6, 7]]])],
+      ]));
+    });
+
+    test('if topic/stream not updated, return original state', () => {
+      const state = reducer(baseState, mkAction({ message_ids: [5] }), eg.plusReduxState);
+      expect(state.streams).toBe(baseState.streams);
+    });
+
+    test('if topic updated, but no unreads, return original state', () => {
+      const state = reducer(
+        baseState,
+        mkAction({ message_ids: [100], orig_subject: 'foo', subject: 'bar' }),
+        eg.plusReduxState,
+      );
+      expect(state.streams).toBe(baseState.streams);
+    });
+
+    test('if topic updated, move unreads', () => {
+      const state = reducer(
+        baseState,
+        mkAction({ message_ids: [3, 4, 15], orig_subject: 'foo', subject: 'bar' }),
+        eg.plusReduxState,
+      );
+      // prettier-ignore
+      expect(summary(state)).toEqual(Immutable.Map([
+        [123, Immutable.Map([['foo', [1, 2]], ['bar', [3, 4, 15]]])],
+        [456, Immutable.Map([['zzz', [6, 7]]])],
+      ]));
+    });
+
+    test('if stream updated, move unreads', () => {
+      const state = reducer(
+        baseState,
+        mkAction({ message_ids: [3, 4, 15], new_stream_id: 456 }),
+        eg.plusReduxState,
+      );
+      // prettier-ignore
+      expect(summary(state)).toEqual(Immutable.Map([
+        [123, Immutable.Map([['foo', [1, 2]]])],
+        [456, Immutable.Map([['zzz', [6, 7]], ['foo', [3, 4, 15]]])],
+      ]));
+    });
+
+    test('if moved to topic with existing unreads, ids stay sorted', () => {
+      const state = reducer(
+        baseState,
+        mkAction({ message_ids: [3, 4, 15], new_stream_id: 456, subject: 'zzz' }),
+        eg.plusReduxState,
+      );
+      // prettier-ignore
+      expect(summary(state)).toEqual(Immutable.Map([
+        [123, Immutable.Map([['foo', [1, 2]]])],
+        [456, Immutable.Map([['zzz', [3, 4, 6, 7, 15]]])],
       ]));
     });
   });
