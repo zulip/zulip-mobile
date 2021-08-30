@@ -1,26 +1,20 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
-import type { Auth, Stream, Dispatch, UserOrBot, Subscription } from '../types';
+import type { Stream, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import * as api from '../api';
 import { ZulipButton, Label } from '../common';
 import { getAuth } from '../selectors';
-
-type SelectorProps = {|
-  auth: Auth,
-|};
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
   onDismiss: (user: UserOrBot) => void,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 const styles = createStyleSheet({
@@ -56,43 +50,36 @@ const styles = createStyleSheet({
   },
 });
 
-class MentionedUserNotSubscribed extends PureComponent<Props> {
-  subscribeToStream = () => {
-    const { auth, stream, user } = this.props;
-    api.subscriptionAdd(auth, [{ name: stream.name }], [user.email]);
-    this.handleDismiss();
-  };
+export default function MentionedUserNotSubscribed(props: Props): Node {
+  const { user, stream, onDismiss } = props;
+  const auth = useSelector(getAuth);
 
-  handleDismiss = () => {
-    const { user, onDismiss } = this.props;
+  const handleDismiss = useCallback(() => {
     onDismiss(user);
-  };
+  }, [user, onDismiss]);
 
-  render() {
-    const { user } = this.props;
+  const subscribeToStream = useCallback(() => {
+    api.subscriptionAdd(auth, [{ name: stream.name }], [user.email]);
+    handleDismiss();
+  }, [auth, handleDismiss, stream, user]);
 
-    return (
-      <View>
-        <TouchableOpacity onPress={this.handleDismiss} style={styles.outer}>
-          <Label
-            text={{
-              text: '{username} will not be notified unless you subscribe them to this stream.',
-              values: { username: user.full_name },
-            }}
-            style={styles.text}
-          />
-          <ZulipButton
-            style={styles.button}
-            textStyle={styles.buttonText}
-            text="Subscribe"
-            onPress={this.subscribeToStream}
-          />
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  return (
+    <View>
+      <TouchableOpacity onPress={handleDismiss} style={styles.outer}>
+        <Label
+          text={{
+            text: '{username} will not be notified unless you subscribe them to this stream.',
+            values: { username: user.full_name },
+          }}
+          style={styles.text}
+        />
+        <ZulipButton
+          style={styles.button}
+          textStyle={styles.buttonText}
+          text="Subscribe"
+          onPress={subscribeToStream}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  auth: getAuth(state),
-}))(MentionedUserNotSubscribed);

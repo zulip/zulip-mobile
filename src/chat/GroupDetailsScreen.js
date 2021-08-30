@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
@@ -15,7 +16,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'group-details', {| recipients: $ReadOnlyArray<UserId> |}>,
 |}>;
 
-export default function GroupDetailsScreen(props: Props) {
+export default function GroupDetailsScreen(props: Props): Node {
   const { recipients } = props.route.params;
   const handlePress = useCallback((user: UserOrBot) => {
     NavigationService.dispatch(navigateToAccountDetails(user.user_id));

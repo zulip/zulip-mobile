@@ -1,11 +1,12 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 import { Image } from 'react-native';
 import { createIconSet } from 'react-native-vector-icons';
 
-import type { ImageEmojiType, Dispatch, EmojiType } from '../types';
+import type { EmojiType } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getAllImageEmojiByCode } from './emojiSelectors';
 import { codeToEmojiMap } from './data';
 
@@ -14,32 +15,22 @@ import { codeToEmojiMap } from './data';
   */
 const UnicodeEmoji = createIconSet(codeToEmojiMap);
 
-type SelectorProps = {|
-  imageEmoji: ImageEmojiType | void,
-|};
-
 type Props = $ReadOnly<{|
   type: EmojiType,
   code: string,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-class Emoji extends PureComponent<Props> {
-  styles = createStyleSheet({
-    image: { width: 20, height: 20 },
-  });
+const componentStyles = createStyleSheet({
+  image: { width: 20, height: 20 },
+});
 
-  render() {
-    const { code, imageEmoji } = this.props;
-    if (imageEmoji) {
-      return <Image style={this.styles.image} source={{ uri: imageEmoji.source_url }} />;
-    }
-    return <UnicodeEmoji name={code} size={20} />;
+export default function Emoji(props: Props): Node {
+  const { code } = props;
+  const imageEmoji = useSelector(state =>
+    props.type === 'image' ? getAllImageEmojiByCode(state)[props.code] : undefined,
+  );
+  if (imageEmoji) {
+    return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
   }
+  return <UnicodeEmoji name={code} size={20} />;
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  imageEmoji: props.type === 'image' ? getAllImageEmojiByCode(state)[props.code] : undefined,
-}))(Emoji);

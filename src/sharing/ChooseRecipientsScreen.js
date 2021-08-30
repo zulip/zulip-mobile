@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 import type { UserId, UserOrBot } from '../types';
 import { Screen } from '../common';
 import UserPickerCard from '../user-picker/UserPickerCard';
@@ -8,7 +9,7 @@ type Props = $ReadOnly<{|
   onComplete: ($ReadOnlyArray<UserId>) => void,
 |}>;
 
-export default function ChooseRecipientsScreen(props: Props) {
+export default function ChooseRecipientsScreen(props: Props): Node {
   const { onComplete } = props;
   const [filter, setFilter] = useState<string>('');
 

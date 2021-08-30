@@ -3,7 +3,6 @@
 import React, { PureComponent } from 'react';
 import type { Node, ComponentType } from 'react';
 import { AppState, View, Platform, NativeModules } from 'react-native';
-// $FlowFixMe[untyped-import]
 import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
@@ -15,45 +14,6 @@ import { handleInitialNotification, NotificationListener } from '../notification
 import { ShareReceivedListener, handleInitialShare } from '../sharing';
 import { appOnline, appOrientation } from '../actions';
 import PresenceHeartbeat from '../presence/PresenceHeartbeat';
-
-/**
- * Part of the interface from react-native-netinfo.
- * https://github.com/react-native-community/react-native-netinfo/tree/v3.2.1
- */
-// TODO: upgrade to 4.x.x so that we can use the `flow-typed` versions.
-// Requires RN 0.60+.
-type NetInfoStateType =
-  | 'unknown'
-  | 'none'
-  | 'cellular'
-  | 'wifi'
-  | 'bluetooth'
-  | 'ethernet'
-  | 'wimax'
-  | 'vpn'
-  | 'other';
-
-type NetInfoConnectedDetails = {
-  isConnectionExpensive: boolean,
-  ...
-};
-
-type NetInfoState = {
-  /** The type of the current connection. */
-  type: NetInfoStateType,
-
-  /** Whether there is an active network connection. Note that this DOES NOT
-      mean that the Internet is reachable. */
-  isConnected: boolean,
-
-  /**
-   * This actually has a more complicated type whose exact shape is dependent on
-   * the value of `type`, above. (Flow could describe it, but we don't have a
-   * use for it yet.)
-   */
-  details: null | NetInfoConnectedDetails,
-  ...
-};
 
 const styles = createStyleSheet({
   wrapper: {
@@ -103,12 +63,52 @@ class AppEventHandlersInner extends PureComponent<Props> {
     dispatch(appOrientation(orientationLookup[orientation]));
   };
 
-  // https://github.com/react-native-community/react-native-netinfo/tree/v3.2.1
-  handleConnectivityChange = (netInfoState: NetInfoState) => {
+  handleConnectivityChange = netInfoState => {
     const { dispatch } = this.props;
-    const { type: connectionType } = netInfoState;
-    const isConnected = connectionType !== 'none' && connectionType !== 'unknown';
-    dispatch(appOnline(isConnected));
+
+    dispatch(
+      appOnline(
+        // From reading code at @react-native-community/net-info v6.0.0 (the
+        // docs and types don't really give these answers):
+        //
+        // This will be `null` on both platforms while the first known value
+        // of `true` or `false` is being shipped across the asynchronous RN
+        // bridge.
+        //
+        // On Android, it shouldn't otherwise be `null`. The value is set to the
+        // result of an Android function that only returns a boolean:
+        // https://developer.android.com/reference/android/net/NetworkInfo#isConnected()
+        //
+        // On iOS, this can also be `null` while the app asynchronously
+        // evaluates whether a network change should cause this to go from
+        // `false` to `true`. Read on for details (gathered from
+        // src/internal/internetReachability.ts in the library).
+        //
+        // 1. A request loop is started. A HEAD request is made to
+        //    https://clients3.google.com/generate_204, with a timeout of
+        //    15s (`reachabilityRequestTimeout`), to see if the Internet is
+        //    reachable.
+        //    - If the `fetch` succeeds and a 204 is received, this will be
+        //      made `true`. We'll then sleep for 60s before making the
+        //      request again.
+        //    - If the `fetch` succeeds and a 204 is not received, or if the
+        //      fetch fails, or if the timeout expires, this will be made
+        //      `false`. We'll then sleep for only 5s before making the
+        //      request again.
+        // 2. The request loop is interrupted if we get a
+        //    'netInfo.networkStatusDidChange' event from the library's
+        //    native code, signaling a change in the network state. If that
+        //    change would make `netInfoState.type` become or remain
+        //    something good (i.e., not 'none' or 'unknown'), and this
+        //    (`.isInternetReachable`) is currently `false`, then this will
+        //    be made `null`, and the request loop described above will
+        //    start again.
+        //
+        // (Several of those parameters are configurable -- timeout durations,
+        // URL, etc.)
+        netInfoState.isInternetReachable,
+      ),
+    );
   };
 
   /** For the type, see docs: https://reactnative.dev/docs/appstate */
@@ -131,7 +131,13 @@ class AppEventHandlersInner extends PureComponent<Props> {
     handleInitialNotification(dispatch);
     handleInitialShare(dispatch);
 
+    NetInfo.configure({
+      // This is the default, as of 6.0.0, but `OfflineNotice` depends on this
+      // value being stable.
+      reachabilityRequestTimeout: 15 * 1000,
+    });
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
+
     AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);

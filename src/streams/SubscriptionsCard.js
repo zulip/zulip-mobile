@@ -1,13 +1,13 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import type { Dispatch, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import StreamList from './StreamList';
 import { LoadingBanner } from '../common';
 import { streamNarrow } from '../utils/narrow';
@@ -22,41 +22,27 @@ const styles = createStyleSheet({
   },
 });
 
-type SelectorProps = $ReadOnly<{|
-  subscriptions: Subscription[],
-  unreadByStream: $ReadOnly<{| [number]: number |}>,
-|}>;
-
 type Props = $ReadOnly<{|
   navigation: StreamTabsNavigationProp<'subscribed'>,
   route: RouteProp<'subscribed', void>,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
-class SubscriptionsCard extends PureComponent<Props> {
-  handleNarrow = (streamName: string) => {
-    this.props.dispatch(doNarrow(streamNarrow(streamName)));
-  };
+export default function SubscriptionsCard(props: Props): Node {
+  const dispatch = useDispatch();
+  const subscriptions = useSelector(getSubscribedStreams);
+  const unreadByStream = useSelector(getUnreadByStream);
 
-  render() {
-    const { subscriptions, unreadByStream } = this.props;
+  const handleNarrow = useCallback(
+    (streamName: string) => {
+      dispatch(doNarrow(streamNarrow(streamName)));
+    },
+    [dispatch],
+  );
 
-    return (
-      <View style={styles.container}>
-        <LoadingBanner />
-        <StreamList
-          streams={subscriptions}
-          unreadByStream={unreadByStream}
-          onPress={this.handleNarrow}
-        />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <LoadingBanner />
+      <StreamList streams={subscriptions} unreadByStream={unreadByStream} onPress={handleNarrow} />
+    </View>
+  );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  subscriptions: getSubscribedStreams(state),
-  unreadByStream: getUnreadByStream(state),
-}))(SubscriptionsCard);

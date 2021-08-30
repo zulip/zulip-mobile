@@ -88,7 +88,15 @@ const processFlagsForMessages = (state: FlagsState, messages: Message[]): FlagsS
 
 const eventUpdateMessageFlags = (state, action) => {
   if (action.all) {
-    return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), ['read']);
+    if (action.op === 'add') {
+      return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), [
+        action.flag,
+      ]);
+    }
+
+    if (action.op === 'remove') {
+      return { ...state, [action.flag]: {} };
+    }
   }
 
   if (action.op === 'add') {

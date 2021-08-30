@@ -1,14 +1,14 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import type { Auth, Dispatch, Stream, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { useDispatch, useSelector } from '../react-redux';
 import { ZulipButton, LoadingBanner } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
@@ -29,67 +29,60 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   navigation: StreamTabsNavigationProp<'allStreams'>,
   route: RouteProp<'allStreams', void>,
-
-  dispatch: Dispatch,
-  auth: Auth,
-  canCreateStreams: boolean,
-  streams: $ReadOnlyArray<Stream>,
-  subscriptions: $ReadOnlyArray<Subscription>,
 |}>;
 
-class StreamListCard extends PureComponent<Props> {
-  handleSwitchChange = (streamName: string, switchValue: boolean) => {
-    const { auth } = this.props;
+export default function StreamListCard(props: Props): Node {
+  const dispatch = useDispatch();
+  const auth = useSelector(getAuth);
+  const canCreateStreams = useSelector(getCanCreateStreams);
+  const streams = useSelector(getStreams);
+  const subscriptions = useSelector(getSubscriptions);
 
-    if (switchValue) {
-      api.subscriptionAdd(auth, [{ name: streamName }]);
-    } else {
-      api.subscriptionRemove(auth, [streamName]);
-    }
-  };
+  const subsAndStreams = streams.map(x => ({
+    ...x,
+    subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
+  }));
 
-  handleNarrow = (streamName: string) => {
-    const { dispatch } = this.props;
-    dispatch(doNarrow(streamNarrow(streamName)));
-  };
+  const handleSwitchChange = useCallback(
+    (streamName: string, switchValue: boolean) => {
+      if (switchValue) {
+        api.subscriptionAdd(auth, [{ name: streamName }]);
+      } else {
+        api.subscriptionRemove(auth, [streamName]);
+      }
+    },
+    [auth],
+  );
 
-  render() {
-    const { canCreateStreams, streams, subscriptions } = this.props;
-    const subsAndStreams = streams.map(x => ({
-      ...x,
-      subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
-    }));
+  const handleNarrow = useCallback(
+    (streamName: string) => {
+      dispatch(doNarrow(streamNarrow(streamName)));
+    },
+    [dispatch],
+  );
 
-    return (
-      <View style={styles.wrapper}>
-        <LoadingBanner />
-        {canCreateStreams && (
-          <ZulipButton
-            style={styles.button}
-            secondary
-            text="Create new stream"
-            onPress={() =>
-              delay(() => {
-                NavigationService.dispatch(navigateToCreateStream());
-              })
-            }
-          />
-        )}
-        <StreamList
-          streams={subsAndStreams}
-          showSwitch
-          showDescriptions
-          onSwitch={this.handleSwitchChange}
-          onPress={this.handleNarrow}
+  return (
+    <View style={styles.wrapper}>
+      <LoadingBanner />
+      {canCreateStreams && (
+        <ZulipButton
+          style={styles.button}
+          secondary
+          text="Create new stream"
+          onPress={() =>
+            delay(() => {
+              NavigationService.dispatch(navigateToCreateStream());
+            })
+          }
         />
-      </View>
-    );
-  }
+      )}
+      <StreamList
+        streams={subsAndStreams}
+        showSwitch
+        showDescriptions
+        onSwitch={handleSwitchChange}
+        onPress={handleNarrow}
+      />
+    </View>
+  );
 }
-
-export default connect(state => ({
-  auth: getAuth(state),
-  canCreateStreams: getCanCreateStreams(state),
-  streams: getStreams(state),
-  subscriptions: getSubscriptions(state),
-}))(StreamListCard);

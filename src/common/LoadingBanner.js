@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
@@ -30,7 +31,7 @@ type Props = $ReadOnly<{|
 /**
  * Display a notice that the app is connecting to the server, when appropriate.
  */
-export default function LoadingBanner(props: Props) {
+export default function LoadingBanner(props: Props): Node {
   const loading = useSelector(getLoading);
   const themeContext = useContext(ThemeContext);
 

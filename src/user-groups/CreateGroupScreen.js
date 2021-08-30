@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -18,7 +19,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'create-group', void>,
 |}>;
 
-export default function CreateGroupScreen(props: Props) {
+export default function CreateGroupScreen(props: Props): Node {
   const dispatch = useDispatch();
   const ownUserId = useSelector(getOwnUserId);
 

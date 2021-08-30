@@ -29,7 +29,11 @@ import { getHasAuth } from '../account/accountsSelectors';
  */
 export type SessionState = $ReadOnly<{|
   eventQueueId: number,
-  isOnline: boolean,
+
+  // `null` if we don't know. See the place where we set this, for what that
+  // means.
+  isOnline: boolean | null,
+
   isHydrated: boolean,
 
   /**
@@ -79,7 +83,11 @@ export type SessionState = $ReadOnly<{|
 
 const initialState: SessionState = {
   eventQueueId: -1,
-  isOnline: true,
+
+  // This will be `null` on startup, while we wait to hear `true` or `false`
+  // from the native module over the RN bridge; so, have it start as `null`.
+  isOnline: null,
+
   isHydrated: false,
   loading: false,
   needsInitialFetch: false,

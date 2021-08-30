@@ -117,7 +117,7 @@ type RehydrateAction = {|
 
 type AppOnlineAction = {|
   type: typeof APP_ONLINE,
-  isOnline: boolean,
+  isOnline: boolean | null,
 |};
 
 type DeadQueueAction = {|

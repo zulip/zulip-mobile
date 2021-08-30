@@ -1,12 +1,13 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
+import type { Node } from 'react';
 import { Platform, StatusBar } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
 
-import type { Orientation, ThemeName, Dispatch } from '../types';
-import { connect } from '../react-redux';
+import type { ThemeName } from '../types';
+import { useSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getSession, getSettings } from '../selectors';
 
@@ -20,17 +21,9 @@ export const getStatusBarStyle = (statusBarColor: string): BarStyle =>
     ? 'light-content'
     : 'dark-content';
 
-type SelectorProps = $ReadOnly<{|
-  theme: ThemeName,
-  orientation: Orientation,
-|}>;
-
 type Props = $ReadOnly<{|
   backgroundColor?: string | void,
-  hidden: boolean,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
+  hidden?: boolean,
 |}>;
 
 /**
@@ -50,33 +43,24 @@ type Props = $ReadOnly<{|
  * top inset grows to accommodate a visible status bar, and shrinks to
  * give more room to the app's content when the status bar is hidden.
  */
-class ZulipStatusBar extends PureComponent<Props> {
-  static defaultProps = {
-    hidden: false,
-  };
-
-  render() {
-    const { theme, hidden, orientation } = this.props;
-    const backgroundColor = this.props.backgroundColor;
-    const statusBarColor = getStatusBarColor(backgroundColor, theme);
-    return (
-      orientation === 'PORTRAIT' && (
-        <StatusBar
-          animated
-          showHideTransition="slide"
-          hidden={hidden && Platform.OS !== 'android'}
-          backgroundColor={Color(statusBarColor)
-            .darken(0.1)
-            .hsl()
-            .string()}
-          barStyle={getStatusBarStyle(statusBarColor)}
-        />
-      )
-    );
-  }
+export default function ZulipStatusBar(props: Props): Node {
+  const { hidden = false } = props;
+  const theme = useSelector(state => getSettings(state).theme);
+  const orientation = useSelector(state => getSession(state).orientation);
+  const backgroundColor = props.backgroundColor;
+  const statusBarColor = getStatusBarColor(backgroundColor, theme);
+  return (
+    orientation === 'PORTRAIT' && (
+      <StatusBar
+        animated
+        showHideTransition="slide"
+        hidden={hidden && Platform.OS !== 'android'}
+        backgroundColor={Color(statusBarColor)
+          .darken(0.1)
+          .hsl()
+          .string()}
+        barStyle={getStatusBarStyle(statusBarColor)}
+      />
+    )
+  );
 }
-
-export default connect<SelectorProps, _, _>((state, props) => ({
-  theme: getSettings(state).theme,
-  orientation: getSession(state).orientation,
-}))(ZulipStatusBar);
