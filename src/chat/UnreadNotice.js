@@ -31,10 +31,10 @@ const styles = createStyleSheet({
     paddingRight: 4,
   },
   unreadNumberExceeds: {
-      fontSize: 12,
-      color: 'white',
-      paddingRight: 4,
-    },
+    fontSize: 12,
+    color: 'white',
+    paddingRight: 4,
+  },
   unreadText: {
     fontSize: 14,
     color: 'white',
