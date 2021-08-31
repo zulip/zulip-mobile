@@ -330,11 +330,23 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
-    this.setState({
-      isMessageFocused: true,
-      isFocused: true,
-      isMenuExpanded: false,
-    });
+    if (
+      !this.props.isEditing
+      && isStreamNarrow(this.props.narrow)
+      && !this.state.isFocused
+      && this.state.topic === ''
+    ) {
+      // We weren't showing the topic input when the user tapped on the input
+      // to focus it, but we're about to show it.  Focus that, if the user
+      // hasn't already selected a topic.
+      this.topicInputRef.current?.focus();
+    } else {
+      this.setState({
+        isMessageFocused: true,
+        isFocused: true,
+        isMenuExpanded: false,
+      });
+    }
   };
 
   handleMessageBlur = () => {
