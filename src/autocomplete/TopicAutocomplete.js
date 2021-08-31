@@ -46,7 +46,7 @@ export default function TopicAutocomplete(props: Props): Node {
     dispatch(fetchTopicsForStream(narrow));
   }, [dispatch, narrow]);
 
-  if (!isFocused || text.length === 0) {
+  if (!isFocused) {
     return null;
   }
 
