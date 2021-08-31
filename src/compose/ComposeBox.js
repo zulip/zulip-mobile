@@ -509,6 +509,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 onFocus={this.handleTopicFocus}
                 onBlur={this.handleTopicBlur}
                 onTouchStart={this.handleInputTouchStart}
+                onSubmitEditing={() => this.messageInputRef.current?.focus()}
+                blurOnSubmit={false}
               />
             )}
             <Input
