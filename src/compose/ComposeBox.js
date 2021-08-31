@@ -119,6 +119,8 @@ type State = {|
   selection: InputSelection,
 |};
 
+const FOCUS_DEBOUNCE_TIME_MS = 200;
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -356,7 +358,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     });
     // give a chance to the topic input to get the focus
     clearTimeout(this.inputBlurTimeoutId);
-    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, 200);
+    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
   };
 
   handleTopicFocus = () => {
@@ -374,7 +376,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     });
     // give a chance to the message input to get the focus
     clearTimeout(this.inputBlurTimeoutId);
-    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, 200);
+    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
   };
 
   handleInputTouchStart = () => {
