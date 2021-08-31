@@ -496,23 +496,34 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             onExpandContract={this.handleComposeMenuToggle}
           />
           <View style={this.styles.composeText}>
-            {this.getCanSelectTopic() && (
-              <Input
-                style={[this.styles.topicInput, { backgroundColor: this.context.backgroundColor }]}
-                underlineColorAndroid="transparent"
-                placeholder="Topic"
-                defaultValue={topic}
-                autoFocus={this.props.autoFocusTopic}
-                selectTextOnFocus
-                textInputRef={this.topicInputRef}
-                onChangeText={this.handleTopicChange}
-                onFocus={this.handleTopicFocus}
-                onBlur={this.handleTopicBlur}
-                onTouchStart={this.handleInputTouchStart}
-                onSubmitEditing={() => this.messageInputRef.current?.focus()}
-                blurOnSubmit={false}
-              />
-            )}
+            <Input
+              style={[
+                this.styles.topicInput,
+                { backgroundColor: this.context.backgroundColor },
+                // This is a really dumb hack to work around
+                // https://github.com/facebook/react-native/issues/16405.
+                // Someone suggests in that thread that { position: absolute,
+                // zIndex: -1 } will work, which it does not (the border of the
+                // TextInput is still visible, even with very negative zIndex
+                // values). Someone else suggests { transform: [{scale: 0}] }
+                // (https://stackoverflow.com/a/49817873), which doesn't work
+                // either. However, a combinarion of the two of them seems to
+                // work.
+                !this.getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
+              ]}
+              underlineColorAndroid="transparent"
+              placeholder="Topic"
+              defaultValue={topic}
+              autoFocus={this.props.autoFocusTopic}
+              selectTextOnFocus
+              textInputRef={this.topicInputRef}
+              onChangeText={this.handleTopicChange}
+              onFocus={this.handleTopicFocus}
+              onBlur={this.handleTopicBlur}
+              onTouchStart={this.handleInputTouchStart}
+              onSubmitEditing={() => this.messageInputRef.current?.focus()}
+              blurOnSubmit={false}
+            />
             <Input
               multiline={!isMenuExpanded}
               style={[
