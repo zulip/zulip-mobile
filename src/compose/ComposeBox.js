@@ -297,6 +297,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
   handleTopicAutocomplete = (topic: string) => {
     this.setTopicInputValue(topic);
+    this.messageInputRef.current?.focus();
   };
 
   handleMessageChange = (message: string) => {
