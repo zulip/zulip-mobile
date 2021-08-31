@@ -1805,10 +1805,9 @@
   dependencies:
     deep-assign "^3.0.0"
 
-"@react-native-community/cameraroll@^4.0.4":
+"@react-native-community/cameraroll@chrisbobbe/react-native-cameraroll#17fa5d8d2":
   version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cameraroll/-/cameraroll-4.0.4.tgz#3e2567ce54e3985e8e0a51832dfa0e1c5317f75b"
-  integrity sha512-3SY96Xh1yQjV5M7dFisl5kQmrO/K09URarZwmTN801KEalOoo/opsd/e8Vu1dwSKe0NGCK7A2u0oJQpeNbWbnA==
+  resolved "https://codeload.github.com/chrisbobbe/react-native-cameraroll/tar.gz/17fa5d8d2f4e00ec78304070a0b91292e884b7f5"
 
 "@react-native-community/cli-debugger-ui@^4.13.1":
   version "4.13.1"
