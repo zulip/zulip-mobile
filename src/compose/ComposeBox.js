@@ -538,6 +538,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
               onSubmitEditing={() => this.messageInputRef.current?.focus()}
               blurOnSubmit={false}
+              returnKeyType="next"
             />
             <Input
               multiline={!isMenuExpanded}
