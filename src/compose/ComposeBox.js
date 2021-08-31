@@ -119,7 +119,7 @@ type State = {|
   selection: InputSelection,
 |};
 
-const FOCUS_DEBOUNCE_TIME_MS = 200;
+const FOCUS_DEBOUNCE_TIME_MS = 16;
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
