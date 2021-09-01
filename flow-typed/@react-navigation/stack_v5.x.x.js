@@ -840,11 +840,15 @@ declare module '@react-navigation/stack' {
     >>,
     +setOptions: (options: $Shape<ScreenOptions>) => void,
     +setParams: (
-      params: $If<
-        $IsUndefined<$ElementType<ParamList, RouteName>>,
-        empty,
-        $Shape<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
-      >,
+      // We've edited this to be less complicated, so Flow in types-first
+      // mode can handle it.
+      //
+      // A slight downside of the edit is that the more complicated thing
+      // used to error when you tried to use `setParams` on a screen whose
+      // type says it has no params. Now we don't get those errors.
+      // Hopefully that kind of error is easy enough to avoid without help
+      // from the type-checker though.
+      params: $Shape<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
     ) => void,
     ...
   };
