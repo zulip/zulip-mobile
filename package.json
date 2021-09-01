@@ -105,6 +105,7 @@
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "fbjs-scripts": "1.2.0",
     "flow-bin": "^0.128.0",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^3.3.1",
