@@ -126,8 +126,15 @@ module.file_ext=.js
 module.file_ext=.json
 module.file_ext=.ios.js
 
+; This is the future of Flow; see
+;   https://medium.com/flow-type/how-to-upgrade-to-exact-by-default-object-type-syntax-7aa44b4d08ab.
+; But we should anticipate that not all our third-party code acts sensibly
+; when this is turned on (e.g., see dfa52ab46). As of turning it on, though,
+; we're error-free!
+exact_by_default=true
+
 ; We can remove this on Flow v0.134 or later, when it's on by default.
 types_first=true
 
 [version]
-^0.128.0
+^0.137.0

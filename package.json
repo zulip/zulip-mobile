@@ -55,9 +55,9 @@
     "lodash.omit": "^4.5.0",
     "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.4.0",
-    "react": "16.13.1",
+    "react": "17.0.1",
     "react-intl": "5.20.1",
-    "react-native": "0.63.4",
+    "react-native": "0.64.2",
     "react-native-device-info": "^8.1.7",
     "react-native-document-picker": "^3.2.4",
     "react-native-gesture-handler": "^1.0.12",
@@ -106,7 +106,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fbjs-scripts": "1.2.0",
-    "flow-bin": "^0.128.0",
+    "flow-bin": "^0.137.0",
     "flow-coverage-report": "^0.6.0",
     "flow-typed": "^3.3.1",
     "immutable-devtools": "^0.1.5",
@@ -126,5 +126,8 @@
     "rollup": "^2.26.5",
     "typescript": "~3.8.3",
     "yarn-deduplicate": "^3.0.0"
+  },
+  "resolutions": {
+    "jest-expo/react-test-renderer": "17.0.1"
   }
 }

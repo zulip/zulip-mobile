@@ -68,7 +68,7 @@ declare module '@react-navigation/material-top-tabs' {
   }
 
   // Vaguely copied from
-  // react-native/Libraries/Animated/src/nodes/AnimatedValue.js
+  // react-native/Libraries/Animated/nodes/AnimatedValue.js
   declare type ValueListenerCallback = (state: { value: number, ... }) => void;
   declare interface AnimatedValue {
     constructor(value: number): void;

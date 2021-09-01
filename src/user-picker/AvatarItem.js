@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { Animated, Easing, View } from 'react-native';
-import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
+import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedValue';
 
 import type { UserId, UserOrBot } from '../types';
 import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 // $FlowFixMe[untyped-import]
 import Color from 'color';
-import type { ColorValue } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import type { ColorValue } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 export const foregroundColorFromBackground = (color: ColorValue): 'black' | 'white' =>
   Color(color).luminosity() > 0.4 ? 'black' : 'white';
