@@ -1,6 +1,13 @@
 /* @flow strict-local */
 
-module.exports = async () => {
+// This is supposed to be an async function:
+//   https://jestjs.io/docs/26.x/configuration#globalsetup-string.
+// But something goes wrong with React Native v0.64, and the global
+// `regeneratorRuntime` from @babel/plugin-transform-runtime, the thing that
+// transpiles away async function syntax, isn't available when the code in
+// this file runs. Easy enough to make it a non-async function as a
+// workaround.
+module.exports = () => {
   // Where this has any effect (macOS and Linux), set Node's timezone to
   // UTC, to help make snapshot tests be consistent in local testing and in
   // CI. To handle places this doesn't have an effect (Windows), we should
