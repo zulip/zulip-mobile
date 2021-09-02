@@ -15,6 +15,7 @@ import {
   tryStopNotifications,
   navigateToAccountPicker,
   navigateToUserStatus,
+  navigateToSettings,
 } from '../actions';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
@@ -40,6 +41,19 @@ function SetStatusButton(props: {||}) {
       text="Set a status"
       onPress={() => {
         NavigationService.dispatch(navigateToUserStatus());
+      }}
+    />
+  );
+}
+
+function SettingsButton(props: {||}) {
+  return (
+    <ZulipButton
+      style={styles.button}
+      secondary
+      text="Settings"
+      onPress={() => {
+        NavigationService.dispatch(navigateToSettings());
       }}
     />
   );
@@ -112,6 +126,9 @@ export default function ProfileScreen(props: Props): Node {
       <AwayStatusSwitch />
       <View style={styles.buttonRow}>
         <SetStatusButton />
+      </View>
+      <View style={styles.buttonRow}>
+        <SettingsButton />
       </View>
       <View style={styles.buttonRow}>
         <SwitchAccountButton />

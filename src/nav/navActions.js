@@ -130,3 +130,5 @@ export const navigateToUserStatus = (): GenericNavigationAction => StackActions.
 
 export const navigateToSharing = (sharedData: SharedData): GenericNavigationAction =>
   StackActions.push('sharing', { sharedData });
+
+export const navigateToSettings = (): GenericNavigationAction => StackActions.push('settings');

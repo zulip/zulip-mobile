@@ -15,8 +15,7 @@ import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
-import SettingsScreen from '../settings/SettingsScreen';
-import { IconInbox, IconSettings, IconStream } from '../common/Icons';
+import { IconInbox, IconStream } from '../common/Icons';
 import { OwnAvatar, OfflineNotice } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
@@ -26,7 +25,6 @@ export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
   'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
   'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
-  settings: RouteParamsOf<typeof SettingsScreen>,
   profile: RouteParamsOf<typeof ProfileScreen>,
 |};
 
@@ -86,14 +84,6 @@ export default function MainTabsScreen(props: Props): Node {
           options={{
             tabBarLabel: 'Conversations',
             tabBarIcon: ({ color }) => <IconUnreadConversations color={color} />,
-          }}
-        />
-        <Tab.Screen
-          name="settings"
-          component={SettingsScreen}
-          options={{
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({ color }) => <IconSettings size={24} color={color} />,
           }}
         />
         <Tab.Screen

@@ -2,15 +2,13 @@
 
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
-import { ScrollView } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import { createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
-import { NestedNavRow, SwitchRow } from '../common';
+import { NestedNavRow, SwitchRow, Screen } from '../common';
 import {
   IconDiagnostics,
   IconNotifications,
@@ -25,12 +23,6 @@ import {
   navigateToLegal,
 } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
-
-const styles = createStyleSheet({
-  optionWrapper: {
-    flex: 1,
-  },
-});
 
 type Props = $ReadOnly<{|
   navigation: MainTabsNavigationProp<'settings'>,
@@ -50,7 +42,7 @@ export default function SettingsScreen(props: Props): Node {
   }, [theme, dispatch]);
 
   return (
-    <ScrollView style={styles.optionWrapper}>
+    <Screen title="Settings">
       <SwitchRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
       <SwitchRow
         label="Open links with in-app browser"
@@ -94,6 +86,6 @@ export default function SettingsScreen(props: Props): Node {
           NavigationService.dispatch(navigateToLegal());
         }}
       />
-    </ScrollView>
+    </Screen>
   );
 }
