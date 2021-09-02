@@ -7,6 +7,7 @@ const transformModulesWhitelist = [
   'expo-application',
   'expo-web-browser',
   'react-native',
+  '@react-native',
   // @rnc/async-storage itself is precompiled, but its mock-helper is not
   '@react-native-async-storage/async-storage',
   '@react-native-community/cameraroll',
