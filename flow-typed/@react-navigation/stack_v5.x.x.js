@@ -843,12 +843,10 @@ declare module '@react-navigation/stack' {
       // We've edited this to be less complicated, so Flow in types-first
       // mode can handle it.
       //
-      // A slight downside of the edit is that the more complicated thing
-      // used to error when you tried to use `setParams` on a screen whose
-      // type says it has no params. Now we don't get those errors.
-      // Hopefully that kind of error is easy enough to avoid without help
-      // from the type-checker though.
-      params: $Shape<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
+      // The complicated version appears to have been a workaround for the
+      // brokenness of $Shape: `$Shape<empty>` is `{ ... }`.  `$Partial` is
+      // basically the fixed `$Shape`, and makes the complexity unneeded.
+      params: $Partial<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
     ) => void,
     ...
   };
