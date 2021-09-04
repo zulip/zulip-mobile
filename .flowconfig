@@ -133,8 +133,5 @@ module.file_ext=.ios.js
 ; we're error-free!
 exact_by_default=true
 
-; We can remove this on Flow v0.134 or later, when it's on by default.
-types_first=true
-
 [version]
 ^0.137.0
