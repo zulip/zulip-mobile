@@ -242,7 +242,7 @@ $!${divOpenHtml}
     .toString();
   const subheaderHtml = template`
 <div class="subheader">
-  <div class="username">
+  <div class="username" data-sender-id="${sender_id}">
     ${sender_full_name}
   </div>
   <div class="static-timestamp">${messageTime}</div>

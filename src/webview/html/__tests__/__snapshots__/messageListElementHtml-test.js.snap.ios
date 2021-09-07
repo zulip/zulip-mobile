@@ -35,7 +35,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -113,7 +113,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -143,7 +143,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -196,7 +196,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -239,7 +239,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -292,7 +292,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -335,7 +335,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -388,7 +388,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -424,7 +424,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -470,7 +470,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -541,7 +541,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -571,7 +571,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -617,7 +617,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -653,7 +653,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -699,7 +699,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -770,7 +770,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -800,7 +800,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -846,7 +846,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -882,7 +882,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -935,7 +935,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -996,7 +996,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1032,7 +1032,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1081,7 +1081,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1124,7 +1124,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1160,7 +1160,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1190,7 +1190,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1226,7 +1226,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1306,7 +1306,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1342,7 +1342,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1378,7 +1378,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1427,7 +1427,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1470,7 +1470,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1513,7 +1513,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1543,7 +1543,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1579,7 +1579,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1647,7 +1647,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1683,7 +1683,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1729,7 +1729,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1800,7 +1800,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1830,7 +1830,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1876,7 +1876,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1912,7 +1912,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -1958,7 +1958,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2029,7 +2029,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2059,7 +2059,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2105,7 +2105,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2141,7 +2141,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2187,7 +2187,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2223,7 +2223,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2265,7 +2265,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2295,7 +2295,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2331,7 +2331,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2411,7 +2411,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2447,7 +2447,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2483,7 +2483,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2519,7 +2519,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2584,7 +2584,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2649,7 +2649,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2679,7 +2679,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2719,7 +2719,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2755,7 +2755,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2795,7 +2795,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2825,7 +2825,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2855,7 +2855,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2891,7 +2891,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2927,7 +2927,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -2992,7 +2992,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3057,7 +3057,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3087,7 +3087,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3127,7 +3127,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3163,7 +3163,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3203,7 +3203,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3239,7 +3239,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3275,7 +3275,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3355,7 +3355,7 @@ This is an example PM message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3404,7 +3404,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3478,7 +3478,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3508,7 +3508,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3557,7 +3557,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3596,7 +3596,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3645,7 +3645,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3681,7 +3681,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3730,7 +3730,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3791,7 +3791,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3830,7 +3830,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3875,7 +3875,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3905,7 +3905,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3935,7 +3935,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -3971,7 +3971,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4011,7 +4011,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4076,7 +4076,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4106,7 +4106,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4146,7 +4146,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4182,7 +4182,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4222,7 +4222,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4283,7 +4283,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4313,7 +4313,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"2\\">
     Nonrandom name two User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4343,7 +4343,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
@@ -4379,7 +4379,7 @@ This is an example stream message.
   <div class=\\"content\\">
     
 <div class=\\"subheader\\">
-  <div class=\\"username\\">
+  <div class=\\"username\\" data-sender-id=\\"1\\">
     Nonrandom name one User
   </div>
   <div class=\\"static-timestamp\\">12:00 PM</div>
