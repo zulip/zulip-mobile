@@ -55,8 +55,8 @@ type WebViewOutboundEventScroll = {|
   endMessageId: number,
 |};
 
-type WebViewOutboundEventAvatar = {|
-  type: 'avatar',
+type WebViewOutboundEventRequestUserProfile = {|
+  type: 'request-user-profile',
   fromUserId: UserId,
 |};
 
@@ -142,7 +142,7 @@ type WebViewOutboundEventVote = {|
 export type WebViewOutboundEvent =
   | WebViewOutboundEventReady
   | WebViewOutboundEventScroll
-  | WebViewOutboundEventAvatar
+  | WebViewOutboundEventRequestUserProfile
   | WebViewOutboundEventNarrow
   | WebViewOutboundEventImage
   | WebViewOutboundEventReaction
@@ -264,7 +264,7 @@ export const handleWebViewOutboundEvent = (
       markRead(props, event);
       break;
 
-    case 'avatar': {
+    case 'request-user-profile': {
       NavigationService.dispatch(navigateToAccountDetails(event.fromUserId));
       break;
     }
