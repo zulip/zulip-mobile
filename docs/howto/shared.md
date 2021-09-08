@@ -58,7 +58,7 @@ This looks something like:
 ```
 $ cd ~/z/zulip  # your zulip.git clone, wherever it is
 $ cd static/shared  # the root of the @zulip/shared package's source
-$ git checkout master
+$ git checkout main
 $ git pull --ff-only
 
    # (These steps can probably become a `version` NPM script.)
@@ -67,8 +67,8 @@ $ npm version patch --no-git-tag-version
 $ git commit -am 'shared: Bump version to 0.0.3.'
 $ git tag shared-0.0.3
 
-$ git log --stat -p upstream/master..  # check your work!
-$ git push upstream master shared-0.0.3
+$ git log --stat -p upstream/main..  # check your work!
+$ git push upstream main shared-0.0.3
 
 $ npm publish --dry-run  # check your work!
 $ npm publish  # should prompt for an OTP, from your 2FA setup

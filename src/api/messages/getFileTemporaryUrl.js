@@ -18,7 +18,7 @@ type ApiResponseTempFileUrl = {|
  *
  * This endpoint is not in the Zulip API docs on the web, but it is
  * documented in our OpenAPI description:
- *   https://github.com/zulip/zulip/blob/master/zerver/openapi/zulip.yaml
+ *   https://github.com/zulip/zulip/blob/main/zerver/openapi/zulip.yaml
  * under the name `get_file_temporary_url`.
  *
  * @param auth Authentication info of the current user.

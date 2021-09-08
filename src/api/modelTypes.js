@@ -84,7 +84,7 @@ export type DevUser = $ReadOnly<{|
  * which returns almost the same set of properties.
  *
  * See also the comments on `UserProfile` in the server (lineno is approx.):
- *   https://github.com/zulip/zulip/blob/master/zerver/models.py#L734
+ *   https://github.com/zulip/zulip/blob/main/zerver/models.py#L734
  * Most properties correspond to fields on `UserProfile`, and many are
  * described most usefully there.
  *
@@ -401,7 +401,7 @@ export type Reaction = $ReadOnly<{|
    *
    * The format varies with `reaction_type`, and can be subtle.
    * See the comment on Reaction.emoji_code here:
-   *   https://github.com/zulip/zulip/blob/master/zerver/models.py
+   *   https://github.com/zulip/zulip/blob/main/zerver/models.py
    */
   emoji_code: string,
 |}>;

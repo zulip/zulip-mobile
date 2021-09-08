@@ -53,7 +53,7 @@ export type ApiResponseSuccess = $ReadOnly<{
 
 /**
  * A list of current error codes can be found at:
- *   https://github.com/zulip/zulip/blob/master/zerver/lib/exceptions.py
+ *   https://github.com/zulip/zulip/blob/main/zerver/lib/exceptions.py
  *
  * Unfortunately, the `code` property is a relatively late addition to the
  * Zulip API, introduced for version 1.7.0. [1]  The modern default, when no

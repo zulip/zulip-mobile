@@ -53,7 +53,7 @@ For the implementation of our UI notifications, see:
 
 [FcmMessage.kt]: ../../android/app/src/main/java/com/zulipmobile/notifications/FcmMessage.kt
 [FCMPushNotifications.kt]: ../../android/app/src/main/java/com/zulipmobile/notifications/FCMPushNotifications.kt
-[push_notifications.py]: https://github.com/zulip/zulip/blob/master/zerver/lib/push_notifications.py
+[push_notifications.py]: https://github.com/zulip/zulip/blob/main/zerver/lib/push_notifications.py
 [apns-payload]: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 
 

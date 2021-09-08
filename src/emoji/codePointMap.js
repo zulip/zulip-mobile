@@ -42,7 +42,7 @@ export const override: {| [code: string]: string |} = {
  *
  * For the format of these emoji codes, see the comment on
  * Reaction.emoji_code here:
- *   https://github.com/zulip/zulip/blob/master/zerver/models.py
+ *   https://github.com/zulip/zulip/blob/main/zerver/models.py
  */
 export const unicodeCodeByName: {| [name: string]: string |} = {
   '+1': '1f44d',

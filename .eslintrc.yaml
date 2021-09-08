@@ -250,7 +250,7 @@ rules:
   # only* [3], but there are no plans to allow turning it off for
   # `test` blocks.
   # 
-  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/valid-title.md
+  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/main/docs/rules/valid-title.md
   # [2] https://github.com/jest-community/eslint-plugin-jest/issues/203.
   # [3] https://github.com/jest-community/eslint-plugin-jest/issues/470
   jest/valid-title: off
@@ -263,7 +263,7 @@ rules:
   # that multiple tests in the same file aren't interfering with each
   # other by leaving bits of state lying around.
   #
-  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/no-standalone-expect.md
+  # [1] https://github.com/jest-community/eslint-plugin-jest/blob/main/docs/rules/no-standalone-expect.md
   # [2] https://github.com/zulip/zulip-mobile/pull/4235#discussion_r489984717
   jest/no-standalone-expect: off
 

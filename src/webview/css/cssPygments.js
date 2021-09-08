@@ -2,7 +2,7 @@
 
 /**
  * This entire code has been copied near verbatim from the WebApp's `pygments.scss` file.
- * https://github.com/zulip/zulip/blob/master/static/styles/pygments.scss.
+ * https://github.com/zulip/zulip/blob/main/static/styles/pygments.scss.
  * The main change is in the logic of the `isNightMode` flag. The reason why we have to do
  * that is because the WebApp uses SCSS, which can detect this natively, while we use CSS.
  *
