@@ -142,7 +142,7 @@ the insecure `http://`, you'll need to tell the app to make an
 exception under iOS's "App Transport Security" (ATS), either to allow
 access any host with `http://`, or just to specific domains.
 
-These exceptions should never be committed to master, as there aren't
+These exceptions should never be committed to main, as there aren't
 any insecure domains we want to connect to in production.
 
 To disable ATS restrictions for all network connections, add the

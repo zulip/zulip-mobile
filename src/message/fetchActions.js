@@ -414,7 +414,7 @@ export async function tryFetch<T>(
  * updates, calling its `/register` endpoint and starting an async loop to
  * poll for events.  For background on the Zulip event system and how we use
  * it, see docs from the client-side perspective:
- *   https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/realtime.md
+ *   https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/realtime.md
  * and a mainly server-side perspective:
  *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
  *

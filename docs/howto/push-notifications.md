@@ -240,7 +240,7 @@ on that is
 Now, restart the server, and you should be receiving notifications on
 your iOS development build! Be sure mobile notification settings are
 on, using the web app's settings interface. (You're all set to do this
-if your branch is up-to-date with a version of `master` from 2020-03
+if your branch is up-to-date with a version of `main` from 2020-03
 or later; if not, you'll need the changes in [this
 commit](https://github.com/zulip/zulip/commit/23ba2b63c5c10f43b02a2bb2c470cc6ff597d839)).
 If it's not working, please say so in
@@ -293,7 +293,7 @@ More specifically, the rule appears to be:
    alpha and/or beta releases, but the build number must strictly
    increase.
 
-So if the last version in master is already in the App Store (and not
+So if the last version in main is already in the App Store (and not
 still in alpha or beta), then we'll want to:
 
  * Increment the user-facing version number.

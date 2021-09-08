@@ -15,11 +15,11 @@ The workflow within that repo is:
   by other people in PRs to React Native.)  For example, `0.55.4-zulip` is a
   branch on top of `v0.55.4`, which is the tag for the 0.55.4 release.
 
-* Each of these branches works a lot like the `master` branch in this
+* Each of these branches works a lot like the `main` branch in this
   zulip/zulip-mobile repo or in the zulip/zulip repo.  The branch is a
   linear sequence of commits, with no merges; and it advances only by adding
   new commits, never by rebasing or rewinding.
 
 * Contributing to one of these branches works just like contributing to
-  `master` in this zulip/zulip-mobile repo; prepare a branch in your own
+  `main` in this zulip/zulip-mobile repo; prepare a branch in your own
   GitHub fork, and send a PR.

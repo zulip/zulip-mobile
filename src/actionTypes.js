@@ -204,7 +204,7 @@ export type MessageFetchStartAction = {|
  * that world, so, we take care to catch those errors and dispatch
  * this action there too. See discussion [2] for implementation notes.
  *
- * [1] https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/crunchy-shell.md
+ * [1] https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/crunchy-shell.md
  * [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/937480
  */
 type MessageFetchErrorAction = {|

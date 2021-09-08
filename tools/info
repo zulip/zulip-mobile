@@ -11,7 +11,7 @@ EOF
 }
 
 upstream_ref() {
-    echo refs/remotes/"$(upstream_remote_name)"/master
+    echo refs/remotes/"$(upstream_remote_name)"/main
 }
 
 base_commit() {
@@ -23,7 +23,7 @@ base_commit() {
 # usage: files_changed [TIP [UPSTREAM]]
 #
 # Lists files that have changed in TIP (default: current worktree)
-# relative to UPSTREAM (default: upstream/master or origin/master).
+# relative to UPSTREAM (default: upstream/main or origin/main).
 #
 # Excludes files that no longer exist in TIP.
 files_changed() {

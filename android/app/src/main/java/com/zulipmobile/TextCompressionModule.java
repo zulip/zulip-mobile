@@ -15,7 +15,7 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 // TODO: Write unit tests; see
-//   https://github.com/zulip/zulip-mobile/blob/master/docs/howto/testing.md#unit-tests-android.
+//   https://github.com/zulip/zulip-mobile/blob/main/docs/howto/testing.md#unit-tests-android.
 class TextCompressionModule extends ReactContextBaseJavaModule {
   public TextCompressionModule(ReactApplicationContext reactContext) {
     super(reactContext);

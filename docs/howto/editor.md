@@ -68,7 +68,7 @@ Take a look through some of VS Code's docs.  In particular:
 #### Confirm our workspace settings took effect
 
 For the extensions to work properly, make sure that VS Code has recognized
-[our settings file](https://github.com/zulip/zulip-mobile/tree/master/.vscode/settings.json)
+[our settings file](https://github.com/zulip/zulip-mobile/tree/main/.vscode/settings.json)
 in the zulip-mobile repository. Usually, this should happen automatically
 when you open the `zulip-mobile` folder in VS Code.
 

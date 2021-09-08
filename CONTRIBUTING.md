@@ -17,4 +17,4 @@
 
 [open-issues]: https://github.com/zulip/zulip-mobile/issues
 [commit-style]: https://zulip.readthedocs.io/en/latest/contributing/version-control.html
-[style-guide]: https://github.com/zulip/zulip-mobile/blob/master/docs/style.md
+[style-guide]: https://github.com/zulip/zulip-mobile/blob/main/docs/style.md

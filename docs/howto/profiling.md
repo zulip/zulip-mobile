@@ -158,12 +158,12 @@ git remote add greg git@github.com:gnprice/zulip-mobile
 git fetch greg dev-perf-monitor
 ```
 
-[demo branch]: https://github.com/zulip/zulip-mobile/compare/master...gnprice:dev-perf-monitor
+[demo branch]: https://github.com/zulip/zulip-mobile/compare/main...gnprice:dev-perf-monitor
 
 Then probably rebase it to whatever you were working on; and rerun
 `yarn`:
 ```
-git cherry-pick upstream/master..greg/dev-perf-monitor
+git cherry-pick upstream/main..greg/dev-perf-monitor
 yarn
 ```
 

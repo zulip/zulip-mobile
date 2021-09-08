@@ -84,8 +84,8 @@ Use some of `git log`'s many features to filter down to commits you
 care about.  For example:
 
 * Filter to a range of commits with `git log A..B`.  E.g., to reread your
-  current branch relative to upstream master, you might say
-  `git log --stat -p upstream/master..`, or `git log --stat -p @{u}..`.
+  current branch relative to upstream main, you might say
+  `git log --stat -p upstream/main..`, or `git log --stat -p @{u}..`.
   (Greg has the latter aliased as `git usp`, and types it constantly.)
 
 * Filter to changes touching certain files or directories:
@@ -109,8 +109,8 @@ care about.  For example:
 
 Try all those `git log` filtering features in your graphical client -- it
 may even support the very same command-line options to do it.  For
-example, `gitk upstream/master..` shows basically the same information as
-`git log --stat -p upstream/master..`, but graphically.
+example, `gitk upstream/main..` shows basically the same information as
+`git log --stat -p upstream/main..`, but graphically.
 
 
 ### 5. Git a summary, with `git log --oneline`

@@ -796,7 +796,7 @@ experience.
 
 ### Highlights for developers
 
-This is a regular release from the master branch following 26.18.141.
+This is a regular release from the main branch following 26.18.141.
 In addition to the changes mentioned here, it includes the changes
 that were cherry-picked for 26.19.142.
 

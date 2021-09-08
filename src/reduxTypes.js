@@ -141,7 +141,7 @@ export type FlagName = $Keys<FlagsState>;
  * event system to get a complete snapshot and to maintain it incrementally.
  * See `doInitialFetch` for discussion, and see our docs from the
  * client-side perspective:
- *   https://github.com/zulip/zulip-mobile/blob/master/docs/architecture/realtime.md
+ *   https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/realtime.md
  * and a mainly server-side perspective:
  *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
  * As a result, there are very few types of data we need to go fetch from

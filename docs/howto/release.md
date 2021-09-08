@@ -153,7 +153,7 @@ simple terminology for the process we follow with both.
 * Remember to switch back to a branch without the Sentry client key:
 
   ```
-  git checkout master
+  git checkout main
   ```
 
 [play-internal-testing]: https://play.google.com/console/developers/8060868091387311598/app/4976350040864490411/tracks/internal-testing
@@ -237,7 +237,7 @@ simple terminology for the process we follow with both.
 * Remember to switch back to a branch without the Sentry client key:
 
   ```
-  git checkout master
+  git checkout main
   ```
 
 [app-store-connect]: https://appstoreconnect.apple.com/
@@ -466,7 +466,7 @@ vulnerable.
 * Wait for the release to be approved for TestFlight.  (On failure, try to
   fix, then resubmit.)
 
-* Push the tagged commit, and also push the corresponding changes to master.
+* Push the tagged commit, and also push the corresponding changes to main.
 
 * Upload the APK to GitHub as usual.
 
@@ -530,7 +530,7 @@ script Sentry supplies.)
    ```
    $ git checkout -b release-secrets
    $ git commit -am 'SECRET: Add Sentry client key.'
-   $ git checkout master
+   $ git checkout main
    ```
 
    Then, as described in the main release steps above, when making a

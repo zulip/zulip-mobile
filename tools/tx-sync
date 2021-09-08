@@ -103,7 +103,7 @@ Thanks as always to our kind volunteer translators.
 
 Has a new language made major progress?  See docs on updating
 the languages offered in the UI:
-  https://github.com/zulip/zulip-mobile/blob/master/docs/howto/translations.md
+  https://github.com/zulip/zulip-mobile/blob/main/docs/howto/translations.md
 EOF
 else
     err_echo 'Step 1: ...none.'
@@ -126,7 +126,7 @@ EOF
     cat >&2 <<EOF
 
 To finish adding it, see docs:
-  https://github.com/zulip/zulip-mobile/blob/master/docs/howto/translations.md
+  https://github.com/zulip/zulip-mobile/blob/main/docs/howto/translations.md
 
 Then rerun this script to complete the rest of the sync.
 EOF

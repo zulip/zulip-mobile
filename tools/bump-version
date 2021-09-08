@@ -58,7 +58,7 @@ if [ -n "$had_uncommitted" ]; then
         echo "Then tag the commit:"
         echo "  git tag ${tag_name}"
         echo "inspect the result, and push:"
-        echo "  git push upstream master ${tag_name}"
+        echo "  git push upstream main ${tag_name}"
     } >&2
     exit 1
 fi
@@ -71,5 +71,5 @@ git tag "${tag_name}"
     echo
     echo "Committed and tagged."
     echo "Inspect the result, then push; for example:"
-    echo "  git push upstream master ${tag_name}"
+    echo "  git push upstream main ${tag_name}"
 } >&2

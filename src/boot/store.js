@@ -381,7 +381,7 @@ function listMiddleware() {
       // See upstream docs:
       //   https://github.com/LogRocket/redux-logger
       // and ours:
-      //   https://github.com/zulip/zulip-mobile/blob/master/docs/howto/debugging.md#redux-logger
+      //   https://github.com/zulip/zulip-mobile/blob/main/docs/howto/debugging.md#redux-logger
       createLogger({
         duration: true,
         // Example options to add for more focused information, depending on
