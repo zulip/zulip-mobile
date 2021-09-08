@@ -87,5 +87,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- To make a build that reports errors to Sentry, fill in the Sentry DSN below
+             and uncomment.  See src/sentryConfig.js for another site and more discussion. -->
+        <!--
+        <meta-data android:name="io.sentry.auto-init" android:value="true" tools:node="replace" />
+        <meta-data android:name="io.sentry.dsn" android:value="https://123@sentry.example/45" />
+        -->
     </application>
 </manifest>

@@ -23,4 +23,5 @@
 //
 // If you're making your own builds and want to use Sentry with them, please
 // create your own Sentry client key / DSN, and fill it in here.
+// See also the comment in AndroidManifest.xml about `io.sentry.dsn`.
 export const sentryKey: string | null = null;

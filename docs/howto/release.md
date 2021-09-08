@@ -519,6 +519,9 @@ script Sentry supplies.)
    `sentryKey`.  See the jsdoc and comment there for more about this
    value.
 
+   Edit `android/app/src/main/AndroidManifest.xml` similarly,
+   following the comment around `io.sentry.dsn`.
+
    You won't want to push that change, or to make builds with it
    except when you're making a release build you intend to publish.
    But you will want to have it handy to apply whenever you are making
