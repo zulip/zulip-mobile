@@ -25,13 +25,6 @@ node_modules/react-native/Libraries/polyfills/.*
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
 
-; TODO: Remove this line when RN v0.64 upgrade is complete. We took
-; Flow from v0.122 to v0.125 before finishing the upgrade, to more
-; gradually handle the deprecation of `suppress_comment`. When we did
-; that mini Flow upgrade, one error in RN's code was flagged, and it
-; was in this module.
-.*/node_modules/react-native/Libraries/ReactNative/PaperUIManager.js
-
 ; Our libdef is more complete, as of 2021-08.
 .*/node_modules/@react-native-async-storage/async-storage.*
 
