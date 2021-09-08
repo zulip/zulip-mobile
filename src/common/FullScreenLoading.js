@@ -5,8 +5,7 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-// eslint-disable-next-line import/no-useless-path-segments
-import { LoadingIndicator, ZulipStatusBar } from './'; // Like '.'; see #4818.
+import { LoadingIndicator, ZulipStatusBar } from '.';
 
 const componentStyles = createStyleSheet({
   center: {

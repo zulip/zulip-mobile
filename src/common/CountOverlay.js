@@ -4,8 +4,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-// eslint-disable-next-line import/no-useless-path-segments
-import { ComponentWithOverlay, UnreadCount } from './'; // Like '.'; see #4818.
+import { ComponentWithOverlay, UnreadCount } from '.';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({

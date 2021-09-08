@@ -5,8 +5,7 @@ import { View } from 'react-native';
 
 import type { LocalizableText } from '../types';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-// eslint-disable-next-line import/no-useless-path-segments
-import { Label } from './'; // Like '.'; see #4818.
+import { Label } from '.';
 import Touchable from './Touchable';
 
 // When adding a variant, take care that it's legitimate, it addresses a

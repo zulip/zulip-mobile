@@ -6,8 +6,7 @@ import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getLoading } from '../selectors';
-// eslint-disable-next-line import/no-useless-path-segments
-import { Label, LoadingIndicator } from './'; // Like '.'; see #4818.
+import { Label, LoadingIndicator } from '.';
 import { ThemeContext, createStyleSheet } from '../styles';
 
 const key = 'LoadingBanner';

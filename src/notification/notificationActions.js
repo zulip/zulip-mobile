@@ -8,8 +8,7 @@ import {
   tryStopNotifications as innerStopNotifications,
   getNarrowFromNotificationData,
   getAccountFromNotificationData,
-  // eslint-disable-next-line import/no-useless-path-segments
-} from './'; // Like '.'; see #4818.
+} from '.';
 import type { Notification } from './types';
 import { getAuth, getActiveAccount } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
