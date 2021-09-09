@@ -121,6 +121,7 @@
     "prettier-eslint": "^12.0.0",
     "prettier-eslint-cli": "^5.0.0",
     "react-native-cli": "^2.0.1",
+    "react-test-renderer": "17.0.1",
     "redux-mock-store": "^1.5.1",
     "rollup": "^2.26.5",
     "typescript": "~3.8.3",
