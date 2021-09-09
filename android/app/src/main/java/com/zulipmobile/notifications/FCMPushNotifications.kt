@@ -9,6 +9,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +35,8 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 val EXTRA_NOTIFICATION_DATA = "data"
 
 fun createNotificationChannel(context: Context) {
+    val audioAttr: AudioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
     if (Build.VERSION.SDK_INT >= 26) {
         val name = context.getString(R.string.notification_channel_name)
 
@@ -44,6 +47,7 @@ fun createNotificationChannel(context: Context) {
             NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH).apply {
                 enableLights(true)
                 enableVibration(true)
+                setSound(getNotificationSoundUri(), audioAttr)
             }
         NotificationManagerCompat.from(context).createNotificationChannel(channel)
     }
@@ -159,7 +163,7 @@ private fun updateNotification(
     NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
 }
 
-private fun getNotificationSoundUri(context: Context): Uri {
+private fun getNotificationSoundUri(): Uri {
     // Note: Provide default notification sound until we found a good sound
     // return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.zulip}")
     return Settings.System.DEFAULT_NOTIFICATION_URI
@@ -230,7 +234,7 @@ private fun getNotificationBuilder(
 
     builder.addAction(createDismissAction(context))
 
-    val soundUri = getNotificationSoundUri(context)
+    val soundUri = getNotificationSoundUri()
     builder.setSound(soundUri)
     return builder
 }
