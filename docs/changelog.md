@@ -63,8 +63,8 @@ experience.
   and you can ignore them both: one when you run `yarn`, and one when you
   run Jest. Those will disappear once we use a version of `jest-expo` that
   targets RN v0.64. (We expect a release from them soon.)
-* Resolved issues (earliest first): PR #4973, PR #4981, #4951, #4909, #3472,
-  #4426, #4992, #4951
+* Resolved issues (earliest first): PR #4973, PR #4831, PR #4981,
+  #4907, #4951, #4909, #3472, #4426, PR #4992
 
 
 ## 27.169 (2021-08-30)
@@ -87,7 +87,7 @@ experience.
 * Over a dozen dependencies upgraded across major versions (PRs #4949,
   #4950, #4952); also other minor/patch upgrades, and some deps removed.
 * Resolved issues (earliest first): #4852, #4890, #4938, #4964, #4285,
-  #4870, #4764
+  #4870, #4764, PR #4864
 
   * Relative to the beta-only release v27.166, also #4921 (cherry-picked
     into beta-only release v27.167); and PRs #4960, #4959, and #4965
