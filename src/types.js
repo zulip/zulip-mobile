@@ -223,7 +223,8 @@ export type StreamOutbox = $ReadOnly<{|
   //   in the Outbox values we create; compare a1fad7ca9, for sender_id.
   //
   //   Once it is required, it should move from here to the second type
-  //   argument passed to `SubsetProperties` of `StreamMessage`, below.
+  //   argument passed to `SubsetProperties` of `StreamMessage`, below;
+  //   and we can also drop the hack line about it in `MessageLike`.
   stream_id?: number,
 
   ...SubsetProperties<

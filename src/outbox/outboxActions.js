@@ -12,6 +12,7 @@ import type {
   Outbox,
   PmOutbox,
   StreamOutbox,
+  Stream,
   UserOrBot,
   UserId,
   Action,
@@ -24,7 +25,7 @@ import {
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
-import { getAuth } from '../selectors';
+import { getAuth, getStreamsByName } from '../selectors';
 import * as api from '../api';
 import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
@@ -127,12 +128,14 @@ const recipientsFromIds = (ids, allUsersById, ownUser) => {
   return result;
 };
 
+// prettier-ignore
 type DataFromNarrow =
   | SubsetProperties<PmOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>
-  | SubsetProperties<StreamOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>;
+  | SubsetProperties<StreamOutbox, {| type: mixed, stream_id: mixed, display_recipient: mixed, subject: mixed |}>;
 
 const outboxPropertiesForNarrow = (
   destinationNarrow: Narrow,
+  streamsByName: Map<string, Stream>,
   allUsersById: Map<UserId, UserOrBot>,
   ownUser: UserOrBot,
 ): DataFromNarrow =>
@@ -143,11 +146,16 @@ const outboxPropertiesForNarrow = (
       subject: '',
     }),
 
-    topic: (streamName, topic) => ({
-      type: 'stream',
-      display_recipient: streamName,
-      subject: topic,
-    }),
+    topic: (streamName, topic) => {
+      const stream = streamsByName.get(streamName);
+      invariant(stream, 'narrow must be known stream');
+      return {
+        type: 'stream',
+        stream_id: stream.stream_id,
+        display_recipient: stream.name,
+        subject: topic,
+      };
+    },
   });
 
 const getContentPreview = (content: string, state: GlobalState): string => {
@@ -177,7 +185,12 @@ export const addToOutbox = (
   dispatch(
     messageSendStart({
       isSent: false,
-      ...outboxPropertiesForNarrow(destinationNarrow, getAllUsersById(state), ownUser),
+      ...outboxPropertiesForNarrow(
+        destinationNarrow,
+        getStreamsByName(state),
+        getAllUsersById(state),
+        ownUser,
+      ),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
