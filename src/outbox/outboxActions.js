@@ -131,7 +131,7 @@ type DataFromNarrow =
   | SubsetProperties<PmOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>
   | SubsetProperties<StreamOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>;
 
-const extractTypeToAndSubjectFromNarrow = (
+const outboxPropertiesForNarrow = (
   destinationNarrow: Narrow,
   allUsersById: Map<UserId, UserOrBot>,
   ownUser: UserOrBot,
@@ -177,7 +177,7 @@ export const addToOutbox = (
   dispatch(
     messageSendStart({
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(destinationNarrow, getAllUsersById(state), ownUser),
+      ...outboxPropertiesForNarrow(destinationNarrow, getAllUsersById(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,
