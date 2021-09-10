@@ -39,15 +39,13 @@ It doesn't include
 
 ## 27.170 (2021-09-09)
 
-
 ### Highlights for users
 
-* Improved input-focus behavior in the compose box (PR #4981).
-* Muted messages are now visible in the starred-messages view (#4909).
-* Messages in a muted topic are now visible outside the topic view if they
-  @-mention you (#3472).
-* Fixed a "Failed to send" bug when scrolled far up in some message views
-  (PR #4973).
+* Improved input-focus behavior in the compose box. (#4981)
+* Messages that @-mention you now appear even if you've muted their
+  topic or stream. (#3472)
+* Fixed a "Failed to send" bug when scrolled far up in some message
+  views. (#4973)
 
 Plus, like every release, many other fixes and improvements for your Zulip
 experience.
@@ -55,14 +53,18 @@ experience.
 
 ### Highlights for developers
 
-* zulip-mobile's default Git branch has been renamed from "master" to
+* The Git branch for the project has been renamed from "master" to
   "main", as part of the shift in the broader Git community toward this more
-  inclusive convention. Please see #announce > Git branch renamed to ‘main’
+  inclusive convention. Please see "#announce > Git branch renamed to ‘main’"
   on the Zulip community server (CZO) to learn more.
-* We're now using React Native v0.64 (#4426). This adds two new warnings,
-  and you can ignore them both: one when you run `yarn`, and one when you
-  run Jest. Those will disappear once we use a version of `jest-expo` that
-  targets RN v0.64. (We expect a release from them soon.)
+
+* Upgraded to React Native v0.64! (#4426)
+
+  This introduces two new warnings, and you can ignore them both: one
+  when you run `yarn`, and one when you run Jest. Those will disappear
+  once we use a version of `jest-expo` that targets RN v0.64. (We
+  expect a release from them soon.)
+
 * Resolved issues (earliest first): PR #4973, PR #4831, PR #4981,
   #4907, #4951, #4909, #3472, #4426, PR #4992
 
@@ -167,7 +169,8 @@ experience.
   two different libraries. (#4115)
 * `tools/test jest` now picks Android or iOS codepaths at random, rather
   than always iOS. (#4795)
-* Resolved issues (latest to earliest): PR #4807, #117, #4165, #4858, #4850,
+* Resolved issues (latest to earliest): part of #3472 (PR #4807),
+  #117, #4165, #4858, #4850,
   #4849, #3205, part of #4309 (PR #4817), #4635, #3244, #3452, parts of
   #4540 and #2366 (PR #4590), #4657, PR #4797, PR #4815, PR #4820, PR #4821,
   #4795, #4115
