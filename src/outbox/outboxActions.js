@@ -1,6 +1,7 @@
 /* @flow strict-local */
 // $FlowFixMe[untyped-import]
 import parseMarkdown from 'zulip-markdown-parser';
+import invariant from 'invariant';
 
 import * as logging from '../utils/logging';
 import type {
@@ -27,7 +28,7 @@ import { getAuth } from '../selectors';
 import * as api from '../api';
 import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
-import { caseNarrowPartial } from '../utils/narrow';
+import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
 
@@ -142,10 +143,6 @@ const extractTypeToAndSubjectFromNarrow = (
       subject: '',
     }),
 
-    // TODO: we shouldn't ever be passing a whole-stream narrow here;
-    //   ensure we don't, then remove this case
-    stream: name => ({ type: 'stream', display_recipient: name, subject: '(no topic)' }),
-
     topic: (streamName, topic) => ({
       type: 'stream',
       display_recipient: streamName,
@@ -172,6 +169,7 @@ export const addToOutbox = (
   destinationNarrow: Narrow,
   content: string,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+  invariant(isConversationNarrow(destinationNarrow), 'destination narrow must be conversation');
   const state = getState();
   const ownUser = getOwnUser(state);
 
