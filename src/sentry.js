@@ -92,6 +92,24 @@ function shouldScrubHost(url: URL, accountStatuses: $ReadOnlyArray<AccountStatus
   return false;
 }
 
+function scrubUrl(unscrubbedUrl: void | string): void | string {
+  if (unscrubbedUrl === undefined) {
+    return undefined;
+  }
+
+  const parsedUrl = new URL(unscrubbedUrl);
+  const accountStatuses = getAccountStatuses(store.getState());
+  if (!shouldScrubHost(parsedUrl, accountStatuses)) {
+    return unscrubbedUrl;
+  }
+
+  parsedUrl.host = `hidden-${
+    // So different realms are still distinguishable
+    md5(parsedUrl.host).substring(0, 6)
+  }.zulip.invalid`;
+  return parsedUrl.toString();
+}
+
 /**
  * Scrubs possibly personal information from a breadcrumb.
  *
@@ -106,26 +124,11 @@ function scrubBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcr
       // $FlowIgnore[incompatible-indexer] | We assume it's an
       // $FlowIgnore[incompatible-type]    | HttpBreadcrumb; see jsdoc.
       const httpBreadcrumb: HttpBreadcrumb = breadcrumb;
-
-      const unscrubbedUrl = httpBreadcrumb.data.url;
-      let scrubbedUrl = undefined;
-      if (unscrubbedUrl !== undefined) {
-        const parsedUrl = new URL(unscrubbedUrl);
-        const accountStatuses = getAccountStatuses(store.getState());
-        if (shouldScrubHost(parsedUrl, accountStatuses)) {
-          parsedUrl.host = `hidden-${
-            // So different realms are still distinguishable
-            md5(parsedUrl.host).substring(0, 6)
-          }.zulip.invalid`;
-        }
-        scrubbedUrl = parsedUrl.toString();
-      }
-
       return {
         ...httpBreadcrumb,
         data: {
           ...httpBreadcrumb.data,
-          url: scrubbedUrl,
+          url: scrubUrl(httpBreadcrumb.data.url),
         },
       };
     }
