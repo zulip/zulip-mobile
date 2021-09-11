@@ -156,9 +156,8 @@ export const initializeSentry = () => {
         'Network request failed',
       ],
       beforeBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb | null {
-        let result = undefined;
         try {
-          result = scrubBreadcrumb(breadcrumb, hint);
+          return scrubBreadcrumb(breadcrumb, hint);
         } catch (_e) {
           const e: Error = _e; // For Flow's sake (we know it's an Error)
 
@@ -182,7 +181,7 @@ export const initializeSentry = () => {
 
           // One of the builtin "recognized breadcrumb types":
           //   https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/#breadcrumb-types
-          result = {
+          return {
             type: 'error',
             category: 'error',
             level: 'error',
@@ -190,7 +189,6 @@ export const initializeSentry = () => {
             timestamp: breadcrumb.timestamp,
           };
         }
-        return result;
       },
     });
   } else {
