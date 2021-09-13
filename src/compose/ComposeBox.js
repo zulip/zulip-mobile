@@ -8,6 +8,7 @@ import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
+import invariant from 'invariant';
 
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
@@ -31,6 +32,7 @@ import { FloatingActionButton, Input } from '../common';
 import { showToast } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
+  isConversationNarrow,
   isStreamNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
@@ -43,7 +45,6 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 import MentionWarnings from './MentionWarnings';
-
 import { getAuth, getIsAdmin, getStreamInNarrow, getVideoChatProvider } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -66,6 +67,9 @@ type SelectorProps = {|
 |};
 
 type OuterProps = $ReadOnly<{|
+  /** The narrow shown in the message list.  Must be a conversation or stream. */
+  // In particular `getDestinationNarrow` makes assumptions about the narrow
+  // (and other code might too.)
   narrow: Narrow,
 
   onSend: (string, Narrow) => void,
@@ -391,6 +395,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       const topic = this.state.topic.trim();
       return topicNarrow(streamName, topic || '(no topic)');
     }
+    invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
   };
 
