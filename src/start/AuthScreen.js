@@ -175,6 +175,10 @@ type OuterProps = $ReadOnly<{|
 |}>;
 
 type SelectorProps = $ReadOnly<{|
+  // Don't let this change across the component's lifecycle. It must be
+  // clear and predictable which realm the user is entrusting their
+  // credentials to. (And other sensitive info, e.g., from the Apple auth
+  // native flow.)
   realm: URL,
 |}>;
 
