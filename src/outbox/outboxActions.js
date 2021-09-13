@@ -131,11 +131,11 @@ type DataFromNarrow =
   | SubsetProperties<StreamOutbox, {| type: mixed, display_recipient: mixed, subject: mixed |}>;
 
 const extractTypeToAndSubjectFromNarrow = (
-  narrow: Narrow,
+  destinationNarrow: Narrow,
   allUsersById: Map<UserId, UserOrBot>,
   ownUser: UserOrBot,
 ): DataFromNarrow =>
-  caseNarrowPartial(narrow, {
+  caseNarrowPartial(destinationNarrow, {
     pm: ids => ({
       type: 'private',
       display_recipient: recipientsFromIds(ids, allUsersById, ownUser),
@@ -168,10 +168,10 @@ const getContentPreview = (content: string, state: GlobalState): string => {
   }
 };
 
-export const addToOutbox = (narrow: Narrow, content: string): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
+export const addToOutbox = (
+  destinationNarrow: Narrow,
+  content: string,
+): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
   const ownUser = getOwnUser(state);
 
@@ -179,7 +179,7 @@ export const addToOutbox = (narrow: Narrow, content: string): ThunkAction<Promis
   dispatch(
     messageSendStart({
       isSent: false,
-      ...extractTypeToAndSubjectFromNarrow(narrow, getAllUsersById(state), ownUser),
+      ...extractTypeToAndSubjectFromNarrow(destinationNarrow, getAllUsersById(state), ownUser),
       markdownContent: content,
       content: getContentPreview(content, state),
       timestamp: localTime,

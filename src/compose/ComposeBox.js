@@ -72,7 +72,7 @@ type OuterProps = $ReadOnly<{|
   // (and other code might too.)
   narrow: Narrow,
 
-  onSend: (string, Narrow) => void,
+  onSend: (message: string, destinationNarrow: Narrow) => void,
 
   isEditing: boolean,
 
@@ -402,9 +402,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   handleSend = () => {
     const { dispatch } = this.props;
     const { message } = this.state;
-    const narrow = this.getDestinationNarrow();
+    const destinationNarrow = this.getDestinationNarrow();
 
-    this.props.onSend(message, narrow);
+    this.props.onSend(message, destinationNarrow);
 
     this.setMessageInputValue('');
 
@@ -412,7 +412,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       this.mentionWarnings.current.clearMentionWarnings();
     }
 
-    dispatch(sendTypingStop(narrow));
+    dispatch(sendTypingStop(destinationNarrow));
   };
 
   inputMarginPadding = {

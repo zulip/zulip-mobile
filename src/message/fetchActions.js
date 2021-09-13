@@ -509,7 +509,7 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
 };
 
 export const uploadFile = (
-  narrow: Narrow,
+  destinationNarrow: Narrow,
   uri: string,
   name: string,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
@@ -517,5 +517,5 @@ export const uploadFile = (
   const response = await api.uploadFile(auth, uri, name);
   const messageToSend = `[${name}](${response.uri})`;
 
-  dispatch(addToOutbox(narrow, messageToSend));
+  dispatch(addToOutbox(destinationNarrow, messageToSend));
 };
