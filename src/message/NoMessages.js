@@ -16,7 +16,7 @@ import {
   isStreamNarrow,
   isTopicNarrow,
   isSearchNarrow,
-  canSendToNarrow,
+  showComposeBoxOnNarrow,
 } from '../utils/narrow';
 
 const styles = createStyleSheet({
@@ -60,7 +60,7 @@ export default class NoMessages extends PureComponent<Props> {
     return (
       <View style={styles.container}>
         <Label style={styles.text} text={message.text} />
-        {canSendToNarrow(narrow) ? <Label text="Why not start the conversation?" /> : null}
+        {showComposeBoxOnNarrow(narrow) ? <Label text="Why not start the conversation?" /> : null}
       </View>
     );
   }

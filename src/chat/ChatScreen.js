@@ -17,7 +17,7 @@ import InvalidNarrow from './InvalidNarrow';
 import { fetchMessagesInNarrow } from '../message/fetchActions';
 import ComposeBox from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
-import { canSendToNarrow, caseNarrowDefault, keyFromNarrow } from '../utils/narrow';
+import { showComposeBoxOnNarrow, caseNarrowDefault, keyFromNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
 import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
@@ -127,7 +127,7 @@ export default function ChatScreen(props: Props): Node {
 
   const showMessagePlaceholders = haveNoMessages && isFetching;
   const sayNoMessages = haveNoMessages && !isFetching;
-  const showComposeBox = canSendToNarrow(narrow) && !showMessagePlaceholders;
+  const showComposeBox = showComposeBoxOnNarrow(narrow) && !showMessagePlaceholders;
 
   const auth = useSelector(getAuth);
   const dispatch = useDispatch();

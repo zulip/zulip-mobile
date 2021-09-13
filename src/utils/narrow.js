@@ -467,7 +467,14 @@ export const isMessageInNarrow = (
     // Adding a case here?  Be sure to add to getNarrowsForMessage, too.
   });
 
-export const canSendToNarrow = (narrow: Narrow): boolean =>
+/**
+ * Whether we show the compose box on this narrow's message list.
+ *
+ * This is really a UI choice that belongs to a specific part of the UI.
+ * It's here for now because several files refer to it.
+ */
+// TODO make this appropriately part of the UI code.
+export const showComposeBoxOnNarrow = (narrow: Narrow): boolean =>
   caseNarrow(narrow, {
     pm: () => true,
     stream: () => true,
