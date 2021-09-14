@@ -76,21 +76,21 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleStreamChange = stream => {
-    this.setState({ stream });
+    this.setState({ stream: stream.trim() });
   };
 
   handleTopicChange = topic => {
-    this.setState({ topic });
+    this.setState({ topic: topic.trim() });
   };
 
   handleStreamAutoComplete = (rawStream: string) => {
     // TODO: What is this for? (write down our assumptions)
     const stream = rawStream.split('**')[1];
-    this.setState({ stream, isStreamFocused: false });
+    this.setState({ stream: stream.trim(), isStreamFocused: false });
   };
 
   handleTopicAutoComplete = (topic: string) => {
-    this.setState({ topic });
+    this.setState({ topic: topic.trim() });
   };
 
   isSendButtonEnabled = (message: string) => {
