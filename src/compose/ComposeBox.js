@@ -10,6 +10,7 @@ import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
 import invariant from 'invariant';
 
+import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
@@ -399,7 +400,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamName = streamNameOfNarrow(narrow);
       const topic = this.state.topic.trim();
-      return topicNarrow(streamName, topic || '(no topic)');
+      return topicNarrow(streamName, topic || apiConstants.NO_TOPIC_TOPIC);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
