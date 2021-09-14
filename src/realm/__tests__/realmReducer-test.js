@@ -11,6 +11,27 @@ import {
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('realmReducer', () => {
+  describe('REALM_INIT', () => {
+    test('updates as appropriate on a boring but representative REALM_INIT', () => {
+      const action = eg.action.realm_init;
+      expect(realmReducer(eg.baseReduxState.realm, action)).toEqual({
+        crossRealmBots: action.data.cross_realm_bots,
+
+        nonActiveUsers: action.data.realm_non_active_users,
+        filters: action.data.realm_filters,
+        emoji: {}, // update as necessary if example data changes
+        videoChatProvider: null, // update as necessary if example data changes
+        mandatoryTopics: action.data.realm_mandatory_topics,
+
+        email: action.data.email,
+        user_id: action.data.user_id,
+        twentyFourHourTime: action.data.twenty_four_hour_time,
+        canCreateStreams: action.data.can_create_streams,
+        isAdmin: action.data.is_admin,
+      });
+    });
+  });
+
   describe('ACCOUNT_SWITCH', () => {
     test('resets state', () => {
       const initialState = eg.plusReduxState.realm;
