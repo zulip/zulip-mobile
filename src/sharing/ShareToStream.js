@@ -14,7 +14,7 @@ import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { streamNarrow } from '../utils/narrow';
-import { getAuth } from '../selectors';
+import { getAuth, getRealm } from '../selectors';
 import { fetchTopicsForStream } from '../topics/topicActions';
 import ShareWrapper from './ShareWrapper';
 
@@ -27,6 +27,7 @@ type OuterProps = $ReadOnly<{|
 type SelectorProps = $ReadOnly<{|
   subscriptions: Map<number, Subscription>,
   auth: Auth,
+  mandatoryTopics: boolean,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -94,14 +95,15 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   isSendButtonEnabled = (message: string) => {
+    const { mandatoryTopics } = this.props;
     const { stream, topic } = this.state;
     const { sharedData } = this.props.route.params;
 
     if (sharedData.type !== 'text') {
-      return stream !== '' && topic !== '';
+      return stream !== '' && (topic !== '' || !mandatoryTopics);
     }
 
-    return stream !== '' && topic !== '' && message !== '';
+    return stream !== '' && (topic !== '' || !mandatoryTopics) && message !== '';
   };
 
   render() {
@@ -152,6 +154,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
 const ShareToStream: ComponentType<OuterProps> = connect(state => ({
   subscriptions: getSubscriptionsById(state),
   auth: getAuth(state),
+  mandatoryTopics: getRealm(state).mandatoryTopics,
 }))(ShareToStreamInner);
 
 export default ShareToStream;
