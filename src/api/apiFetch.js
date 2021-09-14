@@ -76,11 +76,12 @@ export const apiCall = async (
 
     const { httpStatus, data } = error instanceof RequestError ? error : {};
 
-    logging.info({ route, params, httpStatus, response: data });
+    const response = data !== undefined ? data : '(none, or not valid JSON)';
+    logging.info({ route, params, httpStatus, response });
     Sentry.addBreadcrumb({
       category: 'api',
       level: 'info',
-      data: { route, params, httpStatus, response: data },
+      data: { route, params, httpStatus, response },
     });
 
     if (error instanceof MalformedResponseError) {
