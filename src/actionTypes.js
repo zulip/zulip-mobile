@@ -257,6 +257,7 @@ type EventAlertWordsAction = {|
 |};
 
 type EventRealmFiltersAction = {|
+  ...ServerEvent,
   type: typeof EVENT_REALM_FILTERS,
   realm_filters: RealmFilter[],
 |};
@@ -497,11 +498,13 @@ type EventUserGroupRemoveMembersAction = {|
 |};
 
 type EventRealmEmojiUpdateAction = {|
+  ...ServerEvent,
   type: typeof EVENT_REALM_EMOJI_UPDATE,
   realm_emoji: RealmEmojiById,
 |};
 
 type EventUpdateDisplaySettingsAction = {|
+  ...ServerEvent,
   type: typeof EVENT_UPDATE_DISPLAY_SETTINGS,
   setting_name: string,
   /** In reality, this can be a variety of types. It's boolean for a
