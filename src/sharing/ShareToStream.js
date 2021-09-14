@@ -84,6 +84,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleStreamAutoComplete = (rawStream: string) => {
+    // TODO: What is this for? (write down our assumptions)
     const stream = rawStream.split('**')[1];
     this.setState({ stream, isStreamFocused: false });
   };
