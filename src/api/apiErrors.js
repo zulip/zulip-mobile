@@ -7,7 +7,17 @@ import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
  * See subclasses: {@link ApiError}, {@link NetworkError}, {@link ServerError}.
  */
 export class RequestError extends Error {
+  /** The HTTP status code in the response, if any. */
   +httpStatus: number | void;
+
+  /**
+   * The JSON-decoded response body.
+   *
+   * In the subclass {@link ApiError}, this is a bit narrower; see there.
+   *
+   * If there was no HTTP response or no body, or the body was not parseable
+   * as JSON, this value is `undefined`.
+   */
   +data: mixed;
 }
 
@@ -15,9 +25,16 @@ export class RequestError extends Error {
  * An error returned by the Zulip server API.
  *
  * This always represents a situation where the server said there was a
- * client-side error in the request, giving a 4xx HTTP status code.
+ * client-side error in the request, giving a 4xx HTTP status code, and
+ * moreover sent a well-formed Zulip API error blob in the response.
  *
- * See docs: https://zulip.com/api/rest-error-handling
+ * The error blob's contents are represented as follows:
+ *  * `result`: Always 'error', if we have an `ApiError` at all.
+ *  * `code`: This object's `.code`.
+ *  * `msg`: This object's `.message` (which the type inherits from`Error`).
+ *  * All other properties: This object's `.data`.
+ *
+ * See API docs: https://zulip.com/api/rest-error-handling
  */
 export class ApiError extends RequestError {
   +code: ApiErrorCode;
@@ -27,8 +44,8 @@ export class ApiError extends RequestError {
   /**
    * This error's data, if any, beyond the properties common to all errors.
    *
-   * This consists of the properties in the response other than `result`,
-   * `code`, and `msg`.
+   * This consists of the properties in the (JSON-decoded) response other
+   * than `result`, `code`, and `msg`.
    */
   +data: $ReadOnly<{ ... }>;
 
