@@ -31,7 +31,11 @@ export default class RawLabel extends PureComponent<Props> {
   render(): Node {
     const { text, children, style, ...restProps } = this.props;
 
-    invariant((text != null) !== (children != null), 'pass either `text` or `children`');
+    invariant(
+      text != null || children != null,
+      'RawLabel: `text` or `children` should be non-nullish',
+    );
+    invariant(text == null || children == null, 'RawLabel: `text` or `children` should be nullish');
 
     // These attributes will be applied unless specifically overridden
     // with the `style` prop -- even if this `<RawLabel />` is nested
