@@ -40,6 +40,7 @@ import {
   getMute,
   getMutedUsers,
   getOwnUser,
+  getSettings,
   getGlobalSettings,
   getSubscriptionsById,
   getStreamsById,
@@ -92,6 +93,7 @@ export type BackgroundData = $ReadOnly<{|
   unread: UnreadState,
   theme: ThemeName,
   twentyFourHourTime: boolean,
+  userSettingStreamNotification: boolean,
 |}>;
 
 type OuterProps = $ReadOnly<{|
@@ -355,6 +357,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       unread: getUnread(state),
       theme: getGlobalSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,
+      userSettingStreamNotification: getSettings(state).streamNotification,
     };
 
     return {

@@ -505,6 +505,7 @@ export const showStreamActionSheet = ({
     ownUser: User,
     streams: Map<number, Stream>,
     subscriptions: Map<number, Subscription>,
+    userSettingStreamNotification: boolean,
     ...
   }>,
   streamId: number,
