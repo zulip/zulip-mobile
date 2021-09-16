@@ -206,6 +206,22 @@ const showStreamSettings = ({ streamId, subscriptions }) => {
 showStreamSettings.title = 'Stream settings';
 showStreamSettings.errorMessage = 'Failed to show stream settings';
 
+const subscribe = async ({ auth, streamId, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  await api.subscriptionAdd(auth, [{ name: stream.name }]);
+};
+subscribe.title = 'Subscribe';
+subscribe.errorMessage = 'Failed to subscribe';
+
+const unsubscribe = async ({ auth, streamId, subscriptions }) => {
+  const sub = subscriptions.get(streamId);
+  invariant(sub !== undefined, 'Subscription with provided streamId not found.');
+  await api.subscriptionRemove(auth, [sub.name]);
+};
+unsubscribe.title = 'Unsubscribe';
+unsubscribe.errorMessage = 'Failed to unsubscribe';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -262,6 +278,9 @@ export const constructStreamActionButtons = ({
     } else {
       buttons.push(muteStream);
     }
+    buttons.push(unsubscribe);
+  } else {
+    buttons.push(subscribe);
   }
   buttons.push(showStreamSettings);
   buttons.push(cancel);

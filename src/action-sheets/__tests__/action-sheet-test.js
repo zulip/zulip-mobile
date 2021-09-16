@@ -3,7 +3,11 @@ import deepFreeze from 'deep-freeze';
 import { HOME_NARROW } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { constructMessageActionButtons, constructTopicActionButtons } from '../index';
+import {
+  constructMessageActionButtons,
+  constructTopicActionButtons,
+  constructStreamActionButtons,
+} from '../index';
 import { reducer } from '../../unread/unreadModel';
 import { initialState } from '../../unread/__tests__/unread-testlib';
 
@@ -120,22 +124,20 @@ describe('constructTopicActionButtons', () => {
     expect(buttonTitles(buttons)).toContain('Mute stream');
   });
 
-  test('show delete topic option if current user is an admin', () => {
-    const ownUser = { ...eg.selfUser, is_admin: true };
-    const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, ownUser, streams },
-      streamId,
-      topic,
-    });
-    expect(buttonTitles(buttons)).toContain('Delete topic');
-  });
-
-  test('do not show delete topic option if current user is not an admin', () => {
-    const buttons = constructTopicActionButtons({
+  test('show "subscribe" option, if stream is not subscribed yet', () => {
+    const buttons = constructStreamActionButtons({
       backgroundData: { ...eg.backgroundData, streams },
       streamId,
-      topic,
     });
-    expect(buttonTitles(buttons)).not.toContain('Delete topic');
+    expect(buttonTitles(buttons)).toContain('Subscribe');
+  });
+
+  test('show "unsubscribe" option, if stream is subscribed', () => {
+    const subscriptions = deepFreeze(new Map([[eg.subscription.stream_id, eg.subscription]]));
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId: eg.subscription.stream_id,
+    });
+    expect(buttonTitles(buttons)).toContain('Unsubscribe');
   });
 });

@@ -119,6 +119,8 @@
   "Message group": "Message group",
   "starred": "starred",
   "Enable notifications": "Enable notifications",
+  "Failed to subscribe": "Failed to subscribe",
+  "Failed to unsubscribe": "Failed to unsubscribe",
   "Jot down something": "Jot down something",
   "Message {recipient}": "Message {recipient}",
   "{username} will not be notified unless you subscribe them to this stream.": "{username} will not be notified unless you subscribe them to this stream.",
