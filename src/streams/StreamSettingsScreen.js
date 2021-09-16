@@ -21,6 +21,7 @@ import {
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
+import getIsNotificationEnabled from './getIsNotificationEnabled';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'stream-settings'>,
@@ -69,7 +70,7 @@ export default function StreamSettingsScreen(props: Props): Node {
   }, [auth, stream]);
 
   const handleToggleStreamPushNotification = useCallback(() => {
-    const currentValue = subscription?.push_notifications ?? userSettingStreamNotification;
+    const currentValue = getIsNotificationEnabled(subscription, userSettingStreamNotification);
     dispatch(setSubscriptionProperty(stream.stream_id, 'push_notifications', !currentValue));
   }, [dispatch, stream, subscription, userSettingStreamNotification]);
 
@@ -93,7 +94,7 @@ export default function StreamSettingsScreen(props: Props): Node {
           <SwitchRow
             Icon={IconNotifications}
             label="Notifications"
-            value={subscription.push_notifications ?? userSettingStreamNotification}
+            value={getIsNotificationEnabled(subscription, userSettingStreamNotification)}
             onValueChange={handleToggleStreamPushNotification}
           />
         </>
