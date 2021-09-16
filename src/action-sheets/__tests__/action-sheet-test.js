@@ -141,6 +141,28 @@ describe('constructTopicActionButtons', () => {
     expect(buttonTitles(buttons)).toContain('Unsubscribe');
   });
 
+  test('show "enable notification" if push notifications are not enabled for stream', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: false, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Enable notifications');
+  });
+
+  test('show "disable notification" if push notifications are enabled for stream', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: true, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Disable notifications');
+  });
+
   test('show "pin to top" if stream is not pinned to top', () => {
     const subscriptions = deepFreeze(
       new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: false, ...stream }]]),
@@ -161,5 +183,24 @@ describe('constructTopicActionButtons', () => {
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Unpin from top');
+  });
+
+  test('show delete topic option if current user is an admin', () => {
+    const ownUser = { ...eg.selfUser, is_admin: true };
+    const buttons = constructTopicActionButtons({
+      backgroundData: { ...eg.backgroundData, ownUser, streams },
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).toContain('Delete topic');
+  });
+
+  test('do not show delete topic option if current user is not an admin', () => {
+    const buttons = constructTopicActionButtons({
+      backgroundData: { ...eg.backgroundData, streams },
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).not.toContain('Delete topic');
   });
 });

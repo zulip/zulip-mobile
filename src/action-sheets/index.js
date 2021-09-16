@@ -32,6 +32,7 @@ import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
+import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -234,6 +235,18 @@ const unpinFromTop = async ({ auth, streamId }) => {
 unpinFromTop.title = 'Unpin from top';
 unpinFromTop.errorMessage = 'Failed to unpin from top';
 
+const enableNotifications = async ({ auth, streamId }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'push_notifications', true);
+};
+enableNotifications.title = 'Enable notifications';
+enableNotifications.errorMessage = 'Failed to enable notifications';
+
+const disableNotifications = async ({ auth, streamId }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'push_notifications', false);
+};
+disableNotifications.title = 'Disable notifications';
+disableNotifications.errorMessage = 'Failed to disable notifications';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -271,12 +284,13 @@ cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
 export const constructStreamActionButtons = ({
-  backgroundData: { ownUser, subscriptions },
+  backgroundData: { ownUser, subscriptions, userSettingStreamNotification },
   streamId,
 }: {|
   backgroundData: $ReadOnly<{
     ownUser: User,
     subscriptions: Map<number, Subscription>,
+    userSettingStreamNotification: boolean,
     ...
   }>,
   streamId: number,
@@ -294,6 +308,12 @@ export const constructStreamActionButtons = ({
       buttons.push(unpinFromTop);
     } else {
       buttons.push(pinToTop);
+    }
+    const isNotificationEnabled = getIsNotificationEnabled(sub, userSettingStreamNotification);
+    if (isNotificationEnabled) {
+      buttons.push(disableNotifications);
+    } else {
+      buttons.push(enableNotifications);
     }
     buttons.push(unsubscribe);
   } else {
