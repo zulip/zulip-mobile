@@ -222,6 +222,18 @@ const unsubscribe = async ({ auth, streamId, subscriptions }) => {
 unsubscribe.title = 'Unsubscribe';
 unsubscribe.errorMessage = 'Failed to unsubscribe';
 
+const pinToTop = async ({ auth, streamId }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', true);
+};
+pinToTop.title = 'Pin to top';
+pinToTop.errorMessage = 'Failed to pin to top';
+
+const unpinFromTop = async ({ auth, streamId }) => {
+  await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', false);
+};
+unpinFromTop.title = 'Unpin from top';
+unpinFromTop.errorMessage = 'Failed to unpin from top';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -277,6 +289,11 @@ export const constructStreamActionButtons = ({
       buttons.push(unmuteStream);
     } else {
       buttons.push(muteStream);
+    }
+    if (sub.pin_to_top) {
+      buttons.push(unpinFromTop);
+    } else {
+      buttons.push(pinToTop);
     }
     buttons.push(unsubscribe);
   } else {

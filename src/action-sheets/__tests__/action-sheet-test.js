@@ -140,4 +140,26 @@ describe('constructTopicActionButtons', () => {
     });
     expect(buttonTitles(buttons)).toContain('Unsubscribe');
   });
+
+  test('show "pin to top" if stream is not pinned to top', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: false, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Pin to top');
+  });
+
+  test('show "unpin from top" if stream is pinned to top', () => {
+    const subscriptions = deepFreeze(
+      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: true, ...stream }]]),
+    );
+    const buttons = constructStreamActionButtons({
+      backgroundData: { ...eg.backgroundData, subscriptions },
+      streamId,
+    });
+    expect(buttonTitles(buttons)).toContain('Unpin from top');
+  });
 });
