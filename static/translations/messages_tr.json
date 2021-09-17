@@ -45,7 +45,7 @@
   "Sign in with {method}": "{method} ile Giriş yap.",
   "Cannot connect to server": "Sunucuya bağlanılamadı",
   "Please enter a valid URL": "Lütfen geçerli bir URL giriniz",
-  "Please enter the server URL, not your email": "Lütfen email adresiniz yerine sunucu URL adresini giriniz",
+  "Please enter the server URL, not your email": "Lütfen e-posta adresiniz yerine sunucu URL adresini giriniz",
   "Wrong email or password. Try again.": "Hatalı e-posta veya parola. Tekrar deneyin.",
   "Wrong username or password. Try again.": "Hatalı kullanıcı adı veya parola. Tekrar deneyin.",
   "Enter a valid email address": "Geçerli bir e-posta adresi girin.",
