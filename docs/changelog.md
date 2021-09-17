@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.171 (2021-09-17)
+
 ### Highlights for users
 
 * (iOS) We now use the correct audio channel for the notification sound
