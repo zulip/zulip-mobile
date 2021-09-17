@@ -41,8 +41,8 @@ It doesn't include
 
 ### Highlights for users
 
-* (iOS) We now use the correct audio channel for the notification sound
-  while in-app. (#4897)
+* (iOS) Fixed bug that could cause notifications to make sound with
+  device in silent mode. (#4897)
 
 Plus, like every release, many other fixes and improvements for your Zulip
 experience.
@@ -73,7 +73,7 @@ experience.
   more explicit. (PR #5002)
 
 * Resolved issues (earliest first): #4897, PR #4996, PR #4998, PR #4967,
-  PR #4694, PR #5000, PR #5004, PR #5002
+  PR #4934, PR #4694, PR #5000, PR #5004, PR #5002
 
 
 ## 27.170 (2021-09-09)
