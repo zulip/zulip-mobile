@@ -36,6 +36,42 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) We now use the correct audio channel for the notification sound
+  while in-app. (#4897)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Sentry is now fully set up for Android-native code. (PR #4996)
+
+* The types PmOutbox and StreamOutbox are now distinguished more fully.
+  (PR #4998)
+
+* We now require sender_id, server, and realm_uri in notification data,
+  rejecting forms from servers we no longer support. (PR #4967)
+
+* We've prepared the persistent-data storage code so it's easier to add
+  transaction logic and make it sound: #4841. We've also narrowed the race
+  window to mitigate the symptoms of that issue, by using
+  `AsyncStorage.multiSet` and by separating the serialization step from the
+  storage step. (PR #4694)
+
+* Outbox values now have a stream_id. (PR #5000)
+
+* We've improved the Sentry logging for an unexpected report from the
+  invariant in RawLabel. (PR #5004)
+
+* When reporting API errors to Sentry, the invalid-JSON case is now a bit
+  more explicit. (PR #5002)
+
+* Resolved issues (earliest first): #4897, PR #4996, PR #4998, PR #4967,
+  PR #4694, PR #5000, PR #5004, PR #5002
+
 
 ## 27.170 (2021-09-09)
 
