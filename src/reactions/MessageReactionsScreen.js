@@ -14,7 +14,7 @@ import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../type
 import { Screen, Label, RawLabel } from '../common';
 import { getOwnUserId } from '../selectors';
 import aggregateReactions from './aggregateReactions';
-import styles from '../styles';
+import styles, { BRAND_COLOR } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { navigateBack } from '../nav/navActions';
@@ -105,6 +105,16 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
                   borderWidth: 0.15,
                 },
               })}
+              tabBarOptions={{
+                scrollEnabled: true,
+                tabStyle: {
+                  width: 70,
+                },
+                indicatorStyle: {
+                  backgroundColor: BRAND_COLOR,
+                },
+                pressColor: BRAND_COLOR,
+              }}
               swipeEnabled
             >
               {
