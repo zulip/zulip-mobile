@@ -58,8 +58,8 @@ describe('setItem', () => {
 
 describe('multiSet', () => {
   const keyValuePairs = [
-    ['foo', 'bar'],
-    ['food', 'bard'],
+    ['foo', JSON.stringify('bar')],
+    ['food', JSON.stringify('bard')],
   ];
 
   // For checking that AsyncStorage.multiSet is called in ways we expect.
@@ -196,15 +196,15 @@ describe('set/get together', () => {
 
   test('round-tripping of single key-value pair works', async () => {
     const key = eg.randString();
-    const value = eg.randString();
+    const value = JSON.stringify(eg.randString());
     await ZulipAsyncStorage.setItem(key, value);
     expect(await ZulipAsyncStorage.getItem(key)).toEqual(value);
   });
 
   test('round-tripping of multiple key-value pairs works', async () => {
     const keyValuePairs = [
-      [eg.randString(), eg.randString()],
-      [eg.randString(), eg.randString()],
+      [eg.randString(), JSON.stringify(eg.randString())],
+      [eg.randString(), JSON.stringify(eg.randString())],
     ];
     await ZulipAsyncStorage.multiSet(keyValuePairs);
     expect(

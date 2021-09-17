@@ -1,7 +1,21 @@
 /* @flow strict-local */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import invariant from 'invariant';
 import { NativeModules } from 'react-native';
+
 import * as logging from '../utils/logging';
+
+const NODE_ENV = process.env.NODE_ENV;
+
+/** Assert the given string is plausibly the JSON encoding of some value. */
+function assertPlausiblyJSONEncoded(value: string) {
+  // To keep it quick, just look at the first character.  This should be
+  // enough to catch bugs that are just sending arbitrary strings.
+  //
+  // Every JSON value is either null, true, false,
+  // or a number, string, array, or object.
+  invariant(/^[ntf\-0-9"[{]/.test(value), 'value must be JSON-encoded');
+}
 
 export default class ZulipAsyncStorage {
   static async getItem(key: string): Promise<string | null> {
@@ -46,7 +60,14 @@ export default class ZulipAsyncStorage {
     return item;
   }
 
+  /** (The value must be a result of `JSON.stringify`.) */
+  // The invariant that the value is JSON is relied on by `getItem`, to
+  // guarantee that our compression header can't appear in uncompressed data.
   static async setItem(key: string, value: string): Promise<mixed> {
+    if (NODE_ENV !== 'production') {
+      assertPlausiblyJSONEncoded(value);
+    }
+
     return AsyncStorage.setItem(
       key,
       NativeModules.TextCompressionModule
@@ -55,7 +76,17 @@ export default class ZulipAsyncStorage {
     );
   }
 
+  /** (Each value must be a result of `JSON.stringify`.) */
+  // The invariant that the value is JSON is relied on by `getItem`, to
+  // guarantee that our compression header can't appear in uncompressed data.
   static async multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed> {
+    if (NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-unused-vars
+      for (const [_, value] of keyValuePairs) {
+        assertPlausiblyJSONEncoded(value);
+      }
+    }
+
     return AsyncStorage.multiSet(
       NativeModules.TextCompressionModule
         ? await Promise.all(
