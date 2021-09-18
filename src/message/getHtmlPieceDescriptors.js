@@ -33,8 +33,8 @@ export default (
 
     // If we show recipient headers here at all, we do so at the top and
     // whenever the recipient changes.
-    const diffRecipient = !prevMessage || !isSameRecipient(prevMessage, message);
-    const showRecipientHeader = canShowRecipientHeaders && diffRecipient;
+    const showRecipientHeader =
+      canShowRecipientHeaders && (!prevMessage || !isSameRecipient(prevMessage, message));
     if (showRecipientHeader) {
       pieces.push({
         type: 'header',
