@@ -42,13 +42,22 @@ export default (
       });
     }
 
-    const shouldGroupWithPrev =
-      !diffRecipient && !diffDays && !!prevMessage && prevMessage.sender_id === message.sender_id;
+    // We show the sender at the top and whenever the sender changes.
+    // We also reaffirm the sender whenever we've shown a date separator or
+    // recipient header, because our visual design has it bind tighter than
+    // either of those.
+    const showSender =
+      !prevMessage
+      || prevMessage.sender_id !== message.sender_id
+      // TODO: nonobviously equivalent to "showed a date separator"
+      || diffDays
+      // TODO: this is *almost* the same as "showed a recipient header"
+      || diffRecipient;
 
     pieces.push({
       key: message.id,
       type: 'message',
-      isBrief: shouldGroupWithPrev,
+      isBrief: !showSender,
       message,
     });
   }
