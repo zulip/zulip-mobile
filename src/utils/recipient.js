@@ -291,6 +291,9 @@ export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: UserId): s
  * give and which we use in most of our other data structures.
  */
 // See comment on pmUnreadsKeyFromMessage for details on this form.
+//
+// TODO: It'd be neat to have this consume PmKeyRecipients.  Needs having
+//   Narrow keep one of those around, and caseNarrow return it.
 export const pmUnreadsKeyFromPmKeyIds = (
   userIds: $ReadOnlyArray<UserId>,
   ownUserId: UserId,
@@ -318,9 +321,8 @@ export const pmUnreadsKeyFromPmKeyIds = (
 // That key string is: just the usual "PM key" list of users, stringified
 // and comma-separated.
 //
-// TODO: It'd be neat to have another opaque type like PmKeyIds, for this
-//   and pmUnreadsKeyFromPmKeyIds to consume.  Perhaps simplest to do after
-//   Narrow no longer contains emails.
+// TODO: It'd be neat to have this consume PmKeyRecipients.  Needs having
+//   Narrow keep one of those around, and caseNarrow return it.
 export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<UserId>): string =>
   userIds.join(',');
 
