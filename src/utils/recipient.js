@@ -98,13 +98,9 @@ const filterRecipientUsers = (
 const filterRecipientsAsUserIds = (
   recipients: $ReadOnlyArray<UserId>,
   ownUserId: UserId,
-): UserId[] =>
-  // prettier-ignore
+): $ReadOnlyArray<UserId> =>
   recipients.length === 1
-    // The spread is so that we always return a fresh array.  This allows
-    // us to take $ReadOnlyArray and return a plain array, so the caller
-    // can go on to sort the result.
-    ? [...recipients]
+    ? recipients
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
 /**
@@ -117,10 +113,7 @@ const filterRecipientsAsUserIds = (
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<UserId>,
   ownUserId: UserId,
-): string =>
-  filterRecipientsAsUserIds(recipients, ownUserId)
-    .sort((a, b) => a - b)
-    .join(',');
+): string => filterRecipientsAsUserIds(recipients, ownUserId).join(',');
 
 /**
  * The set of users to show in the UI to identify a PM conversation.
