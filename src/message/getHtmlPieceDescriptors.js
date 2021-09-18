@@ -28,7 +28,7 @@ export default (
       });
     }
 
-    const diffRecipient = !isSameRecipient(prevMessage, message);
+    const diffRecipient = !prevMessage || !isSameRecipient(prevMessage, message);
     if (showHeader && diffRecipient) {
       pieces.push({
         type: 'header',

@@ -346,13 +346,9 @@ export const pmTypingKeyFromRecipients = (
 ): string => pmTypingKeyFromPmKeyIds(filterRecipientsAsUserIds(recipients, ownUserId));
 
 export const isSameRecipient = (
-  message1: Message | Outbox | void,
-  message2: Message | Outbox | void,
+  message1: Message | Outbox,
+  message2: Message | Outbox,
 ): boolean => {
-  if (message1 === undefined || message2 === undefined) {
-    return false;
-  }
-
   if (message1.type !== message2.type) {
     return false;
   }

@@ -53,12 +53,6 @@ describe('pmKeyRecipientUsersFromIds', () => {
 });
 
 describe('isSameRecipient', () => {
-  test('passing undefined as any of parameters means recipients are not the same', () => {
-    expect(isSameRecipient(undefined, eg.pmMessage())).toBe(false);
-    expect(isSameRecipient(eg.streamMessage(), undefined)).toBe(false);
-    expect(isSameRecipient(undefined, undefined)).toBe(false);
-  });
-
   test('recipient types are compared first, if they differ then recipients differ', () => {
     expect(isSameRecipient(eg.pmMessage(), eg.streamMessage())).toBe(false);
   });
