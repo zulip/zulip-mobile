@@ -19,10 +19,10 @@ export default (
     const prevMessage: typeof message | void = messages[i - 1];
 
     // We show a date separator at the top, and whenever the day changes.
-    const diffDays =
-      !!prevMessage
-      && !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
-    if (!prevMessage || diffDays) {
+    const showDateSeparator =
+      !prevMessage
+      || !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
+    if (showDateSeparator) {
       pieces.push({
         key: `time${message.timestamp}`,
         type: 'time',
@@ -49,8 +49,7 @@ export default (
     const showSender =
       !prevMessage
       || prevMessage.sender_id !== message.sender_id
-      // TODO: nonobviously equivalent to "showed a date separator"
-      || diffDays
+      || showDateSeparator
       // TODO: this is *almost* the same as "showed a recipient header"
       || diffRecipient;
 
