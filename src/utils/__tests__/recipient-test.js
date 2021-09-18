@@ -1,33 +1,12 @@
 /* @flow strict-local */
 
 import {
-  normalizeRecipientsAsUserIds,
   normalizeRecipientsAsUserIdsSansMe,
   isSameRecipient,
   pmKeyRecipientUsersFromIds,
 } from '../recipient';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
-
-describe('normalizeRecipientsAsUserIds', () => {
-  test('joins user IDs from recipients, sorted', () => {
-    const recipients = [22, 1, 5, 3, 4].map(makeUserId);
-    const expectedResult = '1,3,4,5,22';
-
-    const normalized = normalizeRecipientsAsUserIds(recipients);
-
-    expect(normalized).toEqual(expectedResult);
-  });
-
-  test('for a single recipient, returns the user ID as string', () => {
-    const recipients = [1].map(makeUserId);
-    const expectedResult = '1';
-
-    const normalized = normalizeRecipientsAsUserIds(recipients);
-
-    expect(normalized).toEqual(expectedResult);
-  });
-});
 
 describe('normalizeRecipientsAsUserIdsSansMe', () => {
   test('if only self user ID provided return unmodified', () => {

@@ -107,7 +107,7 @@ const filterRecipientsAsUserIds = (
     ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
-export const normalizeRecipientsAsUserIds = (recipients: UserId[]): string =>
+const normalizeRecipientsAsUserIds = (recipients: UserId[]): string =>
   recipients.sort((a, b) => a - b).join(',');
 
 /**
