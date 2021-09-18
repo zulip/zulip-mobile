@@ -34,7 +34,8 @@ export default (
     // If we show recipient headers here at all, we do so at the top and
     // whenever the recipient changes.
     const diffRecipient = !prevMessage || !isSameRecipient(prevMessage, message);
-    if (canShowRecipientHeaders && diffRecipient) {
+    const showRecipientHeader = canShowRecipientHeaders && diffRecipient;
+    if (showRecipientHeader) {
       pieces.push({
         type: 'header',
         key: `header${message.id}`,
@@ -50,8 +51,7 @@ export default (
       !prevMessage
       || prevMessage.sender_id !== message.sender_id
       || showDateSeparator
-      // TODO: this is *almost* the same as "showed a recipient header"
-      || diffRecipient;
+      || showRecipientHeader;
 
     pieces.push({
       key: message.id,
