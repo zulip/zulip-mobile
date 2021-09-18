@@ -107,9 +107,6 @@ const filterRecipientsAsUserIds = (
     ? [...recipients]
     : recipients.filter(r => r !== ownUserId).sort((a, b) => a - b);
 
-const normalizeRecipientsAsUserIds = (recipients: UserId[]): string =>
-  recipients.sort((a, b) => a - b).join(',');
-
 /**
  * The same list of users as pmKeyRecipientsFromMessage, in quirkier form.
  */
@@ -120,7 +117,10 @@ const normalizeRecipientsAsUserIds = (recipients: UserId[]): string =>
 export const normalizeRecipientsAsUserIdsSansMe = (
   recipients: $ReadOnlyArray<UserId>,
   ownUserId: UserId,
-): string => normalizeRecipientsAsUserIds(filterRecipientsAsUserIds(recipients, ownUserId));
+): string =>
+  filterRecipientsAsUserIds(recipients, ownUserId)
+    .sort((a, b) => a - b)
+    .join(',');
 
 /**
  * The set of users to show in the UI to identify a PM conversation.
@@ -171,10 +171,9 @@ export const pmKeyRecipientsFromIds = (
  *  * The other `pmKeyRecipients…` functions in this module, which do the
  *    same computation but with different forms of input and output.
  *
- *  * `normalizeRecipientsAsUserIds`, `normalizeRecipientsAsUserIdsSansMe`,
- *    and `pmUnreadsKeyFromMessage`, which do the same job as this function
- *    with slight variations, and which we variously use in different places
- *    in the app.
+ *  * `normalizeRecipientsAsUserIdsSansMe` and `pmUnreadsKeyFromMessage`,
+ *    which do the same job as this function with slight variations, and
+ *    which we variously use in different places in the app.
  *
  *    It would be great to unify on a single version, as the variation is a
  *    possible source of bugs.
