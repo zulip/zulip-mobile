@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { GeneralEvent, ThunkAction } from '../types';
+import { assumeSecretlyGlobalState } from '../reduxTypes';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -52,7 +53,8 @@ export const startEventPolling = (
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const state = tryGetActiveAccountState(getState());
+    const globalState = assumeSecretlyGlobalState(getState());
+    const state = tryGetActiveAccountState(globalState);
     const auth = state && tryGetAuth(state);
     if (!auth) {
       // There is no logged-in active account.
