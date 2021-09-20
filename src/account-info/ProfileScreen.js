@@ -19,7 +19,7 @@ import {
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
-import { getActiveAccount } from '../account/accountsSelectors';
+import { getIdentity } from '../account/accountsSelectors';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -61,7 +61,7 @@ function SwitchAccountButton(props: {||}) {
 function LogoutButton(props: {||}) {
   const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
-  const activeAccount = useSelector(getActiveAccount);
+  const identity = useSelector(getIdentity);
   return (
     <ZulipButton
       style={styles.button}
@@ -71,8 +71,8 @@ function LogoutButton(props: {||}) {
         Alert.alert(
           _('Log out?'),
           _('This will log out {email} on {realmUrl} from the mobile app on this device.', {
-            email: activeAccount.email,
-            realmUrl: activeAccount.realm.toString(),
+            email: identity.email,
+            realmUrl: identity.realm.toString(),
           }),
           [
             { text: _('Cancel'), style: 'cancel' },

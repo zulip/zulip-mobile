@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
 import Label from './Label';
-import { getActiveAccount } from '../account/accountsSelectors';
+import { getIdentity, getServerVersion } from '../account/accountsSelectors';
 import { getIsAdmin, getSession, getSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import ZulipTextButton from './ZulipTextButton';
@@ -53,8 +53,8 @@ export default function ServerCompatBanner(props: Props): Node {
   const hasDismissedServerCompatNotice = useSelector(
     state => getSession(state).hasDismissedServerCompatNotice,
   );
-  const zulipVersion = useSelector(state => getActiveAccount(state).zulipVersion);
-  const realm = useSelector(state => getActiveAccount(state).realm);
+  const zulipVersion = useSelector(getServerVersion);
+  const realm = useSelector(state => getIdentity(state).realm);
   const isAdmin = useSelector(getIsAdmin);
   const settings = useSelector(getSettings);
 

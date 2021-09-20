@@ -26,7 +26,7 @@ import {
   getCaughtUpForNarrow,
   getFetchingForNarrow,
   getIsAdmin,
-  getActiveAccount,
+  getIdentity,
 } from '../selectors';
 import config from '../config';
 import {
@@ -248,7 +248,7 @@ export const initialFetchAbort = (
       // `TranslationProvider`.
       'Connection failed',
       (() => {
-        const realmStr = getActiveAccount(getState()).realm.toString();
+        const realmStr = getIdentity(getState()).realm.toString();
         switch (reason) {
           case 'server':
             return getIsAdmin(getState())
