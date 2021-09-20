@@ -9,12 +9,13 @@ import { isPmNarrow, userIdsOfPmNarrow } from '../utils/narrow';
 import { getUserForId } from './userSelectors';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-export const reportPresence = (
-  isActive: boolean = true,
-  newUserInput: boolean = false,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const auth = getAuth(getState());
+export const reportPresence = (isActive: boolean): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+) => {
+  const newUserInput = false; // TODO Why this value?  Maybe it's the right one... but why?
 
+  const auth = getAuth(getState());
   const response = await api.reportPresence(auth, isActive, newUserInput);
   dispatch({
     type: PRESENCE_RESPONSE,
