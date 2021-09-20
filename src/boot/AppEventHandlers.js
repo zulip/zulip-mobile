@@ -120,7 +120,7 @@ class AppEventHandlersInner extends PureComponent<Props> {
   };
 
   notificationListener = new NotificationListener(this.props.dispatch);
-  shareListener = new ShareReceivedListener(this.props.dispatch);
+  shareListener = new ShareReceivedListener();
 
   handleMemoryWarning = () => {
     // Release memory here
@@ -129,7 +129,7 @@ class AppEventHandlersInner extends PureComponent<Props> {
   componentDidMount() {
     const { dispatch } = this.props;
     handleInitialNotification(dispatch);
-    handleInitialShare(dispatch);
+    handleInitialShare();
 
     NetInfo.configure({
       // This is the default, as of 6.0.0, but `OfflineNotice` depends on this
