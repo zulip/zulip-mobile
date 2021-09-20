@@ -418,11 +418,15 @@ type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
 // This function definition will fail typechecking if GlobalState is wrong.
 (s: GlobalState): NonMaybeGlobalState => s; // eslint-disable-line no-unused-expressions
 
-/** A selector returning TResult, with extra parameter TParam. */
+/** A per-account selector returning TResult, with extra parameter TParam. */
 // Seems like this should be OutputSelector... but for whatever reason,
 // putting that on a selector doesn't cause the result type to propagate to
 // the corresponding parameter when used in `createSelector`, and this does.
-export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
+export type Selector<TResult, TParam = void> = InputSelector<PerAccountState, TParam, TResult>;
+
+/** A GlobalState selector returning TResult, with extra parameter TParam. */
+// Seems like this should be OutputSelector; see comment on Selector above.
+export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
 export interface Dispatch {
   <A: Action>(action: A): A;
