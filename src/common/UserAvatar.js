@@ -5,7 +5,7 @@ import { Image, View, PixelRatio } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getAuthHeaders } from '../api/transport';
-import { tryGetAuth } from '../account/accountsSelectors';
+import { getAuth } from '../account/accountsSelectors';
 import Touchable from './Touchable';
 import { AvatarURL, FallbackAvatarURL } from '../utils/avatar';
 import { IconUserMuted } from './Icons';
@@ -43,17 +43,7 @@ function UserAvatar(props: Props): Node {
 
   const { color } = useContext(ThemeContext);
 
-  const auth = useSelector(state => tryGetAuth(state));
-  if (!auth) {
-    // TODO: This should be impossible (and then the selector should be
-    //   `getAuth` to say so.)  There's a bug where this component (probably
-    //   as part of the whole main nav-tabs UI?) apparently stays mounted,
-    //   and keeps getting updates, after the active account changes on
-    //   choosing "Add new account", or an existing logged-out account, from
-    //   the pick-accounts screen after Profile > Switch account.  See:
-    //     https://github.com/zulip/zulip-mobile/issues/4388
-    return null;
-  }
+  const auth = useSelector(state => getAuth(state));
 
   return (
     <Touchable onPress={onPress}>
