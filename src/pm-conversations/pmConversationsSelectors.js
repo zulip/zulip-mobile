@@ -2,7 +2,7 @@
 import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
-import type { GlobalState, Message, PmConversationData, Selector } from '../types';
+import type { PerAccountState, Message, PmConversationData, Selector } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
@@ -129,7 +129,7 @@ const getServerIsOld: Selector<boolean> = createSelector(
 /**
  * The most recent PM conversations, with unread count and latest message ID.
  */
-export const getRecentConversations = (state: GlobalState): PmConversationData[] =>
+export const getRecentConversations = (state: PerAccountState): PmConversationData[] =>
   getServerIsOld(state) ? getRecentConversationsLegacy(state) : getRecentConversationsModern(state);
 
 export const getUnreadConversations: Selector<

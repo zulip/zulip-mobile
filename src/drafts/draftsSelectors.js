@@ -1,6 +1,6 @@
 /* @flow strict-local */
-import type { Narrow, GlobalState } from '../types';
+import type { Narrow, PerAccountState } from '../types';
 import { keyFromNarrow } from '../utils/narrow';
 
-export const getDraftForNarrow = (state: GlobalState, narrow: Narrow): string =>
+export const getDraftForNarrow = (state: PerAccountState, narrow: Narrow): string =>
   state.drafts[keyFromNarrow(narrow)] || '';

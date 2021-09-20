@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { GlobalState, UserOrBot, Selector, User, UserId } from '../types';
+import type { GlobalState, PerAccountState, UserOrBot, Selector, User, UserId } from '../types';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import { getHasAuth, tryGetActiveAccount } from '../account/accountsSelectors';
 
@@ -82,7 +82,7 @@ export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =
  */
 // Not currently used, but should replace uses of `getOwnEmail` (e.g. inside
 // `getOwnUser`).  See #3764.
-export const getOwnUserId = (state: GlobalState): UserId => {
+export const getOwnUserId = (state: PerAccountState): UserId => {
   const { user_id } = state.realm;
   if (user_id === undefined) {
     throw new Error('No server data found');
@@ -97,7 +97,7 @@ export const getOwnUserId = (state: GlobalState): UserId => {
  *
  * Prefer using `getOwnUserId` or `getOwnUser`; see #3764.
  */
-export const getOwnEmail = (state: GlobalState): string => {
+export const getOwnEmail = (state: PerAccountState): string => {
   const { email } = state.realm;
   if (email === undefined) {
     throw new Error('No server data found');
@@ -116,7 +116,7 @@ export const getOwnEmail = (state: GlobalState): string => {
  *
  * See also `getOwnUserId` and `getOwnEmail`.
  */
-export const getOwnUser = (state: GlobalState): User => {
+export const getOwnUser = (state: PerAccountState): User => {
   const ownUser = getUsersById(state).get(getOwnUserId(state));
   if (ownUser === undefined) {
     throw new Error('Have ownUserId, but not found in user data');
@@ -134,7 +134,7 @@ export const getOwnUser = (state: GlobalState): User => {
  * throwing if none.  That makes it a bit simpler to use in contexts where
  * we assume the relevant user must exist, which is true of most of the app.
  */
-export const tryGetUserForId = (state: GlobalState, userId: UserId): UserOrBot | null =>
+export const tryGetUserForId = (state: PerAccountState, userId: UserId): UserOrBot | null =>
   getAllUsersById(state).get(userId) ?? null;
 
 /**
@@ -147,7 +147,7 @@ export const tryGetUserForId = (state: GlobalState, userId: UserId): UserOrBot |
  *
  * See `tryGetUserForId` for a non-throwing version.
  */
-export const getUserForId = (state: GlobalState, userId: UserId): UserOrBot => {
+export const getUserForId = (state: PerAccountState, userId: UserId): UserOrBot => {
   const user = tryGetUserForId(state, userId);
   if (!user) {
     throw new Error(`getUserForId: missing user: id ${userId}`);
@@ -185,7 +185,7 @@ const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
  */
 // To understand this implementation, see the comment about `is_active` in
 // the `User` type definition.
-export const getUserIsActive = (state: GlobalState, userId: UserId): boolean =>
+export const getUserIsActive = (state: PerAccountState, userId: UserId): boolean =>
   !!getActiveUsersById(state).get(userId);
 
 /**

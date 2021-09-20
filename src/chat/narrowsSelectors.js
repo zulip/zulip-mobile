@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal';
 import { createSelector } from 'reselect';
 
 import type {
-  GlobalState,
+  PerAccountState,
   Message,
   Narrow,
   Outbox,
@@ -61,7 +61,7 @@ export const outboxMessagesForNarrow: Selector<$ReadOnlyArray<Outbox>, Narrow> =
 );
 
 export const getFetchedMessageIdsForNarrow = (
-  state: GlobalState,
+  state: PerAccountState,
   narrow: Narrow,
 ): $ReadOnlyArray<number> => getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
 
@@ -181,12 +181,12 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
       }),
 );
 
-export const getFirstMessageId = (state: GlobalState, narrow: Narrow): number | void => {
+export const getFirstMessageId = (state: PerAccountState, narrow: Narrow): number | void => {
   const ids = getFetchedMessageIdsForNarrow(state, narrow);
   return ids.length > 0 ? ids[0] : undefined;
 };
 
-export const getLastMessageId = (state: GlobalState, narrow: Narrow): number | void => {
+export const getLastMessageId = (state: PerAccountState, narrow: Narrow): number | void => {
   const ids = getFetchedMessageIdsForNarrow(state, narrow);
   return ids.length > 0 ? ids[ids.length - 1] : undefined;
 };

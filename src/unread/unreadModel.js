@@ -10,7 +10,7 @@ import type {
   UnreadHuddlesState,
   UnreadMentionsState,
 } from './unreadModelTypes';
-import type { GlobalState } from '../reduxTypes';
+import type { PerAccountState } from '../reduxTypes';
 import unreadPmsReducer from './unreadPmsReducer';
 import unreadHuddlesReducer from './unreadHuddlesReducer';
 import unreadMentionsReducer from './unreadMentionsReducer';
@@ -32,15 +32,18 @@ import {
 //
 
 /** The unread-messages state as a whole. */
-export const getUnread = (state: GlobalState): UnreadState => state.unread;
+export const getUnread = (state: PerAccountState): UnreadState => state.unread;
 
-export const getUnreadStreams = (state: GlobalState): UnreadStreamsState => state.unread.streams;
+export const getUnreadStreams = (state: PerAccountState): UnreadStreamsState =>
+  state.unread.streams;
 
-export const getUnreadPms = (state: GlobalState): UnreadPmsState => state.unread.pms;
+export const getUnreadPms = (state: PerAccountState): UnreadPmsState => state.unread.pms;
 
-export const getUnreadHuddles = (state: GlobalState): UnreadHuddlesState => state.unread.huddles;
+export const getUnreadHuddles = (state: PerAccountState): UnreadHuddlesState =>
+  state.unread.huddles;
 
-export const getUnreadMentions = (state: GlobalState): UnreadMentionsState => state.unread.mentions;
+export const getUnreadMentions = (state: PerAccountState): UnreadMentionsState =>
+  state.unread.mentions;
 
 //
 //
@@ -116,7 +119,7 @@ function deleteMessages(
 function streamsReducer(
   state: UnreadStreamsState = initialStreamsState,
   action: Action,
-  globalState: GlobalState,
+  globalState: PerAccountState,
 ): UnreadStreamsState {
   switch (action.type) {
     case LOGOUT:
@@ -208,7 +211,7 @@ function streamsReducer(
 export const reducer = (
   state: void | UnreadState,
   action: Action,
-  globalState: GlobalState,
+  globalState: PerAccountState,
 ): UnreadState => {
   const nextState = {
     streams: streamsReducer(state?.streams, action, globalState),
