@@ -4,7 +4,7 @@ import * as typing_status from '@zulip/shared/js/typing_status';
 import type { Auth, GlobalState, Narrow, UserId, ThunkAction } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
-import { getAuth, tryGetAuth, getServerVersion } from '../selectors';
+import { getAuth, getServerVersion } from '../selectors';
 import { isPmNarrow, userIdsOfPmNarrow } from '../utils/narrow';
 import { getUserForId } from './userSelectors';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -13,10 +13,7 @@ export const reportPresence = (
   isActive: boolean = true,
   newUserInput: boolean = false,
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const auth = tryGetAuth(getState());
-  if (!auth) {
-    return; // not logged in
-  }
+  const auth = getAuth(getState());
 
   const response = await api.reportPresence(auth, isActive, newUserInput);
   dispatch({

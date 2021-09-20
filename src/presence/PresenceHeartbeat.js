@@ -37,6 +37,7 @@ class PresenceHeartbeatInner extends PureComponent<Props> {
   /** Callback for Heartbeat object. */
   onHeartbeat = () => {
     if (this.props.hasAuth) {
+      // TODO(#5005): should ensure this gets the intended account
       this.props.dispatch(reportPresence(true));
     }
   };
@@ -72,6 +73,8 @@ class PresenceHeartbeatInner extends PureComponent<Props> {
   }
 }
 
+/** (NB this is a per-account component.) */
+// TODO(#5005): either make one of these per account, or make it act on all accounts
 const PresenceHeartbeat: ComponentType<OuterProps> = connect(state => ({
   hasAuth: getHasAuth(state),
 }))(PresenceHeartbeatInner);
