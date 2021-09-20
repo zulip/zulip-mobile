@@ -86,23 +86,6 @@ export const getAccount = (state: PerAccountState): Account => {
   return accounts[0];
 };
 
-/**
- * DEPRECATED on road to #5006.
- *
- * Instead, use `getAccount`, to get the `Account` for a particular
- * PerAccountState.
- *
- * If the caller wanted "the active account" because that's what its own
- * caller expected of it, then have it get passed a PerAccountState.
- *
- * In places where we're truly starting from global and want the active
- * account, use `tryGetActiveAccountState`.  This should be rare.
- */
-export const tryGetActiveAccount = (state: GlobalState): Account | void => {
-  const accounts = getAccounts(state);
-  return accounts && accounts.length > 0 ? accounts[0] : undefined;
-};
-
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 
