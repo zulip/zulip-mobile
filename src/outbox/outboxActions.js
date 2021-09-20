@@ -53,7 +53,7 @@ export const messageSendComplete = (localMessageId: number): Action => ({
   local_message_id: localMessageId,
 });
 
-export const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean => {
+const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean => {
   const state = getState();
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
