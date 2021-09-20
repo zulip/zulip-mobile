@@ -15,6 +15,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'legal', void>,
 |}>;
 
+/** (NB this is a per-account screen: it leads to this realm's policies.) */
 export default function LegalScreen(props: Props): Node {
   const realm = useSelector(getRealmUrl);
 

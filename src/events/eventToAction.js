@@ -2,7 +2,7 @@
 import { EventTypes } from '../api/eventTypes';
 
 import * as logging from '../utils/logging';
-import type { GlobalState, EventAction } from '../types';
+import type { PerAccountState, EventAction } from '../types';
 import {
   EVENT_ALERT_WORDS,
   EVENT_NEW_MESSAGE,
@@ -90,7 +90,7 @@ const actionTypeOfEventType = {
  */
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
-export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
+export default (state: PerAccountState, event: $FlowFixMe): EventAction | null => {
   switch (event.type) {
     // For reference on each type of event, see:
     // https://zulip.com/api/get-events#events
