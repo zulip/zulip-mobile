@@ -17,7 +17,7 @@ import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
-import { getIdentities } from '../account/accountsSelectors';
+import { getIdentities, getAccount } from '../account/accountsSelectors';
 
 export const gotPushToken = (pushToken: string | null): Action => ({
   type: GOT_PUSH_TOKEN,
@@ -111,11 +111,18 @@ export const initNotifications = (): ThunkAction<Promise<void>> => async (dispat
   await sendPushToken(dispatch, account, pushToken);
 };
 
+/** Ask this account's server to stop sending notifications to this device. */
+// TODO: We don't call this in enough situations: see #3469.
+//
+// Also, doing this exclusively from the device is inherently unreliable;
+// you should be able to log in from elsewhere and cut the device off from
+// your account, including notifications, even when you don't have the
+// device in your possession.  That's zulip/zulip#17939.
 export const tryStopNotifications = (): ThunkAction<Promise<void>> => async (
   dispatch,
   getState,
 ) => {
   const auth = getAuth(getState());
-  const { ackedPushToken } = getActiveAccount(getState());
+  const { ackedPushToken } = getAccount(getState());
   innerStopNotifications(auth, ackedPushToken, dispatch);
 };
