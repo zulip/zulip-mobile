@@ -1,6 +1,5 @@
 /* @flow strict-local */
 
-import type { GlobalState } from '../../types';
 import { getCurrentTypingUsers } from '../typingSelectors';
 import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
@@ -9,7 +8,7 @@ import { pmTypingKeyFromPmKeyIds } from '../../utils/recipient';
 
 describe('getCurrentTypingUsers', () => {
   test('return NULL_ARRAY when current narrow is not private or group', () => {
-    const state: GlobalState = eg.reduxState({});
+    const state = eg.reduxState({});
 
     const typingUsers = getCurrentTypingUsers(state, HOME_NARROW);
 
