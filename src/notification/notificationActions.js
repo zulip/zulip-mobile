@@ -10,7 +10,7 @@ import {
   getAccountFromNotificationData,
 } from '.';
 import type { Notification } from './types';
-import { getAuth, getActiveAccount } from '../selectors';
+import { getAuth } from '../selectors';
 import { getSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
@@ -87,7 +87,7 @@ export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatc
   await Promise.all(accounts.map(account => sendPushToken(dispatch, account, pushToken)));
 };
 
-/** Tell the active account's server about our device token, if needed. */
+/** Tell this account's server about our device token, if needed. */
 export const initNotifications = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const { pushToken } = getSession(getState());
   if (pushToken === null) {
@@ -107,7 +107,7 @@ export const initNotifications = (): ThunkAction<Promise<void>> => async (dispat
     getNotificationToken();
     return;
   }
-  const account = getActiveAccount(getState());
+  const account = getAccount(getState());
   await sendPushToken(dispatch, account, pushToken);
 };
 
