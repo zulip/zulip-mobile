@@ -8,6 +8,7 @@ import type {
   PerAccountState,
   GlobalState,
   Identity,
+  Selector,
   GlobalSelector,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
@@ -126,28 +127,40 @@ export const getActiveAccount = (state: GlobalState): Account => {
 export const getCurrentRealm = (state: GlobalState): URL => getActiveAccount(state).realm;
 
 /**
- * The auth object for the active, logged-in account, or undefined if none.
+ * The auth object for this account, if logged in; else undefined.
  *
- * The "active" account is the one currently foregrounded in the UI, if any.
- * The active account is "logged-in" if we have an API key for it.
+ * The account is "logged in" if we have an API key for it.
  *
  * This is for use in early startup, onboarding, account-switch,
- * authentication flows, or other times where there may be no active account
- * or it may not be logged in.
+ * authentication flows, or other times where the given account may not be
+ * logged in.
  *
  * See:
  *  * `getAuth` for use in the bulk of the app, operating on a logged-in
  *    active account.
  */
-export const tryGetAuth: GlobalSelector<Auth | void> = createSelector(
-  tryGetActiveAccount,
-  account => {
-    if (!account || account.apiKey === '') {
-      return undefined;
-    }
-    return authOfAccount(account);
-  },
-);
+// TODO(#5006): Should be called just tryGetAuth, after the old one is gone.
+export const tryGetThisAuth: Selector<Auth | void> = createSelector(getAccount, account => {
+  if (account.apiKey === '') {
+    return undefined;
+  }
+  return authOfAccount(account);
+});
+
+/**
+ * DEPRECATED on road to #5006.
+ *
+ * Calls to this can be translated to calls to `tryGetActiveAccountState`
+ * followed by `tryGetThisAuth`.  They should become that, if the caller is
+ * indeed global, or just `tryGetThisAuth` if the caller is per-account.
+ */
+export const tryGetAuth = (globalState: GlobalState): Auth | void => {
+  const state = tryGetActiveAccountState(globalState);
+  if (!state) {
+    return undefined;
+  }
+  return tryGetThisAuth(state);
+};
 
 /**
  * True just if there is an active, logged-in account.
