@@ -11,7 +11,7 @@ import {
 } from '.';
 import type { Notification } from './types';
 import { getAuth } from '../selectors';
-import { getSession, getAccounts } from '../directSelectors';
+import { getGlobalSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
@@ -79,7 +79,7 @@ const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushTo
 
 /** Tell all logged-in accounts' servers about our device token, as needed. */
 export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const { pushToken } = getSession(getState());
+  const { pushToken } = getGlobalSession(getState());
   if (pushToken === null) {
     return;
   }
@@ -89,7 +89,7 @@ export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatc
 
 /** Tell this account's server about our device token, if needed. */
 export const initNotifications = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const { pushToken } = getSession(getState());
+  const { pushToken } = getGlobalSession(getState());
   if (pushToken === null) {
     // Probably, we just don't have the token yet.  When we learn it,
     // the listener will update this and all other logged-in servers.

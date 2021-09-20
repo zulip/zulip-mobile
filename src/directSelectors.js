@@ -28,11 +28,12 @@ import type {
   User,
   UserStatusState,
 } from './types';
-import type { SessionState } from './session/sessionReducer';
+import type { PerAccountSessionState, GlobalSessionState } from './session/sessionReducer';
 
 export const getAccounts = (state: GlobalState): AccountsState => state.accounts;
 
-export const getSession = (state: GlobalState): SessionState => state.session;
+export const getSession = (state: PerAccountState): PerAccountSessionState => state.session;
+export const getGlobalSession = (state: GlobalState): GlobalSessionState => state.session;
 
 export const getIsOnline = (state: GlobalState): boolean | null => state.session.isOnline;
 export const getDebug = (state: GlobalState): Debug => state.session.debug;

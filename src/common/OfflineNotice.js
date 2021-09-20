@@ -9,7 +9,7 @@ import * as logging from '../utils/logging';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useHasStayedTrueForMs } from '../reactUtils';
 import { useSelector } from '../react-redux';
-import { getSession } from '../selectors';
+import { getGlobalSession } from '../selectors';
 import Label from './Label';
 
 const styles = createStyleSheet({
@@ -37,7 +37,7 @@ type Props = $ReadOnly<{||}>;
  * Shows nothing if the Internet is reachable.
  */
 export default function OfflineNotice(props: Props): Node {
-  const isOnline = useSelector(state => getSession(state).isOnline);
+  const isOnline = useSelector(state => getGlobalSession(state).isOnline);
 
   const shouldShowUncertaintyNotice = useHasStayedTrueForMs(
     // See note in `SessionState` for what this means.

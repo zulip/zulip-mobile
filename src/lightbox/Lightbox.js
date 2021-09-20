@@ -12,7 +12,7 @@ import * as NavigationService from '../nav/NavigationService';
 import type { Message } from '../types';
 import { useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import { getAuth, getSession } from '../selectors';
+import { getAuth, getGlobalSession } from '../selectors';
 import { getResource } from '../utils/url';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
@@ -69,7 +69,7 @@ export default function Lightbox(props: Props): Node {
 
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
-  useSelector(state => getSession(state).orientation);
+  useSelector(state => getGlobalSession(state).orientation);
 
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
