@@ -27,7 +27,7 @@ import type {
   UserPresence,
   UserStatusMapObject,
 } from './api/apiTypes';
-import type { SessionState } from './session/sessionReducer';
+import type { PerAccountSessionState, SessionState } from './session/sessionReducer';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
 
@@ -376,9 +376,40 @@ export type UsersState = $ReadOnlyArray<User>;
  * parts of our code will in that future operate on a particular account and
  * which parts will operate on all accounts' data or none.
  */
-// And *initially* initially, the type literally just is GlobalState.
-// That'll change in just a few commits, though.
-export type PerAccountState = GlobalState;
+export type PerAccountState = $ReadOnly<{
+  // TODO accounts
+
+  // Jumbles of per-account state and client state.
+  session: PerAccountSessionState,
+  settings: PerAccountSettingsState,
+
+  // Per-account state that's *not* from the server.
+  drafts: DraftsState,
+  outbox: OutboxState,
+
+  // Per-account state: server data for the active account.
+  alertWords: AlertWordsState,
+  caughtUp: CaughtUpState,
+  fetching: FetchingState,
+  flags: FlagsState,
+  messages: MessagesState,
+  mute: MuteState,
+  mutedUsers: MutedUsersState,
+  narrows: NarrowsState,
+  pmConversations: PmConversationsState,
+  presence: PresenceState,
+  realm: RealmState,
+  streams: StreamsState,
+  subscriptions: SubscriptionsState,
+  topics: TopicsState,
+  typing: TypingState,
+  unread: UnreadState,
+  userGroups: UserGroupsState,
+  userStatus: UserStatusState,
+  users: UsersState,
+
+  ...
+}>;
 
 /**
  * Our complete Redux state tree.
@@ -395,31 +426,18 @@ export type PerAccountState = GlobalState;
  * identify which subtrees are persisted and which are not.
  */
 export type GlobalState = $ReadOnly<{|
-  accounts: AccountsState,
-  alertWords: AlertWordsState,
-  caughtUp: CaughtUpState,
-  drafts: DraftsState,
-  fetching: FetchingState,
-  flags: FlagsState,
-  messages: MessagesState,
+  ...$Exact<PerAccountState>,
+
+  // Metadata for the global state, as persisted on disk.
   migrations: MigrationsState,
-  mute: MuteState,
-  mutedUsers: MutedUsersState,
-  narrows: NarrowsState,
-  outbox: OutboxState,
-  pmConversations: PmConversationsState,
-  presence: PresenceState,
-  realm: RealmState,
+
+  // Jumbles of per-account state and client state.
   session: SessionState,
   settings: SettingsState,
-  streams: StreamsState,
-  subscriptions: SubscriptionsState,
-  topics: TopicsState,
-  typing: TypingState,
-  unread: UnreadState,
-  userGroups: UserGroupsState,
-  userStatus: UserStatusState,
-  users: UsersState,
+
+  // Per-account state but for all accounts together.
+  // Mix of server data and otherwise.
+  accounts: AccountsState,
 |}>;
 
 // For now, under our single-active-account model, we want a GlobalState
@@ -436,7 +454,8 @@ export type GlobalState = $ReadOnly<{|
  * TODO(#5006): We'll have to fix and eliminate each call to this.
  */
 export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
-  // For *right* now, this doesn't even have a fixme, because the types alias.
+  // $FlowFixMe[incompatible-exact]
+  // $FlowFixMe[prop-missing]
   return state;
 }
 
