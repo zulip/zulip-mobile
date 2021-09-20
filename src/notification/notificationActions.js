@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import type { Account, Dispatch, Identity, Action, ThunkAction } from '../types';
+import type { Account, Dispatch, Identity, Action, ThunkAction, GlobalThunkAction } from '../types';
 import * as api from '../api';
 import {
   getNotificationToken,
@@ -35,7 +35,7 @@ const ackPushToken = (pushToken: string, identity: Identity): Action => ({
   pushToken,
 });
 
-export const narrowToNotification = (data: ?Notification): ThunkAction<void> => (
+export const narrowToNotification = (data: ?Notification): GlobalThunkAction<void> => (
   dispatch,
   getState,
 ) => {
@@ -78,7 +78,10 @@ const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushTo
 };
 
 /** Tell all logged-in accounts' servers about our device token, as needed. */
-export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+export const sendAllPushToken = (): GlobalThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+) => {
   const { pushToken } = getGlobalSession(getState());
   if (pushToken === null) {
     return;

@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { Action, ThunkAction } from '../types';
+import type { Action, ThunkAction, GlobalThunkAction } from '../types';
 import { ACCOUNT_SWITCH, ACCOUNT_REMOVE, LOGIN_SUCCESS, LOGOUT } from '../actionConstants';
 import { resetToAccountPicker, resetToMainTabs } from '../nav/navActions';
 
@@ -9,7 +9,7 @@ const accountSwitchPlain = (index: number): Action => ({
   index,
 });
 
-export const accountSwitch = (index: number): ThunkAction<void> => (dispatch, getState) => {
+export const accountSwitch = (index: number): GlobalThunkAction<void> => (dispatch, getState) => {
   NavigationService.dispatch(resetToMainTabs());
   dispatch(accountSwitchPlain(index));
 };
