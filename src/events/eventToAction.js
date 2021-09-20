@@ -35,7 +35,7 @@ import {
 } from '../actionConstants';
 import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
-import { tryGetActiveAccount, getCurrentRealm } from '../account/accountsSelectors';
+import { getCurrentRealm } from '../account/accountsSelectors';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -91,10 +91,6 @@ const actionTypeOfEventType = {
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
-  if (!tryGetActiveAccount(state)) {
-    logging.error('eventToAction: no active account');
-  }
-
   switch (event.type) {
     // For reference on each type of event, see:
     // https://zulip.com/api/get-events#events
