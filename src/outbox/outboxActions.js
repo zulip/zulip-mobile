@@ -97,6 +97,7 @@ const trySendMessages = (dispatch, getState): boolean => {
   }
 };
 
+/** Try sending any pending outbox messages for this account, with retries. */
 export const sendOutbox = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
   if (state.outbox.length === 0 || state.session.outboxSending) {

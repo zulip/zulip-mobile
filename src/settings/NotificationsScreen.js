@@ -16,6 +16,7 @@ type Props = $ReadOnly<{|
   route: RouteProp<'notifications', void>,
 |}>;
 
+/** (NB this is a per-account screen -- these are per-account settings.) */
 export default function NotificationsScreen(props: Props): Node {
   const auth = useSelector(getAuth);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
