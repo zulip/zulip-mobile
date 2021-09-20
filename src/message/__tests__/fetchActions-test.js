@@ -332,7 +332,7 @@ describe('fetchActions', () => {
           ),
         ).rejects.toThrow(
           // Update this with changes to the message string or error type.
-          new Error('Active account not logged in'),
+          new Error('getAccount: must have account'),
         );
 
         const actions = store.getActions();
@@ -340,7 +340,7 @@ describe('fetchActions', () => {
         expect(actions[actions.length - 1]).toMatchObject({
           type: 'MESSAGE_FETCH_ERROR',
           // Update this with changes to the message string or error type.
-          error: new Error('Active account not logged in'),
+          error: new Error('getAccount: must have account'),
         });
       });
 

@@ -100,7 +100,7 @@ export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).re
  *
  * See:
  *  * `getAuth` for use in the bulk of the app, operating on a logged-in
- *    active account.
+ *    account.
  */
 // TODO(#5006): Should be called just tryGetAuth, after the old one is gone.
 export const tryGetThisAuth: Selector<Auth | void> = createSelector(getAccount, account => {
@@ -136,17 +136,17 @@ export const getHasAuth = (globalState: GlobalState): boolean => {
 };
 
 /**
- * The auth object for the active, logged-in account; throws if none.
+ * The auth object for this account, if logged in; else throws.
  *
  * For use in all the normal-use screens and codepaths of the app, which
- * assume there is an active, logged-in account.
+ * assume the specified account is logged in.
  *
  * See:
- *  * `tryGetAuth` for the meaning of "active, logged-in".
- *  * `tryGetAuth` again, for use where there might not be such an account.
+ *  * `tryGetAuth` for the meaning of "logged in".
+ *  * `tryGetAuth` again, for use where the account might not be logged in.
  */
-export const getAuth = (state: GlobalState): Auth => {
-  const auth = tryGetAuth(state);
+export const getAuth = (state: PerAccountState): Auth => {
+  const auth = tryGetThisAuth(state);
   if (auth === undefined) {
     throw new Error('Active account not logged in');
   }
@@ -159,9 +159,8 @@ export const getAuth = (state: GlobalState): Auth => {
  * See `getAuth` and `tryGetAuth` for discussion.
  */
 // TODO why should this care if the account is logged in?
-export const getIdentity: Selector<Identity> = createSelector(
-  state => getAuth(assumeSecretlyGlobalState(state)),
-  auth => identityOfAuth(auth),
+export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
+  identityOfAuth(auth),
 );
 
 /**
