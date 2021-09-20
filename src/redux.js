@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { Store } from 'redux';
 
-import type { Selector, GlobalState, Action } from './reduxTypes';
+import type { GlobalSelector, GlobalState, Action } from './reduxTypes';
 
 /**
  * Call a function whenever a selected piece of state changes.
@@ -15,7 +15,7 @@ import type { Selector, GlobalState, Action } from './reduxTypes';
  */
 export function observeStore<T>(
   store: Store<GlobalState, Action>,
-  select: Selector<T>,
+  select: GlobalSelector<T>,
   onChange: (state: T) => void,
 ): () => void {
   // Start as a nonce object, so the initial `prevState !== state`
