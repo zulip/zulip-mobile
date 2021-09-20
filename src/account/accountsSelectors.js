@@ -110,25 +110,16 @@ export const tryGetThisAuth: Selector<Auth | void> = createSelector(getAccount, 
   return authOfAccount(account);
 });
 
-/**
- * DEPRECATED on road to #5006.
- *
- * Calls to this can be translated to calls to `tryGetActiveAccountState`
- * followed by `tryGetThisAuth`.  They should become that, if the caller is
- * indeed global, or just `tryGetThisAuth` if the caller is per-account.
- */
-export const tryGetAuth = (globalState: GlobalState): Auth | void => {
-  const state = tryGetActiveAccountState(globalState);
-  if (!state) {
-    return undefined;
-  }
-  return tryGetThisAuth(state);
-};
+// Some see-also comments refer to `tryGetAuth`.  They really mean the
+// function that for now is called `tryGetThisAuth`, which we'll rename
+// shortly.
 
 /**
  * True just if there is an active, logged-in account.
  *
- * See `tryGetAuth` for the meaning of "active, logged-in".
+ * See:
+ *  * `tryGetActiveAccountState` for the meaning of "active".
+ *  * `tryGetAuth` for the meaning of "logged in".
  */
 export const getHasAuth = (globalState: GlobalState): boolean => {
   const state = tryGetActiveAccountState(globalState);
