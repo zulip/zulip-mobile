@@ -24,6 +24,9 @@ export const reportPresence = (isActive: boolean): ThunkAction<Promise<void>> =>
   });
 };
 
+// Callbacks for the typing_status module, all bound to this account.
+// NB the callbacks may be invoked later, on timers.  They should continue
+// to refer to this account regardless of what the then-active account might be.
 const typingWorker = (state: GlobalState) => {
   const auth: Auth = getAuth(state);
   const serverVersion: ZulipVersion | null = getServerVersion(state);
@@ -63,6 +66,16 @@ export const sendTypingStart = (narrow: Narrow): ThunkAction<Promise<void>> => a
   }
 
   const recipientIds = userIdsOfPmNarrow(narrow);
+  // TODO(#5005): The shared typing_status doesn't behave right on switching
+  //   accounts; it mingles state from the last call with data from this one.
+  //   E.g., `update` calls stop_last_notification with this worker, so the
+  //   new notify_server_stop, not with the old.  Also if user IDs happen to
+  //   match when server changed, it won't notice change.
+  //
+  //   To fix, state should live in an object we can keep around per-account,
+  //   instead of as module global.
+  //
+  //   (This is pretty low-impact, because these are inherently ephemeral.)
   typing_status.update(typingWorker(getState()), recipientIds);
 };
 
@@ -76,5 +89,6 @@ export const sendTypingStop = (narrow: Narrow): ThunkAction<Promise<void>> => as
     return;
   }
 
+  // TODO(#5005): Same as in sendTypingStart, above.
   typing_status.update(typingWorker(getState()), null);
 };
