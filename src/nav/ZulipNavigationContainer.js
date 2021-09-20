@@ -6,7 +6,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { useSelector } from '../react-redux';
 import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
-import { getSettings } from '../selectors';
+import { getGlobalSettings } from '../selectors';
 import AppNavigator from './AppNavigator';
 
 type Props = $ReadOnly<{||}>;
@@ -22,7 +22,7 @@ type Props = $ReadOnly<{||}>;
  *   and `initialRouteParams` which we get from data in Redux.
  */
 export default function ZulipAppContainer(props: Props): Node {
-  const themeName = useSelector(state => getSettings(state).theme);
+  const themeName = useSelector(state => getGlobalSettings(state).theme);
 
   useEffect(
     () =>

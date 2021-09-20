@@ -40,7 +40,7 @@ import {
   getMute,
   getMutedUsers,
   getOwnUser,
-  getSettings,
+  getGlobalSettings,
   getSubscriptions,
   getStreamsById,
   getStreamsByName,
@@ -344,7 +344,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       auth: getAuth(state),
       debug: getDebug(state),
       doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow) || getSettings(state).doNotMarkMessagesAsRead,
+        !marksMessagesAsRead(props.narrow) || getGlobalSettings(state).doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),
@@ -353,7 +353,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       streamsByName: getStreamsByName(state),
       subscriptions: getSubscriptions(state),
       unread: getUnread(state),
-      theme: getSettings(state).theme,
+      theme: getGlobalSettings(state).theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,
     };
 

@@ -9,7 +9,7 @@ import Color from 'color';
 import type { ThemeName } from '../types';
 import { useSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
-import { getSession, getSettings } from '../selectors';
+import { getSession, getGlobalSettings } from '../selectors';
 
 type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
 
@@ -45,7 +45,7 @@ type Props = $ReadOnly<{|
  */
 export default function ZulipStatusBar(props: Props): Node {
   const { hidden = false } = props;
-  const theme = useSelector(state => getSettings(state).theme);
+  const theme = useSelector(state => getGlobalSettings(state).theme);
   const orientation = useSelector(state => getSession(state).orientation);
   const backgroundColor = props.backgroundColor;
   const statusBarColor = getStatusBarColor(backgroundColor, theme);

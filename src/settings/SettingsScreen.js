@@ -9,7 +9,7 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
-import { getSettings } from '../selectors';
+import { getGlobalSettings } from '../selectors';
 import { NestedNavRow, SwitchRow } from '../common';
 import {
   IconDiagnostics,
@@ -38,9 +38,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function SettingsScreen(props: Props): Node {
-  const theme = useSelector(state => getSettings(state).theme);
-  const browser = useSelector(state => getSettings(state).browser);
-  const doNotMarkMessagesAsRead = useSelector(state => getSettings(state).doNotMarkMessagesAsRead);
+  const theme = useSelector(state => getGlobalSettings(state).theme);
+  const browser = useSelector(state => getGlobalSettings(state).browser);
+  const doNotMarkMessagesAsRead = useSelector(
+    state => getGlobalSettings(state).doNotMarkMessagesAsRead,
+  );
   const dispatch = useDispatch();
 
   const handleThemeChange = useCallback(() => {

@@ -8,7 +8,7 @@ import { useSelector } from '../../react-redux';
 
 import type { SubsetProperties } from '../../generics';
 import Custom from './Custom';
-import { getSettings } from '../../selectors';
+import { getGlobalSettings } from '../../selectors';
 
 type Props = $ReadOnly<{|
   // See `ZulipButton`'s `style` prop, where a comment discusses this
@@ -35,7 +35,7 @@ type Props = $ReadOnly<{|
  */
 export default function IosCompliantAppleAuthButton(props: Props): Node {
   const { style, onPress } = props;
-  const theme = useSelector(state => getSettings(state).theme);
+  const theme = useSelector(state => getGlobalSettings(state).theme);
   const [isNativeButtonAvailable, setIsNativeButtonAvailable] = useState<boolean | void>(undefined);
 
   useEffect(() => {

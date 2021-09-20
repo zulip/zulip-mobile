@@ -20,7 +20,8 @@ import type {
   CrossRealmBot,
   RealmEmojiById,
   RealmState,
-  SettingsState,
+  PerAccountSettingsState,
+  GlobalSettingsState,
   TypingState,
   Debug,
   VideoChatProvider,
@@ -71,7 +72,8 @@ export const getFlags = (state: PerAccountState): FlagsState => state.flags;
 
 export const getAllNarrows = (state: PerAccountState): NarrowsState => state.narrows;
 
-export const getSettings = (state: GlobalState): SettingsState => state.settings;
+export const getSettings = (state: PerAccountState): PerAccountSettingsState => state.settings;
+export const getGlobalSettings = (state: GlobalState): GlobalSettingsState => state.settings;
 
 export const getSubscriptions = (state: PerAccountState): SubscriptionsState => state.subscriptions;
 

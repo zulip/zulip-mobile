@@ -7,7 +7,7 @@ import type { IntlShape } from 'react-intl';
 
 import type { GetText } from '../types';
 import { useSelector } from '../react-redux';
-import { getSettings } from '../selectors';
+import { getGlobalSettings } from '../selectors';
 import messages from '../i18n/messages';
 
 // $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
@@ -78,7 +78,7 @@ type Props = $ReadOnly<{|
 
 export default function TranslationProvider(props: Props): Node {
   const { children } = props;
-  const language = useSelector(state => getSettings(state).language);
+  const language = useSelector(state => getGlobalSettings(state).language);
 
   return (
     <IntlProvider locale={language} textComponent={Text} messages={messages[language]}>

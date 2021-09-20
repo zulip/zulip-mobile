@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useDispatch } from '../react-redux';
 import { getIdentity, getServerVersion } from '../account/accountsSelectors';
-import { getIsAdmin, getSession, getSettings } from '../directSelectors';
+import { getIsAdmin, getSession, getGlobalSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
 
@@ -27,7 +27,7 @@ export default function ServerCompatBanner(props: Props): Node {
   const zulipVersion = useSelector(getServerVersion);
   const realm = useSelector(state => getIdentity(state).realm);
   const isAdmin = useSelector(getIsAdmin);
-  const settings = useSelector(getSettings);
+  const settings = useSelector(getGlobalSettings);
 
   let visible = false;
   let text = '';
