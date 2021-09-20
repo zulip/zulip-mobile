@@ -242,37 +242,6 @@ export const getHaveServerData = (state: GlobalState): boolean => {
   //    causes either LOGOUT, or an abort that ensures we're not at a
   //    loading screen.
 
-  // Valid server data must have a user: the self user, at a minimum.
-  if (getUsers(state).length === 0) {
-    // From `usersReducer`:
-    //  * This condition is resolved by REALM_INIT.
-    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
-    return false;
-  }
-
-  // It must also have the self user's user ID.
-  const ownUserId = state.realm.user_id;
-  if (ownUserId === undefined) {
-    // From `realmReducer`:
-    //  * This condition is resolved by REALM_INIT.
-    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
-    return false;
-  }
-
-  // We can also do a basic consistency check between those two subtrees:
-  // the self user identified in `state.realm` is among those we have in
-  // `state.users`.  (If for example the previous run of the app switched
-  // accounts, and got all the way to writing the new account's
-  // `state.realm` but not even clearing out `state.users` or vice versa,
-  // then this check would fire.  And in that situation without this check,
-  // we crash early on because `getOwnUser` fails.)
-  if (!getUsersById(state).get(ownUserId)) {
-    // From the reducers (and assumptions about the server's data):
-    //  * This condition is resolved by REALM_INIT.
-    //  * It's never created (post-rehydrate.)
-    return false;
-  }
-
   // Any valid server data is about the active account.  So if there is no
   // active account, then any server data we appear to have can't be valid.
   if (!tryGetActiveAccount(state)) {
@@ -303,6 +272,37 @@ export const getHaveServerData = (state: GlobalState): boolean => {
     //
     // For ACCOUNT_REMOVE, see the previous condition.
     // ACCOUNT_SWITCH we only do for logged-in accounts.
+    return false;
+  }
+
+  // Valid server data must have a user: the self user, at a minimum.
+  if (getUsers(state).length === 0) {
+    // From `usersReducer`:
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
+    return false;
+  }
+
+  // It must also have the self user's user ID.
+  const ownUserId = state.realm.user_id;
+  if (ownUserId === undefined) {
+    // From `realmReducer`:
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's created only by LOGIN_SUCCESS, LOGOUT, and ACCOUNT_SWITCH.
+    return false;
+  }
+
+  // We can also do a basic consistency check between those two subtrees:
+  // the self user identified in `state.realm` is among those we have in
+  // `state.users`.  (If for example the previous run of the app switched
+  // accounts, and got all the way to writing the new account's
+  // `state.realm` but not even clearing out `state.users` or vice versa,
+  // then this check would fire.  And in that situation without this check,
+  // we crash early on because `getOwnUser` fails.)
+  if (!getUsersById(state).get(ownUserId)) {
+    // From the reducers (and assumptions about the server's data):
+    //  * This condition is resolved by REALM_INIT.
+    //  * It's never created (post-rehydrate.)
     return false;
   }
 
