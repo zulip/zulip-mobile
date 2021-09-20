@@ -2,7 +2,7 @@
 import { NativeModules, Platform, Linking } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
-import type { BrowserPreference, SettingsState } from '../types';
+import type { BrowserPreference, GlobalSettingsState } from '../types';
 
 /** Open a URL in the in-app browser. */
 export function openLinkEmbedded(url: string): void {
@@ -27,7 +27,7 @@ export function shouldUseInAppBrowser(browser: BrowserPreference): boolean {
 }
 
 /** Open a URL using whichever browser the user has configured in the Zulip settings. */
-export function openLinkWithUserPreference(url: string, settings: SettingsState): void {
+export function openLinkWithUserPreference(url: string, settings: GlobalSettingsState): void {
   if (shouldUseInAppBrowser(settings.browser)) {
     openLinkEmbedded(url);
   } else {
