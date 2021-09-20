@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
 import type { GlobalState, Message, PmConversationData, Selector } from '../types';
+import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
@@ -121,7 +122,7 @@ function getRecentConversationsModernImpl(
 }
 
 const getServerIsOld: Selector<boolean> = createSelector(
-  getServerVersion,
+  state => getServerVersion(assumeSecretlyGlobalState(state)),
   version => !(version && version.isAtLeast(model.MIN_RECENTPMS_SERVER_VERSION)),
 );
 
