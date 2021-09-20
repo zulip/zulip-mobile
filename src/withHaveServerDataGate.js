@@ -3,7 +3,7 @@ import React, { type ComponentType, type ElementConfig, useRef } from 'react';
 
 import { connect } from './react-redux';
 import type { Dispatch } from './types';
-import { getHaveServerData } from './selectors';
+import { getHaveServerDataGlobal } from './selectors';
 import FullScreenLoading from './common/FullScreenLoading';
 
 /**
@@ -40,7 +40,9 @@ export default function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exa
   // was running -- and throwing an uncaught error -- on logout, and
   // `MainTabsScreen`'s early return on `!haveServerData` wasn't
   // preventing that from happening.
-  return connect(state => ({ haveServerData: getHaveServerData(state) }))(
+  //
+  // TODO(#5005): Should this be per-account, i.e. with getHaveServerData?
+  return connect(state => ({ haveServerData: getHaveServerDataGlobal(state) }))(
     ({
       dispatch,
       haveServerData,
