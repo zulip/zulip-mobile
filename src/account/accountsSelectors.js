@@ -73,16 +73,6 @@ export const getActiveAccount = (state: GlobalState): Account => {
 export const getCurrentRealm = (state: GlobalState): URL => getActiveAccount(state).realm;
 
 /**
- * The realm currently foregrounded in the UI; undefined if none.
- *
- * This is for use in early startup, onboarding, account-switch,
- * authentication flows, or other times where there may be no active account
- * or it may not be logged in.
- */
-export const tryGetCurrentRealm = (state: GlobalState): URL | void =>
-  tryGetActiveAccount(state)?.realm;
-
-/**
  * The auth object for the active, logged-in account, or undefined if none.
  *
  * The "active" account is the one currently foregrounded in the UI, if any.
