@@ -20,21 +20,12 @@ import {
 import { getHasAuth } from '../account/accountsSelectors';
 
 /**
- * Miscellaneous non-persistent state about this run of the app.
+ * Miscellaneous non-persistent state specific to a particular account.
  *
- * These state items are stored in `session.state`, and 'session' is
- * in `discardKeys` in src/boot/store.js. That means these values
- * won't be persisted between sessions; on startup, they'll all be
- * initialized to their default values.
+ * See {@link SessionState} for discussion of what "non-persistent" means.
  */
-export type SessionState = $ReadOnly<{|
+export type PerAccountSessionState = $ReadOnly<{
   eventQueueId: number,
-
-  // `null` if we don't know. See the place where we set this, for what that
-  // means.
-  isOnline: boolean | null,
-
-  isHydrated: boolean,
 
   /**
    * Whether the /register request is in progress.
@@ -45,8 +36,46 @@ export type SessionState = $ReadOnly<{|
   loading: boolean,
 
   needsInitialFetch: boolean,
-  orientation: Orientation,
+
   outboxSending: boolean,
+
+  /**
+   * Whether `ServerCompatNotice` (which we'll add soon) has been
+   *   dismissed this session.
+   *
+   * We put this in the per-session state deliberately, so that users
+   * see the notice on every startup until the server is upgraded.
+   * That's a better experience than not being able to load the realm
+   * on mobile at all, which is what will happen soon if the user
+   * doesn't act on the notice.
+   */
+  hasDismissedServerCompatNotice: boolean,
+
+  ...
+}>;
+
+/**
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * These state items are stored in `session.state`, and 'session' is
+ * in `discardKeys` in src/boot/store.js. That means these values
+ * won't be persisted between sessions; on startup, they'll all be
+ * initialized to their default values.
+ */
+export type SessionState = $ReadOnly<{|
+  ...$Exact<PerAccountSessionState>,
+
+  // The properties below are data about the device and the app as a whole,
+  // independent of any particular Zulip server or account.
+  // For per-account data, see PerAccountSessionState.
+
+  // `null` if we don't know. See the place where we set this, for what that
+  // means.
+  isOnline: boolean | null,
+
+  isHydrated: boolean,
+
+  orientation: Orientation,
 
   /**
    * Our actual device token, as most recently learned from the system.
@@ -67,19 +96,12 @@ export type SessionState = $ReadOnly<{|
   pushToken: string | null,
 
   debug: Debug,
-
-  /**
-   * Whether `ServerCompatNotice` (which we'll add soon) has been
-   *   dismissed this session.
-   *
-   * We put this in the per-session state deliberately, so that users
-   * see the notice on every startup until the server is upgraded.
-   * That's a better experience than not being able to load the realm
-   * on mobile at all, which is what will happen soon if the user
-   * doesn't act on the notice.
-   */
-  hasDismissedServerCompatNotice: boolean,
 |}>;
+
+// As part of letting GlobalState freely convert to PerAccountState,
+// we'll want the same for SessionState.  (This is also why
+// PerAccountSessionState is inexact.)
+(s: SessionState): PerAccountSessionState => s; // eslint-disable-line no-unused-expressions
 
 const initialState: SessionState = {
   eventQueueId: -1,
