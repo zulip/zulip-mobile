@@ -1,14 +1,13 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
-import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import { objectFromEntries } from '../jsBackport';
 
 export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
-  state => getIdentity(assumeSecretlyGlobalState(state)),
+  getIdentity,
   getRawRealmEmoji,
   (identity, realmEmoji) => {
     const result: {| [string]: ImageEmojiType |} = {};

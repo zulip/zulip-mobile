@@ -188,12 +188,14 @@ export const getAuth = (state: GlobalState): Auth => {
 };
 
 /**
- * The identity for the active, logged-in account; throws if none.
+ * The identity for this account, if logged in; throws if not logged in.
  *
  * See `getAuth` and `tryGetAuth` for discussion.
  */
-export const getIdentity: GlobalSelector<Identity> = createSelector(getAuth, auth =>
-  identityOfAuth(auth),
+// TODO why should this care if the account is logged in?
+export const getIdentity: Selector<Identity> = createSelector(
+  state => getAuth(assumeSecretlyGlobalState(state)),
+  auth => identityOfAuth(auth),
 );
 
 /**
