@@ -5,8 +5,6 @@ import invariant from 'invariant';
 
 import * as logging from '../utils/logging';
 import type {
-  Dispatch,
-  GetState,
   GlobalState,
   Narrow,
   Outbox,
@@ -53,7 +51,7 @@ export const messageSendComplete = (localMessageId: number): Action => ({
   local_message_id: localMessageId,
 });
 
-const trySendMessages = (dispatch: Dispatch, getState: GetState): boolean => {
+const trySendMessages = (dispatch, getState): boolean => {
   const state = getState();
   const auth = getAuth(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Dispatch, GeneralEvent, GetState, ThunkAction } from '../types';
+import type { GeneralEvent, ThunkAction } from '../types';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
@@ -16,7 +16,7 @@ import * as logging from '../utils/logging';
  * This is part of our use of the Zulip events system; see `doInitialFetch`
  * for discussion.
  */
-const handleEvent = (event: GeneralEvent, dispatch: Dispatch, getState: GetState) => {
+const handleEvent = (event: GeneralEvent, dispatch, getState) => {
   try {
     const action = eventToAction(getState(), event);
     if (!action) {

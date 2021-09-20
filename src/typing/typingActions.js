@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action, ThunkAction, Dispatch, GetState } from '../types';
+import type { Action, ThunkAction } from '../types';
 
 import { sleep } from '../utils/async';
 import { getTyping } from '../directSelectors';
@@ -9,7 +9,7 @@ export const clearTyping = (outdatedNotifications: string[]): Action => ({
   outdatedNotifications,
 });
 
-const typingStatusExpiryLoop = () => async (dispatch: Dispatch, getState: GetState) => {
+const typingStatusExpiryLoop = () => async (dispatch, getState) => {
   // loop to auto dismiss typing notifications after typingNotificationTimeout
   // eslint-disable-next-line no-constant-condition
   while (true) {

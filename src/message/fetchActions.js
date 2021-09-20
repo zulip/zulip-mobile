@@ -1,16 +1,7 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type {
-  Narrow,
-  Dispatch,
-  GetState,
-  GlobalState,
-  Message,
-  Action,
-  ThunkAction,
-  UserId,
-} from '../types';
+import type { Narrow, GlobalState, Message, Action, ThunkAction, UserId } from '../types';
 import { ensureUnreachable } from '../types';
 import type { InitialFetchAbortReason } from '../actionTypes';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -331,7 +322,7 @@ export const fetchMessagesInNarrow = (
  * See `fetchMessagesInNarrow` for further background.
  */
 // TODO(server-2.1): Delete this.
-const fetchPrivateMessages = () => async (dispatch: Dispatch, getState: GetState) => {
+const fetchPrivateMessages = () => async (dispatch, getState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
     narrow: apiNarrowOfNarrow(ALL_PRIVATE_NARROW, getAllUsersById(getState())),
