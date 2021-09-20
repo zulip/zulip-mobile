@@ -298,20 +298,16 @@ export type PerAccountSettingsState = $ReadOnly<{
 }>;
 
 /**
- * The user's chosen settings.
+ * The user's chosen settings independent of account, on this client.
  *
- * This is a mix of server data representing the active account (see
- * {@link PerAccountSettingsState}), and client-only data that applies
- * across all the user's accounts on this client (i.e. on this install of
- * the app on this device.)
+ * These apply across all the user's accounts on this client (i.e. on this
+ * install of the app on this device).
+ *
+ * See also {@link PerAccountSettingsState}.
  */
-export type SettingsState = $ReadOnly<{|
-  ...$Exact<PerAccountSettingsState>,
-
-  // The properties below apply independent of account.  That also means
-  // they can't come from the server.  For per-account settings, see
-  // PerAccountSettingsState.
-
+// Because these apply independent of account, they necessarily can't come
+// from the server.
+export type GlobalSettingsState = $ReadOnly<{
   // The user's chosen language, as an IETF BCP 47 language tag.
   language: string,
 
@@ -324,6 +320,21 @@ export type SettingsState = $ReadOnly<{|
   // Possibly this should be per-account.  If so it should probably be put
   // on the server, so it can also be cross-device for the account.
   doNotMarkMessagesAsRead: boolean,
+
+  ...
+}>;
+
+/**
+ * The user's chosen settings.
+ *
+ * This is a mix of server data representing the active account (see
+ * {@link PerAccountSettingsState}), and client-only data that applies
+ * across all the user's accounts on this client (see
+ * {@link GlobalSettingsState}).
+ */
+export type SettingsState = $ReadOnly<{|
+  ...$Exact<GlobalSettingsState>,
+  ...$Exact<PerAccountSettingsState>,
 |}>;
 
 // As part of letting GlobalState freely convert to PerAccountState,
