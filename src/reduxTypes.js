@@ -521,8 +521,7 @@ export interface Dispatch {
 }
 
 /** A per-account thunk action returning T. */
-// TODO(#5006): use PerAccountState
-export type ThunkAction<T> = (Dispatch, () => GlobalState, ThunkExtras) => T;
+export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T;
 
 /** The Redux `dispatch` for a global context. */
 export interface GlobalDispatch {
@@ -547,6 +546,9 @@ export type GlobalThunkAction<T> = (
 // usable as a plain Dispatch, and a ThunkAction as a GlobalThunkAction.
 (d: GlobalDispatch): Dispatch => d; // TODO(#5006)
 <T>(a: ThunkAction<T>): GlobalThunkAction<T> => a; // TODO(#5006)
-// And for *right* now, we allow the reverse, too.
-(d: Dispatch): GlobalDispatch => d; // TODO(#5006)
-<T>(a: GlobalThunkAction<T>): ThunkAction<T> => a; // TODO(#5006)
+// But we don't allow the reverse.
+//   $FlowExpectedError[incompatible-return]
+(d: Dispatch): GlobalDispatch => d;
+//   $FlowExpectedError[incompatible-exact]
+//   $FlowExpectedError[prop-missing]
+<T>(a: GlobalThunkAction<T>): ThunkAction<T> => a;
