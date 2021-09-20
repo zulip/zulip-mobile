@@ -384,8 +384,6 @@ type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
 // the corresponding parameter when used in `createSelector`, and this does.
 export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
-export type PlainDispatch = <A: Action>(action: A) => A;
-
 export interface Dispatch {
   <A: Action>(action: A): A;
   <T>(ThunkAction<T>): T; // eslint-disable-line no-use-before-define
