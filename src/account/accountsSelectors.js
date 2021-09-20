@@ -197,12 +197,10 @@ export const getIdentity: GlobalSelector<Identity> = createSelector(getAuth, aut
 );
 
 /**
- * The Zulip server version of the active account.
- *
- * Throws if no active account; undefined if server version not known.
+ * The Zulip server version for this account, or null if unknown.
  *
  * See the `zulipVersion` property of `Account` for details on how this
  * information is kept up to date.
  */
-export const getServerVersion = (state: GlobalState): ZulipVersion | null =>
-  getActiveAccount(state).zulipVersion;
+export const getServerVersion = (state: PerAccountState): ZulipVersion | null =>
+  getAccount(state).zulipVersion;
