@@ -103,26 +103,6 @@ export const tryGetActiveAccount = (state: GlobalState): Account | void => {
   return accounts && accounts.length > 0 ? accounts[0] : undefined;
 };
 
-/**
- * DEPRECATED on road to #5006.
- *
- * Calls to this should generally become `getAccount`: we should already be
- * calling this only when we can assume there is an active account.  In
- * those cases we should generally be able to get passed an appropriate
- * PerAccountState, so that the code becomes applicable to "the given
- * account" rather than "the active account".
- *
- * When "the active account" is truly what's needed, use
- * `tryGetActiveAccountState` and add an assertion.
- */
-export const getActiveAccount = (state: GlobalState): Account => {
-  const account = tryGetActiveAccount(state);
-  if (account === undefined) {
-    throw new Error('No account found');
-  }
-  return account;
-};
-
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 

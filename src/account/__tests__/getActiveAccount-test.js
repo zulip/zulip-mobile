@@ -1,6 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
-import { tryGetActiveAccount, getActiveAccount } from '../accountsSelectors';
+import { tryGetActiveAccount } from '../accountsSelectors';
 
 describe('tryGetActiveAccount', () => {
   test('when no accounts exist, returns undefined', () => {
@@ -15,15 +15,5 @@ describe('tryGetActiveAccount', () => {
 
     const result = tryGetActiveAccount({ accounts });
     expect(result).toEqual({ name: 'account1' });
-  });
-});
-
-describe('getActiveAccount', () => {
-  test('when no accounts exist, throws', () => {
-    const accounts = deepFreeze([]);
-
-    expect(() => {
-      getActiveAccount({ accounts });
-    }).toThrow();
   });
 });

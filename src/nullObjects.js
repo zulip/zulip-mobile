@@ -14,9 +14,9 @@ export const NULL_ARRAY: $ReadOnlyArray<empty> = Object.freeze([]);
  *
  * For examples of explicit fallback behavior, see:
  *
- *  * Selector `getActiveAccount` -- throw an error.  Good when missing data
- *    is a bug and the caller can't reasonably do without it.  This is the
- *    right thing for most callers of most selectors.
+ *  * Selector `getAuth` -- throw an error.  Good when missing data is a bug
+ *    and the caller can't reasonably do without it.  This is the right
+ *    thing for most callers of most selectors.
  *
  *  * Selectors `tryGetActiveAccountState` and `tryGetAuth` -- return undefined,
  *    and reflect that in the type.  Caller then gets to decide what to do;
