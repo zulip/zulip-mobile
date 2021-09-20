@@ -5,7 +5,7 @@ import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { tryGetAuth } from '../selectors';
+import { tryGetActiveAccountState, tryGetThisAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
@@ -52,19 +52,25 @@ export const startEventPolling = (
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const auth = tryGetAuth(getState());
+    const state = tryGetActiveAccountState(getState());
+    const auth = state && tryGetThisAuth(state);
     if (!auth) {
-      // User switched accounts or logged out
+      // There is no logged-in active account.
       break;
     }
+    // `auth` represents the active account.  It might be different from
+    // the one in the previous loop iteration, if we did a backoff wait.
+    // TODO(#5009): Is that really quite OK?
 
     let events = undefined;
     try {
       const response = await api.pollForEvents(auth, queueId, lastEventId);
       events = response.events;
 
-      // User switched accounts or logged out
       if (queueId !== getState().session.eventQueueId) {
+        // The user switched accounts or logged out.
+        // TODO(#5022): TODO(#5009): This doesn't seem like an adequate
+        //   check for that; it looks like it only detects a new REALM_INIT.
         break;
       }
     } catch (e) {
