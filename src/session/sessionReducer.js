@@ -55,20 +55,14 @@ export type PerAccountSessionState = $ReadOnly<{
 }>;
 
 /**
- * Miscellaneous non-persistent state about this run of the app.
+ * Miscellaneous non-persistent state independent of account.
  *
- * These state items are stored in `session.state`, and 'session' is
- * in `discardKeys` in src/boot/store.js. That means these values
- * won't be persisted between sessions; on startup, they'll all be
- * initialized to their default values.
+ * This contains data about the device and the app as a whole, independent
+ * of any particular Zulip server or account.
+ *
+ * See {@link SessionState} for discussion of what "non-persistent" means.
  */
-export type SessionState = $ReadOnly<{|
-  ...$Exact<PerAccountSessionState>,
-
-  // The properties below are data about the device and the app as a whole,
-  // independent of any particular Zulip server or account.
-  // For per-account data, see PerAccountSessionState.
-
+export type GlobalSessionState = $ReadOnly<{
   // `null` if we don't know. See the place where we set this, for what that
   // means.
   isOnline: boolean | null,
@@ -96,6 +90,21 @@ export type SessionState = $ReadOnly<{|
   pushToken: string | null,
 
   debug: Debug,
+
+  ...
+}>;
+
+/**
+ * Miscellaneous non-persistent state about this run of the app.
+ *
+ * These state items are stored in `session.state`, and 'session' is
+ * in `discardKeys` in src/boot/store.js. That means these values
+ * won't be persisted between sessions; on startup, they'll all be
+ * initialized to their default values.
+ */
+export type SessionState = $ReadOnly<{|
+  ...$Exact<GlobalSessionState>,
+  ...$Exact<PerAccountSessionState>,
 |}>;
 
 // As part of letting GlobalState freely convert to PerAccountState,
