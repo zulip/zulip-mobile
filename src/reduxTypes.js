@@ -287,18 +287,49 @@ export type ThemeName = 'default' | 'night';
  */
 export type BrowserPreference = 'embedded' | 'external' | 'default';
 
+/**
+ * The user's chosen settings specific to this account.
+ */
+export type PerAccountSettingsState = $ReadOnly<{
+  offlineNotification: boolean,
+  onlineNotification: boolean,
+  streamNotification: boolean,
+  ...
+}>;
+
+/**
+ * The user's chosen settings.
+ *
+ * This is a mix of server data representing the active account (see
+ * {@link PerAccountSettingsState}), and client-only data that applies
+ * across all the user's accounts on this client (i.e. on this install of
+ * the app on this device.)
+ */
 export type SettingsState = $ReadOnly<{|
+  ...$Exact<PerAccountSettingsState>,
+
+  // The properties below apply independent of account.  That also means
+  // they can't come from the server.  For per-account settings, see
+  // PerAccountSettingsState.
+
   // The user's chosen language, as an IETF BCP 47 language tag.
   language: string,
 
   theme: ThemeName,
-  offlineNotification: boolean,
-  onlineNotification: boolean,
-  experimentalFeaturesEnabled: boolean,
-  streamNotification: boolean,
   browser: BrowserPreference,
+
+  // TODO cut this? what was it?
+  experimentalFeaturesEnabled: boolean,
+
+  // Possibly this should be per-account.  If so it should probably be put
+  // on the server, so it can also be cross-device for the account.
   doNotMarkMessagesAsRead: boolean,
 |}>;
+
+// As part of letting GlobalState freely convert to PerAccountState,
+// we'll want the same for SettingsState.  (This is also why
+// PerAccountSettingsState is inexact.)
+(s: SettingsState): PerAccountSettingsState => s; // eslint-disable-line no-unused-expressions
 
 export type StreamsState = $ReadOnlyArray<Stream>;
 
