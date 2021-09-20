@@ -167,7 +167,10 @@ export const tryGetAuth = (globalState: GlobalState): Auth | void => {
  *
  * See `tryGetAuth` for the meaning of "active, logged-in".
  */
-export const getHasAuth = (state: GlobalState): boolean => !!tryGetAuth(state);
+export const getHasAuth = (globalState: GlobalState): boolean => {
+  const state = tryGetActiveAccountState(globalState);
+  return !!state && !!tryGetThisAuth(state);
+};
 
 /**
  * The auth object for the active, logged-in account; throws if none.
