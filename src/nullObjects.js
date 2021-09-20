@@ -18,7 +18,7 @@ export const NULL_ARRAY: $ReadOnlyArray<empty> = Object.freeze([]);
  *    is a bug and the caller can't reasonably do without it.  This is the
  *    right thing for most callers of most selectors.
  *
- *  * Selectors `tryGetActiveAccount` and `tryGetAuth` -- return undefined,
+ *  * Selectors `tryGetActiveAccountState` and `tryGetAuth` -- return undefined,
  *    and reflect that in the type.  Caller then gets to decide what to do;
  *    see callsites of `tryGetAuth`.
  *

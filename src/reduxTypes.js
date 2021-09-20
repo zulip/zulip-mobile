@@ -377,7 +377,12 @@ export type UsersState = $ReadOnlyArray<User>;
  * which parts will operate on all accounts' data or none.
  */
 export type PerAccountState = $ReadOnly<{
-  // TODO accounts
+  // TODO(#5006): Secretly we assume these objects also have `Account` data,
+  //   like so:
+  // accounts: [Account, ...mixed],
+  //   which they do because they're always actually `GlobalState` objects.
+  //   Need to put that data somewhere that's less mixed up with other accounts'
+  //   data.  See `accountsSelectors` for where we make that assumption.
 
   // Jumbles of per-account state and client state.
   session: PerAccountSessionState,

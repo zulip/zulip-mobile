@@ -1,6 +1,16 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
-import type { Account, Auth, GlobalState, Identity, GlobalSelector } from '../types';
+import invariant from 'invariant';
+
+import type {
+  Account,
+  Auth,
+  PerAccountState,
+  GlobalState,
+  Identity,
+  GlobalSelector,
+} from '../types';
+import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { getAccounts } from '../directSelectors';
 import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -40,13 +50,52 @@ export const getAccountsByIdentity: GlobalSelector<(Identity) => Account | void>
 );
 
 /**
- * The account currently foregrounded in the UI, or undefined if none.
+ * The per-account state for the active account; undefined if no such account.
  *
- * For use in early startup, onboarding, account-switch, or other times
- * where there may be no active account.
+ * I.e., for the account currently foregrounded in the UI.  See glossary:
+ *   https://github.com/zulip/zulip-mobile/blob/main/docs/glossary.md
  *
- * See `getActiveAccount` for use in the UI for an already-active account
- * (including the bulk of the app), and code intended for that UI.
+ * In our legacy model where the global state is all about the active
+ * account (pre-#5006), this is a lot like the identity function.  Use this
+ * function where even in a multi-account post-#5006 model, the input will
+ * be the global state.
+ *
+ * In particular, always use this function (rather than simply casting) in
+ * early startup, onboarding, account-switch, or other times where there may
+ * be no active account.
+ */
+export const tryGetActiveAccountState = (state: GlobalState): PerAccountState | void => {
+  const accounts = getAccounts(state);
+  return accounts && accounts.length > 0 ? state : undefined;
+};
+
+/**
+ * The `Account` object for this account.
+ *
+ * "This account" meaning the one this per-account state corresponds to.
+ */
+export const getAccount = (state: PerAccountState): Account => {
+  // TODO(#5006): This is the key place we assume a PerAccountState is
+  //   secretly a GlobalState.  We'll put the active `Account` somewhere
+  //   better and then fix that.
+  //   We're also assuming that the intended account is the active one.
+  const globalState = assumeSecretlyGlobalState(state);
+  const accounts = globalState.accounts;
+  invariant(accounts.length > 0, 'getAccount: must have account');
+  return accounts[0];
+};
+
+/**
+ * DEPRECATED on road to #5006.
+ *
+ * Instead, use `getAccount`, to get the `Account` for a particular
+ * PerAccountState.
+ *
+ * If the caller wanted "the active account" because that's what its own
+ * caller expected of it, then have it get passed a PerAccountState.
+ *
+ * In places where we're truly starting from global and want the active
+ * account, use `tryGetActiveAccountState`.  This should be rare.
  */
 export const tryGetActiveAccount = (state: GlobalState): Account | void => {
   const accounts = getAccounts(state);
@@ -54,12 +103,16 @@ export const tryGetActiveAccount = (state: GlobalState): Account | void => {
 };
 
 /**
- * The account currently foregrounded in the UI; throws if none.
+ * DEPRECATED on road to #5006.
  *
- * For use in all the normal-use screens of the app, which assume there is
- * an active account.
+ * Calls to this should generally become `getAccount`: we should already be
+ * calling this only when we can assume there is an active account.  In
+ * those cases we should generally be able to get passed an appropriate
+ * PerAccountState, so that the code becomes applicable to "the given
+ * account" rather than "the active account".
  *
- * See `tryGetActiveAccount` for use where there might not be an active account.
+ * When "the active account" is truly what's needed, use
+ * `tryGetActiveAccountState` and add an assertion.
  */
 export const getActiveAccount = (state: GlobalState): Account => {
   const account = tryGetActiveAccount(state);
