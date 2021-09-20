@@ -2,17 +2,17 @@
 import { PureComponent } from 'react';
 import type { ComponentType } from 'react';
 import { AppState } from 'react-native';
-import type { Auth, Dispatch } from '../types';
+import type { Dispatch } from '../types';
 
 import { connect } from '../react-redux';
-import { tryGetAuth } from '../account/accountsSelectors';
+import { getHasAuth } from '../account/accountsSelectors';
 import { reportPresence } from '../actions';
 import Heartbeat from './heartbeat';
 
 type OuterProps = $ReadOnly<{||}>;
 
 type SelectorProps = $ReadOnly<{|
-  auth: Auth | void,
+  hasAuth: boolean,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -36,7 +36,7 @@ type Props = $ReadOnly<{|
 class PresenceHeartbeatInner extends PureComponent<Props> {
   /** Callback for Heartbeat object. */
   onHeartbeat = () => {
-    if (this.props.auth) {
+    if (this.props.hasAuth) {
       this.props.dispatch(reportPresence(true));
     }
   };
@@ -56,7 +56,7 @@ class PresenceHeartbeatInner extends PureComponent<Props> {
   // React to any state change.
   updateHeartbeatState = () => {
     // heartbeat.toState is idempotent
-    this.heartbeat.toState(AppState.currentState === 'active' && !!this.props.auth);
+    this.heartbeat.toState(AppState.currentState === 'active' && this.props.hasAuth);
   };
 
   // React to props changes.
@@ -73,7 +73,7 @@ class PresenceHeartbeatInner extends PureComponent<Props> {
 }
 
 const PresenceHeartbeat: ComponentType<OuterProps> = connect(state => ({
-  auth: tryGetAuth(state),
+  hasAuth: getHasAuth(state),
 }))(PresenceHeartbeatInner);
 
 export default PresenceHeartbeat;
