@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import { observeStore } from '../redux';
 import * as logging from '../utils/logging';
-import { tryGetActiveAccount } from '../selectors';
+import { getAccount, tryGetActiveAccountState } from '../selectors';
 import store, { restore } from './store';
 import timing from '../utils/timing';
 
@@ -25,8 +25,16 @@ export default class StoreProvider extends PureComponent<Props> {
     this.unsubscribeStoreObserver = observeStore(
       store,
       // onChange will fire when this value changes
-      state => tryGetActiveAccount(state)?.zulipVersion,
+      state => {
+        const perAccountState = tryGetActiveAccountState(state);
+        if (!perAccountState) {
+          return undefined;
+        }
+        return getAccount(perAccountState).zulipVersion;
+      },
       zulipVersion => {
+        // TODO(#5005): This is for the *active* account; that may not be
+        //   the one a given piece of code is working with!
         logging.setTagsFromServerVersion(zulipVersion);
       },
     );
