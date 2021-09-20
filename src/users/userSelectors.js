@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState, PerAccountState, UserOrBot, Selector, User, UserId } from '../types';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { getHasAuth, tryGetActiveAccount } from '../account/accountsSelectors';
+import { tryGetThisAuth, tryGetActiveAccountState } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -195,7 +195,7 @@ export const getUserIsActive = (state: PerAccountState, userId: UserId): boolean
  * from the server should render itself, or should fall back to a loading
  * screen.
  */
-export const getHaveServerData = (state: GlobalState): boolean => {
+export const getHaveServerData = (globalState: GlobalState): boolean => {
   // The implementation has to be redundant, because upon rehydrate we can
   // unfortunately have some of our state subtrees containing server data
   // while others don't, reflecting different points in time from the last
@@ -244,7 +244,8 @@ export const getHaveServerData = (state: GlobalState): boolean => {
 
   // Any valid server data is about the active account.  So if there is no
   // active account, then any server data we appear to have can't be valid.
-  if (!tryGetActiveAccount(state)) {
+  const state = tryGetActiveAccountState(globalState);
+  if (!state) {
     // From `accountsReducer`:
     //  * This condition is resolved by LOGIN_SUCCESS.
     //  * It's created only by ACCOUNT_REMOVE.
@@ -261,7 +262,7 @@ export const getHaveServerData = (state: GlobalState): boolean => {
 
   // Similarly, any valid server data comes from the active account being
   // logged in.
-  if (!getHasAuth(state)) {
+  if (!tryGetThisAuth(state)) {
     // From `accountsReducer`:
     //  * This condition is resolved by LOGIN_SUCCESS.
     //  * It's created only by ACCOUNT_REMOVE, by LOGOUT, and by (a
