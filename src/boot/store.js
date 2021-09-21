@@ -14,13 +14,14 @@ import type { Config, Persistor } from '../third/redux-persist';
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { stringify, parse } from './replaceRevive';
-import type { Action, GlobalState } from '../types';
+import type { Action, GlobalState, ThunkExtras } from '../types';
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
 import ZulipAsyncStorage from './ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { objectFromEntries } from '../jsBackport';
+import { getGlobalSession, getGlobalSettings } from '../directSelectors';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -368,6 +369,14 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
+const thunkExtras: ThunkExtras = {
+  // eslint-disable-next-line no-use-before-define
+  getGlobalSession: () => getGlobalSession(store.getState()),
+
+  // eslint-disable-next-line no-use-before-define
+  getGlobalSettings: () => getGlobalSettings(store.getState()),
+};
+
 /**
  * Return a list of Redux middleware objects to use in our Redux store.
  *
@@ -385,7 +394,7 @@ function listMiddleware() {
     // Handle the fancy "thunk" actions we often use, i.e. async
     // functions of `dispatch` and `state`.  See docs:
     //   https://github.com/reduxjs/redux-thunk
-    thunkMiddleware,
+    thunkMiddleware.withExtraArgument(thunkExtras),
   ];
 
   if (config.enableReduxLogging) {

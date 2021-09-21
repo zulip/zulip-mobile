@@ -88,8 +88,12 @@ export const sendAllPushToken = (): ThunkAction<Promise<void>> => async (dispatc
 };
 
 /** Tell this account's server about our device token, if needed. */
-export const initNotifications = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const { pushToken } = getGlobalSession(getState());
+export const initNotifications = (): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+  { getGlobalSession }, // eslint-disable-line no-shadow
+) => {
+  const { pushToken } = getGlobalSession();
   if (pushToken === null) {
     // Probably, we just don't have the token yet.  When we learn it,
     // the listener will update this and all other logged-in servers.

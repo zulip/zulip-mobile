@@ -7,7 +7,9 @@ declare module 'redux-mock-store' {
   declare type mockStore = { <S, A>(state: S): mockStoreWithoutMiddleware<S, A>, ... };
   declare interface Dispatch<S, A> {
     (action: A): A;
-    <T>((Function, Function) => T): T;
+    <T>(mixed): T; // TODO(#5006): fix type
+    // <T>((Function, Function) => T): T // this is too specific, not accommodating the
+    //     // third argument... but also too loose, using the `any`-like `Function`
   }
 
   declare type mockStoreWithoutMiddleware<S, A> = {
