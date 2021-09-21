@@ -1,7 +1,15 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 
-import type { Account, Dispatch, Identity, Action, ThunkAction, GlobalThunkAction } from '../types';
+import type {
+  Account,
+  Dispatch,
+  GlobalDispatch,
+  Identity,
+  Action,
+  ThunkAction,
+  GlobalThunkAction,
+} from '../types';
 import * as api from '../api';
 import {
   getNotificationToken,
@@ -70,7 +78,18 @@ export const narrowToNotification = (data: ?Notification): GlobalThunkAction<voi
 };
 
 /** Tell the given server about this device token, if it doesn't already know. */
-const sendPushToken = async (dispatch: Dispatch, account: Account | void, pushToken: string) => {
+const sendPushToken = async (
+  // Why `Dispatch | GlobalDispatch`?  Well, this function is per-account...
+  // but whereas virtually all our other per-account code is implicitly
+  // about the active account, this is about a specific account it's
+  // explicitly passed.  That makes it equally legitimate to call from
+  // per-account or global code, and we do both.
+  // TODO(#5006): Once we have per-account states for all accounts, make
+  //   this an ordinary per-account action.
+  dispatch: Dispatch | GlobalDispatch,
+  account: Account | void,
+  pushToken: string,
+) => {
   if (!account || account.apiKey === '') {
     // We've logged out of the account and/or forgotten it.  Shrug.
     return;
