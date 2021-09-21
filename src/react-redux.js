@@ -6,7 +6,7 @@ import {
   useDispatch as useDispatchInner,
 } from 'react-redux';
 
-import type { GlobalState, Dispatch, GlobalDispatch } from './types';
+import type { PerAccountState, GlobalState, Dispatch, GlobalDispatch } from './types';
 import type { BoundedDiff } from './generics';
 
 /* eslint-disable flowtype/generic-spacing */
@@ -101,6 +101,13 @@ export function connectGlobal<SP, P, C: ComponentType<P>>(
  * function effectively gets no type-checking of anything it does with it.
  */
 export function useSelector<SS>(
+  selector: (state: PerAccountState) => SS,
+  equalityFn?: (a: SS, b: SS) => boolean,
+): SS {
+  return useSelectorInner<PerAccountState, SS>(selector, equalityFn);
+}
+
+export function useGlobalSelector<SS>(
   selector: (state: GlobalState) => SS,
   equalityFn?: (a: SS, b: SS) => boolean,
 ): SS {

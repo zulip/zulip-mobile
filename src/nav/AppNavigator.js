@@ -9,7 +9,7 @@ import {
 } from '@react-navigation/stack';
 
 import type { RouteParamsOf } from '../react-navigation';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { getHasAuth, getAccounts } from '../selectors';
 import getInitialRouteInfo from './getInitialRouteInfo';
 import type { GlobalParamList } from './globalTypes';
@@ -89,8 +89,8 @@ const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNa
 type Props = $ReadOnly<{||}>;
 
 export default function AppNavigator(props: Props): Node {
-  const hasAuth = useSelector(getHasAuth);
-  const accounts = useSelector(getAccounts);
+  const hasAuth = useGlobalSelector(getHasAuth);
+  const accounts = useGlobalSelector(getAccounts);
 
   const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
     hasAuth,

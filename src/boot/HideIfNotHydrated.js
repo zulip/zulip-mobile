@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { getIsHydrated } from '../selectors';
 
 type Props = $ReadOnly<{|
@@ -12,7 +12,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function HideIfNotHydrated(props: Props): Node {
-  const isHydrated = useSelector(getIsHydrated);
+  const isHydrated = useGlobalSelector(getIsHydrated);
 
   const { children, PlaceholderComponent } = props;
 

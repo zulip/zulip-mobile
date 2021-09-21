@@ -5,7 +5,7 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useSelector, useDispatch } from '../react-redux';
+import { useGlobalSelector, useDispatch } from '../react-redux';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import { getGlobalSettings } from '../selectors';
@@ -18,7 +18,7 @@ type Props = $ReadOnly<{|
 
 export default function LanguageScreen(props: Props): Node {
   const dispatch = useDispatch();
-  const language = useSelector(state => getGlobalSettings(state).language);
+  const language = useGlobalSelector(state => getGlobalSettings(state).language);
 
   const [filter, setFilter] = useState<string>('');
 

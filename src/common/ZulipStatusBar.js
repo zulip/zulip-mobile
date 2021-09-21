@@ -7,7 +7,7 @@ import { Platform, StatusBar } from 'react-native';
 import Color from 'color';
 
 import type { ThemeName } from '../types';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getGlobalSession, getGlobalSettings } from '../selectors';
 
@@ -45,8 +45,8 @@ type Props = $ReadOnly<{|
  */
 export default function ZulipStatusBar(props: Props): Node {
   const { hidden = false } = props;
-  const theme = useSelector(state => getGlobalSettings(state).theme);
-  const orientation = useSelector(state => getGlobalSession(state).orientation);
+  const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const orientation = useGlobalSelector(state => getGlobalSession(state).orientation);
   const backgroundColor = props.backgroundColor;
   const statusBarColor = getStatusBarColor(backgroundColor, theme);
   return (

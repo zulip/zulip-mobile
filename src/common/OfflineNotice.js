@@ -8,7 +8,7 @@ import NetInfo from '@react-native-community/netinfo';
 import * as logging from '../utils/logging';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useHasStayedTrueForMs } from '../reactUtils';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { getGlobalSession } from '../selectors';
 import Label from './Label';
 
@@ -37,7 +37,7 @@ type Props = $ReadOnly<{||}>;
  * Shows nothing if the Internet is reachable.
  */
 export default function OfflineNotice(props: Props): Node {
-  const isOnline = useSelector(state => getGlobalSession(state).isOnline);
+  const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
 
   const shouldShowUncertaintyNotice = useHasStayedTrueForMs(
     // See note in `SessionState` for what this means.

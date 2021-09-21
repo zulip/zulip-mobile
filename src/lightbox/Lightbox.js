@@ -10,7 +10,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import * as NavigationService from '../nav/NavigationService';
 import type { Message } from '../types';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector, useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getAuth, getGlobalSession } from '../selectors';
 import { getResource } from '../utils/url';
@@ -69,7 +69,7 @@ export default function Lightbox(props: Props): Node {
 
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
-  useSelector(state => getGlobalSession(state).orientation);
+  useGlobalSelector(state => getGlobalSession(state).orientation);
 
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
