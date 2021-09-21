@@ -634,7 +634,12 @@ type SessionAction =
   | DismissServerCompatNoticeAction
   | ToggleOutboxSendingAction;
 
-/** Covers all actions we ever `dispatch`. */
+/**
+ * Covers all plain actions we ever `dispatch`.
+ *
+ * For *all* actions we ever dispatch, see also the thunk action types in
+ * `reduxTypes.js`.
+ */
 // The grouping here is completely arbitrary; don't worry about it.
 export type Action =
   | EventAction
