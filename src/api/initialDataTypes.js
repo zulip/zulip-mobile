@@ -20,6 +20,21 @@ export type InitialDataBase = $ReadOnly<{|
   last_event_id: number,
   msg: string,
   queue_id: string,
+
+  // The feature level (below) is included unconditionally as of 3.0
+  // (zulip/zulip@2c6313019), which is why we put it in `InitialDataBase`.
+  // To get it from servers older than that, we have to pass `zulip_version`
+  // in `fetch_event_types`, which we do.
+  //
+  // TODO(server-3.0): We can stop passing `zulip_version` in
+  // `fetch_event_types` and remove this comment.
+
+  /**
+   * Added in server version 2.2, feature level 1.
+   * Same meaning as in the server_settings response:
+   * https://zulip.com/api/get-server-settings. See also the comment above.
+   */
+  zulip_feature_level?: number,
 |}>;
 
 export type InitialDataAlertWords = $ReadOnly<{|
@@ -92,13 +107,6 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_uri: string,
   realm_video_chat_provider: number,
   realm_waiting_period_threshold: number,
-
-  /**
-   * Added in server version 2.2, feature level 1.
-   * Same meaning as in the server_settings response:
-   * https://zulip.com/api/get-server-settings
-   */
-  zulip_feature_level?: number,
 |}>;
 
 export type InitialDataRealmEmoji = $ReadOnly<{|

@@ -46,6 +46,7 @@ const config: Config = {
     'update_global_notifications',
     'update_message_flags',
     'user_status',
+    'zulip_version',
   ],
   appOwnDomains: ['zulip.com', 'zulipchat.com', 'chat.zulip.org'],
 };
