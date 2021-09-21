@@ -11,8 +11,20 @@ import type { BoundedDiff } from './generics';
 
 /* eslint-disable flowtype/generic-spacing */
 
-export type OwnProps<-C, -SP> = $ReadOnly<
-  $Diff<BoundedDiff<$Exact<ElementConfig<C>>, SP>, {| +dispatch: Dispatch |}>,
+// We leave this as invariant in `C` (i.e., we don't write `-C` or `+C`)
+// because Flow says `ElementConfig` is invariant.  (If you try writing
+// `OwnProps<-C, …` or `OwnProps<+C, …`, Flow gives an error saying the `C`
+// in `ElementConfig<C>` is an "input/output position", which is a synonym
+// of "invariant" as opposed to "contravariant" or "covariant".)
+//
+// Meanwhile `SP` is contravariant (so we write `-S`): its one occurrence is
+// as the second (contravariant) parameter of a `BoundedDiff`, which gets
+// used as the first (covariant) parameter of another `BoundedDiff`, which
+// is the whole type.  That's an odd number of contravariants, so it's a
+// contravariant position / "input position" overall.
+export type OwnProps<C, -SP> = BoundedDiff<
+  BoundedDiff<$Exact<ElementConfig<C>>, SP>,
+  {| +dispatch: Dispatch |},
 >;
 
 /**
