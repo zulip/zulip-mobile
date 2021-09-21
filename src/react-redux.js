@@ -69,8 +69,7 @@ export type OwnProps<C, -SP, -D> = BoundedDiff<
  */
 // prettier-ignore
 export function connect<SP, P, C: ComponentType<P>>(
-  // TODO(#5006): should be PerAccountState
-  mapStateToProps?: (GlobalState, OwnProps<C,
+  mapStateToProps?: (PerAccountState, OwnProps<C,
     // Error "property `foo` is missing"?  Add to inner component's props.
     SP, Dispatch>) => SP,
 ): C => ComponentType<$ReadOnly<OwnProps<C, SP, Dispatch>>> {
