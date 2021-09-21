@@ -7,6 +7,7 @@ import type {
   GlobalDispatch,
   Identity,
   Action,
+  AccountIndependentAction,
   ThunkAction,
   GlobalThunkAction,
 } from '../types';
@@ -27,7 +28,7 @@ import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
 import { getIdentities, getAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
 
-export const gotPushToken = (pushToken: string | null): Action => ({
+export const gotPushToken = (pushToken: string | null): AccountIndependentAction => ({
   type: GOT_PUSH_TOKEN,
   pushToken,
 });
