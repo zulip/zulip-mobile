@@ -94,13 +94,13 @@ export type BackgroundData = $ReadOnly<{|
   twentyFourHourTime: boolean,
 |}>;
 
-type OuterProps = {|
+type OuterProps = $ReadOnly<{|
   narrow: Narrow,
   messages: $ReadOnlyArray<Message | Outbox>,
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
-|};
+|}>;
 
 type SelectorProps = {|
   // Data independent of the particular narrow or messages we're displaying.
