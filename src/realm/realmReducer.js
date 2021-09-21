@@ -1,5 +1,10 @@
 /* @flow strict-local */
-import type { RealmState, Action, RealmEmojiById, VideoChatProvider } from '../types';
+import type {
+  RealmState,
+  PerAccountApplicableAction,
+  RealmEmojiById,
+  VideoChatProvider,
+} from '../types';
 import {
   REGISTER_COMPLETE,
   EVENT_REALM_EMOJI_UPDATE,
@@ -50,7 +55,10 @@ function getVideoChatProvider({
   }
 }
 
-export default (state: RealmState = initialState, action: Action): RealmState => {
+export default (
+  state: RealmState = initialState,
+  action: PerAccountApplicableAction,
+): RealmState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

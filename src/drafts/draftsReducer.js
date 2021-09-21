@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { DraftsState, Action } from '../types';
+import type { DraftsState, PerAccountApplicableAction } from '../types';
 import { DRAFT_UPDATE, LOGOUT, ACCOUNT_SWITCH } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { keyFromNarrow } from '../utils/narrow';
@@ -22,7 +22,10 @@ const draftUpdate = (state, action) => {
   return state[narrowStr] === action.content ? state : { ...state, [narrowStr]: action.content };
 };
 
-export default (state: DraftsState = initialState, action: Action): DraftsState => {
+export default (
+  state: DraftsState = initialState,
+  action: PerAccountApplicableAction,
+): DraftsState => {
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:

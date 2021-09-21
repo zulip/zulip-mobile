@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { FetchingState, Action } from '../types';
+import type { FetchingState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -63,7 +63,10 @@ const messageFetchComplete = (state, action) => {
   };
 };
 
-export default (state: FetchingState = initialState, action: Action): FetchingState => {
+export default (
+  state: FetchingState = initialState,
+  action: PerAccountApplicableAction,
+): FetchingState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

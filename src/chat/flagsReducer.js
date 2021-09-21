@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
-import type { Action, FlagsState, Message } from '../types';
+import type { PerAccountApplicableAction, FlagsState, Message } from '../types';
 import {
   REGISTER_COMPLETE,
   MESSAGE_FETCH_COMPLETE,
@@ -110,7 +110,10 @@ const eventUpdateMessageFlags = (state, action) => {
   return state;
 };
 
-export default (state: FlagsState = initialState, action: Action): FlagsState => {
+export default (
+  state: FlagsState = initialState,
+  action: PerAccountApplicableAction,
+): FlagsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
     case LOGOUT:

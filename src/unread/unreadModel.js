@@ -2,7 +2,7 @@
 import Immutable from 'immutable';
 import invariant from 'invariant';
 
-import type { Action } from '../actionTypes';
+import type { PerAccountApplicableAction } from '../actionTypes';
 import type {
   UnreadState,
   UnreadStreamsState,
@@ -118,7 +118,7 @@ function deleteMessages(
 
 function streamsReducer(
   state: UnreadStreamsState = initialStreamsState,
-  action: Action,
+  action: PerAccountApplicableAction,
   globalState: PerAccountState,
 ): UnreadStreamsState {
   switch (action.type) {
@@ -210,7 +210,7 @@ function streamsReducer(
 
 export const reducer = (
   state: void | UnreadState,
-  action: Action,
+  action: PerAccountApplicableAction,
   globalState: PerAccountState,
 ): UnreadState => {
   const nextState = {

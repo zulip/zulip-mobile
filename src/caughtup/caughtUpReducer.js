@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { CaughtUpState, Action } from '../types';
+import type { CaughtUpState, PerAccountApplicableAction } from '../types';
 import {
   REGISTER_COMPLETE,
   LOGOUT,
@@ -15,7 +15,10 @@ import { isSearchNarrow, keyFromNarrow } from '../utils/narrow';
 
 const initialState: CaughtUpState = NULL_OBJECT;
 
-export default (state: CaughtUpState = initialState, action: Action): CaughtUpState => {
+export default (
+  state: CaughtUpState = initialState,
+  action: PerAccountApplicableAction,
+): CaughtUpState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
     case LOGOUT:

@@ -3,7 +3,7 @@
 import union from 'lodash.union';
 import Immutable from 'immutable';
 
-import type { NarrowsState, Action } from '../types';
+import type { NarrowsState, PerAccountApplicableAction } from '../types';
 import { ensureUnreachable } from '../types';
 import {
   REGISTER_COMPLETE,
@@ -150,7 +150,10 @@ const eventUpdateMessageFlags = (state, action) => {
   return state;
 };
 
-export default (state: NarrowsState = initialState, action: Action): NarrowsState => {
+export default (
+  state: NarrowsState = initialState,
+  action: PerAccountApplicableAction,
+): NarrowsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
     case LOGOUT:
