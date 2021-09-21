@@ -6,7 +6,7 @@ import {
   useDispatch as useDispatchInner,
 } from 'react-redux';
 
-import type { GlobalState, Dispatch } from './types';
+import type { GlobalState, Dispatch, GlobalDispatch } from './types';
 import type { BoundedDiff } from './generics';
 
 /* eslint-disable flowtype/generic-spacing */
@@ -69,10 +69,25 @@ export type OwnProps<C, -SP, -D> = BoundedDiff<
  */
 // prettier-ignore
 export function connect<SP, P, C: ComponentType<P>>(
+  // TODO(#5006): should be PerAccountState
   mapStateToProps?: (GlobalState, OwnProps<C,
     // Error "property `foo` is missing"?  Add to inner component's props.
     SP, Dispatch>) => SP,
 ): C => ComponentType<$ReadOnly<OwnProps<C, SP, Dispatch>>> {
+  return connectInner(mapStateToProps);
+}
+
+export function connectGlobal<SP, P, C: ComponentType<P>>(
+  mapStateToProps?: (
+    GlobalState,
+    OwnProps<
+      C,
+      // Error "property `foo` is missing"?  Add to inner component's props.
+      SP,
+      GlobalDispatch,
+    >,
+  ) => SP,
+): C => ComponentType<$ReadOnly<OwnProps<C, SP, GlobalDispatch>>> {
   return connectInner(mapStateToProps);
 }
 
@@ -105,4 +120,8 @@ export function useSelector<SS>(
  */
 export function useDispatch(): Dispatch {
   return useDispatchInner<Dispatch>();
+}
+
+export function useGlobalDispatch(): GlobalDispatch {
+  return useDispatchInner<GlobalDispatch>();
 }

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { type ComponentType, type ElementConfig, useRef } from 'react';
 
-import { connect } from './react-redux';
+import { connectGlobal } from './react-redux';
 import { getHaveServerDataGlobal } from './selectors';
 import FullScreenLoading from './common/FullScreenLoading';
 
@@ -41,7 +41,7 @@ export default function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exa
   // preventing that from happening.
   //
   // TODO(#5005): Should this be per-account, i.e. with getHaveServerData?
-  return connect(state => ({ haveServerData: getHaveServerDataGlobal(state) }))(
+  return connectGlobal(state => ({ haveServerData: getHaveServerDataGlobal(state) }))(
     ({
       dispatch,
       haveServerData,
