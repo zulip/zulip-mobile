@@ -607,9 +607,17 @@ type InitTopicsAction = {|
   streamId: number,
 |};
 
+/* eslint-disable spaced-comment */
+
+////
 //
-// The `Action` union type.
+// The `Action` union type, and some subtypes.
 //
+////
+
+//
+// First, some convenience unions without much meaning.
+// (We should perhaps just inline these below.)
 
 type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
 
@@ -623,18 +631,24 @@ type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | Message
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
+//
+// Then, the primary subtypes of `Action`.  Each of these should have some
+// coherent meaning in terms of what kind of state it applies to; and they
+// should have no overlap.  (Subtypes that might overlap are formed below
+// as unions of these primary subtypes.)
+
 /* eslint-disable semi-style */
 
 /**
- * Covers all plain actions we ever `dispatch`.
+ * Plain actions applying to this account's state.
  *
- * For *all* actions we ever dispatch, see also the thunk action types in
- * `reduxTypes.js`.
+ * That is, these should only be dispatched from a per-account context, and
+ * they apply to the account the caller is acting on.  In a pre-#5006 world,
+ * that means the active account.
  */
-// The grouping here is completely arbitrary; don't worry about it.
 // prettier-ignore
-export type Action =
-  // Per-account actions.
+export type PerAccountAction =
+  // The grouping here is completely arbitrary; don't worry about it.
   | EventAction
   | LoadingAction
   | MessageAction
@@ -644,19 +658,73 @@ export type Action =
   | PresenceResponseAction
   | InitTopicsAction
   | ClearTypingAction
+  // state.session
   | DismissServerCompatNoticeAction
   | ToggleOutboxSendingAction
+  ;
 
-  // All-account actions.
+/** Plain actions applying to other accounts' per-account state. */
+// prettier-ignore
+export type AllAccountsAction =
+  // This affects all the per-account states as well as everything else.
   | RehydrateAction
+  // These can rearrange the `state.accounts` list itself.
   | AccountAction
-  | AckPushTokenAction
-  | UnackPushTokenAction
+  // These two are about a specific account… but not just the active one,
+  // and they encode which one they mean.
+  | AckPushTokenAction | UnackPushTokenAction
+  ;
 
-  // Account-independent actions.
+/** Plain actions not affecting any per-account state. */
+// prettier-ignore
+export type AccountIndependentAction =
   | SetGlobalSettingsAction
+  // state.session
   | AppOnlineAction
   | AppOrientationAction
   | GotPushTokenAction
   | DebugFlagToggleAction
   ;
+
+//
+// `Action` itself.
+
+/**
+ * Covers all plain actions we ever `dispatch`.
+ *
+ * For *all* actions we ever dispatch, see also the thunk action types in
+ * `reduxTypes.js`.
+ */
+// prettier-ignore
+export type Action =
+  // This should consist of the primary subtypes defined just above.
+  | PerAccountAction
+  | AllAccountsAction
+  | AccountIndependentAction
+  ;
+
+//
+// Other subtypes of `Action`.
+//
+// These should be unions of the primary subtypes, to express different
+// meanings about what contexts the actions can be used in.
+
+/** Plain actions that per-account reducers may respond to. */
+// prettier-ignore
+export type PerAccountApplicableAction =
+  | PerAccountAction
+  | AllAccountsAction
+  ;
+
+// Plain actions that global reducers may respond to are... well, at the
+// moment we have no reducers that act only on global state.  Our state
+// subtrees `session` and `settings` mix global with per-account state,
+// while `accounts` contains per-account state for all accounts, and its
+// reducer does respond to some of PerAccountAction as well as
+// AllAccountsAction.
+// TODO(#5006): Make a GlobalApplicableAction for global session and
+//   settings state, once those are separate from per-account.
+
+// TODO(#5006): would be nice to assert these types have empty intersection
+// (a: PerAccountApplicableAction & AccountIndependentAction): empty => a; // eslint-disable-line
+// (a: GlobalApplicableAction & PerAccountAction): empty => a; // eslint-disable-line
