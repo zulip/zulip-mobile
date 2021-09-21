@@ -6,8 +6,8 @@ import type {
   Dispatch,
   GlobalDispatch,
   Identity,
-  Action,
   AccountIndependentAction,
+  AllAccountsAction,
   ThunkAction,
   GlobalThunkAction,
 } from '../types';
@@ -33,12 +33,12 @@ export const gotPushToken = (pushToken: string | null): AccountIndependentAction
   pushToken,
 });
 
-export const unackPushToken = (identity: Identity): Action => ({
+export const unackPushToken = (identity: Identity): AllAccountsAction => ({
   type: UNACK_PUSH_TOKEN,
   identity,
 });
 
-const ackPushToken = (pushToken: string, identity: Identity): Action => ({
+const ackPushToken = (pushToken: string, identity: Identity): AllAccountsAction => ({
   type: ACK_PUSH_TOKEN,
   identity,
   pushToken,
