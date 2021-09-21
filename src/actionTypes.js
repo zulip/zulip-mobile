@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { ensureUnreachable } from './generics';
 import {
   REHYDRATE,
   APP_ONLINE,
@@ -735,3 +736,79 @@ export type DispatchableWithoutAccountAction =
   | AllAccountsAction
   | AccountIndependentAction
   ;
+
+/** True just if the action is a PerAccountApplicableAction. */
+export function isPerAccountApplicableAction(action: Action): boolean {
+  switch (action.type) {
+    case EVENT:
+    case EVENT_ALERT_WORDS:
+    case EVENT_MESSAGE_DELETE:
+    case EVENT_MUTED_TOPICS:
+    case EVENT_MUTED_USERS:
+    case EVENT_NEW_MESSAGE:
+    case EVENT_PRESENCE:
+    case EVENT_REACTION_ADD:
+    case EVENT_REACTION_REMOVE:
+    case EVENT_REALM_EMOJI_UPDATE:
+    case EVENT_REALM_FILTERS:
+    case EVENT_SUBMESSAGE:
+    case EVENT_SUBSCRIPTION:
+    case EVENT_TYPING_START:
+    case EVENT_TYPING_STOP:
+    case EVENT_UPDATE_DISPLAY_SETTINGS:
+    case EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS:
+    case EVENT_UPDATE_MESSAGE:
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+    case EVENT_USER_ADD:
+    case EVENT_USER_GROUP_ADD:
+    case EVENT_USER_GROUP_ADD_MEMBERS:
+    case EVENT_USER_GROUP_REMOVE:
+    case EVENT_USER_GROUP_REMOVE_MEMBERS:
+    case EVENT_USER_GROUP_UPDATE:
+    case EVENT_USER_REMOVE:
+    case EVENT_USER_STATUS_UPDATE:
+    case EVENT_USER_UPDATE:
+    case DEAD_QUEUE:
+    case REGISTER_START:
+    case REGISTER_ABORT:
+    case REGISTER_COMPLETE:
+    case MESSAGE_FETCH_COMPLETE:
+    case MESSAGE_FETCH_ERROR:
+    case MESSAGE_FETCH_START:
+    case MESSAGE_SEND_COMPLETE:
+    case MESSAGE_SEND_START:
+    case DELETE_OUTBOX_MESSAGE:
+    case DRAFT_UPDATE:
+    case PRESENCE_RESPONSE:
+    case INIT_TOPICS:
+    case CLEAR_TYPING:
+    case DISMISS_SERVER_COMPAT_NOTICE:
+    case TOGGLE_OUTBOX_SENDING:
+      (action: PerAccountAction);
+      (action: PerAccountApplicableAction);
+      return true;
+
+    case REHYDRATE:
+    case ACCOUNT_SWITCH:
+    case ACCOUNT_REMOVE:
+    case LOGIN_SUCCESS:
+    case LOGOUT:
+    case ACK_PUSH_TOKEN:
+    case UNACK_PUSH_TOKEN:
+      (action: AllAccountsAction);
+      (action: PerAccountApplicableAction);
+      return true;
+
+    case SET_GLOBAL_SETTINGS:
+    case APP_ONLINE:
+    case APP_ORIENTATION:
+    case GOT_PUSH_TOKEN:
+    case DEBUG_FLAG_TOGGLE:
+      (action: AccountIndependentAction);
+      return false;
+
+    default:
+      ensureUnreachable(action);
+      return false;
+  }
+}
