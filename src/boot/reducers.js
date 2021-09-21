@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import config from '../config';
 import type { Action, GlobalState, MigrationsState } from '../types';
+import { isPerAccountApplicableAction } from '../actionTypes';
 
 import accounts from '../account/accountsReducer';
 import alertWords from '../alertWords/alertWordsReducer';
@@ -79,34 +80,50 @@ function applyReducer<Key: $Keys<GlobalState>, State>(
 
 // Based on Redux upstream's combineReducers.
 export default (state: void | GlobalState, action: Action): GlobalState => {
+  let nextPerAccountState = state;
+  if (!nextPerAccountState || isPerAccountApplicableAction(action)) {
+    // Update the per-account state.  We do this when the action is a
+    // PerAccountApplicableAction... and also when it's the store
+    // initialization action, signalled by the previous state being void.
+
+    // prettier-ignore
+    nextPerAccountState = {
+      alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action, state),
+      caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action, state),
+      drafts: applyReducer('drafts', drafts, state?.drafts, action, state),
+      fetching: applyReducer('fetching', fetching, state?.fetching, action, state),
+      flags: applyReducer('flags', flags, state?.flags, action, state),
+      messages: applyReducer('messages', messages, state?.messages, action, state),
+      narrows: applyReducer('narrows', narrows, state?.narrows, action, state),
+      mute: applyReducer('mute', mute, state?.mute, action, state),
+      mutedUsers: applyReducer('mutedUsers', mutedUsers, state?.mutedUsers, action, state),
+      outbox: applyReducer('outbox', outbox, state?.outbox, action, state),
+      pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action, state),
+      presence: applyReducer('presence', presence, state?.presence, action, state),
+      realm: applyReducer('realm', realm, state?.realm, action, state),
+      streams: applyReducer('streams', streams, state?.streams, action, state),
+      subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action, state),
+      topics: applyReducer('topics', topics, state?.topics, action, state),
+      typing: applyReducer('typing', typing, state?.typing, action, state),
+      // $FlowFixMe[incompatible-call] TODO(#5006)
+      unread: applyReducer('unread', unread, state?.unread, action, state),
+      userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action, state),
+      userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action, state),
+      users: applyReducer('users', users, state?.users, action, state),
+    };
+  }
+
   // prettier-ignore
   const nextState = {
-    migrations: applyReducer('migrations', migrations, state?.migrations, action, state),
-    accounts: applyReducer('accounts', accounts, state?.accounts, action, state),
-    alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action, state),
-    caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action, state),
-    drafts: applyReducer('drafts', drafts, state?.drafts, action, state),
-    fetching: applyReducer('fetching', fetching, state?.fetching, action, state),
-    flags: applyReducer('flags', flags, state?.flags, action, state),
-    messages: applyReducer('messages', messages, state?.messages, action, state),
-    narrows: applyReducer('narrows', narrows, state?.narrows, action, state),
-    mute: applyReducer('mute', mute, state?.mute, action, state),
-    mutedUsers: applyReducer('mutedUsers', mutedUsers, state?.mutedUsers, action, state),
-    outbox: applyReducer('outbox', outbox, state?.outbox, action, state),
-    pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action, state),
-    presence: applyReducer('presence', presence, state?.presence, action, state),
-    realm: applyReducer('realm', realm, state?.realm, action, state),
+    ...nextPerAccountState,
+
+    // TODO(#5006): These mix together per-account and global state.
     session: applyReducer('session', session, state?.session, action, state),
     settings: applyReducer('settings', settings, state?.settings, action, state),
-    streams: applyReducer('streams', streams, state?.streams, action, state),
-    subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action, state),
-    topics: applyReducer('topics', topics, state?.topics, action, state),
-    typing: applyReducer('typing', typing, state?.typing, action, state),
-    // $FlowFixMe[incompatible-call] TODO(#5006)
-    unread: applyReducer('unread', unread, state?.unread, action, state),
-    userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action, state),
-    userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action, state),
-    users: applyReducer('users', users, state?.users, action, state),
+
+    // All other state.
+    migrations: applyReducer('migrations', migrations, state?.migrations, action, state),
+    accounts: applyReducer('accounts', accounts, state?.accounts, action, state),
   };
 
   if (state && Object.keys(nextState).every(key => nextState[key] === state[key])) {
