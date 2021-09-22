@@ -327,6 +327,28 @@ export type UserStatusState = UserStatusMapObject;
  */
 export type UsersState = $ReadOnlyArray<User>;
 
+/* eslint-disable no-use-before-define */
+
+/**
+ * The portion of our Redux state with a single account's data.
+ *
+ * In a multi-account world (#5005), the full Redux state will contain one
+ * of these per account.  Before that, in a multi-account-ready schema
+ * (#5006), the full Redux state may contain just one of these but as a
+ * subtree somewhere inside it.
+ *
+ * Initially, though, the full Redux state tree actually qualifies as a
+ * value of this type, and the values of this type we pass around are
+ * secretly just the full Redux state.  The purpose of this type is to
+ * expose only the data that in a multi-account future will live on a single
+ * account's state subtree, and to recruit Flow's help in tracking which
+ * parts of our code will in that future operate on a particular account and
+ * which parts will operate on all accounts' data or none.
+ */
+// And *initially* initially, the type literally just is GlobalState.
+// That'll change in just a few commits, though.
+export type PerAccountState = GlobalState;
+
 /**
  * Our complete Redux state tree.
  *
@@ -369,6 +391,24 @@ export type GlobalState = $ReadOnly<{|
   users: UsersState,
 |}>;
 
+// For now, under our single-active-account model, we want a GlobalState
+// to be seamlessly usable as a PerAccountState.
+(s: GlobalState): PerAccountState => s; // eslint-disable-line no-unused-expressions
+
+/**
+ * Assume the given per-account state object is secretly a GlobalState.
+ *
+ * At present, this assumption is always true.  But in the future it won't
+ * be.  Calling this function has much the same effect as a fixme, but just
+ * makes it quite explicit that this particular assumption is being used.
+ *
+ * TODO(#5006): We'll have to fix and eliminate each call to this.
+ */
+export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
+  // For *right* now, this doesn't even have a fixme, because the types alias.
+  return state;
+}
+
 // No substate should allow `undefined`; our use of AsyncStorage
 // depends on it. (This check will also complain on `null`, which I
 // don't think we'd have a problem with. We could try to write this
@@ -386,7 +426,7 @@ export type Selector<TResult, TParam = void> = InputSelector<GlobalState, TParam
 
 export interface Dispatch {
   <A: Action>(action: A): A;
-  <T>(ThunkAction<T>): T; // eslint-disable-line no-use-before-define
+  <T>(ThunkAction<T>): T;
 }
 
 export type ThunkAction<T> = (Dispatch, () => GlobalState) => T;
