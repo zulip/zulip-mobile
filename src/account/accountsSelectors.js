@@ -102,17 +102,12 @@ export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).re
  *  * `getAuth` for use in the bulk of the app, operating on a logged-in
  *    account.
  */
-// TODO(#5006): Should be called just tryGetAuth, after the old one is gone.
-export const tryGetThisAuth: Selector<Auth | void> = createSelector(getAccount, account => {
+export const tryGetAuth: Selector<Auth | void> = createSelector(getAccount, account => {
   if (account.apiKey === '') {
     return undefined;
   }
   return authOfAccount(account);
 });
-
-// Some see-also comments refer to `tryGetAuth`.  They really mean the
-// function that for now is called `tryGetThisAuth`, which we'll rename
-// shortly.
 
 /**
  * True just if there is an active, logged-in account.
@@ -123,7 +118,7 @@ export const tryGetThisAuth: Selector<Auth | void> = createSelector(getAccount, 
  */
 export const getHasAuth = (globalState: GlobalState): boolean => {
   const state = tryGetActiveAccountState(globalState);
-  return !!state && !!tryGetThisAuth(state);
+  return !!state && !!tryGetAuth(state);
 };
 
 /**
@@ -137,7 +132,7 @@ export const getHasAuth = (globalState: GlobalState): boolean => {
  *  * `tryGetAuth` again, for use where the account might not be logged in.
  */
 export const getAuth = (state: PerAccountState): Auth => {
-  const auth = tryGetThisAuth(state);
+  const auth = tryGetAuth(state);
   if (auth === undefined) {
     throw new Error('Active account not logged in');
   }

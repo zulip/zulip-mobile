@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 import type { GlobalState, PerAccountState, UserOrBot, Selector, User, UserId } from '../types';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
-import { tryGetThisAuth, tryGetActiveAccountState } from '../account/accountsSelectors';
+import { tryGetAuth, tryGetActiveAccountState } from '../account/accountsSelectors';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -262,7 +262,7 @@ export const getHaveServerData = (globalState: GlobalState): boolean => {
 
   // Similarly, any valid server data comes from the active account being
   // logged in.
-  if (!tryGetThisAuth(state)) {
+  if (!tryGetAuth(state)) {
     // From `accountsReducer`:
     //  * This condition is resolved by LOGIN_SUCCESS.
     //  * It's created only by ACCOUNT_REMOVE, by LOGOUT, and by (a

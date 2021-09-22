@@ -5,7 +5,7 @@ import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { tryGetActiveAccountState, tryGetThisAuth } from '../selectors';
+import { tryGetActiveAccountState, tryGetAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
@@ -53,7 +53,7 @@ export const startEventPolling = (
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const state = tryGetActiveAccountState(getState());
-    const auth = state && tryGetThisAuth(state);
+    const auth = state && tryGetAuth(state);
     if (!auth) {
       // There is no logged-in active account.
       break;
