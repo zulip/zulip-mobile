@@ -969,22 +969,13 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    if (target.matches('a')) {
+    var closestA = target.closest('a');
+
+    if (closestA && (closestA === target || closestA === target.parentNode)) {
       sendMessage({
         type: 'url',
-        href: requireAttribute(target, 'href'),
-        messageId: getMessageIdFromElement(target)
-      });
-      return;
-    }
-
-    var parentNode = target.parentNode;
-
-    if (parentNode instanceof Element && parentNode.matches('a')) {
-      sendMessage({
-        type: 'url',
-        href: requireAttribute(parentNode, 'href'),
-        messageId: getMessageIdFromElement(parentNode)
+        href: requireAttribute(closestA, 'href'),
+        messageId: getMessageIdFromElement(closestA)
       });
       return;
     }

@@ -897,21 +897,17 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  if (target.matches('a')) {
+  const closestA = target.closest('a');
+  if (
+    closestA
+    // TODO: Is this right, or can target be even more deeply nested under
+    //   an <a />? (Check server API.)
+    && (closestA === target || closestA === target.parentNode)
+  ) {
     sendMessage({
       type: 'url',
-      href: requireAttribute(target, 'href'),
-      messageId: getMessageIdFromElement(target),
-    });
-    return;
-  }
-
-  const { parentNode } = target;
-  if (parentNode instanceof Element && parentNode.matches('a')) {
-    sendMessage({
-      type: 'url',
-      href: requireAttribute(parentNode, 'href'),
-      messageId: getMessageIdFromElement(parentNode),
+      href: requireAttribute(closestA, 'href'),
+      messageId: getMessageIdFromElement(closestA),
     });
     return;
   }
