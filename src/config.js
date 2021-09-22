@@ -7,7 +7,6 @@ type Config = {|
   messageListThreshold: number,
   enableReduxLogging: boolean,
   enableReduxSlowReducerWarnings: boolean,
-  enableWebViewErrorDisplay: boolean,
   slowReducersThreshold: number,
   enableErrorConsoleLogging: boolean,
   serverDataOnStartup: string[],
@@ -24,7 +23,6 @@ const config: Config = {
   messageListThreshold: 4000,
   enableReduxLogging: isDevelopment && !!global.btoa,
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
-  enableWebViewErrorDisplay: isDevelopment,
   slowReducersThreshold: 5,
   enableErrorConsoleLogging: true,
   serverDataOnStartup: [

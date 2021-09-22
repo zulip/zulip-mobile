@@ -121,7 +121,7 @@ const escapeHtml = (text: string): string => {
 };
 
 window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
-  if (window.enableWebViewErrorDisplay) {
+  if (window.isDevelopment) {
     // In development, show a detailed error banner for debugging.
     const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {

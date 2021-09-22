@@ -411,7 +411,7 @@ var compiledWebviewJs = (function (exports) {
   };
 
   window.onerror = function (message, source, line, column, error) {
-    if (window.enableWebViewErrorDisplay) {
+    if (window.isDevelopment) {
       var elementJsError = document.getElementById('js-error-detailed');
 
       if (elementJsError) {
