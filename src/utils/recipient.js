@@ -252,10 +252,7 @@ export const pmKeyRecipientsFromUsers = (
 // and just the other user ID for non-self 1:1s; and in each case the list
 // is sorted numerically and encoded in ASCII-decimal, comma-separated.
 // See the `unread_msgs` data structure in `src/api/initialDataTypes.js`.
-export const pmUnreadsKeyFromMessage = (message: Message, ownUserId?: UserId): string => {
-  if (message.type !== 'private') {
-    throw new Error('pmUnreadsKeyFromMessage: expected PM, got stream message');
-  }
+export const pmUnreadsKeyFromMessage = (message: PmMessage, ownUserId?: UserId): string => {
   const recipients = recipientsOfPrivateMessage(message);
 
   // This includes all users in the thread; see `Message#display_recipient`.
