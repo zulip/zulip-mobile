@@ -46,7 +46,6 @@ function keyOfUsers(ids: UserId[], ownUserId: UserId): PmConversationKey {
   return keyOfExactUsers(ids.filter(id => id !== ownUserId));
 }
 
-// Input must indeed be a PM, else throws.
 function keyOfPrivateMessage(msg: PmMessage | PmOutbox, ownUserId: UserId): PmConversationKey {
   return keyOfUsers(
     recipientsOfPrivateMessage(msg).map(r => r.id),

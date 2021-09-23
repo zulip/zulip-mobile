@@ -20,15 +20,10 @@ import type {
 export const streamNameOfStreamMessage = (message: StreamMessage | StreamOutbox): string =>
   message.display_recipient;
 
-/** The recipients of a PM, in the form found on Message.  Throws if a stream message. */
+/** The recipients of a PM, in the form found on PmMessage. */
 export const recipientsOfPrivateMessage = (
-  message: Message | Outbox,
-): $ReadOnlyArray<PmRecipientUser> => {
-  if (message.type !== 'private') {
-    throw new Error('recipientsOfPrivateMessage: got stream message');
-  }
-  return message.display_recipient;
-};
+  message: PmMessage | PmOutbox,
+): $ReadOnlyArray<PmRecipientUser> => message.display_recipient;
 
 /**
  * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
