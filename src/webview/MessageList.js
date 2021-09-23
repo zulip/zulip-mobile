@@ -19,7 +19,7 @@ import type {
   Narrow,
   Outbox,
   ImageEmojiType,
-  HtmlPieceDescriptor,
+  MessageListElement,
   Subscription,
   Stream,
   ThemeName,
@@ -48,11 +48,11 @@ import {
 } from '../selectors';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../message/messageActionSheet';
-import { getHtmlPieceDescriptorsMemoized } from '../message/messageSelectors';
+import { getMessageListElementsMemoized } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
 import type { WebViewOutboundEvent } from './handleOutboundEvents';
 import getHtml from './html/html';
-import contentHtmlFromPieceDescriptors from './html/contentHtmlFromPieceDescriptors';
+import messageListElementHtml from './html/messageListElementHtml';
 import generateInboundEvents from './generateInboundEvents';
 import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
@@ -110,7 +110,7 @@ type SelectorProps = {|
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
   fetching: Fetching,
-  htmlPieceDescriptorsForShownMessages: $ReadOnlyArray<HtmlPieceDescriptor>,
+  messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
   typingUsers: $ReadOnlyArray<UserOrBot>,
 |};
 
@@ -204,16 +204,16 @@ class MessageListInner extends Component<Props> {
   render() {
     const {
       backgroundData,
-      htmlPieceDescriptorsForShownMessages,
+      messageListElementsForShownMessages,
       initialScrollMessageId,
       narrow,
       showMessagePlaceholders,
       _,
     } = this.props;
-    const contentHtml = contentHtmlFromPieceDescriptors({
+    const contentHtml = messageListElementHtml({
       backgroundData,
       narrow,
-      htmlPieceDescriptors: htmlPieceDescriptorsForShownMessages,
+      messageListElements: messageListElementsForShownMessages,
       _,
     });
     const { auth, theme, doNotMarkMessagesAsRead } = backgroundData;
@@ -360,7 +360,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
     return {
       backgroundData,
       fetching: getFetchingForNarrow(state, props.narrow),
-      htmlPieceDescriptorsForShownMessages: getHtmlPieceDescriptorsMemoized(
+      messageListElementsForShownMessages: getMessageListElementsMemoized(
         props.messages,
         props.narrow,
       ),

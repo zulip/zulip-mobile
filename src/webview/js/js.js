@@ -238,30 +238,31 @@ window.addEventListener('resize', event => {
  */
 
 /**
- * Returns a "message-peer" element visible mid-screen, if any.
+ * Returns a "message-list element" visible mid-screen, if any.
  *
- * A "message-peer" element is a message or one of their siblings that get
+ * A "message-list element" is a message or one of their siblings that get
  * laid out among them: e.g. a recipient bar or date separator, but not an
  * absolutely-positioned overlay.
  *
  * If the middle of the screen is just blank, returns null.
  */
-function midMessagePeer(top: number, bottom: number): ?Element {
+function midMessageListElement(top: number, bottom: number): ?Element {
   // The assumption we depend on: any random widgets we draw that aren't
-  // part of a message-peer are drawn *over* the message-peers, not under.
+  // part of a message-list element are drawn *over* the message-list
+  // elements, not under.
   //
   // By spec, the elements returned by Document#elementsFromPoint are in
   // paint order, topmost (and inmost) first.  By our assumption, that means
   // the sequence is:
   //   [ ...(random widgets, if any),
-  //     ...(descendants of message-peer), message-peer,
+  //     ...(descendants of message-list element), message-list element,
   //     body, html ]
   //
   // On ancient browsers (missing Document#elementsFromPoint), we make a
   // stronger assumption: at the vertical middle of the screen, we don't
-  // draw *any* widgets over a message-peer.  (I.e., we only do so near the
-  // top and bottom: like floating recipient bars, the error banner, and the
-  // scroll-bottom button.)
+  // draw *any* widgets over a message-list element.  (I.e., we only do so
+  // near the top and bottom: like floating recipient bars, the error
+  // banner, and the scroll-bottom button.)
 
   const midY = (bottom + top) / 2;
 
@@ -282,8 +283,8 @@ function midMessagePeer(top: number, bottom: number): ?Element {
 /**
  * Find a message element at or near the given element.
  *
- * The given element should be a message-peer; see `midMessagePeer` for
- * discussion.
+ * The given element should be a "message-list element"; see
+ * `midMessageListElement` for discussion.
  *
  * If the given element is a message, returns that element.  Otherwise,
  * returns the message that comes just after or just before it, depending on
@@ -368,14 +369,14 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   function checkVisible(candidate: ?Element): ?Element {
     return candidate && isVisible(candidate, top, bottom) ? candidate : null;
   }
-  // Algorithm: if some message-peer is visible, then either the message
-  // just before or after it should be visible.  If not, we must be at one
-  // end of the message list, meaning either the first or last message
-  // (or both) should be visible.
-  const midPeer = midMessagePeer(top, bottom);
+  // Algorithm: if some message-list element is visible, then either the
+  // message just before or after it should be visible.  If not, we must be
+  // at one end of the message list, meaning either the first or last
+  // message (or both) should be visible.
+  const midElement = midMessageListElement(top, bottom);
   return (
-    checkVisible(walkToMessage(midPeer, 'previousElementSibling'))
-    || checkVisible(walkToMessage(midPeer, 'nextElementSibling'))
+    checkVisible(walkToMessage(midElement, 'previousElementSibling'))
+    || checkVisible(walkToMessage(midElement, 'nextElementSibling'))
     || checkVisible(firstMessage())
     || checkVisible(lastMessage())
   );

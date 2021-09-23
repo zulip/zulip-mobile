@@ -1,19 +1,19 @@
 /* @flow strict-local */
-import type { Message, Narrow, Outbox, HtmlPieceDescriptor } from '../types';
+import type { Message, Narrow, Outbox, MessageListElement } from '../types';
 import { isConversationNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
-// Prefer getHtmlPieceDescriptorsMemoized.
+// Prefer getMessageListElementsMemoized.
 export default (
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
-): $ReadOnlyArray<HtmlPieceDescriptor> => {
+): $ReadOnlyArray<MessageListElement> => {
   // A recipient header identifies the conversation the messages after it
   // are in.  We show them unless the narrow already contains that information.
   const canShowRecipientHeaders = !isConversationNarrow(narrow);
 
-  const pieces: HtmlPieceDescriptor[] = [];
+  const pieces: MessageListElement[] = [];
   for (let i = 0; i < messages.length; i++) {
     const message = messages[i];
     const prevMessage: typeof message | void = messages[i - 1];

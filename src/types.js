@@ -341,30 +341,30 @@ export type UnreadStreamItem = {|
   |}>,
 |};
 
-export type TimePieceDescriptor = {|
+export type TimeMessageListElement = {|
   type: 'time',
   key: string,
   timestamp: number,
   subsequentMessage: Message | Outbox,
 |};
 
-export type MessagePieceDescriptor = {|
+export type MessageMessageListElement = {|
   type: 'message',
   key: number,
   message: Message | Outbox,
   isBrief: boolean,
 |};
 
-export type HeaderPieceDescriptor = {|
+export type HeaderMessageListElement = {|
   type: 'header',
   key: string,
   subsequentMessage: Message | Outbox,
 |};
 
-export type HtmlPieceDescriptor =
-  | TimePieceDescriptor
-  | MessagePieceDescriptor
-  | HeaderPieceDescriptor;
+export type MessageListElement =
+  | TimeMessageListElement
+  | MessageMessageListElement
+  | HeaderMessageListElement;
 
 export type TimingItemType = {|
   text: string,

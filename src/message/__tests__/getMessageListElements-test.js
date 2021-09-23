@@ -3,23 +3,23 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { HOME_NARROW } from '../../utils/narrow';
-import getHtmlPieceDescriptors from '../getHtmlPieceDescriptors';
+import getMessageListElements from '../getMessageListElements';
 
-describe('getHtmlPieceDescriptors', () => {
+describe('getMessageListElements', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
   test('empty messages results in no pieces', () => {
-    const htmlPieceDescriptors = getHtmlPieceDescriptors([], HOME_NARROW);
-    expect(htmlPieceDescriptors).toEqual([]);
+    const messageListElements = getMessageListElements([], HOME_NARROW);
+    expect(messageListElements).toEqual([]);
   });
 
   test('renders time, header and message for a single input', () => {
     const message = { ...eg.streamMessage({ id: 12345 }), timestamp: 123 };
     const messages = deepFreeze([message]);
 
-    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
+    const messageListElements = getMessageListElements(messages, narrow);
 
-    expect(htmlPieceDescriptors).toMatchObject([
+    expect(messageListElements).toMatchObject([
       { type: 'time', key: 'time123' },
       { type: 'header', key: 'header12345' },
       { type: 'message', key: 12345 },
@@ -36,9 +36,9 @@ describe('getHtmlPieceDescriptors', () => {
       eg.streamMessage({ stream, sender, id: 3 }),
     ]);
 
-    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
+    const messageListElements = getMessageListElements(messages, narrow);
 
-    expect(htmlPieceDescriptors).toMatchObject([
+    expect(messageListElements).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: 1, isBrief: false },
@@ -56,9 +56,9 @@ describe('getHtmlPieceDescriptors', () => {
       eg.streamMessage({ stream, sender: eg.thirdUser, id: 3 }),
     ]);
 
-    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
+    const messageListElements = getMessageListElements(messages, narrow);
 
-    expect(htmlPieceDescriptors).toMatchObject([
+    expect(messageListElements).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: 1, isBrief: false },
@@ -73,9 +73,9 @@ describe('getHtmlPieceDescriptors', () => {
       eg.pmMessage({ sender: eg.otherUser, recipients: [eg.selfUser, eg.otherUser], id: 2 }),
     ]);
 
-    const htmlPieceDescriptors = getHtmlPieceDescriptors(messages, narrow);
+    const messageListElements = getMessageListElements(messages, narrow);
 
-    expect(htmlPieceDescriptors).toMatchObject([
+    expect(messageListElements).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: 1, isBrief: false },

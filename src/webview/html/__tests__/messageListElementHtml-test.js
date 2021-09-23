@@ -11,8 +11,8 @@ import {
   ALL_PRIVATE_NARROW,
 } from '../../../utils/narrow';
 import type { Message } from '../../../types';
-import contentHtmlFromPieceDescriptors from '../contentHtmlFromPieceDescriptors';
-import getHtmlPieceDescriptors from '../../../message/getHtmlPieceDescriptors';
+import messageListElementHtml from '../messageListElementHtml';
+import getMessageListElements from '../../../message/getMessageListElements';
 
 /**
  * Highlight changes in content-HTML generation.
@@ -45,8 +45,8 @@ import getHtmlPieceDescriptors from '../../../message/getHtmlPieceDescriptors';
  *     meaningful results.
  *
  * This is our first attempt at testing UI logic with snapshot tests,
- * done in part to help check a refactor of `getHtmlPieceDescriptors`
- * and `contentHtmlFromPieceDescriptors`.
+ * done in part to help check a refactor of `getMessageListElements`
+ * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
   // Tell ESLint to recognize `check` as a helper function that runs
@@ -70,9 +70,9 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       'Problem with test data: `messages` should increase monotonically in both `id` and `timestamp`.',
     );
     expect(
-      contentHtmlFromPieceDescriptors({
+      messageListElementHtml({
         backgroundData,
-        htmlPieceDescriptors: getHtmlPieceDescriptors(messages, narrow),
+        messageListElements: getMessageListElements(messages, narrow),
         narrow,
         _: m => m,
       }),

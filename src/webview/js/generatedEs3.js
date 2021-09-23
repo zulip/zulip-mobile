@@ -482,7 +482,7 @@ var compiledWebviewJs = (function (exports) {
     });
   });
 
-  function midMessagePeer(top, bottom) {
+  function midMessageListElement(top, bottom) {
     var midY = (bottom + top) / 2;
 
     if (document.elementsFromPoint === undefined) {
@@ -541,8 +541,8 @@ var compiledWebviewJs = (function (exports) {
       return candidate && isVisible(candidate, top, bottom) ? candidate : null;
     }
 
-    var midPeer = midMessagePeer(top, bottom);
-    return checkVisible(walkToMessage(midPeer, 'previousElementSibling')) || checkVisible(walkToMessage(midPeer, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
+    var midElement = midMessageListElement(top, bottom);
+    return checkVisible(walkToMessage(midElement, 'previousElementSibling')) || checkVisible(walkToMessage(midElement, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
   }
 
   function someVisibleReadMessage(top, bottom) {

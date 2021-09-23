@@ -6,7 +6,7 @@ import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
 import htmlBody from './html/htmlBody';
-import contentHtmlFromPieceDescriptors from './html/contentHtmlFromPieceDescriptors';
+import messageListElementHtml from './html/messageListElementHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageUpdateStrategy } from '../message/messageUpdates';
 
@@ -48,10 +48,10 @@ export type WebViewInboundEvent =
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const content = htmlBody(
-    contentHtmlFromPieceDescriptors({
+    messageListElementHtml({
       backgroundData: nextProps.backgroundData,
       narrow: nextProps.narrow,
-      htmlPieceDescriptors: nextProps.htmlPieceDescriptorsForShownMessages,
+      messageListElements: nextProps.messageListElementsForShownMessages,
       _: nextProps._,
     }),
     nextProps.showMessagePlaceholders,
@@ -103,8 +103,8 @@ export default function generateInboundEvents(
 
   if (
     !isEqual(
-      prevProps.htmlPieceDescriptorsForShownMessages,
-      nextProps.htmlPieceDescriptorsForShownMessages,
+      prevProps.messageListElementsForShownMessages,
+      nextProps.messageListElementsForShownMessages,
     )
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
   ) {

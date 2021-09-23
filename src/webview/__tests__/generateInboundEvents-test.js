@@ -13,7 +13,7 @@ describe('generateInboundEvents', () => {
     initialScrollMessageId: null,
     fetching: { older: false, newer: false },
     messages: [],
-    htmlPieceDescriptorsForShownMessages: [],
+    messageListElementsForShownMessages: [],
     typingUsers: [],
   });
 
@@ -100,11 +100,11 @@ describe('generateInboundEvents', () => {
   test('when rendered messages are the same return empty result', () => {
     const prevProps = {
       ...baseProps,
-      htmlPieceDescriptorsForShownMessages: [],
+      messageListElementsForShownMessages: [],
     };
     const nextProps = {
       ...baseProps,
-      htmlPieceDescriptorsForShownMessages: [],
+      messageListElementsForShownMessages: [],
     };
 
     const messages = generateInboundEvents(prevProps, nextProps);
@@ -115,11 +115,11 @@ describe('generateInboundEvents', () => {
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
     const prevProps = {
       ...baseProps,
-      htmlPieceDescriptorsForShownMessages: [],
+      messageListElementsForShownMessages: [],
     };
     const nextProps = {
       ...baseProps,
-      htmlPieceDescriptorsForShownMessages: [
+      messageListElementsForShownMessages: [
         { key: 123, type: 'message', isBrief: false, message: eg.streamMessage() },
       ],
     };

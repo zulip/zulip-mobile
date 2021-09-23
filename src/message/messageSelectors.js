@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { createSelector, defaultMemoize } from 'reselect';
 
-import type { Message, Outbox, Narrow, Selector, HtmlPieceDescriptor } from '../types';
+import type { Message, Outbox, Narrow, Selector, MessageListElement } from '../types';
 import {
   getAllNarrows,
   getFlags,
@@ -11,7 +11,7 @@ import {
 } from '../directSelectors';
 import * as logging from '../utils/logging';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
-import getHtmlPieceDescriptors from './getHtmlPieceDescriptors';
+import getMessageListElements from './getMessageListElements';
 import type { JSONable } from '../utils/jsonable';
 import { ALL_PRIVATE_NARROW_STR } from '../utils/narrow';
 import { NULL_ARRAY } from '../nullObjects';
@@ -61,10 +61,10 @@ export const getPrivateMessages: Selector<Message[]> = createSelector(
   },
 );
 
-export const getHtmlPieceDescriptorsMemoized: (
+export const getMessageListElementsMemoized: (
   $ReadOnlyArray<Message | Outbox>,
   Narrow,
-) => $ReadOnlyArray<HtmlPieceDescriptor> = defaultMemoize(getHtmlPieceDescriptors);
+) => $ReadOnlyArray<MessageListElement> = defaultMemoize(getMessageListElements);
 
 export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createSelector(
   (state, narrow) => getShownMessagesForNarrow(state, narrow),
