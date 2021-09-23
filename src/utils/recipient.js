@@ -4,15 +4,19 @@ import isEqual from 'lodash.isequal';
 
 import { mapOrNull } from '../collections';
 import * as logging from './logging';
-import type { PmRecipientUser, Message, Outbox, UserId, UserOrBot } from '../types';
+import type {
+  PmRecipientUser,
+  Message,
+  StreamMessage,
+  Outbox,
+  StreamOutbox,
+  UserId,
+  UserOrBot,
+} from '../types';
 
-/** The stream name a stream message was sent to.  Throws if a PM. */
-export const streamNameOfStreamMessage = (message: Message | Outbox): string => {
-  if (message.type !== 'stream') {
-    throw new Error('streamNameOfStreamMessage: got PM');
-  }
-  return message.display_recipient;
-};
+/** The stream name a stream message was sent to. */
+export const streamNameOfStreamMessage = (message: StreamMessage | StreamOutbox): string =>
+  message.display_recipient;
 
 /** The recipients of a PM, in the form found on Message.  Throws if a stream message. */
 export const recipientsOfPrivateMessage = (
