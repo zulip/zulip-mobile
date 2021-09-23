@@ -2,7 +2,7 @@
 import invariant from 'invariant';
 import { createSelector } from 'reselect';
 
-import type { PerAccountState, Message, PmConversationData, Selector } from '../types';
+import type { PerAccountState, PmMessage, PmConversationData, Selector } from '../types';
 import { getPrivateMessages } from '../message/messageSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { getUnreadByPms, getUnreadByHuddles } from '../unread/unreadSelectors';
@@ -37,7 +37,7 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
   getAllUsersById,
   (
     ownUserId,
-    messages: Message[],
+    messages: PmMessage[],
     unreadPms: {| [number]: number |},
     unreadHuddles: {| [string]: number |},
     allUsersById,

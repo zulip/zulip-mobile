@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import { createSelector, defaultMemoize } from 'reselect';
+import invariant from 'invariant';
 
-import type { Message, Outbox, Narrow, Selector, MessageListElement } from '../types';
+import type { Message, PmMessage, Outbox, Narrow, Selector, MessageListElement } from '../types';
 import {
   getAllNarrows,
   getFlags,
@@ -32,17 +33,26 @@ function truncateForLogging<T: JSONable>(arr: $ReadOnlyArray<T>, len = 10): JSON
   };
 }
 
-export const getPrivateMessages: Selector<Message[]> = createSelector(
+export const getPrivateMessages: Selector<PmMessage[]> = createSelector(
   getAllNarrows,
   getMessages,
   (narrows, messages) => {
-    const privateMessages: Message[] = [];
+    const privateMessages: PmMessage[] = [];
     const unknownIds: number[] = [];
 
     const pmIds = narrows.get(ALL_PRIVATE_NARROW_STR) || NULL_ARRAY;
     pmIds.forEach(id => {
       const msg = messages.get(id);
       if (msg !== undefined) {
+        // It seems like the code involved in maintaining this invariant
+        // extends to the server: we go and make a fetch for this narrow,
+        // and then whatever the server gives us gets put here, and we don't
+        // seem to try to verify that as it goes in. So in fact ideally this
+        // check would be at a crunchy shell. But getting that wrong is a
+        // pretty unlikely bug for the server to have, so just doing
+        // `invariant` here is fine.
+        invariant(msg.type === 'private', 'msg is a PM');
+
         privateMessages.push(msg);
       } else {
         unknownIds.push(id);
