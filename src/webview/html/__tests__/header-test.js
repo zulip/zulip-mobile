@@ -2,7 +2,7 @@
 
 import * as eg from '../../../__tests__/lib/exampleData';
 import { streamNarrow } from '../../../utils/narrow';
-import messageHeaderAsHtml from '../messageHeaderAsHtml';
+import header from '../header';
 import type { BackgroundData } from '../../MessageList';
 
 const backgroundData: BackgroundData = ({
@@ -10,9 +10,9 @@ const backgroundData: BackgroundData = ({
   subscriptions: [eg.stream],
 }: $FlowFixMe);
 
-describe('messageHeaderAsHtml', () => {
+describe('header', () => {
   test('correctly encodes `<` in topic, in stream narrow', () => {
-    const h = messageHeaderAsHtml(
+    const h = header(
       backgroundData,
       streamNarrow(eg.stream.name),
       eg.streamMessage({ subject: '1 < 2' }),

@@ -3,9 +3,9 @@ import type { GetText, Narrow, MessageListElement } from '../../types';
 import { ensureUnreachable } from '../../generics';
 import type { BackgroundData } from '../MessageList';
 
-import messageAsHtml from './messageAsHtml';
-import messageHeaderAsHtml from './messageHeaderAsHtml';
-import timeRowAsHtml from './timeRowAsHtml';
+import message from './message';
+import header from './header';
+import time from './time';
 
 export default ({
   backgroundData,
@@ -22,11 +22,11 @@ export default ({
     .map(element => {
       switch (element.type) {
         case 'time':
-          return timeRowAsHtml(element.timestamp, element.subsequentMessage);
+          return time(element.timestamp, element.subsequentMessage);
         case 'header':
-          return messageHeaderAsHtml(backgroundData, narrow, element.subsequentMessage);
+          return header(backgroundData, narrow, element.subsequentMessage);
         case 'message':
-          return messageAsHtml(backgroundData, element.message, element.isBrief, _);
+          return message(backgroundData, element.message, element.isBrief, _);
         default:
           ensureUnreachable(element);
           throw new Error(`Unidentified element.type: '${element.type}'`);

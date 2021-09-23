@@ -324,7 +324,7 @@ body {
  * The sender's avatar. If changing the size here, be sure to change
  * the size we request for the avatar image file in the corresponding
  * HTML-generating code (see messageTypingAsHtml.js and
- * messageAsHtml.js).
+ * message.js in src/webview/html/).
  */
 .avatar,
 .loading-avatar {

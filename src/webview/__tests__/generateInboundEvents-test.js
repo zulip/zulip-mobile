@@ -2,7 +2,7 @@
 import deepFreeze from 'deep-freeze';
 
 import generateInboundEvents from '../generateInboundEvents';
-import { flagsStateToStringList } from '../html/messageAsHtml';
+import { flagsStateToStringList } from '../html/message';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import type { Props } from '../MessageList';

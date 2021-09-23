@@ -24,6 +24,11 @@ const renderSubject = item =>
     ? item.match_subject
     : template`${item.subject}`;
 
+/**
+ * The HTML string for a message-list element of the "header" type.
+ *
+ * This is a private helper of messageListElementHtml.
+ */
 export default (
   { ownUser, subscriptions }: BackgroundData,
   narrow: Narrow,

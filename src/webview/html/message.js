@@ -182,6 +182,11 @@ $!${message.content}
 export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
   Object.keys(flags).filter(key => flags[key][id]);
 
+/**
+ * The HTML string for a message-list element of the "message" type.
+ *
+ * This is a private helper of messageListElementHtml.
+ */
 export default (
   backgroundData: BackgroundData,
   message: Message | Outbox,
