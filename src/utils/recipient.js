@@ -175,17 +175,13 @@ export const pmKeyRecipientsFromIds = (
 // But we also sort them ourselves, so as not to rely on that fact about
 // the server; it's easy enough to do.
 export const pmKeyRecipientsFromMessage = (
-  message: Message | Outbox,
+  message: PmMessage | PmOutbox,
   ownUserId: UserId,
-): PmKeyRecipients => {
-  if (message.type !== 'private') {
-    throw new Error('pmKeyRecipientsFromMessage: expected PM, got stream message');
-  }
-  return pmKeyRecipientsFromIds(
+): PmKeyRecipients =>
+  pmKeyRecipientsFromIds(
     recipientsOfPrivateMessage(message).map(r => r.id),
     ownUserId,
   );
-};
 
 /**
  * The list of users to identify a PM conversation by in our data structures.
