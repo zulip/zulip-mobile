@@ -125,14 +125,10 @@ export const normalizeRecipientsAsUserIdsSansMe = (
  *    data structures.
  */
 export const pmUiRecipientsFromMessage = (
-  message: Message | Outbox,
+  message: PmMessage | PmOutbox,
   ownUserId: UserId,
-): $ReadOnlyArray<PmRecipientUser> => {
-  if (message.type !== 'private') {
-    throw new Error('pmUiRecipientsFromMessage: expected PM, got stream message');
-  }
-  return filterRecipients(recipientsOfPrivateMessage(message), ownUserId);
-};
+): $ReadOnlyArray<PmRecipientUser> =>
+  filterRecipients(recipientsOfPrivateMessage(message), ownUserId);
 
 /**
  * The list of users to identify a PM conversation by in our data structures.
