@@ -24,12 +24,14 @@ import type {
   MessageFetchStartAction,
   MessageFetchCompleteAction,
   Action,
+  PerAccountState,
   GlobalState,
   CaughtUpState,
   MessagesState,
   RealmState,
 } from '../../reduxTypes';
 import type { Auth, Account, StreamOutbox } from '../../types';
+import { dubJointState } from '../../reduxTypes';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
@@ -497,7 +499,16 @@ const privateReduxStore = createStore(rootReducer);
  * See `plusReduxState` for a version of the state that incorporates
  * `selfUser` and other standard example data.
  */
-export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState());
+// TODO(#5006): Split this (and its friends below) into global and
+//   per-account versions.  (This may be easiest to do after actually
+//   migrating settings and session to split them per-account vs global, so
+//   that the global and per-account states have disjoint sets of
+//   properties.)
+// For now, the intersection type (with `&`) says this value can be used as
+// either kind of state.
+export const baseReduxState: GlobalState & PerAccountState = dubJointState(
+  deepFreeze(privateReduxStore.getState()),
+);
 
 /**
  * A global Redux state, with `baseReduxState` plus the given data.
@@ -505,11 +516,13 @@ export const baseReduxState: GlobalState = deepFreeze(privateReduxStore.getState
  * See `reduxStatePlus` for a version that automatically includes `selfUser`
  * and other standard example data.
  */
-export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
-  deepFreeze({
-    ...baseReduxState,
-    ...extra,
-  });
+export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState & PerAccountState =>
+  dubJointState(
+    deepFreeze({
+      ...(baseReduxState: GlobalState),
+      ...extra,
+    }),
+  );
 
 /**
  * The global Redux state, reflecting standard example data like `selfUser`.
@@ -541,7 +554,7 @@ export const reduxState = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
  *
  * See `baseReduxState` for a minimal version of the state.
  */
-export const plusReduxState: GlobalState = reduxState({
+export const plusReduxState: GlobalState & PerAccountState = reduxState({
   accounts: [
     {
       ...selfAuth,
@@ -567,8 +580,10 @@ export const plusReduxState: GlobalState = reduxState({
  *
  * See `reduxState` for a version starting from a minimal state.
  */
-export const reduxStatePlus = (extra?: $Rest<GlobalState, { ... }>): GlobalState =>
-  deepFreeze({ ...plusReduxState, ...extra });
+export const reduxStatePlus = (
+  extra?: $Rest<GlobalState, { ... }>,
+): GlobalState & PerAccountState =>
+  dubJointState(deepFreeze({ ...(plusReduxState: GlobalState), ...extra }));
 
 export const realmState = (extra?: $Rest<RealmState, { ... }>): RealmState =>
   deepFreeze({
