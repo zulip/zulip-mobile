@@ -405,7 +405,7 @@ export type UsersState = $ReadOnlyArray<User>;
  * parts of our code will in that future operate on a particular account and
  * which parts will operate on all accounts' data or none.
  */
-export type PerAccountState = $ReadOnly<{
+type PerAccountStateImpl = $ReadOnly<{
   // TODO(#5006): Secretly we assume these objects also have `Account` data,
   //   like so:
   // accounts: [Account, ...mixed],
@@ -445,6 +445,8 @@ export type PerAccountState = $ReadOnly<{
   ...
 }>;
 
+export opaque type PerAccountState: PerAccountStateImpl = PerAccountStateImpl;
+
 /**
  * Our complete Redux state tree.
  *
@@ -474,10 +476,6 @@ export type GlobalState = $ReadOnly<{|
   accounts: AccountsState,
 |}>;
 
-// For now, under our single-active-account model, we want a GlobalState
-// to be seamlessly usable as a PerAccountState.
-(s: GlobalState): PerAccountState => s; // eslint-disable-line no-unused-expressions
-
 /**
  * Assume the given per-account state object is secretly a GlobalState.
  *
@@ -499,6 +497,10 @@ export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
  * TODO(#5006): We'll have to fix and eliminate each call to this.
  */
 export function dubPerAccountState(state: GlobalState): PerAccountState {
+  // Here in this file, we can make this cast with no fixmes (for now, under
+  // our single-active-account model.)  But from anywhere outside this file,
+  // that's forbidden because PerAccountState is opaque, so the way to do it
+  // is by calling this function.
   return state;
 }
 

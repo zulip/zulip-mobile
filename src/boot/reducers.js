@@ -102,6 +102,7 @@ export default (state: void | GlobalState, action: Action): GlobalState => {
     subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action, state),
     topics: applyReducer('topics', topics, state?.topics, action, state),
     typing: applyReducer('typing', typing, state?.typing, action, state),
+    // $FlowFixMe[incompatible-call] TODO(#5006)
     unread: applyReducer('unread', unread, state?.unread, action, state),
     userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action, state),
     userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action, state),

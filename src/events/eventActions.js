@@ -55,7 +55,7 @@ export const startEventPolling = (
   while (true) {
     const globalState = assumeSecretlyGlobalState(getState());
     const state = tryGetActiveAccountState(globalState);
-    const auth = state && tryGetAuth(state);
+    const auth = state ? tryGetAuth(state) : undefined;
     if (!auth) {
       // There is no logged-in active account.
       break;
