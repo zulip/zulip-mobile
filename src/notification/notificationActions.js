@@ -25,7 +25,7 @@ import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
-import { getIdentities, getAccount } from '../account/accountsSelectors';
+import { getIdentities, getAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
 
 export const gotPushToken = (pushToken: string | null): Action => ({
   type: GOT_PUSH_TOKEN,
@@ -51,12 +51,24 @@ export const narrowToNotification = (data: ?Notification): GlobalThunkAction<voi
     return;
   }
 
-  const state = getState();
-  const accountIndex = getAccountFromNotificationData(data, getIdentities(state));
+  const globalState = getState();
+  const accountIndex = getAccountFromNotificationData(data, getIdentities(globalState));
   if (accountIndex !== null && accountIndex > 0) {
     // Notification is for a non-active account.  Switch there.
     dispatch(accountSwitch(accountIndex));
     // TODO actually narrow to conversation.
+    return;
+  }
+
+  // If accountIndex is null, then `getAccountFromNotificationData` has
+  // already logged a warning.  We go on to treat it as if it's 0, i.e. the
+  // active account, in the hopes that the user has one account they use
+  // regularly and it's the same one this notification is for.
+
+  const state = tryGetActiveAccountState(globalState);
+  if (!state) {
+    // There are no accounts at all.  (Which also means accountIndex is null
+    // and we've already logged a warning.)
     return;
   }
 
