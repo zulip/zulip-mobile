@@ -84,7 +84,7 @@ import type {
   Topic,
   PresenceState,
   RealmEmojiById,
-  SettingsState,
+  GlobalSettingsState,
   CaughtUpState,
   MuteState,
   AlertWordsState,
@@ -561,7 +561,7 @@ export type EventAction =
 
 type SettingsChangeAction = {|
   type: typeof SETTINGS_CHANGE,
-  update: $Shape<SettingsState>,
+  update: $Shape<$Exact<GlobalSettingsState>>,
 |};
 
 type DraftUpdateAction = {|
