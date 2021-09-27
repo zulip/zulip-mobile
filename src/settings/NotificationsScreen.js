@@ -5,11 +5,10 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { SwitchRow, Screen } from '../common';
 import * as api from '../api';
-import { settingsChange } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'notifications'>,
@@ -22,7 +21,9 @@ export default function NotificationsScreen(props: Props): Node {
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
-  const dispatch = useDispatch();
+
+  // TODO(#3999): It'd be good to show "working on it" UI feedback while a
+  //   request is pending, after the user touches a switch.
 
   const handleOfflineNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
@@ -30,8 +31,7 @@ export default function NotificationsScreen(props: Props): Node {
       opp: 'offline_notification_change',
       value: !offlineNotification,
     });
-    dispatch(settingsChange({ offlineNotification: !offlineNotification }));
-  }, [offlineNotification, auth, dispatch]);
+  }, [offlineNotification, auth]);
 
   const handleOnlineNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
@@ -39,8 +39,7 @@ export default function NotificationsScreen(props: Props): Node {
       opp: 'online_notification_change',
       value: !onlineNotification,
     });
-    dispatch(settingsChange({ onlineNotification: !onlineNotification }));
-  }, [onlineNotification, auth, dispatch]);
+  }, [onlineNotification, auth]);
 
   const handleStreamNotificationChange = useCallback(() => {
     api.toggleMobilePushSettings({
@@ -48,8 +47,7 @@ export default function NotificationsScreen(props: Props): Node {
       opp: 'stream_notification_change',
       value: !streamNotification,
     });
-    dispatch(settingsChange({ streamNotification: !streamNotification }));
-  }, [streamNotification, auth, dispatch]);
+  }, [streamNotification, auth]);
 
   return (
     <Screen title="Notifications">
