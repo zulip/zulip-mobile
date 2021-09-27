@@ -497,9 +497,30 @@ export type Selector<TResult, TParam = void> = InputSelector<PerAccountState, TP
 // Seems like this should be OutputSelector; see comment on Selector above.
 export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
+/** The Redux `dispatch` for a per-account context. */
 export interface Dispatch {
   <A: Action>(action: A): A;
   <T>(ThunkAction<T>): T;
 }
 
+/** A per-account thunk action returning T. */
+// TODO(#5006): use PerAccountState
 export type ThunkAction<T> = (Dispatch, () => GlobalState) => T;
+
+/** The Redux `dispatch` for a global context. */
+export interface GlobalDispatch {
+  <A: Action>(action: A): A;
+  <T>(GlobalThunkAction<T>): T;
+}
+
+/** A global thunk action returning T. */
+export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState) => T;
+
+/* eslint-disable no-unused-expressions */
+// For now, it'll smooth our migration to let a GlobalDispatch be seamlessly
+// usable as a plain Dispatch, and a ThunkAction as a GlobalThunkAction.
+(d: GlobalDispatch): Dispatch => d; // TODO(#5006)
+<T>(a: ThunkAction<T>): GlobalThunkAction<T> => a; // TODO(#5006)
+// And for *right* now, we allow the reverse, too.
+(d: Dispatch): GlobalDispatch => d; // TODO(#5006)
+<T>(a: GlobalThunkAction<T>): ThunkAction<T> => a; // TODO(#5006)
