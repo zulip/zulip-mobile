@@ -3,6 +3,7 @@ import * as logging from '../../utils/logging';
 import { KEY_PREFIX, REHYDRATE } from './constants'
 import purgeStoredState from './purgeStoredState'
 import stringify from 'json-stringify-safe'
+import invariant from 'invariant';
 
 export default function createPersistor (store, config) {
   // defaults
@@ -91,6 +92,11 @@ export default function createPersistor (store, config) {
     }
     lastWrittenState = state
 
+    if (outstandingKeys.size === 0) {
+      // `multiSet` doesn't like an empty array, so return early.
+      return;
+    }
+
     // Serialize those keys' subtrees, with yields after each one.
     const writes = []
     for (const key of outstandingKeys) {
@@ -98,23 +104,22 @@ export default function createPersistor (store, config) {
       await new Promise(r => setTimeout(r, 0));
     }
 
-    if (writes.length > 0) { // `multiSet` doesn't like an empty array
-      // Write them all out, in one `storage.multiSet` operation.
-      try {
-        // Warning: not guaranteed to be done in a transaction.
-        await storage.multiSet(
-          writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
-        )
-      } catch (e) {
-        logging.warn(
-          e,
-          {
-            message: 'An error was encountered while trying to persist this set of keys',
-            keys: writes.map(([key, _]) => key)
-          }
-        );
-        throw e
-      }
+    // Write them all out, in one `storage.multiSet` operation.
+    invariant(writes.length > 0, 'should have nonempty writes list');
+    try {
+      // Warning: not guaranteed to be done in a transaction.
+      await storage.multiSet(
+        writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
+      )
+    } catch (e) {
+      logging.warn(
+        e,
+        {
+          message: 'An error was encountered while trying to persist this set of keys',
+          keys: writes.map(([key, _]) => key)
+        }
+      );
+      throw e
     }
 
     // Record success.
