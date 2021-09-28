@@ -349,12 +349,12 @@ export const isSameRecipient = (
   message1: Message | Outbox,
   message2: Message | Outbox,
 ): boolean => {
-  if (message1.type !== message2.type) {
-    return false;
-  }
-
   switch (message1.type) {
     case 'private':
+      if (message2.type !== 'private') {
+        return false;
+      }
+
       // We rely on the recipients being listed in a consistent order
       // between different messages in the same PM conversation.  The server
       // is indeed consistent to that degree; see comments on the Message
@@ -377,6 +377,10 @@ export const isSameRecipient = (
         recipientsOfPrivateMessage(message2).map(r => r.id),
       );
     case 'stream':
+      if (message2.type !== 'stream') {
+        return false;
+      }
+
       return (
         streamNameOfStreamMessage(message1).toLowerCase()
           === streamNameOfStreamMessage(message2).toLowerCase()
