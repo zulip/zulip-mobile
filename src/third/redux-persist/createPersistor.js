@@ -100,7 +100,7 @@ export default function createPersistor (store, config) {
     // Serialize those keys' subtrees, with yields after each one.
     const writes = []
     for (const key of outstandingKeys) {
-      writes.push([key, serializer(state[key])])
+      writes.push([createStorageKey(key), serializer(state[key])])
       await new Promise(r => setTimeout(r, 0));
     }
 
@@ -108,9 +108,7 @@ export default function createPersistor (store, config) {
     invariant(writes.length > 0, 'should have nonempty writes list');
     try {
       // Warning: not guaranteed to be done in a transaction.
-      await storage.multiSet(
-        writes.map(([key, serializedSubstate]) => [createStorageKey(key), serializedSubstate])
-      )
+      await storage.multiSet(writes);
     } catch (e) {
       logging.warn(
         e,
