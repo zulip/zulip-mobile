@@ -72,8 +72,8 @@ export default function createPersistor (store, config) {
    * responsible for taking an appropriate lock.
    */
   async function writeOnce(state) {
-    // Atomically collect the subtrees that need to be written out.
-    const updatedSubstates = [];
+    // Identify what keys we need to write.
+    const updatedKeys = [];
     for (const key of Object.keys(state)) {
       if (!passWhitelistBlacklist(key)) {
         continue;
@@ -81,13 +81,13 @@ export default function createPersistor (store, config) {
       if (state[key] === lastWrittenState[key]) {
         continue;
       }
-      updatedSubstates.push([key, state[key]]);
+      updatedKeys.push(key);
     }
 
-    // Serialize those subtrees, with yields after each one.
+    // Serialize those keys' subtrees, with yields after each one.
     const writes = []
-    for (const [key, substate] of updatedSubstates) {
-      writes.push([key, serializer(substate)])
+    for (const key of updatedKeys) {
+      writes.push([key, serializer(state[key])])
       await new Promise(r => setTimeout(r, 0));
     }
 
