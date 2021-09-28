@@ -35,18 +35,21 @@ export default function createPersistor (store, config) {
   let writeInProgress = false
 
   store.subscribe(() => {
-    if (paused || writeInProgress) return;
+    if (paused) return;
 
     write();
   })
 
   async function write() {
-    // Take the lock.
+    // Take the lock…
+    if (writeInProgress) return;
     writeInProgress = true;
-    // Then yield so the `subscribe` callback can promptly return.
-    await new Promise(r => setTimeout(r, 0));
-
     try {
+      // … and immediately enter a try/finally to release it.
+
+      // Then yield so the `subscribe` callback can promptly return.
+      await new Promise(r => setTimeout(r, 0));
+
       let state = undefined;
       // eslint-disable-next-line no-cond-assign
       while ((state = store.getState()) !== lastWrittenState) {
@@ -64,6 +67,9 @@ export default function createPersistor (store, config) {
    *
    * The storage is assumed to already reflect `lastWrittenState`.
    * On completion, sets `lastWrittenState` to `state`.
+   *
+   * This function must not be called concurrently.  The caller is
+   * responsible for taking an appropriate lock.
    */
   async function writeOnce(state) {
     // Atomically collect the subtrees that need to be written out.
