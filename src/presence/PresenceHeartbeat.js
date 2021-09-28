@@ -2,8 +2,8 @@
 import { PureComponent } from 'react';
 import type { ComponentType } from 'react';
 import { AppState } from 'react-native';
-import type { Dispatch } from '../types';
 
+import { assumeSecretlyGlobalState, type Dispatch } from '../reduxTypes';
 import { connect } from '../react-redux';
 import { getHasAuth } from '../account/accountsSelectors';
 import { reportPresence } from '../actions';
@@ -76,7 +76,7 @@ class PresenceHeartbeatInner extends PureComponent<Props> {
 /** (NB this is a per-account component.) */
 // TODO(#5005): either make one of these per account, or make it act on all accounts
 const PresenceHeartbeat: ComponentType<OuterProps> = connect(state => ({
-  hasAuth: getHasAuth(state),
+  hasAuth: getHasAuth(assumeSecretlyGlobalState(state)), // a job for withHaveServerDataGate?
 }))(PresenceHeartbeatInner);
 
 export default PresenceHeartbeat;
