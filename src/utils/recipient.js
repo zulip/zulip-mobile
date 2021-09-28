@@ -8,8 +8,10 @@ import type {
   PmRecipientUser,
   Message,
   StreamMessage,
+  PmMessage,
   Outbox,
   StreamOutbox,
+  PmOutbox,
   UserId,
   UserOrBot,
 } from '../types';
@@ -227,7 +229,7 @@ export const pmKeyRecipientUsersFromIds = (
  * Just like pmKeyRecipientsFromMessage, but in a slightly different format.
  */
 export const pmKeyRecipientUsersFromMessage = (
-  message: Message | Outbox,
+  message: PmMessage | PmOutbox,
   allUsersById: Map<UserId, UserOrBot>,
   ownUserId: UserId,
 ): PmKeyUsers | null => {
