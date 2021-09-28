@@ -18,20 +18,22 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UnreadHuddlesState = NULL_ARRAY;
 
 const eventNewMessage = (state, action) => {
-  if (action.message.type !== 'private') {
+  const { message } = action;
+
+  if (message.type !== 'private') {
     return state;
   }
 
-  if (recipientsOfPrivateMessage(action.message).length < 3) {
+  if (recipientsOfPrivateMessage(message).length < 3) {
     return state;
   }
 
-  invariant(action.message.flags, 'message in EVENT_NEW_MESSAGE must have flags');
-  if (action.message.flags.includes('read')) {
+  invariant(message.flags, 'message in EVENT_NEW_MESSAGE must have flags');
+  if (message.flags.includes('read')) {
     return state;
   }
 
-  return addItemsToHuddleArray(state, [action.message.id], pmUnreadsKeyFromMessage(action.message));
+  return addItemsToHuddleArray(state, [message.id], pmUnreadsKeyFromMessage(message));
 };
 
 const eventUpdateMessageFlags = (state, action) => {
