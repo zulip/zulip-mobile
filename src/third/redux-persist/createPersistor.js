@@ -29,10 +29,15 @@ export default function createPersistor (store, config) {
 
   const storage = config.storage;
 
-  // initialize stateful values
-  let lastWrittenState = {}
   let paused = false
   let writeInProgress = false
+
+  // This is the last state we've attempted to write out.
+  let lastWrittenState = {}
+
+  // These are the keys for which we have a failed, or not yet completed,
+  // write since the last successful write.
+  const outstandingKeys = new Set();
 
   store.subscribe(() => {
     if (paused) return;
@@ -73,7 +78,8 @@ export default function createPersistor (store, config) {
    */
   async function writeOnce(state) {
     // Identify what keys we need to write.
-    const updatedKeys = [];
+    // This includes anything already in outstandingKeys, because we don't
+    // know what value was last successfully stored for those.
     for (const key of Object.keys(state)) {
       if (!passWhitelistBlacklist(key)) {
         continue;
@@ -81,12 +87,13 @@ export default function createPersistor (store, config) {
       if (state[key] === lastWrittenState[key]) {
         continue;
       }
-      updatedKeys.push(key);
+      outstandingKeys.add(key);
     }
+    lastWrittenState = state
 
     // Serialize those keys' subtrees, with yields after each one.
     const writes = []
-    for (const key of updatedKeys) {
+    for (const key of outstandingKeys) {
       writes.push([key, serializer(state[key])])
       await new Promise(r => setTimeout(r, 0));
     }
@@ -111,7 +118,7 @@ export default function createPersistor (store, config) {
     }
 
     // Record success.
-    lastWrittenState = state
+    outstandingKeys.clear();
   }
 
   function passWhitelistBlacklist (key) {
@@ -156,10 +163,6 @@ export default function createPersistor (store, config) {
      * Only to be used in `persistStore`, to force `lastWrittenState` to
      * update with the results of `REHYDRATE` even when the persistor is
      * paused.
-     *
-     * If this is going to be called, it should be before any writes have
-     * begun. Otherwise it may not be effective; see
-     *   https://github.com/zulip/zulip-mobile/pull/4694#discussion_r691739007.
      */
     _resetLastWrittenState: () => { lastWrittenState = store.getState() }
   }
