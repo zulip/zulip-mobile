@@ -11,7 +11,7 @@ import {
 } from '../actionConstants';
 import { makeUserId } from '../api/idTypes';
 
-import type { Action, Message, Outbox, UserId } from '../types';
+import type { Action, PmMessage, PmOutbox, UserId } from '../types';
 import { recipientsOfPrivateMessage } from '../utils/recipient';
 import { ZulipVersion } from '../utils/zulipVersion';
 
@@ -47,7 +47,7 @@ function keyOfUsers(ids: UserId[], ownUserId: UserId): PmConversationKey {
 }
 
 // Input must indeed be a PM, else throws.
-function keyOfPrivateMessage(msg: Message | Outbox, ownUserId: UserId): PmConversationKey {
+function keyOfPrivateMessage(msg: PmMessage | PmOutbox, ownUserId: UserId): PmConversationKey {
   return keyOfUsers(
     recipientsOfPrivateMessage(msg).map(r => r.id),
     ownUserId,
