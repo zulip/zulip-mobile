@@ -2,7 +2,6 @@
 import React, { type ComponentType, type ElementConfig, useRef } from 'react';
 
 import { connect } from './react-redux';
-import type { Dispatch } from './types';
 import { getHaveServerDataGlobal } from './selectors';
 import FullScreenLoading from './common/FullScreenLoading';
 
@@ -48,7 +47,7 @@ export default function withHaveServerDataGate<P: { ... }, C: ComponentType<$Exa
       haveServerData,
       ...props
     }: {|
-      dispatch: Dispatch,
+      dispatch: mixed,
       haveServerData: boolean,
       ...$Exact<P>,
     |}) =>
