@@ -116,7 +116,7 @@ export default function createPersistor (store, config) {
         e,
         {
           message: 'An error was encountered while trying to persist this set of keys',
-          keys: writes.map(([key, _]) => key)
+          keys: [...outstandingKeys.values()],
         }
       );
       throw e
