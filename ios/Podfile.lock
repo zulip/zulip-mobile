@@ -25,7 +25,7 @@ PODS:
   - ExpoModulesCore/Interfaces (0.2.0):
     - ExpoModulesCore/Core
     - UMCore
-  - EXScreenOrientation (3.2.1):
+  - EXScreenOrientation (3.3.0):
     - React-Core
     - UMCore
   - EXWebBrowser (9.2.0):
@@ -641,7 +641,7 @@ SPEC CHECKSUMS:
   EXFileSystem: 0a04aba8da751b9ac954065911bcf166503f8267
   EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
   ExpoModulesCore: 2734852616127a6c1fc23012197890a6f3763dc7
-  EXScreenOrientation: d94f791c7ade3639352f34fcf5353f7c554b7d69
+  EXScreenOrientation: 09fe6b6b87899ae0c9320255bda7b7513cdfc8ec
   EXWebBrowser: 76783ba5dcb8699237746ecf41a9643d428a4cc5
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
   FBReactNativeSpec: b96f20d2bcabd43e9acdeff6210208026a13633a
