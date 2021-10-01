@@ -30,6 +30,7 @@ import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
 import { navigateToMessageReactionScreen } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
+import { openLinkExternal } from '../utils/openLink';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
 
@@ -208,6 +209,15 @@ const unstarMessage = async ({ auth, message }) => {
 unstarMessage.title = 'Unstar message';
 unstarMessage.errorMessage = 'Failed to unstar message';
 
+const openTopicLinkForMessage = async ({ auth, message }) => {
+  if (message.topic_links) {
+    // This should theoretically not be needed, but the linter wants it.
+    openLinkExternal(message.topic_links[0].url); // TODO use openLinkWithUserPreference
+  }
+};
+openTopicLinkForMessage.title = 'Open Topic Link';
+openTopicLinkForMessage.errorMessage = 'Failed to open topic link';
+
 const shareMessage = ({ message }) => {
   Share.share({
     message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
@@ -327,6 +337,9 @@ export const constructMessageActionButtons = ({
     buttons.push(unstarMessage);
   } else {
     buttons.push(starMessage);
+  }
+  if (message.topic_links && message.topic_links.length > 0) {
+    buttons.push(openTopicLinkForMessage);
   }
   buttons.push(cancel);
   return buttons;

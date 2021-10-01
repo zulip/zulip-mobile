@@ -15,6 +15,7 @@ import type {
   User,
   UserGroup,
   UserId,
+  TopicLink,
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type {
@@ -425,7 +426,7 @@ export const streamMessage = (args?: {|
     content_type: 'text/markdown',
     id: randMessageId(),
     subject: 'example topic',
-    subject_links: [],
+    topic_links: [],
     timestamp: 1556579727,
     type: 'stream',
   };
@@ -779,4 +780,8 @@ export const backgroundData: BackgroundData = deepFreeze({
   unread: baseReduxState.unread,
   theme: 'default',
   twentyFourHourTime: false,
+});
+
+export const topicLink: TopicLink = deepFreeze({
+  url: 'https://example.com',
 });

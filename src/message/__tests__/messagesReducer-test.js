@@ -179,7 +179,7 @@ describe('messagesReducer', () => {
         orig_rendered_content: eg.randString(),
         prev_rendered_content_version: 0,
         rendered_content: eg.randString(),
-        subject_links: [],
+        topic_links: [],
         subject: eg.randString(),
         user_id: message3.sender_id,
       });
@@ -215,7 +215,7 @@ describe('messagesReducer', () => {
         orig_rendered_content: '<p>Old content</p>',
         prev_rendered_content_version: 1,
         rendered_content: '<p>New content</p>',
-        subject_links: [],
+        topic_links: [],
         subject: message3New.subject,
         user_id: message3New.sender_id,
       });
@@ -230,14 +230,14 @@ describe('messagesReducer', () => {
         content: 'Old content',
         subject: 'Old subject',
         last_edit_timestamp: 123,
-        subject_links: [],
+        topic_links: [],
         edit_history: [],
       });
       const message1New = {
         ...message1Old,
         subject: 'New topic',
         last_edit_timestamp: 123,
-        subject_links: [],
+        topic_links: [],
         edit_history: [
           {
             timestamp: 123,
@@ -259,7 +259,7 @@ describe('messagesReducer', () => {
         orig_rendered_content: message1Old.content,
         prev_rendered_content_version: 1,
         rendered_content: message1New.content,
-        subject_links: [],
+        topic_links: [],
         subject: message1New.subject,
         user_id: message1Old.sender_id,
       });
@@ -274,7 +274,7 @@ describe('messagesReducer', () => {
         content: '<p>Old content</p>',
         subject: 'Old subject',
         last_edit_timestamp: 123,
-        subject_links: [],
+        topic_links: [],
         edit_history: [
           {
             prev_subject: 'Old subject',
@@ -288,7 +288,7 @@ describe('messagesReducer', () => {
         content: '<p>New content</p>',
         subject: 'New updated topic',
         last_edit_timestamp: 456,
-        subject_links: [],
+        topic_links: [],
         edit_history: [
           {
             prev_rendered_content: '<p>Old content</p>',
@@ -314,7 +314,7 @@ describe('messagesReducer', () => {
         orig_subject: message1Old.subject,
         prev_rendered_content_version: 1,
         user_id: message1New.sender_id,
-        subject_links: [],
+        topic_links: [],
       });
       const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
