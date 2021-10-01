@@ -400,14 +400,14 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (2.6.2):
+  - RNSentry (3.1.1):
     - React-Core
-    - Sentry (= 7.1.4)
+    - Sentry (= 7.3.0)
   - RNVectorIcons (7.0.0):
     - React
-  - Sentry (7.1.4):
-    - Sentry/Core (= 7.1.4)
-  - Sentry/Core (7.1.4)
+  - Sentry (7.3.0):
+    - Sentry/Core (= 7.3.0)
+  - Sentry/Core (7.3.0)
   - Toast (4.0.0)
   - UMAppLoader (2.2.0)
   - UMCore (7.1.2)
@@ -692,9 +692,9 @@ SPEC CHECKSUMS:
   RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 241c586663f44f19a53883c63375fdd041253960
-  RNSentry: 68644ef607b780551cc555f084869764f2566652
+  RNSentry: 49abc89b0190b4c8afe0fa5d065f98e36cb53233
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  Sentry: 1d3eb1a25f8c5333c88dd5603904a6d461cd9fcf
+  Sentry: 9a4e621430e2dae4477d791f2f7e905720b6efbf
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   UMAppLoader: 21af63390e55c82e037fb9752d93114a80ecf16e
   UMCore: ce3a4faa010239063b8343895b29a6d97b01069d
