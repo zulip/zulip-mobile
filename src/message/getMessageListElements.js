@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Message, Narrow, Outbox, MessageListElement } from '../types';
-import { isConversationNarrow, caseNarrow } from '../utils/narrow';
+import { isConversationNarrow, isStreamNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
@@ -39,22 +39,16 @@ export default (
       pieces.push({
         type: 'header',
         key: `header${message.id}`,
-        style: caseNarrow(narrow, {
-          stream: () => 'topic+date',
-          topic: () => {
-            throw new Error('Unexpected HeaderMessageListElement in a topic narrow');
-          },
 
-          pm: () => {
-            throw new Error('Unexpected HeaderMessageListElement in a PM narrow');
-          },
+        style: isStreamNarrow(narrow)
+          ? 'topic+date'
+          : // eslint-disable-line operator-linebreak
+            // If it's a conversation narrow (AKA a topic or PM narrow),
+            // we're not making a HeaderMessageListElement in the first
+            // place; see `canShowRecipientHeaders` above. So this case
+            // doesn't mean headers will show up in conversation narrows.
+            'full',
 
-          home: () => 'full',
-          starred: () => 'full',
-          mentioned: () => 'full',
-          allPrivate: () => 'full',
-          search: () => 'full',
-        }),
         subsequentMessage: message,
       });
     }
