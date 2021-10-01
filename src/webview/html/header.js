@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import template from './template';
-import type { Message, Narrow, Outbox } from '../../types';
+import type { Narrow, HeaderMessageListElement } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import {
   streamNarrow,
@@ -32,7 +32,7 @@ const renderSubject = message =>
 export default (
   { ownUser, subscriptions }: BackgroundData,
   narrow: Narrow,
-  message: Message | Outbox,
+  element: HeaderMessageListElement,
 ): string => {
   type HeaderStyle = 'none' | 'topic+date' | 'full';
   const headerStyle: HeaderStyle = caseNarrow(narrow, {
@@ -47,6 +47,7 @@ export default (
     allPrivate: () => 'full',
     search: () => 'full',
   });
+  const message = element.subsequentMessage;
 
   if (message.type === 'stream' && headerStyle === 'topic+date') {
     const streamName = streamNameOfStreamMessage(message);

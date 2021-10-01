@@ -12,11 +12,12 @@ const backgroundData: BackgroundData = ({
 
 describe('header', () => {
   test('correctly encodes `<` in topic, in stream narrow', () => {
-    const h = header(
-      backgroundData,
-      streamNarrow(eg.stream.name),
-      eg.streamMessage({ subject: '1 < 2' }),
-    );
+    const m = eg.streamMessage({ subject: '1 < 2' });
+    const h = header(backgroundData, streamNarrow(eg.stream.name), {
+      type: 'header',
+      key: `header${m.id}`,
+      subsequentMessage: m,
+    });
     expect(h).not.toContain('1 < 2');
     expect(h).toContain('1 &lt; 2');
     expect(h).not.toContain('1 &amp;lt; 2');

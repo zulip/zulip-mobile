@@ -22,11 +22,11 @@ export default ({
     .map(element => {
       switch (element.type) {
         case 'time':
-          return time(element.timestamp, element.subsequentMessage);
+          return time(element);
         case 'header':
-          return header(backgroundData, narrow, element.subsequentMessage);
+          return header(backgroundData, narrow, element);
         case 'message':
-          return message(backgroundData, element.message, element.isBrief, _);
+          return message(backgroundData, element, _);
         default:
           ensureUnreachable(element);
           throw new Error(`Unidentified element.type: '${element.type}'`);

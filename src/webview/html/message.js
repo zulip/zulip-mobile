@@ -13,6 +13,7 @@ import type {
   Message,
   MessageLike,
   Outbox,
+  MessageMessageListElement,
   Reaction,
   SubmessageData,
   ImageEmojiType,
@@ -189,10 +190,10 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): string[] 
  */
 export default (
   backgroundData: BackgroundData,
-  message: Message | Outbox,
-  isBrief: boolean,
+  element: MessageMessageListElement,
   _: GetText,
 ): string => {
+  const { message, isBrief } = element;
   const { id, timestamp } = message;
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const isUserMuted = !!message.sender_id && backgroundData.mutedUsers.has(message.sender_id);
