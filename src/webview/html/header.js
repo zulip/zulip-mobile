@@ -1,5 +1,8 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import template from './template';
+import { ensureUnreachable } from '../../types';
 import type { HeaderMessageListElement } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import {
@@ -34,12 +37,13 @@ export default (
 ): string => {
   const { subsequentMessage: message, style: headerStyle } = element;
 
-  if (message.type === 'stream' && headerStyle === 'topic+date') {
-    const streamName = streamNameOfStreamMessage(message);
-    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
-    const topicHtml = renderSubject(message);
+  if (message.type === 'stream') {
+    if (headerStyle === 'topic+date') {
+      const streamName = streamNameOfStreamMessage(message);
+      const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
+      const topicHtml = renderSubject(message);
 
-    return template`
+      return template`
 <div
   class="header-wrapper header topic-header"
   data-narrow="${base64Utf8Encode(topicNarrowStr)}"
@@ -49,19 +53,17 @@ export default (
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
 </div>
     `;
-  }
+    } else if (headerStyle === 'full') {
+      const streamName = streamNameOfStreamMessage(message);
+      const stream = subscriptions.find(x => x.name === streamName);
 
-  if (message.type === 'stream' && headerStyle === 'full') {
-    const streamName = streamNameOfStreamMessage(message);
-    const stream = subscriptions.find(x => x.name === streamName);
+      const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
+      const textColor = foregroundColorFromBackground(backgroundColor);
+      const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
+      const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
+      const topicHtml = renderSubject(message);
 
-    const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
-    const textColor = foregroundColorFromBackground(backgroundColor);
-    const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
-    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
-    const topicHtml = renderSubject(message);
-
-    return template`
+      return template`
 <div class="header-wrapper header stream-header topic-header"
     data-msg-id="${message.id}"
     data-narrow="${base64Utf8Encode(topicNarrowStr)}">
@@ -75,9 +77,16 @@ export default (
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
 </div>
     `;
-  }
+    } else {
+      ensureUnreachable(headerStyle);
+      throw new Error();
+    }
+  } else if (message.type === 'private') {
+    invariant(
+      headerStyle === 'full',
+      'expected headerStyle to be "full" for PM; see getMessageListElements',
+    );
 
-  if (message.type === 'private' && headerStyle === 'full') {
     const keyRecipients = pmKeyRecipientsFromMessage(message, ownUser.user_id);
     const narrowObj = pmNarrowFromRecipients(keyRecipients);
     const narrowStr = keyFromNarrow(narrowObj);
@@ -93,7 +102,8 @@ export default (
     .join(', ')}
 </div>
 `;
+  } else {
+    ensureUnreachable(message.type);
+    throw new Error();
   }
-
-  return '';
 };
