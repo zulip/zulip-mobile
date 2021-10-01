@@ -358,6 +358,7 @@ export type MessageMessageListElement = {|
 export type HeaderMessageListElement = {|
   type: 'header',
   key: string,
+  style: 'none' | 'topic+date' | 'full',
   subsequentMessage: Message | Outbox,
 |};
 

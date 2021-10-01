@@ -24,7 +24,7 @@ export default ({
         case 'time':
           return time(element);
         case 'header':
-          return header(backgroundData, narrow, element);
+          return header(backgroundData, element);
         case 'message':
           return message(backgroundData, element, _);
         default:

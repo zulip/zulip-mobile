@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Message, Narrow, Outbox, MessageListElement } from '../types';
-import { isConversationNarrow } from '../utils/narrow';
+import { isConversationNarrow, caseNarrow } from '../utils/narrow';
 import { isSameRecipient } from '../utils/recipient';
 import { isSameDay } from '../utils/date';
 
@@ -39,6 +39,18 @@ export default (
       pieces.push({
         type: 'header',
         key: `header${message.id}`,
+        style: caseNarrow(narrow, {
+          stream: () => 'topic+date',
+          topic: () => 'none',
+
+          pm: () => 'none',
+
+          home: () => 'full',
+          starred: () => 'full',
+          mentioned: () => 'full',
+          allPrivate: () => 'full',
+          search: () => 'full',
+        }),
         subsequentMessage: message,
       });
     }

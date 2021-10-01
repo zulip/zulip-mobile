@@ -1,7 +1,6 @@
 /* @flow strict-local */
 
 import * as eg from '../../../__tests__/lib/exampleData';
-import { streamNarrow } from '../../../utils/narrow';
 import header from '../header';
 import type { BackgroundData } from '../../MessageList';
 
@@ -13,9 +12,10 @@ const backgroundData: BackgroundData = ({
 describe('header', () => {
   test('correctly encodes `<` in topic, in stream narrow', () => {
     const m = eg.streamMessage({ subject: '1 < 2' });
-    const h = header(backgroundData, streamNarrow(eg.stream.name), {
+    const h = header(backgroundData, {
       type: 'header',
       key: `header${m.id}`,
+      style: 'topic+date',
       subsequentMessage: m,
     });
     expect(h).not.toContain('1 < 2');

@@ -1,11 +1,10 @@
 /* @flow strict-local */
 import template from './template';
-import type { Narrow, HeaderMessageListElement } from '../../types';
+import type { HeaderMessageListElement } from '../../types';
 import type { BackgroundData } from '../MessageList';
 import {
   streamNarrow,
   topicNarrow,
-  caseNarrow,
   pmNarrowFromRecipients,
   keyFromNarrow,
 } from '../../utils/narrow';
@@ -31,23 +30,9 @@ const renderSubject = message =>
  */
 export default (
   { ownUser, subscriptions }: BackgroundData,
-  narrow: Narrow,
   element: HeaderMessageListElement,
 ): string => {
-  type HeaderStyle = 'none' | 'topic+date' | 'full';
-  const headerStyle: HeaderStyle = caseNarrow(narrow, {
-    stream: () => 'topic+date',
-    topic: () => 'none',
-
-    pm: () => 'none',
-
-    home: () => 'full',
-    starred: () => 'full',
-    mentioned: () => 'full',
-    allPrivate: () => 'full',
-    search: () => 'full',
-  });
-  const message = element.subsequentMessage;
+  const { subsequentMessage: message, style: headerStyle } = element;
 
   if (message.type === 'stream' && headerStyle === 'topic+date') {
     const streamName = streamNameOfStreamMessage(message);
