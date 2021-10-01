@@ -41,9 +41,13 @@ export default (
         key: `header${message.id}`,
         style: caseNarrow(narrow, {
           stream: () => 'topic+date',
-          topic: () => 'none',
+          topic: () => {
+            throw new Error('Unexpected HeaderMessageListElement in a topic narrow');
+          },
 
-          pm: () => 'none',
+          pm: () => {
+            throw new Error('Unexpected HeaderMessageListElement in a PM narrow');
+          },
 
           home: () => 'full',
           starred: () => 'full',
