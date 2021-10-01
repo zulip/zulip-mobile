@@ -47,6 +47,13 @@ import { ensureUnreachable } from '../../generics';
 declare var platformOS: string;
 
 /**
+ * The value of `process.env.NODE_ENV === 'development'` in RN-land.
+ *
+ * Provided by the template in `script.js`.
+ */
+declare var isDevelopment: string;
+
+/**
  * used to control behavior based on debug settings.
  * defined in `handleInitialLoad`.
  * declared globally so as to use across functions.
@@ -121,7 +128,7 @@ const escapeHtml = (text: string): string => {
 };
 
 window.onerror = (message: string, source: string, line: number, column: number, error: Error) => {
-  if (window.isDevelopment) {
+  if (isDevelopment) {
     // In development, show a detailed error banner for debugging.
     const elementJsError = document.getElementById('js-error-detailed');
     if (elementJsError) {
