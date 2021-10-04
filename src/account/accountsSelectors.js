@@ -123,8 +123,8 @@ export const getActiveAccount = (state: GlobalState): Account => {
   return account;
 };
 
-/** The realm of the active account; throws if none. */
-export const getCurrentRealm = (state: GlobalState): URL => getActiveAccount(state).realm;
+/** The realm URL for the active account; throws if none. */
+export const getRealmUrl = (state: GlobalState): URL => getActiveAccount(state).realm;
 
 /**
  * The auth object for this account, if logged in; else undefined.

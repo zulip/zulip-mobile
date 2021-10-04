@@ -35,7 +35,7 @@ import {
 } from '../actionConstants';
 import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
-import { getCurrentRealm } from '../account/accountsSelectors';
+import { getRealmUrl } from '../account/accountsSelectors';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -114,7 +114,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
             rawAvatarUrl: event.message.avatar_url,
             email: event.message.sender_email,
             userId: event.message.sender_id,
-            realm: getCurrentRealm(state),
+            realm: getRealmUrl(state),
           }),
         },
         local_message_id: event.local_message_id,
@@ -187,7 +187,7 @@ export default (state: GlobalState, event: $FlowFixMe): EventAction | null => {
     }
 
     case 'realm_user': {
-      const realm = getCurrentRealm(state);
+      const realm = getRealmUrl(state);
 
       switch (event.op) {
         case 'add': {

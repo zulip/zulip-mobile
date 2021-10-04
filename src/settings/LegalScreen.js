@@ -8,7 +8,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
 import { Screen, NestedNavRow } from '../common';
 import { openLinkEmbedded } from '../utils/openLink';
-import { getCurrentRealm } from '../selectors';
+import { getRealmUrl } from '../selectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'legal'>,
@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function LegalScreen(props: Props): Node {
-  const realm = useSelector(getCurrentRealm);
+  const realm = useSelector(getRealmUrl);
 
   const openTermsOfService = useCallback(() => {
     openLinkEmbedded(new URL('/terms/?nav=no', realm).toString());
