@@ -44,7 +44,6 @@
     "katex": "^0.11.1",
     "lodash.escape": "^4.0.1",
     "lodash.isequal": "^4.4.0",
-    "lodash.isplainobject": "^4.0.6",
     "lodash.omit": "^4.5.0",
     "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.4.0",

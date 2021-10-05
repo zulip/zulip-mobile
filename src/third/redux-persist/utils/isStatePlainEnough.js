@@ -1,8 +1,5 @@
 /* @flow strict-local */
 
-// $FlowFixMe[untyped-import]
-import isPlainObject from 'lodash.isplainobject';
-
 export default function isStatePlainEnough(a: mixed): boolean {
   // isPlainObject + duck type not immutable
   if (a === null) {
@@ -14,8 +11,6 @@ export default function isStatePlainEnough(a: mixed): boolean {
   if (typeof a.asMutable === 'function') {
     return false;
   }
-  if (!isPlainObject(a)) {
-    return false;
-  }
-  return true;
+  const proto = Object.getPrototypeOf(a);
+  return proto === null || Object.getPrototypeOf(proto) === null;
 }
