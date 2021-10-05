@@ -599,13 +599,7 @@ var compiledWebviewJs = (function (exports) {
   }
 
   var getMessageNode = function getMessageNode(element) {
-    var curNode = element;
-
-    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-      curNode = curNode.parentNode;
-    }
-
-    return curNode;
+    return element.closest('.msglist-element');
   };
 
   var getMessageIdFromElement = function getMessageIdFromElement(element) {

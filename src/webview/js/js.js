@@ -454,14 +454,8 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
   return { first, last };
 }
 
-/** DEPRECATED - consider using `node.closest('.message')` instead. */
-const getMessageNode = (element: Element): ?Node => {
-  let curNode = element;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-    curNode = curNode.parentNode;
-  }
-  return curNode;
-};
+/** DEPRECATED */
+const getMessageNode = (element: Element): ?Node => element.closest('.msglist-element');
 
 /** DEPRECATED */
 const getMessageIdFromElement = (element: Element, defaultValue: number = -1): number => {
