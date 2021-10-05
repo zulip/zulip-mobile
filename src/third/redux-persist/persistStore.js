@@ -4,7 +4,6 @@ import { cacheKeys } from '../../boot/store';
 import { REHYDRATE } from './constants';
 import getStoredState from './getStoredState';
 import createPersistor from './createPersistor';
-import setImmediate from './utils/setImmediate';
 
 export default function persistStore(store, config = {}, onComplete) {
   // defaults
