@@ -455,8 +455,8 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
 }
 
 /** DEPRECATED - consider using `node.closest('.message')` instead. */
-const getMessageNode = (node: ?Node): ?Node => {
-  let curNode = node;
+const getMessageNode = (element: Element): ?Node => {
+  let curNode = element;
   while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
     curNode = curNode.parentNode;
   }
