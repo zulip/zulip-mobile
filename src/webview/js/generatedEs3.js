@@ -608,9 +608,9 @@ var compiledWebviewJs = (function (exports) {
     return curNode;
   };
 
-  var getMessageIdFromNode = function getMessageIdFromNode(node) {
+  var getMessageIdFromElement = function getMessageIdFromElement(element) {
     var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-    var msgNode = getMessageNode(node);
+    var msgNode = getMessageNode(element);
     return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
   };
 
@@ -974,7 +974,7 @@ var compiledWebviewJs = (function (exports) {
       sendMessage({
         type: 'image',
         src: requireAttribute(inlineImageLink, 'href'),
-        messageId: getMessageIdFromNode(inlineImageLink)
+        messageId: getMessageIdFromElement(inlineImageLink)
       });
       return;
     }
@@ -983,7 +983,7 @@ var compiledWebviewJs = (function (exports) {
       sendMessage({
         type: 'url',
         href: requireAttribute(target, 'href'),
-        messageId: getMessageIdFromNode(target)
+        messageId: getMessageIdFromElement(target)
       });
       return;
     }
@@ -994,7 +994,7 @@ var compiledWebviewJs = (function (exports) {
       sendMessage({
         type: 'url',
         href: requireAttribute(parentNode, 'href'),
-        messageId: getMessageIdFromNode(parentNode)
+        messageId: getMessageIdFromElement(parentNode)
       });
       return;
     }
@@ -1005,7 +1005,7 @@ var compiledWebviewJs = (function (exports) {
         name: requireAttribute(target, 'data-name'),
         code: requireAttribute(target, 'data-code'),
         reactionType: requireAttribute(target, 'data-type'),
-        messageId: getMessageIdFromNode(target),
+        messageId: getMessageIdFromElement(target),
         voted: target.classList.contains('self-voted')
       });
       return;
@@ -1061,7 +1061,7 @@ var compiledWebviewJs = (function (exports) {
     if (reactionNode) {
       sendMessage({
         type: 'reactionDetails',
-        messageId: getMessageIdFromNode(target),
+        messageId: getMessageIdFromElement(target),
         reactionName: requireAttribute(reactionNode, 'data-name')
       });
       return;
@@ -1078,7 +1078,7 @@ var compiledWebviewJs = (function (exports) {
     sendMessage({
       type: 'longPress',
       target: targetType,
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       href: target.matches('a') ? requireAttribute(target, 'href') : null
     });
   };

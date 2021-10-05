@@ -464,8 +464,8 @@ const getMessageNode = (node: ?Node): ?Node => {
 };
 
 /** DEPRECATED */
-const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
-  const msgNode = getMessageNode(node);
+const getMessageIdFromElement = (element: Element, defaultValue: number = -1): number => {
+  const msgNode = getMessageNode(element);
   return msgNode && msgNode instanceof Element
     ? +msgNode.getAttribute('data-msg-id')
     : defaultValue;
@@ -903,7 +903,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'image',
       src: requireAttribute(inlineImageLink, 'href'), // TODO: should be `src` / `data-src-fullsize`.
-      messageId: getMessageIdFromNode(inlineImageLink),
+      messageId: getMessageIdFromElement(inlineImageLink),
     });
     return;
   }
@@ -912,7 +912,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'url',
       href: requireAttribute(target, 'href'),
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
     });
     return;
   }
@@ -922,7 +922,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'url',
       href: requireAttribute(parentNode, 'href'),
-      messageId: getMessageIdFromNode(parentNode),
+      messageId: getMessageIdFromElement(parentNode),
     });
     return;
   }
@@ -933,7 +933,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       name: requireAttribute(target, 'data-name'),
       code: requireAttribute(target, 'data-code'),
       reactionType: requireAttribute(target, 'data-type'),
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       voted: target.classList.contains('self-voted'),
     });
     return;
@@ -993,7 +993,7 @@ const handleLongPress = (target: Element) => {
   if (reactionNode) {
     sendMessage({
       type: 'reactionDetails',
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       reactionName: requireAttribute(reactionNode, 'data-name'),
     });
     return;
@@ -1020,7 +1020,7 @@ const handleLongPress = (target: Element) => {
   sendMessage({
     type: 'longPress',
     target: targetType,
-    messageId: getMessageIdFromNode(target),
+    messageId: getMessageIdFromElement(target),
     href: target.matches('a') ? requireAttribute(target, 'href') : null,
   });
 };
