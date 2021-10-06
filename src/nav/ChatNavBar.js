@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node, ComponentType } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
@@ -8,18 +8,107 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Narrow, EditMessage } from '../types';
 import { LoadingBanner, ZulipStatusBar } from '../common';
-import { useSelector } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE, ThemeContext } from '../styles';
 import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
-import { caseNarrowDefault } from '../utils/narrow';
-import InfoNavButtonStream from '../title-buttons/InfoNavButtonStream';
-import InfoNavButtonPrivate from '../title-buttons/InfoNavButtonPrivate';
-import InfoNavButtonGroup from '../title-buttons/InfoNavButtonGroup';
-import ExtraNavButtonStream from '../title-buttons/ExtraNavButtonStream';
-import ExtraNavButtonTopic from '../title-buttons/ExtraNavButtonTopic';
+import { caseNarrowDefault, streamNameOfNarrow, streamNarrow } from '../utils/narrow';
+import {
+  navigateToStream,
+  navigateToAccountDetails,
+  navigateToGroupDetails,
+  navigateToTopicList,
+  doNarrow,
+} from '../actions';
+import * as NavigationService from './NavigationService';
+import { getStreams } from '../selectors';
+import NavButton from './NavButton';
+
+function ExtraNavButtonStream(props): Node {
+  const streams = useSelector(getStreams);
+  const { color } = props;
+
+  return (
+    <NavButton
+      name="list"
+      color={color}
+      onPress={() => {
+        const { narrow } = props;
+        const streamName = streamNameOfNarrow(narrow);
+        const stream = streams.find(x => x.name === streamName);
+        if (stream) {
+          NavigationService.dispatch(navigateToTopicList(stream.stream_id));
+        }
+      }}
+    />
+  );
+}
+
+function ExtraNavButtonTopic(props): Node {
+  const { narrow, color } = props;
+  const dispatch = useDispatch();
+  const streams = useSelector(getStreams);
+
+  const handlePress = useCallback(() => {
+    const streamName = streamNameOfNarrow(narrow);
+    const stream = streams.find(x => x.name === streamName);
+    if (stream) {
+      dispatch(doNarrow(streamNarrow(stream.name)));
+    }
+  }, [dispatch, narrow, streams]);
+
+  return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
+}
+function InfoNavButtonStream(props): Node {
+  const streams = useSelector(getStreams);
+  const { color } = props;
+
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { narrow } = props;
+        const streamName = streamNameOfNarrow(narrow);
+        const stream = streams.find(x => x.name === streamName);
+        if (stream) {
+          NavigationService.dispatch(navigateToStream(stream.stream_id));
+        }
+      }}
+    />
+  );
+}
+
+function InfoNavButtonPrivate(props): Node {
+  const { color } = props;
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { userId } = props;
+        NavigationService.dispatch(navigateToAccountDetails(userId));
+      }}
+    />
+  );
+}
+
+function InfoNavButtonGroup(props): Node {
+  const { color } = props;
+
+  return (
+    <NavButton
+      name="info"
+      color={color}
+      onPress={() => {
+        const { userIds } = props;
+        NavigationService.dispatch(navigateToGroupDetails(userIds));
+      }}
+    />
+  );
+}
 
 /**
  * The "action items" to include in this app bar.
