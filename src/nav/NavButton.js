@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { BRAND_COLOR, createStyleSheet, NAVBAR_SIZE } from '../styles';
 import { Icon } from '../common/Icons';
@@ -43,17 +42,16 @@ export function NavButtonGeneral(
 export default function NavButton(
   props: $ReadOnly<{|
     color?: string,
-    style?: TextStyleProp,
     name: IconNames,
     onPress: () => void,
     accessibilityLabel?: string,
   |}>,
 ): Node {
-  const { name, style, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
+  const { name, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
 
   return (
     <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
-      <Icon size={24} style={[componentStyles.navButtonIcon, style]} color={color} name={name} />
+      <Icon size={24} style={componentStyles.navButtonIcon} color={color} name={name} />
     </NavButtonGeneral>
   );
 }
