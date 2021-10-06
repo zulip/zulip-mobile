@@ -8,21 +8,21 @@ import { Icon } from '../common/Icons';
 import type { IconNames } from '../common/Icons';
 import NavButtonGeneral from './NavButtonGeneral';
 
-type Props = $ReadOnly<{|
-  color?: string,
-  style?: TextStyleProp,
-  name: IconNames,
-  onPress: () => void,
-  accessibilityLabel?: string,
-|}>;
-
 const componentStyles = createStyleSheet({
   navButtonIcon: {
     textAlign: 'center',
   },
 });
 
-export default function NavButton(props: Props): Node {
+export default function NavButton(
+  props: $ReadOnly<{|
+    color?: string,
+    style?: TextStyleProp,
+    name: IconNames,
+    onPress: () => void,
+    accessibilityLabel?: string,
+  |}>,
+): Node {
   const { name, style, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
 
   return (

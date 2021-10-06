@@ -6,12 +6,6 @@ import { View } from 'react-native';
 import { NAVBAR_SIZE, createStyleSheet } from '../styles';
 import { Touchable } from '../common';
 
-type Props = $ReadOnly<{|
-  children: Node,
-  onPress: () => void,
-  accessibilityLabel?: string,
-|}>;
-
 const componentStyles = createStyleSheet({
   navButtonFrame: {
     width: NAVBAR_SIZE,
@@ -21,7 +15,13 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export default function NavButtonGeneral(props: Props): Node {
+export default function NavButtonGeneral(
+  props: $ReadOnly<{|
+    children: Node,
+    onPress: () => void,
+    accessibilityLabel?: string,
+  |}>,
+): Node {
   const { children, onPress, accessibilityLabel } = props;
 
   return (
