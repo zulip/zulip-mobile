@@ -917,11 +917,12 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
+  const { parentNode } = target;
+  if (parentNode instanceof Element && parentNode.matches('a')) {
     sendMessage({
       type: 'url',
-      href: requireAttribute(target.parentNode, 'href'),
-      messageId: getMessageIdFromNode(target.parentNode),
+      href: requireAttribute(parentNode, 'href'),
+      messageId: getMessageIdFromNode(parentNode),
     });
     return;
   }
