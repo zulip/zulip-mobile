@@ -598,14 +598,14 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  var getMessageNode = function getMessageNode(element) {
+  var getMessageElement = function getMessageElement(element) {
     return element.closest('.msglist-element');
   };
 
   var getMessageIdFromElement = function getMessageIdFromElement(element) {
     var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-    var msgNode = getMessageNode(element);
-    return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
+    var msgElement = getMessageElement(element);
+    return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
 
   var setMessagesReadAttributes = function setMessagesReadAttributes(rangeHull) {

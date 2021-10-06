@@ -455,14 +455,12 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
 }
 
 /** DEPRECATED */
-const getMessageNode = (element: Element): ?Node => element.closest('.msglist-element');
+const getMessageElement = (element: Element): ?Element => element.closest('.msglist-element');
 
 /** DEPRECATED */
 const getMessageIdFromElement = (element: Element, defaultValue: number = -1): number => {
-  const msgNode = getMessageNode(element);
-  return msgNode && msgNode instanceof Element
-    ? +msgNode.getAttribute('data-msg-id')
-    : defaultValue;
+  const msgElement = getMessageElement(element);
+  return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
 };
 
 /**
