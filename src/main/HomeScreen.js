@@ -9,7 +9,7 @@ import type { MainTabsNavigationProp } from './MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { useDispatch } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
-import NavButton, { NavButtonGeneral } from '../nav/NavButton';
+import { TopTabButton, TopTabButtonGeneral } from '../nav/TopTabButton';
 import UnreadCards from '../unread/UnreadCards';
 import { doNarrow, navigateToSearch } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
@@ -39,26 +39,26 @@ export default function HomeScreen(props: Props): Node {
   return (
     <View style={styles.wrapper}>
       <View style={styles.iconList}>
-        <NavButton
+        <TopTabButton
           name="globe"
           onPress={() => {
             dispatch(doNarrow(HOME_NARROW));
           }}
         />
-        <NavButton
+        <TopTabButton
           name="star"
           onPress={() => {
             dispatch(doNarrow(STARRED_NARROW));
           }}
         />
-        <NavButtonGeneral
+        <TopTabButtonGeneral
           onPress={() => {
             dispatch(doNarrow(MENTIONED_NARROW));
           }}
         >
           <IconUnreadMentions color={BRAND_COLOR} />
-        </NavButtonGeneral>
-        <NavButton
+        </TopTabButtonGeneral>
+        <TopTabButton
           name="search"
           onPress={() => {
             NavigationService.dispatch(navigateToSearch());

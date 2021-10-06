@@ -19,7 +19,7 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export function NavButtonGeneral(
+export function TopTabButtonGeneral(
   props: $ReadOnly<{|
     children: Node,
     onPress: () => void,
@@ -39,8 +39,8 @@ export function NavButtonGeneral(
   );
 }
 
-/** For use in an app bar. */
-export default function NavButton(
+/** For use in a top tab-style navigation bar, like our {@link HomeScreen}. */
+export function TopTabButton(
   props: $ReadOnly<{|
     color?: string,
     name: IconNames,
@@ -51,8 +51,8 @@ export default function NavButton(
   const { name, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
 
   return (
-    <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
+    <TopTabButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
       <Icon size={24} style={componentStyles.buttonIcon} color={color} name={name} />
-    </NavButtonGeneral>
+    </TopTabButtonGeneral>
   );
 }
