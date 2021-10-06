@@ -27,7 +27,7 @@ export default class TitleSpecial extends PureComponent<Props> {
     return (
       <View style={styles.navWrapper}>
         <Icon name={icon} size={20} color={color} style={styles.halfPaddingRight} />
-        <Label style={[styles.navTitle, { color }]} text={name} />
+        <Label style={[styles.navTitle, { flex: 1, color }]} text={name} />
       </View>
     );
   }

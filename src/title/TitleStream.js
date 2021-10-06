@@ -96,7 +96,11 @@ export default function TitleStream(props: Props): Node {
             color={color}
             size={styles.navTitle.fontSize}
           />
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
+          <Text
+            style={[styles.navTitle, { flex: 1, color }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
             {stream.name}
           </Text>
         </View>
