@@ -18,6 +18,8 @@ import * as NavigationService from './NavigationService';
  * https://developer.apple.com/design/human-interface-guidelines/ios/app-architecture/navigation/
  * https://developer.apple.com/design/human-interface-guidelines/ios/bars/navigation-bars/
  * https://material.io/design/navigation/understanding-navigation.html
+ *
+ * This is a {@link NavButton}.  See there for details on how to lay it out.
  */
 // TODO: on iOS, give the right label for a back button
 export default function NavBarBackButton(props: {| +color?: string |}): Node {

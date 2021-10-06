@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
@@ -16,6 +17,10 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function ModalSearchNavBar(props: Props): Node {
+  // Layout based on https://material.io/components/app-bars-top .
+  //
+  // For details, see comment at ModalNavBar.
+
   const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (
@@ -26,12 +31,18 @@ export default function ModalSearchNavBar(props: Props): Node {
         minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
         borderBottomWidth: 1,
+        backgroundColor,
+        paddingHorizontal: 4,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor,
       }}
     >
-      {canGoBack && <NavBarBackButton />}
+      {canGoBack && (
+        <>
+          <NavBarBackButton />
+          <View style={{ width: 20 }} />
+        </>
+      )}
       <SearchInput
         autoFocus={autoFocus}
         onChangeText={searchBarOnChange}

@@ -169,6 +169,8 @@ export default function ChatNavBar(props: {|
           backgroundColor: streamColor,
         }}
       >
+        {/* This View is the app bar:
+            https://material.io/components/app-bars-top#specs */}
         <View
           style={{
             // Ideally this would be `minHeight`, like in our other app bars,
@@ -177,14 +179,18 @@ export default function ChatNavBar(props: {|
             // over half the screen:
             //   https://github.com/zulip/zulip-mobile/pull/5035#discussion_r724700752
             height: NAVBAR_SIZE,
+            paddingHorizontal: 4,
             flexDirection: 'row',
             alignItems: 'center',
           }}
         >
           <NavBarBackButton color={buttonColor} />
+          {/* We put 20px here to get 32px total between the icon and the title text. */}
+          <View style={{ width: 20 }} />
           <Title color={textColor} narrow={narrow} editMessage={editMessage} />
           <ActionItems color={buttonColor} narrow={narrow} />
         </View>
+
         <LoadingBanner
           spinnerColor={spinnerColor}
           backgroundColor={streamColor}
