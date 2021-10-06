@@ -310,18 +310,23 @@ export type Stream = $ReadOnly<{|
   history_public_to_subscribers: boolean,
 |}>;
 
-export type Subscription = $ReadOnly<{|
-  ...$Exact<Stream>,
-  color: string,
-  in_home_view: boolean,
-  pin_to_top: boolean,
-  audible_notifications: boolean,
-  desktop_notifications: boolean,
-  email_address: string,
-  is_old_stream: boolean,
-  push_notifications: null | boolean,
-  stream_weekly_traffic: number,
-|}>;
+export type Subscription = {|
+  ...$ReadOnly<$Exact<Stream>>,
+  +color: string,
+  +in_home_view: boolean,
+  +pin_to_top: boolean,
+  +email_address: string,
+  +is_old_stream: boolean,
+  +stream_weekly_traffic: number,
+
+  /** (To interpret this value, see `getIsNotificationEnabled`.) */
+  +push_notifications: null | boolean,
+
+  // To meaningfully interpret these, we'll need logic similar to that for
+  // `push_notifications`.  Pending that, the `-` ensures we don't read them.
+  -audible_notifications: boolean,
+  -desktop_notifications: boolean,
+|};
 
 export type Topic = $ReadOnly<{|
   name: string,
