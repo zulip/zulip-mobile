@@ -1,7 +1,6 @@
 /* @flow strict-local */
-
 import React, { useContext } from 'react';
-import type { Node } from 'react';
+import type { Node, ComponentType } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
@@ -15,7 +14,38 @@ import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
-import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
+import { caseNarrowDefault } from '../utils/narrow';
+import InfoNavButtonStream from '../title-buttons/InfoNavButtonStream';
+import InfoNavButtonPrivate from '../title-buttons/InfoNavButtonPrivate';
+import InfoNavButtonGroup from '../title-buttons/InfoNavButtonGroup';
+import ExtraNavButtonStream from '../title-buttons/ExtraNavButtonStream';
+import ExtraNavButtonTopic from '../title-buttons/ExtraNavButtonTopic';
+
+const ExtraButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
+  caseNarrowDefault(
+    props.narrow,
+    {
+      stream: streamName => <ExtraNavButtonStream {...props} />,
+      topic: (streamName, topic) => <ExtraNavButtonTopic {...props} />,
+    },
+    () => false,
+  );
+
+const InfoButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
+  caseNarrowDefault(
+    props.narrow,
+    {
+      stream: streamName => <InfoNavButtonStream {...props} />,
+      topic: (streamName, topic) => <InfoNavButtonStream {...props} />,
+      pm: ids =>
+        ids.length === 1 ? (
+          <InfoNavButtonPrivate userId={ids[0]} color={props.color} />
+        ) : (
+          <InfoNavButtonGroup userIds={ids} color={props.color} />
+        ),
+    },
+    () => false,
+  );
 
 export default function ChatNavBar(props: {|
   +narrow: Narrow,
