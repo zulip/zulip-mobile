@@ -27,15 +27,13 @@ import { getStreams } from '../selectors';
 import NavButton from './NavButton';
 
 function ExtraNavButtonStream(props): Node {
+  const { color, narrow } = props;
   const streams = useSelector(getStreams);
-  const { color } = props;
-
   return (
     <NavButton
       name="list"
       color={color}
       onPress={() => {
-        const { narrow } = props;
         const streamName = streamNameOfNarrow(narrow);
         const stream = streams.find(x => x.name === streamName);
         if (stream) {
@@ -61,16 +59,15 @@ function ExtraNavButtonTopic(props): Node {
 
   return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
 }
-function InfoNavButtonStream(props): Node {
-  const streams = useSelector(getStreams);
-  const { color } = props;
 
+function InfoNavButtonStream(props): Node {
+  const { color, narrow } = props;
+  const streams = useSelector(getStreams);
   return (
     <NavButton
       name="info"
       color={color}
       onPress={() => {
-        const { narrow } = props;
         const streamName = streamNameOfNarrow(narrow);
         const stream = streams.find(x => x.name === streamName);
         if (stream) {
@@ -82,13 +79,12 @@ function InfoNavButtonStream(props): Node {
 }
 
 function InfoNavButtonPrivate(props): Node {
-  const { color } = props;
+  const { color, userId } = props;
   return (
     <NavButton
       name="info"
       color={color}
       onPress={() => {
-        const { userId } = props;
         NavigationService.dispatch(navigateToAccountDetails(userId));
       }}
     />
@@ -96,14 +92,12 @@ function InfoNavButtonPrivate(props): Node {
 }
 
 function InfoNavButtonGroup(props): Node {
-  const { color } = props;
-
+  const { color, userIds } = props;
   return (
     <NavButton
       name="info"
       color={color}
       onPress={() => {
-        const { userIds } = props;
         NavigationService.dispatch(navigateToGroupDetails(userIds));
       }}
     />
