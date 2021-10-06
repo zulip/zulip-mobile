@@ -19,26 +19,6 @@ const componentStyles = createStyleSheet({
   },
 });
 
-export function NavButtonGeneral(
-  props: $ReadOnly<{|
-    children: Node,
-    onPress: () => void,
-    accessibilityLabel?: string,
-  |}>,
-): Node {
-  const { children, onPress, accessibilityLabel } = props;
-
-  return (
-    <Touchable
-      onPress={onPress}
-      accessibilityLabel={accessibilityLabel}
-      style={componentStyles.buttonFrame}
-    >
-      {children}
-    </Touchable>
-  );
-}
-
 /** For use in an app bar. */
 export default function NavButton(
   props: $ReadOnly<{|
@@ -51,8 +31,12 @@ export default function NavButton(
   const { name, color = BRAND_COLOR, onPress, accessibilityLabel } = props;
 
   return (
-    <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
+    <Touchable
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+      style={componentStyles.buttonFrame}
+    >
       <Icon size={24} style={componentStyles.buttonIcon} color={color} name={name} />
-    </NavButtonGeneral>
+    </Touchable>
   );
 }
