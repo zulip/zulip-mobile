@@ -598,13 +598,9 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  var getMessageElement = function getMessageElement(element) {
-    return element.closest('.msglist-element');
-  };
-
   var getMessageIdFromElement = function getMessageIdFromElement(element) {
     var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-    var msgElement = getMessageElement(element);
+    var msgElement = element.closest('.msglist-element');
     return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
 

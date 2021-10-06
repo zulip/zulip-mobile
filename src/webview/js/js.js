@@ -455,11 +455,8 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
 }
 
 /** DEPRECATED */
-const getMessageElement = (element: Element): ?Element => element.closest('.msglist-element');
-
-/** DEPRECATED */
 const getMessageIdFromElement = (element: Element, defaultValue: number = -1): number => {
-  const msgElement = getMessageElement(element);
+  const msgElement = element.closest('.msglist-element');
   return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
 };
 
