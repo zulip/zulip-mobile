@@ -10,9 +10,7 @@ import InfoNavButtonGroup from './InfoNavButtonGroup';
 import ExtraNavButtonStream from './ExtraNavButtonStream';
 import ExtraNavButtonTopic from './ExtraNavButtonTopic';
 
-type Props = $ReadOnly<{| color: string, narrow: Narrow |}>;
-
-export const InfoButton: ComponentType<Props> = props =>
+export const InfoButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
   caseNarrowDefault(
     props.narrow,
     {
@@ -28,7 +26,7 @@ export const InfoButton: ComponentType<Props> = props =>
     () => false,
   );
 
-export const ExtraButton: ComponentType<Props> = props =>
+export const ExtraButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
   caseNarrowDefault(
     props.narrow,
     {

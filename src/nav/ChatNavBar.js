@@ -17,12 +17,10 @@ import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors'
 import { foregroundColorFromBackground } from '../utils/color';
 import { ExtraButton, InfoButton } from '../title-buttons/titleButtonFromNarrow';
 
-type Props = $ReadOnly<{|
-  narrow: Narrow,
-  editMessage: EditMessage | null,
-|}>;
-
-export default function ChatNavBar(props: Props): Node {
+export default function ChatNavBar(props: {|
+  +narrow: Narrow,
+  +editMessage: EditMessage | null,
+|}): Node {
   const { narrow, editMessage } = props;
   const streamColor = useSelector(state => getStreamColorForNarrow(state, narrow));
   const buttonColor =
