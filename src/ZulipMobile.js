@@ -17,7 +17,6 @@ import ThemeProvider from './boot/ThemeProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
-import BackNavigationHandler from './nav/BackNavigationHandler';
 import { initializeSentry } from './sentry';
 import FullScreenLoading from './common/FullScreenLoading';
 
@@ -54,11 +53,9 @@ export default (): Node => (
               <AppDataFetcher>
                 <TranslationProvider>
                   <ThemeProvider>
-                    <BackNavigationHandler>
-                      <ActionSheetProvider>
-                        <ZulipNavigationContainer />
-                      </ActionSheetProvider>
-                    </BackNavigationHandler>
+                    <ActionSheetProvider>
+                      <ZulipNavigationContainer />
+                    </ActionSheetProvider>
                   </ThemeProvider>
                 </TranslationProvider>
               </AppDataFetcher>
