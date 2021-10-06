@@ -21,22 +21,29 @@ import InfoNavButtonGroup from '../title-buttons/InfoNavButtonGroup';
 import ExtraNavButtonStream from '../title-buttons/ExtraNavButtonStream';
 import ExtraNavButtonTopic from '../title-buttons/ExtraNavButtonTopic';
 
-const ExtraButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
+/**
+ * The "action items" to include in this app bar.
+ *
+ * I.e., the buttons at the end of the app bar.  The spec calls these
+ * "action items":
+ *   https://material.io/components/app-bars-top#anatomy
+ */
+const ActionItems: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
   caseNarrowDefault(
     props.narrow,
     {
-      stream: streamName => <ExtraNavButtonStream {...props} />,
-      topic: (streamName, topic) => <ExtraNavButtonTopic {...props} />,
-    },
-    () => false,
-  );
-
-const InfoButton: ComponentType<{| +color: string, +narrow: Narrow |}> = props =>
-  caseNarrowDefault(
-    props.narrow,
-    {
-      stream: streamName => <InfoNavButtonStream {...props} />,
-      topic: (streamName, topic) => <InfoNavButtonStream {...props} />,
+      stream: streamName => (
+        <>
+          <ExtraNavButtonStream {...props} />
+          <InfoNavButtonStream {...props} />
+        </>
+      ),
+      topic: (streamName, topic) => (
+        <>
+          <ExtraNavButtonTopic {...props} />
+          <InfoNavButtonStream {...props} />
+        </>
+      ),
       pm: ids =>
         ids.length === 1 ? (
           <InfoNavButtonPrivate userId={ids[0]} color={props.color} />
@@ -93,8 +100,7 @@ export default function ChatNavBar(props: {|
         >
           <NavBarBackButton color={buttonColor} />
           <Title color={textColor} narrow={narrow} editMessage={editMessage} />
-          <ExtraButton color={buttonColor} narrow={narrow} />
-          <InfoButton color={buttonColor} narrow={narrow} />
+          <ActionItems color={buttonColor} narrow={narrow} />
         </View>
         <LoadingBanner
           spinnerColor={spinnerColor}
