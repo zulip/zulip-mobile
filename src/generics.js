@@ -84,7 +84,7 @@ export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
  * behavior unknown.)  Returns a solution `D`, where possible, to the type
  * equation
  *   `U == {| ...D, ...L |}`
- * with an (exact) object type `D`.
+ * with an (exact, read-only) object type `D`.
  *
  * More generally, returns the most general solution `D` to the relation
  *   `{| ...D, ...L |}: U`  (read "subtype of")
@@ -97,19 +97,23 @@ export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
  *    (i.e., the property's values in `L` are valid for `U`).
  *  * `D` has exactly the properties in `U` that aren't in `L`.
  *  * Each property of `D` has the same type as in `U`.
- *
- * The resulting type `D` is not read-only, even though `U` and `L` should
- * be.  This is due to Flow bug https://github.com/facebook/flow/issues/6225.
  */
 // Oddly, Flow accepts this declaration with <-U, -L> but also with <+U, +L>.
-export type BoundedDiff<-U, -L> = $Diff<
-  // This `IsSupertype` is the part that checks that all of L's properties
-  // (a) are present on U and (b) have appropriate types to use on U.
-  IsSupertype<U, $ReadOnly<{| ...U, ...L |}>>,
-  // This `$ObjMap` makes a variant of `L` that `$Diff` treats as more
-  // powerful, ensuring that all properties in `L` are removed completely.
-  $ObjMap<L, () => mixed>,
->;
+export type BoundedDiff<-U, -L> =
+  // The $ReadOnly is to work around a Flow bug that `$Diff` loses variance:
+  //   https://github.com/facebook/flow/issues/6225
+  // (If we wanted to use BoundedDiff with non-read-only `U`, this
+  // workaround wouldn't work; but happily we don't.)
+  $ReadOnly<
+    $Diff<
+      // This `IsSupertype` is the part that checks that all of L's properties
+      // (a) are present on U and (b) have appropriate types to use on U.
+      IsSupertype<U, $ReadOnly<{| ...U, ...L |}>>,
+      // This `$ObjMap` makes a variant of `L` that `$Diff` treats as more
+      // powerful, ensuring that all properties in `L` are removed completely.
+      $ObjMap<L, () => mixed>,
+    >,
+  >;
 
 /**
  * The object type `T` with its readonly annotation stripped.
@@ -120,6 +124,8 @@ export type BoundedDiff<-U, -L> = $Diff<
 // See discussion for an alternative, with `$ObjMap`, that seemed like
 // it was going to work, but didn't:
 //   https://github.com/zulip/zulip-mobile/pull/4520#discussion_r593394451.
+//
+// TODO test this, so we notice when the Flow bug is fixed and breaks it.
 export type ReadWrite<T: $ReadOnly<{ ... }>> = $Diff<T, {||}>;
 
 /**

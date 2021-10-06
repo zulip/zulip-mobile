@@ -18,6 +18,6 @@ import type { BoundedDiff } from './generics';
  */
 export function withSafeAreaInsets<P, C: ComponentType<P>>(
   WrappedComponent: C,
-): ComponentType<$ReadOnly<BoundedDiff<$Exact<ElementConfig<C>>, {| insets: EdgeInsets |}>>> {
+): ComponentType<BoundedDiff<$Exact<ElementConfig<C>>, {| insets: EdgeInsets |}>> {
   return withSafeAreaInsetsInner(WrappedComponent);
 }

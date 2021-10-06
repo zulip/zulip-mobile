@@ -19,11 +19,9 @@ export type ShowActionSheetWithOptions = (
 export function connectActionSheet<P, C: ComponentType<P>>(
   WrappedComponent: C,
 ): ComponentType<
-  $ReadOnly<
-    BoundedDiff<
-      $Exact<ElementConfig<C>>,
-      {| showActionSheetWithOptions: ShowActionSheetWithOptions |},
-    >,
+  BoundedDiff<
+    $Exact<ElementConfig<C>>,
+    {| showActionSheetWithOptions: ShowActionSheetWithOptions |},
   >,
 > {
   return connectActionSheetInner(WrappedComponent);

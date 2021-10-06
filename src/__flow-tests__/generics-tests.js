@@ -205,18 +205,7 @@ function test_BoundedDiff() {
   (x: number): empty => x;
 
   // Basic happy use.
-  //
-  // There is one surprise here!  The resulting types' properties are
-  // invariant, even if the originals were read-only.  This behavior comes
-  // from $Diff and is a Flow bug:
-  //   https://github.com/facebook/flow/issues/6225
-  // (But with this test, we'll hopefully notice when it's fixed!)
   typesEquivalent<BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>,
-                  {| a: number |}>();
-
-  // Here's a failing test of the desired behavior:
-  typesEquivalent<BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>,
-                  // $FlowIssue[incompatible-variance] #6225 -- see above
                   {| +a: number |}>();
 
   // Here's also a version of the happy case that doesn't involve specifying
@@ -239,7 +228,7 @@ function test_BoundedDiff() {
   // Property is removed even if subtracting with a proper subtype.
   (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): {| +a: number |} => x;
   typesEquivalent<BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>,
-                  {| a: number |}>();
+                  {| +a: number |}>();
 
   {
     // More notes on Flow and sharp edges for writing tests of types.
