@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { BRAND_COLOR, createStyleSheet, NAVBAR_SIZE } from '../styles';
@@ -31,8 +30,12 @@ export function NavButtonGeneral(
   const { children, onPress, accessibilityLabel } = props;
 
   return (
-    <Touchable onPress={onPress} accessibilityLabel={accessibilityLabel}>
-      <View style={componentStyles.navButtonFrame}>{children}</View>
+    <Touchable
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+      style={componentStyles.navButtonFrame}
+    >
+      {children}
     </Touchable>
   );
 }
