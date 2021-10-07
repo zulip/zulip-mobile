@@ -1,8 +1,11 @@
+/* @flow strict-local */
+
+// $FlowFixMe[untyped-import]
 import isPlainObject from 'lodash.isplainobject';
 
-export default function isStatePlainEnough(a) {
+export default function isStatePlainEnough(a: mixed): boolean {
   // isPlainObject + duck type not immutable
-  if (!a) {
+  if (a === null) {
     return false;
   }
   if (typeof a !== 'object') {
