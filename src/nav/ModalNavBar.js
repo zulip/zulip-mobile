@@ -19,7 +19,7 @@ export default function ModalNavBar(props: Props): Node {
   const textStyle = [
     styles.navTitle,
     { flex: 1 },
-    canGoBack ? { marginRight: NAVBAR_SIZE } : { marginLeft: 16 },
+    canGoBack ? { marginRight: 16 } : { marginHorizontal: 16 },
   ];
 
   return (
