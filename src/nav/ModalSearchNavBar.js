@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
-import { ThemeContext } from '../styles';
+import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
 
@@ -23,10 +23,11 @@ export default function ModalSearchNavBar(props: Props): Node {
       mode="padding"
       edges={['top', 'right', 'left']}
       style={{
+        minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
+        borderBottomWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
         backgroundColor,
       }}
     >

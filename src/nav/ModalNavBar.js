@@ -27,10 +27,11 @@ export default function ModalNavBar(props: Props): Node {
       mode="padding"
       edges={['top', 'right', 'left']}
       style={{
+        minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
+        borderBottomWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomWidth: 1,
         backgroundColor,
       }}
     >

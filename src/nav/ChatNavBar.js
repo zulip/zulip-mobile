@@ -53,8 +53,13 @@ export default function ChatNavBar(props: Props): Node {
       >
         <View
           style={{
-            flexDirection: 'row',
+            // Ideally this would be `minHeight`, like in our other app bars,
+            // to smoothly accommodate large font sizes.  But we seem to have
+            // a layout bug where doing that causes the app bar to take up
+            // over half the screen:
+            //   https://github.com/zulip/zulip-mobile/pull/5035#discussion_r724700752
             height: NAVBAR_SIZE,
+            flexDirection: 'row',
             alignItems: 'center',
           }}
         >
