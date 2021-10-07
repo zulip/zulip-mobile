@@ -8,13 +8,13 @@ import type { IconNames } from '../common/Icons';
 import { Touchable } from '../common';
 
 const componentStyles = createStyleSheet({
-  navButtonFrame: {
+  buttonFrame: {
     width: NAVBAR_SIZE,
     height: NAVBAR_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  navButtonIcon: {
+  buttonIcon: {
     textAlign: 'center',
   },
 });
@@ -32,7 +32,7 @@ export function NavButtonGeneral(
     <Touchable
       onPress={onPress}
       accessibilityLabel={accessibilityLabel}
-      style={componentStyles.navButtonFrame}
+      style={componentStyles.buttonFrame}
     >
       {children}
     </Touchable>
@@ -51,7 +51,7 @@ export default function NavButton(
 
   return (
     <NavButtonGeneral onPress={onPress} accessibilityLabel={accessibilityLabel}>
-      <Icon size={24} style={componentStyles.navButtonIcon} color={color} name={name} />
+      <Icon size={24} style={componentStyles.buttonIcon} color={color} name={name} />
     </NavButtonGeneral>
   );
 }
