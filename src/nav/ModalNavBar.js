@@ -26,15 +26,13 @@ export default function ModalNavBar(props: Props): Node {
     <SafeAreaView
       mode="padding"
       edges={['top', 'right', 'left']}
-      style={[
-        {
-          borderColor: 'hsla(0, 0%, 50%, 0.25)',
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderBottomWidth: 1,
-          backgroundColor,
-        },
-      ]}
+      style={{
+        borderColor: 'hsla(0, 0%, 50%, 0.25)',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        backgroundColor,
+      }}
     >
       {canGoBack && <NavBarBackButton />}
       <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
