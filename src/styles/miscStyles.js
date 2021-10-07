@@ -26,10 +26,6 @@ export const statics = {
   flexed: {
     flex: 1,
   },
-  flexedLeftAlign: {
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
   rightItem: {
     marginLeft: 'auto',
   },
