@@ -11,7 +11,9 @@ export default function persistStore(store, config = {}, onComplete) {
   // @TODO remove shouldRestore
   const shouldRestore = !config.skipRestore;
   if (config.skipRestore) {
-    logging.warn('redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead');
+    logging.warn(
+      'redux-persist: config.skipRestore has been deprecated. If you want to skip restoration use `createPersistor` instead',
+    );
   }
 
   let purgeKeys = null;
@@ -33,7 +35,7 @@ export default function persistStore(store, config = {}, onComplete) {
           if (purgeKeys === '*') {
             restoredState = {};
           } else {
-            purgeKeys.forEach((key) => delete restoredState[key]);
+            purgeKeys.forEach(key => delete restoredState[key]);
           }
         }
         try {
@@ -127,7 +129,7 @@ export default function persistStore(store, config = {}, onComplete) {
     store.dispatch({
       // Include a random string, to be sure no other action type
       // matches this one. Like Redux does for the initial action.
-      type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`
+      type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`,
     });
 
     if (onComplete) {
@@ -137,10 +139,10 @@ export default function persistStore(store, config = {}, onComplete) {
 
   return {
     ...persistor,
-    purge: (keys) => {
+    purge: keys => {
       purgeKeys = keys || '*';
       return persistor.purge(keys);
-    }
+    },
   };
 }
 
@@ -148,6 +150,6 @@ function rehydrateAction(payload, error = null) {
   return {
     type: REHYDRATE,
     payload,
-    error
+    error,
   };
 }

@@ -9,7 +9,7 @@ export default function getStoredState(config, onComplete) {
   const storage = config.storage;
   let deserializer;
   if (config.deserialize === false) {
-    deserializer = (data) => data;
+    deserializer = data => data;
   } else if (typeof config.deserialize === 'function') {
     deserializer = config.deserialize;
   } else {
@@ -36,14 +36,16 @@ export default function getStoredState(config, onComplete) {
       return;
     }
 
-    const persistKeys = allKeys.filter((key) => key.indexOf(keyPrefix) === 0).map((key) => key.slice(keyPrefix.length));
-    const keysToRestore = persistKeys.filter((key) => whitelist.indexOf(key) !== -1);
+    const persistKeys = allKeys
+      .filter(key => key.indexOf(keyPrefix) === 0)
+      .map(key => key.slice(keyPrefix.length));
+    const keysToRestore = persistKeys.filter(key => whitelist.indexOf(key) !== -1);
 
     const restoreCount = keysToRestore.length;
     if (restoreCount === 0) {
       onComplete(null, restoredState);
     }
-    keysToRestore.forEach((key) => {
+    keysToRestore.forEach(key => {
       (async () => {
         let err = null;
         let serialized = null;
@@ -53,7 +55,10 @@ export default function getStoredState(config, onComplete) {
           err = e;
         }
         if (err) {
-          logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key });
+          logging.warn(err, {
+            message: 'redux-persist/getStoredState: Error restoring data for a key.',
+            key,
+          });
         } else {
           restoredState[key] = rehydrate(key, serialized);
         }
@@ -72,7 +77,10 @@ export default function getStoredState(config, onComplete) {
       const data = deserializer(serialized);
       state = data;
     } catch (err) {
-      logging.warn(err, { message: 'redux-persist/getStoredState: Error restoring data for a key.', key });
+      logging.warn(err, {
+        message: 'redux-persist/getStoredState: Error restoring data for a key.',
+        key,
+      });
     }
 
     return state;

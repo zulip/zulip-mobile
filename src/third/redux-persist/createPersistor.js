@@ -97,13 +97,10 @@ export default function createPersistor(store, config) {
       // Warning: not guaranteed to be done in a transaction.
       await storage.multiSet(writes);
     } catch (e) {
-      logging.warn(
-        e,
-        {
-          message: 'An error was encountered while trying to persist this set of keys',
-          keys: [...outstandingKeys.values()],
-        }
-      );
+      logging.warn(e, {
+        message: 'An error was encountered while trying to persist this set of keys',
+        keys: [...outstandingKeys.values()],
+      });
       throw e;
     }
 
@@ -114,7 +111,7 @@ export default function createPersistor(store, config) {
   function adhocRehydrate(incoming, options = {}) {
     let state = {};
     if (options.serial) {
-      Object.keys(incoming).forEach((key) => {
+      Object.keys(incoming).forEach(key => {
         const subState = incoming[key];
         try {
           state[key] = deserializer(subState);
@@ -137,9 +134,13 @@ export default function createPersistor(store, config) {
   // return `persistor`
   return {
     rehydrate: adhocRehydrate,
-    pause: () => { paused = true; },
-    resume: () => { paused = false; },
-    purge: (keys) => purgeStoredState({ storage, keyPrefix }, keys),
+    pause: () => {
+      paused = true;
+    },
+    resume: () => {
+      paused = false;
+    },
+    purge: keys => purgeStoredState({ storage, keyPrefix }, keys),
 
     /**
      * Set `lastWrittenState` to the current `store.getState()`.
@@ -148,13 +149,15 @@ export default function createPersistor(store, config) {
      * update with the results of `REHYDRATE` even when the persistor is
      * paused.
      */
-    _resetLastWrittenState: () => { lastWrittenState = store.getState(); }
+    _resetLastWrittenState: () => {
+      lastWrittenState = store.getState();
+    },
   };
 }
 
 function rehydrateAction(data) {
   return {
     type: REHYDRATE,
-    payload: data
+    payload: data,
   };
 }
