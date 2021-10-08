@@ -2,6 +2,9 @@ import * as logging from '../../utils/logging';
 
 import { KEY_PREFIX } from './constants'
 
+// TODO(consistent-return): Let's work with Promises instead of callbacks,
+//   after these files are covered by Flow.
+// eslint-disable-next-line consistent-return
 export default function getStoredState (config, onComplete) {
   let storage = config.storage
   let deserializer;
