@@ -1,8 +1,14 @@
+/* @flow strict-local */
+import invariant from 'invariant';
+
 import * as logging from '../../utils/logging';
-
 import { KEY_PREFIX } from './constants';
+import type { Config } from './types';
 
-export default function purgeStoredState(config, keys) {
+export default function purgeStoredState(
+  config: Config,
+  keys: $ReadOnlyArray<string>,
+): Promise<mixed> {
   const storage = config.storage;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
 
@@ -33,6 +39,7 @@ export default function purgeStoredState(config, keys) {
           });
           reject(err);
         } else {
+          invariant(allKeys, 'allKeys is truthy');
           resolve(
             purgeStoredState(
               config,

@@ -475,8 +475,6 @@ const reduxPersistConfig: Config = {
 
   // Store data through our own wrapper for AsyncStorage, in particular
   // to get compression.
-  /* $FlowFixMe[incompatible-variance]:
-     https://github.com/rt2zz/redux-persist/issues/823 */
   storage: ZulipAsyncStorage,
   serialize: stringify,
   deserialize: parse,
