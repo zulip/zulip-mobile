@@ -1,12 +1,22 @@
-import * as logging from '../../utils/logging';
+/* @flow strict-local */
+import type { StoreEnhancer, Reducer } from 'redux';
+import invariant from 'invariant';
 
+import * as logging from '../../utils/logging';
 import { REHYDRATE } from './constants';
 import isStatePlainEnough from './utils/isStatePlainEnough';
 
-export default function autoRehydrate(config = {}) {
+export default function autoRehydrate<S: { ... }, A: { +type: string, ... }, D>(
+  config: {|
+    log?: boolean,
+    stateReconciler?: empty,
+  |} = Object.freeze({}),
+): StoreEnhancer<S, A, D> {
   const stateReconciler = config.stateReconciler || defaultStateReconciler;
 
-  return next => (reducer, initialState, enhancer) => {
+  // The StoreEnhancer API has an overload that's hard to represent with
+  // Flow.
+  return next => (reducer: Reducer<S, A>, initialState: $FlowFixMe, enhancer?: $FlowFixMe) => {
     const store = next(liftReducer(reducer), initialState, enhancer);
     return {
       ...store,
@@ -14,32 +24,37 @@ export default function autoRehydrate(config = {}) {
     };
   };
 
-  function liftReducer(reducer) {
+  function liftReducer(reducer: Reducer<S, A>): Reducer<S, A> {
     let rehydrated = false;
     const preRehydrateActions = [];
-    return (state, action) => {
+    return (state: S | void, action: A): S => {
       if (action.type !== REHYDRATE) {
-        if (config.log && !rehydrated) {
+        if (config.log === true && !rehydrated) {
           // store pre-rehydrate actions for debugging
           preRehydrateActions.push(action);
         }
         return reducer(state, action);
       } else {
-        if (config.log && !rehydrated) {
+        // This is the REHYDRATE action, not the initial action. The state
+        // will only ever be undefined before the initial action.
+        invariant(state, 'expected non-void state');
+
+        if (config.log === true && !rehydrated) {
           logPreRehydrate(preRehydrateActions);
         }
         rehydrated = true;
 
-        const inboundState = action.payload;
+        // If type is REHYDRATE, action will have a payload
+        const inboundState = (action: $FlowFixMe).payload;
         const reducedState = reducer(state, action);
 
-        return stateReconciler(state, inboundState, reducedState, config.log);
+        return stateReconciler(state, inboundState, reducedState, config.log === true);
       }
     };
   }
 }
 
-function logPreRehydrate(preRehydrateActions) {
+function logPreRehydrate<A: { +type: string, ... }>(preRehydrateActions: A[]) {
   const concernedActions = preRehydrateActions.slice(1);
   if (concernedActions.length > 0) {
     logging.warn(
@@ -53,7 +68,12 @@ function logPreRehydrate(preRehydrateActions) {
   }
 }
 
-function defaultStateReconciler(state, inboundState, reducedState, log) {
+function defaultStateReconciler<S: { ... }>(
+  state: S,
+  inboundState: S,
+  reducedState: S,
+  log: boolean,
+): S {
   const newState = { ...reducedState };
 
   Object.keys(inboundState).forEach(key => {
