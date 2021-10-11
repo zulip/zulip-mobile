@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { ThemeContext, createStyleSheet } from '../styles';
+import { ThemeContext, createStyleSheet, BRAND_COLOR } from '../styles';
 
 const styles = createStyleSheet({
   popup: {
@@ -14,6 +14,8 @@ const styles = createStyleSheet({
     shadowRadius: 16,
     elevation: 3,
     maxHeight: 250,
+    borderWidth: 1.5,
+    borderColor: BRAND_COLOR,
   },
 });
 
