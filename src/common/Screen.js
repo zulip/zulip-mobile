@@ -36,7 +36,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   centerContent?: boolean,
-  +children: Node,
+  children: Node,
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   scrollEnabled?: boolean,
@@ -49,7 +49,7 @@ type Props = $ReadOnly<{|
   shouldShowLoadingBanner?: boolean,
 
   canGoBack?: boolean,
-  +title?: LocalizableText,
+  title?: LocalizableText,
 |}>;
 
 /**
