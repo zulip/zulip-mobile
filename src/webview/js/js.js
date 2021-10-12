@@ -897,21 +897,6 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     return;
   }
 
-  const closestA = target.closest('a');
-  if (
-    closestA
-    // TODO: Is this right, or can target be even more deeply nested under
-    //   an <a />? (Check server API.)
-    && (closestA === target || closestA === target.parentNode)
-  ) {
-    sendMessage({
-      type: 'url',
-      href: requireAttribute(closestA, 'href'),
-      messageId: getMessageIdFromElement(closestA),
-    });
-    return;
-  }
-
   if (target.matches('.reaction')) {
     sendMessage({
       type: 'reaction',
@@ -951,6 +936,16 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       type: 'time',
       originalText,
     });
+  }
+
+  const closestA = target.closest('a');
+  if (closestA) {
+    sendMessage({
+      type: 'url',
+      href: requireAttribute(closestA, 'href'),
+      messageId: getMessageIdFromElement(closestA),
+    });
+    return;
   }
 
   const spoilerHeader = target.closest('.spoiler-header');
