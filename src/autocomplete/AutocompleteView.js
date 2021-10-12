@@ -47,7 +47,7 @@ export default function AutocompleteView(props: Props): Node {
   const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
   const AutocompleteComponent = prefixToComponent[lastWordPrefix];
   const shouldShow =
-    (isFocused && !!AutocompleteComponent && filter.length > 0) || lastWordPrefix === '@';
+    (isFocused && !!AutocompleteComponent && filter.length > 0) || lastWordPrefix === '@'; // add this check to open typeahead on character input @
 
   return (
     <AnimatedScaleComponent visible={shouldShow}>
