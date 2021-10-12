@@ -46,7 +46,8 @@ export default function AutocompleteView(props: Props): Node {
 
   const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
   const AutocompleteComponent = prefixToComponent[lastWordPrefix];
-  const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
+  const shouldShow =
+    (isFocused && !!AutocompleteComponent && filter.length > 0) || lastWordPrefix === '@';
 
   return (
     <AnimatedScaleComponent visible={shouldShow}>
