@@ -183,7 +183,7 @@ automate updating it.  The other is smaller, and is maintained
 manually.  It'd be good to fully automate both of these; we haven't
 yet.
 
-So, when a new messages file appears, update those three lists.
+So, when a new messages file appears, update those two lists.
 Then see if the next section applies too...
 
 
