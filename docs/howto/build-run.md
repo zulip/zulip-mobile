@@ -39,7 +39,7 @@ details to worry about.
 [install-rsync]: https://serverfault.com/a/872557
 [install-zstd-first]: https://serverfault.com/questions/310337/using-rsync-from-msysgit-for-binary-files/872557#comment1377770_872557
 
-* For running `tools/run-android` or any other build commands,
+* For running `yarn install`, `tools/run-android`, or any other build commands,
   use the Git Bash prompt.  The Windows Command Prompt isn't supported.
 
 * Or, if you'd like a richer command-line environment and are up for
