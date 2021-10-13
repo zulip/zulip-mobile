@@ -263,5 +263,6 @@
   "Attachment": "Attachment",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
-  "Remove account": "Remove account"
+  "Remove account": "Remove account",
+  "Search topics":"Search topics"
 }

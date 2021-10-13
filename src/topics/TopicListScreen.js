@@ -40,7 +40,14 @@ export default function TopicListScreen(props: Props): Node {
     topics && topics.filter(topic => topic.name.toLowerCase().includes(filter.toLowerCase()));
 
   return (
-    <Screen title="Topics" centerContent search searchBarOnChange={setFilter} scrollEnabled={false}>
+    <Screen
+      title="Topics"
+      centerContent
+      search
+      searchPlaceholder="Search topics"
+      searchBarOnChange={setFilter}
+      scrollEnabled={false}
+    >
       <TopicList stream={stream} topics={filteredTopics} onPress={handlePress} />
     </Screen>
   );
