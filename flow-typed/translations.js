@@ -28,6 +28,10 @@ declare module '../../static/translations/messages_cs.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_cy.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_da.json' {
   declare export default {| [string]: string |};
 }

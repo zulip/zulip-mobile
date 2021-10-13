@@ -17,6 +17,7 @@ export default {
   bg: require('../../static/translations/messages_bg.json'),
   bn: require('../../static/translations/messages_bn.json'),
   ca: require('../../static/translations/messages_ca.json'),
+  cy: require('../../static/translations/messages_cy.json'),
   cs: require('../../static/translations/messages_cs.json'),
   da: require('../../static/translations/messages_da.json'),
   de: require('../../static/translations/messages_de.json'),
