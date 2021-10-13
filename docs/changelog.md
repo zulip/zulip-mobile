@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.172 (2021-10-12)
+
 ### Highlights for users
 
 * Added a new action sheet on long-pressing a stream name. (#4899)
