@@ -5,6 +5,7 @@ import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/T
 import { View } from 'react-native';
 import InputWithClearButton from './InputWithClearButton';
 import { createStyleSheet } from '../styles';
+import type { LocalizableText } from '../types';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -23,6 +24,7 @@ type Props = $ReadOnly<{|
   autoFocus?: boolean,
   onChangeText: (text: string) => void,
   onSubmitEditing: (e: EditingEvent) => mixed,
+  placeholder?: LocalizableText,
 |}>;
 
 /**
@@ -33,7 +35,7 @@ type Props = $ReadOnly<{|
  * @prop onChangeText - Event called when search query is edited.
  */
 export default function SearchInput(props: Props): Node {
-  const { autoFocus = true, onChangeText, onSubmitEditing } = props;
+  const { autoFocus = true, onChangeText, onSubmitEditing, placeholder = 'Search' } = props;
 
   return (
     <View style={styles.wrapper}>
@@ -44,7 +46,7 @@ export default function SearchInput(props: Props): Node {
         selectTextOnFocus
         underlineColorAndroid="transparent"
         autoCapitalize="none"
-        placeholder="Search"
+        placeholder={placeholder}
         returnKeyType="search"
         onChangeText={onChangeText}
         autoFocus={autoFocus}

@@ -47,6 +47,7 @@ type Props = $ReadOnly<{|
   searchBarOnChange?: (text: string) => void,
   searchBarOnSubmit?: (e: EditingEvent) => void,
   shouldShowLoadingBanner?: boolean,
+  searchPlaceholder?: LocalizableText,
 
   canGoBack?: boolean,
   title?: LocalizableText,
@@ -69,6 +70,7 @@ type Props = $ReadOnly<{|
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
  * @prop [searchBarOnChange] - Event called on search query change.
  * @prop [searchBarOnSubmit] - Event called on search query submit.
+ * @prop [searchPlaceholder] - text shown as search placeholder.
  *
  * @prop [canGoBack] - If true (the default), show UI for "navigate back".
  * @prop [title] - Text shown as the title of the screen.
@@ -85,6 +87,7 @@ export default function Screen(props: Props): Node {
     padding = false,
     scrollEnabled = true,
     search = false,
+    searchPlaceholder,
     searchBarOnChange = (text: string) => {},
     style,
     title = '',
@@ -104,6 +107,7 @@ export default function Screen(props: Props): Node {
           canGoBack={canGoBack}
           searchBarOnChange={searchBarOnChange}
           searchBarOnSubmit={searchBarOnSubmit}
+          placeholder={searchPlaceholder}
         />
       ) : (
         <ModalNavBar canGoBack={canGoBack} title={title} />

@@ -8,11 +8,13 @@ import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/T
 import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
+import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
   autoFocus: boolean,
   searchBarOnChange: (text: string) => void,
   searchBarOnSubmit: (e: EditingEvent) => void,
+  placeholder?: LocalizableText,
   canGoBack?: boolean,
 |}>;
 
@@ -21,7 +23,7 @@ export default function ModalSearchNavBar(props: Props): Node {
   //
   // For details, see comment at ModalNavBar.
 
-  const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit } = props;
+  const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit, placeholder } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (
     <SafeAreaView
@@ -47,6 +49,7 @@ export default function ModalSearchNavBar(props: Props): Node {
         autoFocus={autoFocus}
         onChangeText={searchBarOnChange}
         onSubmitEditing={searchBarOnSubmit}
+        placeholder={placeholder}
       />
     </SafeAreaView>
   );
