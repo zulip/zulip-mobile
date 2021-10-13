@@ -6,12 +6,97 @@ import type { IsSupertype } from '../types';
 
 declare var magic: empty;
 
-function test_IsSupertype() {
-  // To get the expected errors, we'll need to force Flow to actually
-  // instantiate the type and look inside.  (This is why `IsSupertype`
-  // returns an interesting type in the first place, rather than some
-  // constant like `empty` or `mixed`.)  We'll do that with a cast.
+/** General tip on writing tests for fancy generic types like these. */
+// prettier-ignore
+function demo_need_value_flow() {
+  // A basic principle of how Flow works is that it's focused on tracking
+  // the, well, *flow* (the name is not a coincidence) of values from one
+  // place in the program (a variable, a function parameter, an object
+  // property, an expression, etc.) to another.
+  //
+  // Type-level expressions are secondary to this.  Their implications often
+  // only get worked through lazily, when some value-level flow makes it
+  // necessary to do so.
+  //
+  // That means if you're testing some type-level operator like IsSupertype
+  // or BoundedDiff, you'll typically need to create some value-level flows
+  // to exercise it -- even for cases where the intent is that some choices
+  // of type parameter result in an error of their own.
 
+  // Here's a toy example of a generic type with an internal constraint:
+  type IsString<S: string> = string;
+
+  // IsString<T> should be an error for any T that isn't <: string.
+  // And indeed it is, in a variety of contexts:
+
+  //   $FlowExpectedError[incompatible-type-arg]
+  function f1<T>(x: T): IsString<T> { return 'b'; }
+  // while compare:
+  function f2<T: string>(x: T): IsString<'a'> { return 'b'; }
+  function f3<T: string>(x: T): IsString<'a'> { return x; }
+
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: string): IsString<number> => x;
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: string): IsString<mixed> => x;
+  // while compare:
+  (x: string): IsString<string> => x;
+  (x: string): IsString<'a'> => x;
+  (x: string): IsString<empty> => x;
+
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString<mixed>): string => x;
+  // while compare:
+  (x: IsString<string>): string => x;
+
+  //   $FlowExpectedError[incompatible-type-arg]
+  ('b': IsString<mixed>);
+  // while compare:
+  ('b': IsString<string>);
+
+  //
+  //
+  // However.  One thing those all have in common is that the offending
+  // instantiation `IsString<…>` appears as either the source or the
+  // destination of some value-level flow.
+
+  // For example, this return type had a returned value flowing into it:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: string): IsString<number> => x;
+
+  // If we have the same bogus `IsString<…>` type as a return type, but
+  // avoid ever returning a value that has to flow to that return type,
+  // then there's no error:
+  (x: string): IsString<number> => { throw new Error(); };
+
+  // In the other direction, this parameter with a bogus type was the source
+  // of a flow into the return value:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString<mixed>): string => x;
+  // We could flow it into somewhere else instead, and still get the error:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString<mixed>): string => { (x: string); return 'b'; };
+  // But if it flows nowhere at all, there's no error:
+  (x: IsString<mixed>): string => { x; return 'b'; };
+  (x: IsString<mixed>): string => 'b';
+
+  // Similarly if we just mention the bogus type in another way but with no
+  // value-level flows to or from it, there's no error:
+  declare var x: IsString<number>;
+
+  //
+  //
+  // Happily this point isn't really a warning -- there's no need to worry
+  // about getting anything wrong by forgetting it.  As long as you set out
+  // to write tests for the error case, if you forget this point then you'll
+  // see that your tests are failing to fail.
+  //
+  // Rather, this is a tip for how to solve that problem if you run into it:
+  // cause some value to flow to or from the bogus type, and then Flow
+  // should notice that the type is bogus.
+}
+
+function test_IsSupertype() {
   // We'll need the type we cast from to also be a more interesting type than
   // `empty`, as a value of type `empty` causes Flow to just declare victory:
   (magic: IsSupertype<number, mixed>);
@@ -252,24 +337,5 @@ function test_BoundedDiff() {
     // means it has to examine its type, and it finds the contradiction:
     // $FlowExpectedError[prop-missing]
     (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): mixed => x.a;
-
-    // The basic principle here is that Flow is focused on tracking the,
-    // well, *flow* (the name is not a coincidence) of values from one place
-    // in the program (a variable, a function parameter, an object property,
-    // an expression, etc.) to another.  Type-level expressions are
-    // secondary, and their implications often only get worked through
-    // lazily, when some value-level flow makes it necessary to do so.
-    //
-    // That means if you're testing some type-level operator like
-    // BoundedDiff (or IsSupertype, as discussed in its tests above), you'll
-    // typically need to create some value-level flows to exercise it --
-    // even for cases where the intent is that some choices of type
-    // parameter result in an error of their own.
-    //
-    // Happily this isn't a warning -- there's no need to worry about
-    // getting anything wrong by forgetting it.  As long as you set out to
-    // write tests for the error case, if you forget this point then you'll
-    // see that your tests are failing to fail.  Rather, this is a tip for
-    // how to solve that problem if you run into it.
   }
 }
