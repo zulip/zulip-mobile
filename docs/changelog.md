@@ -36,6 +36,34 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Added a new action sheet on long-pressing a stream name. (#4899)
+
+Plus, like every release, many other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* (ios) Fixed some build issues with Xcode 13. (#5028)
+
+* Fixed a Jest test flake on ZulipAsyncStorage. (#4994)
+
+* Cleaned up some code in src/utils/recipients.js. (#5011)
+
+* Made progress on preparing our Flow types for better multi-account
+  support. (#5016, #5017, #5023, #5030)
+
+* Fixed an edge case in our new persisting logic. (#5025)
+
+* Removed the apparently idle BackNavigationHandler component. (#5033)
+
+* Formatted the redux-persist code so it's closer to our style. (#5040)
+
+* Resolved issues (earliest first): #4994, #5012, #5011, #5016, #5017,
+  #5003, #5028, #5025, #5023, #5030, #4899, #5021, #5033, #5035, #5040
+
 
 ## 27.171 (2021-09-17)
 
