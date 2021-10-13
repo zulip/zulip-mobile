@@ -96,16 +96,127 @@ function demo_need_value_flow() {
   // should notice that the type is bogus.
 }
 
-function test_IsSupertype() {
-  // We'll need the type we cast from to also be a more interesting type than
-  // `empty`, as a value of type `empty` causes Flow to just declare victory:
-  (magic: IsSupertype<number, mixed>);
-  // This is OK in practice because in real life there are no values of type
-  // `empty`; if you have an expression of type `empty`, you're already
-  // asserting falsehood.  (And it's perfectly OK from a theoretical
-  // perspective for basically the same reason said differently: `empty` is
-  // the type interpretation of logical falsity, and ex falso quodlibet.)
+/** A subtler tip on writing tests for fancy generic types like these. */
+function demo_short_circuits() {
+  // As seen above, in order to test one of these types you need to exercise
+  // it with some value-level flow to or from it.
+  //
+  // A further wrinkle is that if your value-level flow is necessarily OK
+  // thanks to some general rule of the type system, some reasoning that
+  // doesn't depend on the details of the bogus type (that you're trying to
+  // test is indeed seen as bogus)… then Flow may apply that rule and
+  // short-circuit any closer inspection of the specific types on each side.
+  //
+  // In particular (and we'll demo each of these below):
+  //  * If the flow is from `empty`, it succeeds.  (Even if the other end is
+  //    an internally-bogus type.)
+  //  * If the flow is to `mixed`, it succeeds.  (Ditto.)
+  //  * If the flow is from some type to itself, it succeeds (even if that
+  //    type is internally bogus.)
+  //
+  // (The jargon for these facts is: `empty` is a "bottom" type; `mixed` is
+  // a "top" type; and the subtype relation (the ability to flow from one
+  // type to another) is "reflexive".)
+  //
+  // It seems bad that Flow can accept a program, with no errors, when it
+  // contains a type somewhere that's bogus like `IsString<number>`.
+  // Ideally Flow would reject those, because it's confusing.  (One likely
+  // reason it accepts them is for performance: each of these situations is
+  // quick to check for, and then Flow gets to check off that flow as valid
+  // and move on.)
+  //
+  // But from Flow's perspective this is a fundamentally sound thing to do,
+  // because it can't enable something actually going wrong in the program
+  // at runtime.  That is, if some place in the program (some expression,
+  // variable, object property, etc.) gets a bogus type, and if at runtime
+  // that place actually gets reached so that there's some actual value that
+  // supposedly has that bogus type, then (modulo some other issue in Flow)
+  // it must be because of a type error somewhere in the program.
+  //
+  // In particular, if one of the rules above prevents an error we would
+  // have otherwise gotten about a bogus type, and a value ever actually
+  // reaches that bogus type at runtime, then there must be an error
+  // somewhere else too:
+  //  * The `empty` type, as the name suggests, has no values.  So if
+  //    something with a bogus type gets a value at runtime through a flow
+  //    from `empty`, then there must have been a type error along the way
+  //    to get the value into the `empty`-typed spot in the first place.
+  //  * A flow from a bogus type to `mixed` leads only from, not to, a bogus
+  //    type.
+  //  * If some point A with a bogus type T gets a value at runtime through
+  //    a flow from some other point B with the same bogus type T, then the
+  //    value must have already before then gotten into point B, with its
+  //    bogus type T.
+  //
+  // For the `empty` case in particular, here's a more theoretical way of
+  // putting it that may be helpful.  The type `empty` is the type
+  // interpretation of logical falsity: if you have an expression of type
+  // `empty`, then reaching that expression at runtime means asserting
+  // falsehood.  And "ex falso quodlibet": from falsehood, anything follows.
 
+  //
+  //
+  // Here's the same toy example from before.
+  type IsString<S: string> = string;
+  // IsString<T> should be an error for any T that isn't <: string.
+
+  // Here we flow something into a bogus IsString<T>, and get an error:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: string): IsString<number> => x;
+  // But if the source of the flow is `empty`, there's no error:
+  (x: empty): IsString<number> => x;
+
+  // Similarly, a flow somewhere from a bogus IsString<T> is an error:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString<number>): string => x;
+  // but not if that somewhere is `mixed`:
+  (x: IsString<number>): mixed => x;
+
+  // Nor is flowing from the bogus type to itself an error:
+  (x: IsString<number>): IsString<number> => x;
+
+  // So if we want to test that `IsString<number>` is bogus as expected,
+  // the solution is to flow from some type that isn't itself or `empty`:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: string): IsString<number> => x;
+  // or to flow to some type that isn't itself or `mixed`:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString<number>): string => x;
+
+  //
+  //
+  // But what if the type already is no higher than `empty`?
+  type IsString2<S: string> = empty;
+  // If we flow from a type that isn't `empty`, the flow itself will be an
+  // error.
+
+  // Well, as one solution, we can flow *from* it instead:
+  //   $FlowExpectedError[incompatible-type-arg]
+  (x: IsString2<number>): string => x;
+
+  // Alternatively, we can still flow to it from some non-empty type:
+  //   $FlowExpectedError[incompatible-type-arg]
+  //   $FlowExpectedError[incompatible-return]
+  (x: string): IsString2<number> => x;
+  // It'll come with an additional suppression for the flow itself.
+  // But that one will have an error code like `incompatible-return` or
+  // `incompatible-cast`.  The error in the type arguments passed to the
+  // generic will have the distinctive error code `incompatible-type-arg`.
+  // So the FlowExpectedError with that code checks for the error we're
+  // trying to test for.
+
+  //
+  //
+  // Happily, like the previous demo, this is not really a warning -- you
+  // don't need to worry about it in advance, because if you run into it
+  // you'll be alerted by your tests failing to find the expected errors.
+  //
+  // If you do, avoid flowing from `empty` or to `mixed` (or from the type
+  // to itself.)  Instead, find a less extreme type to use for the other end
+  // of the flow.
+}
+
+function test_IsSupertype() {
   // Test the basics, relative to a primitive type.
   (1: IsSupertype<number, empty>);
   (1: IsSupertype<number, number>);
@@ -314,28 +425,4 @@ function test_BoundedDiff() {
   (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): {| +a: number |} => x;
   typesEquivalent<BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>,
                   {| +a: number |}>();
-
-  {
-    // More notes on Flow and sharp edges for writing tests of types.
-
-    // Note if we don't actually use `x`, Flow doesn't dig into its type to
-    // find the contradiction there:
-    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): number => 1;
-
-    // Similarly if we just use it where we only need a `mixed`:
-    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): mixed => x;
-
-    // But a missing property is an error even when it's only going to be
-    // used as `mixed`:
-    // $FlowExpectedError[prop-missing]
-    (x: {| +a: number |}): mixed => x.c;
-    // $FlowExpectedError[prop-missing]
-    (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>): mixed => x.c;
-
-    // So if we try to get a *property* of `x`, even to use as `mixed`, then
-    // Flow does want to check that `x` has that property at all.  Which
-    // means it has to examine its type, and it finds the contradiction:
-    // $FlowExpectedError[prop-missing]
-    (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): mixed => x.a;
-  }
 }
