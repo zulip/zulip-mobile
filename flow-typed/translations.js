@@ -1,6 +1,6 @@
 /*
  * Crudely @generated like so:
- *   $ ls static/translations/messages_*.json | perl -lne '
+ *   $ ls static/translations/messages_*.json | LC_ALL=C sort | perl -lne '
            print "\
 declare module '\''../../$_'\'' {
   declare export default {| [string]: string |};
