@@ -36,19 +36,19 @@ declare module '../../static/translations/messages_de.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_el_GR.json' {
-  declare export default {| [string]: string |};
-}
-
 declare module '../../static/translations/messages_el.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_en_GB.json' {
+declare module '../../static/translations/messages_el_GR.json' {
   declare export default {| [string]: string |};
 }
 
 declare module '../../static/translations/messages_en.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_en_GB.json' {
   declare export default {| [string]: string |};
 }
 
@@ -68,11 +68,11 @@ declare module '../../static/translations/messages_fi.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_fr_FR.json' {
+declare module '../../static/translations/messages_fr.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_fr.json' {
+declare module '../../static/translations/messages_fr_FR.json' {
   declare export default {| [string]: string |};
 }
 
@@ -88,11 +88,11 @@ declare module '../../static/translations/messages_hi.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_hr_HR.json' {
+declare module '../../static/translations/messages_hr.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_hr.json' {
+declare module '../../static/translations/messages_hr_HR.json' {
   declare export default {| [string]: string |};
 }
 
@@ -144,11 +144,11 @@ declare module '../../static/translations/messages_pl.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_pt_BR.json' {
+declare module '../../static/translations/messages_pt.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_pt.json' {
+declare module '../../static/translations/messages_pt_BR.json' {
   declare export default {| [string]: string |};
 }
 
