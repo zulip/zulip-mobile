@@ -8,7 +8,7 @@ import { topicNarrow, keyFromNarrow } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('draftsReducer', () => {
-  const testNarrow = topicNarrow(eg.stream.name, 'denmark2');
+  const testNarrow = topicNarrow(eg.stream.name, eg.stream.stream_id, 'denmark2');
   const testNarrowStr = keyFromNarrow(testNarrow);
 
   describe('DRAFT_UPDATE', () => {

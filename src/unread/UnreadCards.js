@@ -55,7 +55,7 @@ export default function UnreadCards(props: Props): Node {
             backgroundColor={section.color}
             unreadCount={section.unread}
             onPress={(streamId: number, streamName: string) => {
-              setTimeout(() => dispatch(doNarrow(streamNarrow(streamName))));
+              setTimeout(() => dispatch(doNarrow(streamNarrow(streamName, streamId))));
             }}
           />
         )
@@ -72,7 +72,7 @@ export default function UnreadCards(props: Props): Node {
             isSelected={false}
             unreadCount={item.unread}
             onPress={(streamId: number, streamName: string, topic: string) => {
-              setTimeout(() => dispatch(doNarrow(topicNarrow(streamName, topic))));
+              setTimeout(() => dispatch(doNarrow(topicNarrow(streamName, streamId, topic))));
             }}
           />
         )

@@ -81,7 +81,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
       // We have an actual stream selected.  Fetch its recent topic names.
       // TODO: why do we do this?  `TopicAutocomplete` does the same thing,
       //   with an effect that reruns when the stream changes.
-      const narrow = streamNarrow(streamName);
+      const narrow = streamNarrow(streamName, streamId);
       dispatch(fetchTopicsForStream(narrow));
     }
     // If what's entered in the stream-name field isn't an actual stream,
@@ -147,7 +147,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   render() {
     const { sharedData } = this.props.route.params;
     const { streamName, streamId, topic, isStreamFocused, isTopicFocused } = this.state;
-    const narrow = streamId !== null ? streamNarrow(streamName) : null;
+    const narrow = streamId !== null ? streamNarrow(streamName, streamId) : null;
     const sendTo = {
       streamName,
       /* $FlowFixMe[incompatible-cast]: ShareWrapper will only look at this

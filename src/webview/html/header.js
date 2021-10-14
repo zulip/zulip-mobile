@@ -39,7 +39,9 @@ export default (
 
   if (message.type === 'stream') {
     const streamName = streamNameOfStreamMessage(message);
-    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
+    const topicNarrowStr = keyFromNarrow(
+      topicNarrow(streamName, message.stream_id, message.subject),
+    );
     const topicHtml = renderSubject(message);
 
     if (headerStyle === 'topic+date') {
@@ -57,7 +59,7 @@ export default (
       const subscription = subscriptions.get(message.stream_id);
       const backgroundColor = subscription ? subscription.color : 'hsl(0, 0%, 80%)';
       const textColor = foregroundColorFromBackground(backgroundColor);
-      const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
+      const streamNarrowStr = keyFromNarrow(streamNarrow(streamName, message.stream_id));
 
       return template`
 <div class="msglist-element header-wrapper header stream-header topic-header"

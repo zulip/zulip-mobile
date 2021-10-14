@@ -13,7 +13,7 @@ import type { Action } from '../../actionTypes';
 
 const mockStore = configureStore([thunk]);
 
-const streamNarrowObj = streamNarrow(eg.stream.name);
+const streamNarrowObj = streamNarrow(eg.stream.name, eg.stream.stream_id);
 
 describe('messageActions', () => {
   describe('doNarrow', () => {

@@ -189,11 +189,11 @@ export const getNarrowFromLink = (
     }
     case 'topic': {
       const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && topicNarrow(streamNameAndId[0], parseTopicOperand(paths[3]));
+      return streamNameAndId && topicNarrow(...streamNameAndId, parseTopicOperand(paths[3]));
     }
     case 'stream': {
       const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && streamNarrow(streamNameAndId[0]);
+      return streamNameAndId && streamNarrow(...streamNameAndId);
     }
     case 'special':
       try {

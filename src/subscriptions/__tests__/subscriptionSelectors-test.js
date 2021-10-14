@@ -57,22 +57,22 @@ describe('getIsActiveStreamSubscribed', () => {
   });
 
   test('return true if current narrowed stream is subscribed', () => {
-    const narrow = streamNarrow(eg.stream.name);
+    const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
     expect(getIsActiveStreamSubscribed(state, narrow)).toBe(true);
   });
 
   test('return false if current narrowed stream is not subscribed', () => {
-    const narrow = streamNarrow(eg.otherStream.name);
+    const narrow = streamNarrow(eg.otherStream.name, eg.otherStream.stream_id);
     expect(getIsActiveStreamSubscribed(state, narrow)).toBe(false);
   });
 
   test('return true if stream of current narrowed topic is subscribed', () => {
-    const narrow = topicNarrow(eg.stream.name, 'news');
+    const narrow = topicNarrow(eg.stream.name, eg.stream.stream_id, 'news');
     expect(getIsActiveStreamSubscribed(state, narrow)).toBe(true);
   });
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
-    const narrow = topicNarrow(eg.otherStream.name, 'news');
+    const narrow = topicNarrow(eg.otherStream.name, eg.otherStream.stream_id, 'news');
     expect(getIsActiveStreamSubscribed(state, narrow)).toBe(false);
   });
 });
@@ -84,13 +84,13 @@ describe('getStreamColorForNarrow', () => {
   });
 
   test('return stream color for stream and topic narrow', () => {
-    const narrow = streamNarrow(eg.stream.name);
+    const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
     expect(getStreamColorForNarrow(state, narrow)).toEqual(exampleColor);
   });
 
   test('return null stream color for invalid stream or unknown subscriptions', () => {
     const unknownStream = eg.makeStream();
-    const narrow = streamNarrow(unknownStream.name);
+    const narrow = streamNarrow(unknownStream.name, unknownStream.stream_id);
     expect(getStreamColorForNarrow(state, narrow)).toEqual('gray');
   });
 

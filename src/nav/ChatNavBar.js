@@ -53,7 +53,7 @@ function ExtraNavButtonTopic(props): Node {
     const streamName = streamNameOfNarrow(narrow);
     const stream = streams.find(x => x.name === streamName);
     if (stream) {
-      dispatch(doNarrow(streamNarrow(stream.name)));
+      dispatch(doNarrow(streamNarrow(stream.name, stream.stream_id)));
     }
   }, [dispatch, narrow, streams]);
 

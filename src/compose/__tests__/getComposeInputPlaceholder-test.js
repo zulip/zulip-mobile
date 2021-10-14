@@ -30,7 +30,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns "Message #streamName" for stream narrow', () => {
-    const narrow = deepFreeze(streamNarrow(eg.stream.name));
+    const narrow = deepFreeze(streamNarrow(eg.stream.name, eg.stream.stream_id));
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById);
     expect(placeholder).toEqual({
       text: 'Message {recipient}',
@@ -39,7 +39,7 @@ describe('getComposeInputPlaceholder', () => {
   });
 
   test('returns properly for topic narrow', () => {
-    const narrow = deepFreeze(topicNarrow(eg.stream.name, 'Copenhagen'));
+    const narrow = deepFreeze(topicNarrow(eg.stream.name, eg.stream.stream_id, 'Copenhagen'));
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById);
     expect(placeholder).toEqual({ text: 'Reply' });
   });

@@ -533,8 +533,8 @@ export const getNarrowsForMessage = (
     result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId)));
   } else {
     const streamName = streamNameOfStreamMessage(message);
-    result.push(topicNarrow(streamName, message.subject));
-    result.push(streamNarrow(streamName));
+    result.push(topicNarrow(streamName, message.stream_id, message.subject));
+    result.push(streamNarrow(streamName, message.stream_id));
   }
 
   if (flags.includes('mentioned') || flags.includes('wildcard_mentioned')) {
@@ -562,6 +562,6 @@ export const getNarrowForReply = (message: Message | Outbox, ownUserId: UserId):
     return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId));
   } else {
     const streamName = streamNameOfStreamMessage(message);
-    return topicNarrow(streamName, message.subject);
+    return topicNarrow(streamName, message.stream_id, message.subject);
   }
 };
