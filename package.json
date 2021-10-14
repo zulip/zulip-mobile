@@ -60,7 +60,7 @@
     "react-native-device-info": "^8.1.7",
     "react-native-document-picker": "^3.2.4",
     "react-native-gesture-handler": "^1.0.12",
-    "react-native-image-picker": "~2.3.4",
+    "react-native-image-picker": "^4.1.1",
     "react-native-photo-view": "alwx/react-native-photo-view#c58fd6b30",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.1.7",

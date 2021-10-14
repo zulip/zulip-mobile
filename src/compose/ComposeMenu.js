@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
-// $FlowFixMe[untyped-import]
-import ImagePicker from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
+import * as logging from '../utils/logging';
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
@@ -76,59 +76,65 @@ class ComposeMenuInner extends PureComponent<Props> {
     dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
   };
 
-  handleImagePickerResponse = (
-    response: $ReadOnly<{
-      didCancel: boolean,
-      // Upstream docs are vague:
-      // https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Reference.md
-      error?: string | void | null | false,
-      uri: string,
-      // Upstream docs are wrong (fileName may indeed be null, at least on iOS);
-      // surfaced in https://github.com/zulip/zulip-mobile/issues/3813:
-      // https://github.com/react-native-community/react-native-image-picker/issues/1271
-      fileName: ?string,
-      ...
-    }>,
-  ) => {
-    if (response.didCancel) {
+  handleImagePickerResponse = response => {
+    if (response.didCancel === true) {
       return;
     }
 
-    // $FlowFixMe[sketchy-null-string]
-    /* $FlowFixMe[sketchy-null-bool]
-       Upstream API is unclear. */
-    const error: string | null = response.error || null;
-    if (error !== null) {
-      showErrorAlert('Error', error);
+    const errorCode = response.errorCode;
+    if (errorCode != null) {
+      showErrorAlert('Error', response.errorMessage);
       return;
     }
 
-    this.uploadFile(response.uri, response.fileName);
+    // TODO: support sending multiple files; see library's docs for how to
+    // let `assets` have more than one item in `response`.
+    const firstAsset = response.assets && response.assets[0];
+
+    const { uri, fileName } = firstAsset ?? {};
+
+    if (!firstAsset || uri == null || fileName == null) {
+      // TODO: If we need to keep this, wire up the user-facing string for
+      // translation.
+      showErrorAlert('Error', 'Something went wrong, and your message was not sent.');
+      logging.error('Unexpected response from image picker', {
+        '!firstAsset': !firstAsset,
+        'uri == null': uri == null,
+        'fileName == null': fileName == null,
+      });
+      return;
+    }
+
+    this.uploadFile(uri, fileName);
   };
 
   handleImagePicker = () => {
-    ImagePicker.launchImageLibrary(
+    launchImageLibrary(
       {
+        // TODO(#3624): Try 'mixed', to allow both photos and videos
+        mediaType: 'photo',
+
         quality: 1.0,
-        noData: true,
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
+        includeBase64: false,
       },
       this.handleImagePickerResponse,
     );
   };
 
   handleCameraCapture = () => {
-    const options = {
-      storageOptions: {
-        cameraRoll: true,
-        waitUntilSaved: true,
-      },
-    };
+    launchCamera(
+      {
+        mediaType: 'photo',
 
-    ImagePicker.launchCamera(options, this.handleImagePickerResponse);
+        // TODO: Do we actually need this? If not, also check if we can remove
+        // the relevant WRITE_EXTERNAL_STORAGE permission in our Android
+        // manifest.
+        saveToPhotos: true,
+
+        includeBase64: false,
+      },
+      this.handleImagePickerResponse,
+    );
   };
 
   handleFilesPicker = async () => {
