@@ -61,8 +61,8 @@ describe('isPmNarrow', () => {
 describe('isStreamOrTopicNarrow', () => {
   test('check for stream or topic narrow', () => {
     expect(isStreamOrTopicNarrow(undefined)).toBe(false);
-    expect(isStreamOrTopicNarrow(streamNarrow('some stream'))).toBe(true);
-    expect(isStreamOrTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
+    expect(isStreamOrTopicNarrow(streamNarrow(eg.stream.name))).toBe(true);
+    expect(isStreamOrTopicNarrow(topicNarrow(eg.stream.name, 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamOrTopicNarrow(pm1to1NarrowFromUser(eg.otherUser))).toBe(false);
     expect(isStreamOrTopicNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(
@@ -76,37 +76,37 @@ describe('specialNarrow', () => {
   test('only narrowing with the "is" operator is special narrow', () => {
     expect(isSpecialNarrow(undefined)).toBe(false);
     expect(isSpecialNarrow(HOME_NARROW)).toBe(false);
-    expect(isSpecialNarrow(streamNarrow('some stream'))).toBe(false);
+    expect(isSpecialNarrow(streamNarrow(eg.stream.name))).toBe(false);
     expect(isSpecialNarrow(STARRED_NARROW)).toBe(true);
   });
 });
 
 describe('streamNarrow', () => {
   test('narrows to messages from a specific stream', () => {
-    const narrow = streamNarrow('some stream');
+    const narrow = streamNarrow(eg.stream.name);
     expect(isStreamNarrow(narrow)).toBeTrue();
-    expect(streamNameOfNarrow(narrow)).toEqual('some stream');
+    expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
   });
 
   test('only narrow with operator of "stream" is a stream narrow', () => {
     expect(isStreamNarrow(undefined)).toBe(false);
     expect(isStreamNarrow(HOME_NARROW)).toBe(false);
-    expect(isStreamNarrow(streamNarrow('some stream'))).toBe(true);
+    expect(isStreamNarrow(streamNarrow(eg.stream.name))).toBe(true);
   });
 });
 
 describe('topicNarrow', () => {
   test('narrows to a specific topic within a specified stream', () => {
-    const narrow = topicNarrow('some stream', 'some topic');
+    const narrow = topicNarrow(eg.stream.name, 'some topic');
     expect(isTopicNarrow(narrow)).toBeTrue();
-    expect(streamNameOfNarrow(narrow)).toEqual('some stream');
+    expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
     expect(topicOfNarrow(narrow)).toEqual('some topic');
   });
 
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
     expect(isTopicNarrow(undefined)).toBe(false);
     expect(isTopicNarrow(HOME_NARROW)).toBe(false);
-    expect(isTopicNarrow(topicNarrow('some stream', 'some topic'))).toBe(true);
+    expect(isTopicNarrow(topicNarrow(eg.stream.name, 'some topic'))).toBe(true);
   });
 });
 
@@ -246,12 +246,16 @@ describe('getNarrowsForMessage', () => {
 
   const cases = [
     {
-      label: "Message in stream 'myStream' with topic 'myTopic'",
+      label: "Message in a stream with topic 'myTopic'",
       message: {
-        ...eg.streamMessage({ stream: eg.makeStream({ name: 'myStream' }) }),
+        ...eg.streamMessage({ stream: eg.stream }),
         subject: 'myTopic',
       },
-      expectedNarrows: [HOME_NARROW, streamNarrow('myStream'), topicNarrow('myStream', 'myTopic')],
+      expectedNarrows: [
+        HOME_NARROW,
+        streamNarrow(eg.stream.name),
+        topicNarrow(eg.stream.name, 'myTopic'),
+      ],
     },
     {
       // If we find that `subject` is sometimes the empty string and
@@ -264,12 +268,12 @@ describe('getNarrowsForMessage', () => {
       // We don't store outbox messages with the empty string for
       // `subject`; if the topic input is left blank, we put down
       // `apiConstants.NO_TOPIC_TOPIC` for `subject`.
-      label: "Message in stream 'myStream' with empty-string topic",
+      label: 'Message in a stream with empty-string topic',
       message: {
-        ...eg.streamMessage({ stream: eg.makeStream({ name: 'myStream' }) }),
+        ...eg.streamMessage({ stream: eg.stream }),
         subject: '',
       },
-      expectedNarrows: [HOME_NARROW, streamNarrow('myStream'), topicNarrow('myStream', '')],
+      expectedNarrows: [HOME_NARROW, streamNarrow(eg.stream.name), topicNarrow(eg.stream.name, '')],
     },
     {
       label: 'PM message with one person',
