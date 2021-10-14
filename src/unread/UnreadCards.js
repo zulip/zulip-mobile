@@ -47,6 +47,7 @@ export default function UnreadCards(props: Props): Node {
       renderSectionHeader={({ section }) =>
         section.key === 'private' ? null : (
           <StreamItem
+            streamId={section.streamId}
             name={section.streamName}
             iconSize={16}
             isMuted={section.isMuted}

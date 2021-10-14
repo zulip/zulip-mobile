@@ -41,6 +41,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   name: string,
+  streamId: number,
   description?: string,
   isMuted: boolean,
   isPrivate: boolean,

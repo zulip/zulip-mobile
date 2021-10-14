@@ -84,6 +84,7 @@ export default function StreamList(props: Props): Node {
       keyExtractor={item => item.stream_id}
       renderItem={({ item }: { item: PseudoSubscription, ... }) => (
         <StreamItem
+          streamId={item.stream_id}
           name={item.name}
           iconSize={16}
           isPrivate={item.invite_only}
