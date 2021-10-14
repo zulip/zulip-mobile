@@ -55,15 +55,7 @@ export default (
     `;
     } else if (headerStyle === 'full') {
       const streamName = streamNameOfStreamMessage(message);
-
-      // TODO(#3339): like `subscriptions.find(…)`, but for the values from …ById
-      let stream = null;
-      for (const sub of subscriptions.values()) {
-        if (sub.name === streamName) {
-          stream = sub;
-          break;
-        }
-      }
+      const stream = subscriptions.get(message.stream_id);
 
       const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
       const textColor = foregroundColorFromBackground(backgroundColor);
