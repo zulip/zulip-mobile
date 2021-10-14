@@ -1,6 +1,7 @@
 // @flow
 import type { Config } from './types';
 import autoRehydrate from './autoRehydrate';
+import getStoredState from './getStoredState';
 import purgeStoredState from './purgeStoredState';
 
 // redux dependent typing
@@ -17,10 +18,7 @@ declare type Persistor = {|
 |};
 declare type OnComplete = (err?: any, result?: Object) => void;
 
-type StoredStateCallback = (state: Object, err: any) => void;
-
 declare function createPersistor(store: Store, config: Config): Persistor;
-declare function getStoredState(config: Config, ?StoredStateCallback): ?Promise<Object>;
 declare function persistStore(store: Store, config?: Config, onComplete?: OnComplete): Persistor;
 
 export { createPersistor, getStoredState, persistStore, purgeStoredState, autoRehydrate };

@@ -1,11 +1,17 @@
-import * as logging from '../../utils/logging';
+/* @flow strict-local */
+import invariant from 'invariant';
 
+import type { Config } from './types';
 import { KEY_PREFIX } from './constants';
+import * as logging from '../../utils/logging';
 
 // TODO(consistent-return): Let's work with Promises instead of callbacks,
 //   after these files are covered by Flow.
 // eslint-disable-next-line consistent-return
-export default function getStoredState(config, onComplete) {
+export default function getStoredState(
+  config: Config,
+  onComplete: (err: mixed, state?: { ... }) => void,
+): ?Promise<{ ... }> {
   const storage = config.storage;
   const deserializer = config.deserialize;
   const whitelist = config.whitelist;
@@ -29,6 +35,9 @@ export default function getStoredState(config, onComplete) {
       return;
     }
 
+    // TODO clean this up
+    invariant(allKeys, "allKeys must be set, or we'd have an error by now");
+
     const persistKeys = allKeys
       .filter(key => key.indexOf(keyPrefix) === 0)
       .map(key => key.slice(keyPrefix.length));
@@ -41,9 +50,10 @@ export default function getStoredState(config, onComplete) {
     keysToRestore.forEach(key => {
       (async () => {
         let err = null;
-        let serialized = null;
+        let serialized: null | string = null;
         try {
           serialized = await storage.getItem(createStorageKey(key));
+          invariant(serialized !== null, 'key was found above, should be present here');
         } catch (e) {
           err = e;
         }
@@ -53,6 +63,12 @@ export default function getStoredState(config, onComplete) {
             key,
           });
         } else {
+          // TODO clean this up
+          invariant(
+            serialized !== null,
+            "serialized must be set, or else we'd have an error by now",
+          );
+
           restoredState[key] = rehydrate(key, serialized);
         }
         completionCount += 1;
@@ -63,7 +79,7 @@ export default function getStoredState(config, onComplete) {
     });
   })();
 
-  function rehydrate(key, serialized) {
+  function rehydrate(key: string, serialized: string) {
     let state = null;
 
     try {
@@ -83,6 +99,9 @@ export default function getStoredState(config, onComplete) {
     return `${keyPrefix}${key}`;
   }
 
+  /* TODO refactor this function, and its caller, to use Promises
+       instead of a callback.  Pending that we comment this code out,
+       because otherwise it triggers some Flow bug causing weird errors.
   if (typeof onComplete !== 'function' && !!Promise) {
     return new Promise((resolve, reject) => {
       onComplete = (err, restoredState) => {
@@ -94,4 +113,5 @@ export default function getStoredState(config, onComplete) {
       };
     });
   }
+  */
 }

@@ -2,7 +2,7 @@
 
 type Storage = {
   +setItem: (...empty[]) => mixed,
-  +getItem: (...empty[]) => mixed,
+  +getItem: (key: string) => Promise<string | null>,
   +removeItem: string => Promise<mixed>,
   +getAllKeys: () => Promise<$ReadOnlyArray<string>>,
   ...
@@ -10,8 +10,8 @@ type Storage = {
 
 export type Config = {|
   +whitelist: string[],
-  +storage?: Storage,
+  +storage: Storage,
   +serialize: (...empty[]) => mixed,
-  +deserialize: (...empty[]) => mixed,
+  +deserialize: string => mixed,
   +keyPrefix?: string,
 |};
