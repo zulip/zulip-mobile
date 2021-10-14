@@ -4,8 +4,6 @@ import type { IsSupertype } from '../types';
 
 /* eslint-disable flowtype/space-after-type-colon */
 
-declare var magic: empty;
-
 /** General tip on writing tests for fancy generic types like these. */
 // prettier-ignore
 function demo_need_value_flow() {
@@ -218,8 +216,10 @@ function demo_short_circuits() {
 
 function test_IsSupertype() {
   // Test the basics, relative to a primitive type.
+  // `number` is a supertype of `empty` and itself…
   (1: IsSupertype<number, empty>);
   (1: IsSupertype<number, number>);
+  // … but not `mixed` or `string`.
   // $FlowExpectedError[incompatible-type-arg]
   (1: IsSupertype<number, mixed>);
   // $FlowExpectedError[incompatible-type-arg]
@@ -227,28 +227,14 @@ function test_IsSupertype() {
 
   // Test the resulting type (as opposed to whether the type is instantiable
   // at all, which is the main point of `IsSupertype`.)
-  (magic: IsSupertype<number, number>);
-  // $FlowExpectedError[incompatible-cast]
-  ((1: mixed): IsSupertype<number, number>);
-  // $FlowExpectedError[incompatible-cast]
-  ('': IsSupertype<number, number>);
+  (x: IsSupertype<number, number>): number => x;
+  (x: number): IsSupertype<number, number> => x;
+  (x: IsSupertype<number, 3>): number => x;
+  (x: number): IsSupertype<number, 3> => x;
 
-  // `empty` isn't a supertype of anything but itself.  It's a bit hard to
-  // test this fact directly, because of the above-mentioned issue that
-  // casting a value of type `empty` causes Flow to just declare victory:
-  (magic: IsSupertype<empty, number>);
-  // but, again, in reality there are no values of type `empty` anyway.
-  // If we try casting from another type, we get an error as you'd hope:
-  // $FlowExpectedError[incompatible-cast]
+  // `empty` isn't a supertype of anything but itself.
   // $FlowExpectedError[incompatible-type-arg]
-  (1: IsSupertype<empty, number>);
-  // and in fact two of them-- one for the cast because nothing can be cast
-  // to `empty`, and one for instantiating IsSupertype in the first place.
-  // prettier-ignore
-  ( // $FlowExpectedError[incompatible-cast]
-    1:
-    // $FlowExpectedError[incompatible-type-arg]
-    IsSupertype<empty, number>);
+  (x: IsSupertype<empty, number>): number => x;
 
   // Test on unions.
   (1: IsSupertype<number | void, number>);
@@ -285,6 +271,26 @@ function test_IsSupertype_object_types() {
   (a: IsSupertype<{| a: number |}, {| a: empty |}>);
   // $FlowExpectedError[incompatible-type-arg]
   (a: IsSupertype<{| a: number |}, {| a: mixed |}>);
+
+  // Same variance tests, this time with abstract types B <: A.
+  function variance_again<A, B: A>() {
+    // Now we have types B and A, which we know nothing about except that
+    // B is a subtype of A.  Quick demo of that setup:
+    (x: B): A => x;
+    // $FlowExpectedError[incompatible-return]
+    (x: A): B => x;
+
+    // Read-only properties are covariant, again.
+    (x: IsSupertype<{| +a: A |}, {| +a: B |}>): { ... } => x;
+    // $FlowExpectedError[incompatible-type-arg]
+    (x: IsSupertype<{| +a: B |}, {| +a: A |}>): { ... } => x;
+
+    // Read-write properties are invariant, again.
+    // $FlowExpectedError[incompatible-type-arg]
+    (x: IsSupertype<{| a: A |}, {| a: B |}>): { ... } => x;
+    // $FlowExpectedError[incompatible-type-arg]
+    (x: IsSupertype<{| a: B |}, {| a: A |}>): { ... } => x;
+  }
 
   // Read-write <: read-only, strictly.
   (a: IsSupertype<{| +a: number |}, {| a: number |}>);
@@ -392,37 +398,28 @@ function test_BoundedDiff() {
   // Here we use functions, to avoid having to ever actually make a value of
   // the various types.
 
-  // First, validate the test technique:
-  (x: number): number => x;
-  (x: number): mixed => x;
-  // $FlowExpectedError[incompatible-return]
-  (x: number): string => x;
-  // $FlowExpectedError[incompatible-return]
-  (x: number): empty => x;
-
   // Basic happy use.
-  typesEquivalent<BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>,
-                  {| +a: number |}>();
+  typesEquivalent<BoundedDiff<{| +a: string, +b: number |}, {| +b: number |}>,
+                  {| +a: string |}>();
 
-  // Here's also a version of the happy case that doesn't involve specifying
-  // exactly what we think the resulting type will be.  This provides a
-  // helpful baseline for the test cases below where we'll be testing that
-  // BoundedDiff gives an error on even trying to instantiate it.
-  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: number |}>): number => x.a;
+  // Basic happy use, checking only that the type is valid at all (and is
+  // some object type).  This gives a baseline for some test cases below,
+  // where we expect an error from BoundedDiff itself.
+  (x: BoundedDiff<{| +a: string, +b: number |}, {| +b: number |}>): { ... } => x;
 
   // No extraneous properties allowed.
   // $FlowExpectedError[prop-missing]
-  (x: BoundedDiff<{| +a: number, +b: number |}, {| +c: number |}>): number => x.a;
+  (x: BoundedDiff<{| +a: string, +b: number |}, {| +c: number |}>): { ... } => x;
 
   // For a given property, must be subtracting with (non-strict) subtype.
-  (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): number => x.a;
+  (x: BoundedDiff<{| +a: string, +b: number |}, {| +b: 3 |}>): { ... } => x;
+  (x: BoundedDiff<{| +a: string, +b: 3 |}, {| +b: 3 |}>): { ... } => x;
   // $FlowExpectedError[incompatible-type-arg]
-  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: mixed |}>): number => x.a;
-  // $FlowExpectedError[incompatible-type-arg]
-  (x: BoundedDiff<{| +a: number, +b: number |}, {| +b: mixed |}>): mixed => x.a;
+  (x: BoundedDiff<{| +a: string, +b: 3 |}, {| +b: number |}>): { ... } => x;
 
   // Property is removed even if subtracting with a proper subtype.
-  (x: BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>): {| +a: number |} => x;
-  typesEquivalent<BoundedDiff<{| +a: number, +b: mixed |}, {| +b: number |}>,
-                  {| +a: number |}>();
+  typesEquivalent<BoundedDiff<{| +a: string, +b: number |}, {| +b: 3 |}>,
+                  {| +a: string |}>();
+  typesEquivalent<BoundedDiff<{| +a: string, +b: mixed |}, {| +b: empty |}>,
+                  {| +a: string |}>();
 }
