@@ -359,6 +359,12 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // invariant that if there's server data, then the active Account has userId.
   '34': dropCache,
 
+  // Make `stream_id` on `StreamOutbox` required.
+  '35': state => ({
+    ...state,
+    outbox: state.outbox.filter(o => o.type === 'private' || o.stream_id !== undefined),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

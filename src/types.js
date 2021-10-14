@@ -228,19 +228,12 @@ export type PmOutbox = $ReadOnly<{|
 export type StreamOutbox = $ReadOnly<{|
   ...OutboxBase,
 
-  // TODO(#3764): Make stream_id required.  First need to start supplying it
-  //   in the Outbox values we create; compare a1fad7ca9, for sender_id.
-  //
-  //   Once it is required, it should move from here to the second type
-  //   argument passed to `SubsetProperties` of `StreamMessage`, below;
-  //   and we can also drop the hack line about it in `MessageLike`.
-  stream_id?: number,
-
   ...SubsetProperties<
     StreamMessage,
     {|
       type: mixed,
       display_recipient: mixed,
+      stream_id: mixed,
       subject: mixed,
     |},
   >,
@@ -302,7 +295,6 @@ export type MessageLike =
   | $ReadOnly<{|
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{| [$Keys<Message>]: void |}>,
-      stream_id?: number, // TODO: Drop this once required in StreamOutbox.
       ...Outbox,
     |}>;
 
