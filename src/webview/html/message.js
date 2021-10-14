@@ -231,8 +231,7 @@ $!${divOpenHtml}
 `;
   }
 
-  const { sender_full_name } = message;
-  const sender_id = message.isOutbox ? backgroundData.ownUser.user_id : message.sender_id;
+  const { sender_full_name, sender_id } = message;
   const avatarUrl = message.avatar_url
     .get(
       // 48 logical pixels; see `.avatar` and `.avatar img` in
