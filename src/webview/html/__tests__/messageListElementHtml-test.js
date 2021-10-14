@@ -49,13 +49,26 @@ import getMessageListElements from '../../../message/getMessageListElements';
  * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
+  const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
+  const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
+  const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
+
+  const stream1 = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
+  const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
+
+  const topic1 = 'topic 1';
+  const topic2 = 'topic 2';
+
   // Tell ESLint to recognize `check` as a helper function that runs
   // assertions.
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = ({
     // TODO: Test with a variety of different things in
     // `backgroundData`.
-    backgroundData = eg.backgroundData,
+    backgroundData = {
+      ...eg.backgroundData,
+      streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
+    },
     narrow,
     messages,
   }) => {
@@ -78,16 +91,6 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       }),
     ).toMatchSnapshot();
   };
-
-  const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
-  const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
-  const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
-
-  const stream1 = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
-  const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
-
-  const topic1 = 'topic 1';
-  const topic2 = 'topic 2';
 
   // Same sender, stream, topic, day
   const streamMessages1 = [

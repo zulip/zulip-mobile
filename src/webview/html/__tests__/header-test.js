@@ -7,6 +7,7 @@ import type { BackgroundData } from '../../MessageList';
 const backgroundData: BackgroundData = ({
   ownEmail: eg.selfUser.email,
   subscriptions: [eg.stream],
+  streams: new Map([[eg.stream.stream_id, eg.stream]]),
 }: $FlowFixMe);
 
 describe('header', () => {
