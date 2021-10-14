@@ -7,14 +7,7 @@ import { KEY_PREFIX } from './constants';
 // eslint-disable-next-line consistent-return
 export default function getStoredState(config, onComplete) {
   const storage = config.storage;
-  let deserializer;
-  if (config.deserialize === false) {
-    deserializer = data => data;
-  } else if (typeof config.deserialize === 'function') {
-    deserializer = config.deserialize;
-  } else {
-    deserializer = defaultDeserializer;
-  }
+  const deserializer = config.deserialize;
   const whitelist = config.whitelist;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
 
@@ -101,8 +94,4 @@ export default function getStoredState(config, onComplete) {
       };
     });
   }
-}
-
-function defaultDeserializer(serial) {
-  return JSON.parse(serial);
 }
