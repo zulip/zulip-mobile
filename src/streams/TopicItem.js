@@ -4,7 +4,6 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import invariant from 'invariant';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
@@ -74,9 +73,6 @@ export default function TopicItem(props: Props): Node {
     flags: getFlags(state),
   }));
 
-  const stream = backgroundData.streamsByName.get(streamName);
-  invariant(stream !== undefined, 'No stream with provided stream name was found.');
-
   return (
     <Touchable
       onPress={() => onPress(streamId, streamName, name)}
@@ -85,7 +81,7 @@ export default function TopicItem(props: Props): Node {
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          streamId: stream.stream_id,
+          streamId,
           topic: name,
         });
       }}
