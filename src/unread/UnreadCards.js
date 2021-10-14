@@ -65,8 +65,9 @@ export default function UnreadCards(props: Props): Node {
           <PmConversationList {...item} />
         ) : (
           <TopicItem
-            name={item.topic}
+            streamId={section.streamId}
             streamName={section.streamName || ''}
+            name={item.topic}
             isMuted={section.isMuted || item.isMuted}
             isSelected={false}
             unreadCount={item.unread}

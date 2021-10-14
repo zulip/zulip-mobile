@@ -39,6 +39,7 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
+  streamId: number,
   streamName: string,
   name: string,
   isMuted?: boolean,

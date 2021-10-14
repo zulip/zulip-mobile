@@ -41,8 +41,9 @@ export default class TopicList extends PureComponent<Props> {
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <TopicItem
-            name={item.name}
+            streamId={stream.stream_id}
             streamName={stream.name}
+            name={item.name}
             isMuted={item.isMuted}
             unreadCount={item.unreadCount}
             onPress={onPress}
