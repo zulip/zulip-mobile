@@ -119,17 +119,18 @@ export const decodeHashComponent = (string: string): string => {
 };
 
 /**
- * Parse the operand of a `stream` operator, returning a stream name.
+ * Parse the operand of a `stream` operator, returning a stream ID and name.
  *
  * Return null if the operand doesn't match any known stream.
  */
-const parseStreamOperand = (operand, streamsById, streamsByName): null | string => {
+const parseStreamOperand = (operand, streamsById, streamsByName): null | [string, number] => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
   if (match) {
-    const stream = streamsById.get(parseInt(match[1], 10));
+    const streamId = parseInt(match[1], 10);
+    const stream = streamsById.get(streamId);
     if (stream) {
-      return stream.name;
+      return [stream.name, streamId];
     }
   }
 
@@ -138,7 +139,7 @@ const parseStreamOperand = (operand, streamsById, streamsByName): null | string 
   const streamName = decodeHashComponent(operand);
   const stream = streamsByName.get(streamName);
   if (stream) {
-    return streamName;
+    return [streamName, stream.stream_id];
   }
 
   // Not any stream we know.  (Most likely this means a stream the user
@@ -187,12 +188,12 @@ export const getNarrowFromLink = (
       return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
     }
     case 'topic': {
-      const streamName = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamName == null ? null : topicNarrow(streamName, parseTopicOperand(paths[3]));
+      const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return streamNameAndId && topicNarrow(streamNameAndId[0], parseTopicOperand(paths[3]));
     }
     case 'stream': {
-      const streamName = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamName == null ? null : streamNarrow(streamName);
+      const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return streamNameAndId && streamNarrow(streamNameAndId[0]);
     }
     case 'special':
       try {
