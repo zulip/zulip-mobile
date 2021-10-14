@@ -14,7 +14,9 @@
  * See also `typesEquivalent`, which can be more convenient when not already
  * in the context of a type-level expression.
  */
-export type IsSupertype<+S, +T: S> = S; // eslint-disable-line no-unused-vars
+// Flow would also accept `+S, +T`.  But `+T` is wrong and it's a bug
+// that Flow would accept it; see demo_variance_short_circuit in tests.
+export type IsSupertype<+S, -T: S> = S; // eslint-disable-line no-unused-vars
 
 /**
  * Gives a type error unless a T can be used as a U and vice versa.

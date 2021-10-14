@@ -287,14 +287,17 @@ function demo_variance_short_circuit() {
     // annotation's validity for ourselves.  See below.
   }
 
-  // Here's the same demo using the `IsSupertype` alias we actually use in
-  // our code.
+  // Here's the same demo using a variation of the `IsSupertype` alias we
+  // actually use in our code.
+  type BadIsSupertype<+S, +T: S> = S;
+  // (The real `IsSupertype` has `+S, -T: S`.  That makes it harmless just
+  // like `IsStringContra`, as below.  See also test_IsSupertype_variance.)
   {
-    const f = (x: IsSupertype<string, string>): IsSupertype<string, number | string> => x;
-    const y: IsSupertype<string, number | string> = f('a');
+    const f = (x: BadIsSupertype<string, string>): BadIsSupertype<string, number | string> => x;
+    const y: BadIsSupertype<string, number | string> = f('a');
     console.log(String(f('a')));
 
-    // TODO try to construct a more-real demo, using IsSupertype
+    // TODO try to construct a more-real demo, using BadIsSupertype
   }
 
   // On the other hand `IsStringContra` is harmless.  We can make a flow
@@ -441,6 +444,26 @@ function test_IsSupertype_object_types() {
   (a: IsSupertype<{| a: number |}, { a: number, b: number, ... }>);
   // $FlowExpectedError[prop-missing]
   (a: IsSupertype<{| a: number |}, {| a: number, b: number |}>);
+}
+
+function test_IsSupertype_variance() {
+  // Test that IsSupertype doesn't exercise the Flow loophole demonstrated
+  // with BadIsSupertype above.
+  {
+    //   $FlowExpectedError[incompatible-return]
+    const f = (x: IsSupertype<string, string>): IsSupertype<string, number | string> => x;
+    const y: IsSupertype<string, number | string> = f('a');
+  }
+
+  // More succinctly:
+  //   $FlowExpectedError[incompatible-return]
+  (x: IsSupertype<string, string>): IsSupertype<string, number | string> => x;
+
+  // On the other hand, IsSupertype has all the variance it can legitimately
+  // have.  It's covariant in its first parameter:
+  (x: IsSupertype<string, string>): IsSupertype<number | string, string> => x;
+  // as well as *contravariant* in its second parameter:
+  (x: IsSupertype<string, string>): IsSupertype<string, 'a'> => x;
 }
 
 function test_typesEquivalent() {
