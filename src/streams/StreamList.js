@@ -43,8 +43,8 @@ type Props = $ReadOnly<{|
   showSwitch?: boolean,
   streams?: $ReadOnlyArray<PseudoSubscription>,
   unreadByStream?: $ReadOnly<{| [number]: number |}>,
-  onPress: (streamName: string) => void,
-  onSwitch?: (streamName: string, newValue: boolean) => void,
+  onPress: (streamId: number, streamName: string) => void,
+  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 export default function StreamList(props: Props): Node {

@@ -54,8 +54,8 @@ export default function UnreadCards(props: Props): Node {
             isPrivate={section.isPrivate}
             backgroundColor={section.color}
             unreadCount={section.unread}
-            onPress={(stream: string) => {
-              setTimeout(() => dispatch(doNarrow(streamNarrow(stream))));
+            onPress={(streamId: number, streamName: string) => {
+              setTimeout(() => dispatch(doNarrow(streamNarrow(streamName))));
             }}
           />
         )

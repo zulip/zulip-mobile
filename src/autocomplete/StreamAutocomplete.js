@@ -19,8 +19,8 @@ export default function StreamAutocomplete(props: Props): Node {
   const subscriptions = useSelector(getSubscribedStreams);
 
   const handleStreamItemAutocomplete = useCallback(
-    (name: string): void => {
-      onAutocomplete(`**${name}**`);
+    (streamId: number, streamName: string): void => {
+      onAutocomplete(`**${streamName}**`);
     },
     [onAutocomplete],
   );

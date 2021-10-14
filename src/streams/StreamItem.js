@@ -52,8 +52,8 @@ type Props = $ReadOnly<{|
   unreadCount?: number,
   iconSize: number,
   showSwitch?: boolean,
-  onPress: (name: string) => void,
-  onSwitch?: (name: string, newValue: boolean) => void,
+  onPress: (streamId: number, streamName: string) => void,
+  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 /**
@@ -78,6 +78,7 @@ type Props = $ReadOnly<{|
  */
 export default function StreamItem(props: Props): Node {
   const {
+    streamId,
     name,
     description,
     color,
@@ -123,7 +124,7 @@ export default function StreamItem(props: Props): Node {
 
   return (
     <Touchable
-      onPress={() => onPress(name)}
+      onPress={() => onPress(streamId, name)}
       onLongPress={() => {
         showStreamActionSheet({
           showActionSheetWithOptions,
@@ -157,7 +158,7 @@ export default function StreamItem(props: Props): Node {
             value={!!isSubscribed}
             onValueChange={(newValue: boolean) => {
               if (onSwitch) {
-                onSwitch(name, newValue);
+                onSwitch(streamId, name, newValue);
               }
             }}
             disabled={!isSubscribed && isPrivate}
