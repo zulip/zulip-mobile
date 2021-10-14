@@ -18,7 +18,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   stream: Stream,
   topics: ?(TopicExtended[]),
-  onPress: (stream: string, topic: string) => void,
+  onPress: (streamId: number, streamName: string, topic: string) => void,
 |}>;
 
 export default class TopicList extends PureComponent<Props> {
