@@ -4,7 +4,6 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import invariant from 'invariant';
 
 import { showStreamActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
@@ -15,7 +14,6 @@ import {
   getFlags,
   getSubscriptionsById,
   getStreamsById,
-  getStreamsByName,
   getOwnUser,
   getSettings,
 } from '../selectors';
@@ -105,8 +103,6 @@ export default function StreamItem(props: Props): Node {
     flags: getFlags(state),
     userSettingStreamNotification: getSettings(state).streamNotification,
   }));
-  const stream = useSelector(state => getStreamsByName(state).get(name));
-  invariant(stream !== undefined, 'No stream with provided stream name was found.');
 
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
@@ -130,7 +126,7 @@ export default function StreamItem(props: Props): Node {
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          streamId: stream.stream_id,
+          streamId,
         });
       }}
     >
