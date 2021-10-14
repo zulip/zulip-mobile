@@ -26,7 +26,7 @@ import * as logging from '../../utils/logging';
 
 const mockStore = configureStore([thunk]);
 
-const narrow = streamNarrow('some stream');
+const narrow = streamNarrow(eg.stream.name);
 const streamNarrowStr = keyFromNarrow(narrow);
 
 global.FormData = class FormData {};
@@ -54,7 +54,7 @@ describe('fetchActions', () => {
         narrows: Immutable.Map({
           [streamNarrowStr]: [],
         }),
-        streams: [eg.makeStream({ name: 'some stream' })],
+        streams: [eg.stream],
       });
 
       const result = isFetchNeededAtAnchor(state, narrow, FIRST_UNREAD_ANCHOR);
@@ -77,7 +77,7 @@ describe('fetchActions', () => {
           [streamNarrowStr]: [1],
         }),
         messages: eg.makeMessagesState([message1, message2]),
-        streams: [eg.makeStream({ name: 'some stream' })],
+        streams: [eg.stream],
       });
 
       const result = isFetchNeededAtAnchor(state, narrow, FIRST_UNREAD_ANCHOR);

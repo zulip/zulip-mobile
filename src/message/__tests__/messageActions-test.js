@@ -13,7 +13,7 @@ import type { Action } from '../../actionTypes';
 
 const mockStore = configureStore([thunk]);
 
-const streamNarrowObj = streamNarrow('some stream');
+const streamNarrowObj = streamNarrow(eg.stream.name);
 
 describe('messageActions', () => {
   describe('doNarrow', () => {
@@ -25,7 +25,7 @@ describe('messageActions', () => {
         eg.reduxState({
           accounts: [eg.selfAccount],
           session: { ...eg.baseReduxState.session, isHydrated: true },
-          streams: [eg.makeStream({ name: 'some stream' })],
+          streams: [eg.stream],
         }),
       );
 
