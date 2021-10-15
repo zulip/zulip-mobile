@@ -6,7 +6,7 @@ import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks'
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
-import { getStreamsById } from '../subscriptions/subscriptionSelectors';
+import { getStreamsById, getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 import { isUrlOnRealm } from '../utils/url';
 import { getOwnUserId } from '../users/userSelectors';
@@ -30,8 +30,14 @@ export const messageLinkPress = (href: string): ThunkAction<Promise<void>> => as
   const state = getState();
   const auth = getAuth(state);
   const streamsById = getStreamsById(state);
+  const streamsByName = getStreamsByName(state);
   const ownUserId = getOwnUserId(state);
-  const narrow = getNarrowFromLink(href, auth.realm, streamsById, ownUserId);
+  const narrow = getNarrowFromLink(href, auth.realm, streamsById, streamsByName, ownUserId);
+  // TODO: In some cases getNarrowFromLink successfully parses the link, but
+  //   finds it points somewhere we can't see: in particular, to a stream
+  //   that's hidden from our user (perhaps doesn't exist.)  For those,
+  //   perhaps give an error instead of falling back to opening in browser,
+  //   which should be futile.
   if (narrow) {
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));

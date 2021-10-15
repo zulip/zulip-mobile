@@ -261,6 +261,7 @@ describe('getNarrowFromLink', () => {
       url,
       new URL('https://example.com'),
       new Map(streams.map(s => [s.stream_id, s])),
+      new Map(streams.map(s => [s.name, s])),
       eg.selfUser.user_id,
     );
 
@@ -287,10 +288,9 @@ describe('getNarrowFromLink', () => {
       expectStream(`${streamGeneral.stream_id}-`, [streamGeneral], streamGeneral);
     });
 
-    test('on malformed stream link: treat as old format', () => {
-      const expectAsName = name => expectStream(name, [streamGeneral], eg.makeStream({ name }));
-      expectAsName(`-${streamGeneral.stream_id}`);
-      expectAsName(`${streamGeneral.stream_id}nonsense-general`);
+    test('on malformed stream link: reject', () => {
+      expectStream(`-${streamGeneral.stream_id}`, [streamGeneral], null);
+      expectStream(`${streamGeneral.stream_id}nonsense-general`, [streamGeneral], null);
     });
 
     {

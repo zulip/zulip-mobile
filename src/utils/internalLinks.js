@@ -118,8 +118,12 @@ export const decodeHashComponent = (string: string): string => {
   }
 };
 
-/** Parse the operand of a `stream` operator, returning a stream name. */
-const parseStreamOperand = (operand, streamsById): string => {
+/**
+ * Parse the operand of a `stream` operator, returning a stream name.
+ *
+ * Return null if the operand doesn't match any known stream.
+ */
+const parseStreamOperand = (operand, streamsById, streamsByName): null | string => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
   if (match) {
@@ -131,7 +135,19 @@ const parseStreamOperand = (operand, streamsById): string => {
 
   // Old format: just stream name.  This case is relevant indefinitely,
   // so that links in old conversations continue to work.
-  return decodeHashComponent(operand);
+  const streamName = decodeHashComponent(operand);
+  const stream = streamsByName.get(streamName);
+  if (stream) {
+    return streamName;
+  }
+
+  // Not any stream we know.  (Most likely this means a stream the user
+  // doesn't have permission to see the existence of -- like with a guest
+  // user for any stream they're not in, or any non-admin with a private
+  // stream they're not in.  Could also be an old-format link to a stream
+  // that's since been renamed… or whoever wrote the link could always have
+  // just made something up.)
+  return null;
 };
 
 /** Parse the operand of a `topic` or `subject` operator. */
@@ -154,6 +170,7 @@ export const getNarrowFromLink = (
   url: string,
   realm: URL,
   streamsById: Map<number, Stream>,
+  streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
   const type = getLinkType(url, realm);
@@ -169,10 +186,14 @@ export const getNarrowFromLink = (
       const ids = parsePmOperand(paths[1]);
       return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
     }
-    case 'topic':
-      return topicNarrow(parseStreamOperand(paths[1], streamsById), parseTopicOperand(paths[3]));
-    case 'stream':
-      return streamNarrow(parseStreamOperand(paths[1], streamsById));
+    case 'topic': {
+      const streamName = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return streamName == null ? null : topicNarrow(streamName, parseTopicOperand(paths[3]));
+    }
+    case 'stream': {
+      const streamName = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return streamName == null ? null : streamNarrow(streamName);
+    }
     case 'special':
       try {
         return specialNarrow(paths[1]);
