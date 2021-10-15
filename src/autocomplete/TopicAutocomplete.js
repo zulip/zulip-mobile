@@ -19,7 +19,9 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  narrow: Narrow,
+  /** If null, this component won't do anything. */
+  narrow: Narrow | null,
+
   isFocused: boolean,
   text: string,
   onAutocomplete: (name: string) => void,
@@ -28,7 +30,7 @@ type Props = $ReadOnly<{|
 export default function TopicAutocomplete(props: Props): Node {
   const { narrow, isFocused, text, onAutocomplete } = props;
   const dispatch = useDispatch();
-  const topics = useSelector(state => getTopicsForNarrow(state, narrow));
+  const topics = useSelector(state => (narrow ? getTopicsForNarrow(state, narrow) : []));
 
   useEffect(() => {
     // The following should be sufficient to ensure we're up-to-date
@@ -43,10 +45,12 @@ export default function TopicAutocomplete(props: Props): Node {
     //
     // The latter is already taken care of (see handling of
     // EVENT_NEW_MESSAGE in topicsReducer). So, do the former here.
-    dispatch(fetchTopicsForStream(narrow));
+    if (narrow) {
+      dispatch(fetchTopicsForStream(narrow));
+    }
   }, [dispatch, narrow]);
 
-  if (!isFocused) {
+  if (!isFocused || !narrow) {
     return null;
   }
 
