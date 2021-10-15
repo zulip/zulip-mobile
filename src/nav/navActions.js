@@ -72,6 +72,12 @@ export const navigateToPasswordAuth = (args: {|
 export const navigateToAccountPicker = (): GenericNavigationAction =>
   StackActions.push('account-pick');
 
+export const navigateToAccountDeactivate = (): GenericNavigationAction =>
+  StackActions.push('account-deactivate');
+
+export const navigateToAccountSetting = (): GenericNavigationAction =>
+  StackActions.push('account-setting');
+
 export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
   StackActions.push('account-details', { userId });
 
