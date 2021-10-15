@@ -74,11 +74,21 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   focusTopic = () => {
-    const { streamName } = this.state;
+    const { streamName, streamId } = this.state;
     const { dispatch } = this.props;
-    const narrow = streamNarrow(streamName);
 
-    dispatch(fetchTopicsForStream(narrow));
+    if (streamId !== null) {
+      // We have an actual stream selected.  Fetch its recent topic names.
+      // TODO: why do we do this?  `TopicAutocomplete` does the same thing,
+      //   with an effect that reruns when the stream changes.
+      const narrow = streamNarrow(streamName);
+      dispatch(fetchTopicsForStream(narrow));
+    }
+    // If what's entered in the stream-name field isn't an actual stream,
+    // then there's no point fetching topics.
+    // … Maybe we shouldn't be allowing this interaction in that case in
+    // the first place?
+
     this.setState({ isTopicFocused: true });
   };
 
@@ -137,7 +147,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   render() {
     const { sharedData } = this.props.route.params;
     const { streamName, streamId, topic, isStreamFocused, isTopicFocused } = this.state;
-    const narrow = streamNarrow(streamName);
+    const narrow = streamId !== null ? streamNarrow(streamName) : null;
     const sendTo = {
       streamName,
       /* $FlowFixMe[incompatible-cast]: ShareWrapper will only look at this
