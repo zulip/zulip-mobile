@@ -12,7 +12,7 @@ import type { BoundedDiff } from './generics';
 /* eslint-disable flowtype/generic-spacing */
 
 export type OwnProps<-C, -SP> = $ReadOnly<
-  $Diff<BoundedDiff<$Exact<ElementConfig<C>>, SP>, {| dispatch: Dispatch |}>,
+  $Diff<BoundedDiff<$Exact<ElementConfig<C>>, SP>, {| +dispatch: Dispatch |}>,
 >;
 
 /**
