@@ -19,7 +19,7 @@ import {
   getAccountFromNotificationData,
 } from '.';
 import type { Notification } from './types';
-import { getAuth } from '../selectors';
+import { getAuth, getStreamsByName } from '../selectors';
 import { getGlobalSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import { identityOfAccount, authOfAccount } from '../account/accountMisc';
@@ -76,6 +76,7 @@ export const narrowToNotification = (data: ?Notification): GlobalThunkAction<voi
   const narrow = getNarrowFromNotificationData(
     data,
     getAllUsersByEmail(state),
+    getStreamsByName(state),
     getOwnUserId(state),
   );
   if (narrow) {

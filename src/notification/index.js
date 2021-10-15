@@ -4,7 +4,16 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type { Auth, Dispatch, GlobalDispatch, Account, Narrow, UserId, UserOrBot } from '../types';
+import type {
+  Auth,
+  Dispatch,
+  GlobalDispatch,
+  Account,
+  Narrow,
+  Stream,
+  UserId,
+  UserOrBot,
+} from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
@@ -119,6 +128,7 @@ export const getAccountFromNotificationData = (
 export const getNarrowFromNotificationData = (
   data: Notification,
   allUsersByEmail: Map<string, UserOrBot>,
+  streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
   if (!data.recipient_type) {
@@ -130,8 +140,28 @@ export const getNarrowFromNotificationData = (
     return null;
   }
 
+  // TODO: If the notification is in an unknown stream, or a 1:1 PM from an
+  //   unknown user, give a better error.  (This can happen for the stream
+  //   case if we were removed from the stream after the notification's
+  //   message was sent.  It can also happen if the user or stream was just
+  //   created, and we haven't yet learned about it in the event queue; see
+  //   e068771d7, which fixed this issue for group PMs.)
+  //
+  //   This version just silently ignores the notification.
+  //
+  //   A nicer version would navigate to ChatScreen for that unknown
+  //   conversation, which would show InvalidNarrow (with its sensible error
+  //   message) and whatever the notification did tell us about the
+  //   stream/user: in particular, the stream name.
+  //
+  //   But once Narrow objects stop relying on stream names (coming soon),
+  //   doing that will require some alternate plumbing to pass the stream
+  //   name through.  For now, we skip dealing with that; this should be an
+  //   uncommon case, so we settle for not crashing.
+
   if (data.recipient_type === 'stream') {
-    return topicNarrow(data.stream_name, data.topic);
+    const stream = streamsByName.get(data.stream_name);
+    return (stream && topicNarrow(stream.name, data.topic)) ?? null;
   }
 
   if (data.pm_users === undefined) {

@@ -20,19 +20,21 @@ describe('getNarrowFromNotificationData', () => {
   test('unknown notification data returns null', () => {
     // $FlowFixMe[incompatible-type]: actually validate APNs messages
     const notification: Notification = {};
-    const narrow = getNarrowFromNotificationData(notification, new Map(), ownUserId);
+    const narrow = getNarrowFromNotificationData(notification, new Map(), new Map(), ownUserId);
     expect(narrow).toBe(null);
   });
 
   test('recognizes stream notifications and returns topic narrow', () => {
+    const stream = eg.makeStream({ name: 'some stream' });
+    const streamsByName = new Map([[stream.name, stream]]);
     const notification = {
       realm_uri,
       recipient_type: 'stream',
       stream_name: 'some stream',
       topic: 'some topic',
     };
-    const narrow = getNarrowFromNotificationData(notification, new Map(), ownUserId);
-    expect(narrow).toEqual(topicNarrow('some stream', 'some topic'));
+    const narrow = getNarrowFromNotificationData(notification, new Map(), streamsByName, ownUserId);
+    expect(narrow).toEqual(topicNarrow(stream.name, 'some topic'));
   });
 
   test('on notification for a private message returns a PM narrow', () => {
@@ -43,7 +45,12 @@ describe('getNarrowFromNotificationData', () => {
       recipient_type: 'private',
       sender_email: eg.otherUser.email,
     };
-    const narrow = getNarrowFromNotificationData(notification, allUsersByEmail, ownUserId);
+    const narrow = getNarrowFromNotificationData(
+      notification,
+      allUsersByEmail,
+      new Map(),
+      ownUserId,
+    );
     expect(narrow).toEqual(pm1to1NarrowFromUser(eg.otherUser));
   });
 
@@ -59,7 +66,12 @@ describe('getNarrowFromNotificationData', () => {
 
     const expectedNarrow = pmNarrowFromUsersUnsafe(users.slice(1));
 
-    const narrow = getNarrowFromNotificationData(notification, allUsersByEmail, ownUserId);
+    const narrow = getNarrowFromNotificationData(
+      notification,
+      allUsersByEmail,
+      new Map(),
+      ownUserId,
+    );
 
     expect(narrow).toEqual(expectedNarrow);
   });
