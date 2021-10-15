@@ -23,7 +23,7 @@ import { IconAttachment, IconCancel } from '../common/Icons';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
-  | {| type: 'stream', stream: string, topic: string |};
+  | {| type: 'stream', streamName: string, topic: string |};
 
 const styles = createStyleSheet({
   wrapper: {
@@ -169,7 +169,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
             content: messageToSend,
             type: 'stream',
             subject: sendTo.topic || apiConstants.NO_TOPIC_TOPIC,
-            to: sendTo.stream,
+            to: sendTo.streamName,
           };
 
     try {
@@ -204,8 +204,8 @@ class ShareWrapperInner extends React.Component<Props, State> {
       }
 
       case 'stream': {
-        const { stream } = sendTo;
-        const narrow = streamNarrow(stream);
+        const { streamName } = sendTo;
+        const narrow = streamNarrow(streamName);
         NavigationService.dispatch(replaceWithChat(narrow));
         break;
       }

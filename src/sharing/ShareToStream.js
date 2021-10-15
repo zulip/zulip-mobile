@@ -37,7 +37,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = $ReadOnly<{|
-  stream: string,
+  streamName: string,
   topic: string,
   isStreamFocused: boolean,
   isTopicFocused: boolean,
@@ -48,7 +48,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   context: GetText;
 
   state = {
-    stream: '',
+    streamName: '',
     topic: '',
     isStreamFocused: false,
     isTopicFocused: false,
@@ -67,16 +67,16 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   focusTopic = () => {
-    const { stream } = this.state;
+    const { streamName } = this.state;
     const { dispatch } = this.props;
-    const narrow = streamNarrow(stream);
+    const narrow = streamNarrow(streamName);
 
     dispatch(fetchTopicsForStream(narrow));
     this.setState({ isTopicFocused: true });
   };
 
-  handleStreamChange = stream => {
-    this.setState({ stream });
+  handleStreamChange = streamName => {
+    this.setState({ streamName });
   };
 
   handleTopicChange = topic => {
@@ -85,8 +85,8 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   handleStreamAutoComplete = (rawStream: string) => {
     // TODO: What is this for? (write down our assumptions)
-    const stream = rawStream.split('**')[1];
-    this.setState({ stream, isStreamFocused: false });
+    const streamName = rawStream.split('**')[1];
+    this.setState({ streamName, isStreamFocused: false });
   };
 
   handleTopicAutoComplete = (topic: string) => {
@@ -95,12 +95,12 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   getValidationErrors: string => $ReadOnlyArray<ValidationError> = message => {
     const { mandatoryTopics } = this.props;
-    const { stream, topic } = this.state;
+    const { streamName, topic } = this.state;
     const { sharedData } = this.props.route.params;
 
     const result = [];
 
-    if (stream.trim() === '') {
+    if (streamName.trim() === '') {
       result.push('stream-empty');
     }
 
@@ -117,9 +117,9 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   render() {
     const { sharedData } = this.props.route.params;
-    const { stream, topic, isStreamFocused, isTopicFocused } = this.state;
-    const narrow = streamNarrow(stream);
-    const sendTo = { stream, topic, type: 'stream' };
+    const { streamName, topic, isStreamFocused, isTopicFocused } = this.state;
+    const narrow = streamNarrow(streamName);
+    const sendTo = { streamName, topic, type: 'stream' };
 
     return (
       <ShareWrapper
@@ -128,11 +128,11 @@ class ShareToStreamInner extends React.Component<Props, State> {
         sendTo={sendTo}
       >
         <AnimatedScaleComponent visible={isStreamFocused}>
-          <StreamAutocomplete filter={stream} onAutocomplete={this.handleStreamAutoComplete} />
+          <StreamAutocomplete filter={streamName} onAutocomplete={this.handleStreamAutoComplete} />
         </AnimatedScaleComponent>
         <Input
           placeholder="Stream"
-          value={stream}
+          value={streamName}
           onChangeText={this.handleStreamChange}
           onFocus={this.focusStream}
           onChange={this.focusStream}
@@ -153,7 +153,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
           onFocus={this.focusTopic}
           onBlur={this.blurTopic}
           onChangeText={this.handleTopicChange}
-          editable={stream !== ''}
+          editable={streamName !== ''}
           autoCapitalize="none"
         />
       </ShareWrapper>
