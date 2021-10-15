@@ -177,19 +177,22 @@ class ShareWrapperInner extends React.Component<Props, State> {
     } catch (err) {
       showToast(_('Failed to send message'));
       logging.error(err);
-      this.onShareCancelled();
+      this.onShareCancelled(sendTo);
       return;
     }
     showToast(_('Message sent'));
-    this.onShareSuccess();
+    this.onShareSuccess(sendTo);
   };
 
-  onShareCancelled = () => {
+  onShareCancelled = sendTo => {
+    // If in the future this callback uses the `sendTo` data, it should get
+    // it from its parameter (just like `onShareSuccess` does) and not from
+    // the props.  That's because the props may have changed since the
+    // actual send request we just made.
     NavigationService.dispatch(navigateBack());
   };
 
-  onShareSuccess = () => {
-    const { sendTo } = this.props;
+  onShareSuccess = sendTo => {
     switch (sendTo.type) {
       case 'pm': {
         const { selectedRecipients } = sendTo;
