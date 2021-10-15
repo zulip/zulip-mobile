@@ -6,7 +6,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getDraftForNarrow', () => {
   test('return content of draft if exists', () => {
-    const narrow = topicNarrow('stream', 'topic');
+    const narrow = topicNarrow(eg.stream.name, 'topic');
     const state = eg.reduxState({
       drafts: {
         [keyFromNarrow(narrow)]: 'content',
@@ -19,14 +19,14 @@ describe('getDraftForNarrow', () => {
   });
 
   test('return empty string if not exists', () => {
-    const narrow = topicNarrow('stream', 'topic');
+    const narrow = topicNarrow(eg.stream.name, 'topic');
     const state = eg.reduxState({
       drafts: {
         [keyFromNarrow(narrow)]: 'content',
       },
     });
 
-    const draft = getDraftForNarrow(state, topicNarrow('stream', 'topic1'));
+    const draft = getDraftForNarrow(state, topicNarrow(eg.stream.name, 'topic1'));
 
     expect(draft).toEqual('');
   });
