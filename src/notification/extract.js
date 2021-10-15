@@ -125,14 +125,14 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
   };
 
   if (recipient_type === 'stream') {
-    const { stream, topic } = zulip;
-    if (typeof stream !== 'string' || typeof topic !== 'string') {
+    const { stream: stream_name, topic } = zulip;
+    if (typeof stream_name !== 'string' || typeof topic !== 'string') {
       throw err('invalid');
     }
     return {
       ...identity,
       recipient_type: 'stream',
-      stream,
+      stream_name,
       topic,
     };
   } else {

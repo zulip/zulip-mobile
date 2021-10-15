@@ -259,7 +259,7 @@ private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
         // So long as this does use the stream name, we use `\u0000` as the delimiter because
         // it's the one character not allowed in Zulip stream names.
         // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
-        is Recipient.Stream -> "stream:${fcmMessage.recipient.stream}\u0000${fcmMessage.recipient.topic}"
+        is Recipient.Stream -> "stream:${fcmMessage.recipient.streamName}\u0000${fcmMessage.recipient.topic}"
         is Recipient.GroupPm -> "groupPM:${fcmMessage.recipient.pmUsers.toString()}"
         is Recipient.Pm -> "private:${fcmMessage.sender.id}"
     }
@@ -321,7 +321,7 @@ private fun updateNotification(
     // group-PM threads (pending #5116) get titled with the latest sender, rather than
     // the first.
     messagingStyle.setConversationTitle(when (fcmMessage.recipient) {
-        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
+        is Recipient.Stream -> "#${fcmMessage.recipient.streamName} > ${fcmMessage.recipient.topic}"
         // TODO(#5116): use proper title for GroupPM, for which we will need
         //   to have a way to get names of PM users here.
         is Recipient.GroupPm -> context.resources.getQuantityString(

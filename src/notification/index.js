@@ -131,7 +131,7 @@ export const getNarrowFromNotificationData = (
   }
 
   if (data.recipient_type === 'stream') {
-    return topicNarrow(data.stream, data.topic);
+    return topicNarrow(data.stream_name, data.topic);
   }
 
   if (data.pm_users === undefined) {

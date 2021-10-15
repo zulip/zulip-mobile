@@ -19,7 +19,7 @@ type NotificationBase = {|
  */
 // NOTE: Keep the Android-side code in sync with this type definition.
 export type Notification =
-  | {| ...NotificationBase, recipient_type: 'stream', stream: string, topic: string |}
+  | {| ...NotificationBase, recipient_type: 'stream', stream_name: string, topic: string |}
   // Group PM messages have `pm_users`, which is sorted, comma-separated IDs.
   | {| ...NotificationBase, recipient_type: 'private', pm_users: string |}
   // 1:1 PM messages lack `pm_users`.

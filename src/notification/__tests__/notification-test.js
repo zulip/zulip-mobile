@@ -28,7 +28,7 @@ describe('getNarrowFromNotificationData', () => {
     const notification = {
       realm_uri,
       recipient_type: 'stream',
-      stream: 'some stream',
+      stream_name: 'some stream',
       topic: 'some topic',
     };
     const narrow = getNarrowFromNotificationData(notification, new Map(), ownUserId);
@@ -78,9 +78,14 @@ describe('extract iOS notification data', () => {
 
     for (const [type, data] of objectEntries(barebones)) {
       test(`${type} notification`, () => {
+        const expected = (() => {
+          const { stream: stream_name = undefined, ...rest } = data;
+          return stream_name !== undefined ? { ...rest, stream_name } : data;
+        })();
+
         // barebones 1.9.0-style message is accepted
         const msg = data;
-        expect(verify(msg)).toEqual(msg);
+        expect(verify(msg)).toEqual(expected);
 
         // new(-ish) optional user_id is accepted and copied
         // TODO: Rewrite so modern-style payloads are the baseline, e.g.,
@@ -88,15 +93,15 @@ describe('extract iOS notification data', () => {
         //   individual tests for supporting older-style payloads, and mark
         //   those for future deletion, like with `TODO(1.9.0)`.
         const msg1 = { ...msg, user_id };
-        expect(verify(msg1)).toEqual(msg1);
+        expect(verify(msg1)).toEqual({ ...expected, user_id });
 
         // unused fields are not copied
         const msg2 = { ...msg, realm_id: 8675309 };
-        expect(verify(msg2)).toEqual(msg);
+        expect(verify(msg2)).toEqual(expected);
 
         // unknown fields are ignored and not copied
         const msg2a = { ...msg, unknown_data: ['unknown_data'] };
-        expect(verify(msg2a)).toEqual(msg);
+        expect(verify(msg2a)).toEqual(expected);
       });
     }
   });

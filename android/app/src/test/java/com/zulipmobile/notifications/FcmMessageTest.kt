@@ -127,7 +127,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
                 ),
                 zulipMessageId = 12345,
                 recipient = Recipient.Stream(
-                    stream = Example.stream["stream"]!!,
+                    streamName = Example.stream["stream"]!!,
                     topic = Example.stream["topic"]!!
                 ),
                 content = Example.stream["content"]!!,

@@ -55,7 +55,7 @@ sealed class Recipient {
     }
 
     /** A stream message. */
-    data class Stream(val stream: String, val topic: String) : Recipient()
+    data class Stream(val streamName: String, val topic: String) : Recipient()
 }
 
 /**
@@ -116,7 +116,7 @@ data class MessageFcmMessage(
         when (recipient) {
             is Recipient.Stream -> {
                 putString("recipient_type", "stream")
-                putString("stream", recipient.stream)
+                putString("stream_name", recipient.streamName)
                 putString("topic", recipient.topic)
             }
             is Recipient.GroupPm -> {
