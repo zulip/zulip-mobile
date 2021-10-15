@@ -5,12 +5,11 @@ import type { ComponentType } from 'react';
 import type { ValidationError } from './ShareWrapper';
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
-import type { Dispatch, Subscription, Auth, GetText } from '../types';
+import type { Dispatch, Auth, GetText } from '../types';
 import type { SharedData } from './types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import { Input } from '../common';
-import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
@@ -26,7 +25,6 @@ type OuterProps = $ReadOnly<{|
 |}>;
 
 type SelectorProps = $ReadOnly<{|
-  subscriptions: Map<number, Subscription>,
   auth: Auth,
   mandatoryTopics: boolean,
 |}>;
@@ -164,7 +162,6 @@ class ShareToStreamInner extends React.Component<Props, State> {
 }
 
 const ShareToStream: ComponentType<OuterProps> = connect(state => ({
-  subscriptions: getSubscriptionsById(state),
   auth: getAuth(state),
   mandatoryTopics: getRealm(state).mandatoryTopics,
 }))(ShareToStreamInner);
