@@ -23,7 +23,8 @@ import { IconAttachment, IconCancel } from '../common/Icons';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
-  | {| type: 'stream', streamName: string, topic: string |};
+  // TODO(#3918): Drop streamName.  Used below for sending, and for narrow.
+  | {| type: 'stream', streamName: string, streamId: number, topic: string |};
 
 const styles = createStyleSheet({
   wrapper: {
@@ -60,6 +61,7 @@ const styles = createStyleSheet({
 export type ValidationError =
   | 'mandatory-topic-empty'
   | 'stream-empty'
+  | 'stream-invalid'
   | 'recipients-empty'
   | 'message-empty';
 
@@ -132,6 +134,8 @@ class ShareWrapperInner extends React.Component<Props, State> {
           switch (error) {
             case 'stream-empty':
               return _('Please specify a stream.');
+            case 'stream-invalid':
+              return _('Please specify a valid stream.');
             case 'mandatory-topic-empty':
               return _('Please specify a topic.');
             case 'recipients-empty':
@@ -169,6 +173,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
             content: messageToSend,
             type: 'stream',
             subject: sendTo.topic || apiConstants.NO_TOPIC_TOPIC,
+            // TODO(server-2.0): switch to numeric stream ID, not name
             to: sendTo.streamName,
           };
 

@@ -18,6 +18,7 @@
   "Message not sent": "Message not sent",
   "Please specify a topic.": "Please specify a topic.",
   "Please specify a stream.": "Please specify a stream.",
+  "Please specify a valid stream.": "Please specify a valid stream.",
   "Please choose recipients.": "Please choose recipients.",
   "Message is empty.": "Message is empty.",
   "Failed to connect to server: {realm}": "Failed to connect to server: {realm}",

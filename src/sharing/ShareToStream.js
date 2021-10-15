@@ -5,7 +5,7 @@ import type { ComponentType } from 'react';
 import type { ValidationError } from './ShareWrapper';
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
-import type { Dispatch, Auth, GetText } from '../types';
+import type { Dispatch, Auth, GetText, Stream } from '../types';
 import type { SharedData } from './types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
@@ -14,7 +14,7 @@ import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { streamNarrow } from '../utils/narrow';
-import { getAuth, getRealm } from '../selectors';
+import { getAuth, getRealm, getStreamsByName } from '../selectors';
 import { fetchTopicsForStream } from '../topics/topicActions';
 import ShareWrapper from './ShareWrapper';
 
@@ -25,6 +25,7 @@ type OuterProps = $ReadOnly<{|
 |}>;
 
 type SelectorProps = $ReadOnly<{|
+  streamsByName: Map<string, Stream>,
   auth: Auth,
   mandatoryTopics: boolean,
 |}>;
@@ -37,7 +38,12 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = $ReadOnly<{|
+  /** The text the user has typed into the "stream name" field. */
   streamName: string,
+
+  /** An actual stream ID corresponding to streamName, or null if none does. */
+  streamId: number | null,
+
   topic: string,
   isStreamFocused: boolean,
   isTopicFocused: boolean,
@@ -49,6 +55,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   state = {
     streamName: '',
+    streamId: null,
     topic: '',
     isStreamFocused: false,
     isTopicFocused: false,
@@ -76,7 +83,8 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleStreamChange = streamName => {
-    this.setState({ streamName });
+    const stream = this.props.streamsByName.get(streamName);
+    this.setState({ streamName, streamId: stream ? stream.stream_id : null });
   };
 
   handleTopicChange = topic => {
@@ -86,7 +94,14 @@ class ShareToStreamInner extends React.Component<Props, State> {
   handleStreamAutoComplete = (rawStream: string) => {
     // TODO: What is this for? (write down our assumptions)
     const streamName = rawStream.split('**')[1];
-    this.setState({ streamName, isStreamFocused: false });
+    const stream = this.props.streamsByName.get(streamName);
+    this.setState({
+      streamName,
+      // TODO the "else" case ought to be impossible: the user chose a
+      //   stream in autocomplete, and we couldn't find it by name.
+      streamId: stream ? stream.stream_id : null,
+      isStreamFocused: false,
+    });
   };
 
   handleTopicAutoComplete = (topic: string) => {
@@ -95,10 +110,14 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   getValidationErrors: string => $ReadOnlyArray<ValidationError> = message => {
     const { mandatoryTopics } = this.props;
-    const { streamName, topic } = this.state;
+    const { streamName, streamId, topic } = this.state;
     const { sharedData } = this.props.route.params;
 
     const result = [];
+
+    if (streamId === null) {
+      result.push('stream-invalid');
+    }
 
     if (streamName.trim() === '') {
       result.push('stream-empty');
@@ -117,9 +136,18 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
   render() {
     const { sharedData } = this.props.route.params;
-    const { streamName, topic, isStreamFocused, isTopicFocused } = this.state;
+    const { streamName, streamId, topic, isStreamFocused, isTopicFocused } = this.state;
     const narrow = streamNarrow(streamName);
-    const sendTo = { streamName, topic, type: 'stream' };
+    const sendTo = {
+      streamName,
+      /* $FlowFixMe[incompatible-cast]: ShareWrapper will only look at this
+       *   if getValidationErrors returns empty, so only if streamId is
+       *   indeed not null.  Should make that logic less indirected and more
+       *   transparent. */
+      streamId: (streamId: number),
+      topic,
+      type: 'stream',
+    };
 
     return (
       <ShareWrapper
@@ -162,6 +190,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
 }
 
 const ShareToStream: ComponentType<OuterProps> = connect(state => ({
+  streamsByName: getStreamsByName(state),
   auth: getAuth(state),
   mandatoryTopics: getRealm(state).mandatoryTopics,
 }))(ShareToStreamInner);
