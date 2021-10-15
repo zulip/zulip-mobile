@@ -1,12 +1,13 @@
-import deepFreeze from 'deep-freeze';
+/* @flow strict-local */
 
 import { getDraftForNarrow } from '../draftsSelectors';
 import { topicNarrow, keyFromNarrow } from '../../utils/narrow';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getDraftForNarrow', () => {
   test('return content of draft if exists', () => {
     const narrow = topicNarrow('stream', 'topic');
-    const state = deepFreeze({
+    const state = eg.reduxState({
       drafts: {
         [keyFromNarrow(narrow)]: 'content',
       },
@@ -19,7 +20,7 @@ describe('getDraftForNarrow', () => {
 
   test('return empty string if not exists', () => {
     const narrow = topicNarrow('stream', 'topic');
-    const state = deepFreeze({
+    const state = eg.reduxState({
       drafts: {
         [keyFromNarrow(narrow)]: 'content',
       },
