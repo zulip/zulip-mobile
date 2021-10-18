@@ -75,7 +75,6 @@ const trySendMessages = (dispatch, getState): boolean => {
             // TODO(server-2.0): switch to numeric user IDs, not emails.
           ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
             // TODO(server-2.0): switch to numeric stream IDs, not names.
-            //   (This will require wiring the stream ID through to here.)
             // HACK: the server attempts to interpret this argument as JSON, then
             //   CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([streamNameOfStreamMessage(item)]);

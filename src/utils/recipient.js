@@ -372,8 +372,7 @@ export const isSameRecipient = (
       }
 
       return (
-        streamNameOfStreamMessage(message1).toLowerCase()
-          === streamNameOfStreamMessage(message2).toLowerCase()
+        message1.stream_id === message2.stream_id
         && message1.subject.toLowerCase() === message2.subject.toLowerCase()
       );
     default:

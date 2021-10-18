@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Alert } from 'react-native';
 
-import invariant from 'invariant';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
@@ -10,7 +9,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
-import { streamNameOfStreamMessage, pmUiRecipientsFromMessage } from '../utils/recipient';
+import { pmUiRecipientsFromMessage } from '../utils/recipient';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -221,14 +220,11 @@ const handleLongPress = (
   const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
-      const streamName = streamNameOfStreamMessage(message);
-      const stream = backgroundData.streamsByName.get(streamName);
-      invariant(stream !== undefined, 'No stream with provided stream name was found.');
       showTopicActionSheet({
         showActionSheetWithOptions,
         callbacks: { dispatch, _ },
         backgroundData,
-        streamId: stream.stream_id,
+        streamId: message.stream_id,
         topic: message.subject,
       });
     } else if (message.type === 'private') {
