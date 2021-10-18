@@ -1,14 +1,19 @@
 # DIFFS: Noise suppression.
 
 # Suppress noisy generated files in diffs.
+
+# From dependency management:
 yarn.lock -diff
-src/webview/js/generatedEs3.js -diff
 ios/Podfile.lock -diff
 
+# For Flow libdefs:
 # The flow-typed files that aren't pure generated noise have names with at
 # least a major version number -- like `redux_v4.x.x.js`.
 flow-typed/npm/*_vx.x.x.js -diff
 flow-typed/npm/*/*_vx.x.x.js -diff
+
+# From our build:
+src/webview/js/generatedEs3.js -diff
 
 
 # DIFFS: Per-language drivers.
