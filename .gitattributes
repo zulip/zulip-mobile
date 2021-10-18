@@ -15,6 +15,11 @@ flow-typed/npm/*/*_vx.x.x.js -diff
 # From our build:
 src/webview/js/generatedEs3.js -diff
 
+# Snapshots for tests:
+src/webview/html/__tests__/__snapshots__/** -diff
+# or quite possibly it should be more general, like this:
+#**/__snapshots__/** -diff
+
 
 # DIFFS: Per-language drivers.
 #
