@@ -71,12 +71,9 @@ export const chooseUploadImageFilename = (uri: string, fileName: ?string): strin
 };
 
 class ComposeMenuInner extends PureComponent<Props> {
-  uploadFile = (uri: string, fileName: ?string) => {
-    const { dispatch, destinationNarrow } = this.props;
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
-  };
-
   handleImagePickerResponse = response => {
+    const { dispatch, destinationNarrow } = this.props;
+
     if (response.didCancel === true) {
       return;
     }
@@ -105,7 +102,7 @@ class ComposeMenuInner extends PureComponent<Props> {
       return;
     }
 
-    this.uploadFile(uri, fileName);
+    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
   };
 
   handleImagePicker = () => {
