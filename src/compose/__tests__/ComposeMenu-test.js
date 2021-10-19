@@ -16,4 +16,10 @@ describe('chooseUploadImageFilename', () => {
       ).toBe(`${fileNameWithoutExtension}.jpeg`);
     },
   );
+
+  test('Replaces prefix from react-native-image-picker', () => {
+    expect(
+      chooseUploadImageFilename('some/path/something.jpg', 'rn_image_picker_lib_temp_asdf.jpg'),
+    ).toBe('asdf.jpg');
+  });
 });

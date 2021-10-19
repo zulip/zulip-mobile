@@ -40,7 +40,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
- * Adjust `fileName` to one with the right extension for the file format.
+ * Choose an appropriate filename for an image to upload.
+ *
+ * On Android, at least, react-native-image-picker gives its own wordy
+ * prefix to image files from the camera and from the media library. So,
+ * remove those.
  *
  * Sometimes we get an image whose filename reflects one format (what it's
  * stored as in the camera roll), but the actual image has been converted
@@ -52,7 +56,11 @@ type Props = $ReadOnly<{|
  * found in `uri`.
  */
 export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
-  const name = fileName;
+  // react-native-image-picker can't currently be configured to use a
+  // different prefix on Android:
+  //   https://github.com/react-native-image-picker/react-native-image-picker/blob/v4.1.1/android/src/main/java/com/imagepicker/Utils.java#L48
+  // So, just trim it out in what we choose to call the file.
+  const nameWithoutPrefix = fileName.replace(/^rn_image_picker_lib_temp_/, '');
 
   /*
    * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
@@ -62,10 +70,10 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
    * the react-native-image-picker response still has the `.HEIC` extension.
    */
   if (/\.jpe?g$/i.test(uri)) {
-    return name.replace(/\.heic$/i, '.jpeg');
+    return nameWithoutPrefix.replace(/\.heic$/i, '.jpeg');
   }
 
-  return name;
+  return nameWithoutPrefix;
 };
 
 class ComposeMenuInner extends PureComponent<Props> {
