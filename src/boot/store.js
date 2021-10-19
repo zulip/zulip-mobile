@@ -355,6 +355,10 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // Add mandatoryTopics to RealmState. No migration; handled automatically
   // by merging with the new initial state.
 
+  // Drop server data from before Accounts had userId.  This way we have an
+  // invariant that if there's server data, then the active Account has userId.
+  '34': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
