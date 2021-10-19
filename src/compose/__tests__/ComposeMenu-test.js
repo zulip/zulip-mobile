@@ -16,14 +16,4 @@ describe('chooseUploadImageFilename', () => {
       ).toBe(`${fileNameWithoutExtension}.jpeg`);
     },
   );
-
-  test('Uses the last component of uri if fileName is null', () => {
-    const fileName = null;
-    expect(chooseUploadImageFilename('some/path/something.jpg', fileName)).toBe('something.jpg');
-  });
-
-  test('Uses the last component of uri if fileName is undefined', () => {
-    const fileName = undefined;
-    expect(chooseUploadImageFilename('some/path/something.jpg', fileName)).toBe('something.jpg');
-  });
 });

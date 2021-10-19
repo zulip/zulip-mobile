@@ -50,11 +50,9 @@ type Props = $ReadOnly<{|
  * extension, so in this case we need to adjust the extension to match the
  * actual format.  The clue we get in the image-picker response is the extension
  * found in `uri`.
- *
- * Also if `fileName` is null or undefined, default to the last component of `uri`.
  */
-export const chooseUploadImageFilename = (uri: string, fileName: ?string): string => {
-  const name = fileName ?? uri.replace(/.*\//, '');
+export const chooseUploadImageFilename = (uri: string, fileName: string): string => {
+  const name = fileName;
 
   /*
    * Photos in an iPhone's camera roll (taken since iOS 11) are typically in
