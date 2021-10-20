@@ -328,19 +328,34 @@ function demo_variance_short_circuit() {
   // of a parameter `-S: string` can go from a valid type only to another
   // valid type.
 
-  // The Flow bug here is that it shouldn't have accepted our definition of
-  // `IsStringCovar`, because increasing `S` can cause the constraint
-  // `S: string` to stop being satisfied.  OTOH `IsStringContra` is fine,
-  // because decreasing `S` always preserves the constraint.
+  // Two possible views of what the Flow bug is here (and they're not
+  // mutually exclusive; arguably it's two bugs) are:
   //
-  // So to avoid this bug, it suffices to not write a definition like
-  // `IsStringCovar`.  This means: when adding variance annotations +/-
-  // to the type parameters of a generic type alias, we should watch the
-  // constraints and enforce that the stated variance doesn't break them.
+  //  * It shouldn't short-circuit here (and maybe not in some of the other
+  //    cases above, in `demo_short_circuit`); it should detect when a
+  //    type-expression violates a generic type's stated bounds, even when
+  //    just evaluating a flow that the variance says is OK.
   //
-  // Fortunately, the kind of generic type where this is even a possibility
-  // isn't something we write very often.  So we needn't be watching for
-  // this all the time.
+  //  * It shouldn't have accepted our definition of `IsStringCovar`,
+  //    because increasing `S` can cause the constraint `S: string` to stop
+  //    being satisfied.  OTOH `IsStringContra` is fine, because decreasing
+  //    `S` always preserves the constraint.
+  //
+  // If it enforced either of those rules, there'd be no issue.  So to avoid
+  // this bug, it suffices for us to manually enforce either one of them.
+  //
+  // The first one applies anywhere we use the generic type, which is
+  // potentially a lot of places and so is hard to systematically make a
+  // practice of.  But the second one only applies when *writing* a generic
+  // type alias, and in particular one that makes fancy use of bounds.  That
+  // isn't something we write very often, so watching for this there is
+  // fairly tractable.
+  //
+  // So to avoid this bug, what that comes down to is that it suffices to
+  // not write a definition like `IsStringCovar`.  This means: when adding
+  // variance annotations +/- to the type parameters of a generic type
+  // alias, we should watch the constraints and enforce that the stated
+  // variance doesn't break them.
 }
 
 function test_IsSupertype() {
