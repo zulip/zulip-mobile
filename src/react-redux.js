@@ -22,9 +22,12 @@ import type { BoundedDiff } from './generics';
 // used as the first (covariant) parameter of another `BoundedDiff`, which
 // is the whole type.  That's an odd number of contravariants, so it's a
 // contravariant position / "input position" overall.
-export type OwnProps<C, -SP> = BoundedDiff<
+//
+// As for `-D`: a `+` object property, in the bottom of a BoundedDiff,
+// makes a + inside a -, which is again an odd number of - and produces -.
+export type OwnProps<C, -SP, -D> = BoundedDiff<
   BoundedDiff<$Exact<ElementConfig<C>>, SP>,
-  {| +dispatch: Dispatch |},
+  {| +dispatch: D |},
 >;
 
 /**
@@ -68,8 +71,8 @@ export type OwnProps<C, -SP> = BoundedDiff<
 export function connect<SP, P, C: ComponentType<P>>(
   mapStateToProps?: (GlobalState, OwnProps<C,
     // Error "property `foo` is missing"?  Add to inner component's props.
-    SP>) => SP,
-): C => ComponentType<$ReadOnly<OwnProps<C, SP>>> {
+    SP, Dispatch>) => SP,
+): C => ComponentType<$ReadOnly<OwnProps<C, SP, Dispatch>>> {
   return connectInner(mapStateToProps);
 }
 
