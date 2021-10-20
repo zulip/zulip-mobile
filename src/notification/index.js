@@ -20,6 +20,7 @@ import { fromPushNotificationIOS } from './extract';
 import { tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
+import { getAccounts } from '../directSelectors';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -152,6 +153,39 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
 };
 
 /**
+ * Get the FCM token.
+ *
+ * Returns null (and logs a warning or error) if getting the token failed.
+ */
+const androidGetToken = async (dispatch: Dispatch): Promise<mixed> => {
+  try {
+    return await NativeModules.Notifications.getToken();
+  } catch (e) {
+    // `getToken` failed.  That happens sometimes, apparently including
+    // due to network errors: see #5061.  In that case all will be well
+    // if the user later launches the app while on a working network.
+    //
+    // But maybe this can happen in other, non-transient situations too.
+    // Log it so we can hope to find out if that's happening.
+    const ackedPushTokens = dispatch((_, getState) =>
+      getAccounts(getState()).map(a => a.ackedPushToken),
+    );
+    if (ackedPushTokens.some(t => t !== null) || ackedPushTokens.length === 0) {
+      // It's probably a transient issue: we've previously gotten a
+      // token (that we've even successfully sent to a server), or else
+      // we have no accounts at all so we haven't had a chance to do so.
+      logging.warn(`notif: getToken failed, but looks transient: ${e.message}`);
+    } else {
+      // Might not be transient!  The user might be persistently unable
+      // to get push notifications.
+      logging.error(`notif: getToken failed, seems persistent: ${e.message}`);
+    }
+
+    return null;
+  }
+};
+
+/**
  * From ios/RNCPushNotificationIOS.m in @rnc/push-notification-ios at 1.2.2.
  */
 type NotificationRegistrationFailedEvent = {|
@@ -273,7 +307,10 @@ export class NotificationListener {
       // settle on a better, more consistent architecture, just grab
       // the token here and do the same thing our handler does (by
       // just calling the handler).
-      this.handleDeviceToken(await NativeModules.Notifications.getToken());
+      const token = await androidGetToken(this.dispatch);
+      if (token !== null) {
+        this.handleDeviceToken(token);
+      }
     } else {
       // On iOS, we come back to this later: after the initial fetch, we
       // end up calling `getNotificationToken`, below, and that will cause
