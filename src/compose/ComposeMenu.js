@@ -69,8 +69,14 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
    * automatically converted to JPEG format... but the `fileName` property in
    * the react-native-image-picker response still has the `.HEIC` extension.
    */
+  // TODO: Is it still true, after the react-native-image-picker upgrade,
+  // that `fileName` can end in .HEIC?
   if (/\.jpe?g$/i.test(uri)) {
-    return nameWithoutPrefix.replace(/\.heic$/i, '.jpeg');
+    const result = nameWithoutPrefix.replace(/\.heic$/i, '.jpeg');
+    if (result !== nameWithoutPrefix) {
+      logging.info('OK, so .HEIC to .jpeg replacement still seems like a good idea.');
+    }
+    return result;
   }
 
   return nameWithoutPrefix;

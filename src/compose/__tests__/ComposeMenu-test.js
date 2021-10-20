@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import * as logging from '../../utils/logging';
 import { chooseUploadImageFilename } from '../ComposeMenu';
 
 describe('chooseUploadImageFilename', () => {
@@ -10,6 +11,10 @@ describe('chooseUploadImageFilename', () => {
     'Replaces any extension for the HEIC format with an extension for the JPEG format '
       + 'if the file name does end with an extension for the JPEG format',
     () => {
+      // suppress `logging.info` output
+      // $FlowFixMe[prop-missing]: Jest mock
+      logging.info.mockReturnValue();
+
       const fileNameWithoutExtension = 'foo';
       expect(
         chooseUploadImageFilename('some/path/something.jpg', `${fileNameWithoutExtension}.heic`),
