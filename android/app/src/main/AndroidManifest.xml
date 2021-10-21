@@ -47,6 +47,21 @@
         android:name="android.hardware.wifi"
         android:required="false" />
 
+    <queries>
+        <intent>
+            <!-- Find Chrome Custom Tabs, with this query and a
+                 "com.android.chrome" package check, so we can use
+                 it to open external links. -->
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+        <intent>
+            <!-- Find other apps that can open URLs, in case Chrome
+                 Custom Tabs is unavailable, so we can open external links. -->
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
