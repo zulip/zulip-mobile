@@ -2,7 +2,6 @@
 import React, { Component, type ComponentType } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
-import type { WebViewNavigation } from 'react-native-webview';
 
 import { connectActionSheet } from '../react-native-action-sheet';
 import type {
@@ -248,7 +247,7 @@ class MessageListInner extends Component<Props> {
 
     // Paranoia^WSecurity: only load `baseUrl`, and only load it once. Any other
     // requests should be handed off to the OS, not loaded inside the WebView.
-    const onShouldStartLoadWithRequest: (event: WebViewNavigation) => boolean = (() => {
+    const onShouldStartLoadWithRequest = (() => {
       // Inner closure to actually test the URL.
       const urlTester: (url: string) => boolean = (() => {
         // On Android this function is documented to be skipped on first load:
@@ -271,7 +270,7 @@ class MessageListInner extends Component<Props> {
       })();
 
       // Outer closure to perform logging.
-      return (event: WebViewNavigation) => {
+      return event => {
         const ok = urlTester(event.url);
         if (!ok) {
           logging.warn('webview: rejected navigation event', {
