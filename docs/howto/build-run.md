@@ -32,12 +32,9 @@ details to worry about.
 **Windows**:
 
 * After installing Git, you'll also need to [install
-  `rsync`][install-rsync].  (You may need to first [install
-  `zstd`][install-zstd-first] in order to unpack that `rsync`
-  package.)
+  `rsync`][install-rsync].
 
-[install-rsync]: https://serverfault.com/a/872557
-[install-zstd-first]: https://serverfault.com/questions/310337/using-rsync-from-msysgit-for-binary-files/872557#comment1377770_872557
+[install-rsync]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Execution.20failed.20for.20task.20'.3Aapp.3AbuildStaticWebviewAssets'.2E/near/1269511
 
 * For running `yarn install`, `tools/run-android`, or any other build commands,
   use the Git Bash prompt.  The Windows Command Prompt isn't supported.
