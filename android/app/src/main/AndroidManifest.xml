@@ -18,7 +18,22 @@
         android:name="android.permission.CAMERA"
         tools:node="remove" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- We shouldn't need these two elements in our merged manifest when we
+         stop supporting Android 9 (SDK version 28); see
+         https://developer.android.com/training/data-storage/shared/media#storage-permission.
+         At that time, check that none of our dependencies (such as
+         expo-file-system) are trying to request these permissions; if they
+         are, use tools:node="remove"
+         (https://developer.android.com/studio/build/manage-manifests#node_markers).
+         If this reasoning changes, adjust `androidEnsureStoragePermission`
+         in src/lightbox/download.js accordingly.
+         -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -37,7 +52,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"

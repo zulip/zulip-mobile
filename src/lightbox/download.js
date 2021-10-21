@@ -2,17 +2,35 @@
 import { Platform, PermissionsAndroid } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
+import invariant from 'invariant';
 
 import type { Auth } from '../api/transportTypes';
 import { getMimeTypeFromFileExtension } from '../utils/url';
 
 /**
- * Request permission WRITE_EXTERNAL_STORAGE, or throw if can't get it.
+ * Request permission WRITE_EXTERNAL_STORAGE if needed or throw if can't get it.
+ *
+ * We don't need to request this permission on Android 10 (SDK version 29)
+ * or above. See android/app/src/main/AndroidManifest.xml for why.
  *
  * The error thrown will have a `message` suitable for showing to the user
  * as a toast.
  */
 const androidEnsureStoragePermission = async (): Promise<void> => {
+  invariant(
+    Platform.OS === 'android',
+    'androidEnsureStoragePermission should only be called on Android',
+  );
+  // Flow isn't refining `Platform` to a type that corresponds to values
+  // we'll see on Android. We do expect `Platform.Version` to be a number on
+  // Android; see https://reactnative.dev/docs/platform#version. Empirically
+  // (and this isn't in the doc yet), it's the SDK version, so for Android
+  // 10 it won't be 10, it'll be 29.
+  const androidSdkVersion = (Platform.Version: number);
+  if (androidSdkVersion > 28) {
+    return;
+  }
+
   // See docs from Android for the underlying interaction with the user:
   //   https://developer.android.com/training/permissions/requesting
   // and from RN for the specific API that wraps it:
