@@ -34,7 +34,7 @@ export default (
       return messageSendStart(state, action);
 
     case MESSAGE_SEND_COMPLETE:
-      return state.map(<O: Outbox>(item: O) =>
+      return state.map(<O: Outbox>(item: O): O =>
         item.id !== action.local_message_id ? item : { ...(item: O), isSent: true },
       );
 
