@@ -184,7 +184,10 @@ export default (
           last_edit_timestamp: action.edit_timestamp ?? oldMessage.last_edit_timestamp,
         };
 
-        return messageWithNewCommonFields.type === 'stream'
+        // FlowIssue: https://github.com/facebook/flow/issues/8833
+        //   The cast `: 'stream'` is silly but harmless, and works
+        //   around a Flow issue which causes an error.
+        return messageWithNewCommonFields.type === ('stream': 'stream')
           ? {
               ...messageWithNewCommonFields,
               subject: action.subject ?? messageWithNewCommonFields.subject,
