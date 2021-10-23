@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.173 (2021-10-22)
+
 ### Highlights for users, vs v27.171 (last prod release)
 
 * The settings menu has moved from the bottom nav bar to the Profile tab.

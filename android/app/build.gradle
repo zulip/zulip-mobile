@@ -149,8 +149,8 @@ android {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 172
-        versionName "27.172"
+        versionCode 173
+        versionName "27.173"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
