@@ -1,4 +1,6 @@
 {
+  "Message not sent": "Message not sent",
+  "Please specify a topic.": "Please specify a topic.",
   "Failed to connect to server: {realm}": "සේවාදායකට සම්බන්ධ වීමට අසමත්: {realm}",
   "{_}": "{_}",
   "Home": "මුල",
@@ -119,6 +121,15 @@
   "Message group": "පණිවිඩ සමූහය",
   "starred": "starred",
   "Enable notifications": "දැනුම්දීම් සබලකරන්න",
+  "Failed to enable notifications": "Failed to enable notifications",
+  "Disable notifications": "Disable notifications",
+  "Failed to disable notifications": "Failed to disable notifications",
+  "Failed to subscribe": "Failed to subscribe",
+  "Failed to unsubscribe": "Failed to unsubscribe",
+  "Pin to top": "Pin to top",
+  "Failed to pin to top": "Failed to pin to top",
+  "Unpin from top": "Unpin from top",
+  "Failed to unpin from top": "Failed to unpin from top",
   "Jot down something": "Jot down something",
   "Message {recipient}": "Message {recipient}",
   "{username} will not be notified unless you subscribe them to this stream.": "{username} will not be notified unless you subscribe them to this stream.",
@@ -254,5 +265,6 @@
   "Attachment": "ඇමුණුම",
   "Attachment {num}": "ඇමුණුම {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
-  "Remove account": "ගිණුම ඉවත්කරන්න"
+  "Remove account": "ගිණුම ඉවත්කරන්න",
+  "Search topics":"Search topics"
 }
