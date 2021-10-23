@@ -19,8 +19,7 @@ buildscript {
         //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
         // What's the latest?  Consult this list:
         //   https://developer.android.com/studio/releases/platforms
-        // Do edit .travis.yml when updating this.
-        compileSdkVersion = 29
+        compileSdkVersion = 30
     }
     repositories {
         google()
