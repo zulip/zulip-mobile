@@ -51,6 +51,7 @@ export default {
   'pt-PT': require('../../static/translations/messages_pt_PT.json'),
   ro: require('../../static/translations/messages_ro.json'),
   ru: require('../../static/translations/messages_ru.json'),
+  si: require('../../static/translations/messages_si.json'),
   sk: require('../../static/translations/messages_sk.json'),
   sr: require('../../static/translations/messages_sr.json'),
   sv: require('../../static/translations/messages_sv.json'),
