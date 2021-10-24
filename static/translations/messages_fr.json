@@ -1,4 +1,6 @@
 {
+  "Message not sent": "Message not sent",
+  "Please specify a topic.": "Please specify a topic.",
   "Failed to connect to server: {realm}": "Échec de la connexion au serveur: {realm}",
   "{_}": "{_}",
   "Home": "Accueil",
@@ -119,6 +121,15 @@
   "Message group": "Message de groupe",
   "starred": "favoris",
   "Enable notifications": "Activer les notifications",
+  "Failed to enable notifications": "Failed to enable notifications",
+  "Disable notifications": "Disable notifications",
+  "Failed to disable notifications": "Failed to disable notifications",
+  "Failed to subscribe": "Failed to subscribe",
+  "Failed to unsubscribe": "Failed to unsubscribe",
+  "Pin to top": "Pin to top",
+  "Failed to pin to top": "Failed to pin to top",
+  "Unpin from top": "Unpin from top",
+  "Failed to unpin from top": "Failed to unpin from top",
   "Jot down something": "Noter quelque chose",
   "Message {recipient}": "Message {recipient}",
   "{username} will not be notified unless you subscribe them to this stream.": "{username} ne sera pas notifié/e à moins que vous ne l'abonniez à ce canal.",
@@ -254,5 +265,6 @@
   "Attachment": "Pièce jointe",
   "Attachment {num}": "Pièce jointe {num}",
   "Failed to mark topic as read": "Impossible de marquer le sujet comme lu",
-  "Remove account": "Supprimer le compte"
+  "Remove account": "Supprimer le compte",
+  "Search topics":"Search topics"
 }

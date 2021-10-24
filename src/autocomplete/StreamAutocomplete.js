@@ -19,8 +19,8 @@ export default function StreamAutocomplete(props: Props): Node {
   const subscriptions = useSelector(getSubscribedStreams);
 
   const handleStreamItemAutocomplete = useCallback(
-    (name: string): void => {
-      onAutocomplete(`**${name}**`);
+    (streamId: number, streamName: string): void => {
+      onAutocomplete(`**${streamName}**`);
     },
     [onAutocomplete],
   );
@@ -43,6 +43,7 @@ export default function StreamAutocomplete(props: Props): Node {
         keyExtractor={item => item.stream_id.toString()}
         renderItem={({ item }) => (
           <StreamItem
+            streamId={item.stream_id}
             name={item.name}
             isMuted={!item.in_home_view}
             isPrivate={item.invite_only}

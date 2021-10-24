@@ -1,4 +1,6 @@
 {
+  "Message not sent": "Message not sent",
+  "Please specify a topic.": "Please specify a topic.",
   "Failed to connect to server: {realm}": "Failed to connect to server: {realm}",
   "{_}": "{_}",
   "Home": "Acasă",
@@ -119,6 +121,15 @@
   "Message group": "Trimite un mesaj grupului",
   "starred": "cu stea",
   "Enable notifications": "Permite notificări",
+  "Failed to enable notifications": "Failed to enable notifications",
+  "Disable notifications": "Disable notifications",
+  "Failed to disable notifications": "Failed to disable notifications",
+  "Failed to subscribe": "Failed to subscribe",
+  "Failed to unsubscribe": "Failed to unsubscribe",
+  "Pin to top": "Pin to top",
+  "Failed to pin to top": "Failed to pin to top",
+  "Unpin from top": "Unpin from top",
+  "Failed to unpin from top": "Failed to unpin from top",
   "Jot down something": "Notează ceva",
   "Message {recipient}": "Trimite mesaj {destinatar}",
   "{username} will not be notified unless you subscribe them to this stream.": "{username} nu va fi notificat decât dacă îi abonezi la acest hub.",
@@ -254,5 +265,6 @@
   "Attachment": "Attachment",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
-  "Remove account": "Remove account"
+  "Remove account": "Remove account",
+  "Search topics":"Search topics"
 }

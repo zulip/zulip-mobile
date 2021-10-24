@@ -44,7 +44,7 @@ export default function StreamListCard(props: Props): Node {
   }));
 
   const handleSwitchChange = useCallback(
-    (streamName: string, switchValue: boolean) => {
+    (streamId: number, streamName: string, switchValue: boolean) => {
       if (switchValue) {
         api.subscriptionAdd(auth, [{ name: streamName }]);
       } else {
@@ -55,7 +55,7 @@ export default function StreamListCard(props: Props): Node {
   );
 
   const handleNarrow = useCallback(
-    (streamName: string) => {
+    (streamId: number, streamName: string) => {
       dispatch(doNarrow(streamNarrow(streamName)));
     },
     [dispatch],

@@ -4,7 +4,6 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import invariant from 'invariant';
 
 import { showStreamActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
@@ -15,7 +14,6 @@ import {
   getFlags,
   getSubscriptionsById,
   getStreamsById,
-  getStreamsByName,
   getOwnUser,
   getSettings,
 } from '../selectors';
@@ -41,6 +39,7 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   name: string,
+  streamId: number,
   description?: string,
   isMuted: boolean,
   isPrivate: boolean,
@@ -51,8 +50,8 @@ type Props = $ReadOnly<{|
   unreadCount?: number,
   iconSize: number,
   showSwitch?: boolean,
-  onPress: (name: string) => void,
-  onSwitch?: (name: string, newValue: boolean) => void,
+  onPress: (streamId: number, streamName: string) => void,
+  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 /**
@@ -77,6 +76,7 @@ type Props = $ReadOnly<{|
  */
 export default function StreamItem(props: Props): Node {
   const {
+    streamId,
     name,
     description,
     color,
@@ -103,8 +103,6 @@ export default function StreamItem(props: Props): Node {
     flags: getFlags(state),
     userSettingStreamNotification: getSettings(state).streamNotification,
   }));
-  const stream = useSelector(state => getStreamsByName(state).get(name));
-  invariant(stream !== undefined, 'No stream with provided stream name was found.');
 
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
@@ -122,13 +120,13 @@ export default function StreamItem(props: Props): Node {
 
   return (
     <Touchable
-      onPress={() => onPress(name)}
+      onPress={() => onPress(streamId, name)}
       onLongPress={() => {
         showStreamActionSheet({
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          streamId: stream.stream_id,
+          streamId,
         });
       }}
     >
@@ -156,7 +154,7 @@ export default function StreamItem(props: Props): Node {
             value={!!isSubscribed}
             onValueChange={(newValue: boolean) => {
               if (onSwitch) {
-                onSwitch(name, newValue);
+                onSwitch(streamId, name, newValue);
               }
             }}
             disabled={!isSubscribed && isPrivate}

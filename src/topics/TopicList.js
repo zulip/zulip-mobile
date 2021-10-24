@@ -18,7 +18,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   stream: Stream,
   topics: ?(TopicExtended[]),
-  onPress: (stream: string, topic: string) => void,
+  onPress: (streamId: number, streamName: string, topic: string) => void,
 |}>;
 
 export default class TopicList extends PureComponent<Props> {
@@ -41,8 +41,9 @@ export default class TopicList extends PureComponent<Props> {
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
           <TopicItem
-            name={item.name}
+            streamId={stream.stream_id}
             streamName={stream.name}
+            name={item.name}
             isMuted={item.isMuted}
             unreadCount={item.unreadCount}
             onPress={onPress}

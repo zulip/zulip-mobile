@@ -327,6 +327,7 @@ export type GetText = {|
 
 export type UnreadStreamItem = {|
   key: string,
+  streamId: number,
   streamName: string,
   unread: number,
   color: string,

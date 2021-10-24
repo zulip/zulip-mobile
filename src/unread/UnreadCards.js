@@ -47,14 +47,15 @@ export default function UnreadCards(props: Props): Node {
       renderSectionHeader={({ section }) =>
         section.key === 'private' ? null : (
           <StreamItem
+            streamId={section.streamId}
             name={section.streamName}
             iconSize={16}
             isMuted={section.isMuted}
             isPrivate={section.isPrivate}
             backgroundColor={section.color}
             unreadCount={section.unread}
-            onPress={(stream: string) => {
-              setTimeout(() => dispatch(doNarrow(streamNarrow(stream))));
+            onPress={(streamId: number, streamName: string) => {
+              setTimeout(() => dispatch(doNarrow(streamNarrow(streamName))));
             }}
           />
         )
@@ -64,13 +65,14 @@ export default function UnreadCards(props: Props): Node {
           <PmConversationList {...item} />
         ) : (
           <TopicItem
-            name={item.topic}
+            streamId={section.streamId}
             streamName={section.streamName || ''}
+            name={item.topic}
             isMuted={section.isMuted || item.isMuted}
             isSelected={false}
             unreadCount={item.unread}
-            onPress={(stream: string, topic: string) => {
-              setTimeout(() => dispatch(doNarrow(topicNarrow(stream, topic))));
+            onPress={(streamId: number, streamName: string, topic: string) => {
+              setTimeout(() => dispatch(doNarrow(topicNarrow(streamName, topic))));
             }}
           />
         )
