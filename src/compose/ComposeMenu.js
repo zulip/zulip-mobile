@@ -134,12 +134,6 @@ class ComposeMenuInner extends PureComponent<Props> {
     launchCamera(
       {
         mediaType: 'photo',
-
-        // TODO: Do we actually need this? If not, also check if we can remove
-        // the relevant WRITE_EXTERNAL_STORAGE permission in our Android
-        // manifest.
-        saveToPhotos: true,
-
         includeBase64: false,
       },
       this.handleImagePickerResponse,
