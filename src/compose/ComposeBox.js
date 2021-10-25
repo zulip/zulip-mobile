@@ -1,11 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
-import { Platform, View, findNodeHandle } from 'react-native';
+import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-// $FlowFixMe[untyped-import]
-import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
 import invariant from 'invariant';
@@ -146,12 +144,6 @@ const updateTextInput = (textInput, text) => {
 
   // `textInput` is untyped; see definition.
   textInput.setNativeProps({ text });
-
-  if (text.length === 0 && TextInputReset) {
-    // React Native has problems with some custom keyboards when clearing
-    // the input's contents.  Force reset to make sure it works.
-    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
-  }
 };
 
 class ComposeBoxInner extends PureComponent<Props, State> {
