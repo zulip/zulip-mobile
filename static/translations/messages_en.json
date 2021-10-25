@@ -1,4 +1,7 @@
 {
+  "To upload an image, please grant Zulip additional permissions in Settings.": "To upload an image, please grant Zulip additional permissions in Settings.",
+  "Permissions needed": "Permissions needed",
+  "Open settings": "Open settings",
   "Error": "Error",
   "Storage permission needed": "Storage permission needed",
   "Zulip will save a copy of your photo on your device. To do so, Zulip will need permission to store files on your device.": "Zulip will save a copy of your photo on your device. To do so, Zulip will need permission to store files on your device.",

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
@@ -98,7 +98,33 @@ class ComposeMenuInner extends PureComponent<Props> {
 
     const errorCode = response.errorCode;
     if (errorCode != null) {
-      showErrorAlert(_('Error'), response.errorMessage);
+      if (Platform.OS === 'ios' && errorCode === 'permission') {
+        // iOS has a quirk where it will only request the native
+        // permission-request alert once, the first time the app wants to
+        // use a protected resource. After that, the only way the user can
+        // grant it is in Settings.
+        Alert.alert(
+          _('Permissions needed'),
+          _('To upload an image, please grant Zulip additional permissions in Settings.'),
+          [
+            { text: _('Cancel'), style: 'cancel' },
+            {
+              text: _('Open settings'),
+              onPress: () => {
+                Linking.openSettings();
+              },
+              style: 'default',
+            },
+          ],
+        );
+      } else {
+        const { errorMessage } = response;
+        showErrorAlert(_('Error'), errorMessage);
+        logging.error('Unexpected error from image picker', {
+          errorCode,
+          errorMessage: errorMessage ?? '[nullish]',
+        });
+      }
       return;
     }
 
