@@ -6,7 +6,8 @@ import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 import * as logging from '../utils/logging';
-import type { Dispatch, Narrow } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
+import type { Dispatch, Narrow, GetText } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -83,8 +84,12 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 };
 
 class ComposeMenuInner extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   handleImagePickerResponse = response => {
     const { dispatch, destinationNarrow } = this.props;
+    const _ = this.context;
 
     if (response.didCancel === true) {
       return;
@@ -92,7 +97,7 @@ class ComposeMenuInner extends PureComponent<Props> {
 
     const errorCode = response.errorCode;
     if (errorCode != null) {
-      showErrorAlert('Error', response.errorMessage);
+      showErrorAlert(_('Error'), response.errorMessage);
       return;
     }
 
@@ -103,9 +108,8 @@ class ComposeMenuInner extends PureComponent<Props> {
     const { uri, fileName } = firstAsset ?? {};
 
     if (!firstAsset || uri == null || fileName == null) {
-      // TODO: If we need to keep this, wire up the user-facing string for
-      // translation.
-      showErrorAlert('Error', 'Something went wrong, and your message was not sent.');
+      // TODO: See if we these unexpected situations actually happen.
+      showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
       logging.error('Unexpected response from image picker', {
         '!firstAsset': !firstAsset,
         'uri == null': uri == null,
@@ -141,6 +145,7 @@ class ComposeMenuInner extends PureComponent<Props> {
   };
 
   handleFilesPicker = async () => {
+    const _ = this.context;
     // Defer import to here, to avoid an obnoxious import-time warning
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
@@ -152,7 +157,7 @@ class ComposeMenuInner extends PureComponent<Props> {
       }): DocumentPickerResponse[]);
     } catch (e) {
       if (!DocumentPicker.isCancel(e)) {
-        showErrorAlert('Error', e);
+        showErrorAlert(_('Error'), e);
       }
       return;
     }
