@@ -21,6 +21,7 @@ import {
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
+import { androidEnsureStoragePermission } from '../lightbox/download';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
@@ -134,10 +135,33 @@ class ComposeMenuInner extends PureComponent<Props> {
     );
   };
 
-  handleCameraCapture = () => {
+  handleCameraCapture = async () => {
+    const _ = this.context;
+
+    if (Platform.OS === 'android') {
+      // On Android ≤9, in order to save the captured photo to storage, we
+      // have to put up a scary permission request. We don't have to do that
+      // when using "scoped storage", which we do on later Android versions.
+      await androidEnsureStoragePermission({
+        title: _('Storage permission needed'),
+        message: _(
+          'Zulip will save a copy of your photo on your device. To do so, Zulip will need permission to store files on your device.',
+        ),
+      });
+    }
+
     launchCamera(
       {
         mediaType: 'photo',
+
+        // On Android ≤9 (see above) and on iOS, this means putting up a
+        // scary permission request. Shrug, because other apps seem to save
+        // to storage, and it seems convenient; see
+        //   https://chat.zulip.org/#narrow/stream/48-mobile/topic/saving.20photos.20to.20device.20on.20capture/near/1271633.
+        // TODO: Still allow capturing and sending the photo, just without
+        // saving to storage, if storage permission is denied.
+        saveToPhotos: true,
+
         includeBase64: false,
       },
       this.handleImagePickerResponse,
