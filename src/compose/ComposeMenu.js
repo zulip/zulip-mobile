@@ -117,6 +117,8 @@ class ComposeMenuInner extends PureComponent<Props> {
             },
           ],
         );
+      } else if (errorCode === 'camera_unavailable') {
+        showErrorAlert(_('Error'), _('Camera unavailable.'));
       } else {
         const { errorMessage } = response;
         showErrorAlert(_('Error'), errorMessage);
