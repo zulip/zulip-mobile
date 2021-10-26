@@ -15,38 +15,46 @@ import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
-import { IconInbox, IconStream } from '../common/Icons';
+import { IconInbox, IconStream, IconSearch } from '../common/Icons';
 import { OwnAvatar, OfflineNotice } from '../common';
 import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
+import SearchMessagesScreen from '../search/SearchMessagesScreen'
 import styles, { ThemeContext } from '../styles';
+import * as NavigationService from '../nav/NavigationService';
+import { useDispatch } from '../react-redux';
+import { navigateToSearch } from '../actions';
+
+
+
 
 export type MainTabsNavigatorParamList = {|
-  home: RouteParamsOf<typeof HomeScreen>,
-  'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
-  'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
-  profile: RouteParamsOf<typeof ProfileScreen>,
+  home: RouteParamsOf < typeof HomeScreen >,
+    'stream-tabs': RouteParamsOf < typeof StreamTabsScreen >,
+      'pm-conversations': RouteParamsOf < typeof PmConversationsScreen >,
+        profile: RouteParamsOf < typeof ProfileScreen >,
 |};
 
 export type MainTabsNavigationProp<
-  +RouteName: $Keys<MainTabsNavigatorParamList> = $Keys<MainTabsNavigatorParamList>,
-> = BottomTabNavigationProp<GlobalParamList, RouteName>;
+  +RouteName: $Keys < MainTabsNavigatorParamList > = $Keys < MainTabsNavigatorParamList >,
+> = BottomTabNavigationProp < GlobalParamList, RouteName >;
 
-const Tab = createBottomTabNavigator<
+const Tab = createBottomTabNavigator <
   GlobalParamList,
   MainTabsNavigatorParamList,
   MainTabsNavigationProp<>,
 >();
 
-type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'main-tabs'>,
-  route: RouteProp<'main-tabs', void>,
+    type Props = $ReadOnly<{|
+      navigation: AppNavigationProp<'main-tabs'>,
+    route: RouteProp<'main-tabs', void>,
 |}>;
 
-export default function MainTabsScreen(props: Props): Node {
-  const { backgroundColor } = useContext(ThemeContext);
+    export default function MainTabsScreen(props: Props): Node {
+  const {backgroundColor} = useContext(ThemeContext);
+    const dispatch = useDispatch();
 
-  return (
+    return (
     <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
       <OfflineNotice />
       <Tab.Navigator
@@ -94,7 +102,19 @@ export default function MainTabsScreen(props: Props): Node {
             tabBarIcon: ({ color }) => <OwnAvatar size={24} />,
           }}
         />
+        <Tab.Screen
+          name="search"
+          component={SearchMessagesScreen}
+          options={{
+            tabBarLabel: 'Search',
+            tabBarIcon: ({ color }) => <IconSearch
+              onPress={() => NavigationService.dispatch(navigateToSearch())}
+              size={24}
+              color={color}
+            />,
+          }}
+        />
       </Tab.Navigator>
     </SafeAreaView>
-  );
+    );
 }

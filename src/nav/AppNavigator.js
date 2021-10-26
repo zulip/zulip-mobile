@@ -46,58 +46,60 @@ import UserStatusScreen from '../user-status/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
+import DrawerNavigation from '../main/DrawerNavigation.js'
+
 export type AppNavigatorParamList = {|
-  'account-pick': RouteParamsOf<typeof AccountPickScreen>,
-  'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
-  'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
-  auth: RouteParamsOf<typeof AuthScreen>,
-  chat: RouteParamsOf<typeof ChatScreen>,
-  'dev-auth': RouteParamsOf<typeof DevAuthScreen>,
-  'emoji-picker': RouteParamsOf<typeof EmojiPickerScreen>,
-  'main-tabs': RouteParamsOf<typeof MainTabsScreen>,
-  'message-reactions': RouteParamsOf<typeof MessageReactionsScreen>,
-  'password-auth': RouteParamsOf<typeof PasswordAuthScreen>,
-  'realm-input': RouteParamsOf<typeof RealmInputScreen>,
-  'search-messages': RouteParamsOf<typeof SearchMessagesScreen>,
-  users: RouteParamsOf<typeof UsersScreen>,
-  language: RouteParamsOf<typeof LanguageScreen>,
-  lightbox: RouteParamsOf<typeof LightboxScreen>,
-  'create-group': RouteParamsOf<typeof CreateGroupScreen>,
-  'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
-  diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
-  variables: RouteParamsOf<typeof VariablesScreen>,
-  timing: RouteParamsOf<typeof TimingScreen>,
-  storage: RouteParamsOf<typeof StorageScreen>,
-  debug: RouteParamsOf<typeof DebugScreen>,
-  'stream-settings': RouteParamsOf<typeof StreamSettingsScreen>,
-  'edit-stream': RouteParamsOf<typeof EditStreamScreen>,
-  'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
-  'topic-list': RouteParamsOf<typeof TopicListScreen>,
-  notifications: RouteParamsOf<typeof NotificationsScreen>,
-  legal: RouteParamsOf<typeof LegalScreen>,
-  'user-status': RouteParamsOf<typeof UserStatusScreen>,
-  sharing: RouteParamsOf<typeof SharingScreen>,
-  settings: RouteParamsOf<typeof SettingsScreen>,
+  'account-pick': RouteParamsOf < typeof AccountPickScreen >,
+    'account-details': RouteParamsOf < typeof AccountDetailsScreen >,
+      'group-details': RouteParamsOf < typeof GroupDetailsScreen >,
+        auth: RouteParamsOf < typeof AuthScreen >,
+          chat: RouteParamsOf < typeof ChatScreen >,
+            'dev-auth': RouteParamsOf < typeof DevAuthScreen >,
+              'emoji-picker': RouteParamsOf < typeof EmojiPickerScreen >,
+                'main-tabs': RouteParamsOf < typeof MainTabsScreen >,
+                  'message-reactions': RouteParamsOf < typeof MessageReactionsScreen >,
+                    'password-auth': RouteParamsOf < typeof PasswordAuthScreen >,
+                      'realm-input': RouteParamsOf < typeof RealmInputScreen >,
+                        'search-messages': RouteParamsOf < typeof SearchMessagesScreen >,
+                          users: RouteParamsOf < typeof UsersScreen >,
+                            language: RouteParamsOf < typeof LanguageScreen >,
+                              lightbox: RouteParamsOf < typeof LightboxScreen >,
+                                'create-group': RouteParamsOf < typeof CreateGroupScreen >,
+                                  'invite-users': RouteParamsOf < typeof InviteUsersScreen >,
+                                    diagnostics: RouteParamsOf < typeof DiagnosticsScreen >,
+                                      variables: RouteParamsOf < typeof VariablesScreen >,
+                                        timing: RouteParamsOf < typeof TimingScreen >,
+                                          storage: RouteParamsOf < typeof StorageScreen >,
+                                            debug: RouteParamsOf < typeof DebugScreen >,
+                                              'stream-settings': RouteParamsOf < typeof StreamSettingsScreen >,
+                                                'edit-stream': RouteParamsOf < typeof EditStreamScreen >,
+                                                  'create-stream': RouteParamsOf < typeof CreateStreamScreen >,
+                                                    'topic-list': RouteParamsOf < typeof TopicListScreen >,
+                                                      notifications: RouteParamsOf < typeof NotificationsScreen >,
+                                                        legal: RouteParamsOf < typeof LegalScreen >,
+                                                          'user-status': RouteParamsOf < typeof UserStatusScreen >,
+                                                            sharing: RouteParamsOf < typeof SharingScreen >,
+                                                              settings: RouteParamsOf < typeof SettingsScreen >,
 |};
 
 export type AppNavigationProp<
-  +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
-> = StackNavigationProp<GlobalParamList, RouteName>;
+  +RouteName: $Keys < AppNavigatorParamList > = $Keys < AppNavigatorParamList >,
+> = StackNavigationProp < GlobalParamList, RouteName >;
 
-const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
+const Stack = createStackNavigator < GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
 
-type Props = $ReadOnly<{||}>;
+  type Props = $ReadOnly<{||}>;
 
-export default function AppNavigator(props: Props): Node {
+    export default function AppNavigator(props: Props): Node {
   const hasAuth = useSelector(getHasAuth);
-  const accounts = useSelector(getAccounts);
+    const accounts = useSelector(getAccounts);
 
-  const { initialRouteName, initialRouteParams } = getInitialRouteInfo({
-    hasAuth,
-    accounts,
+    const {initialRouteName, initialRouteParams} = getInitialRouteInfo({
+      hasAuth,
+      accounts,
   });
 
-  return (
+    return (
     <Stack.Navigator
       initialRouteName={initialRouteName}
       headerMode="none"
@@ -116,7 +118,7 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="group-details" component={useHaveServerDataGate(GroupDetailsScreen)} />
       <Stack.Screen name="chat" component={useHaveServerDataGate(ChatScreen)} />
       <Stack.Screen name="emoji-picker" component={useHaveServerDataGate(EmojiPickerScreen)} />
-      <Stack.Screen name="main-tabs" component={useHaveServerDataGate(MainTabsScreen)} />
+      <Stack.Screen name="main-tabs" component={DrawerNavigation} />
       <Stack.Screen
         name="message-reactions"
         component={useHaveServerDataGate(MessageReactionsScreen)}
@@ -160,5 +162,5 @@ export default function AppNavigator(props: Props): Node {
       />
       <Stack.Screen name="sharing" component={SharingScreen} />
     </Stack.Navigator>
-  );
+    );
 }

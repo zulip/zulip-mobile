@@ -6,6 +6,7 @@ import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 import * as logging from '../utils/logging';
+
 import type { Dispatch, Narrow } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
@@ -23,10 +24,10 @@ import { uploadFile } from '../actions';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
-  destinationNarrow: Narrow,
-  insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
-  insertVideoCallLink: (() => void) | null,
-  onExpandContract: () => void,
+    destinationNarrow: Narrow,
+      insertAttachment: (DocumentPickerResponse[]) => Promise < void>,
+        insertVideoCallLink: (() => void) | null,
+          onExpandContract: () => void,
 |}>;
 
 type SelectorProps = $ReadOnly<{||}>;
@@ -131,19 +132,29 @@ class ComposeMenuInner extends PureComponent<Props> {
   };
 
   handleCameraCapture = () => {
-    launchCamera(
-      {
-        mediaType: 'photo',
-
-        // TODO: Do we actually need this? If not, also check if we can remove
-        // the relevant WRITE_EXTERNAL_STORAGE permission in our Android
-        // manifest.
-        saveToPhotos: true,
-
-        includeBase64: false,
+    const options = {
+      storageOptions: {
+        cameraRoll: true,
+        waitUntilSaved: true,
       },
-      this.handleImagePickerResponse,
-    );
+    };
+
+    handleCameraCapture = () => {
+      launchCamera(
+        {
+          mediaType: 'photo',
+
+          // TODO: Do we actually need this? If not, also check if we can remove
+          // the relevant WRITE_EXTERNAL_STORAGE permission in our Android
+          // manifest.
+          saveToPhotos: true,
+
+          includeBase64: false,
+        },
+        this.handleImagePickerResponse,
+      );
+    };
+    ImagePicker.launchCamera(options, this.handleImagePickerResponse);
   };
 
   handleFilesPicker = async () => {
@@ -213,13 +224,13 @@ class ComposeMenuInner extends PureComponent<Props> {
               size={24}
               onPress={this.handleCameraCapture}
             />
-            {insertVideoCallLink !== null ? (
-              <IconVideo
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={insertVideoCallLink}
-              />
-            ) : null}
+            {/* {insertVideoCallLink !== null ? ( */}
+            <IconVideo
+              style={this.styles.composeMenuButton}
+              size={24}
+              onPress={insertVideoCallLink}
+            />
+            {/* ) : null} */}
           </View>
         </AnimatedComponent>
         {!expanded && (
@@ -233,6 +244,6 @@ class ComposeMenuInner extends PureComponent<Props> {
   }
 }
 
-const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(ComposeMenuInner);
+const ComposeMenu: ComponentType<OuterProps> = connect < SelectorProps, _, _> ()(ComposeMenuInner);
 
 export default ComposeMenu;
