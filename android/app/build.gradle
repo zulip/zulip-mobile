@@ -149,14 +149,8 @@ android {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-<<<<<<< Updated upstream
         versionCode 173
         versionName "27.173"
-=======
-        versionCode 172
-        versionName "27.172"
-        vectorDrawables.useSupportLibrary = true
->>>>>>> Stashed changes
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
