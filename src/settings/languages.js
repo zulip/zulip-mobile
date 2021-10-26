@@ -8,7 +8,7 @@ export type Language = {|
 |};
 
 /**
- * The set of languages we offer in the language settings screen.
+ * The list of languages we offer in the language settings screen.
  *
  * The translation data files in `static/translations/` include all the
  * languages we have open on Transifex for people to translate.  This means
@@ -33,7 +33,10 @@ export type Language = {|
  * useful gold standard for this.
  */
 const languages: $ReadOnlyArray<Language> = [
-  // Keep these sorted by selfname.
+  // Keep these sorted by selfname, to help users find their language in the
+  // UI.  When in doubt how to sort (like between different scripts, or in
+  // scripts you don't know), try to match the order found in other UIs,
+  // like for choosing a language in your phone's system settings.
   //
   // When adding a language here, remember to add the language's name
   // (in English) to messages_en.json, too, so it can be translated.
@@ -59,7 +62,6 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'pt', name: 'Portuguese', selfname: 'Português' },
   { tag: 'pt-PT', name: 'Portuguese (Portugal)', selfname: 'Português (Portugal)' },
   { tag: 'ro', name: 'Romanian', selfname: 'Română' },
-  { tag: 'si', name: 'Sinhala', selfname: 'සිංහල' },
   { tag: 'fi', name: 'Finnish', selfname: 'Suomi' },
   { tag: 'sv', name: 'Swedish', selfname: 'Svenska' },
   { tag: 'vi', name: 'Vietnamese', selfname: 'Tiếng Việt' },
@@ -73,6 +75,7 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'hi', name: 'Hindi', selfname: 'हिन्दी' },
   { tag: 'ta', name: 'Tamil', selfname: 'தமிழ்' },
   { tag: 'ml', name: 'Malayalam', selfname: 'മലയാളം' },
+  { tag: 'si', name: 'Sinhala', selfname: 'සිංහල' },
   { tag: 'ko', name: 'Korean', selfname: '한국어' },
   { tag: 'zh-Hans', name: 'Chinese (China)', selfname: '简体中文（中国）' },
   { tag: 'zh-TW', name: 'Chinese (Taiwan)', selfname: '繁體中文（台灣）' },
