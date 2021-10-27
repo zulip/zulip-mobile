@@ -31,16 +31,3 @@ rules:
   # This *would* overrule Prettier, and in particular run roughshod over
   # line-length limits.  Let Prettier take care of it.
   implicit-arrow-linebreak: off
-
-  # Not sure this rule is quite *right* -- in a type fragment like
-  #   foo:
-  #     | 'have_a_long_name_number_the_first'
-  #     | 'have_a_long_name_number_the_second'
-  #     | 'have_a_long_name_number_the_third'
-  # Prettier would format that code like above, while this rule
-  # causes the first item to get stuffed on the previous line,
-  # like `foo: | 'have_a_...'`.  But it's what we've had, so make
-  # prettier and lint runs agree.
-  #
-  # TODO: try fixing this to follow what Prettier does.
-  flowtype/space-after-type-colon: [error, always]

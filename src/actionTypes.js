@@ -265,7 +265,8 @@ type EventRealmFiltersAction = {|
 type EventUpdateGlobalNotificationsSettingsAction = {|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-  notification_name: | 'enable_offline_push_notifications'
+  notification_name:
+    | 'enable_offline_push_notifications'
     | 'enable_online_push_notifications'
     | 'enable_stream_push_notifications',
   setting: boolean,
