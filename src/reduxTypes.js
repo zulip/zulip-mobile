@@ -493,6 +493,24 @@ export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
   return state;
 }
 
+/**
+ * Use the given state object as a per-account state.
+ *
+ * TODO(#5006): We'll have to fix and eliminate each call to this.
+ */
+export function dubPerAccountState(state: GlobalState): PerAccountState {
+  return state;
+}
+
+/**
+ * For tests only.  Use the given state object as *both* kinds of state.
+ *
+ * TODO(#5006): We'll have to fix and eliminate each call to this.
+ */
+export function dubJointState(state: GlobalState): GlobalState & PerAccountState {
+  return state;
+}
+
 // No substate should allow `undefined`; our use of AsyncStorage
 // depends on it. (This check will also complain on `null`, which I
 // don't think we'd have a problem with. We could try to write this
