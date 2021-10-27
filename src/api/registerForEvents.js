@@ -64,6 +64,23 @@ const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => (
       ])
     : rawInitialData.realm_filters,
 
+  // In 5.0 (feature level 100), the representation the server sends for "no
+  // limit" changed from 0 to `null`.
+  //
+  // It's convenient to emulate Server 5.0's representation in our own data
+  // structures. To get a correct initial value, it's sufficient to coerce
+  // `0` to null here, without even looking at the server feature level.
+  // That's because, in addition to the documented change in 5.0, there was
+  // another: 0 became an invalid value, which means we don't have to
+  // anticipate servers 5.0+ using it to mean anything, such as "0 seconds":
+  //   https://github.com/zulip/zulip/blob/b13bfa09c/zerver/lib/message.py#L1482.
+  //
+  // TODO(server-5.0) Remove this conditional.
+  realm_message_content_delete_limit_seconds:
+    rawInitialData.realm_message_content_delete_limit_seconds === 0
+      ? null
+      : rawInitialData.realm_message_content_delete_limit_seconds,
+
   realm_users: rawInitialData.realm_users.map(rawUser => transformUser(rawUser, auth.realm)),
   realm_non_active_users: rawInitialData.realm_non_active_users.map(rawNonActiveUser =>
     transformUser(rawNonActiveUser, auth.realm),

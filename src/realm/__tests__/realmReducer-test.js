@@ -22,6 +22,7 @@ describe('realmReducer', () => {
         emoji: {}, // update as necessary if example data changes
         videoChatProvider: null, // update as necessary if example data changes
         mandatoryTopics: action.data.realm_mandatory_topics,
+        messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
 
         email: action.data.email,
         user_id: action.data.user_id,

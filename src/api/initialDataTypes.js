@@ -101,7 +101,12 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_invite_required: boolean,
   realm_is_zephyr_mirror_realm: boolean,
   realm_mandatory_topics: boolean,
-  realm_message_content_delete_limit_seconds: number,
+
+  // In 5.0 (feature level 100), the representation the server sends for "no
+  // limit" changed from 0 to `null`, and 0 became an invalid value. (For
+  // the invalid-value part, see zulip/zulip#20131.)
+  realm_message_content_delete_limit_seconds: number | null,
+
   realm_message_content_edit_limit_seconds: number,
   realm_message_retention_days: ?number,
   realm_name: string,
