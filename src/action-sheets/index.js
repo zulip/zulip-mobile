@@ -406,6 +406,7 @@ export const constructMessageActionButtons = ({
     buttons.push(shareMessage);
   }
   if (
+    // TODO(#2792): Don't show if message isn't editable.
     message.sender_id === ownUser.user_id
     // Our "edit message" UI only works in certain kinds of narrows.
     && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
@@ -413,6 +414,7 @@ export const constructMessageActionButtons = ({
     buttons.push(editMessage);
   }
   if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
+    // TODO(#2793): Don't show if message isn't deletable.
     buttons.push(deleteMessage);
   }
   if (message.id in flags.starred) {
