@@ -255,6 +255,8 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  *   realm_message_content_delete_limit_seconds in initial data. We use the
  *   Zulip Server 5.0+ convention that `null` means no limit, and 0 is
  *   invalid.
+ * @prop messageContentEditLimitSeconds - Corresponds to
+ *   realm_message_content_edit_limit_seconds in initial data.
  *
  * About the user:
  * @prop email
@@ -272,6 +274,7 @@ export type RealmState = $ReadOnly<{|
   videoChatProvider: VideoChatProvider | null,
   mandatoryTopics: boolean,
   messageContentDeleteLimitSeconds: number | null,
+  messageContentEditLimitSeconds: number,
 
   email: string | void,
   user_id: UserId | void,

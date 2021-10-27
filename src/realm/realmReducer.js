@@ -20,6 +20,7 @@ const initialState = {
   videoChatProvider: null,
   mandatoryTopics: false,
   messageContentDeleteLimitSeconds: null,
+  messageContentEditLimitSeconds: 1,
 
   email: undefined,
   user_id: undefined,
@@ -70,6 +71,7 @@ export default (state: RealmState = initialState, action: Action): RealmState =>
         }),
         mandatoryTopics: action.data.realm_mandatory_topics,
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
+        messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
 
         email: action.data.email,
         user_id: action.data.user_id,
