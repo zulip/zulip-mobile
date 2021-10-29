@@ -46,12 +46,6 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-         // ADD THIS
-      maven { url 'https://maven.google.com' }
-
-      // ADD THIS
-      maven { url "https://www.jitpack.io" }
-
         google()
         jcenter()
     }
