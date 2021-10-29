@@ -24,6 +24,7 @@ describe('realmReducer', () => {
         mandatoryTopics: action.data.realm_mandatory_topics,
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
+        pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
 
         email: action.data.email,
         user_id: action.data.user_id,

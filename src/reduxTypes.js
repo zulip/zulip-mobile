@@ -260,6 +260,8 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  *   invalid.
  * @prop messageContentEditLimitSeconds - Corresponds to
  *   realm_message_content_edit_limit_seconds in initial data.
+ * @prop pushNotificationsEnabled - Corresponds to
+     realm_push_notifications_enabled in initial data.
  *
  * About the user:
  * @prop email
@@ -278,6 +280,7 @@ export type RealmState = $ReadOnly<{|
   mandatoryTopics: boolean,
   messageContentDeleteLimitSeconds: number | null,
   messageContentEditLimitSeconds: number,
+  pushNotificationsEnabled: boolean,
 
   email: string | void,
   user_id: UserId | void,
