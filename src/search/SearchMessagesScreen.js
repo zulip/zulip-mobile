@@ -17,8 +17,8 @@ import { fetchMessages } from '../message/fetchActions';
 
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
-  navigation: AppNavigationProp < 'search-messages' >,
-    route: RouteProp < 'search-messages', void>,
+  navigation: AppNavigationProp<'search-messages'>,
+  route: RouteProp<'search-messages', void>,
 |}>;
 
 type SelectorProps = $ReadOnly<{|
@@ -38,16 +38,16 @@ type State = {|
   /** The latest search query we have results for. */
   query: string,
 
-    /**
-     * The list of messages found as results for `query`.
-     *
-     * This is `null` if `query` is empty, representing an empty search box
-     * and so effectively not a query to have results from at all.
-     */
-    messages: Message[] | null,
+  /**
+   * The list of messages found as results for `query`.
+   *
+   * This is `null` if `query` is empty, representing an empty search box
+   * and so effectively not a query to have results from at all.
+   */
+  messages: Message[] | null,
 
-      /** Whether there is currently an active valid network request. */
-      isFetching: boolean,
+  /** Whether there is currently an active valid network request. */
+  isFetching: boolean,
 |};
 
 class SearchMessagesScreenInner extends PureComponent<Props, State> {

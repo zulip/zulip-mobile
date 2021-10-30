@@ -12,7 +12,7 @@ import UnreadCards from '../unread/UnreadCards';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingBanner } from '../common';
 import ServerCompatBanner from '../common/ServerCompatBanner';
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -31,13 +31,13 @@ const styles = createStyleSheet({
   },
   drawerIcon: {
     position: 'absolute',
-    left: 10
-  }
+    left: 10,
+  },
 });
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp < 'home' >,
-    route: RouteProp < 'home', void>,
+  navigation: MainTabsNavigationProp<'home'>,
+  route: RouteProp<'home', void>,
 |}>;
 
 export default function HomeScreen(props: Props): Node {
@@ -47,7 +47,7 @@ export default function HomeScreen(props: Props): Node {
     <View style={styles.wrapper}>
       <View style={styles.iconList}>
         <EvilIcons
-          name='navicon'
+          name="navicon"
           size={32}
           onPress={() => props.navigation.openDrawer()}
           style={styles.drawerIcon}

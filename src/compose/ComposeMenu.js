@@ -24,10 +24,10 @@ import { uploadFile } from '../actions';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
-    destinationNarrow: Narrow,
-      insertAttachment: (DocumentPickerResponse[]) => Promise < void>,
-        insertVideoCallLink: (() => void) | null,
-          onExpandContract: () => void,
+  destinationNarrow: Narrow,
+  insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
+  insertVideoCallLink: (() => void) | null,
+  onExpandContract: () => void,
 |}>;
 
 type SelectorProps = $ReadOnly<{||}>;
@@ -244,6 +244,6 @@ class ComposeMenuInner extends PureComponent<Props> {
   }
 }
 
-const ComposeMenu: ComponentType<OuterProps> = connect < SelectorProps, _, _> ()(ComposeMenuInner);
+const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(ComposeMenuInner);
 
 export default ComposeMenu;

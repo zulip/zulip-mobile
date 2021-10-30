@@ -62,7 +62,7 @@ export type AlertWordsState = $ReadOnlyArray<string>;
  */
 export type CaughtUp = $ReadOnly<{|
   older: boolean,
-    newer: boolean,
+  newer: boolean,
 |}>;
 
 /**
@@ -73,7 +73,7 @@ export type CaughtUp = $ReadOnly<{|
  * See `CaughtUp` for details on what each value means.
  */
 export type CaughtUpState = $ReadOnly<{|
-[narrow: string]: CaughtUp,
+  [narrow: string]: CaughtUp,
 |}>;
 
 /**
@@ -82,12 +82,12 @@ export type CaughtUpState = $ReadOnly<{|
  * The keys correspond to the keys in `NarrowsState`.
  */
 export type DraftsState = $ReadOnly<{|
-[narrow: string]: string,
+  [narrow: string]: string,
 |}>;
 
 export type Fetching = $ReadOnly<{|
   older: boolean,
-    newer: boolean,
+  newer: boolean,
 |}>;
 
 /**
@@ -98,7 +98,7 @@ export type Fetching = $ReadOnly<{|
  * See also: `CaughtUpState`, `NarrowsState`.
  */
 export type FetchingState = $ReadOnly<{|
-[narrow: string]: Fetching,
+  [narrow: string]: Fetching,
 |}>;
 
 /**
@@ -119,17 +119,17 @@ export type FetchingState = $ReadOnly<{|
  */
 export type FlagsState = $ReadOnly<{|
   read: {| +[messageId: number]: true |},
-starred: {| +[messageId: number]: true |},
-collapsed: {| +[messageId: number]: true |},
-mentioned: {| +[messageId: number]: true |},
-wildcard_mentioned: {| +[messageId: number]: true |},
-summarize_in_home: {| +[messageId: number]: true |},
-summarize_in_stream: {| +[messageId: number]: true |},
-force_expand: {| +[messageId: number]: true |},
-force_collapse: {| +[messageId: number]: true |},
-has_alert_word: {| +[messageId: number]: true |},
-historical: {| +[messageId: number]: true |},
-is_me_message: {| +[messageId: number]: true |},
+  starred: {| +[messageId: number]: true |},
+  collapsed: {| +[messageId: number]: true |},
+  mentioned: {| +[messageId: number]: true |},
+  wildcard_mentioned: {| +[messageId: number]: true |},
+  summarize_in_home: {| +[messageId: number]: true |},
+  summarize_in_stream: {| +[messageId: number]: true |},
+  force_expand: {| +[messageId: number]: true |},
+  force_collapse: {| +[messageId: number]: true |},
+  has_alert_word: {| +[messageId: number]: true |},
+  historical: {| +[messageId: number]: true |},
+  is_me_message: {| +[messageId: number]: true |},
 |}>;
 
 export type FlagName = $Keys<FlagsState>;
@@ -208,7 +208,7 @@ export type OutboxState = $ReadOnlyArray<Outbox>;
  *   presence status.
  */
 export type PresenceState = $ReadOnly<{|
-[email: string]: UserPresence,
+  [email: string]: UserPresence,
 |}>;
 
 /**
@@ -256,20 +256,20 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  * @prop isAdmin
  */
 export type RealmState = $ReadOnly<{|
-  crossRealmBots: $ReadOnlyArray < CrossRealmBot >,
+  crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
 
-    nonActiveUsers: $ReadOnlyArray < User >,
-      filters: $ReadOnlyArray < RealmFilter >,
-        emoji: RealmEmojiById,
-          videoChatProvider: VideoChatProvider | null,
-            mandatoryTopics: boolean,
-              realm_name: string,
+  nonActiveUsers: $ReadOnlyArray<User>,
+  filters: $ReadOnlyArray<RealmFilter>,
+  emoji: RealmEmojiById,
+  videoChatProvider: VideoChatProvider | null,
+  mandatoryTopics: boolean,
+  realm_name: string,
 
-                email: string | void,
-                  user_id: UserId | void,
-                    twentyFourHourTime: boolean,
-                      canCreateStreams: boolean,
-                        isAdmin: boolean,
+  email: string | void,
+  user_id: UserId | void,
+  twentyFourHourTime: boolean,
+  canCreateStreams: boolean,
+  isAdmin: boolean,
 |}>;
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should
@@ -337,8 +337,8 @@ export type GlobalSettingsState = $ReadOnly<{
  * {@link GlobalSettingsState}).
  */
 export type SettingsState = $ReadOnly<{|
-  ...$Exact < GlobalSettingsState >,
-  ...$Exact < PerAccountSettingsState >,
+  ...$Exact<GlobalSettingsState>,
+  ...$Exact<PerAccountSettingsState>,
 |}>;
 
 // As part of letting GlobalState freely convert to PerAccountState,
@@ -351,13 +351,13 @@ export type StreamsState = $ReadOnlyArray<Stream>;
 export type SubscriptionsState = $ReadOnlyArray<Subscription>;
 
 export type TopicsState = $ReadOnly<{|
-[number]: $ReadOnlyArray < Topic >,
+  [number]: $ReadOnlyArray<Topic>,
 |}>;
 
 export type TypingState = $ReadOnly<{|
-[normalizedRecipients: string]: $ReadOnly < {|
-  time: number,
-    userIds: $ReadOnlyArray < UserId >,
+  [normalizedRecipients: string]: $ReadOnly<{|
+    time: number,
+    userIds: $ReadOnlyArray<UserId>,
   |}>,
 |}>;
 
@@ -446,18 +446,18 @@ export type PerAccountState = $ReadOnly<{
  * identify which subtrees are persisted and which are not.
  */
 export type GlobalState = $ReadOnly<{|
-  ...$Exact < PerAccountState >,
+  ...$Exact<PerAccountState>,
 
   // Metadata for the global state, as persisted on disk.
   migrations: MigrationsState,
 
-    // Jumbles of per-account state and client state.
-    session: SessionState,
-      settings: SettingsState,
+  // Jumbles of per-account state and client state.
+  session: SessionState,
+  settings: SettingsState,
 
-        // Per-account state but for all accounts together.
-        // Mix of server data and otherwise.
-        accounts: AccountsState,
+  // Per-account state but for all accounts together.
+  // Mix of server data and otherwise.
+  accounts: AccountsState,
 |}>;
 
 // For now, under our single-active-account model, we want a GlobalState
@@ -483,24 +483,24 @@ export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
 // depends on it. (This check will also complain on `null`, which I
 // don't think we'd have a problem with. We could try to write this
 // differently if we want to allow `null`.)
-type NonMaybeProperties<O: { ... }> = $ObjMap < O, <V>(V) => $NonMaybeType<V>>;
-  type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
+type NonMaybeProperties<O: { ... }> = $ObjMap<O, <V>(V) => $NonMaybeType<V>>;
+type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
 // This function definition will fail typechecking if GlobalState is wrong.
 (s: GlobalState): NonMaybeGlobalState => s; // eslint-disable-line no-unused-expressions
 
-    /** A per-account selector returning TResult, with extra parameter TParam. */
-    // Seems like this should be OutputSelector... but for whatever reason,
-    // putting that on a selector doesn't cause the result type to propagate to
-    // the corresponding parameter when used in `createSelector`, and this does.
-    export type Selector<TResult, TParam = void> = InputSelector<PerAccountState, TParam, TResult>;
+/** A per-account selector returning TResult, with extra parameter TParam. */
+// Seems like this should be OutputSelector... but for whatever reason,
+// putting that on a selector doesn't cause the result type to propagate to
+// the corresponding parameter when used in `createSelector`, and this does.
+export type Selector<TResult, TParam = void> = InputSelector<PerAccountState, TParam, TResult>;
 
-    /** A GlobalState selector returning TResult, with extra parameter TParam. */
-    // Seems like this should be OutputSelector; see comment on Selector above.
-    export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
+/** A GlobalState selector returning TResult, with extra parameter TParam. */
+// Seems like this should be OutputSelector; see comment on Selector above.
+export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
-    export interface Dispatch {
-      <A: Action>(action: A): A;
-    <T>(ThunkAction<T>): T;
+export interface Dispatch {
+  <A: Action>(action: A): A;
+  <T>(ThunkAction<T>): T;
 }
 
-      export type ThunkAction<T> = (Dispatch, () => GlobalState) => T;
+export type ThunkAction<T> = (Dispatch, () => GlobalState) => T;
