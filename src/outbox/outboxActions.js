@@ -5,7 +5,7 @@ import invariant from 'invariant';
 
 import * as logging from '../utils/logging';
 import type {
-  GlobalState,
+  PerAccountState,
   Narrow,
   Outbox,
   PmOutbox,
@@ -75,7 +75,6 @@ const trySendMessages = (dispatch, getState): boolean => {
             // TODO(server-2.0): switch to numeric user IDs, not emails.
           ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
             // TODO(server-2.0): switch to numeric stream IDs, not names.
-            //   (This will require wiring the stream ID through to here.)
             // HACK: the server attempts to interpret this argument as JSON, then
             //   CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([streamNameOfStreamMessage(item)]);
@@ -157,7 +156,7 @@ const outboxPropertiesForNarrow = (
     },
   });
 
-const getContentPreview = (content: string, state: GlobalState): string => {
+const getContentPreview = (content: string, state: PerAccountState): string => {
   try {
     return parseMarkdown(
       content,

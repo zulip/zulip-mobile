@@ -25,6 +25,7 @@ export const doNarrow = (
 export const messageLinkPress = (href: string): ThunkAction<Promise<void>> => async (
   dispatch,
   getState,
+  { getGlobalSettings },
 ) => {
   const state = getState();
   const auth = getAuth(state);
@@ -35,10 +36,10 @@ export const messageLinkPress = (href: string): ThunkAction<Promise<void>> => as
     const anchor = getMessageIdFromLink(href, auth.realm);
     dispatch(doNarrow(narrow, anchor));
   } else if (!isUrlOnRealm(href, auth.realm)) {
-    openLinkWithUserPreference(href, state.settings);
+    openLinkWithUserPreference(href, getGlobalSettings());
   } else {
     const url =
       (await api.tryGetFileTemporaryUrl(href, auth)) ?? new URL(href, auth.realm).toString();
-    openLinkWithUserPreference(url, state.settings);
+    openLinkWithUserPreference(url, getGlobalSettings());
   }
 };

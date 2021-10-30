@@ -9,7 +9,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector, useGlobalDispatch } from '../react-redux';
 import { getAccountStatuses } from '../selectors';
 import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
 import AccountList from './AccountList';
@@ -30,7 +30,7 @@ type Props = $ReadOnly<{|
 export default function AccountPickScreen(props: Props): Node {
   const { navigation } = props;
   const accounts = useSelector(getAccountStatuses);
-  const dispatch = useDispatch();
+  const dispatch = useGlobalDispatch();
   const _ = useContext(TranslationContext);
 
   const handleAccountSelect = useCallback(

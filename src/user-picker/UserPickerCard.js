@@ -30,20 +30,26 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   filter: string,
   onComplete: (selected: UserOrBot[]) => void,
+  showOwnUser: boolean,
 |}>;
 
-// The users we want to show in this particular UI.
-// We exclude (a) users with `is_active` false; (b) cross-realm bots; (c) self.
-const getUsersToShow: Selector<User[]> = createSelector(
+const getUsersExceptSelf: Selector<User[]> = createSelector(
   getUsers,
   getOwnUserId,
   (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
 );
 
-export default function UserPickerCard(props: Props): Node {
-  const { filter } = props;
+// The users we want to show in this particular UI.
+// We exclude (a) users with `is_active` false; (b) cross-realm bots;
+// (c) self when `showOwnUser` is false.
+function getUsersToShow(state, showOwnUser) {
+  return showOwnUser ? getUsers(state) : getUsersExceptSelf(state);
+}
 
-  const users = useSelector(getUsersToShow);
+export default function UserPickerCard(props: Props): Node {
+  const { filter, showOwnUser } = props;
+
+  const users = useSelector(state => getUsersToShow(state, showOwnUser));
   const presences = useSelector(getPresence);
 
   const [selectedState, setSelectedState] = useState<UserOrBot[]>([]);

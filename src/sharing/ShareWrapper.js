@@ -3,6 +3,7 @@ import React from 'react';
 import type { Node, ComponentType } from 'react';
 import { FlatList, ImageBackground, ScrollView, View, Text } from 'react-native';
 
+import * as apiConstants from '../api/constants';
 import type { Auth, Dispatch, GetText, UserId } from '../types';
 import type { SharedData, SharedFile } from './types';
 import * as api from '../api';
@@ -136,7 +137,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
         : {
             content: messageToSend,
             type: 'stream',
-            subject: sendTo.topic,
+            subject: sendTo.topic || apiConstants.NO_TOPIC_TOPIC,
             to: sendTo.stream,
           };
 

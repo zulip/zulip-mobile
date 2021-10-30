@@ -21,7 +21,7 @@ export function connectActionSheet<P, C: ComponentType<P>>(
 ): ComponentType<
   BoundedDiff<
     $Exact<ElementConfig<C>>,
-    {| showActionSheetWithOptions: ShowActionSheetWithOptions |},
+    {| +showActionSheetWithOptions: ShowActionSheetWithOptions |},
   >,
 > {
   return connectActionSheetInner(WrappedComponent);

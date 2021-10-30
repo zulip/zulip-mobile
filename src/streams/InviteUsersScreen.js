@@ -35,7 +35,7 @@ export default function InviteUsersScreen(props: Props): Node {
 
   return (
     <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
-      <UserPickerCard filter={filter} onComplete={handleInviteUsers} />
+      <UserPickerCard filter={filter} onComplete={handleInviteUsers} showOwnUser={false} />
     </Screen>
   );
 }

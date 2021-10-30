@@ -14,7 +14,9 @@
  * See also `typesEquivalent`, which can be more convenient when not already
  * in the context of a type-level expression.
  */
-export type IsSupertype<+S, +T: S> = S; // eslint-disable-line no-unused-vars
+// Flow would also accept `+S, +T`.  But `+T` is wrong and it's a bug
+// that Flow would accept it; see demo_variance_short_circuit in tests.
+export type IsSupertype<+S, -T: S> = S; // eslint-disable-line no-unused-vars
 
 /**
  * Gives a type error unless a T can be used as a U and vice versa.
@@ -98,8 +100,19 @@ export function typesEquivalent<T, U: T, _InternalDoNotPass: U = T>() {}
  *  * `D` has exactly the properties in `U` that aren't in `L`.
  *  * Each property of `D` has the same type as in `U`.
  */
-// Oddly, Flow accepts this declaration with <-U, -L> but also with <+U, +L>.
-export type BoundedDiff<-U, -L> =
+// Flow would also accept `-U` or `+L` or any combination.  But either of
+// those is wrong and Flow shouldn't accept them, for the same reasons as
+// around `IsSupertype`; see demo_variance_short_circuit in tests.
+//
+// This version `+U, -L` probably also shouldn't be accepted by Flow, given
+// that we haven't explained to it our requirement that U and L be exact,
+// read-only object types.  But given that assumption, if one considers
+// type expressions BoundedDiff<U1, L1> and BoundedDiff<U2, L2> with
+// U1 <: U2 and on the other hand L2 <: L1, then working through each of the
+// points listed at the end of the jsdoc, one can see that if
+// BoundedDiff<U1, L1> is valid then so is BoundedDiff<U2, L2>, and the
+// former can appropriately flow to the latter.
+export type BoundedDiff<+U, -L> =
   // The $ReadOnly is to work around a Flow bug that `$Diff` loses variance:
   //   https://github.com/facebook/flow/issues/6225
   // (If we wanted to use BoundedDiff with non-read-only `U`, this

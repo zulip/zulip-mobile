@@ -286,6 +286,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
         isMuted: true,
         key: 'stream:stream 0',
+        streamId: 0,
         streamName: 'stream 0',
         unread: 5,
       },
@@ -302,6 +303,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
         isMuted: true,
         key: 'stream:stream 2',
+        streamId: 2,
         streamName: 'stream 2',
         unread: 2,
       },
@@ -352,6 +354,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPrivate: undefined,
         key: 'stream:stream 0',
+        streamId: 0,
         streamName: 'stream 0',
         unread: 2,
       },
@@ -368,6 +371,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
         isMuted: false,
         key: 'stream:stream 2',
+        streamId: 2,
         streamName: 'stream 2',
         unread: 2,
       },
@@ -399,6 +403,7 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([
       {
         key: 'stream:stream 0',
+        streamId: 0,
         streamName: 'stream 0',
         color: 'red',
         unread: 5,
@@ -416,6 +421,7 @@ describe('getUnreadStreamsAndTopics', () => {
       },
       {
         key: 'stream:stream 2',
+        streamId: 2,
         streamName: 'stream 2',
         color: 'blue',
         unread: 2,
@@ -485,6 +491,7 @@ describe('getUnreadStreamsAndTopics', () => {
     expect(unreadCount).toEqual([
       {
         key: 'stream:xyz stream',
+        streamId: 1,
         streamName: 'xyz stream',
         color: 'blue',
         isMuted: false,
@@ -498,6 +505,7 @@ describe('getUnreadStreamsAndTopics', () => {
       },
       {
         key: 'stream:abc stream',
+        streamId: 0,
         streamName: 'abc stream',
         color: 'red',
         isMuted: false,
@@ -511,6 +519,7 @@ describe('getUnreadStreamsAndTopics', () => {
       },
       {
         key: 'stream:def stream',
+        streamId: 2,
         streamName: 'def stream',
         color: 'green',
         isMuted: false,
@@ -583,6 +592,7 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
         isMuted: false,
         isPrivate: undefined,
         key: 'stream:stream 0',
+        streamId: 0,
         streamName: 'stream 0',
         unread: 2,
       },

@@ -55,17 +55,9 @@ export default (
     `;
     } else if (headerStyle === 'full') {
       const streamName = streamNameOfStreamMessage(message);
+      const subscription = subscriptions.get(message.stream_id);
 
-      // TODO(#3339): like `subscriptions.find(…)`, but for the values from …ById
-      let stream = null;
-      for (const sub of subscriptions.values()) {
-        if (sub.name === streamName) {
-          stream = sub;
-          break;
-        }
-      }
-
-      const backgroundColor = stream ? stream.color : 'hsl(0, 0%, 80%)';
+      const backgroundColor = subscription ? subscription.color : 'hsl(0, 0%, 80%)';
       const textColor = foregroundColorFromBackground(backgroundColor);
       const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
       const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));

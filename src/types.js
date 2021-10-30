@@ -68,8 +68,13 @@ export type Account = {|
    * This is `null` briefly when we've logged in but not yet completed our
    * first initial fetch on the account.  It's also `null` when representing
    * an account which was last used on a version of the app which didn't
-   * record this information.
+   * record this information.  It's never `null` for an account for which we
+   * have server data.
    */
+  // A subtle key step in making that invariant true, that server data means
+  // this isn't `null`, is migration 34 dropping server data after this was
+  // added.  Otherwise on first startup after upgrade, we'd be using server
+  // data from an initial fetch made when we didn't yet store this property.
   userId: UserId | null,
 
   /**
@@ -81,7 +86,8 @@ export type Account = {|
    * is always up to date for a server we have an active event queue on.
    *
    * This is `null` just when representing an account which was last used on
-   * a version of the app which didn't record this information.
+   * a version of the app which didn't record this information.  It's never
+   * `null` for an account for which we have server data.
    *
    * For use in:
    *  * how we make some API requests, in order to keep the logic isolated
@@ -89,6 +95,7 @@ export type Account = {|
    *    "crunchy shell" pattern (see docs/architecture/crunchy-shell.md);
    *  * context data in Sentry reports.
    */
+  // See discussion at userId for a subtle piece of why that not-null invariant holds.
   zulipVersion: ZulipVersion | null,
 
   /**
@@ -100,12 +107,14 @@ export type Account = {|
    * whether the server supports a given feature or API change.
    *
    * This is `null` just when representing an account which was last used on
-   * a version of the app which didn't record this information.
+   * a version of the app which didn't record this information.  It's never
+   * `null` for an account for which we have server data.
    *
    * Like zulipVersion, we learn the feature level from /server_settings
    * at the start of the login process, and again from /register when
    * setting up an event queue.
    */
+  // See discussion at userId for a subtle piece of why that not-null invariant holds.
   zulipFeatureLevel: number | null,
 
   /**
@@ -219,19 +228,12 @@ export type PmOutbox = $ReadOnly<{|
 export type StreamOutbox = $ReadOnly<{|
   ...OutboxBase,
 
-  // TODO(#3764): Make stream_id required.  First need to start supplying it
-  //   in the Outbox values we create; compare a1fad7ca9, for sender_id.
-  //
-  //   Once it is required, it should move from here to the second type
-  //   argument passed to `SubsetProperties` of `StreamMessage`, below;
-  //   and we can also drop the hack line about it in `MessageLike`.
-  stream_id?: number,
-
   ...SubsetProperties<
     StreamMessage,
     {|
       type: mixed,
       display_recipient: mixed,
+      stream_id: mixed,
       subject: mixed,
     |},
   >,
@@ -293,7 +295,6 @@ export type MessageLike =
   | $ReadOnly<{|
       // $Shape<T> is unsound, per Flow docs, but $ReadOnly<$Shape<T>> is not
       ...$Shape<{| [$Keys<Message>]: void |}>,
-      stream_id?: number, // TODO: Drop this once required in StreamOutbox.
       ...Outbox,
     |}>;
 
@@ -326,6 +327,7 @@ export type GetText = {|
 
 export type UnreadStreamItem = {|
   key: string,
+  streamId: number,
   streamName: string,
   unread: number,
   color: string,

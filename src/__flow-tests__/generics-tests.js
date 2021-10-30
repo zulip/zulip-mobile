@@ -214,6 +214,150 @@ function demo_short_circuits() {
   // of the flow.
 }
 
+/** This… seems like a bug in Flow.  Fortunately pretty avoidable. */
+// TODO: make a bug report :-)  (there doesn't seem to be an existing one)
+function demo_variance_short_circuit() {
+  // In addition to the perfectly sound short circuits above, Flow has
+  // another:
+  //  * If the flow is between two instances of the same generic type,
+  //    and that type has variance markings and the appropriate flows
+  //    between the respective type arguments succeed, then the overall flow
+  //    succeeds.  (The example below may make this clearer.)
+  //
+  // This would be OK so long as when the lower type (the source of the
+  // flow) in this situation is valid, that would imply the upper type (the
+  // sink of the flow) is as well.  If that were true, then:
+  //  * If the upper type is bogus, then the lower type is bogus too.  So if
+  //    the upper type gets a value at runtime through this flow, then there
+  //    was already a value in the bogus lower type.
+  //
+  // Awkwardly, that does not seem to be true.
+
+  // Define variations on our toy example above, now where the generic type
+  // is covariant or contravariant.
+  type IsStringCovar<+S: string> = string;
+  type IsStringContra<-S: string> = string;
+  // The `+` just means that IsStringCovar<S> <: IsStringCovar<T> whenever
+  // S <: T.  (When we make the definition, Flow checks this is actually
+  // true: which it is, because `string <: string` in any event.)
+  //
+  // Conversely, the `-` just means that IsStringContra<S> <: IsStringContra<T>
+  // whenever T <: S (note the swapping of sides).
+  //
+  // And now that we've declared those facts about these type aliases, and
+  // Flow has checked them, Flow is prepared to use them freely.
+
+  // Here's a flow between two equally-bogus IsStringCovar<…> types.
+  // That's fine in itself.
+  (x: IsStringCovar<3>): IsStringCovar<number> => x;
+
+  // But here's a flow from a valid IsStringCovar<…> to an invalid one.
+  // Flow still accepts it.
+  (x: IsStringCovar<string>): IsStringCovar<number | string> => x;
+
+  // And here's some perfectly runnable code, with a bogus IsStringCovar<…>
+  // on an expression that actually gets a value at runtime.
+  {
+    const f = (x: IsStringCovar<string>): IsStringCovar<number | string> => x;
+    f('a');
+    // That expression has type IsStringCovar<number | string>.
+    // Which is not a valid type, because IsStringCovar has a `string` bound
+    // on its type parameter.
+
+    // We can even have the value of bogus type get actually used:
+    console.log(String(f('a')));
+    // There's no `any` there -- flowlib has on `class String`:
+    //   static (value:mixed):string;
+    // so it takes a `mixed` and that's perfectly legit.
+    //
+    // The flows here, up to the argument to `String`, are
+    //  'a' -> IsStringCovar<string> -> IsStringCovar<number | string> -> mixed
+    // and the first is just fine; the second is accepted because variance;
+    // and the third is accepted because of the `mixed` short circuit
+    // described in `demo_short_circuits` above.
+
+    // It's doubtful to exactly call that an unsoundness, because
+    // IsStringCovar is such a toy example that the constraint in it doesn't
+    // really matter.  But it's a bit of a warning sign for sticking bounds
+    // in generic definitions and counting on those to always be observed,
+    // certainly when the constraints don't manifest in any more "real" way.
+    //
+    // Fortunately this issue is avoidable as long as when we choose to put
+    // a variance annotation on a generic type's parameters, we check the
+    // annotation's validity for ourselves.  See below.
+  }
+
+  // Here's the same demo using a variation of the `IsSupertype` alias we
+  // actually use in our code.
+  type BadIsSupertype<+S, +T: S> = S;
+  // (The real `IsSupertype` has `+S, -T: S`.  That makes it harmless just
+  // like `IsStringContra`, as below.  See also test_IsSupertype_variance.)
+  {
+    const f = (x: BadIsSupertype<string, string>): BadIsSupertype<string, number | string> => x;
+    const y: BadIsSupertype<string, number | string> = f('a');
+    console.log(String(f('a')));
+
+    // TODO try to construct a more-real demo, using BadIsSupertype
+  }
+
+  // On the other hand `IsStringContra` is harmless.  We can make a flow
+  // that Flow accepts *from* an invalid IsStringContra<…> to a valid one:
+  (x: IsStringContra<number | string>): IsStringContra<string> => x;
+
+  // But if the source of the flow is a valid IsStringContra<…>, then any
+  // flow Flow would accept on account of the variance rule is one where the
+  // sink is also valid.  For example this is rejected:
+  //   $FlowExpectedError[incompatible-return]
+  (x: IsStringContra<string>): IsStringContra<number | string> => x;
+
+  // That's because for Flow to accept `IsStringContra<S> <: IsStringContra<T>`
+  // on account of the variance of `IsStringContra`, we must have `T <: S`
+  // (where the direction is swapped); that's what the `-S` in the definition
+  // means.
+  //
+  // And on the other hand if `IsStringContra<S>` is valid, then `S <: string`.
+  //
+  // So if both of those are true, then `T <: S <: string`, so `T <: string`
+  // and `IsStringContra<T>` is valid too.
+
+  // In short, if the constraint `S: string` was satisfied and you
+  // *increase* `S`, then it can stop being satisfied, so a generic type
+  // definition with `+S: string` causes Flow to accept flows from a valid
+  // type to an invalid one.  But if you *decrease* `S`, then the constraint
+  // remains satisfied; so a flow that gets accepted because of the variance
+  // of a parameter `-S: string` can go from a valid type only to another
+  // valid type.
+
+  // Two possible views of what the Flow bug is here (and they're not
+  // mutually exclusive; arguably it's two bugs) are:
+  //
+  //  * It shouldn't short-circuit here (and maybe not in some of the other
+  //    cases above, in `demo_short_circuit`); it should detect when a
+  //    type-expression violates a generic type's stated bounds, even when
+  //    just evaluating a flow that the variance says is OK.
+  //
+  //  * It shouldn't have accepted our definition of `IsStringCovar`,
+  //    because increasing `S` can cause the constraint `S: string` to stop
+  //    being satisfied.  OTOH `IsStringContra` is fine, because decreasing
+  //    `S` always preserves the constraint.
+  //
+  // If it enforced either of those rules, there'd be no issue.  So to avoid
+  // this bug, it suffices for us to manually enforce either one of them.
+  //
+  // The first one applies anywhere we use the generic type, which is
+  // potentially a lot of places and so is hard to systematically make a
+  // practice of.  But the second one only applies when *writing* a generic
+  // type alias, and in particular one that makes fancy use of bounds.  That
+  // isn't something we write very often, so watching for this there is
+  // fairly tractable.
+  //
+  // So to avoid this bug, what that comes down to is that it suffices to
+  // not write a definition like `IsStringCovar`.  This means: when adding
+  // variance annotations +/- to the type parameters of a generic type
+  // alias, we should watch the constraints and enforce that the stated
+  // variance doesn't break them.
+}
+
 function test_IsSupertype() {
   // Test the basics, relative to a primitive type.
   // `number` is a supertype of `empty` and itself…
@@ -315,6 +459,26 @@ function test_IsSupertype_object_types() {
   (a: IsSupertype<{| a: number |}, { a: number, b: number, ... }>);
   // $FlowExpectedError[prop-missing]
   (a: IsSupertype<{| a: number |}, {| a: number, b: number |}>);
+}
+
+function test_IsSupertype_variance() {
+  // Test that IsSupertype doesn't exercise the Flow loophole demonstrated
+  // with BadIsSupertype above.
+  {
+    //   $FlowExpectedError[incompatible-return]
+    const f = (x: IsSupertype<string, string>): IsSupertype<string, number | string> => x;
+    const y: IsSupertype<string, number | string> = f('a');
+  }
+
+  // More succinctly:
+  //   $FlowExpectedError[incompatible-return]
+  (x: IsSupertype<string, string>): IsSupertype<string, number | string> => x;
+
+  // On the other hand, IsSupertype has all the variance it can legitimately
+  // have.  It's covariant in its first parameter:
+  (x: IsSupertype<string, string>): IsSupertype<number | string, string> => x;
+  // as well as *contravariant* in its second parameter:
+  (x: IsSupertype<string, string>): IsSupertype<string, 'a'> => x;
 }
 
 function test_typesEquivalent() {

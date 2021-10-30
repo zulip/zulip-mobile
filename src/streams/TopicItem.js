@@ -4,7 +4,6 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import invariant from 'invariant';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
 import { RawLabel, Touchable, UnreadCount } from '../common';
@@ -39,16 +38,25 @@ const componentStyles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
+  streamId: number,
   streamName: string,
   name: string,
   isMuted?: boolean,
   isSelected?: boolean,
   unreadCount?: number,
-  onPress: (stream: string, topic: string) => void,
+  onPress: (streamId: number, streamName: string, topic: string) => void,
 |}>;
 
 export default function TopicItem(props: Props): Node {
-  const { name, streamName, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
+  const {
+    streamId,
+    streamName,
+    name,
+    isMuted = false,
+    isSelected = false,
+    unreadCount = 0,
+    onPress,
+  } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
@@ -65,18 +73,15 @@ export default function TopicItem(props: Props): Node {
     flags: getFlags(state),
   }));
 
-  const stream = backgroundData.streamsByName.get(streamName);
-  invariant(stream !== undefined, 'No stream with provided stream name was found.');
-
   return (
     <Touchable
-      onPress={() => onPress(streamName, name)}
+      onPress={() => onPress(streamId, streamName, name)}
       onLongPress={() => {
         showTopicActionSheet({
           showActionSheetWithOptions,
           callbacks: { dispatch, _ },
           backgroundData,
-          streamId: stream.stream_id,
+          streamId,
           topic: name,
         });
       }}

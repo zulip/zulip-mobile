@@ -14,7 +14,7 @@ import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { streamNarrow } from '../utils/narrow';
-import { getAuth } from '../selectors';
+import { getAuth, getRealm } from '../selectors';
 import { fetchTopicsForStream } from '../topics/topicActions';
 import ShareWrapper from './ShareWrapper';
 
@@ -27,6 +27,7 @@ type OuterProps = $ReadOnly<{|
 type SelectorProps = $ReadOnly<{|
   subscriptions: Map<number, Subscription>,
   auth: Auth,
+  mandatoryTopics: boolean,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -76,31 +77,33 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleStreamChange = stream => {
-    this.setState({ stream });
+    this.setState({ stream: stream.trim() });
   };
 
   handleTopicChange = topic => {
-    this.setState({ topic });
+    this.setState({ topic: topic.trim() });
   };
 
   handleStreamAutoComplete = (rawStream: string) => {
+    // TODO: What is this for? (write down our assumptions)
     const stream = rawStream.split('**')[1];
-    this.setState({ stream, isStreamFocused: false });
+    this.setState({ stream: stream.trim(), isStreamFocused: false });
   };
 
   handleTopicAutoComplete = (topic: string) => {
-    this.setState({ topic });
+    this.setState({ topic: topic.trim() });
   };
 
   isSendButtonEnabled = (message: string) => {
+    const { mandatoryTopics } = this.props;
     const { stream, topic } = this.state;
     const { sharedData } = this.props.route.params;
 
     if (sharedData.type !== 'text') {
-      return stream !== '' && topic !== '';
+      return stream !== '' && (topic !== '' || !mandatoryTopics);
     }
 
-    return stream !== '' && topic !== '' && message !== '';
+    return stream !== '' && (topic !== '' || !mandatoryTopics) && message !== '';
   };
 
   render() {
@@ -151,6 +154,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
 const ShareToStream: ComponentType<OuterProps> = connect(state => ({
   subscriptions: getSubscriptionsById(state),
   auth: getAuth(state),
+  mandatoryTopics: getRealm(state).mandatoryTopics,
 }))(ShareToStreamInner);
 
 export default ShareToStream;

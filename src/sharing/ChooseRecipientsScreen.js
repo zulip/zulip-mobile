@@ -22,7 +22,7 @@ export default function ChooseRecipientsScreen(props: Props): Node {
 
   return (
     <Screen search scrollEnabled={false} searchBarOnChange={setFilter} canGoBack={false}>
-      <UserPickerCard filter={filter} onComplete={handleComplete} />
+      <UserPickerCard filter={filter} onComplete={handleComplete} showOwnUser />
     </Screen>
   );
 }

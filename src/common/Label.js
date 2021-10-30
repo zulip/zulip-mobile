@@ -8,7 +8,7 @@ import RawLabel from './RawLabel';
 import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
-  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| children: ?Node |}>,
+  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| +children: ?Node |}>,
   text: LocalizableText,
 |}>;
 

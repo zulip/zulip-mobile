@@ -6,13 +6,28 @@ import {
   useDispatch as useDispatchInner,
 } from 'react-redux';
 
-import type { GlobalState, Dispatch } from './types';
+import type { GlobalState, Dispatch, GlobalDispatch } from './types';
 import type { BoundedDiff } from './generics';
 
 /* eslint-disable flowtype/generic-spacing */
 
-export type OwnProps<-C, -SP> = $ReadOnly<
-  $Diff<BoundedDiff<$Exact<ElementConfig<C>>, SP>, {| dispatch: Dispatch |}>,
+// We leave this as invariant in `C` (i.e., we don't write `-C` or `+C`)
+// because Flow says `ElementConfig` is invariant.  (If you try writing
+// `OwnProps<-C, …` or `OwnProps<+C, …`, Flow gives an error saying the `C`
+// in `ElementConfig<C>` is an "input/output position", which is a synonym
+// of "invariant" as opposed to "contravariant" or "covariant".)
+//
+// Meanwhile `SP` is contravariant (so we write `-S`): its one occurrence is
+// as the second (contravariant) parameter of a `BoundedDiff`, which gets
+// used as the first (covariant) parameter of another `BoundedDiff`, which
+// is the whole type.  That's an odd number of contravariants, so it's a
+// contravariant position / "input position" overall.
+//
+// As for `-D`: a `+` object property, in the bottom of a BoundedDiff,
+// makes a + inside a -, which is again an odd number of - and produces -.
+export type OwnProps<C, -SP, -D> = BoundedDiff<
+  BoundedDiff<$Exact<ElementConfig<C>>, SP>,
+  {| +dispatch: D |},
 >;
 
 /**
@@ -54,10 +69,25 @@ export type OwnProps<-C, -SP> = $ReadOnly<
  */
 // prettier-ignore
 export function connect<SP, P, C: ComponentType<P>>(
+  // TODO(#5006): should be PerAccountState
   mapStateToProps?: (GlobalState, OwnProps<C,
     // Error "property `foo` is missing"?  Add to inner component's props.
-    SP>) => SP,
-): C => ComponentType<$ReadOnly<OwnProps<C, SP>>> {
+    SP, Dispatch>) => SP,
+): C => ComponentType<$ReadOnly<OwnProps<C, SP, Dispatch>>> {
+  return connectInner(mapStateToProps);
+}
+
+export function connectGlobal<SP, P, C: ComponentType<P>>(
+  mapStateToProps?: (
+    GlobalState,
+    OwnProps<
+      C,
+      // Error "property `foo` is missing"?  Add to inner component's props.
+      SP,
+      GlobalDispatch,
+    >,
+  ) => SP,
+): C => ComponentType<$ReadOnly<OwnProps<C, SP, GlobalDispatch>>> {
   return connectInner(mapStateToProps);
 }
 
@@ -90,4 +120,8 @@ export function useSelector<SS>(
  */
 export function useDispatch(): Dispatch {
   return useDispatchInner<Dispatch>();
+}
+
+export function useGlobalDispatch(): GlobalDispatch {
+  return useDispatchInner<GlobalDispatch>();
 }

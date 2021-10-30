@@ -35,7 +35,7 @@ export default function CreateGroupScreen(props: Props): Node {
 
   return (
     <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
-      <UserPickerCard filter={filter} onComplete={handleCreateGroup} />
+      <UserPickerCard filter={filter} onComplete={handleCreateGroup} showOwnUser={false} />
     </Screen>
   );
 }

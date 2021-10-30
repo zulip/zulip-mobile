@@ -1,15 +1,14 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
-import { Platform, View, findNodeHandle } from 'react-native';
+import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-// $FlowFixMe[untyped-import]
-import TextInputReset from 'react-native-text-input-reset';
 import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
 import invariant from 'invariant';
 
+import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
@@ -29,7 +28,7 @@ import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import { FloatingActionButton, Input } from '../common';
-import { showToast } from '../utils/info';
+import { showToast, showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
   isConversationNarrow,
@@ -45,7 +44,13 @@ import getComposeInputPlaceholder from './getComposeInputPlaceholder';
 import NotSubscribed from '../message/NotSubscribed';
 import AnnouncementOnly from '../message/AnnouncementOnly';
 import MentionWarnings from './MentionWarnings';
-import { getAuth, getIsAdmin, getStreamInNarrow, getVideoChatProvider } from '../selectors';
+import {
+  getAuth,
+  getIsAdmin,
+  getStreamInNarrow,
+  getVideoChatProvider,
+  getRealm,
+} from '../selectors';
 import {
   getIsActiveStreamSubscribed,
   getIsActiveStreamAnnouncementOnly,
@@ -63,6 +68,7 @@ type SelectorProps = {|
   isAnnouncementOnly: boolean,
   isSubscribed: boolean,
   videoChatProvider: VideoChatProvider | null,
+  mandatoryTopics: boolean,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
 |};
 
@@ -138,12 +144,6 @@ const updateTextInput = (textInput, text) => {
 
   // `textInput` is untyped; see definition.
   textInput.setNativeProps({ text });
-
-  if (text.length === 0 && TextInputReset) {
-    // React Native has problems with some custom keyboards when clearing
-    // the input's contents.  Force reset to make sure it works.
-    TextInputReset.resetKeyboardInput(findNodeHandle(textInput));
-  }
 };
 
 class ComposeBoxInner extends PureComponent<Props, State> {
@@ -399,16 +399,27 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamName = streamNameOfNarrow(narrow);
       const topic = this.state.topic.trim();
-      return topicNarrow(streamName, topic || '(no topic)');
+      return topicNarrow(streamName, topic || apiConstants.NO_TOPIC_TOPIC);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
   };
 
   handleSend = () => {
-    const { dispatch } = this.props;
+    const { dispatch, mandatoryTopics, _ } = this.props;
     const { message } = this.state;
     const destinationNarrow = this.getDestinationNarrow();
+
+    if (
+      isTopicNarrow(destinationNarrow)
+      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
+      && mandatoryTopics
+    ) {
+      // TODO how should this behave in the isEditing case? See
+      //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
+      showErrorAlert(_('Message not sent'), _('Please specify a topic.'));
+      return;
+    }
 
     this.props.onSend(message, destinationNarrow);
 
@@ -593,6 +604,7 @@ const ComposeBox: ComponentType<OuterProps> = compose(
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
     videoChatProvider: getVideoChatProvider(state),
+    mandatoryTopics: getRealm(state).mandatoryTopics,
   })),
   withSafeAreaInsets,
 )(withGetText(ComposeBoxInner));

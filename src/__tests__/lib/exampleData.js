@@ -477,6 +477,7 @@ export const streamOutbox = (data: $Rest<StreamOutbox, { id: mixed, ... }>): Str
     ...outboxMessageBase,
     type: 'stream',
     display_recipient: stream.name,
+    stream_id: stream.stream_id,
     subject: 'test topic',
 
     ...data,

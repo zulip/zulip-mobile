@@ -2,6 +2,13 @@
 import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPatch } from '../apiFetch';
 
+/**
+ * https://zulip.com/api/update-stream
+ *
+ * NB the caller must adapt for old-server compatibility; see comment.
+ */
+// TODO(#4659): Once we pass the feature level to API methods, this one
+//   should encapsulate a switch at feature level 64.  See its call sites.
 export default (
   auth: Auth,
   id: number,

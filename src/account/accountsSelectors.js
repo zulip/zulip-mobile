@@ -89,6 +89,36 @@ export const getAccount = (state: PerAccountState): Account => {
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 
+/** The Zulip server version for this account. */
+export const getZulipVersion = (state: PerAccountState): ZulipVersion => {
+  const { zulipVersion } = getAccount(state);
+  // This invariant will hold as long as we only call this function in a
+  // context where we have server data.
+  //
+  // TODO(#5006): In a multi-account schema, we'll have PerAccountState for
+  //   accounts that aren't the active one, which might include some that lack
+  //   this data.  Then we might start calling this function in the path for
+  //   talking to those servers, which currently would cause an exception.
+  //
+  //   At that point probably just have a migration drop those Account
+  //   records -- they mean accounts the user hasn't talked to since
+  //   1e17f6695, from 2020-05.
+  invariant(zulipVersion, 'zulipVersion must be non-null');
+  return zulipVersion;
+};
+
+/** The Zulip server feature level for this account. */
+export const getZulipFeatureLevel = (state: PerAccountState): number => {
+  const { zulipFeatureLevel } = getAccount(state);
+  // This invariant will hold as long as we only call this function in a
+  // context where we have server data.
+  //
+  // TODO(#5006): Much like getZulipVersion above.  This property is just a
+  //   bit newer: b058fa266, from 2020-09.
+  invariant(zulipFeatureLevel !== null, 'zulipFeatureLevel must be non-null in PerAccountState');
+  return zulipFeatureLevel;
+};
+
 /**
  * The auth object for this account, if logged in; else undefined.
  *
