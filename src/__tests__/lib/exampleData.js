@@ -195,6 +195,7 @@ export const makeAccount = (
     zulipFeatureLevel?: number | null,
     zulipVersion?: ZulipVersion | null,
     ackedPushToken?: string | null,
+    lastDismissedServerPushSetupNotice?: Date | null,
   |} = Object.freeze({}),
 ): Account => {
   const {
@@ -206,6 +207,7 @@ export const makeAccount = (
     zulipFeatureLevel: zulipFeatureLevelInner = zulipFeatureLevel,
     zulipVersion: zulipVersionInner = zulipVersion,
     ackedPushToken = null,
+    lastDismissedServerPushSetupNotice = null,
   } = args;
   return deepFreeze({
     realm: realmInner,
@@ -215,6 +217,7 @@ export const makeAccount = (
     zulipFeatureLevel: zulipFeatureLevelInner,
     zulipVersion: zulipVersionInner,
     ackedPushToken,
+    lastDismissedServerPushSetupNotice,
   });
 };
 
@@ -563,6 +566,7 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
       ackedPushToken: null,
       zulipVersion,
       zulipFeatureLevel,
+      lastDismissedServerPushSetupNotice: null,
     },
   ],
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },

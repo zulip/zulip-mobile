@@ -16,6 +16,7 @@ import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { LoadingBanner } from '../common';
 import ServerCompatBanner from '../common/ServerCompatBanner';
+import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -66,6 +67,7 @@ export default function HomeScreen(props: Props): Node {
         />
       </View>
       <ServerCompatBanner />
+      <ServerPushSetupBanner />
       <LoadingBanner />
       <UnreadCards />
     </View>

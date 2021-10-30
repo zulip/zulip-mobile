@@ -1,8 +1,23 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { AllAccountsAction, ThunkAction, GlobalThunkAction } from '../types';
-import { ACCOUNT_SWITCH, ACCOUNT_REMOVE, LOGIN_SUCCESS, LOGOUT } from '../actionConstants';
+import type { PerAccountAction, AllAccountsAction, ThunkAction, GlobalThunkAction } from '../types';
+import {
+  ACCOUNT_SWITCH,
+  ACCOUNT_REMOVE,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  DISMISS_SERVER_PUSH_SETUP_NOTICE,
+} from '../actionConstants';
 import { resetToAccountPicker, resetToMainTabs } from '../nav/navActions';
+
+export const dismissServerPushSetupNotice = (): PerAccountAction => ({
+  type: DISMISS_SERVER_PUSH_SETUP_NOTICE,
+
+  // We don't compute this in a reducer function. Those should be pure
+  // functions of their params:
+  //   https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#rules-of-reducers
+  date: new Date(),
+});
 
 const accountSwitchPlain = (index: number): AllAccountsAction => ({
   type: ACCOUNT_SWITCH,
