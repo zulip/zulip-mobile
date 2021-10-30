@@ -194,8 +194,46 @@ export const getUserIsActive = (state: PerAccountState, userId: UserId): boolean
  * This can be used to decide whether the app's main UI which shows data
  * from the server should render itself, or should fall back to a loading
  * screen.
+ *
+ * See {@link getHaveServerData}.
  */
-export const getHaveServerData = (globalState: GlobalState): boolean => {
+export const getHaveServerDataGlobal = (globalState: GlobalState): boolean => {
+  // Any valid server data is about the active account.  So if there is no
+  // active account, then any server data we appear to have can't be valid.
+  const state = tryGetActiveAccountState(globalState);
+  if (!state) {
+    // (For background to this comment's reasoning, see getHaveServerData.)
+    //
+    // From `accountsReducer`:
+    //  * This condition is resolved by LOGIN_SUCCESS.
+    //  * It's created only by ACCOUNT_REMOVE.
+    //
+    // When this condition applies, LOGIN_SUCCESS is the only way we might
+    // navigate to the main UI.
+    //
+    // ACCOUNT_REMOVE is available only from the account-picker screen (not
+    // the main UI), and moreover is available for the active account only
+    // when not logged in, in which case the main UI can't be on the
+    // navigation stack either.
+    return false;
+  }
+
+  /* eslint-disable-next-line no-use-before-define */
+  return getHaveServerData(state);
+};
+
+/**
+ * Whether we have server data for this account.
+ *
+ * See also {@link getHaveServerDataGlobal}.
+ */
+// Note that in our pre-#5006 model where a PerAccountState is secretly just
+// GlobalState and implicitly means the active account, if there is *no*
+// active account (i.e. if there are no accounts at all), then this will
+// throw an exception, not return false.  If that's not desired, then the
+// caller is really working with global state and should use
+// `getHaveServerDataGlobal`.
+export const getHaveServerData = (state: PerAccountState): boolean => {
   // The implementation has to be redundant, because upon rehydrate we can
   // unfortunately have some of our state subtrees containing server data
   // while others don't, reflecting different points in time from the last
@@ -241,27 +279,10 @@ export const getHaveServerData = (globalState: GlobalState): boolean => {
   //  * A successful initial fetch causes a REALM_INIT action.  A failed one
   //    causes either LOGOUT, or an abort that ensures we're not at a
   //    loading screen.
+  //
+  // (The same background facts are used in getHaveServerDataGlobal, too.)
 
-  // Any valid server data is about the active account.  So if there is no
-  // active account, then any server data we appear to have can't be valid.
-  const state = tryGetActiveAccountState(globalState);
-  if (!state) {
-    // From `accountsReducer`:
-    //  * This condition is resolved by LOGIN_SUCCESS.
-    //  * It's created only by ACCOUNT_REMOVE.
-    //
-    // When this condition applies, LOGIN_SUCCESS is the only way we might
-    // navigate to the main UI.
-    //
-    // ACCOUNT_REMOVE is available only from the account-picker screen (not
-    // the main UI), and moreover is available for the active account only
-    // when not logged in, in which case the main UI can't be on the
-    // navigation stack either.
-    return false;
-  }
-
-  // Similarly, any valid server data comes from the active account being
-  // logged in.
+  // Any valid server data comes from the account being logged in.
   if (!tryGetAuth(state)) {
     // From `accountsReducer`:
     //  * This condition is resolved by LOGIN_SUCCESS.

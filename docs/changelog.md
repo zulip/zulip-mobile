@@ -37,7 +37,47 @@ It doesn't include
 ## Unreleased
 
 
+## 27.174 (2021-10-26)
+
+### Highlights for users, vs v27.171 (last prod release)
+
+* The settings menu has moved from the bottom nav bar to the Profile tab.
+  (#4929)
+* The app now respects the server's "mandatory topics" setting. (#4378)
+* (Android) When sharing content from other apps, you can now send it to
+  just yourself. (#5020)
+* New translation for Sinhala. (#5071)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs v27.172 (last beta)
+
+* (Android) Fixed a bug where "No Internet connection" sometimes showed
+  when it shouldn't. (#5065)
+* The settings menu has moved from the bottom nav bar to the Profile tab.
+  (#4929)
+* The app now respects the server's "mandatory topics" setting. (#4378)
+* (Android) When sharing content from other apps, you can now send it to
+  just yourself. (#5020)
+* New translation for Sinhala. (#5071)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers, vs v27.173
+
+* Resolved issues (earliest first): #5075, #5076, part of #3814,
+  #5018, #5071
+
+
 ## 27.173 (2021-10-22)
+
+This was an alpha-only release. An issue was identified and fixed, with
+#5075 and #5076, before this release was promoted to beta.
+
 
 ### Highlights for users, vs v27.171 (last prod release)
 
@@ -53,7 +93,7 @@ experience.
 
 ### Highlights for users, vs v27.172 (last beta)
 
-* (Android) Fixed a bug where a "No Internet connection" sometimes showed
+* (Android) Fixed a bug where "No Internet connection" sometimes showed
   when it shouldn't. (#5065)
 * The settings menu has moved from the bottom nav bar to the Profile tab.
   (#4929)
@@ -67,7 +107,7 @@ experience.
 
 ### Highlights for developers
 
-* Set `targetSdkVersion` to 30 and switch over to "scoped storage".
+* Set `targetSdkVersion` to 30 and switched over to "scoped storage".
   (#4283, #4284)
 * Upgraded @sentry/react-native to 3.1.1, the latest. (#5050)
 * Improved our Flow types in src/generics.js and wrote tests for them, with

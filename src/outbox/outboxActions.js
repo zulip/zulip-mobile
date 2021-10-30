@@ -5,7 +5,7 @@ import invariant from 'invariant';
 
 import * as logging from '../utils/logging';
 import type {
-  GlobalState,
+  PerAccountState,
   Narrow,
   Outbox,
   PmOutbox,
@@ -156,7 +156,7 @@ const outboxPropertiesForNarrow = (
     },
   });
 
-const getContentPreview = (content: string, state: GlobalState): string => {
+const getContentPreview = (content: string, state: PerAccountState): string => {
   try {
     return parseMarkdown(
       content,

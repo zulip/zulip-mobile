@@ -6,9 +6,9 @@ import { AppState, View, Platform, NativeModules } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-import type { Dispatch, Orientation as OrientationT } from '../types';
+import type { GlobalDispatch, Orientation as OrientationT } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { connectGlobal } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import { ShareReceivedListener, handleInitialShare } from '../sharing';
@@ -34,8 +34,8 @@ type SelectorProps = $ReadOnly<{|
 type Props = $ReadOnly<{|
   ...OuterProps,
 
-  // from `connect`
-  dispatch: Dispatch,
+  // from `connectGlobal`
+  dispatch: GlobalDispatch,
   ...SelectorProps,
 |}>;
 
@@ -167,7 +167,7 @@ class AppEventHandlersInner extends PureComponent<Props> {
   }
 }
 
-const AppEventHandlers: ComponentType<OuterProps> = connect(state => ({
+const AppEventHandlers: ComponentType<OuterProps> = connectGlobal(state => ({
   unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
 }))(AppEventHandlersInner);
 

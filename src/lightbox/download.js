@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { Platform, PermissionsAndroid } from 'react-native';
+import type { Rationale } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
 import CameraRoll from '@react-native-community/cameraroll';
 import RNFetchBlob from 'rn-fetch-blob';
 import invariant from 'invariant';
@@ -16,7 +17,7 @@ import { getMimeTypeFromFileExtension } from '../utils/url';
  * The error thrown will have a `message` suitable for showing to the user
  * as a toast.
  */
-const androidEnsureStoragePermission = async (): Promise<void> => {
+export const androidEnsureStoragePermission = async (rationale: Rationale): Promise<void> => {
   invariant(
     Platform.OS === 'android',
     'androidEnsureStoragePermission should only be called on Android',
@@ -40,10 +41,7 @@ const androidEnsureStoragePermission = async (): Promise<void> => {
   if (granted) {
     return;
   }
-  const result = await PermissionsAndroid.request(permission, {
-    title: 'Storage permission needed',
-    message: 'To download images, allow Zulip to store files on your device.',
-  });
+  const result = await PermissionsAndroid.request(permission, rationale);
   const { DENIED, NEVER_ASK_AGAIN /* , GRANTED */ } = PermissionsAndroid.RESULTS;
   if (result === DENIED || result === NEVER_ASK_AGAIN) {
     throw new Error('Storage permission required');
@@ -67,7 +65,11 @@ export const downloadImage = async (url: string, fileName: string, auth: Auth): 
 
   // Platform.OS === 'android'
   const mime = getMimeTypeFromFileExtension(fileName.split('.').pop());
-  await androidEnsureStoragePermission();
+  await androidEnsureStoragePermission({
+    // TODO: Set these user-facing strings up for translation.
+    title: 'Storage permission needed',
+    message: 'To download images, allow Zulip to store files on your device.',
+  });
   return RNFetchBlob.config({
     addAndroidDownloads: {
       path: `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`,

@@ -27,7 +27,11 @@ import type {
   UserPresence,
   UserStatusMapObject,
 } from './api/apiTypes';
-import type { PerAccountSessionState, SessionState } from './session/sessionReducer';
+import type {
+  PerAccountSessionState,
+  GlobalSessionState,
+  SessionState,
+} from './session/sessionReducer';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
 
@@ -497,9 +501,54 @@ export type Selector<TResult, TParam = void> = InputSelector<PerAccountState, TP
 // Seems like this should be OutputSelector; see comment on Selector above.
 export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, TParam, TResult>;
 
+/**
+ * The extras object passed to a per-account thunk action.
+ *
+ * This allows the thunk action to get access to information which isn't on
+ * PerAccountState, but which is perfectly legitimate for per-account code
+ * to use.
+ */
+export type ThunkExtras = {
+  getGlobalSession: () => GlobalSessionState,
+  getGlobalSettings: () => GlobalSettingsState,
+  ...
+};
+
+/** The Redux `dispatch` for a per-account context. */
 export interface Dispatch {
   <A: Action>(action: A): A;
   <T>(ThunkAction<T>): T;
 }
 
-export type ThunkAction<T> = (Dispatch, () => GlobalState) => T;
+/** A per-account thunk action returning T. */
+export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T;
+
+/** The Redux `dispatch` for a global context. */
+export interface GlobalDispatch {
+  <A: Action>(action: A): A;
+  <T>(GlobalThunkAction<T>): T;
+}
+
+/** A global thunk action returning T. */
+export type GlobalThunkAction<T> = (
+  GlobalDispatch,
+  () => GlobalState,
+  // These extras are meant for a per-account thunk action; when writing a
+  // global thunk action, everything they provide is redundant with the
+  // GlobalState provided by the previous argument.  But passing them here
+  // allows a ThunkAction to be used as a GlobalThunkAction.  For #5006
+  // we'll want to disallow that, but it's convenient for the present.
+  ThunkExtras,
+) => T;
+
+/* eslint-disable no-unused-expressions */
+// For now, it'll smooth our migration to let a GlobalDispatch be seamlessly
+// usable as a plain Dispatch, and a ThunkAction as a GlobalThunkAction.
+(d: GlobalDispatch): Dispatch => d; // TODO(#5006)
+<T>(a: ThunkAction<T>): GlobalThunkAction<T> => a; // TODO(#5006)
+// But we don't allow the reverse.
+//   $FlowExpectedError[incompatible-return]
+(d: Dispatch): GlobalDispatch => d;
+//   $FlowExpectedError[incompatible-exact]
+//   $FlowExpectedError[prop-missing]
+<T>(a: GlobalThunkAction<T>): ThunkAction<T> => a;

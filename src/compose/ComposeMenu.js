@@ -1,12 +1,13 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 import * as logging from '../utils/logging';
-import type { Dispatch, Narrow } from '../types';
+import { TranslationContext } from '../boot/TranslationProvider';
+import type { Dispatch, Narrow, GetText } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -20,6 +21,7 @@ import {
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
+import { androidEnsureStoragePermission } from '../lightbox/download';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
@@ -83,8 +85,12 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 };
 
 class ComposeMenuInner extends PureComponent<Props> {
+  static contextType = TranslationContext;
+  context: GetText;
+
   handleImagePickerResponse = response => {
     const { dispatch, destinationNarrow } = this.props;
+    const _ = this.context;
 
     if (response.didCancel === true) {
       return;
@@ -92,7 +98,35 @@ class ComposeMenuInner extends PureComponent<Props> {
 
     const errorCode = response.errorCode;
     if (errorCode != null) {
-      showErrorAlert('Error', response.errorMessage);
+      if (Platform.OS === 'ios' && errorCode === 'permission') {
+        // iOS has a quirk where it will only request the native
+        // permission-request alert once, the first time the app wants to
+        // use a protected resource. After that, the only way the user can
+        // grant it is in Settings.
+        Alert.alert(
+          _('Permissions needed'),
+          _('To upload an image, please grant Zulip additional permissions in Settings.'),
+          [
+            { text: _('Cancel'), style: 'cancel' },
+            {
+              text: _('Open settings'),
+              onPress: () => {
+                Linking.openSettings();
+              },
+              style: 'default',
+            },
+          ],
+        );
+      } else if (errorCode === 'camera_unavailable') {
+        showErrorAlert(_('Error'), _('Camera unavailable.'));
+      } else {
+        const { errorMessage } = response;
+        showErrorAlert(_('Error'), errorMessage);
+        logging.error('Unexpected error from image picker', {
+          errorCode,
+          errorMessage: errorMessage ?? '[nullish]',
+        });
+      }
       return;
     }
 
@@ -103,9 +137,8 @@ class ComposeMenuInner extends PureComponent<Props> {
     const { uri, fileName } = firstAsset ?? {};
 
     if (!firstAsset || uri == null || fileName == null) {
-      // TODO: If we need to keep this, wire up the user-facing string for
-      // translation.
-      showErrorAlert('Error', 'Something went wrong, and your message was not sent.');
+      // TODO: See if we these unexpected situations actually happen.
+      showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
       logging.error('Unexpected response from image picker', {
         '!firstAsset': !firstAsset,
         'uri == null': uri == null,
@@ -130,14 +163,31 @@ class ComposeMenuInner extends PureComponent<Props> {
     );
   };
 
-  handleCameraCapture = () => {
+  handleCameraCapture = async () => {
+    const _ = this.context;
+
+    if (Platform.OS === 'android') {
+      // On Android ≤9, in order to save the captured photo to storage, we
+      // have to put up a scary permission request. We don't have to do that
+      // when using "scoped storage", which we do on later Android versions.
+      await androidEnsureStoragePermission({
+        title: _('Storage permission needed'),
+        message: _(
+          'Zulip will save a copy of your photo on your device. To do so, Zulip will need permission to store files on your device.',
+        ),
+      });
+    }
+
     launchCamera(
       {
         mediaType: 'photo',
 
-        // TODO: Do we actually need this? If not, also check if we can remove
-        // the relevant WRITE_EXTERNAL_STORAGE permission in our Android
-        // manifest.
+        // On Android ≤9 (see above) and on iOS, this means putting up a
+        // scary permission request. Shrug, because other apps seem to save
+        // to storage, and it seems convenient; see
+        //   https://chat.zulip.org/#narrow/stream/48-mobile/topic/saving.20photos.20to.20device.20on.20capture/near/1271633.
+        // TODO: Still allow capturing and sending the photo, just without
+        // saving to storage, if storage permission is denied.
         saveToPhotos: true,
 
         includeBase64: false,
@@ -147,6 +197,7 @@ class ComposeMenuInner extends PureComponent<Props> {
   };
 
   handleFilesPicker = async () => {
+    const _ = this.context;
     // Defer import to here, to avoid an obnoxious import-time warning
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
@@ -158,7 +209,7 @@ class ComposeMenuInner extends PureComponent<Props> {
       }): DocumentPickerResponse[]);
     } catch (e) {
       if (!DocumentPicker.isCancel(e)) {
-        showErrorAlert('Error', e);
+        showErrorAlert(_('Error'), e);
       }
       return;
     }

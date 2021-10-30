@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as typing_status from '@zulip/shared/js/typing_status';
 
-import type { Auth, GlobalState, Narrow, UserId, ThunkAction } from '../types';
+import type { Auth, PerAccountState, Narrow, UserId, ThunkAction } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, getServerVersion } from '../selectors';
@@ -27,7 +27,7 @@ export const reportPresence = (isActive: boolean): ThunkAction<Promise<void>> =>
 // Callbacks for the typing_status module, all bound to this account.
 // NB the callbacks may be invoked later, on timers.  They should continue
 // to refer to this account regardless of what the then-active account might be.
-const typingWorker = (state: GlobalState) => {
+const typingWorker = (state: PerAccountState) => {
   const auth: Auth = getAuth(state);
   const serverVersion: ZulipVersion | null = getServerVersion(state);
 

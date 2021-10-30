@@ -1,11 +1,5 @@
-# If you run `tools/test` when you've modified a file that's ignored
-# here, you might get a warning like this:
-#   0:0  warning  File ignored because of a matching ignore pattern. […]
-#
-# Don't worry about that warning; it won't appear in CI, and it won't
-# appear on future `tools/test` runs when not editing these files.
-# For more discussion, see:
-#   https://github.com/zulip/zulip-mobile/pull/4430#issuecomment-767297445
+# This should be the only .eslintignore file in our tree.
+# See apply_eslintignore in tools/test.
 
 # These are purely type definitions, no runtime code.  Most of them
 # are third-party code, too, so naturally don't match our style.

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type { Narrow, GlobalState, Message, Action, ThunkAction, UserId } from '../types';
+import type { Narrow, PerAccountState, Message, Action, ThunkAction, UserId } from '../types';
 import { ensureUnreachable } from '../types';
 import type { InitialFetchAbortReason } from '../actionTypes';
 import type { InitialData } from '../api/initialDataTypes';
@@ -262,7 +262,7 @@ export const initialFetchAbort = (
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (
-  state: GlobalState,
+  state: PerAccountState,
   narrow: Narrow,
   anchor: number,
 ): boolean => {

@@ -4,7 +4,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type { Auth, Dispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
+import type { Auth, Dispatch, GlobalDispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
@@ -147,7 +147,7 @@ const readInitialNotification = async (): Promise<Notification | null> => {
  * This consumes the relevant data; if called multiple times after the user
  * only once opened a notification, it'll only do anything once.
  */
-export const handleInitialNotification = async (dispatch: Dispatch) => {
+export const handleInitialNotification = async (dispatch: GlobalDispatch) => {
   const data = await readInitialNotification();
   dispatch(narrowToNotification(data));
 };
@@ -157,7 +157,7 @@ export const handleInitialNotification = async (dispatch: Dispatch) => {
  *
  * Returns null (and logs a warning or error) if getting the token failed.
  */
-const androidGetToken = async (dispatch: Dispatch): Promise<mixed> => {
+const androidGetToken = async (dispatch: GlobalDispatch): Promise<mixed> => {
   try {
     return await NativeModules.Notifications.getToken();
   } catch (e) {
@@ -209,10 +209,10 @@ type NotificationRegistrationFailedEvent = {|
  * instance, or anything else.
  */
 export class NotificationListener {
-  dispatch: Dispatch;
+  dispatch: GlobalDispatch;
   unsubs: Array<() => void> = [];
 
-  constructor(dispatch: Dispatch) {
+  constructor(dispatch: GlobalDispatch) {
     this.dispatch = dispatch;
   }
 
