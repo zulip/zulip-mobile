@@ -10,6 +10,7 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
+  DISMISS_SERVER_PUSH_SETUP_NOTICE,
   GOT_PUSH_TOKEN,
   UNACK_PUSH_TOKEN,
   ACK_PUSH_TOKEN,
@@ -159,6 +160,11 @@ export type LoginSuccessAction = {|
 
 type LogoutAction = {|
   type: typeof LOGOUT,
+|};
+
+type DismissServerPushSetupNoticeAction = {|
+  type: typeof DISMISS_SERVER_PUSH_SETUP_NOTICE,
+  date: Date,
 |};
 
 /** We learned the device token from the system.  See `SessionState`. */
@@ -622,7 +628,12 @@ type InitTopicsAction = {|
 // First, some convenience unions without much meaning.
 // (We should perhaps just inline these below.)
 
-type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
+type AccountAction =
+  | AccountSwitchAction
+  | AccountRemoveAction
+  | LoginSuccessAction
+  | LogoutAction
+  | DismissServerPushSetupNoticeAction;
 
 type LoadingAction =
   | DeadQueueAction
@@ -663,6 +674,7 @@ export type PerAccountAction =
   | ClearTypingAction
   // state.session
   | DismissServerCompatNoticeAction
+  | DismissServerPushSetupNoticeAction
   | ToggleOutboxSendingAction
   ;
 
@@ -785,6 +797,7 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case INIT_TOPICS:
     case CLEAR_TYPING:
     case DISMISS_SERVER_COMPAT_NOTICE:
+    case DISMISS_SERVER_PUSH_SETUP_NOTICE:
     case TOGGLE_OUTBOX_SENDING:
       (action: PerAccountAction);
       (action: PerAccountApplicableAction);

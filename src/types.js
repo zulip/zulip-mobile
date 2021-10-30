@@ -126,6 +126,17 @@ export type Account = {|
    * See the `pushToken` property in `SessionState`, and docs linked there.
    */
   ackedPushToken: string | null,
+
+  /**
+   * When the user last dismissed the server-not-set-up-for-notifs notice.
+   *
+   * `null` when the user hasn't dismissed this notice.
+   *
+   * "This notice" means the currently applicable notice. If the server does
+   * get setup for push notifications, then gets un-setup, a new notice will
+   * apply.
+   */
+  lastDismissedServerPushSetupNotice: Date | null,
 |};
 
 /**

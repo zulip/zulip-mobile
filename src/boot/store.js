@@ -373,6 +373,12 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // Add pushNotificationsEnabled to RealmState. No migration; handled
   // automatically by merging with the new initial state.
 
+  // Add `accounts[].lastDismissedServerPushSetupNotice`, as Date | null.
+  '36': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({ ...a, lastDismissedServerPushSetupNotice: null })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

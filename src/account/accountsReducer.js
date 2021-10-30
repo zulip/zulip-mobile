@@ -7,6 +7,7 @@ import {
   ACK_PUSH_TOKEN,
   UNACK_PUSH_TOKEN,
   LOGOUT,
+  DISMISS_SERVER_PUSH_SETUP_NOTICE,
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
@@ -22,6 +23,9 @@ const registerComplete = (state, action) => [
     userId: action.data.user_id,
     zulipFeatureLevel: action.data.zulip_feature_level ?? 0,
     zulipVersion: new ZulipVersion(action.data.zulip_version),
+    lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
+      ? null
+      : state[0].lastDismissedServerPushSetupNotice,
   },
   ...state.slice(1),
 ];
@@ -54,6 +58,7 @@ const loginSuccess = (state, action) => {
         ackedPushToken: null,
         zulipVersion: null,
         zulipFeatureLevel: null,
+        lastDismissedServerPushSetupNotice: null,
       },
       ...state,
     ];
@@ -116,6 +121,10 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
 
     case LOGOUT: {
       return [{ ...state[0], apiKey: '', ackedPushToken: null }, ...state.slice(1)];
+    }
+
+    case DISMISS_SERVER_PUSH_SETUP_NOTICE: {
+      return [{ ...state[0], lastDismissedServerPushSetupNotice: action.date }, ...state.slice(1)];
     }
 
     case ACCOUNT_REMOVE:
