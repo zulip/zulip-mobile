@@ -564,17 +564,17 @@ which it's very important to handle securely.
 
 * Get the keystore file, and the keystore properties file.
   An existing/previous release manager can send these to you,
-  encrypted to your GPG key.
+  encrypted to your PGP key.
 
   * Never make an unencrypted version visible to the network or to a
     cloud service (including Zulip).
 
-* Put the release-signing keystore, GPG-encrypted to yourself,
-  at `android/release.keystore.gpg`.
+* Put the release-signing keystore, PGP-encrypted to yourself,
+  at `android/release.keystore.pgp`.
 
   * Don't leave an unencrypted version on disk, except temporarily.
-    The script `tools/checkout-keystore` will help manage this;
-    see release instructions above.
+    The script `tools/checkout-keystore` will help manage this; see
+    `tools/checkout-keystore --help` and release instructions above.
 
 * Put the keystore properties file at
   `android/release-keystore.properties`.

@@ -74,6 +74,7 @@ npm-debug.log
 # Android release builds
 *.keystore
 *.keystore.gpg
+*.keystore.pgp
 /android/release-keystore.properties
 
 # Intermediate directories for webview assets
