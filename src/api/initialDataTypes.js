@@ -75,6 +75,11 @@ export type AvailableVideoChatProviders = $ReadOnly<{|
 
 // This is current to feature level 107.
 export type InitialDataRealm = $ReadOnly<{|
+  //
+  // Keep alphabetical order. When changing this, also change our type for
+  // `realm op: update` and `realm op: update_dict` events.
+  //
+
   development_environment: boolean,
 
   // TODO(server-5.0): Added, at feat. 74.
@@ -268,6 +273,11 @@ export type InitialDataRealm = $ReadOnly<{|
   settings_send_digest_emails: boolean,
   upgrade_text_for_wide_organization_logo: string,
   zulip_plan_is_not_limited: boolean,
+
+  //
+  // Keep alphabetical order. When changing this, also change our type for
+  // `realm op: update` and `realm op: update_dict` events.
+  //
 |}>;
 
 export type InitialDataRealmEmoji = $ReadOnly<{|

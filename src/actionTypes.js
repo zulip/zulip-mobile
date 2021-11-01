@@ -64,6 +64,8 @@ import type {
   MutedUsersEvent,
   PresenceEvent,
   StreamEvent,
+  RealmUpdateEvent,
+  RealmUpdateDictEvent,
   SubmessageEvent,
   RestartEvent,
 } from './api/eventTypes';
@@ -316,7 +318,7 @@ type EventSubscriptionPeerRemoveAction = {|
 
 type GenericEventAction = {|
   type: typeof EVENT,
-  event: StreamEvent | RestartEvent,
+  event: StreamEvent | RestartEvent | RealmUpdateEvent | RealmUpdateDictEvent,
 |};
 
 type EventNewMessageAction = {|

@@ -11,6 +11,7 @@
  */
 
 import type { Message, MutedUser, Stream, UserId, UserPresence } from './modelTypes';
+import type { RealmDataForUpdate } from './realmDataTypes';
 
 export class EventTypes {
   static alert_words: 'alert_words' = 'alert_words';
@@ -21,6 +22,7 @@ export class EventTypes {
   static muted_users: 'muted_users' = 'muted_users';
   static presence: 'presence' = 'presence';
   static reaction: 'reaction' = 'reaction';
+  static realm: 'realm' = 'realm';
   static realm_bot: 'realm_bot' = 'realm_bot';
   static realm_emoji: 'realm_emoji' = 'realm_emoji';
   static realm_filters: 'realm_filters' = 'realm_filters';
@@ -172,4 +174,28 @@ export type RestartEvent = $ReadOnly<{|
   // TODO(server-4.0): Mark these as required.
   zulip_version?: string,
   zulip_feature_level?: number,
+|}>;
+
+// https://zulip.com/api/get-events#realm-update
+export type RealmUpdateEvent = $ReadOnly<{|
+  ...EventCommon,
+  type: typeof EventTypes.realm,
+
+  op: 'update',
+
+  // TODO(flow): `property` and `value` should correspond
+  property: $Keys<RealmDataForUpdate>,
+  value: $ElementType<RealmDataForUpdate, $Keys<RealmDataForUpdate>>,
+
+  extra_data: { upload_quota?: number, ... },
+|}>;
+
+// https://zulip.com/api/get-events#realm-update-dict
+export type RealmUpdateDictEvent = $ReadOnly<{|
+  ...EventCommon,
+  type: typeof EventTypes.realm,
+
+  op: 'update_dict',
+  property: 'default',
+  data: $Rest<RealmDataForUpdate, { ... }>,
 |}>;
