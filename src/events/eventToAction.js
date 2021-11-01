@@ -134,6 +134,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
 
     case EventTypes.restart:
     case EventTypes.stream:
+    case EventTypes.realm:
       return {
         type: EVENT,
         event,
