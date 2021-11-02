@@ -1,5 +1,8 @@
 /* @flow strict-local */
 import type { ComponentType, ElementConfig } from 'react';
+/* eslint-disable no-restricted-imports */
+// This file is where we type-wrap items from react-redux for use in the
+// rest of the codebase.
 import {
   connect as connectInner,
   useSelector as useSelectorInner,
