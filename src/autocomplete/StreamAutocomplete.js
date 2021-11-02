@@ -25,9 +25,13 @@ export default function StreamAutocomplete(props: Props): Node {
     [onAutocomplete],
   );
 
-  const matchingSubscriptions = subscriptions.filter(x =>
-    x.name.toLowerCase().startsWith(filter.toLowerCase()),
-  );
+  const isPrefixMatch = x => x.name.toLowerCase().startsWith(filter.toLowerCase());
+
+  const matchingSubscriptions = subscriptions
+    // Include it if there's a match anywhere in the name…
+    .filter(x => x.name.toLowerCase().includes(filter.toLowerCase()))
+    // …but show prefix matches at the top of the list.
+    .sort((a, b) => +isPrefixMatch(b) - +isPrefixMatch(a));
 
   if (matchingSubscriptions.length === 0) {
     return null;
