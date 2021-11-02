@@ -81,7 +81,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleTopicChange = topic => {
-    this.setState({ topic: topic.trim() });
+    this.setState({ topic });
   };
 
   handleStreamAutoComplete = (rawStream: string) => {
@@ -91,7 +91,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
   };
 
   handleTopicAutoComplete = (topic: string) => {
-    this.setState({ topic: topic.trim() });
+    this.setState({ topic });
   };
 
   isSendButtonEnabled = (message: string) => {
@@ -100,10 +100,10 @@ class ShareToStreamInner extends React.Component<Props, State> {
     const { sharedData } = this.props.route.params;
 
     if (sharedData.type !== 'text') {
-      return stream !== '' && (topic !== '' || !mandatoryTopics);
+      return stream !== '' && (topic.trim() !== '' || !mandatoryTopics);
     }
 
-    return stream !== '' && (topic !== '' || !mandatoryTopics) && message !== '';
+    return stream !== '' && (topic.trim() !== '' || !mandatoryTopics) && message !== '';
   };
 
   render() {
