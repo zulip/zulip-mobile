@@ -232,25 +232,28 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
 /**
  * State with miscellaneous data from the server; our state subtree `realm`.
  *
+ * "Initial data", below, refers to data in the register-queue response:
+ *   https://zulip.com/api/register-queue#response
+ *
  * Despite the name, this info doesn't necessarily have much to do with the
  * Zulip organization/realm; some properties do, but others are per-user,
  * and others are per-server.
  *
  * About the server:
- * @prop crossRealmBots - The server's cross-realm bots; e.g., Welcome Bot.
- *   Cross-realm bots should be treated like normal bots.
+ * @prop crossRealmBots - Corresponds to cross_realm_bots in initial data.
+ *   We use our `AvatarURL` class at `.avatar_url`.
  *
  * About the org/realm:
- * @prop nonActiveUsers - All users in the organization with `is_active`
- *   false; for normal users, this means they or an admin deactivated their
- *   account.  See `User` and the linked documentation.
- * @prop filters
- * @prop emoji
+ * @prop nonActiveUsers - Corresponds to realm_non_active_users in initial
+ *   data. We use our `AvatarURL` class at `.avatar_url`.
+ * @prop filters - Corresponds to realm_linkifiers/realm_filters in initial
+ *   data. For now, we use the legacy realm_filters form internally.
+ * @prop emoji - Corresponds to realm_emoji in initial data.
  * @prop videoChatProvider - The video chat provider configured by the
  *   server; null if none, or if the configured provider is one we don't
  *   support.
- * @prop mandatoryTopics - Whether topics are required in stream messages
- *   (see https://zulip.com/help/require-topics)
+ * @prop mandatoryTopics - Corresponds to realm_mandatory_topics in initial
+ *   data.
  * @prop messageContentDeleteLimitSeconds - Corresponds to
  *   realm_message_content_delete_limit_seconds in initial data. We use the
  *   Zulip Server 5.0+ convention that `null` means no limit, and 0 is
