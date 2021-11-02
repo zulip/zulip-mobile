@@ -32,7 +32,9 @@ export default (content: string, showMessagePlaceholders: boolean): string => te
 <div id="js-error-plain-dummy">Oh no! Something went wrong. Try again?</div>
 <div id="spinner-older" class="hidden loading-spinner"></div>
 
-$!${content}
+<div id="msglist-elements">
+  $!${content}
+</div>
 
 <div id="message-loading" class="${showMessagePlaceholders ? '' : 'hidden'}">
   $!${messageLoadingHtml.repeat(10)}

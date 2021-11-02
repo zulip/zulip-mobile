@@ -404,6 +404,12 @@ var compiledWebviewJs = (function (exports) {
     throw new Error('No document.body element!');
   }
 
+  var msglistElementsDiv = document.querySelector('div#msglist-elements');
+
+  if (!msglistElementsDiv) {
+    throw new Error('No div#msglist-elements element!');
+  }
+
   var escapeHtml = function escapeHtml(text) {
     var element = document.createElement('div');
     element.innerText = text;
@@ -486,11 +492,11 @@ var compiledWebviewJs = (function (exports) {
     var midY = (bottom + top) / 2;
     var midElements = document.elementsFromPoint(0, midY);
 
-    if (midElements.length < 3) {
+    if (midElements.length < 4) {
       return null;
     }
 
-    return midElements[midElements.length - 3];
+    return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {
@@ -504,11 +510,11 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function firstMessage() {
-    return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+    return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
   }
 
   function lastMessage() {
-    return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+    return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
   }
 
   function previousMessage(start) {
