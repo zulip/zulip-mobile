@@ -571,6 +571,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 // work.
                 !this.getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
               ]}
+              autoCapitalize="none"
               underlineColorAndroid="transparent"
               placeholder="Topic"
               defaultValue={topic}
