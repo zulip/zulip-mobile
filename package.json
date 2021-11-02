@@ -102,7 +102,6 @@
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "fbjs-scripts": "1.2.0",
     "flow-bin": "^0.137.0",
     "flow-coverage-report": "^0.8.0",
     "flow-typed": "^3.3.1",
@@ -111,7 +110,7 @@
     "jest-cli": "^26.4.1",
     "jest-environment-jsdom": "^26.3.0",
     "jest-environment-jsdom-global": "^2.0.4",
-    "jest-expo": "^42.1.0",
+    "jest-expo": "^43.0.1",
     "jest-extended": "^0.11.5",
     "jetifier": "^2.0.0",
     "metro-react-native-babel-preset": "^0.64.0",
@@ -124,8 +123,5 @@
     "rollup": "^2.26.5",
     "typescript": "~3.8.3",
     "yarn-deduplicate": "^3.0.0"
-  },
-  "resolutions": {
-    "jest-expo/react-test-renderer": "17.0.1"
   }
 }
