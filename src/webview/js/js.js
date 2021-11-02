@@ -71,25 +71,6 @@ if (!Array.from) {
   };
 }
 
-/*
- * Polyfill Element#closest.
- *
- * This method appears natively in Mobile Safari 9 and Chrome 41.
- *
- * Uses Element#matches, which we have a separate polyfill for.
- */
-if (!Element.prototype.closest) {
-  /* $FlowFixMe[cannot-write]: closest is not writable... except it's
-     absent here. */
-  Element.prototype.closest = function closest(selector) {
-    let element = this;
-    while (element && !element.matches(selector)) {
-      element = element.parentElement;
-    }
-    return element;
-  };
-}
-
 /* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
    Taken (with minor edits) from the relevant MDN page. */
 if (!String.prototype.startsWith) {
@@ -97,18 +78,6 @@ if (!String.prototype.startsWith) {
   String.prototype.startsWith = function startsWith(search: string, rawPos: number) {
     const pos = rawPos > 0 ? rawPos | 0 : 0;
     return this.substring(pos, pos + search.length) === search;
-  };
-}
-
-/* Polyfill String#includes. Native in Mobile Safari 9, Chrome 41.
-   Based directly on the current ECMAScript draft:
-     https://tc39.es/ecma262/#sec-string.prototype.includes */
-if (!String.prototype.includes) {
-  // $FlowFixMe[cannot-write] (polyfill)
-  String.prototype.includes = function includes(search: string, start: number = 0) {
-    /* required by the spec, but not worth the trouble */
-    // if (search instanceof RegExp) { throw new TypeError('...'); }
-    return this.indexOf(search, start) !== -1;
   };
 }
 
