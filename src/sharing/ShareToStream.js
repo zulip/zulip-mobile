@@ -156,6 +156,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
           onBlur={this.blurTopic}
           onChangeText={this.handleTopicChange}
           editable={stream !== ''}
+          autoCapitalize="none"
         />
       </ShareWrapper>
     );
