@@ -484,12 +484,6 @@ var compiledWebviewJs = (function (exports) {
 
   function midMessageListElement(top, bottom) {
     var midY = (bottom + top) / 2;
-
-    if (document.elementsFromPoint === undefined) {
-      var element = document.elementFromPoint(0, midY);
-      return element && element.closest('body > *');
-    }
-
     var midElements = document.elementsFromPoint(0, midY);
 
     if (midElements.length < 3) {

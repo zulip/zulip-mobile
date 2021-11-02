@@ -264,20 +264,8 @@ function midMessageListElement(top: number, bottom: number): ?Element {
   //   [ ...(random widgets, if any),
   //     ...(descendants of message-list element), message-list element,
   //     body, html ]
-  //
-  // On ancient browsers (missing Document#elementsFromPoint), we make a
-  // stronger assumption: at the vertical middle of the screen, we don't
-  // draw *any* widgets over a message-list element.  (I.e., we only do so
-  // near the top and bottom: like floating recipient bars, the error
-  // banner, and the scroll-bottom button.)
 
   const midY = (bottom + top) / 2;
-
-  // Document#elementsFromPoint appears in iOS 10 and Chrome 43.
-  if (document.elementsFromPoint === undefined) {
-    const element = document.elementFromPoint(0, midY);
-    return element && element.closest('body > *');
-  }
 
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
   if (midElements.length < 3) {
