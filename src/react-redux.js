@@ -9,6 +9,11 @@ import {
 import type { PerAccountState, GlobalState, Dispatch, GlobalDispatch } from './types';
 import type { BoundedDiff } from './generics';
 
+// There's not a lot to say about the type of `Provider`, and it only has
+// one use-site anyway; so we don't wrap it.  But do re-export it from here,
+// so everything else can uniformly never import directly from react-redux.
+export { Provider } from 'react-redux';
+
 /* eslint-disable flowtype/generic-spacing */
 
 // We leave this as invariant in `C` (i.e., we don't write `-C` or `+C`)
