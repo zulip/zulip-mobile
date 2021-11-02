@@ -2,9 +2,9 @@
 
 import React, { useState, useCallback, useContext, forwardRef, useImperativeHandle } from 'react';
 import type { AbstractComponent, Node } from 'react';
-import { useSelector } from 'react-redux';
 
 import type { Stream, Narrow, UserOrBot, Subscription, UserId } from '../types';
+import { useSelector } from '../react-redux';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getAllUsersById, getAuth } from '../selectors';
 import { isPmNarrow } from '../utils/narrow';

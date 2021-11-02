@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import { useSelector } from 'react-redux';
 
+import { useSelector } from '../react-redux';
 import { getIsHydrated } from '../selectors';
 
 type Props = $ReadOnly<{|
