@@ -146,7 +146,14 @@ export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => 
     // Client error.  We should have a Zulip API error blob.
 
     if (typeof data === 'object' && data !== null) {
+      // For errors `code` should always be present, but there have been
+      // bugs where it was missing; in particular, on rate-limit errors
+      // until Zulip 4.0: https://zulip.com/api/rest-error-handling .
+      // Fall back to `BAD_REQUEST`, the same thing the server uses when
+      // nobody's made it more specific.
+      // TODO(server-4.0): Drop this fallback.
       const { result, msg, code = 'BAD_REQUEST' } = data;
+
       if (result === 'error' && typeof msg === 'string' && typeof code === 'string') {
         // Hooray, we have a well-formed Zulip API error blob.  Use that.
         throw new ApiError(httpStatus, { ...data, result, msg, code });

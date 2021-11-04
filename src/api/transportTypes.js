@@ -52,25 +52,23 @@ export type ApiResponseSuccess = $ReadOnly<{
 }>;
 
 /**
+ * An identifier-like string identifying a Zulip API error.
+ *
+ * See API docs on error handling:
+ *   https://zulip.com/api/rest-error-handling
+ *
+ * (And at present, 2022-01, those are rather buggy.  So see also:
+ *   https://chat.zulip.org/#narrow/stream/378-api-design/topic/error.20docs/near/1308989
+ * )
+ *
  * A list of current error codes can be found at:
  *   https://github.com/zulip/zulip/blob/main/zerver/lib/exceptions.py
  *
- * Unfortunately, the `code` property is a relatively late addition to the
- * Zulip API, introduced for version 1.7.0. [1]  The modern default, when no
- * other code has been defined, is 'BAD_REQUEST'; we therefore synthesize
- * that value when connecting to old servers that don't provide an error
- * code.
- *
- * TODO(server-1.7): Simplify this.
- *
- * [1] Specifically at 1.7.0~2354 and ancestors, aka 9faa44af6^..709c3b50fc .
- *     See: https://github.com/zulip/zulip/commit/709c3b50fc
- *
- * It's tempting to make ApiErrorCode an enumerated type, save for the dual
- * problem: when connecting to _newer_ Zulip servers, we may see values of
- * `code` not known to this version of the client! In particular, new error
- * codes are occasionally assigned to existing classes of error which previously
- * returned 'BAD_REQUEST'.
+ * It's tempting to make ApiErrorCode an enumerated type, but: when
+ * connecting to newer Zulip servers, we may see values of `code` not known
+ * to this version of the client!  In particular, new error codes are
+ * occasionally assigned to existing classes of error which previously
+ * returned the generic 'BAD_REQUEST'.
  *
  * (Note that "newer" here doesn't necessarily mean "newer than this client",
  * but "newer than the last time someone updated the error code list from the
