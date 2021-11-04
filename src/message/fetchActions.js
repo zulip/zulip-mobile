@@ -62,8 +62,8 @@ const messageFetchComplete = (args: {|
   anchor: number,
   numBefore: number,
   numAfter: number,
-  foundNewest?: boolean,
-  foundOldest?: boolean,
+  foundNewest: boolean,
+  foundOldest: boolean,
   ownUserId: UserId,
 |}): Action => {
   const {

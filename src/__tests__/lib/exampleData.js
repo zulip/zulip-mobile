@@ -713,8 +713,8 @@ export const action = Object.freeze({
     anchor: 0,
     numBefore: 50,
     numAfter: 50,
-    foundNewest: undefined,
-    foundOldest: undefined,
+    foundNewest: false,
+    foundOldest: false,
     ownUserId: selfUser.user_id,
   }): MessageFetchCompleteAction),
   // If a given action is only relevant to a single test file, no need to

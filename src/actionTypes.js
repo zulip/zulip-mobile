@@ -221,8 +221,8 @@ export type MessageFetchCompleteAction = {|
   anchor: number,
   numBefore: number,
   numAfter: number,
-  foundNewest: boolean | void,
-  foundOldest: boolean | void,
+  foundNewest: boolean,
+  foundOldest: boolean,
   ownUserId: UserId,
 |};
 

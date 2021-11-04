@@ -13,6 +13,11 @@ import { openLinkWithUserPreference } from '../utils/openLink';
 // The oldest version we currently support. Should match what we say at
 //   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading.
 const minSupportedVersion = '2.1.0';
+// Notes on known breakage at older versions:
+//  * Before 1.8, the server doesn't send found_newest / found_oldest on
+//    fetching messages, and so `state.caughtUp` will never have truthy
+//    values.  This probably means annoying behavior in a message list,
+//    as we keep trying to fetch newer messages.
 
 type Props = $ReadOnly<{||}>;
 

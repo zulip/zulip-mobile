@@ -10,9 +10,9 @@ import { AvatarURL } from '../../utils/avatar';
 type ApiResponseMessages = {|
   ...$Exact<ApiResponseSuccess>,
   anchor: number,
-  found_anchor?: boolean,
-  found_newest?: boolean,
-  found_oldest?: boolean,
+  found_anchor: boolean,
+  found_newest: boolean,
+  found_oldest: boolean,
   messages: Message[],
 |};
 
@@ -84,13 +84,7 @@ const migrateResponse = (response, identity: Identity) => {
 
 /**
  * See https://zulip.com/api/get-messages
- *
- * These values exist only in Zulip 1.8 or newer:
- *   * found_anchor
- *   * found_newest
- *   * found_oldest
  */
-// TODO(server-1.8): Mark those properties as required; simplify downstream.
 export default async (
   auth: Auth,
   args: {|
