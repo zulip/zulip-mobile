@@ -122,7 +122,7 @@ function getRecentConversationsModernImpl(
 
 const getServerIsOld: Selector<boolean> = createSelector(
   getServerVersion,
-  version => !(version && version.isAtLeast(model.MIN_RECENTPMS_SERVER_VERSION)),
+  version => !version.isAtLeast(model.MIN_RECENTPMS_SERVER_VERSION),
 );
 
 /**

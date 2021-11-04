@@ -31,7 +31,7 @@ export default function ServerCompatBanner(props: Props): Node {
 
   let visible = false;
   let text = '';
-  if (!zulipVersion || zulipVersion.isAtLeast(minSupportedVersion)) {
+  if (zulipVersion.isAtLeast(minSupportedVersion)) {
     // don't show
   } else if (hasDismissedServerCompatNotice) {
     // don't show

@@ -104,7 +104,7 @@ export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).re
  * server, note that there's fundamentally a race; for details, see
  * `getZulipFeatureLevel`.
  */
-export const getZulipVersion = (state: PerAccountState): ZulipVersion => {
+export const getServerVersion = (state: PerAccountState): ZulipVersion => {
   const { zulipVersion } = getAccount(state);
   // This invariant will hold as long as we only call this function in a
   // context where we have server data.
@@ -143,7 +143,7 @@ export const getZulipFeatureLevel = (state: PerAccountState): number => {
   // This invariant will hold as long as we only call this function in a
   // context where we have server data.
   //
-  // TODO(#5006): Much like getZulipVersion above.  This property is just a
+  // TODO(#5006): Much like getServerVersion above.  This property is just a
   //   bit newer: b058fa266, from 2020-09.
   invariant(zulipFeatureLevel !== null, 'zulipFeatureLevel must be non-null in PerAccountState');
   return zulipFeatureLevel;
@@ -208,12 +208,3 @@ export const getAuth = (state: PerAccountState): Auth => {
 export const getIdentity: Selector<Identity> = createSelector(getAuth, auth =>
   identityOfAuth(auth),
 );
-
-/**
- * The Zulip server version for this account, or null if unknown.
- *
- * See the `zulipVersion` property of `Account` for details on how this
- * information is kept up to date.
- */
-export const getServerVersion = (state: PerAccountState): ZulipVersion | null =>
-  getAccount(state).zulipVersion;

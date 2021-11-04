@@ -7,7 +7,6 @@ import { PRESENCE_RESPONSE } from '../actionConstants';
 import { getAuth, getServerVersion } from '../selectors';
 import { isPmNarrow, userIdsOfPmNarrow } from '../utils/narrow';
 import { getUserForId } from './userSelectors';
-import { ZulipVersion } from '../utils/zulipVersion';
 
 export const reportPresence = (isActive: boolean): ThunkAction<Promise<void>> => async (
   dispatch,
@@ -29,14 +28,12 @@ export const reportPresence = (isActive: boolean): ThunkAction<Promise<void>> =>
 // to refer to this account regardless of what the then-active account might be.
 const typingWorker = (state: PerAccountState) => {
   const auth: Auth = getAuth(state);
-  const serverVersion: ZulipVersion | null = getServerVersion(state);
 
   // User ID arrays are only supported in server versions >= 2.0.0-rc1
   // (zulip/zulip@2f634f8c0). For versions before this, email arrays
-  // are used. If current server version is undetermined, user ID
-  // arrays are optimistically used.
+  // are used.
   // TODO(server-2.0): Simplify this away.
-  const useEmailArrays = !!serverVersion && !serverVersion.isAtLeast('2.0.0-rc1');
+  const useEmailArrays = !getServerVersion(state).isAtLeast('2.0.0-rc1');
 
   const getRecipients = user_ids_array => {
     if (useEmailArrays) {
