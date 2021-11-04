@@ -145,6 +145,7 @@ export type UpdateMessageFlagsEvent = $ReadOnly<{|
 
   // Servers with feature level 32+ send `op`. Servers will eventually
   // stop sending `operation`; see #4238.
+  // TODO(server-4.0): Simplify to just `op`.
   operation?: 'add' | 'remove',
   op?: 'add' | 'remove',
 
@@ -168,6 +169,7 @@ export type RestartEvent = $ReadOnly<{|
   //
   // They have the same shape and meaning as the same-named fields in
   // the /server_settings and /register responses.
+  // TODO(server-4.0): Mark these as required.
   zulip_version?: string,
   zulip_feature_level?: number,
 |}>;

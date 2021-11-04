@@ -297,8 +297,8 @@ type EventSubscriptionUpdateAction = {|
   property: string,
   value: boolean | number | string,
 
+  // TODO(server-4.0): Delete these commented-out properties.
   // name: string, // exists pre-4.0, but expected to be removed soon
-
   // email: string, // gone in 4.0; was the user's own email, so never useful
 |};
 

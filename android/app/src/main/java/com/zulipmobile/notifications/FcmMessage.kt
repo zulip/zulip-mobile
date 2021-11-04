@@ -197,10 +197,12 @@ private fun extractIdentity(data: Map<String, String>): Identity =
         // use this as a substitute for `user_id` when that's missing...
         // but it'd be inherently buggy, and the bug it'd introduce seems
         // likely to affect more users than the bug it'd fix.  So just ignore.
+        // TODO(server-2.0): Delete this comment.
         // (data["user"] ignored)
 
         // `user_id` was added in server version 2.1.0 (released 2019-12-12;
         // commit 447a517e6, PR #12172.)
+        // TODO(server-2.1): Require this.
         userId = data["user_id"]?.parseInt("user_id")
     )
 

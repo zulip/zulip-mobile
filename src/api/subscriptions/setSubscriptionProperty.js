@@ -20,8 +20,8 @@ export default async (
         // the server the older, confusingly named property
         // 'in_home_view' with the opposite value.
         //
-        // TODO: 'is_muted' is said to be new in Zulip 2.1, released
-        // 2019-12-12. Switch to sending that, once we can.
+        // TODO(server-2.1): 'is_muted' is said to be new in Zulip 2.1,
+        //   released 2019-12-12.  Switch to sending that, once we can.
         ...(property === 'is_muted'
           ? { property: 'in_home_view', value: !value }
           : { property, value }),

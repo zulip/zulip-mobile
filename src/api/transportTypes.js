@@ -61,6 +61,8 @@ export type ApiResponseSuccess = $ReadOnly<{
  * that value when connecting to old servers that don't provide an error
  * code.
  *
+ * TODO(server-1.7): Simplify this.
+ *
  * [1] Specifically at 1.7.0~2354 and ancestors, aka 9faa44af6^..709c3b50fc .
  *     See: https://github.com/zulip/zulip/commit/709c3b50fc
  *

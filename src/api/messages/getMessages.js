@@ -25,6 +25,7 @@ type ApiResponseMessages = {|
 // We shouldn't have to rely on this format on servers at feature
 // level 2+; those newer servers include a top-level `user_id` field
 // in addition to the `user` object. See #4072.
+// TODO(server-3.0): Simplify this away.
 export type ServerReaction = $ReadOnly<{|
   ...$Diff<Reaction, {| user_id: mixed |}>,
   user: $ReadOnly<{|
@@ -89,6 +90,7 @@ const migrateResponse = (response, identity: Identity) => {
  *   * found_newest
  *   * found_oldest
  */
+// TODO(server-1.8): Mark those properties as required; simplify downstream.
 export default async (
   auth: Auth,
   args: {|

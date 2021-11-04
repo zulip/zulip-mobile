@@ -128,6 +128,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         // Before server feature level 13 (or if we didn't specify the
         // `bulk_message_deletion` client capability, which we do), this
         // event has `message_id` instead of `message_ids`.
+        // TODO(server-3.0): Simplify this.
         messageIds: event.message_ids ?? [event.message_id],
       };
 
@@ -286,6 +287,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
 
         // Servers with feature level 32+ send `op`. Servers will eventually
         // stop sending `operation`; see #4238.
+        // TODO(server-4.0): Simplify to just use `op`.
         op: event.op ?? event.operation,
 
         allMessages: state.messages,

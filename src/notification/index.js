@@ -37,6 +37,7 @@ export const getAccountFromNotificationData = (
   if (realm_uri == null) {
     // Old server, no realm info included.  If needed to cater to 1.8.x
     // servers, could try to guess using serverHost; for now, don't.
+    // TODO(server-1.8): Simplify this comment.
     logging.warn('notification missing field: realm_uri');
     return null;
   }

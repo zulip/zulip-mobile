@@ -198,6 +198,7 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         ))
 
         /// The Zulip server before v2.0 sends this form (plus some irrelevant fields).
+        // TODO(server-2.0): Drop this, and the logic it tests.
         val singular = base.plus(sequenceOf(
             "zulip_message_id" to "123"
         ))

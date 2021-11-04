@@ -30,10 +30,11 @@ export type InitialDataBase = $ReadOnly<{|
   // `fetch_event_types` and remove this comment.
 
   /**
-   * Added in server version 2.2, feature level 1.
+   * Added in server version 3.0, feature level 1.
    * Same meaning as in the server_settings response:
    * https://zulip.com/api/get-server-settings. See also the comment above.
    */
+  // TODO(server-3.0): Mark as required.
   zulip_feature_level?: number,
 
   /**
@@ -59,8 +60,8 @@ export type InitialDataMutedTopics = $ReadOnly<{|
   muted_topics: $ReadOnlyArray<MuteTuple>,
 |}>;
 
-/** Added in server version 4.0, feature level 48 */
 export type InitialDataMutedUsers = $ReadOnly<{|
+  /** (When absent, treat as empty.  Added in server version 4.0, feature level 48.) */
   muted_users?: $ReadOnlyArray<MutedUser>,
 |}>;
 
@@ -124,6 +125,7 @@ export type InitialDataRealmEmoji = $ReadOnly<{|
 export type RawInitialDataRealmFilters = $ReadOnly<{|
   // We still request this, since not all servers can provide the
   // newer `realm_linkifiers` format.
+  // TODO(server-4.0): Drop this.
   realm_filters?: $ReadOnlyArray<RealmFilter>,
 |}>;
 
@@ -173,14 +175,17 @@ export type InitialDataRealmUserGroups = $ReadOnly<{|
   /**
    * Absent in servers prior to v1.8.0-rc1~2711 (or thereabouts).
    */
+  // TODO(server-1.8): Mark as required.
   realm_user_groups?: $ReadOnlyArray<UserGroup>,
 |}>;
 
 export type InitialDataRecentPmConversations = $ReadOnly<{|
   // * Added in server commit 2.1-dev-384-g4c3c669b41.
+  //   TODO(server-2.1): Mark this required.  See MIN_RECENTPMS_SERVER_VERSION.
   // * `user_id` fields are sorted as of commit 2.2-dev-53-g405a529340, which
   //    was backported to 2.1.1-50-gd452ad31e0 -- meaning that they are _not_
   //    sorted in either v2.1.0 or v2.1.1.
+  // TODO(server-3.0): Simply say these are sorted.  ("2.2" became 3.0.)
   recent_private_conversations?: $ReadOnlyArray<RecentPrivateConversation>,
 |}>;
 

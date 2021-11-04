@@ -54,6 +54,8 @@ const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => (
   // Transform the newer `realm_linkifiers` format, if present, to the
   // older `realm_filters` format. We do the same transformation on
   // 'realm_linkifiers' events.
+  // TODO(server-4.0): Switch to new format, if we haven't already;
+  //   and drop conversion.
   realm_filters: rawInitialData.realm_linkifiers
     ? rawInitialData.realm_linkifiers.map(({ pattern, url_format, id }) => [
         pattern,

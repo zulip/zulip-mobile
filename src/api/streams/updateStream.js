@@ -9,6 +9,7 @@ import { apiPatch } from '../apiFetch';
  */
 // TODO(#4659): Once we pass the feature level to API methods, this one
 //   should encapsulate a switch at feature level 64.  See its call sites.
+// TODO(server-4.0): Simplify that away.
 export default (
   auth: Auth,
   id: number,

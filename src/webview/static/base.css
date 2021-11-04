@@ -565,7 +565,8 @@ code, pre {
 }
 pre code {
   /* Starting with Zulip Server 3.0, code blocks have `pre > code`.
-     Undo the stuff we have for `code` that isn't meant to apply there. */
+     Undo the stuff we have for `code` that isn't meant to apply there.
+     TODO(server-3.0): Simplify this. */
   font-size: inherit;
   white-space: inherit;
   padding: 0;

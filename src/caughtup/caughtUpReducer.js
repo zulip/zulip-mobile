@@ -93,6 +93,7 @@ export default (state: CaughtUpState = initialState, action: Action): CaughtUpSt
       let caughtUp = undefined;
       if (action.foundNewest !== undefined && action.foundOldest !== undefined) {
         /* This should always be the case for Zulip Server v1.8 or newer. */
+        // TODO(server-1.8): Simplify away the "legacy" case.
         const { older: prevOlder, newer: prevNewer } = state[key] || DEFAULT_CAUGHTUP;
         caughtUp = {
           older: prevOlder || action.foundOldest,

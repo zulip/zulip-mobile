@@ -46,6 +46,9 @@ export class AvatarURL {
       // this case isn't thoroughly considered, but at worst, it means a
       // 404. We could plumb through the server version and
       // conditionalize on that.
+      //
+      // TODO(server-1.9): Simplify this comment.
+      // TODO(server-3.0): Simplify this comment.
       return FallbackAvatarURL.validateAndConstructInstance({ realm, userId });
     } else if (rawAvatarUrl === null) {
       // If we announce `client_gravatar`, which we do, `rawAvatarUrl`

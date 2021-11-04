@@ -24,6 +24,7 @@ export const updateExistingStream = (
     //   https://github.com/zulip/zulip-mobile/pull/4748#issuecomment-852254404
     //   https://github.com/zulip/zulip-mobile/issues/4747#issuecomment-946362729
     // TODO(#4659): Ideally this belongs inside `api.updateStream`.
+    // TODO(server-4.0): Simplify this (if it hasn't already moved.)
     getZulipFeatureLevel(state) >= 64 ? value : JSON.stringify(value);
 
   const auth = getAuth(state);

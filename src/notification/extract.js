@@ -31,7 +31,8 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
 
     The original payload was merely `{ message_ids: [number] }`, but this has
     been expanded incrementally over the years. As of 2020-02, commit
-    2.2-dev-775-g10e7e15088, the current form of APNs messages is as follows:
+    2.2-dev-775-g10e7e15088 (released with 3.0, as "2.2" became 3.0), the
+    current form of APNs messages is as follows:
 
     ```
     type StreamData = {
@@ -82,6 +83,10 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
     ... which still didn't permit differentiating between multiple accounts on
     the same realm. This was only made possible by the addition of the `user_id`
     field, in 2.1-dev-540-g447a517e6f.
+
+    TODO(server-1.8): Simplify this comment a lot.
+    TODO(server-1.9): Simplify further.
+    TODO(server-2.1): Simplify further.
 */
 
 /** Local error type. */

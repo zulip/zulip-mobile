@@ -37,6 +37,7 @@ export type RealmEmojiById = $ReadOnly<{|
 /**
  * The only way servers before feature level 54 represent linkifiers.
  */
+// TODO(server-4.0): Delete this.
 export type RealmFilter = [string, string, number];
 
 /**
@@ -52,8 +53,8 @@ export type RealmFilter = [string, string, number];
 //   `realm_linkifiers` format. (When doing so, also don't forget to
 //   change various variable and type definition names to be like
 //   `realm_linkifiers`.)
-// - When we drop support for servers older than 54, we can remove all
-//   our code that knows about the `realm_filters` format.
+// - TODO(server-4.0): When we drop support for servers older than 54, we
+//   can remove all our code that knows about the `realm_filters` format.
 export type RealmLinkifier = $ReadOnly<{|
   id: number,
   pattern: string,
@@ -108,6 +109,7 @@ export type User = $ReadOnly<{|
   full_name: string,
 
   // date_joined included since commit 372e9740a (in 1.9.0)
+  // TODO(server-1.9): mark this as required
   date_joined?: string,
 
   // is_active doesn't appear in `/register` responses -- instead,
@@ -155,7 +157,7 @@ export type User = $ReadOnly<{|
   // profile_data added in commit 02b845336 (in 1.8.0);
   // see also e3aed0f7b (in 2.0.0)
   // (This one doesn't appear in `/users` responses.)
-  profile_data?: empty, // TODO describe actual type
+  profile_data?: empty, // When we need this, describe its actual type.
 |}>;
 
 /**
@@ -177,6 +179,7 @@ export type CrossRealmBot = $ReadOnly<{|
   avatar_url: AvatarURL,
 
   // date_joined included since commit 58ee3fa8c (in 1.9.0)
+  // TODO(server-1.9): mark this as required
   date_joined?: string,
 
   email: string,
@@ -351,6 +354,7 @@ export type NarrowElement =
  //  * `group-pm-with` since 2.1-dev-1813-gb338fd130
  //  * `sender` since 2.1-dev-1812-gc067c155a
  //  * `pm-with` since 2.1-dev-1350-gd7b4de234
+ // TODO(server-2.1): Stop sending stream names or user emails here.
  | {| +operator: 'stream', +operand: string | number |} // stream ID
  | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<UserId> |}
  | {| +operator: 'sender', +operand: string | UserId |}
@@ -540,6 +544,7 @@ type MessageBase = $ReadOnly<{|
   match_subject?: string,
 
   /** Obsolete? Gone in server commit 1.6.0~1758 . */
+  // TODO(server-1.6): remove this
   sender_domain: string,
 
   /**
@@ -598,7 +603,7 @@ export type PmMessage = $ReadOnly<{|
   // Notes from studying the server code:
   //  * Notes are primarily from the server as of 2020-04 at cb85763c7, but
   //    this logic is very stable; confirmed all points about behavior as of
-  //    1.8.0, too.
+  //    1.8.0 (from 2018-04), too.
   //
   //  * This field is ultimately computed (for both events and /messages
   //    results) in MessageDict.hydrate_recipient_info, with most of the
@@ -725,5 +730,6 @@ export type RecentPrivateConversation = $ReadOnly<{|
   max_message_id: number,
   // When received from the server, these are guaranteed to be sorted only after
   // 2.2-dev-53-g405a529340. To be safe, we always sort them on receipt.
+  // TODO(server-3.0): Stop sorting these ourselves.  ("2.2" became 3.0.)
   user_ids: $ReadOnlyArray<UserId>,
 |}>;

@@ -51,6 +51,7 @@ describe('activeAuthentications: external_authentication_methods (server v2.1+ A
   });
 });
 
+// TODO(server-2.1): Delete this (and the logic it tests.)
 describe('activeAuthentications: old server API', () => {
   test('empty auth methods object result in no available authentications', () => {
     const authenticationMethods = {};

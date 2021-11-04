@@ -85,6 +85,7 @@ const availableDirectMethods: AuthenticationMethodDetails[] = [
 // Methods that are covered in external_authentication_methods by servers
 // which have that key (Zulip Server v2.1+).  We refer to this array for
 // servers that don't.
+// TODO(server-2.1): Simplify this away.
 const availableExternalMethods: AuthenticationMethodDetails[] = [
   {
     name: 'google',
