@@ -89,7 +89,21 @@ export const getAccount = (state: PerAccountState): Account => {
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 
-/** The Zulip server version for this account. */
+/**
+ * The Zulip server version for this account.
+ *
+ * Prefer `getZulipFeatureLevel`, which is finer-grained, for most uses.
+ * This function is useful for logging, for user-facing information, and for
+ * old releases (pre-3.0) where the feature level is always 0.
+ *
+ * This function assumes we have server data for this account, and if not it
+ * may throw.  If you want to call it from a context where we may not have
+ * server data, we can fix that; see implementation comment.
+ *
+ * If using this to condition behavior where we make a request to the
+ * server, note that there's fundamentally a race; for details, see
+ * `getZulipFeatureLevel`.
+ */
 export const getZulipVersion = (state: PerAccountState): ZulipVersion => {
   const { zulipVersion } = getAccount(state);
   // This invariant will hold as long as we only call this function in a
@@ -107,7 +121,23 @@ export const getZulipVersion = (state: PerAccountState): ZulipVersion => {
   return zulipVersion;
 };
 
-/** The Zulip server feature level for this account. */
+/**
+ * The Zulip server feature level for this account.
+ *
+ * This function assumes we have server data for this account, and if not it
+ * may throw.  If you want to call it from a context where we may not have
+ * server data, we can fix that; see implementation comment.
+ *
+ * If using this to condition behavior where we make a request to the
+ * server, note that there's fundamentally a race: the server may have been
+ * upgraded since we last heard from it.  Generally we don't worry about
+ * this because (a) usually our behavior for old servers is fine for new
+ * servers (by design in the new server, because it's the same behavior old
+ * clients will have), and then this can only be a problem on downgrade,
+ * which is rare; (b) with the exception of initial fetch, almost all our
+ * requests come while we already have a live event queue which would tell
+ * us about an upgrade, so the race is quite narrow.
+ */
 export const getZulipFeatureLevel = (state: PerAccountState): number => {
   const { zulipFeatureLevel } = getAccount(state);
   // This invariant will hold as long as we only call this function in a
