@@ -22,6 +22,7 @@ import config from '../config';
 import {
   REGISTER_START,
   REGISTER_ABORT,
+  REGISTER_COMPLETE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
@@ -32,7 +33,6 @@ import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow } from '../utils/narr
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { initNotifications } from '../notification/notificationActions';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
-import { registerComplete } from '../realm/realmActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -255,6 +255,11 @@ export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<
     NavigationService.dispatch(resetToAccountPicker());
   }
 };
+
+const registerComplete = (data: InitialData): Action => ({
+  type: REGISTER_COMPLETE,
+  data,
+});
 
 /** Private; exported only for tests. */
 export const isFetchNeededAtAnchor = (
