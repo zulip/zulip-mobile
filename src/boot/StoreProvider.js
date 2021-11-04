@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { Provider } from 'react-redux';
 
 import { observeStore } from '../redux';
+import { Provider } from '../react-redux';
 import * as logging from '../utils/logging';
 import { getAccount, tryGetActiveAccountState } from '../selectors';
 import store, { restore } from './store';

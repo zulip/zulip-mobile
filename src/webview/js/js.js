@@ -71,25 +71,6 @@ if (!Array.from) {
   };
 }
 
-/*
- * Polyfill Element#closest.
- *
- * This method appears natively in Mobile Safari 9 and Chrome 41.
- *
- * Uses Element#matches, which we have a separate polyfill for.
- */
-if (!Element.prototype.closest) {
-  /* $FlowFixMe[cannot-write]: closest is not writable... except it's
-     absent here. */
-  Element.prototype.closest = function closest(selector) {
-    let element = this;
-    while (element && !element.matches(selector)) {
-      element = element.parentElement;
-    }
-    return element;
-  };
-}
-
 /* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
    Taken (with minor edits) from the relevant MDN page. */
 if (!String.prototype.startsWith) {
@@ -100,18 +81,6 @@ if (!String.prototype.startsWith) {
   };
 }
 
-/* Polyfill String#includes. Native in Mobile Safari 9, Chrome 41.
-   Based directly on the current ECMAScript draft:
-     https://tc39.es/ecma262/#sec-string.prototype.includes */
-if (!String.prototype.includes) {
-  // $FlowFixMe[cannot-write] (polyfill)
-  String.prototype.includes = function includes(search: string, start: number = 0) {
-    /* required by the spec, but not worth the trouble */
-    // if (search instanceof RegExp) { throw new TypeError('...'); }
-    return this.indexOf(search, start) !== -1;
-  };
-}
-
 /* eslint-enable no-extend-native */
 
 // We pull out document.body in one place, and check it's not null, in order
@@ -119,6 +88,11 @@ if (!String.prototype.includes) {
 const documentBody = document.body;
 if (!documentBody) {
   throw new Error('No document.body element!');
+}
+
+const msglistElementsDiv = document.querySelector('div#msglist-elements');
+if (!msglistElementsDiv) {
+  throw new Error('No div#msglist-elements element!');
 }
 
 const escapeHtml = (text: string): string => {
@@ -249,7 +223,8 @@ window.addEventListener('resize', event => {
  *
  * A "message-list element" is a message or one of their siblings that get
  * laid out among them: e.g. a recipient bar or date separator, but not an
- * absolutely-positioned overlay.
+ * absolutely-positioned overlay. All message-list elements are direct
+ * children of a div#msglist-elements.
  *
  * If the middle of the screen is just blank, returns null.
  */
@@ -263,28 +238,16 @@ function midMessageListElement(top: number, bottom: number): ?Element {
   // the sequence is:
   //   [ ...(random widgets, if any),
   //     ...(descendants of message-list element), message-list element,
-  //     body, html ]
-  //
-  // On ancient browsers (missing Document#elementsFromPoint), we make a
-  // stronger assumption: at the vertical middle of the screen, we don't
-  // draw *any* widgets over a message-list element.  (I.e., we only do so
-  // near the top and bottom: like floating recipient bars, the error
-  // banner, and the scroll-bottom button.)
+  //     div#msglist-elements, body, html ]
 
   const midY = (bottom + top) / 2;
 
-  // Document#elementsFromPoint appears in iOS 10 and Chrome 43.
-  if (document.elementsFromPoint === undefined) {
-    const element = document.elementFromPoint(0, midY);
-    return element && element.closest('body > *');
-  }
-
   const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
-  if (midElements.length < 3) {
-    // Just [body, html].
+  if (midElements.length < 4) {
+    // Just [div#msglist-elements, body, html].
     return null;
   }
-  return midElements[midElements.length - 3];
+  return midElements[midElements.length - 4];
 }
 
 /**
@@ -311,12 +274,12 @@ function walkToMessage(
 
 /** The first message element in the document. */
 function firstMessage(): ?Element {
-  return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+  return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
 }
 
 /** The last message element in the document. */
 function lastMessage(): ?Element {
-  return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+  return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
 }
 
 /** The message before the given message, if any. */
@@ -454,21 +417,10 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
   return { first, last };
 }
 
-/** DEPRECATED - consider using `node.closest('.message')` instead. */
-const getMessageNode = (node: ?Node): ?Node => {
-  let curNode = node;
-  while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-    curNode = curNode.parentNode;
-  }
-  return curNode;
-};
-
 /** DEPRECATED */
-const getMessageIdFromNode = (node: ?Node, defaultValue: number = -1): number => {
-  const msgNode = getMessageNode(node);
-  return msgNode && msgNode instanceof Element
-    ? +msgNode.getAttribute('data-msg-id')
-    : defaultValue;
+const getMessageIdFromElement = (element: Element, defaultValue: number = -1): number => {
+  const msgElement = element.closest('.msglist-element');
+  return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
 };
 
 /**
@@ -903,25 +855,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     sendMessage({
       type: 'image',
       src: requireAttribute(inlineImageLink, 'href'), // TODO: should be `src` / `data-src-fullsize`.
-      messageId: getMessageIdFromNode(inlineImageLink),
-    });
-    return;
-  }
-
-  if (target.matches('a')) {
-    sendMessage({
-      type: 'url',
-      href: requireAttribute(target, 'href'),
-      messageId: getMessageIdFromNode(target),
-    });
-    return;
-  }
-
-  if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
-    sendMessage({
-      type: 'url',
-      href: requireAttribute(target.parentNode, 'href'),
-      messageId: getMessageIdFromNode(target.parentNode),
+      messageId: getMessageIdFromElement(inlineImageLink),
     });
     return;
   }
@@ -932,7 +866,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
       name: requireAttribute(target, 'data-name'),
       code: requireAttribute(target, 'data-code'),
       reactionType: requireAttribute(target, 'data-type'),
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       voted: target.classList.contains('self-voted'),
     });
     return;
@@ -967,6 +901,16 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     });
   }
 
+  const closestA = target.closest('a');
+  if (closestA) {
+    sendMessage({
+      type: 'url',
+      href: requireAttribute(closestA, 'href'),
+      messageId: getMessageIdFromElement(closestA),
+    });
+    return;
+  }
+
   const spoilerHeader = target.closest('.spoiler-header');
   if (spoilerHeader instanceof HTMLElement) {
     toggleSpoiler(spoilerHeader);
@@ -992,7 +936,7 @@ const handleLongPress = (target: Element) => {
   if (reactionNode) {
     sendMessage({
       type: 'reactionDetails',
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       reactionName: requireAttribute(reactionNode, 'data-name'),
     });
     return;
@@ -1019,7 +963,7 @@ const handleLongPress = (target: Element) => {
   sendMessage({
     type: 'longPress',
     target: targetType,
-    messageId: getMessageIdFromNode(target),
+    messageId: getMessageIdFromElement(target),
     href: target.matches('a') ? requireAttribute(target, 'href') : null,
   });
 };

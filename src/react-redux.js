@@ -1,13 +1,21 @@
 /* @flow strict-local */
 import type { ComponentType, ElementConfig } from 'react';
+/* eslint-disable no-restricted-imports */
+// This file is where we type-wrap items from react-redux for use in the
+// rest of the codebase.
 import {
   connect as connectInner,
   useSelector as useSelectorInner,
   useDispatch as useDispatchInner,
 } from 'react-redux';
 
-import type { GlobalState, Dispatch, GlobalDispatch } from './types';
+import type { PerAccountState, GlobalState, Dispatch, GlobalDispatch } from './types';
 import type { BoundedDiff } from './generics';
+
+// There's not a lot to say about the type of `Provider`, and it only has
+// one use-site anyway; so we don't wrap it.  But do re-export it from here,
+// so everything else can uniformly never import directly from react-redux.
+export { Provider } from 'react-redux';
 
 /* eslint-disable flowtype/generic-spacing */
 
@@ -69,8 +77,7 @@ export type OwnProps<C, -SP, -D> = BoundedDiff<
  */
 // prettier-ignore
 export function connect<SP, P, C: ComponentType<P>>(
-  // TODO(#5006): should be PerAccountState
-  mapStateToProps?: (GlobalState, OwnProps<C,
+  mapStateToProps?: (PerAccountState, OwnProps<C,
     // Error "property `foo` is missing"?  Add to inner component's props.
     SP, Dispatch>) => SP,
 ): C => ComponentType<$ReadOnly<OwnProps<C, SP, Dispatch>>> {
@@ -101,6 +108,13 @@ export function connectGlobal<SP, P, C: ComponentType<P>>(
  * function effectively gets no type-checking of anything it does with it.
  */
 export function useSelector<SS>(
+  selector: (state: PerAccountState) => SS,
+  equalityFn?: (a: SS, b: SS) => boolean,
+): SS {
+  return useSelectorInner<PerAccountState, SS>(selector, equalityFn);
+}
+
+export function useGlobalSelector<SS>(
   selector: (state: GlobalState) => SS,
   equalityFn?: (a: SS, b: SS) => boolean,
 ): SS {

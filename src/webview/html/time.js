@@ -9,7 +9,7 @@ import { humanDate } from '../../utils/date';
  * This is a private helper of messageListElementHtml.
  */
 export default (element: TimeMessageListElement): string => template`
-  <div class="timerow" data-msg-id="${element.subsequentMessage.id}">
+  <div class="msglist-element timerow" data-msg-id="${element.subsequentMessage.id}">
     <div class="timerow-left"></div>
     ${humanDate(new Date(element.timestamp * 1000))}
     <div class="timerow-right"></div>

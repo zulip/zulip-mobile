@@ -27,6 +27,7 @@ import type {
   UserOrBot,
   EditMessage,
 } from '../types';
+import { assumeSecretlyGlobalState } from '../reduxTypes';
 import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
@@ -336,6 +337,13 @@ const marksMessagesAsRead = (narrow: Narrow): boolean =>
 
 const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
   (state, props: OuterProps) => {
+    // If this were a function component with Hooks, these would be
+    // useGlobalSelector calls and would coexist perfectly smoothly with
+    // useSelector calls for the per-account data.  As long as it's not,
+    // they should probably turn into a `connectGlobal` call.
+    const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
+    const debug = getDebug(assumeSecretlyGlobalState(state));
+
     // TODO Ideally this ought to be a caching selector that doesn't change
     // when the inputs don't.  Doesn't matter in a practical way here, because
     // we have a `shouldComponentUpdate` that doesn't look at this prop... but
@@ -344,9 +352,9 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       alertWords: state.alertWords,
       allImageEmojiById: getAllImageEmojiById(state),
       auth: getAuth(state),
-      debug: getDebug(state),
+      debug,
       doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow) || getGlobalSettings(state).doNotMarkMessagesAsRead,
+        !marksMessagesAsRead(props.narrow) || globalSettings.doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       mutedUsers: getMutedUsers(state),
@@ -355,7 +363,7 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       streamsByName: getStreamsByName(state),
       subscriptions: getSubscriptionsById(state),
       unread: getUnread(state),
-      theme: getGlobalSettings(state).theme,
+      theme: globalSettings.theme,
       twentyFourHourTime: getRealm(state).twentyFourHourTime,
       userSettingStreamNotification: getSettings(state).streamNotification,
     };

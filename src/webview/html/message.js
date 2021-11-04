@@ -200,7 +200,7 @@ export default (
 
   const divOpenHtml = template`
     <div
-     class="message ${isBrief ? 'message-brief' : 'message-full'}"
+     class="msglist-element message ${isBrief ? 'message-brief' : 'message-full'}"
      id="msg-${id}"
      data-msg-id="${id}"
      data-mute-state="${isUserMuted ? 'hidden' : 'shown'}"

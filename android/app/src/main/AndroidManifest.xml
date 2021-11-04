@@ -91,7 +91,7 @@
         </activity>
 
         <activity
-            android:name=".HandleSendIntent"
+            android:name=".ShareToZulipActivity"
             android:label="@string/app_name"
             android:launchMode="standard"
         >

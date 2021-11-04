@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
-import { useSelector, useDispatch } from '../react-redux';
+import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import { NestedNavRow, SwitchRow, Screen } from '../common';
 import {
@@ -30,9 +30,9 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function SettingsScreen(props: Props): Node {
-  const theme = useSelector(state => getGlobalSettings(state).theme);
-  const browser = useSelector(state => getGlobalSettings(state).browser);
-  const doNotMarkMessagesAsRead = useSelector(
+  const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
+  const doNotMarkMessagesAsRead = useGlobalSelector(
     state => getGlobalSettings(state).doNotMarkMessagesAsRead,
   );
   const dispatch = useDispatch();

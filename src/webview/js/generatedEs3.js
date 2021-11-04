@@ -372,18 +372,6 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  if (!Element.prototype.closest) {
-    Element.prototype.closest = function closest(selector) {
-      var element = this;
-
-      while (element && !element.matches(selector)) {
-        element = element.parentElement;
-      }
-
-      return element;
-    };
-  }
-
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function startsWith(search, rawPos) {
       var pos = rawPos > 0 ? rawPos | 0 : 0;
@@ -391,17 +379,16 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  if (!String.prototype.includes) {
-    String.prototype.includes = function includes(search) {
-      var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      return this.indexOf(search, start) !== -1;
-    };
-  }
-
   var documentBody = document.body;
 
   if (!documentBody) {
     throw new Error('No document.body element!');
+  }
+
+  var msglistElementsDiv = document.querySelector('div#msglist-elements');
+
+  if (!msglistElementsDiv) {
+    throw new Error('No div#msglist-elements element!');
   }
 
   var escapeHtml = function escapeHtml(text) {
@@ -484,19 +471,13 @@ var compiledWebviewJs = (function (exports) {
 
   function midMessageListElement(top, bottom) {
     var midY = (bottom + top) / 2;
-
-    if (document.elementsFromPoint === undefined) {
-      var element = document.elementFromPoint(0, midY);
-      return element && element.closest('body > *');
-    }
-
     var midElements = document.elementsFromPoint(0, midY);
 
-    if (midElements.length < 3) {
+    if (midElements.length < 4) {
       return null;
     }
 
-    return midElements[midElements.length - 3];
+    return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {
@@ -510,11 +491,11 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function firstMessage() {
-    return walkToMessage(documentBody.firstElementChild, 'nextElementSibling');
+    return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
   }
 
   function lastMessage() {
-    return walkToMessage(documentBody.lastElementChild, 'previousElementSibling');
+    return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
   }
 
   function previousMessage(start) {
@@ -598,20 +579,10 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  var getMessageNode = function getMessageNode(node) {
-    var curNode = node;
-
-    while (curNode && curNode.parentNode && curNode.parentNode !== documentBody) {
-      curNode = curNode.parentNode;
-    }
-
-    return curNode;
-  };
-
-  var getMessageIdFromNode = function getMessageIdFromNode(node) {
+  var getMessageIdFromElement = function getMessageIdFromElement(element) {
     var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-    var msgNode = getMessageNode(node);
-    return msgNode && msgNode instanceof Element ? +msgNode.getAttribute('data-msg-id') : defaultValue;
+    var msgElement = element.closest('.msglist-element');
+    return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
 
   var setMessagesReadAttributes = function setMessagesReadAttributes(rangeHull) {
@@ -974,25 +945,7 @@ var compiledWebviewJs = (function (exports) {
       sendMessage({
         type: 'image',
         src: requireAttribute(inlineImageLink, 'href'),
-        messageId: getMessageIdFromNode(inlineImageLink)
-      });
-      return;
-    }
-
-    if (target.matches('a')) {
-      sendMessage({
-        type: 'url',
-        href: requireAttribute(target, 'href'),
-        messageId: getMessageIdFromNode(target)
-      });
-      return;
-    }
-
-    if (target.parentNode instanceof Element && target.parentNode.matches('a')) {
-      sendMessage({
-        type: 'url',
-        href: requireAttribute(target.parentNode, 'href'),
-        messageId: getMessageIdFromNode(target.parentNode)
+        messageId: getMessageIdFromElement(inlineImageLink)
       });
       return;
     }
@@ -1003,7 +956,7 @@ var compiledWebviewJs = (function (exports) {
         name: requireAttribute(target, 'data-name'),
         code: requireAttribute(target, 'data-code'),
         reactionType: requireAttribute(target, 'data-type'),
-        messageId: getMessageIdFromNode(target),
+        messageId: getMessageIdFromElement(target),
         voted: target.classList.contains('self-voted')
       });
       return;
@@ -1037,6 +990,17 @@ var compiledWebviewJs = (function (exports) {
       });
     }
 
+    var closestA = target.closest('a');
+
+    if (closestA) {
+      sendMessage({
+        type: 'url',
+        href: requireAttribute(closestA, 'href'),
+        messageId: getMessageIdFromElement(closestA)
+      });
+      return;
+    }
+
     var spoilerHeader = target.closest('.spoiler-header');
 
     if (spoilerHeader instanceof HTMLElement) {
@@ -1059,7 +1023,7 @@ var compiledWebviewJs = (function (exports) {
     if (reactionNode) {
       sendMessage({
         type: 'reactionDetails',
-        messageId: getMessageIdFromNode(target),
+        messageId: getMessageIdFromElement(target),
         reactionName: requireAttribute(reactionNode, 'data-name')
       });
       return;
@@ -1076,7 +1040,7 @@ var compiledWebviewJs = (function (exports) {
     sendMessage({
       type: 'longPress',
       target: targetType,
-      messageId: getMessageIdFromNode(target),
+      messageId: getMessageIdFromElement(target),
       href: target.matches('a') ? requireAttribute(target, 'href') : null
     });
   };

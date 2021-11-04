@@ -2,8 +2,6 @@
 import { type BoundedDiff, typesEquivalent } from '../generics';
 import type { IsSupertype } from '../types';
 
-/* eslint-disable flowtype/space-after-type-colon */
-
 /** General tip on writing tests for fancy generic types like these. */
 // prettier-ignore
 function demo_need_value_flow() {

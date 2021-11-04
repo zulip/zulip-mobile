@@ -227,7 +227,10 @@ rules:
     - devDependencies: ['**/__tests__/**/*.js', tools/**]
   no-restricted-imports:
     - error
-    - patterns: ['**/__tests__/**']
+    - patterns:
+      - group: ['**/__tests__/**']
+      - group: ['/react-redux']
+        message: 'Use our own src/react-redux.js instead.'
 
   import/no-cycle: off  # This would be nice to fix; but isn't easy.
   import/export: off  # This is redundant with Flow, and buggy.

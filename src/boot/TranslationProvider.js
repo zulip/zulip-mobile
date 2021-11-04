@@ -6,7 +6,7 @@ import { IntlProvider, IntlContext } from 'react-intl';
 import type { IntlShape } from 'react-intl';
 
 import type { GetText } from '../types';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import messages from '../i18n/messages';
 
@@ -78,7 +78,7 @@ type Props = $ReadOnly<{|
 
 export default function TranslationProvider(props: Props): Node {
   const { children } = props;
-  const language = useSelector(state => getGlobalSettings(state).language);
+  const language = useGlobalSelector(state => getGlobalSettings(state).language);
 
   return (
     <IntlProvider locale={language} textComponent={Text} messages={messages[language]}>

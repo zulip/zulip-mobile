@@ -45,7 +45,7 @@ export default (
 
       return template`
 <div
-  class="header-wrapper header topic-header"
+  class="msglist-element header-wrapper header topic-header"
   data-narrow="${base64Utf8Encode(topicNarrowStr)}"
   data-msg-id="${message.id}"
 >
@@ -64,7 +64,7 @@ export default (
       const topicHtml = renderSubject(message);
 
       return template`
-<div class="header-wrapper header stream-header topic-header"
+<div class="msglist-element header-wrapper header stream-header topic-header"
     data-msg-id="${message.id}"
     data-narrow="${base64Utf8Encode(topicNarrowStr)}">
   <div class="header stream-text"
@@ -93,7 +93,7 @@ export default (
 
     const uiRecipients = pmUiRecipientsFromMessage(message, ownUser.user_id);
     return template`
-<div class="header-wrapper private-header header"
+<div class="msglist-element header-wrapper private-header header"
      data-narrow="${base64Utf8Encode(narrowStr)}"
      data-msg-id="${message.id}">
   ${uiRecipients

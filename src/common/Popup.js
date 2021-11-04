@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { ThemeContext, createStyleSheet } from '../styles';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings } from '../directSelectors';
 
 const styles = createStyleSheet({
@@ -46,7 +46,7 @@ type Props = $ReadOnly<{|
 export default function Popup(props: Props): Node {
   const themeContext = useContext(ThemeContext);
   // TODO(color/theme): find a cleaner way to express this
-  const isDarkTheme = useSelector(state => getGlobalSettings(state).theme !== 'default');
+  const isDarkTheme = useGlobalSelector(state => getGlobalSettings(state).theme !== 'default');
   return (
     <View style={[{ backgroundColor: themeContext.backgroundColor }, styles.popup]}>
       <View style={isDarkTheme && styles.overlay}>{props.children}</View>

@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { useSelector } from '../../react-redux';
+import { useGlobalSelector } from '../../react-redux';
 
 import type { SubsetProperties } from '../../generics';
 import Custom from './Custom';
@@ -35,7 +35,7 @@ type Props = $ReadOnly<{|
  */
 export default function IosCompliantAppleAuthButton(props: Props): Node {
   const { style, onPress } = props;
-  const theme = useSelector(state => getGlobalSettings(state).theme);
+  const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const [isNativeButtonAvailable, setIsNativeButtonAvailable] = useState<boolean | void>(undefined);
 
   useEffect(() => {
