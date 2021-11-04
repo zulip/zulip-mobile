@@ -328,7 +328,6 @@ const messagePropertiesFromSender = (user: User) => {
   const { user_id: sender_id, email: sender_email, full_name: sender_full_name } = user;
 
   return deepFreeze({
-    sender_domain: '',
     avatar_url: user.avatar_url,
     client: 'ExampleClient',
     gravatar_hash: 'd3adb33f',

@@ -543,10 +543,6 @@ type MessageBase = $ReadOnly<{|
   match_content?: string,
   match_subject?: string,
 
-  /** Obsolete? Gone in server commit 1.6.0~1758 . */
-  // TODO(server-1.6): remove this
-  sender_domain: string,
-
   /**
    * The `flags` story is a bit complicated:
    *  * Absent in `event.message` for a `message` event... but instead
