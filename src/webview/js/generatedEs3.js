@@ -759,7 +759,7 @@ var compiledWebviewJs = (function (exports) {
         break;
     }
 
-    documentBody.innerHTML = uevent.content;
+    msglistElementsDiv.innerHTML = uevent.content;
     rewriteHtml(uevent.auth);
     runAfterLayout(function () {
       if (target.type === 'bottom') {

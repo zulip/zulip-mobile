@@ -5,7 +5,6 @@ import isEqual from 'lodash.isequal';
 import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
 import type { UpdateStrategy } from '../message/messageUpdates';
-import htmlBody from './html/htmlBody';
 import messageListElementHtml from './html/messageListElementHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getMessageUpdateStrategy } from '../message/messageUpdates';
@@ -47,22 +46,18 @@ export type WebViewInboundEvent =
   | WebViewInboundEventMessagesRead;
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
-  const content = htmlBody(
-    messageListElementHtml({
-      backgroundData: nextProps.backgroundData,
-      narrow: nextProps.narrow,
-      messageListElements: nextProps.messageListElementsForShownMessages,
-      _: nextProps._,
-    }),
-    nextProps.showMessagePlaceholders,
-  );
   const updateStrategy = getMessageUpdateStrategy(prevProps, nextProps);
 
   return {
     type: 'content',
     scrollMessageId: nextProps.initialScrollMessageId,
     auth: nextProps.backgroundData.auth,
-    content,
+    content: messageListElementHtml({
+      backgroundData: nextProps.backgroundData,
+      narrow: nextProps.narrow,
+      messageListElements: nextProps.messageListElementsForShownMessages,
+      _: nextProps._,
+    }),
     updateStrategy,
   };
 };

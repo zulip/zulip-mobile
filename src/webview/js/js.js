@@ -628,7 +628,7 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
       break;
   }
 
-  documentBody.innerHTML = uevent.content;
+  msglistElementsDiv.innerHTML = uevent.content;
 
   rewriteHtml(uevent.auth);
 
