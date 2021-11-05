@@ -87,11 +87,8 @@ rules:
   # Sadly there doesn't seem to be a rule to say what we want, but at least
   # turn off the one that says the opposite.
   #
-  # This rule is dubious to begin with, because explicit is better than
-  # implicit.  Then for us, the overriding reason we definitely don't
-  # want it is that plain `let foo;` can trigger a Flow bug:
-  #   https://github.com/facebook/flow/issues/8526
-  # while `let foo = undefined;` makes Flow handle the logic smoothly.
+  # See rationale at:
+  #   https://github.com/zulip/zulip-mobile/blob/main/docs/style.md#explicit-initializer
   no-undef-init: off
 
   # Allow multiple classes per file.

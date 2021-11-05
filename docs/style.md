@@ -30,6 +30,8 @@
     type, usually.
   * [[link](#invariant-assertions)] Use `invariant` for runtime
     assertions the type-checker can use.
+  * [[link](#explicit-initializer)] Always give an explicit
+    initializer at `let`.
   * [[link](#immutable-provide-type)] Always provide a type when
     writing an empty `Immutable` value.
   * [[link](#react-function-prop-defaults)] Don't use React
@@ -448,6 +450,23 @@ Use `invariant` only for conditions which, if they ever failed, would
 definitely mean a bug within our own zulip-mobile codebase.
 
 [flow-invariant-pseudodocs]: https://github.com/facebook/flow/issues/6052
+
+
+<div id="explicit-initializer" />
+
+**Always give an explicit initializer at `let`**: When declaring a
+variable with `let`, always initialize it explicitly.  This applies
+even if you want the initial value to be `undefined`.  For example:
+```js
+let foo = undefined; // good
+
+let foo; // BAD -- don't do
+```
+
+Leaving the initializer implicit has the same runtime behavior as
+initializing it to `undefined`.  But explicitness is helpful for the
+reader; and the implicit version triggers
+[a Flow bug](https://github.com/facebook/flow/issues/8526).
 
 
 <div id="immutable-provide-type" />
