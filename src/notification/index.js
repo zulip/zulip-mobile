@@ -34,7 +34,7 @@ export const getAccountFromNotificationData = (
   data: Notification,
   accounts: $ReadOnlyArray<Account>,
 ): number | null => {
-  const { realm_uri } = data;
+  const { realm_uri, user_id } = data;
   if (realm_uri == null) {
     // Old server, no realm info included.  If needed to cater to 1.8.x
     // servers, could try to guess using serverHost; for now, don't.
@@ -71,23 +71,50 @@ export const getAccountFromNotificationData = (
     return null;
   }
 
-  if (urlMatches.length > 1) {
-    // The user has several accounts in the notification's realm.  We should
-    // be able to tell the right one using the notification's `user_id`...
-    // except we don't store user IDs in `accounts`, only emails.  Until we
-    // fix that, just ignore the information.
-    logging.warn('notification realm_uri ambiguous; multiple matches found', {
-      realm_uri,
-      parsed_url: realmUrl,
-      match_count: urlMatches.length,
-      unique_identities_count: new Set(urlMatches.map(matchIndex => accounts[matchIndex].email))
-        .size,
-    });
-    // TODO get user_id into accounts data, and use that
-    return null;
+  // TODO(server-2.1): Remove this, because user_id will always be present
+  if (user_id === undefined) {
+    if (urlMatches.length > 1) {
+      logging.warn(
+        'notification realm_uri ambiguous; multiple matches found; user_id missing (old server)',
+        {
+          realm_uri,
+          parsed_url: realmUrl,
+          match_count: urlMatches.length,
+          unique_identities_count: new Set(urlMatches.map(matchIndex => accounts[matchIndex].email))
+            .size,
+        },
+      );
+      return null;
+    } else {
+      return urlMatches[0];
+    }
   }
 
-  return urlMatches[0];
+  // There may be multiple accounts in the notification's realm. Pick one
+  // based on the notification's `user_id`.
+  const userMatch = urlMatches.find(urlMatch => accounts[urlMatch].userId === user_id);
+  if (userMatch == null) {
+    // Maybe we didn't get a userId match because the correct account just
+    // hasn't had its userId recorded on it yet. See jsdoc on the Account
+    // type for when that is.
+    const nullUserIdMatches = urlMatches.filter(urlMatch => accounts[urlMatch].userId === null);
+    switch (nullUserIdMatches.length) {
+      case 0:
+        logging.warn(
+          'notifications: No accounts found with matching realm and matching-or-null user ID',
+        );
+        return null;
+      case 1:
+        return nullUserIdMatches[0];
+      default:
+        logging.warn(
+          'notifications: Multiple accounts found with matching realm and null user ID; could not choose',
+          { nullUserIdMatchesCount: nullUserIdMatches.length },
+        );
+        return null;
+    }
+  }
+  return userMatch;
 };
 
 export const getNarrowFromNotificationData = (
