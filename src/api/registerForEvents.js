@@ -76,8 +76,7 @@ const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => (
 /** See https://zulip.com/api/register-queue */
 export default async (
   auth: Auth,
-  params: {|
-    apply_markdown?: boolean,
+  params?: {|
     queue_lifespan_secs?: number,
   |},
 ): Promise<InitialData> => {
@@ -96,6 +95,7 @@ export default async (
     // it's OK that it isn't.  This is where we set up the event queue that
     // would keep us up to date on that, so it's much easier for it to be
     // stale here than for most other API endpoints.
+    apply_markdown: true,
     client_gravatar: true,
     client_capabilities: JSON.stringify({
       notification_settings_null: true,

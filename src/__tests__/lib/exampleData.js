@@ -376,8 +376,8 @@ export const pmMessage = (args?: {|
     ...messagePropertiesBase,
     ...messagePropertiesFromSender(sender),
 
-    content: 'This is an example PM message.',
-    content_type: 'text/markdown',
+    content: '<p>This is an example PM message.</p>',
+    content_type: 'text/html',
     // We don't sort the recipients, because they're inconsistently sorted
     // in real messages.  (See comments on the Message type.)
     display_recipient: recipients.map(displayRecipientFromUser),
@@ -431,8 +431,8 @@ export const streamMessage = (args?: {|
     ...messagePropertiesFromSender(sender),
     ...messagePropertiesFromStream(streamInner),
 
-    content: 'This is an example stream message.',
-    content_type: 'text/markdown',
+    content: '<p>This is an example stream message.</p>',
+    content_type: 'text/html',
     id: randMessageId(),
     subject: 'example topic',
     subject_links: [],

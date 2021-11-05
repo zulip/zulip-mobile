@@ -440,17 +440,14 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
 
   try {
     initData = await tryFetch(
-      () =>
-        // Currently, no input we're giving `registerForEvents` is
-        // conditional on the server version / feature level. If we
-        // need to do that, make sure that data is up-to-date -- we've
-        // been using this `registerForEvents` call to update the
-        // feature level in Redux, which means the value in Redux will
-        // be from the *last* time it was run. That could be a long
-        // time ago, like from the previous app startup.
-        api.registerForEvents(auth, {
-          apply_markdown: true,
-        }),
+      // Currently, no input we're giving `registerForEvents` is
+      // conditional on the server version / feature level. If we
+      // need to do that, make sure that data is up-to-date -- we've
+      // been using this `registerForEvents` call to update the
+      // feature level in Redux, which means the value in Redux will
+      // be from the *last* time it was run. That could be a long
+      // time ago, like from the previous app startup.
+      () => api.registerForEvents(auth),
       // We might have (potentially stale) server data already. If
       // we do, we'll be showing some UI that lets the user see that
       // data. If we don't, we'll be showing a full-screen loading
