@@ -16,6 +16,18 @@ import type {
   UserStatusMapObject,
 } from './apiTypes';
 
+/*
+   The types in this file are organized by which `fetch_event_types` values
+   cause the server to send them to us.
+
+   See comments at `InitialData`, at the bottom, for details.
+ */
+
+/**
+ * The parts of the `/register` response sent regardless of `fetch_event_types`.
+ *
+ * See `InitialData` for more discussion.
+ */
 export type InitialDataBase = $ReadOnly<{|
   last_event_id: number,
   msg: string,
@@ -509,16 +521,29 @@ export type InitialDataUserStatus = $ReadOnly<{|
   user_status?: UserStatusMapObject,
 |}>;
 
-// Initial data snapshot sent in response to a `/register` request,
-// after validation and transformation.
+/**
+ * The initial data snapshot sent on `/register`.
+ *
+ * See API docs:
+ *   https://zulip.com/api/register-queue#response
+ *
+ * Most properties are sent only if the client includes a particular item in
+ * the `fetch_event_types` list.  This type is meant to reflect the
+ * properties that appear when sending the `fetch_event_types` that this
+ * client sends, which is more or less all of them.
+ *
+ * This is the version after some processing.  See `RawInitialData` for the
+ * raw form sent by the server.
+ */
 export type InitialData = $ReadOnly<{|
-  // The server sends different subsets of the full available data,
-  // depending on what event types the client subscribes to with the
-  // `fetch_event_types` field of the `/register` request. We name these
-  // subsets after the event types that cause them to be included.
+  // To give a bit of organization to this very large object type, we group
+  // the properties by which event type in `fetch_event_types` causes the
+  // server to send them.  The properties elicited by `realm_user` are
+  // grouped together as a type called `InitialDataRealmUser`, and so on.
   //
-  // See zerver/lib/events.py in fetch_initial_state_data for the
-  // server-side implementation.
+  // For the server-side implementation, see zerver/lib/events.py at
+  // fetch_initial_state_data.  (But see the API docs first; if you need to
+  // consult the server implementation, that's a bug in the API docs.)
   ...InitialDataBase,
   ...InitialDataAlertWords,
   ...InitialDataMessage,
@@ -540,8 +565,15 @@ export type InitialData = $ReadOnly<{|
   ...InitialDataUserStatus,
 |}>;
 
-// Initial data snapshot sent in response to a `/register` request,
-// before validation and transformation.
+/**
+ * Raw form of the initial data snapshot sent on `/register`.
+ *
+ * See API docs:
+ *   https://zulip.com/api/register-queue#response
+ *
+ * This represents the raw JSON-decoding of the response from the server.
+ * See `InitialData` for a slightly processed form.
+ */
 export type RawInitialData = $ReadOnly<{|
   ...InitialData,
   ...RawInitialDataRealmUser,
