@@ -9,7 +9,6 @@ type Config = {|
   enableReduxSlowReducerWarnings: boolean,
   slowReducersThreshold: number,
   enableErrorConsoleLogging: boolean,
-  serverDataOnStartup: string[],
   appOwnDomains: string[],
 |};
 
@@ -25,27 +24,6 @@ const config: Config = {
   enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
   slowReducersThreshold: 5,
   enableErrorConsoleLogging: true,
-  serverDataOnStartup: [
-    'alert_words',
-    'message',
-    'muted_topics',
-    'muted_users',
-    'presence',
-    'realm',
-    'realm_emoji',
-    'realm_filters',
-    'realm_linkifiers',
-    'realm_user',
-    'realm_user_groups',
-    'recent_private_conversations',
-    'stream',
-    'subscription',
-    'update_display_settings',
-    'update_global_notifications',
-    'update_message_flags',
-    'user_status',
-    'zulip_version',
-  ],
   appOwnDomains: ['zulip.com', 'zulipchat.com', 'chat.zulip.org'],
 };
 

@@ -449,18 +449,7 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
         // be from the *last* time it was run. That could be a long
         // time ago, like from the previous app startup.
         api.registerForEvents(auth, {
-          // Event types not supported by the server are ignored; see
-          //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
-          fetch_event_types: config.serverDataOnStartup,
-
           apply_markdown: true,
-          include_subscribers: false,
-          client_gravatar: true,
-          client_capabilities: {
-            notification_settings_null: true,
-            bulk_message_deletion: true,
-            user_avatar_url_field_optional: true,
-          },
         }),
       // We might have (potentially stale) server data already. If
       // we do, we'll be showing some UI that lets the user see that

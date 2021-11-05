@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import type { RawInitialData, InitialData } from './initialDataTypes';
 import type { Auth } from './transportTypes';
-import type { ApiNarrow } from './apiTypes';
 import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
 import { AvatarURL } from '../utils/avatar';
@@ -79,27 +78,63 @@ export default async (
   auth: Auth,
   params: {|
     apply_markdown?: boolean,
-    client_gravatar?: boolean,
-    all_public_streams?: boolean,
-    event_types?: string[],
-    fetch_event_types?: string[],
-    include_subscribers?: boolean,
-    narrow?: ApiNarrow,
     queue_lifespan_secs?: number,
-    client_capabilities?: {|
-      notification_settings_null: boolean,
-      bulk_message_deletion: boolean,
-      user_avatar_url_field_optional: boolean,
-    |},
   |},
 ): Promise<InitialData> => {
-  const { narrow, event_types, fetch_event_types, client_capabilities } = params;
   const rawInitialData = await apiPost(auth, 'register', {
     ...params,
-    narrow: JSON.stringify(narrow),
-    event_types: JSON.stringify(event_types),
-    fetch_event_types: JSON.stringify(fetch_event_types),
-    client_capabilities: JSON.stringify(client_capabilities),
+
+    // These parameters affect the types of what we receive from the
+    // server, which means that the types described in these API bindings
+    // assume these are the values we pass.  So we fix them here, inside the
+    // API bindings.  (If there were a need for these API bindings to be
+    // used in situations with some of these parameters varying, we could
+    // solve that problem, but we haven't yet had a need to.)
+    //
+    // If we ever condition one of these parameters on the server's version
+    // or feature level, take care that either that data is up to date or
+    // it's OK that it isn't.  This is where we set up the event queue that
+    // would keep us up to date on that, so it's much easier for it to be
+    // stale here than for most other API endpoints.
+    client_gravatar: true,
+    client_capabilities: JSON.stringify({
+      notification_settings_null: true,
+      bulk_message_deletion: true,
+      user_avatar_url_field_optional: true,
+    }),
+    include_subscribers: false,
+    fetch_event_types: JSON.stringify([
+      // Event types not supported by the server are ignored; see
+      //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
+      'alert_words',
+      'message',
+      'muted_topics',
+      'muted_users',
+      'presence',
+      'realm',
+      'realm_emoji',
+      'realm_filters',
+      'realm_linkifiers',
+      'realm_user',
+      'realm_user_groups',
+      'recent_private_conversations',
+      'stream',
+      'subscription',
+      'update_display_settings',
+      'update_global_notifications',
+      'update_message_flags',
+      'user_status',
+      'zulip_version',
+    ]),
+
+    // These parameters can be useful for bots, but the choices encoded in
+    // `fetch_event_types` above aren't designed for such bots.  So
+    // flexibility here is unlikely to be useful without flexibility there.
+    // Until/unless we have a use case for such flexibility in these API
+    // bindings, we simplify the interface by leaving them out.
+    //
+    // narrow: …,
+    // all_public_streams: …,
   });
   return transform(rawInitialData, auth);
 };
