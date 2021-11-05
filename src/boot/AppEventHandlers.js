@@ -7,6 +7,7 @@ import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 import type { GlobalDispatch, Orientation as OrientationT } from '../types';
+import { dubPerAccountState } from '../reduxTypes';
 import { createStyleSheet } from '../styles';
 import { connectGlobal } from '../react-redux';
 import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
@@ -168,7 +169,11 @@ class AppEventHandlersInner extends PureComponent<Props> {
 }
 
 const AppEventHandlers: ComponentType<OuterProps> = connectGlobal(state => ({
-  unreadCount: getUnreadByHuddlesMentionsAndPMs(state),
+  // TODO(#5006): The use of this per-account state in this global component
+  //   highlights how this feature (a badge count based on unreads, on
+  //   Android only) is pretty broken if you use multiple accounts -- it
+  //   reflects only the one last account you used.  Maybe just cut it?
+  unreadCount: getUnreadByHuddlesMentionsAndPMs(dubPerAccountState(state)),
 }))(AppEventHandlersInner);
 
 export default AppEventHandlers;
