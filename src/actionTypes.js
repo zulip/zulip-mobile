@@ -18,7 +18,7 @@ import {
   REGISTER_START,
   REGISTER_ABORT,
   REGISTER_COMPLETE,
-  SETTINGS_CHANGE,
+  SET_GLOBAL_SETTINGS,
   DRAFT_UPDATE,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
@@ -559,8 +559,8 @@ export type EventAction =
   | EventUserGroupAction
   | EventUserStatusUpdateAction;
 
-type SettingsChangeAction = {|
-  type: typeof SETTINGS_CHANGE,
+type SetGlobalSettingsAction = {|
+  type: typeof SET_GLOBAL_SETTINGS,
   update: $Shape<$Exact<GlobalSettingsState>>,
 |};
 
@@ -646,6 +646,6 @@ export type Action =
   | SessionAction
   | DraftUpdateAction
   | PresenceResponseAction
-  | SettingsChangeAction
+  | SetGlobalSettingsAction
   | InitTopicsAction
   | ClearTypingAction;

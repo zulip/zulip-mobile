@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { SettingsState, Action } from '../types';
 import {
-  SETTINGS_CHANGE,
+  SET_GLOBAL_SETTINGS,
   REGISTER_COMPLETE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
 } from '../actionConstants';
@@ -28,7 +28,7 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
         streamNotification: action.data.enable_stream_push_notifications,
       };
 
-    case SETTINGS_CHANGE:
+    case SET_GLOBAL_SETTINGS:
       return {
         ...state,
         ...action.update,

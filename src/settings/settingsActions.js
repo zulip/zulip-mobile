@@ -1,8 +1,8 @@
 /* @flow strict-local */
 import type { Action, GlobalSettingsState } from '../types';
-import { SETTINGS_CHANGE } from '../actionConstants';
+import { SET_GLOBAL_SETTINGS } from '../actionConstants';
 
-export const settingsChange = (update: $Shape<$Exact<GlobalSettingsState>>): Action => ({
-  type: SETTINGS_CHANGE,
+export const setGlobalSettings = (update: $Shape<$Exact<GlobalSettingsState>>): Action => ({
+  type: SET_GLOBAL_SETTINGS,
   update,
 });

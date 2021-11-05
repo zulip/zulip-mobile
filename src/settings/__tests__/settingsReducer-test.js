@@ -1,7 +1,10 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import { SETTINGS_CHANGE, EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS } from '../../actionConstants';
+import {
+  SET_GLOBAL_SETTINGS,
+  EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+} from '../../actionConstants';
 import settingsReducer from '../settingsReducer';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -37,10 +40,10 @@ describe('settingsReducer', () => {
     });
   });
 
-  describe('SETTINGS_CHANGE', () => {
+  describe('SET_GLOBAL_SETTINGS', () => {
     test('changes value of a key', () => {
       const action = deepFreeze({
-        type: SETTINGS_CHANGE,
+        type: SET_GLOBAL_SETTINGS,
         update: { theme: 'night' },
       });
 
