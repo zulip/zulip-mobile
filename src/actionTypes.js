@@ -634,24 +634,29 @@ type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteO
 // The grouping here is completely arbitrary; don't worry about it.
 // prettier-ignore
 export type Action =
+  // Per-account actions.
   | EventAction
-  | AccountAction
   | LoadingAction
   | MessageAction
   | OutboxAction
   | RegisterCompleteAction
-  | UnackPushTokenAction
-  | AckPushTokenAction
+  | DraftUpdateAction
+  | PresenceResponseAction
+  | InitTopicsAction
+  | ClearTypingAction
+  | DismissServerCompatNoticeAction
+  | ToggleOutboxSendingAction
+
+  // All-account actions.
   | RehydrateAction
+  | AccountAction
+  | AckPushTokenAction
+  | UnackPushTokenAction
+
+  // Account-independent actions.
+  | SetGlobalSettingsAction
   | AppOnlineAction
   | AppOrientationAction
   | GotPushTokenAction
   | DebugFlagToggleAction
-  | DismissServerCompatNoticeAction
-  | ToggleOutboxSendingAction
-  | DraftUpdateAction
-  | PresenceResponseAction
-  | SetGlobalSettingsAction
-  | InitTopicsAction
-  | ClearTypingAction
   ;
