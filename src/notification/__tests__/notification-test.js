@@ -82,12 +82,12 @@ describe('extract iOS notification data', () => {
         const msg = data;
         expect(verify(msg)).toEqual(msg);
 
-        // new(-ish) optional user_id is accepted
+        // new(-ish) optional user_id is accepted and copied
         const msg1 = { ...msg, user_id };
-        expect(() => verify(msg1)).not.toThrow();
+        expect(verify(msg1)).toEqual(msg1);
 
         // unused fields are not copied
-        const msg2 = { ...msg, realm_id: 8675309, user_id };
+        const msg2 = { ...msg, realm_id: 8675309 };
         expect(verify(msg2)).toEqual(msg);
 
         // unknown fields are ignored and not copied
