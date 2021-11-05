@@ -6,22 +6,6 @@ import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
 import { AvatarURL } from '../utils/avatar';
 
-type RegisterForEventsParams = {|
-  apply_markdown?: boolean,
-  client_gravatar?: boolean,
-  all_public_streams?: boolean,
-  event_types?: string[],
-  fetch_event_types?: string[],
-  include_subscribers?: boolean,
-  narrow?: ApiNarrow,
-  queue_lifespan_secs?: number,
-  client_capabilities?: {|
-    notification_settings_null: boolean,
-    bulk_message_deletion: boolean,
-    user_avatar_url_field_optional: boolean,
-  |},
-|};
-
 const transformUser = (rawUser: {| ...User, avatar_url?: string | null |}, realm: URL): User => {
   const { avatar_url: rawAvatarUrl, email } = rawUser;
 
@@ -91,7 +75,24 @@ const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => (
 });
 
 /** See https://zulip.com/api/register-queue */
-export default async (auth: Auth, params: RegisterForEventsParams): Promise<InitialData> => {
+export default async (
+  auth: Auth,
+  params: {|
+    apply_markdown?: boolean,
+    client_gravatar?: boolean,
+    all_public_streams?: boolean,
+    event_types?: string[],
+    fetch_event_types?: string[],
+    include_subscribers?: boolean,
+    narrow?: ApiNarrow,
+    queue_lifespan_secs?: number,
+    client_capabilities?: {|
+      notification_settings_null: boolean,
+      bulk_message_deletion: boolean,
+      user_avatar_url_field_optional: boolean,
+    |},
+  |},
+): Promise<InitialData> => {
   const { narrow, event_types, fetch_event_types, client_capabilities } = params;
   const rawInitialData = await apiPost(auth, 'register', {
     ...params,
