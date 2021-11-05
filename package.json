@@ -5,12 +5,6 @@
   "scripts": {
     "postinstall": "bash tools/postinstall",
     "start": "react-native start",
-    "ios": "react-native run-ios",
-    "ios-min": "react-native run-ios --simulator 'iPhone 5s'",
-    "ios-mid": "react-native run-ios --simulator 'iPhone 8 Plus'",
-    "ios-max": "react-native run-ios --simulator 'iPhone XS Max'",
-    "ipad": "react-native run-ios --simulator 'iPad Air'",
-    "ios-device": "react-native run-ios --device",
     "android": "tools/run-android",
     "android-release": "react-native run-android --variant=release",
     "build:android": "tools/android apk",

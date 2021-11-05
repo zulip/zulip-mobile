@@ -11,17 +11,6 @@ It will also launch a browser tab in Chrome with the React Native debugger.
 `console.log` statements in React Native will end up in the JS console on
 this tab.
 
-## Other commands
-
-* `yarn ios-min` - runs in an iOS simulator in the minimally supported device
-(currently iPhone 5S)
-
-* `yarn ios-max` - runs in an iOS simulator in the newest/most premium
-supported device (currently iPhone X)
-
-* `yarn ios-device` - runs on a physical iOS device, you need to edit the
-device name in package.json
-
 ## Running on an iOS device
 1. Connect your iOS device
 2. Within the repo, `$ open ios/ZulipMobile.xcworkspace/` to open
