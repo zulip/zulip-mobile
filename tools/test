@@ -116,6 +116,7 @@ files_js() {
             tools/info changed-files | grep '^src/.*\.js$' || :
             ;;
         diff:*)
+            local commitish
             commitish="${files#diff:}"
             git diff --name-only --diff-filter=d "$commitish" \
                 | grep '^src/.*\.js$' || :
@@ -208,6 +209,7 @@ apply_eslintignore() {
 }
 
 run_lint() {
+    local files
     files=( $(apply_eslintignore "$@") )
     (( ${#files[@]} )) || return 0
     eslint ${fix:+--fix} --max-warnings=0 "${files[@]}"
@@ -231,7 +233,7 @@ EOF
 
 run_jest() {
     # Unlike some others, this inspects "$files" for itself.
-    jest_args=()
+    local jest_args=()
     case "$files" in
         all)
             if [ -n "$coverage" ]; then
@@ -242,13 +244,14 @@ run_jest() {
             jest_args+=( --changedSince "$(tools/info upstream-ref)" )
             ;;
         diff:*)
+            local file_list
             file_list=( $(files_js) )
             (( ${#file_list[@]} )) || return 0
             jest_args+=( --findRelatedTests "${file_list[@]}" )
             ;;
     esac
 
-    platforms=( ios android )
+    local platforms=( ios android )
     case "$platform" in
         ios) jest_args+=( --selectProjects ios );;
         android) jest_args+=( --selectProjects android );;
@@ -266,6 +269,7 @@ run_jest() {
 
 run_prettier() {
     (( $# )) || return 0
+    local patterns
     patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     # Workaround for https://github.com/prettier/prettier-eslint-cli/issues/205
     patterns=( "${patterns[@]/#/$rootdir/}" )
