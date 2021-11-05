@@ -26,7 +26,7 @@ import { identityOfAccount, authOfAccount } from '../account/accountMisc';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
-import { getIdentities, getAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
+import { getAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
 
 export const gotPushToken = (pushToken: string | null): AccountIndependentAction => ({
   type: GOT_PUSH_TOKEN,
@@ -53,7 +53,7 @@ export const narrowToNotification = (data: ?Notification): GlobalThunkAction<voi
   }
 
   const globalState = getState();
-  const accountIndex = getAccountFromNotificationData(data, getIdentities(globalState));
+  const accountIndex = getAccountFromNotificationData(data, getAccounts(globalState));
   if (accountIndex !== null && accountIndex > 0) {
     // Notification is for a non-active account.  Switch there.
     dispatch(accountSwitch(accountIndex));

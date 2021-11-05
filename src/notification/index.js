@@ -4,7 +4,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type { Auth, Dispatch, GlobalDispatch, Identity, Narrow, UserId, UserOrBot } from '../types';
+import type { Auth, Dispatch, GlobalDispatch, Account, Narrow, UserId, UserOrBot } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
 import * as api from '../api';
@@ -25,14 +25,14 @@ import { getAccounts } from '../directSelectors';
 /**
  * Identify the account the notification is for, if possible.
  *
- * Returns an index into `identities`, or `null` if we can't tell.
+ * Returns an index into `accounts`, or `null` if we can't tell.
  * In the latter case, logs a warning.
  *
- * @param identities Identities corresponding to the accounts state in Redux.
+ * @param accounts The accounts state in Redux.
  */
 export const getAccountFromNotificationData = (
   data: Notification,
-  identities: $ReadOnlyArray<Identity>,
+  accounts: $ReadOnlyArray<Account>,
 ): number | null => {
   const { realm_uri } = data;
   if (realm_uri == null) {
@@ -50,7 +50,7 @@ export const getAccountFromNotificationData = (
   }
 
   const urlMatches = [];
-  identities.forEach((account, i) => {
+  accounts.forEach((account, i) => {
     if (account.realm.origin === realmUrl.origin) {
       urlMatches.push(i);
     }
@@ -62,7 +62,7 @@ export const getAccountFromNotificationData = (
     // just a race -- this notification was sent before the logout); or
     // there's some confusion where the realm_uri we have is different from
     // the one the server sends in notifications.
-    const knownUrls = identities.map(({ realm }) => realm.href);
+    const knownUrls = accounts.map(({ realm }) => realm.href);
     logging.warn('notification realm_uri not found in accounts', {
       realm_uri,
       parsed_url: realmUrl,
@@ -80,7 +80,7 @@ export const getAccountFromNotificationData = (
       realm_uri,
       parsed_url: realmUrl,
       match_count: urlMatches.length,
-      unique_identities_count: new Set(urlMatches.map(matchIndex => identities[matchIndex].email))
+      unique_identities_count: new Set(urlMatches.map(matchIndex => accounts[matchIndex].email))
         .size,
     });
     // TODO get user_id into accounts data, and use that
