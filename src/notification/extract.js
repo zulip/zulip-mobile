@@ -2,6 +2,7 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
+import { makeUserId } from '../api/idTypes';
 import type { JSONable, JSONableDict, JSONableInput, JSONableInputDict } from '../utils/jsonable';
 import * as logging from '../utils/logging';
 
@@ -185,6 +186,7 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
 
   const identity = {
     realm_uri,
+    ...(user_id === undefined ? Object.freeze({}) : { user_id: makeUserId(user_id) }),
   };
 
   if (recipient_type === 'stream') {

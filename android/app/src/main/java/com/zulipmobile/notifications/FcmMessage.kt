@@ -112,6 +112,7 @@ data class MessageFcmMessage(
     fun dataForOpen(): Bundle = Bundle().apply {
         // NOTE: Keep the JS-side type definition in sync with this code.
         putString("realm_uri", identity.realmUri.toString())
+        identity.userId?.let { putInt("user_id", it) }
         when (recipient) {
             is Recipient.Stream -> {
                 putString("recipient_type", "stream")
