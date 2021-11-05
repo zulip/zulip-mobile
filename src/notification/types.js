@@ -1,5 +1,9 @@
 // @flow strict-local
 
+type NotificationBase = {|
+  realm_uri: string,
+|};
+
 /**
  * The data we need in JS/React code for acting on a notification.
  *
@@ -13,8 +17,8 @@
  */
 // NOTE: Keep the Android-side code in sync with this type definition.
 export type Notification =
-  | {| recipient_type: 'stream', stream: string, topic: string, realm_uri: string |}
+  | {| ...NotificationBase, recipient_type: 'stream', stream: string, topic: string |}
   // Group PM messages have `pm_users`, which is sorted, comma-separated IDs.
-  | {| recipient_type: 'private', pm_users: string, realm_uri: string |}
+  | {| ...NotificationBase, recipient_type: 'private', pm_users: string |}
   // 1:1 PM messages lack `pm_users`.
-  | {| recipient_type: 'private', sender_email: string, realm_uri: string |};
+  | {| ...NotificationBase, recipient_type: 'private', sender_email: string |};
