@@ -623,16 +623,7 @@ type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | Message
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-type RealmAction = RegisterCompleteAction | UnackPushTokenAction | AckPushTokenAction;
-
-type SessionAction =
-  | RehydrateAction
-  | AppOnlineAction
-  | AppOrientationAction
-  | GotPushTokenAction
-  | DebugFlagToggleAction
-  | DismissServerCompatNoticeAction
-  | ToggleOutboxSendingAction;
+/* eslint-disable semi-style */
 
 /**
  * Covers all plain actions we ever `dispatch`.
@@ -641,16 +632,26 @@ type SessionAction =
  * `reduxTypes.js`.
  */
 // The grouping here is completely arbitrary; don't worry about it.
+// prettier-ignore
 export type Action =
   | EventAction
   | AccountAction
   | LoadingAction
   | MessageAction
   | OutboxAction
-  | RealmAction
-  | SessionAction
+  | RegisterCompleteAction
+  | UnackPushTokenAction
+  | AckPushTokenAction
+  | RehydrateAction
+  | AppOnlineAction
+  | AppOrientationAction
+  | GotPushTokenAction
+  | DebugFlagToggleAction
+  | DismissServerCompatNoticeAction
+  | ToggleOutboxSendingAction
   | DraftUpdateAction
   | PresenceResponseAction
   | SetGlobalSettingsAction
   | InitTopicsAction
-  | ClearTypingAction;
+  | ClearTypingAction
+  ;
