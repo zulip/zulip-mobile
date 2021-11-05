@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import type { Action, ThunkAction } from '../types';
+import type { PerAccountAction, ThunkAction } from '../types';
 
 import { sleep } from '../utils/async';
 import { getTyping } from '../directSelectors';
 
-export const clearTyping = (outdatedNotifications: string[]): Action => ({
+export const clearTyping = (outdatedNotifications: string[]): PerAccountAction => ({
   type: 'CLEAR_TYPING',
   outdatedNotifications,
 });

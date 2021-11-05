@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Narrow, Topic, Action, ThunkAction, Outbox } from '../types';
+import type { Narrow, Topic, PerAccountAction, ThunkAction, Outbox } from '../types';
 import * as api from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
@@ -7,7 +7,7 @@ import { getAuth, getStreams } from '../selectors';
 import { deleteOutboxMessage } from '../actions';
 import { getOutbox } from '../directSelectors';
 
-export const initTopics = (topics: Topic[], streamId: number): Action => ({
+export const initTopics = (topics: Topic[], streamId: number): PerAccountAction => ({
   type: INIT_TOPICS,
   topics,
   streamId,

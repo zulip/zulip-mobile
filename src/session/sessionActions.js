@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action, Orientation } from '../types';
+import type { PerAccountAction, Action, Orientation } from '../types';
 import {
   APP_ONLINE,
   APP_ORIENTATION,
@@ -13,7 +13,7 @@ export const appOnline = (isOnline: boolean | null): Action => ({
   isOnline,
 });
 
-export const deadQueue = (): Action => ({
+export const deadQueue = (): PerAccountAction => ({
   type: DEAD_QUEUE,
 });
 
@@ -28,6 +28,6 @@ export const debugFlagToggle = (key: string, value: boolean): Action => ({
   value,
 });
 
-export const dismissCompatNotice = (): Action => ({
+export const dismissCompatNotice = (): PerAccountAction => ({
   type: DISMISS_SERVER_COMPAT_NOTICE,
 });

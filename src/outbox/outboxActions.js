@@ -13,7 +13,7 @@ import type {
   Stream,
   UserOrBot,
   UserId,
-  Action,
+  PerAccountAction,
   ThunkAction,
 } from '../types';
 import type { SubsetProperties } from '../generics';
@@ -31,22 +31,22 @@ import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
 
-export const messageSendStart = (outbox: Outbox): Action => ({
+export const messageSendStart = (outbox: Outbox): PerAccountAction => ({
   type: MESSAGE_SEND_START,
   outbox,
 });
 
-export const toggleOutboxSending = (sending: boolean): Action => ({
+export const toggleOutboxSending = (sending: boolean): PerAccountAction => ({
   type: TOGGLE_OUTBOX_SENDING,
   sending,
 });
 
-export const deleteOutboxMessage = (localMessageId: number): Action => ({
+export const deleteOutboxMessage = (localMessageId: number): PerAccountAction => ({
   type: DELETE_OUTBOX_MESSAGE,
   local_message_id: localMessageId,
 });
 
-export const messageSendComplete = (localMessageId: number): Action => ({
+export const messageSendComplete = (localMessageId: number): PerAccountAction => ({
   type: MESSAGE_SEND_COMPLETE,
   local_message_id: localMessageId,
 });

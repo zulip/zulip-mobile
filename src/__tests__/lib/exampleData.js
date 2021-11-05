@@ -24,6 +24,7 @@ import type {
   MessageFetchStartAction,
   MessageFetchCompleteAction,
   Action,
+  PerAccountAction,
   PerAccountState,
   GlobalState,
   CaughtUpState,
@@ -765,7 +766,7 @@ export const action = Object.freeze({
 export const mkActionEventNewMessage = (
   message: Message,
   args?: {| caughtUp?: CaughtUpState, local_message_id?: number, ownUserId?: UserId |},
-): Action =>
+): PerAccountAction =>
   deepFreeze({
     type: EVENT_NEW_MESSAGE,
     id: 1001,
