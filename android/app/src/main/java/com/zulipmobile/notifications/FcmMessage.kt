@@ -190,6 +190,8 @@ private fun extractIdentity(data: Map<String, String>): Identity =
     Identity(
         serverHost = data.require("server"),
         realmId = data.require("realm_id").parseInt("realm_id"),
+
+        // `realm_uri` was added in server version 1.9.0
         realmUri = data.require("realm_uri").parseUrl("realm_uri"),
 
         // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
