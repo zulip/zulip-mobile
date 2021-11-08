@@ -2,4 +2,6 @@
 <resources>
     <color name="primaryColor">#ffffff</color>
     <color name="primaryColorDark">#d7ccc8</color>
+    <!--  This should agree with `BRAND_COLOR` in the JS code.  -->
+    <color name="brandColor">#6492fe</color>
 </resources>
