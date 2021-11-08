@@ -728,3 +728,10 @@ export type PerAccountApplicableAction =
 // TODO(#5006): would be nice to assert these types have empty intersection
 // (a: PerAccountApplicableAction & AccountIndependentAction): empty => a; // eslint-disable-line
 // (a: GlobalApplicableAction & PerAccountAction): empty => a; // eslint-disable-line
+
+/** Actions that can be dispatched without reference to a specific account. */
+// prettier-ignore
+export type DispatchableWithoutAccountAction =
+  | AllAccountsAction
+  | AccountIndependentAction
+  ;

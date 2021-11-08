@@ -11,7 +11,7 @@ import type Immutable from 'immutable';
 import type { InputSelector } from 'reselect';
 
 import type { Account, Outbox } from './types';
-import type { Action } from './actionTypes';
+import type { Action, DispatchableWithoutAccountAction } from './actionTypes';
 import type {
   Topic,
   Message,
@@ -556,7 +556,7 @@ export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T
 
 /** The Redux `dispatch` for a global context. */
 export interface GlobalDispatch {
-  <A: Action>(action: A): A;
+  <A: DispatchableWithoutAccountAction>(action: A): A;
   <T>(GlobalThunkAction<T>): T;
 }
 
@@ -576,4 +576,5 @@ export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState) => T;
 (d: Dispatch): GlobalDispatch => d;
 //   $FlowExpectedError[incompatible-exact]
 //   $FlowExpectedError[prop-missing]
+//   $FlowExpectedError[incompatible-return]
 <T>(a: GlobalThunkAction<T>): ThunkAction<T> => a;
