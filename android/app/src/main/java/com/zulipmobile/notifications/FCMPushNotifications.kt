@@ -198,24 +198,6 @@ private fun getActiveNotificationByTag(context: Context, notificationTag: String
     return null
 }
 
-private fun createSummaryNotification(
-    context: Context,
-    fcmMessage: MessageFcmMessage,
-    groupKey: String
-): NotificationCompat.Builder {
-    val realmUri = fcmMessage.identity.realmUri.toString()
-    return NotificationCompat.Builder(context, CHANNEL_ID).apply {
-        color = context.getColor(R.color.brandColor)
-        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
-        setStyle(NotificationCompat.InboxStyle()
-            .setSummaryText(realmUri)
-        )
-        setGroup(groupKey)
-        setGroupSummary(true)
-        setAutoCancel(true)
-    }
-}
-
 /** The unique tag we use for the group of notifications addressed to this Zulip account. */
 private fun extractGroupKey(identity: Identity): String {
     // The realm URL can't contain a `|`, because `|` is not a URL code point:
@@ -255,16 +237,16 @@ private fun updateNotification(
 
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversationKey = extractConversationKey(fcmMessage)
-    val notification = getActiveNotificationByTag(context, conversationKey)
+    val oldNotification = getActiveNotificationByTag(context, conversationKey)
 
     // The MessagingStyle contains details including the list of shown
     // messages in the conversation.
     val messagingStyle =
-        if (notification != null) {
+        if (oldNotification != null) {
             // If there's already a notification for this conversation, we get its
             // MessagingStyle so we can extend it.  (This won't be null, because we
             // always use a MessagingStyle.)
-            NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(notification)!!
+            NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(oldNotification)!!
         } else {
             // If not, make a fresh one.
             val selfUser = Person.Builder().setName(context.getString(R.string.selfUser)).build()
@@ -299,7 +281,7 @@ private fun updateNotification(
         .build()
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
-    val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+    val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         color = context.getColor(R.color.brandColor)
         setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
         setAutoCancel(true)
@@ -311,16 +293,25 @@ private fun updateNotification(
         extras = Bundle().apply {
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
-    }
+    }.build()
 
-    val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
+    val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        color = context.getColor(R.color.brandColor)
+        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
+        setStyle(NotificationCompat.InboxStyle()
+            .setSummaryText(fcmMessage.identity.realmUri.toString())
+        )
+        setGroup(groupKey)
+        setGroupSummary(true)
+        setAutoCancel(true)
+    }.build()
 
     NotificationManagerCompat.from(context).apply {
         // This posts the notifications.  If there is an existing notification
         // with the same tag and ID as one of these calls to `notify`, this will
         // replace it with the updated notification we've just constructed.
-        notify(groupKey, NOTIFICATION_ID, summaryNotification.build())
-        notify(conversationKey, NOTIFICATION_ID, builder.build())
+        notify(groupKey, NOTIFICATION_ID, summaryNotification)
+        notify(conversationKey, NOTIFICATION_ID, notification)
     }
 }
 
