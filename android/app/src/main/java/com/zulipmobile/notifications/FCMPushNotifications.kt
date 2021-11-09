@@ -282,15 +282,25 @@ private fun updateNotification(
     val notification = getActiveNotificationByTag(context, conversationKey)
 
     // The MessagingStyle contains details including the list of shown
-    // messages in the conversation.  If there's already a notification
-    // for this conversation, we get its MessagingStyle so we can extend it.
-    val messagingStyle = notification?.let {
-        NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it)
-    } ?: NotificationCompat.MessagingStyle(selfUser)
-    messagingStyle
-        .setConversationTitle(title)
-        .setGroupConversation(isGroupConversation)
-        .addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
+    // messages in the conversation.
+    val messagingStyle =
+        if (notification != null) {
+            // If there's already a notification for this conversation, we get its
+            // MessagingStyle so we can extend it.  (This won't be null, because we
+            // always use a MessagingStyle.)
+            NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(notification)!!
+        } else {
+            // If not, make a fresh one.
+            NotificationCompat.MessagingStyle(selfUser)
+                .setGroupConversation(isGroupConversation)
+        }
+    // The title typically won't change between messages in a conversation, but we
+    // update it anyway.  This means a PM sender's display name gets updated if it's
+    // changed, which is a rare edge case but probably good.  The main effect is that
+    // group-PM threads (pending #5116) get titled with the latest sender, rather than
+    // the first.
+    messagingStyle.setConversationTitle(title)
+    messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
     val messageCount = messagingStyle.messages.size
 
