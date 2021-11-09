@@ -284,6 +284,8 @@ private fun updateNotification(
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
+        // TODO(Build.VERSION.SDK_INT>=26): This is ignored on newer Android, in favor of
+        //   what we set on the channel (above).
         setSound(getNotificationSoundUri())
 
         // TODO Perhaps set color and icon based on conversation?
@@ -334,8 +336,10 @@ private fun updateNotification(
 }
 
 private fun getNotificationSoundUri(): Uri {
-    // Note: Provide default notification sound until we found a good sound
-    // return Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.zulip}")
+    // TODO(#3150): Find an appropriate Zulip-specific sound to use.
+    //   (The one the Zulip web app uses is a bad fit for a mobile notification:
+    //     https://github.com/zulip/zulip-mobile/pull/3233#issuecomment-450245374
+    //   .)  Until then, we use the system default notification sound.
     return Settings.System.DEFAULT_NOTIFICATION_URI
 }
 
