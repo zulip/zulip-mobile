@@ -152,6 +152,8 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
         // counter will be 2 only when summary notification and last notification are
         // present; in this case, we remove summary notification.
         NotificationManagerCompat.from(context).cancel(groupKey, NOTIFICATION_ID)
+        // TODO: What if several conversations get read at once?  Does this leave a ghost group?
+        //   (Yep, it does: #5119.)
     }
 }
 
