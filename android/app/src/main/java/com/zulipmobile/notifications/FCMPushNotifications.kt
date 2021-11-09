@@ -163,17 +163,6 @@ private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Cont
     return PendingIntent.getService(context, 0, viewIntent, 0)
 }
 
-private fun createDismissAction(context: Context): NotificationCompat.Action {
-    val dismissIntent = Intent(context, NotificationIntentService::class.java)
-    dismissIntent.action = ACTION_CLEAR
-    val piDismiss = PendingIntent.getService(context, 0, dismissIntent, 0)
-    return NotificationCompat.Action(
-        android.R.drawable.ic_menu_close_clear_cancel,
-        "Clear",
-        piDismiss
-    )
-}
-
 /**
  * @param context
  * @param conversationKey Unique Key identifying a conversation, the current
