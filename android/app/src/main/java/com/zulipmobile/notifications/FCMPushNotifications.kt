@@ -282,27 +282,45 @@ private fun updateNotification(
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        setGroup(groupKey)
+
+        setSound(getNotificationSoundUri())
+
+        // TODO Perhaps set color and icon based on conversation?
+        //   E.g., stream-subscription color, and hash icon or lock icon.
         color = context.getColor(R.color.brandColor)
         setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
-        setAutoCancel(true)
+
         setStyle(messagingStyle)
-        setGroup(groupKey)
-        setSound(getNotificationSoundUri())
-        setContentIntent(createViewPendingIntent(fcmMessage, context))
+
         setNumber(messagingStyle.messages.size)
+
         extras = Bundle().apply {
+            // We use this for deciding when a RemoveFcmMessage should clear this notification.
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
+
+        setContentIntent(createViewPendingIntent(fcmMessage, context))
+        setAutoCancel(true)
     }.build()
 
     val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
-        color = context.getColor(R.color.brandColor)
-        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
-        setStyle(NotificationCompat.InboxStyle()
-            .setSummaryText(fcmMessage.identity.realmUri.toString())
-        )
         setGroup(groupKey)
         setGroupSummary(true)
+
+        color = context.getColor(R.color.brandColor)
+        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
+
+        // For the summary we use an "inbox-style" notification, as recommended here:
+        //   https://developer.android.com/training/notify-user/group#set_a_group_summary
+        setStyle(NotificationCompat.InboxStyle()
+            // TODO(#5115): Use the org's friendly name instead of its URL.
+            .setSummaryText(fcmMessage.identity.realmUri.toString())
+            // TODO: Use addLine and setBigContentTitle to add some summary info when collapsed?
+            //   (See example in the linked doc.)
+        )
+
+        // TODO Does this do something useful?  There isn't a way to open these summary notifs.
         setAutoCancel(true)
     }.build()
 
