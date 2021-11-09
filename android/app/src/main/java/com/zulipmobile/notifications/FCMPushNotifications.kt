@@ -2,6 +2,7 @@
 
 package com.zulipmobile.notifications
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -173,20 +174,6 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     }
 }
 
-/** A PendingIntent for opening this message's conversation in the app. */
-private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
-    // We don't use a URL for this intent; rather we get the information
-    // from the "extra" we add to it.  But, empirically, if the URL is the
-    // same from one notification to the next, then opening the second one
-    // just takes us back to where the first one led, ignoring its different extras.
-    // So we make sure the URL is different every time.
-    val messageKey = "${extractGroupKey(fcmMessage.identity)}|${fcmMessage.zulipMessageId}"
-    val uri = Uri.fromParts("zulip", messageKey, "")
-    val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
-    viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
-    return PendingIntent.getService(context, 0, viewIntent, 0)
-}
-
 /**
  * Get the active notification with this tag, if any.
  *
@@ -231,6 +218,12 @@ private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
         is Recipient.Pm -> "private:${fcmMessage.sender.id}"
     }
     return "$groupKey|$conversation"
+}
+
+/** A unique tag for this Zulip message. */
+private fun extractMessageKey(fcmMessage: MessageFcmMessage): String {
+    val messageKey = "${extractGroupKey(fcmMessage.identity)}|${fcmMessage.zulipMessageId}"
+    return messageKey
 }
 
 /** Handle a MessageFcmMessage, adding or extending notifications in the UI. */
@@ -287,6 +280,8 @@ private fun updateNotification(
         .build()
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
+    // See comment at `setContentIntent` below.
+    @SuppressLint("LaunchActivityFromNotification")
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
@@ -308,7 +303,27 @@ private fun updateNotification(
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
 
-        setContentIntent(createViewPendingIntent(fcmMessage, context))
+        // The linter warns us here (suppressed by the `SuppressLint` above) that our
+        // current setup where tapping the notification starts NotificationIntentService,
+        // which then goes on to start or interact with our actual Activity, won't be allowed
+        // when targeting Android 12+.  Details:
+        //   https://developer.android.com/about/versions/12/behavior-changes-12#notification-trampolines
+        // TODO(#5101): Replace NotificationIntentService with directly starting an Activity.
+        //   Preferably MainActivity itself, if we can arrange the right behavior regardless
+        //   of whether it's currently in the foreground, the background, or not running.
+        //   Otherwise, a shim analogous to ShareToZulipActivity should work.
+        setContentIntent(
+            PendingIntent.getService(context, 0,
+                Intent(Intent.ACTION_VIEW,
+                    // We don't use a URL for this intent; rather we get the information
+                    // from the "extra" we add to it.  But, empirically, if the URL is the
+                    // same from one notification to the next, then opening the second one
+                    // just takes us back to where the first one led, ignoring its different extras.
+                    // So we make sure the URL is different every time.
+                    Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
+                    context, NotificationIntentService::class.java
+                ).putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
+                0))
         setAutoCancel(true)
     }.build()
 
