@@ -9,8 +9,8 @@ import com.facebook.react.ReactApplication;
 import com.zulipmobile.MainApplication;
 
 import static android.content.Intent.ACTION_VIEW;
-import static com.zulipmobile.notifications.FCMPushNotifications.ACTION_CLEAR;
-import static com.zulipmobile.notifications.FCMPushNotifications.EXTRA_NOTIFICATION_DATA;
+import static com.zulipmobile.notifications.NotificationUiManager.ACTION_CLEAR;
+import static com.zulipmobile.notifications.NotificationUiManager.EXTRA_NOTIFICATION_DATA;
 
 public class NotificationIntentService extends IntentService {
     public NotificationIntentService() {
@@ -25,7 +25,7 @@ public class NotificationIntentService extends IntentService {
         }
         if (ACTION_VIEW.equals(intent.getAction())) {
             final Bundle data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA);
-            FCMPushNotifications.onOpened((ReactApplication) getApplication(), data);
+            NotificationUiManager.onOpened((ReactApplication) getApplication(), data);
         }
     }
 }
