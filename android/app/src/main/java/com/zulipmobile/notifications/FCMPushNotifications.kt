@@ -132,13 +132,13 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // fall under one notification group.
     val groupKey = extractGroupKey(fcmMessage.identity)
 
-    val statusBarNotifications = getNotificationManager(context).activeNotifications
     // Find any conversations we can cancel the notification for.
     // The API doesn't lend itself to removing individual messages as
     // they're read, so we wait until we're ready to remove the whole
     // conversation's notification.
     // See: https://github.com/zulip/zulip-mobile/pull/4842#pullrequestreview-725817909
-    for (statusBarNotification in statusBarNotifications) {
+    var haveRemaining = false
+    for (statusBarNotification in getNotificationManager(context).activeNotifications) {
         // The StatusBarNotification object describes an active notification in the UI.
         // Its relationship to the Notification and to our metadata is a bit confusing:
         //  * The `.tag`, `.id`, and `.notification` are the same values as we passed to
@@ -152,25 +152,25 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
         // Don't act on notifications that are for other Zulip accounts/identities.
         if (notification.group != groupKey) continue;
 
+        // Don't act on the summary notification for the group.
+        if (statusBarNotification.tag == groupKey) continue;
+
         val lastMessageId = notification.extras.getInt("lastZulipMessageId")
         if (fcmMessage.messageIds.contains(lastMessageId)) {
             // The latest Zulip message in this conversation was read.
             // That's our cue to cancel the notification for the conversation.
             NotificationManagerCompat.from(context).cancel(statusBarNotification.tag, statusBarNotification.id)
+        } else {
+            // This notification is for another conversation that's still unread.
+            // We won't cancel the summary notification.
+            haveRemaining = true
         }
     }
-    var counter = 0
-    for (statusBarNotification in statusBarNotifications) {
-        if (statusBarNotification.notification.group == groupKey) {
-            counter++
-        }
-    }
-    if (counter == 2) {
-        // counter will be 2 only when summary notification and last notification are
-        // present; in this case, we remove summary notification.
+
+    if (!haveRemaining) {
+        // The notification group is now empty; it had no notifications we didn't
+        // just cancel, except the summary notification.  Cancel that one too.
         NotificationManagerCompat.from(context).cancel(groupKey, NOTIFICATION_ID)
-        // TODO: What if several conversations get read at once?  Does this leave a ghost group?
-        //   (Yep, it does: #5119.)
     }
 }
 
