@@ -60,29 +60,6 @@ declare var isDevelopment: string;
  */
 declare var doNotMarkMessagesAsRead: boolean;
 
-/* eslint-disable no-extend-native */
-
-/* Polyfill Array.from. Native in Chrome 45 and at least Safari 13.
-   Leaves out some of the fancy features (see MDN). */
-if (!Array.from) {
-  // $FlowFixMe[cannot-write] (polyfill)
-  Array.from = function from<T>(arr: $ArrayLike<T>): Array<T> {
-    return Array.prototype.slice.call(arr);
-  };
-}
-
-/* Polyfill String#startsWith. Native in Mobile Safari 9, Chrome 49.
-   Taken (with minor edits) from the relevant MDN page. */
-if (!String.prototype.startsWith) {
-  // $FlowFixMe[cannot-write] (polyfill)
-  String.prototype.startsWith = function startsWith(search: string, rawPos: number) {
-    const pos = rawPos > 0 ? rawPos | 0 : 0;
-    return this.substring(pos, pos + search.length) === search;
-  };
-}
-
-/* eslint-enable no-extend-native */
-
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
 const documentBody = document.body;

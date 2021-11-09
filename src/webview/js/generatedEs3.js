@@ -326,19 +326,6 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  if (!Array.from) {
-    Array.from = function from(arr) {
-      return Array.prototype.slice.call(arr);
-    };
-  }
-
-  if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function startsWith(search, rawPos) {
-      const pos = rawPos > 0 ? rawPos | 0 : 0;
-      return this.substring(pos, pos + search.length) === search;
-    };
-  }
-
   const documentBody = document.body;
 
   if (!documentBody) {
