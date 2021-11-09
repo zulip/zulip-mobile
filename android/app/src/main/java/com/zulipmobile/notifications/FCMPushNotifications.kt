@@ -26,7 +26,37 @@ import com.zulipmobile.R
 import com.zulipmobile.ZLog
 import me.leolin.shortcutbadger.ShortcutBadger
 
+// This file maintains the notifications in the UI, using data from FCM messages.
+//
+// We map Zulip conversations to the Android notifications model like so:
+//  * Each Zulip account/identity that has notifications gets a separate
+//    notification group:
+//      https://developer.android.com/training/notify-user/group
+//  * Each Zulip conversation (a PM thread, or a stream + topic) goes to
+//    one notification, a "messaging-style" notification:
+//      https://developer.android.com/training/notify-user/expanded#message-style
+//  * Each Zulip message that causes a notification (so by default, each PM
+//    or @-mention; but the user's preferences live on the server, so as far
+//    as we're concerned here, it's whatever the server sends us) becomes a
+//    message in its conversation's notification.
+//
+// Further, the Android framework identifies each notification by both a
+// string "tag" and a numeric "ID", both of which we choose.  We construct
+// the tags to be unique, and use an arbitrary constant for the IDs.
+//
+// The main entry point is `onReceived`, which is called when we receive
+// an FCM message.
+
+/** The channel ID we use for our one notification channel, which we use for all notifications. */
 private val CHANNEL_ID = "default"
+
+/**
+ * The constant numeric "ID" we use for all notifications, along with unique tags.
+ *
+ * Because we construct a unique string "tag" for each distinct notification,
+ * and Android notifications are identified by the pair (tag, ID), it's simplest
+ * to leave these numeric IDs all the same.
+ */
 private val NOTIFICATION_ID = 435
 
 @JvmField
@@ -54,11 +84,13 @@ fun createNotificationChannel(context: Context) {
     }
 }
 
+/** Write the given data to the device log, for debugging. */
 private fun logNotificationData(msg: String, data: Bundle) {
     data.keySet() // Has the side effect of making `data.toString` more informative.
     Log.v(TAG, "$msg: $data")
 }
 
+/** Handle an FCM message, updating the set of notifications in the UI. */
 internal fun onReceived(context: Context, mapData: Map<String, String>) {
     // TODO refactor to not need this; reflects a juxtaposition of FCM with old GCM interfaces.
     val data = Bundle()
@@ -82,9 +114,19 @@ internal fun onReceived(context: Context, mapData: Map<String, String>) {
     }
 }
 
+/** Handle a RemoveFcmMessage, removing notifications from the UI as appropriate. */
 private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
-    val statusBarNotifications = getActiveNotifications(context) ?: return
+    // We have an FCM message telling us that some Zulip messages were read
+    // and should no longer appear as notifications.  We'll remove their
+    // conversations' notifications, if appropriate, and then the whole
+    // notification group if it's now empty.
+
+    // There may be a lot of messages mentioned here, across a lot of
+    // conversations.  But they'll all be for one identity, so they'll
+    // fall under one notification group.
     val groupKey = extractGroupKey(fcmMessage.identity)
+
+    val statusBarNotifications = getActiveNotifications(context) ?: return
     // Find any conversations we can cancel the notification for.
     // The API doesn't lend itself to removing individual messages as
     // they're read, so we wait until we're ready to remove the whole
@@ -113,6 +155,7 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     }
 }
 
+/** A PendingIntent for opening this message's conversation in the app. */
 private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
     val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
@@ -179,10 +222,18 @@ private fun createSummaryNotification(
     }
 }
 
+/** The unique tag we use for the group of notifications addressed to this Zulip account. */
 private fun extractGroupKey(identity: Identity): String {
     return "${identity.realmUri.toString()}|${identity.userId}"
 }
 
+/**
+ * The unique tag we use for the notification for this Zulip message's conversation.
+ *
+ * This will match between different messages in the same conversation, but will
+ * otherwise be distinct, even across other Zulip accounts.  It also won't collide
+ * with any `extractGroupKey` result.
+ */
 private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversation = when (fcmMessage.recipient) {
@@ -193,8 +244,14 @@ private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
     return "$groupKey|$conversation"
 }
 
+/** Handle a MessageFcmMessage, adding or extending notifications in the UI. */
 private fun updateNotification(
     context: Context, fcmMessage: MessageFcmMessage) {
+    // We have an FCM message telling us about a Zulip message.  We'll add
+    // a message (in the Android NotificationCompat.MessagingStyle.Message sense)
+    // to the notification for that Zulip message's conversation.  We create
+    // the notification, and its notification group, if they don't already exist.
+
     val selfUser = Person.Builder().setName(context.getString(R.string.selfUser)).build()
     val sender = Person.Builder()
         .setName(fcmMessage.sender.fullName)
@@ -222,6 +279,9 @@ private fun updateNotification(
     val conversationKey = extractConversationKey(fcmMessage)
     val notification = getActiveNotification(context, conversationKey)
 
+    // The MessagingStyle contains details including the list of shown
+    // messages in the conversation.  If there's already a notification
+    // for this conversation, we get its MessagingStyle so we can extend it.
     val messagingStyle = notification?.let {
         NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(it)
     } ?: NotificationCompat.MessagingStyle(selfUser)
@@ -249,8 +309,9 @@ private fun updateNotification(
     val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
 
     NotificationManagerCompat.from(context).apply {
-        // We use `tag` param only, to uniquely identify notifications,
-        // and hence `id` param is provided as an arbitrary constant.
+        // This posts the notifications.  If there is an existing notification
+        // with the same tag and ID as one of these calls to `notify`, this will
+        // replace it with the updated notification we've just constructed.
         notify(groupKey, NOTIFICATION_ID, summaryNotification.build())
         notify(conversationKey, NOTIFICATION_ID, builder.build())
     }
