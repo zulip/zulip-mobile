@@ -82,7 +82,7 @@ internal fun onReceived(context: Context, mapData: Map<String, String>) {
     }
 }
 
-fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
+private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     val statusBarNotifications = getActiveNotifications(context) ?: return
     val groupKey = extractGroupKey(fcmMessage.identity)
     // Find any conversations we can cancel the notification for.
