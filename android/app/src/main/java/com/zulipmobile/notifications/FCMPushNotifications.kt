@@ -2,7 +2,6 @@
 
 package com.zulipmobile.notifications
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -254,29 +253,6 @@ private fun updateNotification(
     // to the notification for that Zulip message's conversation.  We create
     // the notification, and its notification group, if they don't already exist.
 
-    val selfUser = Person.Builder().setName(context.getString(R.string.selfUser)).build()
-    val sender = Person.Builder()
-        .setName(fcmMessage.sender.fullName)
-        .setIcon(IconCompat.createWithBitmap(fetchBitmap(fcmMessage.sender.avatarURL)))
-        .build()
-
-    val title = when (fcmMessage.recipient) {
-        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
-        // TODO(#5116): use proper title for GroupPM, for which we will need
-        //   to have a way to get names of PM users here.
-        is Recipient.GroupPm -> context.resources.getQuantityString(
-            R.plurals.group_pm,
-            fcmMessage.recipient.pmUsers.size - 2,
-            fcmMessage.sender.fullName,
-            fcmMessage.recipient.pmUsers.size - 2
-        )
-        is Recipient.Pm -> fcmMessage.sender.fullName
-    }
-    val isGroupConversation = when (fcmMessage.recipient) {
-        is Recipient.Stream -> true
-        is Recipient.GroupPm -> true
-        is Recipient.Pm -> false
-    }
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversationKey = extractConversationKey(fcmMessage)
     val notification = getActiveNotificationByTag(context, conversationKey)
@@ -291,18 +267,37 @@ private fun updateNotification(
             NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(notification)!!
         } else {
             // If not, make a fresh one.
+            val selfUser = Person.Builder().setName(context.getString(R.string.selfUser)).build()
             NotificationCompat.MessagingStyle(selfUser)
-                .setGroupConversation(isGroupConversation)
+                .setGroupConversation(when (fcmMessage.recipient) {
+                    is Recipient.Stream, is Recipient.GroupPm -> true
+                    is Recipient.Pm -> false
+                })
         }
+
     // The title typically won't change between messages in a conversation, but we
     // update it anyway.  This means a PM sender's display name gets updated if it's
     // changed, which is a rare edge case but probably good.  The main effect is that
     // group-PM threads (pending #5116) get titled with the latest sender, rather than
     // the first.
-    messagingStyle.setConversationTitle(title)
-    messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
+    messagingStyle.setConversationTitle(when (fcmMessage.recipient) {
+        is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
+        // TODO(#5116): use proper title for GroupPM, for which we will need
+        //   to have a way to get names of PM users here.
+        is Recipient.GroupPm -> context.resources.getQuantityString(
+            R.plurals.group_pm,
+            fcmMessage.recipient.pmUsers.size - 2,
+            fcmMessage.sender.fullName,
+            fcmMessage.recipient.pmUsers.size - 2
+        )
+        is Recipient.Pm -> fcmMessage.sender.fullName
+    })
 
-    val messageCount = messagingStyle.messages.size
+    val sender = Person.Builder()
+        .setName(fcmMessage.sender.fullName)
+        .setIcon(IconCompat.createWithBitmap(fetchBitmap(fcmMessage.sender.avatarURL)))
+        .build()
+    messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
     val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         color = context.getColor(R.color.brandColor)
@@ -312,7 +307,7 @@ private fun updateNotification(
         setGroup(groupKey)
         setSound(getNotificationSoundUri())
         setContentIntent(createViewPendingIntent(fcmMessage, context))
-        setNumber(messageCount)
+        setNumber(messagingStyle.messages.size)
         extras = Bundle().apply {
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
