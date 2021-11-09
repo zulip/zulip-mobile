@@ -14,7 +14,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.service.notification.StatusBarNotification
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -64,6 +63,13 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
+
+private fun getNotificationManager(context: Context): NotificationManager {
+    // This method can return null if the class is not a supported system service.
+    // But NotificationManager was added in API 1, long before the oldest Android
+    // version we support, so just assert here that it's non-null.
+    return context.getSystemService(NotificationManager::class.java)!!
+}
 
 fun createNotificationChannel(context: Context) {
     val audioAttr: AudioAttributes = AudioAttributes.Builder()
@@ -126,7 +132,7 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // fall under one notification group.
     val groupKey = extractGroupKey(fcmMessage.identity)
 
-    val statusBarNotifications = getActiveNotifications(context) ?: return
+    val statusBarNotifications = getNotificationManager(context).activeNotifications
     // Find any conversations we can cancel the notification for.
     // The API doesn't lend itself to removing individual messages as
     // they're read, so we wait until we're ready to remove the whole
@@ -175,25 +181,14 @@ private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Cont
  * specific user in a specific realm.
  */
 private fun getActiveNotification(context: Context, conversationKey: String): Notification? {
-    // activeNotifications are not available in NotificationCompatManager
-    // Hence we have to use instance of NotificationManager.
-    val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
-
-    val activeStatusBarNotifications = notificationManager?.activeNotifications
-    if (activeStatusBarNotifications != null) {
-        for (statusBarNotification in activeStatusBarNotifications) {
-            if (statusBarNotification.tag == conversationKey) {
-                return statusBarNotification.notification
-            }
+    val activeStatusBarNotifications = getNotificationManager(context).activeNotifications
+    for (statusBarNotification in activeStatusBarNotifications) {
+        if (statusBarNotification.tag == conversationKey) {
+            return statusBarNotification.notification
         }
     }
     return null
 }
-
-
-private fun getActiveNotifications(context: Context): Array<StatusBarNotification>? =
-    (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)?.activeNotifications
 
 private fun createSummaryNotification(
     context: Context,
