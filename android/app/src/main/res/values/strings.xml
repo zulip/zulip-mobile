@@ -8,8 +8,8 @@
     </plurals>
     <string name="send_to">Share To</string>
     <plurals name="group_pm">
-        <item quantity="one">Group PM from %1$s with %2$s other.</item>
-        <item quantity="other">Group PM from %1$s with %2$s others.</item>
+        <item quantity="one">%1$s to you and %2$s other</item>
+        <item quantity="other">%1$s to you and %2$s others</item>
     </plurals>
     <string name="selfUser">You</string>
 </resources>
