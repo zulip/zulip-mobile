@@ -41,7 +41,7 @@ iOS we haven't implemented all the same notification features.)
 
 For the implementation of our UI notifications, see:
 
- * on Android, our [`FCMPushNotifications.kt`][FCMPushNotifications.kt]
+ * on Android, our [`NotificationUiManager.kt`][NotificationUiManager.kt]
 
  * on iOS, the server code in
    [`push_notifications.py`][push_notifications.py] that generates the
@@ -52,7 +52,7 @@ For the implementation of our UI notifications, see:
    notification, without involving any client-side code of our own.
 
 [FcmMessage.kt]: ../../android/app/src/main/java/com/zulipmobile/notifications/FcmMessage.kt
-[FCMPushNotifications.kt]: ../../android/app/src/main/java/com/zulipmobile/notifications/FCMPushNotifications.kt
+[NotificationUiManager.kt]: ../../android/app/src/main/java/com/zulipmobile/notifications/NotificationUiManager.kt
 [push_notifications.py]: https://github.com/zulip/zulip/blob/main/zerver/lib/push_notifications.py
 [apns-payload]: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 

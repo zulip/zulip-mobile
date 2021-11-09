@@ -1,4 +1,4 @@
-@file:JvmName("FCMPushNotifications")
+@file:JvmName("NotificationUiManager")
 
 package com.zulipmobile.notifications
 

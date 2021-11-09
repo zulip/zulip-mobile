@@ -20,7 +20,7 @@ import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
 
 import com.zulipmobile.generated.BasePackageList;
-import com.zulipmobile.notifications.FCMPushNotifications;
+import com.zulipmobile.notifications.NotificationUiManager;
 import com.zulipmobile.notifications.NotificationsPackage;
 import com.zulipmobile.sharing.SharingPackage;
 
@@ -69,7 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        FCMPushNotifications.createNotificationChannel(this);
+        NotificationUiManager.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     }

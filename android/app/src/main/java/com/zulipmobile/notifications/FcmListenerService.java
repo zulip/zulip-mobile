@@ -15,7 +15,7 @@ public class FcmListenerService extends FirebaseMessagingService {
         if (!(applicationContext instanceof MainApplication)) {
             return;
         }
-        FCMPushNotifications.onReceived(this, message.getData());
+        NotificationUiManager.onReceived(this, message.getData());
     }
 
     @Override
