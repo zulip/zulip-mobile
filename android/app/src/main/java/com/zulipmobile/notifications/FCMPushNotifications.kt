@@ -172,18 +172,16 @@ private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Cont
 }
 
 /**
- * @param context
- * @param conversationKey Unique Key identifying a conversation, the current
- * implementation assumes that each notification corresponds to 1 and only 1
- * conversation.
+ * Get the active notification with this tag, if any.
  *
- * A conversation can be any of: Topic in Stream, GroupPM or PM for a
- * specific user in a specific realm.
+ * In general Android allows multiple notifications with the same tag,
+ * only requiring the (tag, id) pair to be unique.  We use the fact that
+ * our notifications have unique tags.
  */
-private fun getActiveNotification(context: Context, conversationKey: String): Notification? {
+private fun getActiveNotificationByTag(context: Context, notificationTag: String): Notification? {
     val activeStatusBarNotifications = getNotificationManager(context).activeNotifications
     for (statusBarNotification in activeStatusBarNotifications) {
-        if (statusBarNotification.tag == conversationKey) {
+        if (statusBarNotification.tag == notificationTag) {
             return statusBarNotification.notification
         }
     }
@@ -270,7 +268,7 @@ private fun updateNotification(
     }
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversationKey = extractConversationKey(fcmMessage)
-    val notification = getActiveNotification(context, conversationKey)
+    val notification = getActiveNotificationByTag(context, conversationKey)
 
     // The MessagingStyle contains details including the list of shown
     // messages in the conversation.  If there's already a notification
