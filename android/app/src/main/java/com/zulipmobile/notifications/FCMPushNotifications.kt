@@ -323,7 +323,7 @@ private fun updateNotification(
                     Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
                     context, NotificationIntentService::class.java
                 ).putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
-                0))
+                PendingIntent.FLAG_IMMUTABLE))
         setAutoCancel(true)
     }.build()
 
