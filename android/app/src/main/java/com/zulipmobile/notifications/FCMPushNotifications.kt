@@ -71,10 +71,10 @@ private val Context.notificationManager: NotificationManager
     get() = this.getSystemService(NotificationManager::class.java)!!
 
 fun createNotificationChannel(context: Context) {
-    val audioAttr: AudioAttributes = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
     if (Build.VERSION.SDK_INT >= 26) {
         val name = context.getString(R.string.notification_channel_name)
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
 
         @SuppressLint("WrongConstant")
         // Android Studio's linter demands NotificationManager.IMPORTANCE_* and rejects any other
@@ -83,7 +83,7 @@ fun createNotificationChannel(context: Context) {
             NotificationChannel(CHANNEL_ID, name, NotificationManagerCompat.IMPORTANCE_HIGH).apply {
                 enableLights(true)
                 enableVibration(true)
-                setSound(getNotificationSoundUri(), audioAttr)
+                setSound(getNotificationSoundUri(), audioAttributes)
             }
         NotificationManagerCompat.from(context).createNotificationChannel(channel)
     }
