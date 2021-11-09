@@ -161,8 +161,6 @@ private fun getActiveNotification(context: Context, conversationKey: String): No
 private fun getActiveNotifications(context: Context): Array<StatusBarNotification>? =
     (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)?.activeNotifications
 
-// TODO: Add a Text saying n messages in m conversations. (this will
-// only be visible in API < 24)
 private fun createSummaryNotification(
     context: Context,
     fcmMessage: MessageFcmMessage,
