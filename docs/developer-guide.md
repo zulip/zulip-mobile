@@ -1,6 +1,6 @@
 # Developer guide
 
-We target operating systems >= Android 6 Marshmallow (API 23)
+We target operating systems >= Android 7 Nougat (API 24)
 and >= iOS 12.1.  (Details [here](architecture/platform-versions.md).)
 
 ## Why React Native?

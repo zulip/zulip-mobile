@@ -52,28 +52,6 @@ var compiledWebviewJs = (function (exports) {
     return target;
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -89,164 +67,149 @@ var compiledWebviewJs = (function (exports) {
     return obj;
   }
 
-  var makeUserId = function makeUserId(id) {
-    return id;
-  };
+  const makeUserId = id => id;
 
-  var sendMessage = (function (msg) {
+  var sendMessage = (msg => {
     window.ReactNativeWebView.postMessage(JSON.stringify(msg));
   });
 
-  var placeholdersDivTagFromContent = function placeholdersDivTagFromContent(content) {
-    var match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+  const placeholdersDivTagFromContent = content => {
+    const match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
     return match !== null ? match[0] : null;
   };
 
-  var InboundEventLogger = function () {
-    function InboundEventLogger() {
-      _classCallCheck(this, InboundEventLogger);
+  class InboundEventLogger {
+    static scrubInboundEvent(event) {
+      switch (event.type) {
+        case 'content':
+          {
+            return {
+              type: event.type,
+              scrollMessageId: event.scrollMessageId,
+              auth: 'redacted',
+              content: placeholdersDivTagFromContent(event.content),
+              updateStrategy: event.updateStrategy
+            };
+          }
 
+        case 'fetching':
+          {
+            return {
+              type: event.type,
+              showMessagePlaceholders: event.showMessagePlaceholders,
+              fetchingOlder: event.fetchingOlder,
+              fetchingNewer: event.fetchingNewer
+            };
+          }
+
+        case 'typing':
+          {
+            return {
+              type: event.type,
+              content: event.content !== ''
+            };
+          }
+
+        case 'ready':
+          {
+            return {
+              type: event.type
+            };
+          }
+
+        case 'read':
+          {
+            return {
+              type: event.type,
+              messageIds: event.messageIds
+            };
+          }
+
+        default:
+          {
+            return {
+              type: event.type
+            };
+          }
+      }
+    }
+
+    constructor() {
       this._isCapturing = false;
       this._capturedInboundEventItems = [];
     }
 
-    _createClass(InboundEventLogger, [{
-      key: "startCapturing",
-      value: function startCapturing() {
-        if (this._isCapturing) {
-          throw new Error('InboundEventLogger: Tried to call startCapturing while already capturing.');
-        } else if (this._capturedInboundEventItems.length > 0 || this._captureEndTime !== undefined) {
-          throw new Error('InboundEventLogger: Tried to call startCapturing before resetting.');
+    startCapturing() {
+      if (this._isCapturing) {
+        throw new Error('InboundEventLogger: Tried to call startCapturing while already capturing.');
+      } else if (this._capturedInboundEventItems.length > 0 || this._captureEndTime !== undefined) {
+        throw new Error('InboundEventLogger: Tried to call startCapturing before resetting.');
+      }
+
+      this._isCapturing = true;
+      this._captureStartTime = Date.now();
+    }
+
+    stopCapturing() {
+      if (!this._isCapturing) {
+        throw new Error('InboundEventLogger: Tried to call stopCapturing while not capturing.');
+      }
+
+      this._isCapturing = false;
+      this._captureEndTime = Date.now();
+    }
+
+    send() {
+      var _this$_captureStartTi, _this$_captureEndTime;
+
+      if (this._isCapturing) {
+        throw new Error('InboundEventLogger: Tried to send captured events while still capturing.');
+      }
+
+      sendMessage({
+        type: 'warn',
+        details: {
+          startTime: (_this$_captureStartTi = this._captureStartTime) !== null && _this$_captureStartTi !== void 0 ? _this$_captureStartTi : null,
+          endTime: (_this$_captureEndTime = this._captureEndTime) !== null && _this$_captureEndTime !== void 0 ? _this$_captureEndTime : null,
+          inboundEventItems: JSON.stringify(this._capturedInboundEventItems)
         }
+      });
+    }
 
-        this._isCapturing = true;
-        this._captureStartTime = Date.now();
+    reset() {
+      this._captureStartTime = undefined;
+      this._captureEndTime = undefined;
+      this._capturedInboundEventItems = [];
+      this._isCapturing = false;
+    }
+
+    maybeCaptureInboundEvent(event) {
+      if (this._isCapturing) {
+        const item = {
+          type: 'inbound',
+          timestamp: Date.now(),
+          scrubbedEvent: InboundEventLogger.scrubInboundEvent(event)
+        };
+
+        this._capturedInboundEventItems.push(item);
       }
-    }, {
-      key: "stopCapturing",
-      value: function stopCapturing() {
-        if (!this._isCapturing) {
-          throw new Error('InboundEventLogger: Tried to call stopCapturing while not capturing.');
-        }
+    }
 
-        this._isCapturing = false;
-        this._captureEndTime = Date.now();
-      }
-    }, {
-      key: "send",
-      value: function send() {
-        var _this$_captureStartTi, _this$_captureEndTime;
+  }
 
-        if (this._isCapturing) {
-          throw new Error('InboundEventLogger: Tried to send captured events while still capturing.');
-        }
+  const inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(r => new RegExp(r));
 
-        sendMessage({
-          type: 'warn',
-          details: {
-            startTime: (_this$_captureStartTi = this._captureStartTime) !== null && _this$_captureStartTi !== void 0 ? _this$_captureStartTi : null,
-            endTime: (_this$_captureEndTime = this._captureEndTime) !== null && _this$_captureEndTime !== void 0 ? _this$_captureEndTime : null,
-            inboundEventItems: JSON.stringify(this._capturedInboundEventItems)
-          }
-        });
-      }
-    }, {
-      key: "reset",
-      value: function reset() {
-        this._captureStartTime = undefined;
-        this._captureEndTime = undefined;
-        this._capturedInboundEventItems = [];
-        this._isCapturing = false;
-      }
-    }, {
-      key: "maybeCaptureInboundEvent",
-      value: function maybeCaptureInboundEvent(event) {
-        if (this._isCapturing) {
-          var item = {
-            type: 'inbound',
-            timestamp: Date.now(),
-            scrubbedEvent: InboundEventLogger.scrubInboundEvent(event)
-          };
-
-          this._capturedInboundEventItems.push(item);
-        }
-      }
-    }], [{
-      key: "scrubInboundEvent",
-      value: function scrubInboundEvent(event) {
-        switch (event.type) {
-          case 'content':
-            {
-              return {
-                type: event.type,
-                scrollMessageId: event.scrollMessageId,
-                auth: 'redacted',
-                content: placeholdersDivTagFromContent(event.content),
-                updateStrategy: event.updateStrategy
-              };
-            }
-
-          case 'fetching':
-            {
-              return {
-                type: event.type,
-                showMessagePlaceholders: event.showMessagePlaceholders,
-                fetchingOlder: event.fetchingOlder,
-                fetchingNewer: event.fetchingNewer
-              };
-            }
-
-          case 'typing':
-            {
-              return {
-                type: event.type,
-                content: event.content !== ''
-              };
-            }
-
-          case 'ready':
-            {
-              return {
-                type: event.type
-              };
-            }
-
-          case 'read':
-            {
-              return {
-                type: event.type,
-                messageIds: event.messageIds
-              };
-            }
-
-          default:
-            {
-              return {
-                type: event.type
-              };
-            }
-        }
-      }
-    }]);
-
-    return InboundEventLogger;
-  }();
-
-  var inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(function (r) {
-    return new RegExp(r);
-  });
-
-  var rewriteImageUrls = function rewriteImageUrls(auth, element) {
-    var realm = auth.realm;
-    var imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
-    imageTags.forEach(function (img) {
-      var actualSrc = img.getAttribute('src');
+  const rewriteImageUrls = (auth, element) => {
+    const realm = auth.realm;
+    const imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
+    imageTags.forEach(img => {
+      const actualSrc = img.getAttribute('src');
 
       if (actualSrc == null) {
         return;
       }
 
-      var fixedSrc;
+      let fixedSrc;
 
       try {
         fixedSrc = new URL(actualSrc, realm);
@@ -256,10 +219,8 @@ var compiledWebviewJs = (function (exports) {
       }
 
       if (fixedSrc.origin === realm.origin) {
-        if (inlineApiRoutes.some(function (regexp) {
-          return regexp.test(fixedSrc.pathname);
-        })) {
-          var delimiter = fixedSrc.search ? '&' : '';
+        if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
+          const delimiter = fixedSrc.search ? '&' : '';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
         }
       }
@@ -270,20 +231,20 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var rewriteTime = function rewriteTime(element) {
+  const rewriteTime = element => {
     if (typeof HTMLTimeElement !== 'function') {
       return;
     }
 
-    var timeElements = [].concat(element instanceof HTMLTimeElement ? [element] : [], Array.from(element.getElementsByTagName('time')));
-    timeElements.forEach(function (elem) {
+    const timeElements = [].concat(element instanceof HTMLTimeElement ? [element] : [], Array.from(element.getElementsByTagName('time')));
+    timeElements.forEach(elem => {
       if (!(elem instanceof HTMLTimeElement)) {
         return;
       }
 
-      var timeStamp = elem.dateTime;
-      var text = elem.innerText;
-      var d = new Date(timeStamp);
+      const timeStamp = elem.dateTime;
+      const text = elem.innerText;
+      const d = new Date(timeStamp);
       elem.setAttribute('original-text', text);
       elem.innerText = "\\uD83D\\uDD52  ".concat(d.toLocaleString(undefined, {
         dateStyle: 'full',
@@ -292,13 +253,13 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var rewriteSpoilers = function rewriteSpoilers(element) {
-    var spoilerHeaders = element.querySelectorAll('div.spoiler-header');
-    spoilerHeaders.forEach(function (e) {
-      var toggle_button_html = '<span class="spoiler-button" aria-expanded="false"><span class="spoiler-arrow"></span></span>';
+  const rewriteSpoilers = element => {
+    const spoilerHeaders = element.querySelectorAll('div.spoiler-header');
+    spoilerHeaders.forEach(e => {
+      const toggle_button_html = '<span class="spoiler-button" aria-expanded="false"><span class="spoiler-arrow"></span></span>';
 
       if (e.innerText === '') {
-        var header_html = '<p>Spoiler</p>';
+        const header_html = '<p>Spoiler</p>';
         e.innerHTML = toggle_button_html + header_html;
       } else {
         e.innerHTML = toggle_button_html + e.innerHTML;
@@ -306,30 +267,29 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var rewriteHtml = function rewriteHtml(auth) {
-    var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+  const rewriteHtml = (auth, element = document) => {
     rewriteImageUrls(auth, element);
     rewriteTime(element);
     rewriteSpoilers(element);
   };
 
-  var collapseSpoiler = function collapseSpoiler(spoiler) {
-    var computedHeight = getComputedStyle(spoiler).height;
-    requestAnimationFrame(function () {
+  const collapseSpoiler = spoiler => {
+    const computedHeight = getComputedStyle(spoiler).height;
+    requestAnimationFrame(() => {
       spoiler.style.height = computedHeight;
       spoiler.classList.remove('spoiler-content-open');
-      requestAnimationFrame(function () {
+      requestAnimationFrame(() => {
         spoiler.style.height = '0px';
       });
     });
   };
 
-  var expandSpoiler = function expandSpoiler(spoiler) {
-    var spoilerHeight = spoiler.scrollHeight;
+  const expandSpoiler = spoiler => {
+    const spoilerHeight = spoiler.scrollHeight;
     spoiler.style.height = "".concat(spoilerHeight, "px");
     spoiler.classList.add('spoiler-content-open');
 
-    var callback = function callback() {
+    const callback = () => {
       spoiler.removeEventListener('transitionend', callback);
       spoiler.style.height = '';
     };
@@ -337,16 +297,16 @@ var compiledWebviewJs = (function (exports) {
     spoiler.addEventListener('transitionend', callback);
   };
 
-  var toggleSpoiler = function toggleSpoiler(spoilerHeader) {
-    var spoilerBlock = spoilerHeader.parentElement;
+  const toggleSpoiler = spoilerHeader => {
+    const spoilerBlock = spoilerHeader.parentElement;
 
     if (!spoilerBlock) {
       return;
     }
 
-    var button = spoilerHeader.querySelector('.spoiler-button');
-    var arrow = spoilerBlock.querySelector('.spoiler-arrow');
-    var spoilerContent = spoilerBlock.querySelector('.spoiler-content');
+    const button = spoilerHeader.querySelector('.spoiler-button');
+    const arrow = spoilerBlock.querySelector('.spoiler-arrow');
+    const spoilerContent = spoilerBlock.querySelector('.spoiler-content');
 
     if (!arrow || !button || !spoilerContent) {
       console.warn('Malformed spoiler block');
@@ -374,50 +334,49 @@ var compiledWebviewJs = (function (exports) {
 
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function startsWith(search, rawPos) {
-      var pos = rawPos > 0 ? rawPos | 0 : 0;
+      const pos = rawPos > 0 ? rawPos | 0 : 0;
       return this.substring(pos, pos + search.length) === search;
     };
   }
 
-  var documentBody = document.body;
+  const documentBody = document.body;
 
   if (!documentBody) {
     throw new Error('No document.body element!');
   }
 
-  var msglistElementsDiv = document.querySelector('div#msglist-elements');
+  const msglistElementsDiv = document.querySelector('div#msglist-elements');
 
   if (!msglistElementsDiv) {
     throw new Error('No div#msglist-elements element!');
   }
 
-  var escapeHtml = function escapeHtml(text) {
-    var element = document.createElement('div');
+  const escapeHtml = text => {
+    const element = document.createElement('div');
     element.innerText = text;
     return element.innerHTML;
   };
 
-  window.onerror = function (message, source, line, column, error) {
+  window.onerror = (message, source, line, column, error) => {
     if (isDevelopment) {
-      var elementJsError = document.getElementById('js-error-detailed');
+      const elementJsError = document.getElementById('js-error-detailed');
 
       if (elementJsError) {
         elementJsError.innerHTML = ["Message: ".concat(message), "Source: ".concat(source), "Line: ".concat(line, ":").concat(column), "Error: ".concat(JSON.stringify(error)), ''].map(escapeHtml).join('<br>');
       }
     } else {
-      var _elementJsError = document.getElementById('js-error-plain');
+      const elementJsError = document.getElementById('js-error-plain');
+      const elementSheetGenerated = document.getElementById('generated-styles');
+      const elementSheetHide = document.getElementById('style-hide-js-error-plain');
 
-      var elementSheetGenerated = document.getElementById('generated-styles');
-      var elementSheetHide = document.getElementById('style-hide-js-error-plain');
-
-      if (_elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
+      if (elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
         elementSheetHide.sheet.disabled = true;
-        var height = _elementJsError.offsetHeight;
+        const height = elementJsError.offsetHeight;
         elementSheetGenerated.sheet.insertRule(".header-wrapper { top: ".concat(height, "px; }"), 0);
       }
     }
 
-    var userAgent = window.navigator.userAgent;
+    const userAgent = window.navigator.userAgent;
     sendMessage({
       type: 'error',
       details: {
@@ -432,10 +391,10 @@ var compiledWebviewJs = (function (exports) {
     return true;
   };
 
-  var eventLogger = new InboundEventLogger();
+  const eventLogger = new InboundEventLogger();
   eventLogger.startCapturing();
-  setTimeout(function () {
-    var placeholdersDiv = document.getElementById('message-loading');
+  setTimeout(() => {
+    const placeholdersDiv = document.getElementById('message-loading');
     eventLogger.stopCapturing();
 
     if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
@@ -445,19 +404,19 @@ var compiledWebviewJs = (function (exports) {
     eventLogger.reset();
   }, 10000);
 
-  var showHideElement = function showHideElement(elementId, show) {
-    var element = document.getElementById(elementId);
+  const showHideElement = (elementId, show) => {
+    const element = document.getElementById(elementId);
 
     if (element) {
       element.classList.toggle('hidden', !show);
     }
   };
 
-  var viewportHeight = documentBody.clientHeight;
-  window.addEventListener('resize', function (event) {
-    var heightChange = documentBody.clientHeight - viewportHeight;
+  let viewportHeight = documentBody.clientHeight;
+  window.addEventListener('resize', event => {
+    const heightChange = documentBody.clientHeight - viewportHeight;
     viewportHeight = documentBody.clientHeight;
-    var maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
+    const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
 
     if (documentBody.scrollTop >= maxScrollTop - 1) {
       return;
@@ -470,8 +429,8 @@ var compiledWebviewJs = (function (exports) {
   });
 
   function midMessageListElement(top, bottom) {
-    var midY = (bottom + top) / 2;
-    var midElements = document.elementsFromPoint(0, midY);
+    const midY = (bottom + top) / 2;
+    const midElements = document.elementsFromPoint(0, midY);
 
     if (midElements.length < 4) {
       return null;
@@ -481,7 +440,7 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function walkToMessage(start, step) {
-    var element = start;
+    let element = start;
 
     while (element && !element.classList.contains('message')) {
       element = element[step];
@@ -507,11 +466,11 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function isVisible(element, top, bottom) {
-    var rect = element.getBoundingClientRect();
+    const rect = element.getBoundingClientRect();
     return top < rect.bottom && rect.top < bottom;
   }
 
-  var messageReadSlop = 16;
+  const messageReadSlop = 16;
 
   function isRead(element, top, bottom) {
     return bottom + messageReadSlop >= element.getBoundingClientRect().bottom;
@@ -522,7 +481,7 @@ var compiledWebviewJs = (function (exports) {
       return candidate && isVisible(candidate, top, bottom) ? candidate : null;
     }
 
-    var midElement = midMessageListElement(top, bottom);
+    const midElement = midMessageListElement(top, bottom);
     return checkVisible(walkToMessage(midElement, 'previousElementSibling')) || checkVisible(walkToMessage(midElement, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
   }
 
@@ -531,7 +490,7 @@ var compiledWebviewJs = (function (exports) {
       return candidate && isRead(candidate, top, bottom) && isVisible(candidate, top, bottom) ? candidate : null;
     }
 
-    var visible = someVisibleMessage(top, bottom);
+    const visible = someVisibleMessage(top, bottom);
 
     if (!visible) {
       return visible;
@@ -541,7 +500,7 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function idFromMessage(element) {
-    var idStr = element.getAttribute('data-msg-id');
+    const idStr = element.getAttribute('data-msg-id');
 
     if (idStr === null || idStr === undefined) {
       throw new Error('Bad message element');
@@ -551,17 +510,17 @@ var compiledWebviewJs = (function (exports) {
   }
 
   function visibleReadMessageIds() {
-    var top = 0;
-    var bottom = viewportHeight;
-    var first = Number.MAX_SAFE_INTEGER;
-    var last = 0;
+    const top = 0;
+    const bottom = viewportHeight;
+    let first = Number.MAX_SAFE_INTEGER;
+    let last = 0;
 
     function walkElements(start, step) {
-      var element = start;
+      let element = start;
 
       while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
         if (element.classList.contains('message')) {
-          var id = idFromMessage(element);
+          const id = idFromMessage(element);
           first = Math.min(first, id);
           last = Math.max(last, id);
         }
@@ -570,7 +529,7 @@ var compiledWebviewJs = (function (exports) {
       }
     }
 
-    var start = someVisibleReadMessage(top, bottom);
+    const start = someVisibleReadMessage(top, bottom);
     walkElements(start, 'nextElementSibling');
     walkElements(start, 'previousElementSibling');
     return {
@@ -579,14 +538,13 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  var getMessageIdFromElement = function getMessageIdFromElement(element) {
-    var defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
-    var msgElement = element.closest('.msglist-element');
+  const getMessageIdFromElement = (element, defaultValue = -1) => {
+    const msgElement = element.closest('.msglist-element');
     return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
 
-  var setMessagesReadAttributes = function setMessagesReadAttributes(rangeHull) {
-    var element = document.querySelector("[data-msg-id='".concat(rangeHull.first, "']"));
+  const setMessagesReadAttributes = rangeHull => {
+    let element = document.querySelector("[data-msg-id='".concat(rangeHull.first, "']"));
 
     while (element) {
       if (element.classList.contains('message')) {
@@ -601,11 +559,11 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var prevMessageRange = visibleReadMessageIds();
+  let prevMessageRange = visibleReadMessageIds();
 
-  var sendScrollMessage = function sendScrollMessage() {
-    var messageRange = visibleReadMessageIds();
-    var rangeHull = {
+  const sendScrollMessage = () => {
+    const messageRange = visibleReadMessageIds();
+    const rangeHull = {
       first: Math.min(prevMessageRange.first, messageRange.first),
       last: Math.max(prevMessageRange.last, messageRange.last)
     };
@@ -627,19 +585,19 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var sendScrollMessageIfListShort = function sendScrollMessageIfListShort() {
+  const sendScrollMessageIfListShort = () => {
     if (documentBody.scrollHeight === documentBody.clientHeight) {
       sendScrollMessage();
     }
   };
 
-  var scrollEventsDisabled = true;
-  var hasLongPressed = false;
-  var longPressTimeout = undefined;
-  var lastTouchPositionX = -1;
-  var lastTouchPositionY = -1;
+  let scrollEventsDisabled = true;
+  let hasLongPressed = false;
+  let longPressTimeout = undefined;
+  let lastTouchPositionX = -1;
+  let lastTouchPositionY = -1;
 
-  var handleScrollEvent = function handleScrollEvent() {
+  const handleScrollEvent = () => {
     clearTimeout(longPressTimeout);
 
     if (scrollEventsDisabled) {
@@ -647,13 +605,13 @@ var compiledWebviewJs = (function (exports) {
     }
 
     sendScrollMessage();
-    var nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
+    const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
     showHideElement('scroll-bottom', nearEnd);
   };
 
   window.addEventListener('scroll', handleScrollEvent);
 
-  var scrollToBottom = function scrollToBottom() {
+  const scrollToBottom = () => {
     window.scroll({
       left: 0,
       top: documentBody.scrollHeight,
@@ -661,18 +619,16 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var isNearBottom = function isNearBottom() {
-    return documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
-  };
+  const isNearBottom = () => documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
 
-  var scrollToBottomIfNearEnd = function scrollToBottomIfNearEnd() {
+  const scrollToBottomIfNearEnd = () => {
     if (isNearBottom()) {
       scrollToBottom();
     }
   };
 
-  var scrollToMessage = function scrollToMessage(messageId) {
-    var targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
+  const scrollToMessage = messageId => {
+    const targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
 
     if (targetNode) {
       targetNode.scrollIntoView({
@@ -686,8 +642,8 @@ var compiledWebviewJs = (function (exports) {
     }
   };
 
-  var findPreserveTarget = function findPreserveTarget() {
-    var message = someVisibleMessage(0, viewportHeight);
+  const findPreserveTarget = () => {
+    const message = someVisibleMessage(0, viewportHeight);
 
     if (!message) {
       return {
@@ -695,8 +651,8 @@ var compiledWebviewJs = (function (exports) {
       };
     }
 
-    var messageId = idFromMessage(message);
-    var prevBoundRect = message.getBoundingClientRect();
+    const messageId = idFromMessage(message);
+    const prevBoundRect = message.getBoundingClientRect();
     return {
       type: 'preserve',
       msgId: messageId,
@@ -704,31 +660,33 @@ var compiledWebviewJs = (function (exports) {
     };
   };
 
-  var scrollToPreserve = function scrollToPreserve(msgId, prevBoundTop) {
-    var newElement = document.getElementById("msg-".concat(msgId));
+  const scrollToPreserve = (msgId, prevBoundTop) => {
+    const newElement = document.getElementById("msg-".concat(msgId));
 
     if (!newElement) {
       return;
     }
 
-    var newBoundRect = newElement.getBoundingClientRect();
+    const newBoundRect = newElement.getBoundingClientRect();
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
 
-  var runAfterLayout = function runAfterLayout(fn) {
+  const runAfterLayout = fn => {
     if (platformOS === 'android') {
       fn();
       return;
     }
 
-    requestAnimationFrame(function () {
+    requestAnimationFrame(() => {
       fn();
     });
   };
 
-  var handleInboundEventContent = function handleInboundEventContent(uevent) {
-    var updateStrategy = uevent.updateStrategy;
-    var target;
+  const handleInboundEventContent = uevent => {
+    const {
+      updateStrategy
+    } = uevent;
+    let target;
 
     switch (updateStrategy) {
       case 'replace':
@@ -761,7 +719,7 @@ var compiledWebviewJs = (function (exports) {
 
     msglistElementsDiv.innerHTML = uevent.content;
     rewriteHtml(uevent.auth);
-    runAfterLayout(function () {
+    runAfterLayout(() => {
       if (target.type === 'bottom') {
         scrollToBottom();
       } else if (target.type === 'anchor') {
@@ -774,8 +732,8 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  var handleInitialLoad = function handleInitialLoad(scrollMessageId, rawAuth) {
-    var auth = _objectSpread2(_objectSpread2({}, rawAuth), {}, {
+  const handleInitialLoad = (scrollMessageId, rawAuth) => {
+    const auth = _objectSpread2(_objectSpread2({}, rawAuth), {}, {
       realm: new URL(rawAuth.realm)
     });
 
@@ -791,55 +749,51 @@ var compiledWebviewJs = (function (exports) {
     scrollEventsDisabled = false;
   };
 
-  var handleInboundEventFetching = function handleInboundEventFetching(uevent) {
+  const handleInboundEventFetching = uevent => {
     showHideElement('message-loading', uevent.showMessagePlaceholders);
     showHideElement('spinner-older', uevent.fetchingOlder);
     showHideElement('spinner-newer', uevent.fetchingNewer);
   };
 
-  var handleInboundEventTyping = function handleInboundEventTyping(uevent) {
-    var elementTyping = document.getElementById('typing');
+  const handleInboundEventTyping = uevent => {
+    const elementTyping = document.getElementById('typing');
 
     if (elementTyping) {
       elementTyping.innerHTML = uevent.content;
-      runAfterLayout(function () {
-        return scrollToBottomIfNearEnd();
-      });
+      runAfterLayout(() => scrollToBottomIfNearEnd());
     }
   };
 
-  var readyRetryInterval = undefined;
+  let readyRetryInterval = undefined;
 
-  var signalReadyForEvents = function signalReadyForEvents() {
+  const signalReadyForEvents = () => {
     sendMessage({
       type: 'ready'
     });
-    readyRetryInterval = setInterval(function () {
+    readyRetryInterval = setInterval(() => {
       sendMessage({
         type: 'ready'
       });
     }, 100);
   };
 
-  var handleInboundEventReady = function handleInboundEventReady(uevent) {
+  const handleInboundEventReady = uevent => {
     clearInterval(readyRetryInterval);
   };
 
-  var handleInboundEventMessagesRead = function handleInboundEventMessagesRead(uevent) {
+  const handleInboundEventMessagesRead = uevent => {
     if (uevent.messageIds.length === 0) {
       return;
     }
 
-    var selector = uevent.messageIds.map(function (id) {
-      return "[data-msg-id=\\"".concat(id, "\\"]");
-    }).join(',');
-    var messageElements = Array.from(document.querySelectorAll(selector));
-    messageElements.forEach(function (element) {
+    const selector = uevent.messageIds.map(id => "[data-msg-id=\\"".concat(id, "\\"]")).join(',');
+    const messageElements = Array.from(document.querySelectorAll(selector));
+    messageElements.forEach(element => {
       element.setAttribute('data-read', 'true');
     });
   };
 
-  var inboundEventHandlers = {
+  const inboundEventHandlers = {
     content: handleInboundEventContent,
     fetching: handleInboundEventFetching,
     typing: handleInboundEventTyping,
@@ -847,26 +801,24 @@ var compiledWebviewJs = (function (exports) {
     read: handleInboundEventMessagesRead
   };
 
-  var handleMessageEvent = function handleMessageEvent(e) {
+  const handleMessageEvent = e => {
     scrollEventsDisabled = true;
-    var decodedData = decodeURIComponent(escape(window.atob(e.data)));
-    var rawInboundEvents = JSON.parse(decodedData);
-    var inboundEvents = rawInboundEvents.map(function (inboundEvent) {
-      return _objectSpread2(_objectSpread2({}, inboundEvent), inboundEvent.auth ? {
-        auth: _objectSpread2(_objectSpread2({}, inboundEvent.auth), {}, {
-          realm: new URL(inboundEvent.auth.realm)
-        })
-      } : {});
-    });
-    inboundEvents.forEach(function (uevent) {
+    const decodedData = decodeURIComponent(escape(window.atob(e.data)));
+    const rawInboundEvents = JSON.parse(decodedData);
+    const inboundEvents = rawInboundEvents.map(inboundEvent => _objectSpread2(_objectSpread2({}, inboundEvent), inboundEvent.auth ? {
+      auth: _objectSpread2(_objectSpread2({}, inboundEvent.auth), {}, {
+        realm: new URL(inboundEvent.auth.realm)
+      })
+    } : {}));
+    inboundEvents.forEach(uevent => {
       eventLogger.maybeCaptureInboundEvent(uevent);
       inboundEventHandlers[uevent.type](uevent);
     });
     scrollEventsDisabled = false;
   };
 
-  var revealMutedMessages = function revealMutedMessages(message) {
-    var messageNode = message;
+  const revealMutedMessages = message => {
+    let messageNode = message;
 
     do {
       messageNode.setAttribute('data-mute-state', 'shown');
@@ -874,8 +826,8 @@ var compiledWebviewJs = (function (exports) {
     } while (messageNode && messageNode.classList.contains('message-brief'));
   };
 
-  var requireAttribute = function requireAttribute(e, name) {
-    var value = e.getAttribute(name);
+  const requireAttribute = (e, name) => {
+    const value = e.getAttribute(name);
 
     if (value === null || value === undefined) {
       throw new Error("Missing expected attribute ".concat(name));
@@ -884,9 +836,9 @@ var compiledWebviewJs = (function (exports) {
     return value;
   };
 
-  var requireNumericAttribute = function requireNumericAttribute(e, name) {
-    var value = requireAttribute(e, name);
-    var parsedValue = parseInt(value, 10);
+  const requireNumericAttribute = (e, name) => {
+    const value = requireAttribute(e, name);
+    const parsedValue = parseInt(value, 10);
 
     if (Number.isNaN(parsedValue)) {
       throw new Error("Could not parse attribute ".concat(name, " value '").concat(value, "' as integer"));
@@ -895,7 +847,7 @@ var compiledWebviewJs = (function (exports) {
     return parsedValue;
   };
 
-  documentBody.addEventListener('click', function (e) {
+  documentBody.addEventListener('click', e => {
     e.preventDefault();
     clearTimeout(longPressTimeout);
 
@@ -904,7 +856,9 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    var target = e.target;
+    const {
+      target
+    } = e;
 
     if (!(target instanceof Element)) {
       return;
@@ -939,7 +893,7 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    var inlineImageLink = target.closest('.message_inline_image a');
+    const inlineImageLink = target.closest('.message_inline_image a');
 
     if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
       sendMessage({
@@ -963,17 +917,17 @@ var compiledWebviewJs = (function (exports) {
     }
 
     if (target.matches('.poll-vote')) {
-      var _messageElement = target.closest('.message');
+      const messageElement = target.closest('.message');
 
-      if (!_messageElement) {
+      if (!messageElement) {
         throw new Error('Message element not found');
       }
 
-      var current_vote = requireAttribute(target, 'data-voted') === 'true';
-      var vote = current_vote ? -1 : 1;
+      const current_vote = requireAttribute(target, 'data-voted') === 'true';
+      const vote = current_vote ? -1 : 1;
       sendMessage({
         type: 'vote',
-        messageId: requireNumericAttribute(_messageElement, 'data-msg-id'),
+        messageId: requireNumericAttribute(messageElement, 'data-msg-id'),
         key: requireAttribute(target, 'data-key'),
         vote
       });
@@ -983,14 +937,14 @@ var compiledWebviewJs = (function (exports) {
     }
 
     if (target.matches('time')) {
-      var originalText = requireAttribute(target, 'original-text');
+      const originalText = requireAttribute(target, 'original-text');
       sendMessage({
         type: 'time',
         originalText
       });
     }
 
-    var closestA = target.closest('a');
+    const closestA = target.closest('a');
 
     if (closestA) {
       sendMessage({
@@ -1001,14 +955,14 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    var spoilerHeader = target.closest('.spoiler-header');
+    const spoilerHeader = target.closest('.spoiler-header');
 
     if (spoilerHeader instanceof HTMLElement) {
       toggleSpoiler(spoilerHeader);
       return;
     }
 
-    var messageElement = target.closest('.message-brief');
+    const messageElement = target.closest('.message-brief');
 
     if (messageElement) {
       messageElement.getElementsByClassName('msg-timestamp')[0].classList.toggle('show');
@@ -1016,9 +970,9 @@ var compiledWebviewJs = (function (exports) {
     }
   });
 
-  var handleLongPress = function handleLongPress(target) {
+  const handleLongPress = target => {
     hasLongPressed = true;
-    var reactionNode = target.closest('.reaction');
+    const reactionNode = target.closest('.reaction');
 
     if (reactionNode) {
       sendMessage({
@@ -1029,8 +983,8 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    var targetType = target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message';
-    var messageNode = target.closest('.message');
+    const targetType = target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message';
+    const messageNode = target.closest('.message');
 
     if (targetType === 'message' && messageNode && messageNode.getAttribute('data-mute-state') === 'hidden') {
       revealMutedMessages(messageNode);
@@ -1045,8 +999,10 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  documentBody.addEventListener('touchstart', function (e) {
-    var target = e.target;
+  documentBody.addEventListener('touchstart', e => {
+    const {
+      target
+    } = e;
 
     if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
       return;
@@ -1056,31 +1012,23 @@ var compiledWebviewJs = (function (exports) {
     lastTouchPositionY = e.changedTouches[0].pageY;
     hasLongPressed = false;
     clearTimeout(longPressTimeout);
-    longPressTimeout = setTimeout(function () {
-      return handleLongPress(target);
-    }, 500);
+    longPressTimeout = setTimeout(() => handleLongPress(target), 500);
   });
 
-  var isNearPositions = function isNearPositions() {
-    var x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var x2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-    return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
-  };
+  const isNearPositions = (x1 = 0, y1 = 0, x2 = 0, y2 = 0) => Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
 
-  documentBody.addEventListener('touchend', function (e) {
+  documentBody.addEventListener('touchend', e => {
     if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
       clearTimeout(longPressTimeout);
     }
   });
-  documentBody.addEventListener('touchcancel', function (e) {
+  documentBody.addEventListener('touchcancel', e => {
     clearTimeout(longPressTimeout);
   });
-  documentBody.addEventListener('touchmove', function (e) {
+  documentBody.addEventListener('touchmove', e => {
     clearTimeout(longPressTimeout);
   });
-  documentBody.addEventListener('drag', function (e) {
+  documentBody.addEventListener('drag', e => {
     clearTimeout(longPressTimeout);
   });
   signalReadyForEvents();

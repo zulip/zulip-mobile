@@ -96,6 +96,10 @@ History:
   dropdown for "Deployment Target" didn't have a 12.0.
 * We [dropped Android 5 Lollipop support][dropped-android-l] in
   2021-08.
+* We [dropped Android 6 Marshmallow support][dropped-android-m] in
+  2021-11.  It represented 0.8% of our Android users, and didn't
+  support the API we'd started using to give spiffy new-style
+  notifications.
 <!-- When updating this, please update `docs/developer-guide.md` as well. -->
 
 [dropped-android-j]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/625585
@@ -104,6 +108,7 @@ History:
 [dropped-android-k]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/794551
 [dropped iOS 11 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/1165087
 [dropped-android-l]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Updating.20.60minSdkVersion.60/near/1236327
+[dropped-android-m]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/1278266
 
 
 Related observations:
