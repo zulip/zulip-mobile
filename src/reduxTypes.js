@@ -11,7 +11,7 @@ import type Immutable from 'immutable';
 import type { InputSelector } from 'reselect';
 
 import type { Account, Outbox } from './types';
-import type { Action } from './actionTypes';
+import type { Action, DispatchableWithoutAccountAction } from './actionTypes';
 import type {
   Topic,
   Message,
@@ -405,7 +405,7 @@ export type UsersState = $ReadOnlyArray<User>;
  * parts of our code will in that future operate on a particular account and
  * which parts will operate on all accounts' data or none.
  */
-export type PerAccountState = $ReadOnly<{
+type PerAccountStateImpl = $ReadOnly<{
   // TODO(#5006): Secretly we assume these objects also have `Account` data,
   //   like so:
   // accounts: [Account, ...mixed],
@@ -445,6 +445,8 @@ export type PerAccountState = $ReadOnly<{
   ...
 }>;
 
+export opaque type PerAccountState: PerAccountStateImpl = PerAccountStateImpl;
+
 /**
  * Our complete Redux state tree.
  *
@@ -474,10 +476,6 @@ export type GlobalState = $ReadOnly<{|
   accounts: AccountsState,
 |}>;
 
-// For now, under our single-active-account model, we want a GlobalState
-// to be seamlessly usable as a PerAccountState.
-(s: GlobalState): PerAccountState => s; // eslint-disable-line no-unused-expressions
-
 /**
  * Assume the given per-account state object is secretly a GlobalState.
  *
@@ -490,6 +488,28 @@ export type GlobalState = $ReadOnly<{|
 export function assumeSecretlyGlobalState(state: PerAccountState): GlobalState {
   // $FlowFixMe[incompatible-exact]
   // $FlowFixMe[prop-missing]
+  return state;
+}
+
+/**
+ * Use the given state object as a per-account state.
+ *
+ * TODO(#5006): We'll have to fix and eliminate each call to this.
+ */
+export function dubPerAccountState(state: GlobalState): PerAccountState {
+  // Here in this file, we can make this cast with no fixmes (for now, under
+  // our single-active-account model.)  But from anywhere outside this file,
+  // that's forbidden because PerAccountState is opaque, so the way to do it
+  // is by calling this function.
+  return state;
+}
+
+/**
+ * For tests only.  Use the given state object as *both* kinds of state.
+ *
+ * TODO(#5006): We'll have to fix and eliminate each call to this.
+ */
+export function dubJointState(state: GlobalState): GlobalState & PerAccountState {
   return state;
 }
 
@@ -536,7 +556,7 @@ export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T
 
 /** The Redux `dispatch` for a global context. */
 export interface GlobalDispatch {
-  <A: Action>(action: A): A;
+  <A: DispatchableWithoutAccountAction>(action: A): A;
   <T>(GlobalThunkAction<T>): T;
 }
 
@@ -556,4 +576,5 @@ export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState) => T;
 (d: Dispatch): GlobalDispatch => d;
 //   $FlowExpectedError[incompatible-exact]
 //   $FlowExpectedError[prop-missing]
+//   $FlowExpectedError[incompatible-return]
 <T>(a: GlobalThunkAction<T>): ThunkAction<T> => a;

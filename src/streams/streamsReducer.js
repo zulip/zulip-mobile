@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
-import type { Action, StreamsState } from '../types';
+import type { PerAccountApplicableAction, StreamsState } from '../types';
 import { ensureUnreachable } from '../types';
 import { LOGOUT, ACCOUNT_SWITCH, EVENT, REGISTER_COMPLETE } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
@@ -8,7 +8,10 @@ import { filterArray } from '../utils/immutability';
 
 const initialState: StreamsState = NULL_ARRAY;
 
-export default (state: StreamsState = initialState, action: Action): StreamsState => {
+export default (
+  state: StreamsState = initialState,
+  action: PerAccountApplicableAction,
+): StreamsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
       return action.data.streams || initialState;

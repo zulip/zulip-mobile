@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
-import type { Action } from '../types';
+import type { PerAccountApplicableAction } from '../types';
 import type { UnreadMentionsState } from './unreadModelTypes';
 import {
   REGISTER_COMPLETE,
@@ -34,7 +34,10 @@ const eventUpdateMessageFlags = (state, action) => {
   return state;
 };
 
-export default (state: UnreadMentionsState = initialState, action: Action): UnreadMentionsState => {
+export default (
+  state: UnreadMentionsState = initialState,
+  action: PerAccountApplicableAction,
+): UnreadMentionsState => {
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:

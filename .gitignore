@@ -53,6 +53,7 @@ npm-debug.log
 # VS Code: default Java extension
 /android/.project
 /android/.settings/
+/android/app/.project
 
 # VS Code: debugger
 /.vscode/.react/

@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { ensureUnreachable } from './generics';
 import {
   REHYDRATE,
   APP_ONLINE,
@@ -18,7 +19,7 @@ import {
   REGISTER_START,
   REGISTER_ABORT,
   REGISTER_COMPLETE,
-  SETTINGS_CHANGE,
+  SET_GLOBAL_SETTINGS,
   DRAFT_UPDATE,
   PRESENCE_RESPONSE,
   MESSAGE_SEND_START,
@@ -84,7 +85,7 @@ import type {
   Topic,
   PresenceState,
   RealmEmojiById,
-  SettingsState,
+  GlobalSettingsState,
   CaughtUpState,
   MuteState,
   AlertWordsState,
@@ -559,9 +560,9 @@ export type EventAction =
   | EventUserGroupAction
   | EventUserStatusUpdateAction;
 
-type SettingsChangeAction = {|
-  type: typeof SETTINGS_CHANGE,
-  update: $Shape<SettingsState>,
+type SetGlobalSettingsAction = {|
+  type: typeof SET_GLOBAL_SETTINGS,
+  update: $Shape<$Exact<GlobalSettingsState>>,
 |};
 
 type DraftUpdateAction = {|
@@ -607,9 +608,17 @@ type InitTopicsAction = {|
   streamId: number,
 |};
 
+/* eslint-disable spaced-comment */
+
+////
 //
-// The `Action` union type.
+// The `Action` union type, and some subtypes.
 //
+////
+
+//
+// First, some convenience unions without much meaning.
+// (We should perhaps just inline these below.)
 
 type AccountAction = AccountSwitchAction | AccountRemoveAction | LoginSuccessAction | LogoutAction;
 
@@ -623,29 +632,183 @@ type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | Message
 
 type OutboxAction = MessageSendStartAction | MessageSendCompleteAction | DeleteOutboxMessageAction;
 
-type RealmAction = RegisterCompleteAction | UnackPushTokenAction | AckPushTokenAction;
+//
+// Then, the primary subtypes of `Action`.  Each of these should have some
+// coherent meaning in terms of what kind of state it applies to; and they
+// should have no overlap.  (Subtypes that might overlap are formed below
+// as unions of these primary subtypes.)
 
-type SessionAction =
+/* eslint-disable semi-style */
+
+/**
+ * Plain actions applying to this account's state.
+ *
+ * That is, these should only be dispatched from a per-account context, and
+ * they apply to the account the caller is acting on.  In a pre-#5006 world,
+ * that means the active account.
+ */
+// prettier-ignore
+export type PerAccountAction =
+  // The grouping here is completely arbitrary; don't worry about it.
+  | EventAction
+  | LoadingAction
+  | MessageAction
+  | OutboxAction
+  | RegisterCompleteAction
+  | DraftUpdateAction
+  | PresenceResponseAction
+  | InitTopicsAction
+  | ClearTypingAction
+  // state.session
+  | DismissServerCompatNoticeAction
+  | ToggleOutboxSendingAction
+  ;
+
+/** Plain actions applying to other accounts' per-account state. */
+// prettier-ignore
+export type AllAccountsAction =
+  // This affects all the per-account states as well as everything else.
   | RehydrateAction
+  // These can rearrange the `state.accounts` list itself.
+  | AccountAction
+  // These two are about a specific account… but not just the active one,
+  // and they encode which one they mean.
+  | AckPushTokenAction | UnackPushTokenAction
+  ;
+
+/** Plain actions not affecting any per-account state. */
+// prettier-ignore
+export type AccountIndependentAction =
+  | SetGlobalSettingsAction
+  // state.session
   | AppOnlineAction
   | AppOrientationAction
   | GotPushTokenAction
   | DebugFlagToggleAction
-  | DismissServerCompatNoticeAction
-  | ToggleOutboxSendingAction;
+  ;
 
-/** Covers all actions we ever `dispatch`. */
-// The grouping here is completely arbitrary; don't worry about it.
+//
+// `Action` itself.
+
+/**
+ * Covers all plain actions we ever `dispatch`.
+ *
+ * For *all* actions we ever dispatch, see also the thunk action types in
+ * `reduxTypes.js`.
+ */
+// prettier-ignore
 export type Action =
-  | EventAction
-  | AccountAction
-  | LoadingAction
-  | MessageAction
-  | OutboxAction
-  | RealmAction
-  | SessionAction
-  | DraftUpdateAction
-  | PresenceResponseAction
-  | SettingsChangeAction
-  | InitTopicsAction
-  | ClearTypingAction;
+  // This should consist of the primary subtypes defined just above.
+  | PerAccountAction
+  | AllAccountsAction
+  | AccountIndependentAction
+  ;
+
+//
+// Other subtypes of `Action`.
+//
+// These should be unions of the primary subtypes, to express different
+// meanings about what contexts the actions can be used in.
+
+/** Plain actions that per-account reducers may respond to. */
+// prettier-ignore
+export type PerAccountApplicableAction =
+  | PerAccountAction
+  | AllAccountsAction
+  ;
+
+// Plain actions that global reducers may respond to are... well, at the
+// moment we have no reducers that act only on global state.  Our state
+// subtrees `session` and `settings` mix global with per-account state,
+// while `accounts` contains per-account state for all accounts, and its
+// reducer does respond to some of PerAccountAction as well as
+// AllAccountsAction.
+// TODO(#5006): Make a GlobalApplicableAction for global session and
+//   settings state, once those are separate from per-account.
+
+// TODO(#5006): would be nice to assert these types have empty intersection
+// (a: PerAccountApplicableAction & AccountIndependentAction): empty => a; // eslint-disable-line
+// (a: GlobalApplicableAction & PerAccountAction): empty => a; // eslint-disable-line
+
+/** Actions that can be dispatched without reference to a specific account. */
+// prettier-ignore
+export type DispatchableWithoutAccountAction =
+  | AllAccountsAction
+  | AccountIndependentAction
+  ;
+
+/** True just if the action is a PerAccountApplicableAction. */
+export function isPerAccountApplicableAction(action: Action): boolean {
+  switch (action.type) {
+    case EVENT:
+    case EVENT_ALERT_WORDS:
+    case EVENT_MESSAGE_DELETE:
+    case EVENT_MUTED_TOPICS:
+    case EVENT_MUTED_USERS:
+    case EVENT_NEW_MESSAGE:
+    case EVENT_PRESENCE:
+    case EVENT_REACTION_ADD:
+    case EVENT_REACTION_REMOVE:
+    case EVENT_REALM_EMOJI_UPDATE:
+    case EVENT_REALM_FILTERS:
+    case EVENT_SUBMESSAGE:
+    case EVENT_SUBSCRIPTION:
+    case EVENT_TYPING_START:
+    case EVENT_TYPING_STOP:
+    case EVENT_UPDATE_DISPLAY_SETTINGS:
+    case EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS:
+    case EVENT_UPDATE_MESSAGE:
+    case EVENT_UPDATE_MESSAGE_FLAGS:
+    case EVENT_USER_ADD:
+    case EVENT_USER_GROUP_ADD:
+    case EVENT_USER_GROUP_ADD_MEMBERS:
+    case EVENT_USER_GROUP_REMOVE:
+    case EVENT_USER_GROUP_REMOVE_MEMBERS:
+    case EVENT_USER_GROUP_UPDATE:
+    case EVENT_USER_REMOVE:
+    case EVENT_USER_STATUS_UPDATE:
+    case EVENT_USER_UPDATE:
+    case DEAD_QUEUE:
+    case REGISTER_START:
+    case REGISTER_ABORT:
+    case REGISTER_COMPLETE:
+    case MESSAGE_FETCH_COMPLETE:
+    case MESSAGE_FETCH_ERROR:
+    case MESSAGE_FETCH_START:
+    case MESSAGE_SEND_COMPLETE:
+    case MESSAGE_SEND_START:
+    case DELETE_OUTBOX_MESSAGE:
+    case DRAFT_UPDATE:
+    case PRESENCE_RESPONSE:
+    case INIT_TOPICS:
+    case CLEAR_TYPING:
+    case DISMISS_SERVER_COMPAT_NOTICE:
+    case TOGGLE_OUTBOX_SENDING:
+      (action: PerAccountAction);
+      (action: PerAccountApplicableAction);
+      return true;
+
+    case REHYDRATE:
+    case ACCOUNT_SWITCH:
+    case ACCOUNT_REMOVE:
+    case LOGIN_SUCCESS:
+    case LOGOUT:
+    case ACK_PUSH_TOKEN:
+    case UNACK_PUSH_TOKEN:
+      (action: AllAccountsAction);
+      (action: PerAccountApplicableAction);
+      return true;
+
+    case SET_GLOBAL_SETTINGS:
+    case APP_ONLINE:
+    case APP_ORIENTATION:
+    case GOT_PUSH_TOKEN:
+    case DEBUG_FLAG_TOGGLE:
+      (action: AccountIndependentAction);
+      return false;
+
+    default:
+      ensureUnreachable(action);
+      return false;
+  }
+}

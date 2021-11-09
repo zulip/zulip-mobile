@@ -11,7 +11,7 @@ import type {
   Selector,
   GlobalSelector,
 } from '../types';
-import { assumeSecretlyGlobalState } from '../reduxTypes';
+import { dubPerAccountState, assumeSecretlyGlobalState } from '../reduxTypes';
 import { getAccounts } from '../directSelectors';
 import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -67,7 +67,9 @@ export const getAccountsByIdentity: GlobalSelector<(Identity) => Account | void>
  */
 export const tryGetActiveAccountState = (state: GlobalState): PerAccountState | void => {
   const accounts = getAccounts(state);
-  return accounts && accounts.length > 0 ? state : undefined;
+  // TODO(#5006): This is the inverse of where getAccount uses the same
+  //   assumption that the two state types are really the same objects.
+  return accounts && accounts.length > 0 ? dubPerAccountState(state) : undefined;
 };
 
 /**

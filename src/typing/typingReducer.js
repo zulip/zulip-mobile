@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Action, TypingState } from '../types';
+import type { PerAccountApplicableAction, TypingState } from '../types';
 import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
@@ -83,7 +83,10 @@ const clearTyping = (state, action) => {
   return newState;
 };
 
-export default (state: TypingState = initialState, action: Action): TypingState => {
+export default (
+  state: TypingState = initialState,
+  action: PerAccountApplicableAction,
+): TypingState => {
   switch (action.type) {
     case EVENT_TYPING_START:
       return eventTypingStart(state, action);

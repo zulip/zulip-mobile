@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { UsersState, Action } from '../types';
+import type { UsersState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -13,7 +13,10 @@ import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UsersState = NULL_ARRAY;
 
-export default (state: UsersState = initialState, action: Action): UsersState => {
+export default (
+  state: UsersState = initialState,
+  action: PerAccountApplicableAction,
+): UsersState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

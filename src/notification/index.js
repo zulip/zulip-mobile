@@ -26,6 +26,7 @@ import { getAccounts } from '../directSelectors';
  * Identify the account the notification is for, if possible.
  *
  * Returns an index into `identities`, or `null` if we can't tell.
+ * In the latter case, logs a warning.
  *
  * @param identities Identities corresponding to the accounts state in Redux.
  */

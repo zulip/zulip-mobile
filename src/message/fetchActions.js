@@ -1,7 +1,14 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type { Narrow, PerAccountState, Message, Action, ThunkAction, UserId } from '../types';
+import type {
+  Narrow,
+  PerAccountState,
+  Message,
+  PerAccountAction,
+  ThunkAction,
+  UserId,
+} from '../types';
 import { ensureUnreachable } from '../types';
 import type { RegisterAbortReason } from '../actionTypes';
 import type { InitialData } from '../api/initialDataTypes';
@@ -39,14 +46,18 @@ import { ZulipVersion } from '../utils/zulipVersion';
 import { getAllUsersById, getHaveServerData, getOwnUserId } from '../users/userSelectors';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 
-const messageFetchStart = (narrow: Narrow, numBefore: number, numAfter: number): Action => ({
+const messageFetchStart = (
+  narrow: Narrow,
+  numBefore: number,
+  numAfter: number,
+): PerAccountAction => ({
   type: MESSAGE_FETCH_START,
   narrow,
   numBefore,
   numAfter,
 });
 
-const messageFetchError = (args: {| narrow: Narrow, error: Error |}): Action => {
+const messageFetchError = (args: {| narrow: Narrow, error: Error |}): PerAccountAction => {
   const { narrow, error } = args;
   return {
     type: MESSAGE_FETCH_ERROR,
@@ -64,7 +75,7 @@ const messageFetchComplete = (args: {|
   foundNewest: boolean,
   foundOldest: boolean,
   ownUserId: UserId,
-|}): Action => {
+|}): PerAccountAction => {
   const {
     messages,
     narrow,
@@ -192,11 +203,11 @@ export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
   }
 };
 
-const registerStart = (): Action => ({
+const registerStart = (): PerAccountAction => ({
   type: REGISTER_START,
 });
 
-const registerAbortPlain = (reason: RegisterAbortReason): Action => ({
+const registerAbortPlain = (reason: RegisterAbortReason): PerAccountAction => ({
   type: REGISTER_ABORT,
   reason,
 });
@@ -256,7 +267,7 @@ export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<
   }
 };
 
-const registerComplete = (data: InitialData): Action => ({
+const registerComplete = (data: InitialData): PerAccountAction => ({
   type: REGISTER_COMPLETE,
   data,
 });

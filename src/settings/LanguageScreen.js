@@ -9,7 +9,7 @@ import { useGlobalSelector, useDispatch } from '../react-redux';
 import { Screen } from '../common';
 import LanguagePicker from './LanguagePicker';
 import { getGlobalSettings } from '../selectors';
-import { settingsChange } from '../actions';
+import { setGlobalSettings } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'language'>,
@@ -24,7 +24,7 @@ export default function LanguageScreen(props: Props): Node {
 
   const handleLocaleChange = useCallback(
     (value: string) => {
-      dispatch(settingsChange({ language: value }));
+      dispatch(setGlobalSettings({ language: value }));
     },
     [dispatch],
   );

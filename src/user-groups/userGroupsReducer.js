@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { UserGroupsState, Action } from '../types';
+import type { UserGroupsState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -45,7 +45,10 @@ const eventUserGroupRemoveMembers = (state, action) =>
         },
   );
 
-export default (state: UserGroupsState = initialState, action: Action): UserGroupsState => {
+export default (
+  state: UserGroupsState = initialState,
+  action: PerAccountApplicableAction,
+): UserGroupsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

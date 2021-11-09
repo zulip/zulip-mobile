@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import type { MutedUsersState, Action, UserId } from '../types';
+import type { MutedUsersState, PerAccountApplicableAction, UserId } from '../types';
 import {
   REGISTER_COMPLETE,
   LOGIN_SUCCESS,
@@ -17,7 +17,10 @@ function mutedUsersToMap(muted_users: $ReadOnlyArray<MutedUser>): Immutable.Map<
   return Immutable.Map(muted_users.map(muted_user => [muted_user.id, muted_user.timestamp]));
 }
 
-export default (state: MutedUsersState = initialState, action: Action): MutedUsersState => {
+export default (
+  state: MutedUsersState = initialState,
+  action: PerAccountApplicableAction,
+): MutedUsersState => {
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:

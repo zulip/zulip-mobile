@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
-import type { SubscriptionsState, Action } from '../types';
+import type { SubscriptionsState, PerAccountApplicableAction } from '../types';
 import { ensureUnreachable } from '../types';
 import {
   LOGOUT,
@@ -20,7 +20,10 @@ const updateSubscription = (state, event) =>
     sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub,
   );
 
-export default (state: SubscriptionsState = initialState, action: Action): SubscriptionsState => {
+export default (
+  state: SubscriptionsState = initialState,
+  action: PerAccountApplicableAction,
+): SubscriptionsState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

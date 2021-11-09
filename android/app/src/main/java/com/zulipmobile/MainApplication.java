@@ -20,19 +20,12 @@ import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
 
 import com.zulipmobile.generated.BasePackageList;
-import com.zulipmobile.notifications.ConversationMap;
 import com.zulipmobile.notifications.FCMPushNotifications;
 import com.zulipmobile.notifications.NotificationsPackage;
 import com.zulipmobile.sharing.SharingPackage;
 
 public class MainApplication extends Application implements ReactApplication {
     private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
-
-    private ConversationMap conversations;
-
-    public ConversationMap getConversations() {
-        return conversations;
-    }
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -79,7 +72,6 @@ public class MainApplication extends Application implements ReactApplication {
         FCMPushNotifications.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-        conversations = new ConversationMap();
     }
 
     /**

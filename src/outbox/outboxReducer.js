@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { OutboxState, Action, Outbox } from '../types';
+import type { OutboxState, PerAccountApplicableAction, Outbox } from '../types';
 import {
   REGISTER_COMPLETE,
   MESSAGE_SEND_START,
@@ -22,7 +22,10 @@ const messageSendStart = (state, action) => {
   return [...state, { ...action.outbox }];
 };
 
-export default (state: OutboxState = initialState, action: Action): OutboxState => {
+export default (
+  state: OutboxState = initialState,
+  action: PerAccountApplicableAction,
+): OutboxState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
       return filterArray(state, (outbox: Outbox) => !outbox.isSent);

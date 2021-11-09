@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { PresenceState, Action } from '../types';
+import type { PresenceState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -14,7 +14,10 @@ import objectEntries from '../utils/objectEntries';
 
 const initialState: PresenceState = NULL_OBJECT;
 
-export default (state: PresenceState = initialState, action: Action): PresenceState => {
+export default (
+  state: PresenceState = initialState,
+  action: PerAccountApplicableAction,
+): PresenceState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

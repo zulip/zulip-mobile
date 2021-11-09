@@ -16,7 +16,7 @@ import {
   IconMoreHorizontal,
 } from '../common/Icons';
 import {
-  settingsChange,
+  setGlobalSettings,
   navigateToNotifications,
   navigateToLanguage,
   navigateToDiagnostics,
@@ -38,7 +38,7 @@ export default function SettingsScreen(props: Props): Node {
   const dispatch = useDispatch();
 
   const handleThemeChange = useCallback(() => {
-    dispatch(settingsChange({ theme: theme === 'default' ? 'night' : 'default' }));
+    dispatch(setGlobalSettings({ theme: theme === 'default' ? 'night' : 'default' }));
   }, [theme, dispatch]);
 
   return (
@@ -48,14 +48,14 @@ export default function SettingsScreen(props: Props): Node {
         label="Open links with in-app browser"
         value={shouldUseInAppBrowser(browser)}
         onValueChange={value => {
-          dispatch(settingsChange({ browser: value ? 'embedded' : 'external' }));
+          dispatch(setGlobalSettings({ browser: value ? 'embedded' : 'external' }));
         }}
       />
       <SwitchRow
         label="Do not mark messages read on scroll"
         value={doNotMarkMessagesAsRead}
         onValueChange={value => {
-          dispatch(settingsChange({ doNotMarkMessagesAsRead: value }));
+          dispatch(setGlobalSettings({ doNotMarkMessagesAsRead: value }));
         }}
       />
       <NestedNavRow

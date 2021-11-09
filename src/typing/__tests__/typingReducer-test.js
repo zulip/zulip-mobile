@@ -2,7 +2,7 @@
 
 import deepFreeze from 'deep-freeze';
 
-import type { Action, User } from '../../types';
+import type { PerAccountAction, User } from '../../types';
 import { EVENT_TYPING_START, EVENT_TYPING_STOP } from '../../actionConstants';
 import typingReducer from '../typingReducer';
 import { NULL_OBJECT } from '../../nullObjects';
@@ -18,7 +18,7 @@ describe('typingReducer', () => {
     sender: User,
     recipients: $ReadOnlyArray<User>,
     time: number,
-  |}): Action => {
+  |}): PerAccountAction => {
     const { op, sender, recipients, time } = args;
     const base = {
       id: 123,

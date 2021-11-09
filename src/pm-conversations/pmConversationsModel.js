@@ -11,7 +11,7 @@ import {
 } from '../actionConstants';
 import { makeUserId } from '../api/idTypes';
 
-import type { Action, PmMessage, PmOutbox, UserId } from '../types';
+import type { PerAccountApplicableAction, PmMessage, PmOutbox, UserId } from '../types';
 import { recipientsOfPrivateMessage } from '../utils/recipient';
 import { ZulipVersion } from '../utils/zulipVersion';
 
@@ -181,7 +181,7 @@ function insertMessage(state, message, ownUserId) {
 
 export function reducer(
   state: PmConversationsState = initialState,
-  action: Action,
+  action: PerAccountApplicableAction,
 ): PmConversationsState {
   switch (action.type) {
     case LOGOUT:
