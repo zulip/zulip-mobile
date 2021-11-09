@@ -207,8 +207,8 @@ private fun updateNotification(
 
     val title = when (fcmMessage.recipient) {
         is Recipient.Stream -> "#${fcmMessage.recipient.stream} > ${fcmMessage.recipient.topic}"
-        // TODO use proper title for GroupPM, we will need
-        // to have a way to get names of PM users here.
+        // TODO(#5116): use proper title for GroupPM, for which we will need
+        //   to have a way to get names of PM users here.
         is Recipient.GroupPm -> context.resources.getQuantityString(
             R.plurals.group_pm,
             fcmMessage.recipient.pmUsers.size - 2,
