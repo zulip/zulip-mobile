@@ -347,6 +347,10 @@ internal fun onOpened(application: ReactApplication, data: Bundle) {
     logNotificationData("notif opened", data)
     notifyReact(application, data)
     try {
+        // TODO: Does this (still) do anything useful?  We call `setNumber` on the
+        //   notification builder, which is supposed to provide a badge count:
+        //     https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setNumber(int)
+        //   and then `setAutoCancel`, so the notification gets cancelled on open.
         ShortcutBadger.removeCount(application as Context)
     } catch (e: Exception) {
         ZLog.e(TAG, e)
