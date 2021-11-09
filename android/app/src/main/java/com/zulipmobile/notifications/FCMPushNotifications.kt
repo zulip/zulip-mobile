@@ -64,12 +64,11 @@ val ACTION_CLEAR = "ACTION_CLEAR"
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
-private fun getNotificationManager(context: Context): NotificationManager {
-    // This method can return null if the class is not a supported system service.
-    // But NotificationManager was added in API 1, long before the oldest Android
-    // version we support, so just assert here that it's non-null.
-    return context.getSystemService(NotificationManager::class.java)!!
-}
+private val Context.notificationManager: NotificationManager
+    // This `getSystemService` method can return null if the class is not a supported
+    // system service.  But NotificationManager was added in API 1, long before the
+    // oldest Android version we support, so just assert here that it's non-null.
+    get() = this.getSystemService(NotificationManager::class.java)!!
 
 fun createNotificationChannel(context: Context) {
     val audioAttr: AudioAttributes = AudioAttributes.Builder()
@@ -138,7 +137,7 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // conversation's notification.
     // See: https://github.com/zulip/zulip-mobile/pull/4842#pullrequestreview-725817909
     var haveRemaining = false
-    for (statusBarNotification in getNotificationManager(context).activeNotifications) {
+    for (statusBarNotification in context.notificationManager.activeNotifications) {
         // The StatusBarNotification object describes an active notification in the UI.
         // Its relationship to the Notification and to our metadata is a bit confusing:
         //  * The `.tag`, `.id`, and `.notification` are the same values as we passed to
@@ -190,7 +189,7 @@ private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Cont
  * our notifications have unique tags.
  */
 private fun getActiveNotificationByTag(context: Context, notificationTag: String): Notification? {
-    val activeStatusBarNotifications = getNotificationManager(context).activeNotifications
+    val activeStatusBarNotifications = context.notificationManager.activeNotifications
     for (statusBarNotification in activeStatusBarNotifications) {
         if (statusBarNotification.tag == notificationTag) {
             return statusBarNotification.notification
