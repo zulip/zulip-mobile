@@ -139,8 +139,16 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // conversation's notification.
     // See: https://github.com/zulip/zulip-mobile/pull/4842#pullrequestreview-725817909
     for (statusBarNotification in statusBarNotifications) {
-        // Each statusBarNotification represents one Zulip conversation.
+        // The StatusBarNotification object describes an active notification in the UI.
+        // Its relationship to the Notification and to our metadata is a bit confusing:
+        //  * The `.tag`, `.id`, and `.notification` are the same values as we passed to
+        //    `NotificationManager#notify`.  So these are good to match on and inspect.
+        //  * The `.groupKey` and `.key` sound tempting.  But while the `.groupKey` contains
+        //    the `.notification.group`, and the `.key` contains the `.id` and `.tag`, they
+        //    also have more stuff added on (and their structure doesn't seem to be documented.)
+        //    So don't try to match those.
         val notification = statusBarNotification.notification
+
         val lastMessageId = notification.extras.getInt("lastZulipMessageId")
         if (fcmMessage.messageIds.contains(lastMessageId)) {
             // The latest Zulip message in this conversation was read.
