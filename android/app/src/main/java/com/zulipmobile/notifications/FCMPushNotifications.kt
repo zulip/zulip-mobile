@@ -149,6 +149,9 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
         //    So don't try to match those.
         val notification = statusBarNotification.notification
 
+        // Don't act on notifications that are for other Zulip accounts/identities.
+        if (notification.group != groupKey) continue;
+
         val lastMessageId = notification.extras.getInt("lastZulipMessageId")
         if (fcmMessage.messageIds.contains(lastMessageId)) {
             // The latest Zulip message in this conversation was read.
