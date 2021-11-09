@@ -486,7 +486,15 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isTopicFocused, showAttachmentRow, isMenuExpanded, height, message, topic, selection } = this.state;
+    const {
+      isTopicFocused,
+      showAttachmentRow,
+      isMenuExpanded,
+      height,
+      message,
+      topic,
+      selection,
+    } = this.state;
     const {
       ownUserId,
       narrow,
@@ -533,11 +541,19 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           />
         </View>
         <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
-          {(!isMenuExpanded && !showAttachmentRow) && (
-            <IconPlusCircle style={this.styles.expandButton} size={24} onPress={this.handleComposeMenuToggle} />
+          {!isMenuExpanded && !showAttachmentRow && (
+            <IconPlusCircle
+              style={this.styles.expandButton}
+              size={24}
+              onPress={this.handleComposeMenuToggle}
+            />
           )}
-          {(isMenuExpanded && !showAttachmentRow) && (
-            <IconUp style={this.styles.expandButton} size={24} onPress={this.handleComposeMenuToggle} />
+          {isMenuExpanded && !showAttachmentRow && (
+            <IconUp
+              style={this.styles.expandButton}
+              size={24}
+              onPress={this.handleComposeMenuToggle}
+            />
           )}
           <View style={this.styles.composeText}>
             <Input
