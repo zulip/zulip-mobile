@@ -169,11 +169,7 @@ private fun createSummaryNotification(
     val realmUri = fcmMessage.identity.realmUri.toString()
     return NotificationCompat.Builder(context, CHANNEL_ID).apply {
         color = context.getColor(R.color.brandColor)
-        if (BuildConfig.DEBUG) {
-            setSmallIcon(R.mipmap.ic_launcher)
-        } else {
-            setSmallIcon(R.drawable.zulip_notification)
-        }
+        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
         setStyle(NotificationCompat.InboxStyle()
             .setSummaryText(realmUri)
         )
@@ -236,24 +232,18 @@ private fun updateNotification(
 
     val messageCount = messagingStyle.messages.size
 
-    val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-    builder.apply {
+    val builder = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         color = context.getColor(R.color.brandColor)
-        if (BuildConfig.DEBUG) {
-            setSmallIcon(R.mipmap.ic_launcher)
-        } else {
-            setSmallIcon(R.drawable.zulip_notification)
-        }
+        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
         setAutoCancel(true)
         setStyle(messagingStyle)
         setGroup(groupKey)
         setSound(getNotificationSoundUri())
         setContentIntent(createViewPendingIntent(fcmMessage, context))
         setNumber(messageCount)
-
-        val extraData = Bundle()
-        extraData.putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
-        extras = extraData
+        extras = Bundle().apply {
+            putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
+        }
     }
 
     val summaryNotification = createSummaryNotification(context, fcmMessage, groupKey)
@@ -280,5 +270,4 @@ internal fun onOpened(application: ReactApplication, data: Bundle) {
     } catch (e: Exception) {
         ZLog.e(TAG, e)
     }
-
 }
