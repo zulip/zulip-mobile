@@ -175,7 +175,13 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
 
 /** A PendingIntent for opening this message's conversation in the app. */
 private fun createViewPendingIntent(fcmMessage: MessageFcmMessage, context: Context): PendingIntent {
-    val uri = Uri.fromParts("zulip", "msgid:${fcmMessage.zulipMessageId}", "")
+    // We don't use a URL for this intent; rather we get the information
+    // from the "extra" we add to it.  But, empirically, if the URL is the
+    // same from one notification to the next, then opening the second one
+    // just takes us back to where the first one led, ignoring its different extras.
+    // So we make sure the URL is different every time.
+    val messageKey = "${extractGroupKey(fcmMessage.identity)}|${fcmMessage.zulipMessageId}"
+    val uri = Uri.fromParts("zulip", messageKey, "")
     val viewIntent = Intent(Intent.ACTION_VIEW, uri, context, NotificationIntentService::class.java)
     viewIntent.putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen())
     return PendingIntent.getService(context, 0, viewIntent, 0)
