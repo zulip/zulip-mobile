@@ -73,34 +73,140 @@ export type AvailableVideoChatProviders = $ReadOnly<{|
   [providerName: string]: $ReadOnly<{| name: string, id: number |}>,
 |}>;
 
+// This is current to feature level 107.
 export type InitialDataRealm = $ReadOnly<{|
-  jitsi_server_url?: string,
-  max_icon_file_size: number,
-  realm_add_emoji_by_admins_only: boolean,
-  realm_allow_community_topic_editing: boolean,
+  development_environment: boolean,
+
+  // TODO(server-5.0): Added, at feat. 74.
+  event_queue_longpoll_timeout_seconds?: number,
+
+  jitsi_server_url?: string, // TODO: Really optional?
+  max_avatar_file_size_mib: number,
+  max_file_upload_size_mib: number,
+
+  // TODO(server-5.0): Replaced in feat. 72 by max_icon_file_size_mib
+  max_icon_file_size?: number,
+
+  // TODO(server-5.0): Added in feat. 72, replacing max_icon_file_size
+  max_icon_file_size_mib?: number,
+
+  // TODO(server-5.0): Replaced in feat. 72 by max_logo_file_size_mib
+  max_logo_file_size?: number,
+
+  // TODO(server-5.0): Added in feat. 72, replacing max_logo_file_size
+  max_logo_file_size_mib?: number,
+
+  // TODO(server-4.0): Added in feat. 53
+  max_message_length?: number,
+
+  // TODO(server-4.0): Added in feat. 53
+  max_stream_description_length?: number,
+
+  // TODO(server-4.0): Added in feat. 53
+  max_stream_name_length?: number,
+
+  // TODO(server-4.0): Added in feat. 53
+  max_topic_length?: number,
+
+  password_min_length: number,
+  password_min_guesses: number,
+
+  // TODO(server-5.0): Added in feat. 85, replacing realm_add_emoji_by_admins_only
+  realm_add_custom_emoji_policy?: number,
+
+  // TODO(server-5.0): Replaced in feat. 85 by realm_add_custom_emoji_policy
+  realm_add_emoji_by_admins_only?: boolean,
+
+  // TODO(server-5.0): Replaced in feat. 75 by realm_edit_topic_policy
+  realm_allow_community_topic_editing?: boolean,
+
   realm_allow_edit_history: boolean,
-  realm_allow_message_deleting: boolean,
+
+  // TODO(server-5.0): Replaced in feat. 101 by realm_delete_own_message_policy
+  realm_allow_message_deleting?: boolean,
+
   realm_allow_message_editing: boolean,
   realm_authentication_methods: $ReadOnly<{ GitHub: true, Email: true, Google: true, ... }>,
   realm_available_video_chat_providers: AvailableVideoChatProviders,
+  realm_avatar_changes_disabled: boolean,
   realm_bot_creation_policy: number,
   realm_bot_domain: string,
-  realm_create_stream_by_admins_only: boolean,
+
+  // TODO(server-3.0): Added in feat. 11
+  realm_community_topic_editing_limit_seconds?: number,
+
+  // TODO(server-5.0): Added in feat. 102, replacing
+  // realm_create_stream_policy for private streams
+  realm_create_private_stream_policy?: number,
+
+  // TODO(server-5.0): Added in feat. 102, replacing
+  // realm_create_stream_policy for public streams
+  realm_create_public_stream_policy?: number,
+
+  // TODO(server-5.0): Replaced in feat. 102 by
+  // realm_create_private_stream_policy and realm_create_public_stream_policy
+  realm_create_stream_policy?: number,
+
+  // TODO(server-5.0): Added in feat. 103
+  realm_create_web_public_stream_policy?: number,
+
+  realm_default_code_block_language: string | null,
+  realm_default_external_accounts: {|
+    +[site_name: string]: {|
+      +name: string,
+      +text: string,
+      +hint: string,
+      +url_pattern: string,
+    |},
+  |},
   realm_default_language: string,
-  realm_default_twenty_four_hour_time: boolean,
+
+  // TODO(server-5.0): Replaced in feat. 99 by
+  // realm_user_settings_defaults.twenty_four_hour_time; there, only present
+  // if realm_user_settings_defaults is given in fetch_event_types
+  realm_default_twenty_four_hour_time?: boolean,
+
+  // TODO(server-5.0): Added in feat. 101, replacing realm_allow_message_deleting
+  realm_delete_own_message_policy?: number,
+
   realm_description: string,
+  realm_digest_emails_enabled: boolean,
+  realm_digest_weekday: number,
   realm_disallow_disposable_email_addresses: boolean,
+
+  // TODO(server-5.0): Added in feat. 75, replacing realm_allow_community_topic_editing
+  realm_edit_topic_policy?: number,
+
+  realm_email_address_visibility: number,
   realm_email_auth_enabled: boolean,
   realm_email_changes_disabled: boolean,
+  realm_emails_restricted_to_domains: boolean,
+
+  // TODO(server-4.0): Added in feat. 55.
+  realm_giphy_rating?: number,
+
+  // TODO: Do servers send this, here or in realm-update events?
   realm_google_hangouts_domain: string,
+
   realm_icon_source: 'G' | 'U',
   realm_icon_url: string,
   realm_inline_image_preview: boolean,
   realm_inline_url_embed_preview: boolean,
-  realm_invite_by_admins_only: boolean,
+
+  // TODO(server-4.0): Replaced in feat. 50 by realm_invite_to_realm_policy
+  realm_invite_by_admins_only?: boolean,
+
   realm_invite_required: boolean,
+
+  // TODO(server-4.0): Added in feat. 50, replacing realm_invite_by_admins_only
+  realm_invite_to_realm_policy?: number,
+
+  realm_invite_to_stream_policy: number,
   realm_is_zephyr_mirror_realm: boolean,
+  realm_logo_source: 'D' | 'U',
+  realm_logo_url: string,
   realm_mandatory_topics: boolean,
+  realm_message_content_allowed_in_email_notifications: boolean,
 
   // In 5.0 (feature level 100), the representation the server sends for "no
   // limit" changed from 0 to `null`, and 0 became an invalid value. (For
@@ -108,19 +214,60 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_message_content_delete_limit_seconds: number | null,
 
   realm_message_content_edit_limit_seconds: number,
+
+  // TODO(server-3.0): Special value `null` replaced with -1 in feat. 22
   realm_message_retention_days: number | null,
+
+  // TODO(server-4.0): Added in feat. 56
+  realm_move_messages_between_streams_policy?: number,
+
   realm_name: string,
   realm_name_changes_disabled: boolean,
+  realm_night_logo_source: 'D' | 'U',
+  realm_night_logo_url: string,
   realm_notifications_stream_id: number,
   realm_password_auth_enabled: boolean,
+  realm_plan_type: number,
   realm_presence_disabled: boolean,
+  realm_private_message_policy: number,
+  realm_push_notifications_enabled: boolean,
+
+  // TODO: Do servers send this, here or in realm-update events?
   realm_restricted_to_domain: boolean,
+
   realm_send_welcome_emails: boolean,
+
+  // TODO: Do servers send this, here or in realm-update events?
   realm_show_digest_email: boolean,
+
   realm_signup_notifications_stream_id: number,
+
+  // TODO(server-5.0): Replaced in feat. 72 by realm_upload_quota_mib
+  realm_upload_quota?: number,
+
+  // TODO(server-5.0): Added in feat. 72, replacing realm_upload_quota
+  realm_upload_quota_mib?: number,
+
+  realm_user_group_edit_policy: number,
   realm_uri: string,
   realm_video_chat_provider: number,
   realm_waiting_period_threshold: number,
+
+  // TODO(server-4.0): Added in feat. 33, updated with moderators option in 62
+  realm_wildcard_mention_policy?: number,
+
+  server_avatar_changes_disabled: boolean,
+  server_generation: number,
+  server_inline_image_preview: boolean,
+  server_inline_url_embed_preview: boolean,
+  server_name_changes_disabled: boolean,
+
+  // TODO(server-5.0): Added in feat. 74
+  server_needs_upgrade?: boolean,
+
+  settings_send_digest_emails: boolean,
+  upgrade_text_for_wide_organization_logo: string,
+  zulip_plan_is_not_limited: boolean,
 |}>;
 
 export type InitialDataRealmEmoji = $ReadOnly<{|
