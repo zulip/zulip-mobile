@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
 import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
+import type { Asset } from 'react-native-image-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 import * as logging from '../utils/logging';
@@ -20,7 +21,6 @@ import {
   IconVideo,
 } from '../common/Icons';
 import AnimatedComponent from '../animation/AnimatedComponent';
-import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 
 type OuterProps = $ReadOnly<{|
@@ -88,8 +88,23 @@ class ComposeMenuInner extends PureComponent<Props> {
   static contextType = TranslationContext;
   context: GetText;
 
+  toAttachmentResponse = (assets: Array<Asset>): Array<DocumentPickerResponse> => {
+    const images = [];
+    for (let i = 0; i < assets.length; i++) {
+      const asset = assets[i];
+      if (asset.type !== undefined && asset.uri !== undefined) {
+        images.push({
+          name: asset.fileName,
+          size: asset.fileSize,
+          type: asset.type,
+          uri: asset.uri,
+        });
+      }
+    }
+    return images;
+  };
+
   handleImagePickerResponse = response => {
-    const { dispatch, destinationNarrow } = this.props;
     const _ = this.context;
 
     if (response.didCancel === true) {
@@ -130,24 +145,15 @@ class ComposeMenuInner extends PureComponent<Props> {
       return;
     }
 
-    // TODO: support sending multiple files; see library's docs for how to
-    // let `assets` have more than one item in `response`.
-    const firstAsset = response.assets && response.assets[0];
-
-    const { uri, fileName } = firstAsset ?? {};
-
-    if (!firstAsset || uri == null || fileName == null) {
+    if (!response.assets) {
       // TODO: See if we these unexpected situations actually happen.
       showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
-      logging.error('Unexpected response from image picker', {
-        '!firstAsset': !firstAsset,
-        'uri == null': uri == null,
-        'fileName == null': fileName == null,
-      });
+      logging.error('Unexpected response from image picker');
       return;
     }
 
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    // dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    this.props.insertAttachment(this.toAttachmentResponse(response.assets));
   };
 
   handleImagePicker = () => {
@@ -158,6 +164,7 @@ class ComposeMenuInner extends PureComponent<Props> {
 
         quality: 1.0,
         includeBase64: false,
+        selectionLimit: 0,
       },
       this.handleImagePickerResponse,
     );
