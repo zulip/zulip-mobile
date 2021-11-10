@@ -6,7 +6,7 @@ import android.util.Log;
 import com.facebook.react.bridge.*;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import static com.zulipmobile.notifications.NotificationHelper.TAG;
+import static com.zulipmobile.notifications.NotificationUiManager.TAG;
 
 class NotificationsModule extends ReactContextBaseJavaModule {
 
