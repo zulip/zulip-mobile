@@ -9,6 +9,8 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
@@ -24,6 +26,9 @@ import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 import com.zulipmobile.ZLog
 import me.leolin.shortcutbadger.ShortcutBadger
+import java.io.IOException
+import java.io.InputStream
+import java.net.URL
 
 // This file maintains the notifications in the UI, using data from FCM messages.
 //
@@ -45,6 +50,12 @@ import me.leolin.shortcutbadger.ShortcutBadger
 //
 // The main entry point is `onReceived`, which is called when we receive
 // an FCM message.
+
+/** An Android logging tag for our notifications code. */
+// (This doesn't particularly belong in this file, but it belongs somewhere
+// in the notifications package.)
+@JvmField
+val TAG = "ZulipNotif"
 
 /** The channel ID we use for our one notification channel, which we use for all notifications. */
 private val CHANNEL_ID = "default"
@@ -224,6 +235,19 @@ private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
 private fun extractMessageKey(fcmMessage: MessageFcmMessage): String {
     val messageKey = "${extractGroupKey(fcmMessage.identity)}|${fcmMessage.zulipMessageId}"
     return messageKey
+}
+
+/** Fetch an image from the given URL.  (We use this for sender avatars.) */
+fun fetchBitmap(url: URL): Bitmap? {
+    return try {
+        val connection = url.openConnection()
+        connection.useCaches = true
+        (connection.content as? InputStream)
+            ?.let { BitmapFactory.decodeStream(it) }
+    } catch (e: IOException) {
+        ZLog.e(TAG, e)
+        null
+    }
 }
 
 /** Handle a MessageFcmMessage, adding or extending notifications in the UI. */
