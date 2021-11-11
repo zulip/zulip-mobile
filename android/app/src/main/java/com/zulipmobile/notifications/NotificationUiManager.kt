@@ -91,13 +91,40 @@ fun createNotificationChannel(context: Context) {
     //   plus should then be able to drop the Build.VERSION condition.
     //   Needs upgrading androidx.core to 1.5.0:
     //     https://developer.android.com/jetpack/androidx/releases/core#1.5.0-alpha02
+
+    // NOTE when changing anything here: the changes will not take effect
+    // for existing installs of the app!  That's because we'll have already
+    // created the channel with the old settings, and they're in the user's
+    // hands from there.  Our choices are:
+    //
+    //  * Leave the old settings in place for existing installs, so the
+    //    changes only apply to new installs.
+    //
+    //  * Change `CHANNEL_ID`, so that we abandon the old channel and use
+    //    a new one.  Existing installs will get the new settings.
+    //
+    //    This also means that if the user has changed any of the notification
+    //    settings for the channel -- like "override Do Not Disturb", or "use
+    //    a different sound", or "don't pop on screen" -- their changes get
+    //    reset.  So this has to be done sparingly.
     NotificationManagerCompat.from(context).createNotificationChannel(NotificationChannel(
         CHANNEL_ID,
         context.getString(R.string.notification_channel_name),
         NotificationManager.IMPORTANCE_HIGH
     ).apply {
+        // The enableLights and enableVibration lines were added in f666c414e,
+        // released in v27.169 in 2021-08, so won't have affected older installs.
+        // TODO: Are these the default values anyway for IMPORTANCE_HIGH?
+        //   If so, perhaps just take them out.
         enableLights(true)
+        // TODO: Consider finding a distinct vibration pattern we like, and
+        //   setting that.
         enableVibration(true)
+
+        // This setSound line was added in e32186cc7 in 2021-11,
+        // so it won't have affected older installs.
+        // TODO: But is this just setting these values to their defaults?
+        //   Perhaps we can just take it out.
         setSound(getNotificationSoundUri(),
             AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
     })
