@@ -87,21 +87,20 @@ fun createNotificationChannel(context: Context) {
         return
     }
 
-    val name = context.getString(R.string.notification_channel_name)
-    val audioAttributes = AudioAttributes.Builder()
-        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
-
     // TODO: It'd be nice to use NotificationChannelCompat here: we get a nice builder class,
     //   plus should then be able to drop the Build.VERSION condition.
     //   Needs upgrading androidx.core to 1.5.0:
     //     https://developer.android.com/jetpack/androidx/releases/core#1.5.0-alpha02
-    val channel =
-        NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH).apply {
-            enableLights(true)
-            enableVibration(true)
-            setSound(getNotificationSoundUri(), audioAttributes)
-        }
-    NotificationManagerCompat.from(context).createNotificationChannel(channel)
+    NotificationManagerCompat.from(context).createNotificationChannel(NotificationChannel(
+        CHANNEL_ID,
+        context.getString(R.string.notification_channel_name),
+        NotificationManager.IMPORTANCE_HIGH
+    ).apply {
+        enableLights(true)
+        enableVibration(true)
+        setSound(getNotificationSoundUri(),
+            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
+    })
 }
 
 /** Write the given data to the device log, for debugging. */
