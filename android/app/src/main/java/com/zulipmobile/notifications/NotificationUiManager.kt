@@ -82,23 +82,26 @@ private val Context.notificationManager: NotificationManager
     get() = this.getSystemService(NotificationManager::class.java)!!
 
 fun createNotificationChannel(context: Context) {
-    if (Build.VERSION.SDK_INT >= 26) {
-        val name = context.getString(R.string.notification_channel_name)
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
-
-        // TODO: It'd be nice to use NotificationChannelCompat here: we get a nice builder class,
-        //   plus should then be able to drop the Build.VERSION condition.
-        //   Needs upgrading androidx.core to 1.5.0:
-        //     https://developer.android.com/jetpack/androidx/releases/core#1.5.0-alpha02
-        val channel =
-            NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH).apply {
-                enableLights(true)
-                enableVibration(true)
-                setSound(getNotificationSoundUri(), audioAttributes)
-            }
-        NotificationManagerCompat.from(context).createNotificationChannel(channel)
+    if (Build.VERSION.SDK_INT < 26) {
+        // Notification channels don't exist before SDK 26, aka Android 8 Oreo.
+        return
     }
+
+    val name = context.getString(R.string.notification_channel_name)
+    val audioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
+
+    // TODO: It'd be nice to use NotificationChannelCompat here: we get a nice builder class,
+    //   plus should then be able to drop the Build.VERSION condition.
+    //   Needs upgrading androidx.core to 1.5.0:
+    //     https://developer.android.com/jetpack/androidx/releases/core#1.5.0-alpha02
+    val channel =
+        NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH).apply {
+            enableLights(true)
+            enableVibration(true)
+            setSound(getNotificationSoundUri(), audioAttributes)
+        }
+    NotificationManagerCompat.from(context).createNotificationChannel(channel)
 }
 
 /** Write the given data to the device log, for debugging. */
