@@ -224,6 +224,8 @@ private fun createSummaryNotification(
 
 /** The unique tag we use for the group of notifications addressed to this Zulip account. */
 private fun extractGroupKey(identity: Identity): String {
+    // The realm URL can't contain a `|`, because `|` is not a URL code point:
+    //   https://url.spec.whatwg.org/#url-code-points
     return "${identity.realmUri.toString()}|${identity.userId}"
 }
 
@@ -237,6 +239,11 @@ private fun extractGroupKey(identity: Identity): String {
 private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversation = when (fcmMessage.recipient) {
+        // TODO(#3918): Use the stream ID here instead of the stream name,
+        //   so things stay together if the stream is renamed.
+        // So long as this does use the stream name, we use `\u0000` as the delimiter because
+        // it's the one character not allowed in Zulip stream names.
+        // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
         is Recipient.Stream -> "stream:${fcmMessage.recipient.stream}\u0000${fcmMessage.recipient.topic}"
         is Recipient.GroupPm -> "groupPM:${fcmMessage.recipient.pmUsers.toString()}"
         is Recipient.Pm -> "private:${fcmMessage.sender.id}"
