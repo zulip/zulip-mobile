@@ -23,6 +23,7 @@ const data = {
   // prettier-ignore
   mapNumKeys: Immutable.Map([[1, 1], [2, 2], [3, 3], [4, 4]]),
   emptyMap: Immutable.Map([]),
+  date: new Date('2021-11-11T00:00:00.000Z'),
   zulipVersion: new ZulipVersion('3.0.0'),
   url: new URL('https://chat.zulip.org'),
   gravatarURL: GravatarURL.validateAndConstructInstance({ email: eg.selfUser.email }),
@@ -51,6 +52,7 @@ const stringified = {
     '{"data":{"__serializedType__":"Object","data":{"a":1},"__serializedType__value":{"__serializedType__":"Object","data":{"b":[2]},"__serializedType__value":{"c":[3]}}},"__serializedType__":"ImmutableMap"}',
   mapNumKeys: '{"data":{"1":1,"2":2,"3":3,"4":4},"__serializedType__":"ImmutableMapNumKeys"}',
   emptyMap: '{"data":{},"__serializedType__":"ImmutableMap"}',
+  date: '{"data":"2021-11-11T00:00:00.000Z","__serializedType__":"Date"}',
   zulipVersion: '{"data":"3.0.0","__serializedType__":"ZulipVersion"}',
   url: '{"data":"https://chat.zulip.org/","__serializedType__":"URL"}',
   gravatarURL:
@@ -71,7 +73,7 @@ describe('Stringify', () => {
   });
 
   test('catches an unexpectedly unhandled value with a `toJSON` method', () => {
-    expect(() => stringify(new Date())).toThrow();
+    expect(() => stringify(new Performance())).toThrow();
   });
 
   test("catches a value that's definitely not serializable as-is", () => {

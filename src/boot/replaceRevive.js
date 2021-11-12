@@ -57,6 +57,8 @@ function replacer(key, value) {
 
   switch (Object.getPrototypeOf(origValue)) {
     // Flow bug: https://github.com/facebook/flow/issues/6110
+    case (Date.prototype: $FlowIssue):
+      return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'Date' };
     case (ZulipVersion.prototype: $FlowIssue):
       return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
     case (URL.prototype: $FlowIssue):
@@ -140,6 +142,8 @@ function reviver(key, value) {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
+      case 'Date':
+        return new Date(data);
       case 'ZulipVersion':
         return new ZulipVersion(data);
       case 'URL':
