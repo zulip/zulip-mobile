@@ -37,7 +37,17 @@ It doesn't include
 ## Unreleased
 
 
+## 27.175 (2021-10-28)
+
+This is substantially the same as the previous beta release v27.174,
+but with a fix for a Sentry misconfiguration.
+
+
 ## 27.174 (2021-10-26)
+
+This was a beta-only release. (Note to maintainers: Events from this release
+won't show up in Sentry because of a misconfiguration.)
+
 
 ### Highlights for users, vs v27.171 (last prod release)
 
