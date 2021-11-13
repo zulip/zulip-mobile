@@ -36,6 +36,24 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) Notifications have been reworked to be more informative and
+  easier to read. (#2691, #4842)
+* (Android) The app no longer restarts when you switch between split-view
+  mode and fullscreen mode. (#5068)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Made more progress on preparing our Flow types for better multi-account
+  support. (#5066, #5083, #5105, #5113)
+
+* Resolved issues (earliest first): #4239, #5081, #2691, #4633, #5068
+
 
 ## 27.175 (2021-10-28)
 
