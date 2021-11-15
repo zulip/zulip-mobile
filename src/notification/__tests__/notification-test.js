@@ -83,6 +83,10 @@ describe('extract iOS notification data', () => {
         expect(verify(msg)).toEqual(msg);
 
         // new(-ish) optional user_id is accepted and copied
+        // TODO: Rewrite so modern-style payloads are the baseline, e.g.,
+        //   with a `modern` variable instead of `barebones`. Write
+        //   individual tests for supporting older-style payloads, and mark
+        //   those for future deletion, like with `TODO(1.9.0)`.
         const msg1 = { ...msg, user_id };
         expect(verify(msg1)).toEqual(msg1);
 
