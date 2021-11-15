@@ -12,6 +12,7 @@ import { fromAPNsImpl as extractIosNotificationData } from '../extract';
 import objectEntries from '../../utils/objectEntries';
 
 const realm_uri = eg.realm.toString();
+const user_id = eg.selfUser.user_id;
 
 describe('getNarrowFromNotificationData', () => {
   const ownUserId = eg.selfUser.user_id;
@@ -81,8 +82,12 @@ describe('extract iOS notification data', () => {
         const msg = data;
         expect(verify(msg)).toEqual(msg);
 
+        // new(-ish) optional user_id is accepted
+        const msg1 = { ...msg, user_id };
+        expect(() => verify(msg1)).not.toThrow();
+
         // unused fields are not copied
-        const msg2 = { ...msg, realm_id: 8675309 };
+        const msg2 = { ...msg, realm_id: 8675309, user_id };
         expect(verify(msg2)).toEqual(msg);
 
         // unknown fields are ignored and not copied
@@ -153,6 +158,13 @@ describe('extract iOS notification data', () => {
         make({
           ...barebones['group PM'],
           realm_uri: ['array', 'of', 'string'],
+        }),
+      ).toThrow(/invalid/);
+
+      expect(
+        make({
+          ...barebones.stream,
+          user_id: 'abc',
         }),
       ).toThrow(/invalid/);
     });

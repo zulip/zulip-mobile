@@ -172,11 +172,14 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
     throw err('invalid');
   }
 
-  const { realm_uri } = zulip;
+  const { realm_uri, user_id } = zulip;
   if (realm_uri === undefined) {
     throw err('archaic (pre-1.9.x)');
   }
   if (typeof realm_uri !== 'string') {
+    throw err('invalid');
+  }
+  if (user_id !== undefined && typeof user_id !== 'number') {
     throw err('invalid');
   }
 
