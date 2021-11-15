@@ -107,7 +107,7 @@ describe('extract iOS notification data', () => {
     test('very-old-style messages', () => {
       const sender_email = 'nobody@example.com';
       // baseline
-      expect(make({ realm_uri, recipient_type: 'private', sender_email })).toBeTruthy();
+      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
       // missing recipient_type
       expect(make({ realm_uri, sender_email })).toThrow(/archaic/);
       // missing realm_uri
