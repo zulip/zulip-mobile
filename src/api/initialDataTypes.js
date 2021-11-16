@@ -93,7 +93,7 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_email_auth_enabled: boolean,
   realm_email_changes_disabled: boolean,
   realm_google_hangouts_domain: string,
-  realm_icon_source: string,
+  realm_icon_source: 'G' | 'U',
   realm_icon_url: string,
   realm_inline_image_preview: boolean,
   realm_inline_url_embed_preview: boolean,
