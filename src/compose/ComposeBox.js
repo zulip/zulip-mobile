@@ -517,6 +517,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
     };
 
+    const SubmitButtonIcon = isEditing ? IconDone : IconSend;
+
     return (
       <View style={this.styles.wrapper}>
         <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
@@ -594,7 +596,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           {(props => {
             // TODO: Integrate this into the surrounding code.
 
-            const { size, disabled, Icon } = props;
+            const { size, disabled } = props;
             const iconSize = Math.trunc(size / 2);
             const customWrapperStyle = {
               width: size,
@@ -613,12 +615,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 accessibilityLabel="Send message"
               >
                 <View style={[fabStyles.wrapper, customWrapperStyle]}>
-                  <Icon style={iconStyle} size={iconSize} color="white" />
+                  <SubmitButtonIcon style={iconStyle} size={iconSize} color="white" />
                 </View>
               </Touchable>
             );
           })({
-            Icon: isEditing ? IconDone : IconSend,
             size: 32,
             disabled: message.trim().length === 0 || this.state.numUploading > 0,
           })}
