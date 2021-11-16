@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
-import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
+import { ThemeContext, BRAND_COLOR } from '../styles';
 import type {
   Auth,
   Narrow,
@@ -145,16 +145,6 @@ const updateTextInput = (textInput, text) => {
   // `textInput` is untyped; see definition.
   textInput.setNativeProps({ text });
 };
-
-// TODO: Integrate this into the surrounding code.
-const fabStyles = createStyleSheet({
-  wrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: BRAND_COLOR,
-    overflow: 'hidden',
-  },
-});
 
 class ComposeBoxInner extends PureComponent<Props, State> {
   static contextType = ThemeContext;
@@ -602,7 +592,12 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           >
             <View
               style={[
-                fabStyles.wrapper,
+                {
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: BRAND_COLOR,
+                  overflow: 'hidden',
+                },
                 {
                   width: 32,
                   height: 32,
