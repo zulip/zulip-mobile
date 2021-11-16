@@ -104,6 +104,7 @@ type Props = $ReadOnly<{|
   text: LocalizableText,
   secondary?: boolean,
   onPress: () => void | Promise<void>,
+  isPressHandledWhenDisabled?: boolean,
 |}>;
 
 /**
@@ -121,6 +122,8 @@ type Props = $ReadOnly<{|
  * @prop text - The button text
  * @prop [secondary] - Less prominent styling, the button is not as important.
  * @prop onPress - Event called on button press.
+ * @prop isPressHandledWhenDisabled - Whether `onPress` is used even when
+ *   `disabled` is true
  */
 export default function ZulipButton(props: Props): Node {
   const {
@@ -131,6 +134,7 @@ export default function ZulipButton(props: Props): Node {
     progress = false,
     onPress,
     Icon,
+    isPressHandledWhenDisabled = false,
   } = props;
   const frameStyle = [
     styles.frame,
@@ -162,7 +166,7 @@ export default function ZulipButton(props: Props): Node {
 
   return (
     <View style={frameStyle}>
-      <Touchable onPress={disabled ? undefined : onPress}>
+      <Touchable onPress={disabled && !isPressHandledWhenDisabled ? undefined : onPress}>
         <View style={styles.buttonContent}>
           {!!Icon && <Icon style={iconStyle} size={25} />}
           <Text style={textStyle}>
