@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -38,30 +38,28 @@ type Props = $ReadOnly<{|
  * @prop Icon - Icon component to render.
  * @prop onPress - Event called on component press.
  */
-export default class FloatingActionButton extends PureComponent<Props> {
-  render(): Node {
-    const { style, size, disabled, onPress, Icon, accessibilityLabel } = this.props;
-    const iconSize = Math.trunc(size / 2);
-    const customWrapperStyle = {
-      width: size,
-      height: size,
-      borderRadius: size,
-      opacity: disabled ? 0.25 : 1,
-    };
-    const iconStyle = {
-      margin: Math.trunc(size / 4),
-    };
+export default function FloatingActionButton(props: Props): Node {
+  const { style, size, disabled, onPress, Icon, accessibilityLabel } = props;
+  const iconSize = Math.trunc(size / 2);
+  const customWrapperStyle = {
+    width: size,
+    height: size,
+    borderRadius: size,
+    opacity: disabled ? 0.25 : 1,
+  };
+  const iconStyle = {
+    margin: Math.trunc(size / 4),
+  };
 
-    return (
-      <Touchable
-        style={style}
-        onPress={disabled ? undefined : onPress}
-        accessibilityLabel={accessibilityLabel}
-      >
-        <View style={[styles.wrapper, customWrapperStyle]}>
-          <Icon style={iconStyle} size={iconSize} color="white" />
-        </View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable
+      style={style}
+      onPress={disabled ? undefined : onPress}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <View style={[styles.wrapper, customWrapperStyle]}>
+        <Icon style={iconStyle} size={iconSize} color="white" />
+      </View>
+    </Touchable>
+  );
 }
