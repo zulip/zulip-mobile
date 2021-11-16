@@ -596,16 +596,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 alignItems: 'center',
                 backgroundColor: BRAND_COLOR,
                 borderRadius: 32,
+                padding: 8,
                 opacity: submitButtonDisabled ? 0.25 : 1,
               }}
             >
-              <SubmitButtonIcon
-                style={{
-                  margin: 8,
-                }}
-                size={16}
-                color="white"
-              />
+              <SubmitButtonIcon size={16} color="white" />
             </View>
           </Touchable>
         </View>
