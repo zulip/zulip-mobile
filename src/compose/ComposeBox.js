@@ -597,7 +597,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           {(() => {
             // TODO: Integrate this into the surrounding code.
 
-            const iconSize = Math.trunc(32 / 2);
             const customWrapperStyle = {
               width: 32,
               height: 32,
@@ -605,7 +604,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               opacity: submitButtonDisabled ? 0.25 : 1,
             };
             const iconStyle = {
-              margin: Math.trunc(32 / 4),
+              margin: 8,
             };
 
             return (
@@ -615,7 +614,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 accessibilityLabel="Send message"
               >
                 <View style={[fabStyles.wrapper, customWrapperStyle]}>
-                  <SubmitButtonIcon style={iconStyle} size={iconSize} color="white" />
+                  <SubmitButtonIcon style={iconStyle} size={16} color="white" />
                 </View>
               </Touchable>
             );
