@@ -594,8 +594,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           {(props => {
             // TODO: Integrate this into the surrounding code.
 
-            // eslint-disable-next-line no-shadow
-            const { style, size, disabled, onPress, Icon } = props;
+            const { size, disabled, onPress, Icon } = props;
             const iconSize = Math.trunc(size / 2);
             const customWrapperStyle = {
               width: size,
@@ -609,7 +608,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
             return (
               <Touchable
-                style={style}
+                style={this.styles.composeSendButton}
                 onPress={disabled ? undefined : onPress}
                 accessibilityLabel="Send message"
               >
@@ -619,7 +618,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               </Touchable>
             );
           })({
-            style: this.styles.composeSendButton,
             Icon: isEditing ? IconDone : IconSend,
             size: 32,
             disabled: message.trim().length === 0 || this.state.numUploading > 0,
