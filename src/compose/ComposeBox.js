@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
 import type {
   Auth,
   Narrow,
@@ -27,7 +27,7 @@ import type {
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
-import { FloatingActionButton, Input } from '../common';
+import { Touchable, Input } from '../common';
 import { showToast, showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
@@ -145,6 +145,16 @@ const updateTextInput = (textInput, text) => {
   // `textInput` is untyped; see definition.
   textInput.setNativeProps({ text });
 };
+
+// TODO: Integrate this into the surrounding code.
+const fabStyles = createStyleSheet({
+  wrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: BRAND_COLOR,
+    overflow: 'hidden',
+  },
+});
 
 class ComposeBoxInner extends PureComponent<Props, State> {
   static contextType = ThemeContext;
@@ -581,14 +591,41 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          <FloatingActionButton
-            accessibilityLabel="Send message"
-            style={this.styles.composeSendButton}
-            Icon={isEditing ? IconDone : IconSend}
-            size={32}
-            disabled={message.trim().length === 0 || this.state.numUploading > 0}
-            onPress={this.handleSend}
-          />
+          {(props => {
+            // TODO: Integrate this into the surrounding code.
+
+            // eslint-disable-next-line no-shadow
+            const { style, size, disabled, onPress, Icon, accessibilityLabel } = props;
+            const iconSize = Math.trunc(size / 2);
+            const customWrapperStyle = {
+              width: size,
+              height: size,
+              borderRadius: size,
+              opacity: disabled ? 0.25 : 1,
+            };
+            const iconStyle = {
+              margin: Math.trunc(size / 4),
+            };
+
+            return (
+              <Touchable
+                style={style}
+                onPress={disabled ? undefined : onPress}
+                accessibilityLabel={accessibilityLabel}
+              >
+                <View style={[fabStyles.wrapper, customWrapperStyle]}>
+                  <Icon style={iconStyle} size={iconSize} color="white" />
+                </View>
+              </Touchable>
+            );
+          })({
+            accessibilityLabel: 'Send message',
+            style: this.styles.composeSendButton,
+            Icon: isEditing ? IconDone : IconSend,
+            size: 32,
+            disabled: message.trim().length === 0 || this.state.numUploading > 0,
+            onPress: this.handleSend,
+          })}
         </View>
       </View>
     );
