@@ -543,6 +543,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       isSubscribed,
       stream,
       videoChatProvider,
+      _,
     } = this.props;
 
     const insertVideoCallLink =
@@ -653,7 +654,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               <Touchable
                 style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
                 onPress={this.handleSend}
-                accessibilityLabel="Send message"
+                accessibilityLabel={_('Send message')}
                 hitSlop={this.submitButtonHitSlop}
               >
                 <SubmitButtonIcon size={16} color="white" />
