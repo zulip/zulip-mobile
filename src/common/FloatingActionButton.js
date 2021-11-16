@@ -13,6 +13,11 @@ const styles = createStyleSheet({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BRAND_COLOR,
+
+    // This looks like it could clip the left/right of an icon if it's wider
+    //   than it is tall? (This can happen: see
+    //   https://github.com/zulip/zulip-mobile/pull/4730#discussion_r631342348.)
+    //   See note on the Icon prop in the jsdoc.
     overflow: 'hidden',
   },
 });
@@ -35,7 +40,8 @@ type Props = $ReadOnly<{|
  * @prop disabled - If 'true' component can't be pressed and
  *   becomes visibly inactive.
  * @prop size - Diameter of the component in pixels.
- * @prop Icon - Icon component to render.
+ * @prop Icon - Icon component to render. Should be a square (?) - see note
+ *   where we set overflow: 'hidden'
  * @prop onPress - Event called on component press.
  */
 export default function FloatingActionButton(props: Props): Node {
