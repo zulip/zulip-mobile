@@ -409,14 +409,12 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     return narrow;
   };
 
-  handleSend = () => {
-    const { dispatch, _ } = this.props;
+  handleSubmit = () => {
+    const { dispatch, _, isEditing } = this.props;
     const { message } = this.state;
     const destinationNarrow = this.getDestinationNarrow();
     const validationErrors = this.getValidationErrors();
 
-    // TODO how should this behave in the isEditing case? See
-    //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
     if (validationErrors.length > 0) {
       const msg = validationErrors
         .map(error => {
@@ -435,7 +433,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
         })
         .join('\n\n');
 
-      showErrorAlert(_('Message not sent'), msg);
+      // TODO is this enough to handle the `isEditing` case? See
+      //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
+      showErrorAlert(isEditing ? _('Message not saved') : _('Message not sent'), msg);
       return;
     }
 
@@ -653,8 +653,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             >
               <Touchable
                 style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
-                onPress={this.handleSend}
-                accessibilityLabel={_('Send message')}
+                onPress={this.handleSubmit}
+                accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
                 hitSlop={this.submitButtonHitSlop}
               >
                 <SubmitButtonIcon size={16} color="white" />

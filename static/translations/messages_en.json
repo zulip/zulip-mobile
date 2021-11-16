@@ -7,6 +7,8 @@
   "Remind me later": "Remind me later",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
+  "Message not saved": "Message not saved",
+  "Save message": "Save message",
   "Send message": "Send message",
   "Please wait for the upload to complete.": "Please wait for the upload to complete.",
   "To upload an image, please grant Zulip additional permissions in Settings.": "To upload an image, please grant Zulip additional permissions in Settings.",
