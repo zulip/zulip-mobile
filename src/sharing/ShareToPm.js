@@ -3,6 +3,7 @@ import React from 'react';
 import type { Node, Context } from 'react';
 import { View, Modal } from 'react-native';
 
+import type { ValidationError } from './ShareWrapper';
 import type { RouteProp } from '../react-navigation';
 import type { SharingNavigationProp } from './SharingScreen';
 import type { GetText, UserId } from '../types';
@@ -54,15 +55,21 @@ export default class ShareToPm extends React.Component<Props, State> {
     this.setState({ choosingRecipients: false });
   };
 
-  isSendButtonEnabled: string => boolean = message => {
+  getValidationErrors: string => $ReadOnlyArray<ValidationError> = message => {
     const { selectedRecipients } = this.state;
     const { sharedData } = this.props.route.params;
 
-    if (sharedData.type === 'text') {
-      return message !== '' && selectedRecipients.length > 0;
+    const result = [];
+
+    if (selectedRecipients.length === 0) {
+      result.push('recipients-empty');
     }
 
-    return selectedRecipients.length > 0;
+    if (sharedData.type === 'text' && message === '') {
+      result.push('message-empty');
+    }
+
+    return result;
   };
 
   renderUsersPreview: () => Node = () => {
@@ -93,7 +100,7 @@ export default class ShareToPm extends React.Component<Props, State> {
 
     return (
       <ShareWrapper
-        isSendButtonEnabled={this.isSendButtonEnabled}
+        getValidationErrors={this.getValidationErrors}
         sharedData={sharedData}
         sendTo={sendTo}
       >

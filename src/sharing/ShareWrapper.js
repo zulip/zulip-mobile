@@ -57,9 +57,15 @@ const styles = createStyleSheet({
   },
 });
 
+export type ValidationError =
+  | 'mandatory-topic-empty'
+  | 'stream-empty'
+  | 'recipients-empty'
+  | 'message-empty';
+
 type OuterProps = $ReadOnly<{|
   children: Node,
-  isSendButtonEnabled: (message: string) => boolean,
+  getValidationErrors: (message: string) => $ReadOnlyArray<ValidationError>,
   sendTo: SendTo,
   sharedData: SharedData,
 |}>;
@@ -217,7 +223,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
   );
 
   render() {
-    const { children, isSendButtonEnabled, sharedData } = this.props;
+    const { children, getValidationErrors, sharedData } = this.props;
     const { message, sending } = this.state;
 
     return (
@@ -253,7 +259,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
             onPress={this.handleSend}
             text="Send"
             progress={sending}
-            disabled={!isSendButtonEnabled(message)}
+            disabled={getValidationErrors(message).length > 0}
           />
         </View>
       </>

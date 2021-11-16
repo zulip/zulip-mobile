@@ -2,6 +2,7 @@
 import React from 'react';
 import type { ComponentType } from 'react';
 
+import type { ValidationError } from './ShareWrapper';
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
 import type { Dispatch, Subscription, Auth, GetText } from '../types';
@@ -94,16 +95,26 @@ class ShareToStreamInner extends React.Component<Props, State> {
     this.setState({ topic });
   };
 
-  isSendButtonEnabled = (message: string) => {
+  getValidationErrors: string => $ReadOnlyArray<ValidationError> = message => {
     const { mandatoryTopics } = this.props;
     const { stream, topic } = this.state;
     const { sharedData } = this.props.route.params;
 
-    if (sharedData.type !== 'text') {
-      return stream.trim() !== '' && (topic.trim() !== '' || !mandatoryTopics);
+    const result = [];
+
+    if (stream.trim() === '') {
+      result.push('stream-empty');
     }
 
-    return stream.trim() !== '' && (topic.trim() !== '' || !mandatoryTopics) && message !== '';
+    if (topic.trim() === '' && mandatoryTopics) {
+      result.push('mandatory-topic-empty');
+    }
+
+    if (sharedData.type === 'text' && message === '') {
+      result.push('message-empty');
+    }
+
+    return result;
   };
 
   render() {
@@ -115,7 +126,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
     return (
       <ShareWrapper
         sharedData={sharedData}
-        isSendButtonEnabled={this.isSendButtonEnabled}
+        getValidationErrors={this.getValidationErrors}
         sendTo={sendTo}
       >
         <AnimatedScaleComponent visible={isStreamFocused}>
