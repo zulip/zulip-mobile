@@ -59,6 +59,7 @@ import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import * as api from '../api';
+import { ensureUnreachable } from '../generics';
 
 type SelectorProps = {|
   auth: Auth,
@@ -414,10 +415,27 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     const destinationNarrow = this.getDestinationNarrow();
     const validationErrors = this.getValidationErrors();
 
-    if (validationErrors.includes('mandatory-topic-empty')) {
-      // TODO how should this behave in the isEditing case? See
-      //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
-      showErrorAlert(_('Message not sent'), _('Please specify a topic.'));
+    // TODO how should this behave in the isEditing case? See
+    //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
+    if (validationErrors.length > 0) {
+      const msg = validationErrors
+        .map(error => {
+          // 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty'
+          switch (error) {
+            case 'upload-in-progress':
+              return _('Please wait for the upload to complete.');
+            case 'mandatory-topic-empty':
+              return _('Please specify a topic.');
+            case 'message-empty':
+              return _('Message is empty.');
+            default:
+              ensureUnreachable(error);
+              throw new Error();
+          }
+        })
+        .join('\n\n');
+
+      showErrorAlert(_('Message not sent'), msg);
       return;
     }
 
@@ -634,7 +652,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             >
               <Touchable
                 style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
-                onPress={submitButtonDisabled ? undefined : this.handleSend}
+                onPress={this.handleSend}
                 accessibilityLabel="Send message"
                 hitSlop={this.submitButtonHitSlop}
               >
