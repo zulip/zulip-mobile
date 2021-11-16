@@ -409,15 +409,12 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   handleSend = () => {
-    const { dispatch, mandatoryTopics, _ } = this.props;
+    const { dispatch, _ } = this.props;
     const { message } = this.state;
     const destinationNarrow = this.getDestinationNarrow();
+    const validationErrors = this.getValidationErrors();
 
-    if (
-      isTopicNarrow(destinationNarrow)
-      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
-      && mandatoryTopics
-    ) {
+    if (validationErrors.includes('mandatory-topic-empty')) {
       // TODO how should this behave in the isEditing case? See
       //   https://github.com/zulip/zulip-mobile/pull/4798#discussion_r731341400.
       showErrorAlert(_('Message not sent'), _('Please specify a topic.'));
