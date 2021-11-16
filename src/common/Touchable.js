@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
-import type { Node } from 'react';
+import type { Node, ElementConfig } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -9,6 +9,7 @@ import { HIGHLIGHT_COLOR } from '../styles';
 type Props = $ReadOnly<{|
   accessibilityLabel?: string,
   style?: ViewStyleProp,
+  hitSlop?: $PropertyType<ElementConfig<typeof View>, 'hitSlop'>,
   children: Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,
@@ -46,10 +47,13 @@ type Props = $ReadOnly<{|
  * @prop [children] - A single component (not zero, or more than one.)
  * @prop [onPress] - Passed through; see upstream docs.
  * @prop [onLongPress] - Passed through; see upstream docs.
+ * @prop [accessibilityLabel] - Passed through; see upstream docs.
+ * @prop [hitSlop] - Passed through; see upstream docs.
  */
+// TODO(?): Use Pressable API: https://reactnative.dev/docs/pressable
 export default class Touchable extends PureComponent<Props> {
   render(): Node {
-    const { accessibilityLabel, style, onPress, onLongPress } = this.props;
+    const { accessibilityLabel, style, onPress, onLongPress, hitSlop } = this.props;
     const child: Node = React.Children.only(this.props.children);
 
     if (!onPress && !onLongPress) {
@@ -58,6 +62,7 @@ export default class Touchable extends PureComponent<Props> {
           accessible={!!accessibilityLabel}
           accessibilityLabel={accessibilityLabel}
           style={style}
+          hitSlop={hitSlop}
         >
           {child}
         </View>
@@ -74,6 +79,7 @@ export default class Touchable extends PureComponent<Props> {
           style={style}
           onPress={onPress}
           onLongPress={onLongPress}
+          hitSlop={hitSlop}
         >
           {child}
         </TouchableHighlight>
@@ -94,6 +100,7 @@ export default class Touchable extends PureComponent<Props> {
         }
         onPress={onPress}
         onLongPress={onLongPress}
+        hitSlop={hitSlop}
       >
         <View style={style}>{child}</View>
       </TouchableNativeFeedback>
