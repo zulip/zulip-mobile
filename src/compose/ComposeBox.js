@@ -462,6 +462,13 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     submitButtonContainer: {
       padding: 8,
     },
+    submitButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: BRAND_COLOR,
+      borderRadius: 32,
+      padding: 8,
+    },
     topicInput: {
       borderWidth: 0,
       borderRadius: 5,
@@ -584,17 +591,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          {/* TODO: Integrate this more into the surrounding code. */}
           <View style={this.styles.submitButtonContainer}>
             <Touchable
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: BRAND_COLOR,
-                borderRadius: 32,
-                padding: 8,
-                opacity: submitButtonDisabled ? 0.25 : 1,
-              }}
+              style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
               onPress={submitButtonDisabled ? undefined : this.handleSend}
               accessibilityLabel="Send message"
               hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
