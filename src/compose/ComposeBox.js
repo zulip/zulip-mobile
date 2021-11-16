@@ -594,31 +594,35 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          {(() => {
+          {(() => (
             // TODO: Integrate this into the surrounding code.
 
-            const customWrapperStyle = {
-              width: 32,
-              height: 32,
-              borderRadius: 32,
-              opacity: submitButtonDisabled ? 0.25 : 1,
-            };
-            const iconStyle = {
-              margin: 8,
-            };
-
-            return (
-              <Touchable
-                style={this.styles.composeSendButton}
-                onPress={submitButtonDisabled ? undefined : this.handleSend}
-                accessibilityLabel="Send message"
+            <Touchable
+              style={this.styles.composeSendButton}
+              onPress={submitButtonDisabled ? undefined : this.handleSend}
+              accessibilityLabel="Send message"
+            >
+              <View
+                style={[
+                  fabStyles.wrapper,
+                  {
+                    width: 32,
+                    height: 32,
+                    borderRadius: 32,
+                    opacity: submitButtonDisabled ? 0.25 : 1,
+                  },
+                ]}
               >
-                <View style={[fabStyles.wrapper, customWrapperStyle]}>
-                  <SubmitButtonIcon style={iconStyle} size={16} color="white" />
-                </View>
-              </Touchable>
-            );
-          })()}
+                <SubmitButtonIcon
+                  style={{
+                    margin: 8,
+                  }}
+                  size={16}
+                  color="white"
+                />
+              </View>
+            </Touchable>
+          ))()}
         </View>
       </View>
     );
