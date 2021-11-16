@@ -518,6 +518,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     };
 
     const SubmitButtonIcon = isEditing ? IconDone : IconSend;
+    const submitButtonDisabled = message.trim().length === 0 || this.state.numUploading > 0;
 
     return (
       <View style={this.styles.wrapper}>
@@ -593,16 +594,15 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onTouchStart={this.handleInputTouchStart}
             />
           </View>
-          {(props => {
+          {(() => {
             // TODO: Integrate this into the surrounding code.
 
-            const { disabled } = props;
             const iconSize = Math.trunc(32 / 2);
             const customWrapperStyle = {
               width: 32,
               height: 32,
               borderRadius: 32,
-              opacity: disabled ? 0.25 : 1,
+              opacity: submitButtonDisabled ? 0.25 : 1,
             };
             const iconStyle = {
               margin: Math.trunc(32 / 4),
@@ -611,7 +611,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             return (
               <Touchable
                 style={this.styles.composeSendButton}
-                onPress={disabled ? undefined : this.handleSend}
+                onPress={submitButtonDisabled ? undefined : this.handleSend}
                 accessibilityLabel="Send message"
               >
                 <View style={[fabStyles.wrapper, customWrapperStyle]}>
@@ -619,9 +619,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 </View>
               </Touchable>
             );
-          })({
-            disabled: message.trim().length === 0 || this.state.numUploading > 0,
-          })}
+          })()}
         </View>
       </View>
     );
