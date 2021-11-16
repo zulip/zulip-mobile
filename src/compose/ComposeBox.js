@@ -129,6 +129,8 @@ type State = {|
   selection: InputSelection,
 |};
 
+// TODO(?): Could deduplicate with this type in ShareWrapper.
+export type ValidationError = 'upload-in-progress' | 'message-empty';
 const FOCUS_DEBOUNCE_TIME_MS = 16;
 
 function randomInt(min, max) {
@@ -486,6 +488,22 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
   submitButtonHitSlop = { top: 8, right: 8, bottom: 8, left: 8 };
 
+  getValidationErrors = (): $ReadOnlyArray<ValidationError> => {
+    const { message } = this.state;
+
+    const result = [];
+
+    if (message.trim().length === 0) {
+      result.push('message-empty');
+    }
+
+    if (this.state.numUploading > 0) {
+      result.push('upload-in-progress');
+    }
+
+    return result;
+  };
+
   render() {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
@@ -517,7 +535,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     };
 
     const SubmitButtonIcon = isEditing ? IconDone : IconSend;
-    const submitButtonDisabled = message.trim().length === 0 || this.state.numUploading > 0;
+    const submitButtonDisabled = this.getValidationErrors().length > 0;
 
     return (
       <View style={this.styles.wrapper}>

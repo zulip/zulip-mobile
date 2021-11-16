@@ -58,6 +58,7 @@ const styles = createStyleSheet({
   },
 });
 
+// TODO(?): Could deduplicate with this type in ComposeBox.
 export type ValidationError =
   | 'mandatory-topic-empty'
   | 'stream-empty'
