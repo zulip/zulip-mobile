@@ -108,7 +108,7 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_message_content_delete_limit_seconds: number | null,
 
   realm_message_content_edit_limit_seconds: number,
-  realm_message_retention_days: ?number,
+  realm_message_retention_days: number | null,
   realm_name: string,
   realm_name_changes_disabled: boolean,
   realm_notifications_stream_id: number,
