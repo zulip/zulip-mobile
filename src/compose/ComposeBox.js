@@ -459,7 +459,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       flex: 1,
       paddingVertical: 8,
     },
-    composeSendButton: {
+    submitButtonContainer: {
       padding: 8,
     },
     topicInput: {
@@ -585,12 +585,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             />
           </View>
           {/* TODO: Integrate this more into the surrounding code. */}
-          <Touchable
-            style={this.styles.composeSendButton}
-            onPress={submitButtonDisabled ? undefined : this.handleSend}
-            accessibilityLabel="Send message"
-          >
-            <View
+          <View style={this.styles.submitButtonContainer}>
+            <Touchable
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -599,10 +595,13 @@ class ComposeBoxInner extends PureComponent<Props, State> {
                 padding: 8,
                 opacity: submitButtonDisabled ? 0.25 : 1,
               }}
+              onPress={submitButtonDisabled ? undefined : this.handleSend}
+              accessibilityLabel="Send message"
+              hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
             >
               <SubmitButtonIcon size={16} color="white" />
-            </View>
-          </Touchable>
+            </Touchable>
+          </View>
         </View>
       </View>
     );
