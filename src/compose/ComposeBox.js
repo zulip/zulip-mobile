@@ -591,20 +591,16 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             accessibilityLabel="Send message"
           >
             <View
-              style={[
-                {
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: BRAND_COLOR,
-                  overflow: 'hidden',
-                },
-                {
-                  width: 32,
-                  height: 32,
-                  borderRadius: 32,
-                  opacity: submitButtonDisabled ? 0.25 : 1,
-                },
-              ]}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: BRAND_COLOR,
+                overflow: 'hidden',
+                width: 32,
+                height: 32,
+                borderRadius: 32,
+                opacity: submitButtonDisabled ? 0.25 : 1,
+              }}
             >
               <SubmitButtonIcon
                 style={{
