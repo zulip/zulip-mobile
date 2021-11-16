@@ -13,7 +13,7 @@ import { Input, ZulipButton, ComponentWithOverlay } from '../common';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as NavigationService from '../nav/NavigationService';
 import { navigateBack, replaceWithChat } from '../nav/navActions';
-import { showToast } from '../utils/info';
+import { showToast, showErrorAlert } from '../utils/info';
 import { getAuth, getOwnUserId } from '../selectors';
 import { connect } from '../react-redux';
 import { streamNarrow, pmNarrowFromRecipients } from '../utils/narrow';
@@ -121,8 +121,33 @@ class ShareWrapperInner extends React.Component<Props, State> {
    */
   handleSend = async () => {
     const _ = this.context;
-    const { auth, sendTo, sharedData } = this.props;
+    const { auth, sendTo, sharedData, getValidationErrors } = this.props;
     let messageToSend = this.state.message;
+
+    const validationErrors = getValidationErrors(messageToSend);
+
+    if (validationErrors.length > 0) {
+      const msg = validationErrors
+        .map(error => {
+          switch (error) {
+            case 'stream-empty':
+              return _('Please specify a stream.');
+            case 'mandatory-topic-empty':
+              return _('Please specify a topic.');
+            case 'recipients-empty':
+              return _('Please choose recipients.');
+            case 'message-empty':
+              return _('Message is empty.');
+            default:
+              ensureUnreachable(error);
+              throw new Error();
+          }
+        })
+        .join('\n\n');
+
+      showErrorAlert(_('Message not sent'), msg);
+      return;
+    }
 
     this.setSending();
     showToast(_('Sending Message...'));
@@ -260,6 +285,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
             text="Send"
             progress={sending}
             disabled={getValidationErrors(message).length > 0}
+            isPressHandledWhenDisabled
           />
         </View>
       </>
