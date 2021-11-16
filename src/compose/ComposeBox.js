@@ -596,16 +596,16 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           {(props => {
             // TODO: Integrate this into the surrounding code.
 
-            const { size, disabled } = props;
-            const iconSize = Math.trunc(size / 2);
+            const { disabled } = props;
+            const iconSize = Math.trunc(32 / 2);
             const customWrapperStyle = {
-              width: size,
-              height: size,
-              borderRadius: size,
+              width: 32,
+              height: 32,
+              borderRadius: 32,
               opacity: disabled ? 0.25 : 1,
             };
             const iconStyle = {
-              margin: Math.trunc(size / 4),
+              margin: Math.trunc(32 / 4),
             };
 
             return (
@@ -620,7 +620,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               </Touchable>
             );
           })({
-            size: 32,
             disabled: message.trim().length === 0 || this.state.numUploading > 0,
           })}
         </View>
