@@ -130,7 +130,8 @@ type State = {|
 |};
 
 // TODO(?): Could deduplicate with this type in ShareWrapper.
-export type ValidationError = 'upload-in-progress' | 'message-empty';
+export type ValidationError = 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty';
+
 const FOCUS_DEBOUNCE_TIME_MS = 16;
 
 function randomInt(min, max) {
@@ -489,9 +490,19 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   submitButtonHitSlop = { top: 8, right: 8, bottom: 8, left: 8 };
 
   getValidationErrors = (): $ReadOnlyArray<ValidationError> => {
+    const { mandatoryTopics } = this.props;
+    const destinationNarrow = this.getDestinationNarrow();
     const { message } = this.state;
 
     const result = [];
+
+    if (
+      isTopicNarrow(destinationNarrow)
+      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
+      && mandatoryTopics
+    ) {
+      result.push('mandatory-topic-empty');
+    }
 
     if (message.trim().length === 0) {
       result.push('message-empty');
