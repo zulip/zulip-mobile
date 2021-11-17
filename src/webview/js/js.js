@@ -584,9 +584,9 @@ const runAfterLayout = (fn: () => void) => {
 };
 
 const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
-  const { updateStrategy } = uevent;
+  const { scrollStrategy } = uevent;
   let target: ScrollTarget;
-  switch (updateStrategy) {
+  switch (scrollStrategy) {
     case 'none':
       target = { type: 'none' };
       break;
@@ -600,7 +600,7 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
       target = findPreserveTarget();
       break;
     default:
-      ensureUnreachable(updateStrategy);
+      ensureUnreachable(scrollStrategy);
       target = findPreserveTarget();
       break;
   }
