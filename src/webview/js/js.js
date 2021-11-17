@@ -587,7 +587,7 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
   const { updateStrategy } = uevent;
   let target: ScrollTarget;
   switch (updateStrategy) {
-    case 'replace':
+    case 'none':
       target = { type: 'none' };
       break;
     case 'scroll-to-anchor':
