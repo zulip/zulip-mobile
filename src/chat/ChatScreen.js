@@ -197,7 +197,12 @@ export default function ChatScreen(props: Props): Node {
             <MessageList
               narrow={narrow}
               messages={messages}
-              initialScrollMessageId={firstUnreadIdInNarrow}
+              initialScrollMessageId={
+                firstUnreadIdInNarrow
+                // `messages` might be empty
+                ?? (messages[messages.length - 1]: $ElementType<typeof messages, number> | void)?.id
+                ?? null
+              }
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
             />
