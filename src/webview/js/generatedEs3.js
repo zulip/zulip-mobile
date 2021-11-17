@@ -774,7 +774,7 @@ var compiledWebviewJs = (function (exports) {
     }
 
     const selector = uevent.messageIds.map(id => "[data-msg-id=\\"".concat(id, "\\"]")).join(',');
-    const messageElements = Array.from(document.querySelectorAll(selector));
+    const messageElements = document.querySelectorAll(selector);
     messageElements.forEach(element => {
       element.setAttribute('data-read', 'true');
     });

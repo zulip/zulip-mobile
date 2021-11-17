@@ -696,7 +696,7 @@ const handleInboundEventMessagesRead = (uevent: WebViewInboundEventMessagesRead)
     return;
   }
   const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
-  const messageElements = Array.from(document.querySelectorAll(selector));
+  const messageElements = document.querySelectorAll(selector);
   messageElements.forEach(element => {
     element.setAttribute('data-read', 'true');
   });
