@@ -1,13 +1,13 @@
 /* @flow strict-local */
 import { streamNarrow } from '../../utils/narrow';
-import { getMessageUpdateStrategy } from '../messageUpdates';
+import { getScrollStrategy } from '../scrollStrategy';
 
 import * as eg from '../../__tests__/lib/exampleData';
 
 const someNarrow = streamNarrow(eg.stream.name);
 const anotherNarrow = streamNarrow(eg.makeStream().name);
 
-describe('getMessageUpdateStrategy', () => {
+describe('getScrollStrategy', () => {
   test('initial load positions at anchor (first unread)', () => {
     const prevProps = {
       messages: [],
@@ -18,7 +18,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -33,7 +33,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: anotherNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -48,7 +48,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: anotherNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('none');
   });
@@ -63,7 +63,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });
@@ -79,7 +79,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('preserve-position');
   });
@@ -94,7 +94,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('preserve-position');
   });
@@ -109,7 +109,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('preserve-position');
   });
@@ -124,7 +124,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-bottom-if-near-bottom');
   });
@@ -139,7 +139,7 @@ describe('getMessageUpdateStrategy', () => {
       narrow: someNarrow,
     };
 
-    const result = getMessageUpdateStrategy(prevProps, nextProps);
+    const result = getScrollStrategy(prevProps, nextProps);
 
     expect(result).toEqual('scroll-to-anchor');
   });

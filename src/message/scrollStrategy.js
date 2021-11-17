@@ -11,13 +11,13 @@ type Props = $ReadOnly<{
   ...
 }>;
 
-export type UpdateStrategy =
+export type ScrollStrategy =
   | 'none'
   | 'preserve-position'
   | 'scroll-to-anchor'
   | 'scroll-to-bottom-if-near-bottom';
 
-export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): UpdateStrategy => {
+export const getScrollStrategy = (prevProps: Props, nextProps: Props): ScrollStrategy => {
   const prevMessages = prevProps.messages;
   const nextMessages = nextProps.messages;
 

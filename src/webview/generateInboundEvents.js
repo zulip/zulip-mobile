@@ -4,17 +4,17 @@ import isEqual from 'lodash.isequal';
 
 import type { Auth, FlagsState } from '../types';
 import type { Props } from './MessageList';
-import type { UpdateStrategy } from '../message/messageUpdates';
+import type { ScrollStrategy } from '../message/scrollStrategy';
 import messageListElementHtml from './html/messageListElementHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
-import { getMessageUpdateStrategy } from '../message/messageUpdates';
+import { getScrollStrategy } from '../message/scrollStrategy';
 
 export type WebViewInboundEventContent = {|
   type: 'content',
   scrollMessageId: number | null,
   auth: Auth,
   content: string,
-  updateStrategy: UpdateStrategy,
+  scrollStrategy: ScrollStrategy,
 |};
 
 export type WebViewInboundEventFetching = {|
@@ -46,7 +46,7 @@ export type WebViewInboundEvent =
   | WebViewInboundEventMessagesRead;
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
-  const updateStrategy = getMessageUpdateStrategy(prevProps, nextProps);
+  const scrollStrategy = getScrollStrategy(prevProps, nextProps);
 
   return {
     type: 'content',
@@ -58,7 +58,7 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventC
       messageListElements: nextProps.messageListElementsForShownMessages,
       _: nextProps._,
     }),
-    updateStrategy,
+    scrollStrategy,
   };
 };
 

@@ -88,7 +88,7 @@ var compiledWebviewJs = (function (exports) {
               scrollMessageId: event.scrollMessageId,
               auth: 'redacted',
               content: placeholdersDivTagFromContent(event.content),
-              updateStrategy: event.updateStrategy
+              scrollStrategy: event.scrollStrategy
             };
           }
 
@@ -671,11 +671,11 @@ var compiledWebviewJs = (function (exports) {
 
   const handleInboundEventContent = uevent => {
     const {
-      updateStrategy
+      scrollStrategy
     } = uevent;
     let target;
 
-    switch (updateStrategy) {
+    switch (scrollStrategy) {
       case 'none':
         target = {
           type: 'none'

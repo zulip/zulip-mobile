@@ -58,7 +58,7 @@ export default class InboundEventLogger {
           scrollMessageId: event.scrollMessageId,
           auth: 'redacted',
           content: placeholdersDivTagFromContent(event.content),
-          updateStrategy: event.updateStrategy,
+          scrollStrategy: event.scrollStrategy,
         };
       }
       case 'fetching': {
