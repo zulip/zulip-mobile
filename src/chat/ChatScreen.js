@@ -61,7 +61,6 @@ const useMessagesWithFetch = args => {
   const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
   const isFetching = fetching.older || fetching.newer || loading;
   const messages = useSelector(state => getShownMessagesForNarrow(state, narrow));
-  const haveNoMessages = messages.length === 0;
   const firstUnreadIdInNarrow = useSelector(state => getFirstUnreadIdInNarrow(state, narrow));
 
   // This could live in state, but then we'd risk pointless rerenders;
@@ -104,7 +103,7 @@ const useMessagesWithFetch = args => {
     // `eventQueueId` needed here because it affects `shouldFetchWhenNextFocused`.
   }, [isFocused, eventQueueId, fetch]);
 
-  return { fetchError, isFetching, messages, haveNoMessages, firstUnreadIdInNarrow };
+  return { fetchError, isFetching, messages, firstUnreadIdInNarrow };
 };
 
 export default function ChatScreen(props: Props): Node {
@@ -120,16 +119,12 @@ export default function ChatScreen(props: Props): Node {
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   const draft = useSelector(state => getDraftForNarrow(state, narrow));
 
-  const {
-    fetchError,
-    isFetching,
-    messages,
-    haveNoMessages,
-    firstUnreadIdInNarrow,
-  } = useMessagesWithFetch({ narrow });
+  const { fetchError, isFetching, messages, firstUnreadIdInNarrow } = useMessagesWithFetch({
+    narrow,
+  });
 
-  const showMessagePlaceholders = haveNoMessages && isFetching;
-  const sayNoMessages = haveNoMessages && !isFetching;
+  const showMessagePlaceholders = messages.length === 0 && isFetching;
+  const sayNoMessages = messages.length === 0 && !isFetching;
   const showComposeBox = showComposeBoxOnNarrow(narrow) && !showMessagePlaceholders;
 
   const auth = useSelector(getAuth);
