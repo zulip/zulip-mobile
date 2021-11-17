@@ -202,9 +202,6 @@ export type InitialDataRealm = $ReadOnly<{|
   // TODO(server-4.0): Added in feat. 55.
   realm_giphy_rating?: number,
 
-  // TODO: Do servers send this, here or in realm-update events?
-  realm_google_hangouts_domain: string,
-
   realm_icon_source: 'G' | 'U',
   realm_icon_url: string,
   realm_inline_image_preview: boolean,
@@ -248,15 +245,7 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_presence_disabled: boolean,
   realm_private_message_policy: number,
   realm_push_notifications_enabled: boolean,
-
-  // TODO: Do servers send this, here or in realm-update events?
-  realm_restricted_to_domain: boolean,
-
   realm_send_welcome_emails: boolean,
-
-  // TODO: Do servers send this, here or in realm-update events?
-  realm_show_digest_email: boolean,
-
   realm_signup_notifications_stream_id: number,
 
   // TODO(server-5.0): Replaced in feat. 72 by realm_upload_quota_mib
