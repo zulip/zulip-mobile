@@ -38,7 +38,7 @@ describe('getMessageUpdateStrategy', () => {
     expect(result).toEqual('scroll-to-anchor');
   });
 
-  test('when no messages just replace content', () => {
+  test('when no messages, no scroll', () => {
     const prevProps = {
       messages: [],
       narrow: someNarrow,
@@ -50,7 +50,7 @@ describe('getMessageUpdateStrategy', () => {
 
     const result = getMessageUpdateStrategy(prevProps, nextProps);
 
-    expect(result).toEqual('replace');
+    expect(result).toEqual('none');
   });
 
   test('when messages replaced go to anchor', () => {

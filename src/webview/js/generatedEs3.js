@@ -676,7 +676,7 @@ var compiledWebviewJs = (function (exports) {
     let target;
 
     switch (updateStrategy) {
-      case 'replace':
+      case 'none':
         target = {
           type: 'none'
         };

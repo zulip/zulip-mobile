@@ -12,7 +12,7 @@ type Props = $ReadOnly<{
 }>;
 
 export type UpdateStrategy =
-  | 'replace'
+  | 'none'
   | 'preserve-position'
   | 'scroll-to-anchor'
   | 'scroll-to-bottom-if-near-bottom';
@@ -23,7 +23,7 @@ export const getMessageUpdateStrategy = (prevProps: Props, nextProps: Props): Up
 
   if (nextMessages.length === 0) {
     // No messages.
-    return 'replace';
+    return 'none';
   }
 
   if (!isEqual(prevProps.narrow, nextProps.narrow)) {
