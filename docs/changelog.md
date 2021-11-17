@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.176 (2021-11-16)
+
 ### Highlights for users
 
 * (Android) Notifications have been reworked to be more informative and
