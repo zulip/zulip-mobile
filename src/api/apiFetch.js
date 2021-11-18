@@ -74,6 +74,10 @@ export const apiCall = async (
   } catch (errorIllTyped) {
     const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
 
+    if (!(error instanceof Error)) {
+      throw new Error('Unexpected non-error thrown in apiCall');
+    }
+
     const { httpStatus, data } = error instanceof RequestError ? error : {};
 
     const response = data !== undefined ? data : '(none, or not valid JSON)';
@@ -81,7 +85,14 @@ export const apiCall = async (
     Sentry.addBreadcrumb({
       category: 'api',
       level: 'info',
-      data: { route, params, httpStatus, response },
+      data: {
+        route,
+        params,
+        httpStatus,
+        response,
+        errorName: error.name,
+        errorMessage: error.message,
+      },
     });
 
     if (error instanceof MalformedResponseError) {
