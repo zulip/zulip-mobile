@@ -1,12 +1,14 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { RawLabel, Touchable, Label } from '../common';
+import { RawLabel, Touchable, Label, LoadingIndicator } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import * as api from '../api';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -16,7 +18,6 @@ const styles = createStyleSheet({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 4,
-    height: 72,
   },
   selectedAccountItem: {
     borderColor: BRAND_COLOR,
@@ -24,11 +25,9 @@ const styles = createStyleSheet({
   },
   details: {
     flex: 1,
-    marginLeft: 16,
   },
   text: {
     fontWeight: 'bold',
-    marginVertical: 2,
   },
   icon: {
     padding: 12,
@@ -37,7 +36,13 @@ const styles = createStyleSheet({
   signedOutText: {
     fontStyle: 'italic',
     color: 'gray',
-    marginVertical: 2,
+    fontWeight: 'bold',
+  },
+  organisationIcon: {
+    padding: 12,
+    margin: 12,
+    width: 50,
+    height: 50,
   },
 });
 
@@ -59,6 +64,30 @@ export default function AccountItem(props: Props): Node {
 
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
+  const height = isLoggedIn ? 88 : 94;
+
+  const [orgDetail, setOrgDetail] = useState({
+    realm_icon: '',
+    realm_name: '',
+    realm_uri: '',
+  });
+
+  const getServerData = async () => {
+    try {
+      const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
+      setOrgDetail(serverSettings);
+    } catch (e) {
+      showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
+    }
+  };
+
+  useEffect(() => {
+    getServerData();
+  }, []);
+
+  if (!orgDetail.realm_icon || !orgDetail.realm_name || !orgDetail.realm_uri) {
+    return <LoadingIndicator size={40} />;
+  }
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
@@ -66,16 +95,25 @@ export default function AccountItem(props: Props): Node {
         style={[
           styles.accountItem,
           showDoneIcon && styles.selectedAccountItem,
-          { backgroundColor: backgroundItemColor },
+          { backgroundColor: backgroundItemColor, height: height },
         ]}
       >
+        <Image
+          style={styles.organisationIcon}
+          source={{ uri: orgDetail.realm_uri + orgDetail.realm_icon }}
+        />
         <View style={styles.details}>
-          <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
           <RawLabel
-            style={[styles.text, { color: textColor }]}
-            text={realm.toString()}
+            style={[styles.text, { color: textColor, fontSize: 20 }]}
+            text={orgDetail.realm_name}
             numberOfLines={1}
           />
+          <RawLabel
+            style={[styles.text, { color: 'gray', fontSize: 13 }]}
+            text={orgDetail.realm_uri}
+            numberOfLines={1}
+          />
+          <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
           {!isLoggedIn && (
             <Label style={styles.signedOutText} text="Signed out" numberOfLines={1} />
           )}
