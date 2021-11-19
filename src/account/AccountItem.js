@@ -66,7 +66,7 @@ export default function AccountItem(props: Props): Node {
 
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
-  const height = isLoggedIn ? 88 : 94;
+  const accountItemHeight = isLoggedIn ? 88 : 94;
 
   const [orgDetail, setOrgDetail] = useState({
     realm_icon: '',
@@ -97,7 +97,7 @@ export default function AccountItem(props: Props): Node {
         style={[
           styles.accountItem,
           showDoneIcon && styles.selectedAccountItem,
-          { backgroundColor: backgroundItemColor, height: height },
+          { backgroundColor: backgroundItemColor, height: accountItemHeight },
         ]}
       >
         <Image
