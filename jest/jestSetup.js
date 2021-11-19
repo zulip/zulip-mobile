@@ -143,5 +143,6 @@ jest.mock('../src/utils/logging', () => {
     error: jest.fn().mockImplementation(logging.error),
     warn: jest.fn().mockImplementation(logging.warn),
     info: jest.fn().mockImplementation(logging.info),
+    ExtendableError: logging.ExtendableError,
   };
 });

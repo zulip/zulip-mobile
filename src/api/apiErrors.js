@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { ExtendableError } from '../utils/logging';
 import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
 
 /**
@@ -6,7 +7,7 @@ import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
  *
  * See subclasses: {@link ApiError}, {@link NetworkError}, {@link ServerError}.
  */
-export class RequestError extends Error {
+export class RequestError extends ExtendableError {
   /** The HTTP status code in the response, if any. */
   +httpStatus: number | void;
 
