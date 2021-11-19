@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import type { Node } from 'react';
 import { View, Image } from 'react-native';
 
@@ -9,6 +9,8 @@ import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import * as api from '../api';
+import { TranslationContext } from '../boot/TranslationProvider';
+import { showErrorAlert } from '../utils/info';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -55,7 +57,7 @@ type Props = $ReadOnly<{|
 
 export default function AccountItem(props: Props): Node {
   const { email, realm, isLoggedIn } = props.account;
-
+  const _ = useContext(TranslationContext);
   // Don't show the "remove account" button (the "trash" icon) for the
   // active account when it's logged in.  This prevents removing it when the
   // main app UI, relying on that account's data, may be on the nav stack.
