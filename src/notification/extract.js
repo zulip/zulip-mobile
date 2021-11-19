@@ -90,7 +90,7 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
 */
 
 /** Local error type. */
-class ApnsMsgValidationError extends Error {
+class ApnsMsgValidationError extends logging.ExtendableError {
   extras: JSONable;
   constructor(message, extras: JSONable) {
     super(message);

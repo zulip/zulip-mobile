@@ -1,8 +1,7 @@
 /* @flow strict-local */
+import { ExtendableError } from './logging';
 
-export class TimeoutError extends Error {
-  name: string = 'TimeoutError';
-}
+export class TimeoutError extends ExtendableError {}
 
 /**
  * Time-out a Promise after `timeLimitMs` has passed.

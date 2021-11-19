@@ -16,6 +16,31 @@ import config from '../config';
 /** Type of "extras" intended for Sentry. */
 type Extras = {| +[key: string]: JSONable |};
 
+/**
+ * `Error`, but subclass instances have the name of the subclass at `.name`
+ *
+ * All of our custom error classes should extend this. For ones that don't,
+ * instances will have "Error" for their `.name`, instead of "TimeoutError",
+ * "NetworkError", etc. That's worse than useless because we could
+ * misidentify an error while debugging, based on the understandable but
+ * wrong assumption that our custom errors' names already correspond to the
+ * subclasses' names out of the box.
+ */
+// TODO: Add linting to make sure all our custom errors extend this
+export class ExtendableError extends Error {
+  // Careful! Minification might make this differ from what we see in our
+  // source code, which would be kind of sad. (I guess we'll find out?)
+  // Don't use this for equality checks or user-facing text:
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name#javascript_compressors_and_minifiers.
+  //
+  // This will work even down a chain of subclasses, i.e.,
+  // MyVerySpecificError extends MySpecificError extends ExtendableError. If
+  // you call `new MyVerySpecificError(…)`, then `MyVerySpecificError`'s
+  // constructor will be the value of `this.constructor` here, so the
+  // instance gets the correct name.
+  name: typeof Error.name = this.constructor.name;
+}
+
 /** Wrapper for `Sentry.withScope`, allowing callbacks to return values. */
 function withScope<R>(callback: Scope => R): R {
   let ret: R;
