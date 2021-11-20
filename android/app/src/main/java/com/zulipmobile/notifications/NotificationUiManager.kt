@@ -335,8 +335,12 @@ private fun updateNotification(
     })
 
     val sender = Person.Builder()
-        .setName(fcmMessage.sender.fullName)
-        .setIcon(IconCompat.createWithBitmap(fetchBitmap(fcmMessage.sender.avatarURL)))
+        .apply {
+            setName(fcmMessage.sender.fullName)
+            fetchBitmap(fcmMessage.sender.avatarURL)?.let {
+                setIcon(IconCompat.createWithBitmap(it))
+            }
+        }
         .build()
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
