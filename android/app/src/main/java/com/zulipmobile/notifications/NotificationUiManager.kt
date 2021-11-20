@@ -58,7 +58,8 @@ import java.net.URL
 val TAG = "ZulipNotif"
 
 /** The channel ID we use for our one notification channel, which we use for all notifications. */
-private val CHANNEL_ID = "default"
+// Previous value: "default"
+private val CHANNEL_ID = "messages-1"
 
 /**
  * The constant numeric "ID" we use for all notifications, along with unique tags.
@@ -107,27 +108,33 @@ fun createNotificationChannel(context: Context) {
     //    settings for the channel -- like "override Do Not Disturb", or "use
     //    a different sound", or "don't pop on screen" -- their changes get
     //    reset.  So this has to be done sparingly.
-    NotificationManagerCompat.from(context).createNotificationChannel(NotificationChannel(
+    val manager = context.notificationManager
+    manager.createNotificationChannel(NotificationChannel(
         CHANNEL_ID,
         context.getString(R.string.notification_channel_name),
         NotificationManager.IMPORTANCE_HIGH
     ).apply {
-        // The enableLights and enableVibration lines were added in f666c414e,
-        // released in v27.169 in 2021-08, so won't have affected older installs.
-        // TODO: Are these the default values anyway for IMPORTANCE_HIGH?
-        //   If so, perhaps just take them out.
+        // TODO: Is this the default value anyway for IMPORTANCE_HIGH?
+        //   If so, perhaps just take it out.
         enableLights(true)
-        // TODO: Consider finding a distinct vibration pattern we like, and
-        //   setting that.
-        enableVibration(true)
 
-        // This setSound line was added in e32186cc7 in 2021-11,
-        // so it won't have affected older installs.
-        // TODO: But is this just setting these values to their defaults?
+        // Try to set a vibration pattern that, with the phone in one's pocket,
+        // is both distinctly present and distinctly different from the default.
+        // Discussion: https://chat.zulip.org/#narrow/stream/48-mobile/topic/notification.20vibration.20pattern/near/1284530
+        vibrationPattern = longArrayOf(0, 125, 100, 450)
+
+        // TODO: Is this just setting these values to their defaults?
         //   Perhaps we can just take it out.
         setSound(getNotificationSoundUri(),
             AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
     })
+
+    // Delete any obsolete previous channels.
+    for (channel in manager.notificationChannels) {
+        if (channel.id != CHANNEL_ID) {
+            manager.deleteNotificationChannel(channel.id)
+        }
+    }
 }
 
 /** Write the given data to the device log, for debugging. */
