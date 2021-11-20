@@ -9,6 +9,7 @@ import { useSelector } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import { SwitchRow, Screen } from '../common';
 import * as api from '../api';
+import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'notifications'>,
@@ -51,6 +52,7 @@ export default function NotificationsScreen(props: Props): Node {
 
   return (
     <Screen title="Notifications">
+      <ServerPushSetupBanner isDismissable={false} />
       <SwitchRow
         label="Notifications when offline"
         value={offlineNotification}
