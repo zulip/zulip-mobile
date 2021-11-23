@@ -83,8 +83,6 @@
   "Please check your Internet connection": "Please check your Internet connection",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.",
-  "Dismiss": "Dismiss",
-  "Fix now": "Fix now",
   "Learn more": "Learn more",
   "Settings": "Settings",
   "Night mode": "Night mode",

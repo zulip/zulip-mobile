@@ -62,14 +62,14 @@ export default function ServerCompatBanner(props: Props): Node {
       buttons={[
         {
           id: 'dismiss',
-          label: 'Dismiss',
+          label: 'Remind me later',
           onPress: () => {
             dispatch(dismissCompatNotice());
           },
         },
         {
-          id: 'resolve',
-          label: isAdmin ? 'Fix now' : 'Learn more',
+          id: 'learn-more',
+          label: 'Learn more',
           onPress: () => {
             openLinkWithUserPreference(
               'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
