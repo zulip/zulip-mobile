@@ -16,7 +16,11 @@ type Props = $ReadOnly<{||}>;
 /**
  * A "nag banner" saying the server hasn't enabled push notifications, if so
  *
- * When dismissed, reappears again in two weeks.
+ * If this notice is dismissed, it sleeps for two weeks, then reappears if
+ * the server hasn't gotten set up for push notifications in that time.
+ * ("This notice" means the currently applicable notice. If the server does
+ * get setup for push notifications, then gets un-setup, a new notice will
+ * apply.)
  */
 export default function PushNotifsSetupBanner(props: Props): Node {
   const dispatch = useDispatch();
