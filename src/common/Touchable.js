@@ -93,11 +93,7 @@ export default class Touchable extends PureComponent<Props> {
     return (
       <TouchableNativeFeedback
         accessibilityLabel={accessibilityLabel}
-        background={
-          Platform.Version >= 21
-            ? TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)
-            : TouchableNativeFeedback.SelectableBackground()
-        }
+        background={TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)}
         onPress={onPress}
         onLongPress={onLongPress}
         hitSlop={hitSlop}
