@@ -11,15 +11,7 @@ import type { Dispatch, Narrow, GetText } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import {
-  IconPlusCircle,
-  IconLeft,
-  IconImage,
-  IconCamera,
-  IconAttach,
-  IconVideo,
-} from '../common/Icons';
-import AnimatedComponent from '../animation/AnimatedComponent';
+import { IconImage, IconCamera, IconAttach, IconVideo } from '../common/Icons';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 
@@ -28,7 +20,6 @@ type OuterProps = $ReadOnly<{|
   destinationNarrow: Narrow,
   insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
-  onExpandContract: () => void,
 |}>;
 
 type SelectorProps = $ReadOnly<{||}>;
@@ -222,10 +213,6 @@ class ComposeMenuInner extends PureComponent<Props> {
       flexDirection: 'row',
       overflow: 'hidden',
     },
-    expandButton: {
-      padding: 12,
-      color: BRAND_COLOR,
-    },
     composeMenuButton: {
       padding: 12,
       marginRight: -8,
@@ -234,52 +221,37 @@ class ComposeMenuInner extends PureComponent<Props> {
   });
 
   render() {
-    const { expanded, insertVideoCallLink, onExpandContract } = this.props;
-    const numIcons =
-      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+    const { expanded, insertVideoCallLink } = this.props;
 
     return (
-      <View style={this.styles.composeMenu}>
-        <AnimatedComponent
-          stylePropertyName="width"
-          fullValue={40 * numIcons}
-          useNativeDriver={false}
-          visible={expanded}
-        >
-          <View style={this.styles.composeMenu}>
-            {Platform.OS === 'android' && (
-              <IconAttach
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={this.handleFilesPicker}
-              />
-            )}
-            <IconImage
+      expanded && (
+        <View style={this.styles.composeMenu}>
+          {Platform.OS === 'android' && (
+            <IconAttach
               style={this.styles.composeMenuButton}
               size={24}
-              onPress={this.handleImagePicker}
+              onPress={this.handleFilesPicker}
             />
-            <IconCamera
+          )}
+          <IconImage
+            style={this.styles.composeMenuButton}
+            size={24}
+            onPress={this.handleImagePicker}
+          />
+          <IconCamera
+            style={this.styles.composeMenuButton}
+            size={24}
+            onPress={this.handleCameraCapture}
+          />
+          {insertVideoCallLink !== null ? (
+            <IconVideo
               style={this.styles.composeMenuButton}
               size={24}
-              onPress={this.handleCameraCapture}
+              onPress={insertVideoCallLink}
             />
-            {insertVideoCallLink !== null ? (
-              <IconVideo
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={insertVideoCallLink}
-              />
-            ) : null}
-          </View>
-        </AnimatedComponent>
-        {!expanded && (
-          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-      </View>
+          ) : null}
+        </View>
+      )
     );
   }
 }

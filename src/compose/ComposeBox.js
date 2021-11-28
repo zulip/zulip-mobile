@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
+import { ThemeContext, BRAND_COLOR } from '../styles';
 import type {
   Auth,
   Narrow,
@@ -29,7 +29,7 @@ import { withGetText } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import { FloatingActionButton, Input } from '../common';
 import { showToast, showErrorAlert } from '../utils/info';
-import { IconDone, IconSend } from '../common/Icons';
+import { IconDone, IconSend, IconPlusCircle, IconLeft } from '../common/Icons';
 import {
   isConversationNarrow,
   isStreamNarrow,
@@ -58,6 +58,7 @@ import {
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import AnimatedComponent from '../animation/AnimatedComponent';
 import * as api from '../api';
 
 type SelectorProps = {|
@@ -123,6 +124,7 @@ type State = {|
   isFocused: boolean,
 
   isMenuExpanded: boolean,
+  showAttachmentRow: boolean,
   topic: string,
   message: string,
   height: number,
@@ -166,6 +168,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     isTopicFocused: false,
     isFocused: false,
     isMenuExpanded: false,
+    showAttachmentRow: false,
     height: 20,
     topic:
       this.props.initialTopic
@@ -341,6 +344,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   handleMessageFocus = () => {
+    this.setState({ showAttachmentRow: true });
     if (
       !this.props.isEditing
       && isStreamNarrow(this.props.narrow)
@@ -364,6 +368,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     this.setState({
       isMessageFocused: false,
       isMenuExpanded: false,
+      showAttachmentRow: false,
     });
     const { dispatch, narrow } = this.props;
     dispatch(sendTypingStop(narrow));
@@ -452,8 +457,12 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     },
     composeBox: {
       flexDirection: 'row',
-      alignItems: 'flex-end',
+      alignItems: 'flex-start',
       flexShrink: 1,
+    },
+    toggleMenu: {
+      flexDirection: 'row',
+      overflow: 'hidden',
     },
     composeText: {
       flex: 1,
@@ -461,6 +470,10 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     },
     composeSendButton: {
       padding: 8,
+    },
+    expandButton: {
+      padding: 12,
+      color: BRAND_COLOR,
     },
     topicInput: {
       borderWidth: 0,
@@ -478,7 +491,15 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
+    const {
+      isTopicFocused,
+      showAttachmentRow,
+      isMenuExpanded,
+      height,
+      message,
+      topic,
+      selection,
+    } = this.state;
     const {
       ownUserId,
       narrow,
@@ -500,6 +521,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     } else if (isAnnouncementOnly && !isAdmin) {
       return <AnnouncementOnly />;
     }
+    const numIcons =
+      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById);
     const style = {
@@ -525,13 +548,42 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           />
         </View>
         <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
-          <ComposeMenu
-            destinationNarrow={this.getDestinationNarrow()}
-            expanded={isMenuExpanded}
-            insertAttachment={this.insertAttachment}
-            insertVideoCallLink={insertVideoCallLink}
-            onExpandContract={this.handleComposeMenuToggle}
-          />
+          {!showAttachmentRow && (
+            // <IconPlusCircle
+            //   style={this.styles.expandButton}
+            //   size={24}
+            //   onPress={this.handleComposeMenuToggle}
+            // />
+            <View style={this.styles.toggleMenu}>
+              <AnimatedComponent
+                stylePropertyName="width"
+                fullValue={40 * numIcons}
+                useNativeDriver={false}
+                visible={isMenuExpanded}
+              >
+                <ComposeMenu
+                  destinationNarrow={this.getDestinationNarrow()}
+                  expanded
+                  insertAttachment={this.insertAttachment}
+                  insertVideoCallLink={insertVideoCallLink}
+                />
+              </AnimatedComponent>
+              {!isMenuExpanded && (
+                <IconPlusCircle
+                  style={this.styles.expandButton}
+                  size={24}
+                  onPress={this.handleComposeMenuToggle}
+                />
+              )}
+              {isMenuExpanded && (
+                <IconLeft
+                  style={this.styles.expandButton}
+                  size={24}
+                  onPress={this.handleComposeMenuToggle}
+                />
+              )}
+            </View>
+          )}
           <View style={this.styles.composeText}>
             <Input
               style={[
@@ -579,6 +631,12 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               onFocus={this.handleMessageFocus}
               onSelectionChange={this.handleMessageSelectionChange}
               onTouchStart={this.handleInputTouchStart}
+            />
+            <ComposeMenu
+              destinationNarrow={this.getDestinationNarrow()}
+              expanded={showAttachmentRow}
+              insertAttachment={this.insertAttachment}
+              insertVideoCallLink={insertVideoCallLink}
             />
           </View>
           <FloatingActionButton

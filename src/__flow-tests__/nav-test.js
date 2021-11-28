@@ -63,12 +63,12 @@ function testNavigatorTypes() {
 
   const Stack = createStackNavigator<NavParamList, NavParamList, NavigationProp<>>();
 
-    <Stack.Navigator>
-      {/* Happy case is happy */}
-      <Stack.Screen name="Profile" component={Profile} />
-      {/* $FlowExpectedError[incompatible-type] - mismatch of name with route prop */}
-      <Stack.Screen name="Profile1" component={Profile12} />
-      {/* Should error but doesn't! on mismatch of name with navigation prop */}
-      <Stack.Screen name="Profile2" component={Profile12} />
-    </Stack.Navigator>;
+  <Stack.Navigator>
+    {/* Happy case is happy */}
+    <Stack.Screen name="Profile" component={Profile} />
+    {/* $FlowExpectedError[incompatible-type] - mismatch of name with route prop */}
+    <Stack.Screen name="Profile1" component={Profile12} />
+    {/* Should error but doesn't! on mismatch of name with navigation prop */}
+    <Stack.Screen name="Profile2" component={Profile12} />
+  </Stack.Navigator>;
 }
