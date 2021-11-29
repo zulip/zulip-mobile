@@ -1,8 +1,6 @@
 // @flow
 
 // redux dependent typing
-declare type Action = Object;
-declare type Dispatch = Function;
 declare type Store = Object;
 declare type StoreEnhancer = (next: Function) => Function;
 
