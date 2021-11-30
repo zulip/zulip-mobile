@@ -7,8 +7,6 @@ import com.facebook.react.uimanager.ViewManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zulipmobile.notifications.BadgeCountUpdaterModule;
-
 class ZulipNativePackage implements ReactPackage {
 
     @Override
@@ -25,7 +23,6 @@ class ZulipNativePackage implements ReactPackage {
         modules.add(new RNSecureRandom(reactContext));
         modules.add(new CloseAllCustomTabsAndroid(reactContext));
         modules.add(new ShareFileAndroid(reactContext));
-        modules.add(new BadgeCountUpdaterModule(reactContext));
         modules.add(new TextCompressionModule(reactContext));
         return modules;
     }
