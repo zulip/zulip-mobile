@@ -2,15 +2,13 @@
 
 import React, { PureComponent } from 'react';
 import type { Node, ComponentType } from 'react';
-import { AppState, View, Platform, NativeModules } from 'react-native';
+import { AppState, View } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 import type { GlobalDispatch, Orientation as OrientationT } from '../types';
-import { dubPerAccountState } from '../reduxTypes';
 import { createStyleSheet } from '../styles';
 import { connectGlobal } from '../react-redux';
-import { getUnreadByHuddlesMentionsAndPMs } from '../selectors';
 import { handleInitialNotification, NotificationListener } from '../notification';
 import { ShareReceivedListener, handleInitialShare } from '../sharing';
 import { appOnline, appOrientation } from '../actions';
@@ -28,9 +26,7 @@ type OuterProps = $ReadOnly<{|
   children: Node,
 |}>;
 
-type SelectorProps = $ReadOnly<{|
-  unreadCount: number,
-|}>;
+type SelectorProps = $ReadOnly<{||}>;
 
 type Props = $ReadOnly<{|
   ...OuterProps,
@@ -112,14 +108,6 @@ class AppEventHandlersInner extends PureComponent<Props> {
     );
   };
 
-  /** For the type, see docs: https://reactnative.dev/docs/appstate */
-  handleAppStateChange = (state: 'active' | 'background' | 'inactive') => {
-    const { unreadCount } = this.props;
-    if (state === 'background' && Platform.OS === 'android') {
-      NativeModules.BadgeCountUpdaterModule.setBadgeCount(unreadCount);
-    }
-  };
-
   notificationListener = new NotificationListener(this.props.dispatch);
   shareListener = new ShareReceivedListener();
 
@@ -139,7 +127,6 @@ class AppEventHandlersInner extends PureComponent<Props> {
     });
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
 
-    AppState.addEventListener('change', this.handleAppStateChange);
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
     ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);
     this.notificationListener.start();
@@ -151,7 +138,6 @@ class AppEventHandlersInner extends PureComponent<Props> {
       this.netInfoDisconnectCallback();
       this.netInfoDisconnectCallback = null;
     }
-    AppState.removeEventListener('change', this.handleAppStateChange);
     AppState.removeEventListener('memoryWarning', this.handleMemoryWarning);
     ScreenOrientation.removeOrientationChangeListeners();
     this.notificationListener.stop();
@@ -168,12 +154,6 @@ class AppEventHandlersInner extends PureComponent<Props> {
   }
 }
 
-const AppEventHandlers: ComponentType<OuterProps> = connectGlobal(state => ({
-  // TODO(#5006): The use of this per-account state in this global component
-  //   highlights how this feature (a badge count based on unreads, on
-  //   Android only) is pretty broken if you use multiple accounts -- it
-  //   reflects only the one last account you used.  Maybe just cut it?
-  unreadCount: getUnreadByHuddlesMentionsAndPMs(dubPerAccountState(state)),
-}))(AppEventHandlersInner);
+const AppEventHandlers: ComponentType<OuterProps> = connectGlobal()(AppEventHandlersInner);
 
 export default AppEventHandlers;
