@@ -77,7 +77,7 @@ val ReactContext.appStatus: ReactAppStatus
     }
 
 internal fun notifyReact(application: ReactApplication, data: Bundle) {
-    // TODO deduplicate this with ReceiveShareActivity#handleSend.
+    // TODO deduplicate this with handleSend in SharingHelper.kt.
     // Until then, keep in sync when changing.
     val host = application.reactNativeHost
     val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
