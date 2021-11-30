@@ -46,7 +46,7 @@ export default function persistStore(store, config = {}, onComplete) {
           await persistor.purge(cacheKeys);
         }
 
-        store.dispatch(rehydrateAction(restoredState, err));
+        store.dispatch(rehydrateAction(restoredState));
 
         // The version (in redux-persist-migrate's terms) that is
         // current now, after rehydration.
@@ -131,10 +131,9 @@ export default function persistStore(store, config = {}, onComplete) {
   };
 }
 
-function rehydrateAction(payload, error = null) {
+function rehydrateAction(payload) {
   return {
     type: REHYDRATE,
     payload,
-    error,
   };
 }

@@ -109,12 +109,10 @@ import type {
  *     persisted state is just missing keys, and will have `null` at each
  *     key where an error was encountered in reading the persisted state.
  *     In any case it will only contain the keys we configure to be persisted.
- * @prop error
  */
 type RehydrateAction = {|
   type: typeof REHYDRATE,
   payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>> | void,
-  error: mixed,
 |};
 
 type AppOnlineAction = {|
