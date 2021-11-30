@@ -1,6 +1,8 @@
 // @flow
-import type { Config } from './types';
+
+import type { Config, Persistor } from './types';
 import autoRehydrate from './autoRehydrate';
+import createPersistor from './createPersistor';
 import getStoredState from './getStoredState';
 import purgeStoredState from './purgeStoredState';
 
@@ -8,15 +10,8 @@ import purgeStoredState from './purgeStoredState';
 declare type Store = Object;
 
 // redux-persist typing
-declare type Purge = (keys?: Array<string>) => void;
-declare type Persistor = {|
-  purge: Purge,
-  pause: () => void,
-  resume: () => void,
-|};
 declare type OnComplete = (err?: any, result?: Object) => void;
 
-declare function createPersistor(store: Store, config: Config): Persistor;
 declare function persistStore(store: Store, config?: Config, onComplete?: OnComplete): Persistor;
 
 export { createPersistor, getStoredState, persistStore, purgeStoredState, autoRehydrate };

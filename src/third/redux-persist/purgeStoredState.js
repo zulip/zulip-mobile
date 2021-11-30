@@ -3,11 +3,11 @@ import invariant from 'invariant';
 
 import * as logging from '../../utils/logging';
 import { KEY_PREFIX } from './constants';
-import type { Config } from './types';
+import type { Storage } from './types';
 
 export default function purgeStoredState(
-  config: Config,
-  keys: $ReadOnlyArray<string>,
+  config: { +storage: Storage, +keyPrefix?: string, ... },
+  keys: void | $ReadOnlyArray<string>,
 ): Promise<mixed> {
   const storage = config.storage;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;

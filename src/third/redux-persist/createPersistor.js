@@ -1,10 +1,16 @@
+/* @flow strict-local */
+import type { Store } from 'redux';
 import invariant from 'invariant';
 
+import type { Config, Persistor } from './types';
 import * as logging from '../../utils/logging';
 import { KEY_PREFIX } from './constants';
 import purgeStoredState from './purgeStoredState';
 
-export default function createPersistor(store, config) {
+export default function createPersistor<S: { ... }, A, D>(
+  store: Store<S, A, D>,
+  config: Config,
+): Persistor {
   // defaults
   const serializer = config.serialize;
   const whitelist = config.whitelist;
@@ -67,7 +73,8 @@ export default function createPersistor(store, config) {
     // Identify what keys we need to write.
     // This includes anything already in outstandingKeys, because we don't
     // know what value was last successfully stored for those.
-    for (const key of Object.keys(state)) {
+    for (const key: string of Object.keys(state)) {
+      // TODO(flow): Weirdly Flow would infer `key: empty` here.
       if (whitelist.indexOf(key) === -1) {
         continue;
       }
@@ -86,7 +93,8 @@ export default function createPersistor(store, config) {
     // Serialize those keys' subtrees, with yields after each one.
     const writes = [];
     for (const key of outstandingKeys) {
-      writes.push([createStorageKey(key), serializer(state[key])]);
+      const substate: mixed = state[key]; // TODO(flow): Weirdly Flow infers `any` here.
+      writes.push([createStorageKey(key), serializer(substate)]);
       await new Promise(r => setTimeout(r, 0));
     }
 
