@@ -25,7 +25,6 @@ import com.facebook.react.ReactApplication
 import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
 import com.zulipmobile.ZLog
-import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
@@ -433,13 +432,4 @@ private fun getNotificationSoundUri(): Uri {
 internal fun onOpened(application: ReactApplication, data: Bundle) {
     logNotificationData("notif opened", data)
     notifyReact(application, data)
-    try {
-        // TODO: Does this (still) do anything useful?  We call `setNumber` on the
-        //   notification builder, which is supposed to provide a badge count:
-        //     https://developer.android.com/reference/androidx/core/app/NotificationCompat.Builder#setNumber(int)
-        //   and then `setAutoCancel`, so the notification gets cancelled on open.
-        ShortcutBadger.removeCount(application as Context)
-    } catch (e: Exception) {
-        ZLog.e(TAG, e)
-    }
 }
