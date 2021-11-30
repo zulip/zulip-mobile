@@ -1,13 +1,12 @@
 import invariant from 'invariant';
 
 import * as logging from '../../utils/logging';
-import { KEY_PREFIX, REHYDRATE } from './constants';
+import { KEY_PREFIX } from './constants';
 import purgeStoredState from './purgeStoredState';
 
 export default function createPersistor(store, config) {
   // defaults
   const serializer = config.serialize;
-  const deserializer = config.deserialize;
   const whitelist = config.whitelist;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
 
@@ -108,32 +107,12 @@ export default function createPersistor(store, config) {
     outstandingKeys.clear();
   }
 
-  function adhocRehydrate(incoming, options = {}) {
-    let state = {};
-    if (options.serial) {
-      Object.keys(incoming).forEach(key => {
-        const subState = incoming[key];
-        try {
-          state[key] = deserializer(subState);
-        } catch (err) {
-          logging.warn(err, { message: 'Error rehydrating data for a key', key });
-        }
-      });
-    } else {
-      state = incoming;
-    }
-
-    store.dispatch(rehydrateAction(state));
-    return state;
-  }
-
   function createStorageKey(key) {
     return `${keyPrefix}${key}`;
   }
 
   // return `persistor`
   return {
-    rehydrate: adhocRehydrate,
     pause: () => {
       paused = true;
     },
@@ -152,12 +131,5 @@ export default function createPersistor(store, config) {
     _resetLastWrittenState: () => {
       lastWrittenState = store.getState();
     },
-  };
-}
-
-function rehydrateAction(data) {
-  return {
-    type: REHYDRATE,
-    payload: data,
   };
 }
