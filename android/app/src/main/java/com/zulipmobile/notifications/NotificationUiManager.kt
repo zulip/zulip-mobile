@@ -377,11 +377,26 @@ private fun updateNotification(
         setContentIntent(
             PendingIntent.getService(context, 0,
                 Intent(Intent.ACTION_VIEW,
-                    // We don't use a URL for this intent; rather we get the information
-                    // from the "extra" we add to it.  But, empirically, if the URL is the
-                    // same from one notification to the next, then opening the second one
-                    // just takes us back to where the first one led, ignoring its different extras.
-                    // So we make sure the URL is different every time.
+                    // Our own code doesn't read this "data URL" from the
+                    // intent. Instead, we get data from the "extra" we add
+                    // to it. We add this URL so that the system doesn't
+                    // consider two PendingIntents to be the same
+                    // PendingIntent when they have different message keys.
+                    // Otherwise, a second notification would lead to the
+                    // same place as the one before it. See the doc at
+                    //   https://developer.android.com/reference/android/app/PendingIntent:
+                    //
+                    // > A common mistake people make is to create multiple
+                    // > PendingIntent objects with Intents that only vary
+                    // > in their "extra" contents, expecting to get a
+                    // > different PendingIntent each time. This does not
+                    // > happen. The parts of the Intent that are used for
+                    // > matching are the same ones defined by
+                    // > Intent.filterEquals.
+                    //
+                    // And note that the "data", a.k.a. "data URL", is one
+                    // of the parts defined by Intent.filterEquals:
+                    //   https://developer.android.com/reference/android/content/Intent#filterEquals(android.content.Intent)
                     Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
                     context, NotificationIntentService::class.java
                 ).putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
