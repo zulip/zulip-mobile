@@ -10,7 +10,7 @@ import * as logging from '../../utils/logging';
 // eslint-disable-next-line consistent-return
 export default function getStoredState(
   config: Config,
-  onComplete: (err: mixed, state?: { ... }) => void,
+  onComplete: (err: mixed, state?: { ... }) => void | Promise<void>,
 ): ?Promise<{ ... }> {
   const storage = config.storage;
   const deserializer = config.deserialize;

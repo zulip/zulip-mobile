@@ -1,10 +1,24 @@
+/* @flow strict-local */
+import type { Store } from 'redux';
+
 import { cacheKeys } from '../../boot/store';
 
+import type { Config, OverpromisedRehydrateAction, Persistor } from './types';
 import { REHYDRATE } from './constants';
 import getStoredState from './getStoredState';
 import createPersistor from './createPersistor';
 
-export default function persistStore(store, config = {}, onComplete) {
+export default function persistStore<
+  // The state type should have a schema version for migrations, like so.
+  S: { +migrations: { +version?: number }, ... },
+  A,
+  // The dispatch type should accept our rehydrate actions.
+  D: OverpromisedRehydrateAction => mixed,
+>(
+  store: Store<S, A, D>,
+  config: Config, // = Object.freeze({}),
+  onComplete?: (mixed, void | { ... }) => void,
+): Persistor {
   let purgeKeys = null;
 
   // create and pause persistor
@@ -13,11 +27,15 @@ export default function persistStore(store, config = {}, onComplete) {
 
   // restore
   setImmediate(() => {
-    getStoredState(config, async (err, restoredState) => {
-      if (err) {
+    getStoredState(config, async (err, restoredState_) => {
+      if (err != null) {
         complete(err);
         return;
       }
+      /* $FlowFixMe[incompatible-type] TODO clean this onComplete interface up;
+           the point is that `err` will be falsy only when the state is non-void. */
+      let restoredState: { ... } = restoredState_;
+
       // do not persist state for purgeKeys
       if (purgeKeys) {
         if (purgeKeys === '*') {
@@ -36,9 +54,11 @@ export default function persistStore(store, config = {}, onComplete) {
         // `createMigration` mutates `migrations.version` in the
         // action's payload (see `realVersionSetter` in
         // redux-persist-migrate).
-        const prevVersion = restoredState.migrations?.version;
+        //
+        // $FlowFixMe[prop-missing] This can indeed be missing; that's why we check
+        const prevVersion: mixed = restoredState.migrations?.version;
 
-        if (prevVersion == null || prevVersion < 24) {
+        if (typeof prevVersion !== 'number' || prevVersion < 24) {
           // Super-powered `dropCache` to clear out corrupted
           // (because not-fully-migrated) data from #4458. TODO: A
           // proper, non-hacky fix, as Greg describes at
@@ -46,7 +66,9 @@ export default function persistStore(store, config = {}, onComplete) {
           await persistor.purge(cacheKeys);
         }
 
-        store.dispatch(rehydrateAction(restoredState));
+        // This fixme is how we make the impossible promise in
+        // OverpromisedRehydrateAction.  See that type's jsdoc.
+        store.dispatch(rehydrateAction((restoredState: $FlowFixMe)));
 
         // The version (in redux-persist-migrate's terms) that is
         // current now, after rehydration.
@@ -111,12 +133,18 @@ export default function persistStore(store, config = {}, onComplete) {
     // app, fire a next action right here, right now.
     //
     // TODO: Find a cleaner way of handling this.
-    store.dispatch({
-      // Include a random string, to be sure no other action type
-      // matches this one. Like Redux does for the initial action.
-      type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`,
-    });
+    store.dispatch(
+      ({
+        // Include a random string, to be sure no other action type
+        // matches this one. Like Redux does for the initial action.
+        type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`,
 
+        // The intended param type for `dispatch` would be a union where one
+        // branch is "any other `type`".  There isn't a way to specify that
+        // without losing the information of what the type looks like for
+        // known `type`.  So just ignore that case.
+      }: $FlowFixMe),
+    );
     if (onComplete) {
       onComplete(err, restoredState);
     }
