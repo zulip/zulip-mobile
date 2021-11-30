@@ -377,26 +377,15 @@ private fun updateNotification(
         setContentIntent(
             PendingIntent.getService(context, 0,
                 Intent(Intent.ACTION_VIEW,
-                    // Our own code doesn't read this "data URL" from the
-                    // intent. Instead, we get data from the "extra" we add
-                    // to it. We add this URL so that the system doesn't
-                    // consider two PendingIntents to be the same
-                    // PendingIntent when they have different message keys.
-                    // Otherwise, a second notification would lead to the
-                    // same place as the one before it. See the doc at
-                    //   https://developer.android.com/reference/android/app/PendingIntent:
+                    // Our own code doesn't read this "data URL" from the intent.
+                    // Instead, we get data from the "extra" we add to it.
                     //
-                    // > A common mistake people make is to create multiple
-                    // > PendingIntent objects with Intents that only vary
-                    // > in their "extra" contents, expecting to get a
-                    // > different PendingIntent each time. This does not
-                    // > happen. The parts of the Intent that are used for
-                    // > matching are the same ones defined by
-                    // > Intent.filterEquals.
-                    //
-                    // And note that the "data", a.k.a. "data URL", is one
-                    // of the parts defined by Intent.filterEquals:
-                    //   https://developer.android.com/reference/android/content/Intent#filterEquals(android.content.Intent)
+                    // But the URL needs to be distinct each time; if it were the same
+                    // for two notifications, then we'd get the same PendingIntent twice.
+                    // That's because PendingIntents get reused when the Intents are
+                    // equal, and for that purpose extras don't count.  See doc:
+                    //   https://developer.android.com/reference/android/app/PendingIntent
+                    // and in particular the discussion of Intent.filterEquals.
                     Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
                     context, NotificationIntentService::class.java
                 ).putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
