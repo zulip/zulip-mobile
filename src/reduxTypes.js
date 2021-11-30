@@ -175,7 +175,7 @@ export type FlagName = $Keys<FlagsState>;
 export type MessagesState = Immutable.Map<number, Message>;
 
 export type MigrationsState = $ReadOnly<{|
-  version?: string,
+  version?: number,
 |}>;
 
 export type MuteState = $ReadOnlyArray<MuteTuple>;
