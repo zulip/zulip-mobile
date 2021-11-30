@@ -88,7 +88,7 @@ export function createMigrationImpl(
 
       if (incomingVersion !== currentVersion) {
         const migratedState = migrate(incomingState, incomingVersion);
-        action.payload = migratedState;
+        return next({ ...action, payload: migratedState });
       }
     }
     return next(action);

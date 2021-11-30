@@ -112,7 +112,7 @@ import type {
  */
 type RehydrateAction = {|
   type: typeof REHYDRATE,
-  payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>> | void,
+  +payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>> | void,
 |};
 
 type AppOnlineAction = {|
