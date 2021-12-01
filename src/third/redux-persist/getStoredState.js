@@ -72,19 +72,15 @@ export default function getStoredState(
   })();
 
   function rehydrate(key: string, serialized: string) {
-    let state = null;
-
     try {
-      const data = deserializer(serialized);
-      state = data;
+      return deserializer(serialized);
     } catch (err) {
       logging.warn(err, {
         message: 'redux-persist/getStoredState: Error restoring data for a key.',
         key,
       });
+      return null;
     }
-
-    return state;
   }
 
   function createStorageKey(key) {
