@@ -229,7 +229,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation "com.google.firebase:firebase-messaging:17.3.4"
-    implementation "me.leolin:ShortcutBadger:1.1.16@aar"
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
