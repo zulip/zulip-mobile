@@ -21,22 +21,14 @@ export default function getStoredState(
   let completionCount = 0;
 
   (async () => {
-    let err = null;
     let allKeys = undefined;
     try {
       allKeys = await storage.getAllKeys();
-    } catch (e) {
-      err = e;
-    }
-
-    if (err) {
+    } catch (err) {
       logging.warn(err, { message: 'redux-persist/getStoredState: Error in storage.getAllKeys' });
       onComplete(err);
       return;
     }
-
-    // TODO clean this up
-    invariant(allKeys, "allKeys must be set, or we'd have an error by now");
 
     const persistKeys = allKeys
       .filter(key => key.indexOf(keyPrefix) === 0)
