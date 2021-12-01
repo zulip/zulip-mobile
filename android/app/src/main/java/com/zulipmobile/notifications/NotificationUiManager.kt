@@ -2,7 +2,6 @@
 
 package com.zulipmobile.notifications
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -341,8 +340,6 @@ private fun updateNotification(
     }.build()
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
-    // See comment at `setContentIntent` below.
-    @SuppressLint("LaunchActivityFromNotification")
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
@@ -364,17 +361,8 @@ private fun updateNotification(
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
 
-        // The linter warns us here (suppressed by the `SuppressLint` above) that our
-        // current setup where tapping the notification starts NotificationIntentService,
-        // which then goes on to start or interact with our actual Activity, won't be allowed
-        // when targeting Android 12+.  Details:
-        //   https://developer.android.com/about/versions/12/behavior-changes-12#notification-trampolines
-        // TODO(#5101): Replace NotificationIntentService with directly starting an Activity.
-        //   Preferably MainActivity itself, if we can arrange the right behavior regardless
-        //   of whether it's currently in the foreground, the background, or not running.
-        //   Otherwise, a shim analogous to ShareToZulipActivity should work.
         setContentIntent(
-            PendingIntent.getService(context, 0,
+            PendingIntent.getActivity(context, 0,
                 Intent(Intent.ACTION_VIEW,
                     // Our own code doesn't read this "data URL" from the intent.
                     // Instead, we get data from the "extra" we add to it.
@@ -386,8 +374,26 @@ private fun updateNotification(
                     //   https://developer.android.com/reference/android/app/PendingIntent
                     // and in particular the discussion of Intent.filterEquals.
                     Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
-                    context, NotificationIntentService::class.java
-                ).putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
+                    context, MainActivity::class.java
+                )
+                    .setFlags(
+                        // See these sections in the Android docs:
+                        //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
+                        //   https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
+                        //
+                        // * From the doc on `PendingIntent.getActivity` at
+                        //     https://developer.android.com/reference/android/app/PendingIntent#getActivity(android.content.Context,%20int,%20android.content.Intent,%20int)
+                        //   > Note that the activity will be started outside of the context of an
+                        //   > existing activity, so you must use the Intent.FLAG_ACTIVITY_NEW_TASK
+                        //   > launch flag in the Intent.
+                        //
+                        // * The flag FLAG_ACTIVITY_CLEAR_TOP is mentioned as being what the
+                        //   notification manager does; so use that.  It has no effect as long
+                        //   as we only have one activity; but if we add more, it will destroy
+                        //   all the activities on top of the target one.
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    )
+                    .putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
                 PendingIntent.FLAG_IMMUTABLE))
         setAutoCancel(true)
     }.build()
@@ -427,26 +433,4 @@ private fun getNotificationSoundUri(): Uri {
     //     https://github.com/zulip/zulip-mobile/pull/3233#issuecomment-450245374
     //   .)  Until then, we use the system default notification sound.
     return Settings.System.DEFAULT_NOTIFICATION_URI
-}
-
-internal fun onOpened(context: Context, data: Bundle) {
-    val intent = Intent(context, MainActivity::class.java)
-    // See these sections in the Android docs:
-    //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
-    //   https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
-    //
-    // * The flag FLAG_ACTIVITY_NEW_TASK is redundant in that it produces the
-    //   same effect as setting `android:launchMode="singleTask"` on the
-    //   activity, which we've done; but Context#startActivity requires it for
-    //   clarity's sake, a requirement overridden in Activity#startActivity,
-    //   because the behavior without it only makes sense when starting from
-    //   an Activity.  Our `context` is a service, so it's required.
-    //
-    // * The flag FLAG_ACTIVITY_CLEAR_TOP is mentioned as being what the
-    //   notification manager does; so use that.  It has no effect as long
-    //   as we only have one activity; but if we add more, it will destroy
-    //   all the activities on top of the target one.
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-    intent.putExtra(EXTRA_NOTIFICATION_DATA, data)
-    context.startActivity(intent)
 }
