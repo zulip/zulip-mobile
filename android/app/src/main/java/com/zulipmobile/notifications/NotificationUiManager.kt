@@ -138,7 +138,7 @@ fun createNotificationChannel(context: Context) {
 }
 
 /** Write the given data to the device log, for debugging. */
-private fun logNotificationData(msg: String, data: Bundle) {
+fun logNotificationData(msg: String, data: Bundle) {
     data.keySet() // Has the side effect of making `data.toString` more informative.
     Log.v(TAG, "$msg: $data")
 }
@@ -431,8 +431,6 @@ private fun getNotificationSoundUri(): Uri {
 }
 
 internal fun onOpened(application: ReactApplication, data: Bundle) {
-    logNotificationData("notif opened", data)
-
     val context = (application as Context)
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
@@ -451,7 +449,6 @@ internal fun onOpened(application: ReactApplication, data: Bundle) {
     //   as we only have one activity; but if we add more, it will destroy
     //   all the activities on top of the target one.
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+    intent.putExtra(EXTRA_NOTIFICATION_DATA, data)
     context.startActivity(intent)
-
-    notifyReact(application, data)
 }

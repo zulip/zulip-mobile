@@ -30,15 +30,30 @@ open class MainActivity : ReactActivity() {
 
     /* Returns true just if we did handle the intent. */
     private fun maybeHandleIntent(intent: Intent?): Boolean {
-        // We handle intents from "sharing" something to Zulip.
-        when (intent?.action) {
+        if (intent == null) {
+            return false
+        }
+
+        when (intent.action) {
+            // Share-to-Zulip
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
                 handleSend(intent, (application as ReactApplication), contentResolver)
                 return true
             }
+            // Launch MainActivity on tapping a notification
+            Intent.ACTION_VIEW -> {
+                // The web-auth intent's action is also VIEW; leave that for RN
+                //   to handle.
+                val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
+
+                logNotificationData("notif opened", data)
+                notifyReact((application as ReactApplication), data)
+                return true
+            }
         }
+
         // For other intents, let RN handle it.  In particular this is
-        // important for VIEW intents with zulip: URLs.
+        // important for web-auth intents.
         return false
     }
 

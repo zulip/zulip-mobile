@@ -19,7 +19,7 @@ import com.zulipmobile.notifications.tryGetReactInstanceManager
 @JvmField
 val TAG = "ShareToZulip"
 
-fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
+internal fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
     val params: WritableMap = try {
         getParamsFromIntent(intent, contentResolver)
     } catch (e: ShareParamsParseException) {
