@@ -4,6 +4,7 @@ import invariant from 'invariant';
 import type { Config } from './types';
 import { KEY_PREFIX } from './constants';
 import * as logging from '../../utils/logging';
+import { allSettled } from '../../jsBackport';
 
 // TODO(consistent-return): Let's work with Promises instead of callbacks,
 //   after these files are covered by Flow.
@@ -16,9 +17,6 @@ export default async function getStoredState(
   const deserializer = config.deserialize;
   const whitelist = config.whitelist;
   const keyPrefix = config.keyPrefix !== undefined ? config.keyPrefix : KEY_PREFIX;
-
-  const restoredState = {};
-  let completionCount = 0;
 
   let allKeys = undefined;
   try {
@@ -34,13 +32,10 @@ export default async function getStoredState(
     .map(key => key.slice(keyPrefix.length));
   const keysToRestore = persistKeys.filter(key => whitelist.indexOf(key) !== -1);
 
-  const restoreCount = keysToRestore.length;
-  if (restoreCount === 0) {
-    onComplete(null, restoredState);
-  }
-  keysToRestore.forEach(key => {
-    (async () => {
-      try {
+  const restoredState = {};
+  await allSettled(
+    keysToRestore.map(key =>
+      (async () => {
         let serialized = undefined;
         try {
           serialized = await storage.getItem(createStorageKey(key));
@@ -53,14 +48,10 @@ export default async function getStoredState(
         }
         invariant(serialized !== null, 'key was found above, should be present here');
         restoredState[key] = rehydrate(key, serialized);
-      } finally {
-        completionCount += 1;
-        if (completionCount === restoreCount) {
-          onComplete(null, restoredState);
-        }
-      }
-    })();
-  });
+      })(),
+    ),
+  );
+  onComplete(null, restoredState);
 
   function rehydrate(key: string, serialized: string) {
     try {

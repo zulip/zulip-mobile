@@ -27,3 +27,35 @@ export function objectFromEntries<+K, +V>(entries: $ReadOnlyArray<[K, V]>): {| [
   });
   return obj;
 }
+
+/**
+ * A simplified version of Promise#allSettled.
+ *
+ * See doc on MDN:
+ *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
+ *
+ * This version is simplified for convenient implementation and because we
+ * didn't happen to need the extra features:
+ *  * The argument must be an `Array`.
+ *  * No details about the promises' outcomes are provided.
+ */
+export function allSettled(promises: $ReadOnlyArray<Promise<mixed>>): Promise<void> {
+  const total = promises.length;
+  if (total === 0) {
+    return Promise.resolve();
+  }
+
+  let completed = 0;
+  return new Promise(resolve => {
+    promises.forEach(async p => {
+      try {
+        await p;
+      } finally {
+        completed++;
+        if (completed === total) {
+          resolve();
+        }
+      }
+    });
+  });
+}
