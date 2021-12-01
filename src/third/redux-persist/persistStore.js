@@ -17,7 +17,7 @@ export default function persistStore<
 >(
   store: Store<S, A, D>,
   config: Config, // = Object.freeze({}),
-  onComplete?: (mixed, void | { ... }) => void,
+  onComplete?: () => void,
 ): Persistor {
   let purgeKeys = null;
 
@@ -29,7 +29,7 @@ export default function persistStore<
   setImmediate(() => {
     getStoredState(config, async (err, restoredState_) => {
       if (err != null) {
-        complete(err);
+        complete();
         return;
       }
       /* $FlowFixMe[incompatible-type] TODO clean this onComplete interface up;
@@ -114,12 +114,12 @@ export default function persistStore<
           persistor._resetLastWrittenState(); // eslint-disable-line no-underscore-dangle
         }
       } finally {
-        complete(err, restoredState);
+        complete();
       }
     });
   });
 
-  function complete(err, restoredState) {
+  function complete() {
     persistor.resume();
 
     // As mentioned in a comment above, the current strategy of using
@@ -146,7 +146,7 @@ export default function persistStore<
       }: $FlowFixMe),
     );
     if (onComplete) {
-      onComplete(err, restoredState);
+      onComplete();
     }
   }
 
