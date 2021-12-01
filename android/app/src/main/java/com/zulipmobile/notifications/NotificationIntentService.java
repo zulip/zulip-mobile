@@ -9,7 +9,6 @@ import com.facebook.react.ReactApplication;
 import com.zulipmobile.MainApplication;
 
 import static android.content.Intent.ACTION_VIEW;
-import static com.zulipmobile.notifications.NotificationUiManager.ACTION_CLEAR;
 import static com.zulipmobile.notifications.NotificationUiManager.EXTRA_NOTIFICATION_DATA;
 
 public class NotificationIntentService extends IntentService {
