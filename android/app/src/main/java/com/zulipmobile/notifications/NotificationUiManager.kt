@@ -21,7 +21,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
 import androidx.core.graphics.drawable.IconCompat
-import com.facebook.react.ReactApplication
 import com.zulipmobile.MainActivity
 import com.zulipmobile.BuildConfig
 import com.zulipmobile.R
@@ -430,8 +429,7 @@ private fun getNotificationSoundUri(): Uri {
     return Settings.System.DEFAULT_NOTIFICATION_URI
 }
 
-internal fun onOpened(application: ReactApplication, data: Bundle) {
-    val context = (application as Context)
+internal fun onOpened(context: Context, data: Bundle) {
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
     //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
