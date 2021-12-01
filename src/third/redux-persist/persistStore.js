@@ -28,23 +28,22 @@ export default function persistStore<
   // restore
   setImmediate(() => {
     getStoredState(config, async (err, restoredState_) => {
-      if (err != null) {
-        complete();
-        return;
-      }
-      /* $FlowFixMe[incompatible-type] TODO clean this onComplete interface up;
-           the point is that `err` will be falsy only when the state is non-void. */
-      let restoredState: { ... } = restoredState_;
-
-      // do not persist state for purgeKeys
-      if (purgeKeys) {
-        if (purgeKeys === '*') {
-          restoredState = {};
-        } else {
-          purgeKeys.forEach(key => delete restoredState[key]);
-        }
-      }
       try {
+        if (err != null) {
+          return;
+        }
+        /* $FlowFixMe[incompatible-type] TODO clean this onComplete interface up;
+           the point is that `err` will be falsy only when the state is non-void. */
+        let restoredState: { ... } = restoredState_;
+
+        // do not persist state for purgeKeys
+        if (purgeKeys) {
+          if (purgeKeys === '*') {
+            restoredState = {};
+          } else {
+            purgeKeys.forEach(key => delete restoredState[key]);
+          }
+        }
         // The version (in redux-persist-migrate's terms) that was
         // current in the previous session.
         //
