@@ -79,6 +79,8 @@ val ReactContext.appStatus: ReactAppStatus
     }
 
 internal fun notifyReact(application: ReactApplication, data: Bundle) {
+    launchMainActivity(application as Context)
+
     // TODO deduplicate this with handleSend in SharingHelper.kt.
     // Until then, keep in sync when changing.
     val host = application.reactNativeHost
@@ -95,7 +97,6 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
             // initialNotification again, but it will see a notificationOpened event.
             emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
     }
-    launchMainActivity(application as Context)
 }
 
 fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
