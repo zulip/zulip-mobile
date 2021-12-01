@@ -430,7 +430,10 @@ private fun getNotificationSoundUri(): Uri {
     return Settings.System.DEFAULT_NOTIFICATION_URI
 }
 
-private fun launchMainActivity(context: Context) {
+internal fun onOpened(application: ReactApplication, data: Bundle) {
+    logNotificationData("notif opened", data)
+
+    val context = (application as Context)
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
     //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
@@ -449,10 +452,6 @@ private fun launchMainActivity(context: Context) {
     //   all the activities on top of the target one.
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     context.startActivity(intent)
-}
 
-internal fun onOpened(application: ReactApplication, data: Bundle) {
-    logNotificationData("notif opened", data)
-    launchMainActivity(application as Context)
     notifyReact(application, data)
 }
