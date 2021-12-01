@@ -2,8 +2,6 @@
 
 package com.zulipmobile.notifications
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.facebook.react.ReactApplication
@@ -13,7 +11,6 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.common.LifecycleState
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.zulipmobile.MainActivity
 
 /**
  * Methods for telling React about a notification.
@@ -79,8 +76,6 @@ val ReactContext.appStatus: ReactAppStatus
     }
 
 internal fun notifyReact(application: ReactApplication, data: Bundle) {
-    launchMainActivity(application as Context)
-
     // TODO deduplicate this with handleSend in SharingHelper.kt.
     // Until then, keep in sync when changing.
     val host = application.reactNativeHost
@@ -103,25 +98,4 @@ fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
     reactContext
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
         .emit(eventName, data)
-}
-
-fun launchMainActivity(context: Context) {
-    val intent = Intent(context, MainActivity::class.java)
-    // See these sections in the Android docs:
-    //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
-    //   https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
-    //
-    // * The flag FLAG_ACTIVITY_NEW_TASK is redundant in that it produces the
-    //   same effect as setting `android:launchMode="singleTask"` on the
-    //   activity, which we've done; but Context#startActivity requires it for
-    //   clarity's sake, a requirement overridden in Activity#startActivity,
-    //   because the behavior without it only makes sense when starting from
-    //   an Activity.  Our `context` is a service, so it's required.
-    //
-    // * The flag FLAG_ACTIVITY_CLEAR_TOP is mentioned as being what the
-    //   notification manager does; so use that.  It has no effect as long
-    //   as we only have one activity; but if we add more, it will destroy
-    //   all the activities on top of the target one.
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-    context.startActivity(intent)
 }
