@@ -41,31 +41,24 @@ export default function getStoredState(
     }
     keysToRestore.forEach(key => {
       (async () => {
-        let err = null;
-        let serialized: null | string = null;
         try {
-          serialized = await storage.getItem(createStorageKey(key));
+          let serialized = undefined;
+          try {
+            serialized = await storage.getItem(createStorageKey(key));
+          } catch (err) {
+            logging.warn(err, {
+              message: 'redux-persist/getStoredState: Error restoring data for a key.',
+              key,
+            });
+            return;
+          }
           invariant(serialized !== null, 'key was found above, should be present here');
-        } catch (e) {
-          err = e;
-        }
-        if (err) {
-          logging.warn(err, {
-            message: 'redux-persist/getStoredState: Error restoring data for a key.',
-            key,
-          });
-        } else {
-          // TODO clean this up
-          invariant(
-            serialized !== null,
-            "serialized must be set, or else we'd have an error by now",
-          );
-
           restoredState[key] = rehydrate(key, serialized);
-        }
-        completionCount += 1;
-        if (completionCount === restoreCount) {
-          onComplete(null, restoredState);
+        } finally {
+          completionCount += 1;
+          if (completionCount === restoreCount) {
+            onComplete(null, restoredState);
+          }
         }
       })();
     });
