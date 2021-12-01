@@ -106,7 +106,6 @@ fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
 }
 
 fun launchMainActivity(context: Context) {
-    Log.d(TAG, "NotifyReact: launching main activity")
     val intent = Intent(context, MainActivity::class.java)
     // See these sections in the Android docs:
     //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
