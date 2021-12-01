@@ -6,13 +6,7 @@ import { KEY_PREFIX } from './constants';
 import * as logging from '../../utils/logging';
 import { allSettled } from '../../jsBackport';
 
-// TODO(consistent-return): Let's work with Promises instead of callbacks,
-//   after these files are covered by Flow.
-// eslint-disable-next-line consistent-return
-export default async function getStoredState(
-  config: Config,
-  onComplete: (err: mixed, state?: { ... }) => void | Promise<void>,
-): Promise<void> {
+export default async function getStoredState(config: Config): Promise<{ ... }> {
   const storage = config.storage;
   const deserializer = config.deserialize;
   const whitelist = config.whitelist;
@@ -23,8 +17,7 @@ export default async function getStoredState(
     allKeys = await storage.getAllKeys();
   } catch (err) {
     logging.warn(err, { message: 'redux-persist/getStoredState: Error in storage.getAllKeys' });
-    onComplete(err);
-    return;
+    throw err;
   }
 
   const persistKeys = allKeys
@@ -51,7 +44,7 @@ export default async function getStoredState(
       })(),
     ),
   );
-  onComplete(null, restoredState);
+  return restoredState;
 
   function rehydrate(key: string, serialized: string) {
     try {
@@ -68,20 +61,4 @@ export default async function getStoredState(
   function createStorageKey(key) {
     return `${keyPrefix}${key}`;
   }
-
-  /* TODO refactor this function, and its caller, to use Promises
-       instead of a callback.  Pending that we comment this code out,
-       because otherwise it triggers some Flow bug causing weird errors.
-  if (typeof onComplete !== 'function' && !!Promise) {
-    return new Promise((resolve, reject) => {
-      onComplete = (err, restoredState) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(restoredState);
-        }
-      };
-    });
-  }
-  */
 }

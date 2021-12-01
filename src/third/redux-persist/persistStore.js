@@ -28,9 +28,7 @@ export default function persistStore<
   // restore
   setImmediate(async () => {
     try {
-      let restoredState: { ... } = await new Promise((resolve, reject) =>
-        getStoredState(config, (err, state) => err != null ? reject(err) : resolve(state)),
-      );
+      let restoredState: { ... } = await getStoredState(config);
 
       // do not persist state for purgeKeys
       if (purgeKeys) {
