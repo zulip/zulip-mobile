@@ -95,11 +95,7 @@ internal fun notifyReact(application: ReactApplication, data: Bundle) {
             // initialNotification again, but it will see a notificationOpened event.
             emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
     }
-    when (appStatus) {
-        null, ReactAppStatus.NOT_RUNNING, ReactAppStatus.BACKGROUND ->
-            launchMainActivity(application as Context)
-        ReactAppStatus.FOREGROUND -> Unit
-    }
+    launchMainActivity(application as Context)
 }
 
 fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
