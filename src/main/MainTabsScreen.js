@@ -9,17 +9,18 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
+import { getUnreadHuddlesTotal, getUnreadPmsTotal } from '../selectors';
+import { useSelector } from '../react-redux';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
-import { IconInbox, IconStream } from '../common/Icons';
+import { IconInbox, IconStream, IconPeople } from '../common/Icons';
 import { OwnAvatar, OfflineNotice } from '../common';
-import IconUnreadConversations from '../nav/IconUnreadConversations';
 import ProfileScreen from '../account-info/ProfileScreen';
-import styles, { ThemeContext } from '../styles';
+import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 
 export type MainTabsNavigatorParamList = {|
   home: RouteParamsOf<typeof HomeScreen>,
@@ -45,6 +46,8 @@ type Props = $ReadOnly<{|
 
 export default function MainTabsScreen(props: Props): Node {
   const { backgroundColor } = useContext(ThemeContext);
+
+  const unreadPmsCount = useSelector(getUnreadHuddlesTotal) + useSelector(getUnreadPmsTotal);
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
@@ -83,7 +86,14 @@ export default function MainTabsScreen(props: Props): Node {
           component={PmConversationsScreen}
           options={{
             tabBarLabel: 'Conversations',
-            tabBarIcon: ({ color }) => <IconUnreadConversations color={color} />,
+            tabBarIcon: ({ color }) => <IconPeople size={24} color={color} />,
+            tabBarBadge: unreadPmsCount > 0 ? unreadPmsCount : undefined,
+            tabBarBadgeStyle: {
+              // Light in light mode, dark in dark mode; both will contrast
+              //   with BRAND_COLOR.
+              color: backgroundColor,
+              backgroundColor: BRAND_COLOR,
+            },
           }}
         />
         <Tab.Screen
