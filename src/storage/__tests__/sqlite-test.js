@@ -2,13 +2,14 @@
 
 import sqlite3 from 'sqlite3';
 // $FlowFixMe[missing-export] -- present in test version of module
-import { openDatabase, deleteDatabase } from 'expo-sqlite';
+import { openDatabase, deleteDatabase, type SQLResultSet } from 'expo-sqlite';
 /* eslint-disable import/no-extraneous-dependencies */
 // $FlowFixMe[untyped-import]: actually comes from our mock-immediate.js
 import * as immediate from 'immediate';
 import invariant from 'invariant';
 
 import { objectFromEntries } from '../../jsBackport';
+import { SQLDatabase } from '../sqlite';
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-return-assign */
@@ -36,7 +37,7 @@ describe('expo-sqlite', () => {
 
   // These helpers `promiseTxn`, `promiseRead`, and `select` are convenient
   // for stitching the database control flow into the control flow of a
-  // test.  They're similar to parts of our upcoming promisified wrapper...
+  // test.  They're similar to parts of our promisified wrapper...
   // namely the outermost, simplest parts.
   const promiseTxn = (db, cb) =>
     new Promise((resolve, reject) => db.transaction(cb, reject, resolve));
@@ -278,5 +279,46 @@ describe('expo-sqlite', () => {
       // (There isn't an obvious good way to write a test *of* that
       // particular broken behavior, though.)
     });
+  });
+});
+
+describe('our promisified sqlite', () => {
+  const dbName = 'test.db';
+
+  beforeAll(async () => {
+    await deleteDatabase(dbName);
+  });
+
+  afterEach(async () => {
+    await deleteDatabase(dbName);
+  });
+
+  test('smoke', async () => {
+    const db = new SQLDatabase(dbName);
+    const rows = await db.query<{ n: number }>('SELECT 42 AS n', []);
+    expect(rows).toEqual([{ n: 42 }]);
+  });
+
+  test('transaction with no internal await', async () => {
+    const db = new SQLDatabase(dbName);
+    await db.transaction(tx => {
+      tx.executeSql('CREATE TABLE foo (x INT)');
+      tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
+    });
+    const rows = await db.query<{ x: number }>('SELECT x FROM foo', []);
+    expect(rows).toEqual([{ x: 1 }, { x: 2 }]);
+  });
+
+  test('read-transaction with no internal await', async () => {
+    const db = new SQLDatabase(dbName);
+    let a: SQLResultSet | void = undefined;
+    let b: SQLResultSet | void = undefined;
+    await db.readTransaction(async tx => {
+      tx.executeSql('SELECT 1 AS n').then(r => (a = r));
+      tx.executeSql('SELECT 2 AS n').then(r => (b = r));
+    });
+    expect(a?.rows._array).toEqual([{ n: 1 }]);
+    expect(b?.rows._array).toEqual([{ n: 2 }]);
   });
 });
