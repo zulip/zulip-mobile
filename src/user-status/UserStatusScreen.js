@@ -8,13 +8,13 @@ import { createStyleSheet } from '../styles';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { Input, SelectableOptionRow, Screen, ZulipButton } from '../common';
-import { getSelfUserStatusText } from '../selectors';
+import { getAuth, getSelfUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
-import { updateUserStatusText } from './userStatusActions';
 import { navigateBack } from '../nav/navActions';
+import * as api from '../api';
 
 const styles = createStyleSheet({
   statusTextInput: {
@@ -35,7 +35,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function UserStatusScreen(props: Props): Node {
-  const dispatch = useDispatch();
+  const auth = useSelector(getAuth);
   const userStatusText = useSelector(getSelfUserStatusText);
 
   const [statusText, setStatusText] = useState<string>(userStatusText);
@@ -43,10 +43,10 @@ export default function UserStatusScreen(props: Props): Node {
 
   const sendToServer = useCallback(
     (_statusText: string) => {
-      dispatch(updateUserStatusText(_statusText));
+      api.updateUserStatus(auth, { status_text: _statusText });
       NavigationService.dispatch(navigateBack());
     },
-    [dispatch],
+    [auth],
   );
 
   const handlePressUpdate = useCallback(() => {

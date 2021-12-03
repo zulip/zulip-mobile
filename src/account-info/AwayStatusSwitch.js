@@ -2,10 +2,10 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { SwitchRow } from '../common';
-import { getSelfUserAwayStatus } from '../selectors';
-import { updateUserAwayStatus } from '../user-status/userStatusActions';
+import { getAuth, getSelfUserAwayStatus } from '../selectors';
+import * as api from '../api';
 
 type Props = $ReadOnly<{||}>;
 
@@ -15,15 +15,15 @@ type Props = $ReadOnly<{||}>;
  *  * allows by switching it to control the `away` status
  */
 export default function AwayStatusSwitch(props: Props): Node {
+  const auth = useSelector(getAuth);
   const awayStatus = useSelector(getSelfUserAwayStatus);
-  const dispatch = useDispatch();
 
   return (
     <SwitchRow
       label="Set yourself to away"
       value={awayStatus}
       onValueChange={(away: boolean) => {
-        dispatch(updateUserAwayStatus(away));
+        api.updateUserStatus(auth, { away });
       }}
     />
   );
