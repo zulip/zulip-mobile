@@ -28,6 +28,9 @@ PODS:
   - EXScreenOrientation (3.3.0):
     - React-Core
     - UMCore
+  - EXSQLite (9.2.1):
+    - ExpoModulesCore
+    - UMCore
   - EXWebBrowser (9.2.0):
     - UMCore
   - FBLazyVector (0.64.3)
@@ -430,6 +433,7 @@ DEPENDENCIES:
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
+  - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - EXWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -534,6 +538,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core/ios"
   EXScreenOrientation:
     :path: "../node_modules/expo-screen-orientation/ios"
+  EXSQLite:
+    :path: "../node_modules/expo-sqlite/ios"
   EXWebBrowser:
     :path: "../node_modules/expo-web-browser/ios"
   FBLazyVector:
@@ -642,6 +648,7 @@ SPEC CHECKSUMS:
   EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
   ExpoModulesCore: 2734852616127a6c1fc23012197890a6f3763dc7
   EXScreenOrientation: 09fe6b6b87899ae0c9320255bda7b7513cdfc8ec
+  EXSQLite: cddb3b3f4c6999761c157b88dc8b55c7af2cd86b
   EXWebBrowser: 76783ba5dcb8699237746ecf41a9643d428a4cc5
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
   FBReactNativeSpec: ddd61666683147c613f5c89e2ce4e6c5e4f90d63

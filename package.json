@@ -38,6 +38,7 @@
     "expo-apple-authentication": "^3.2.1",
     "expo-application": "^3.2.0",
     "expo-screen-orientation": "^3.3.0",
+    "expo-sqlite": "^9.1.0",
     "expo-web-browser": "^9.1.0",
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
