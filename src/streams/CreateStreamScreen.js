@@ -5,11 +5,12 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import { useSelector, useDispatch } from '../react-redux';
-import { createNewStream, navigateBack } from '../actions';
-import { getOwnEmail } from '../selectors';
+import { useSelector } from '../react-redux';
+import { navigateBack } from '../actions';
+import { getAuth, getOwnEmail } from '../selectors';
 import { Screen } from '../common';
 import EditStreamCard from './EditStreamCard';
+import * as api from '../api';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'create-stream'>,
@@ -17,15 +18,15 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function CreateStreamScreen(props: Props): Node {
-  const dispatch = useDispatch();
+  const auth = useSelector(getAuth);
   const ownEmail = useSelector(getOwnEmail);
 
   const handleComplete = useCallback(
     (name: string, description: string, isPrivate: boolean) => {
-      dispatch(createNewStream(name, description, [ownEmail], isPrivate));
+      api.createStream(auth, name, description, [ownEmail], isPrivate);
       NavigationService.dispatch(navigateBack());
     },
-    [ownEmail, dispatch],
+    [auth, ownEmail],
   );
 
   return (

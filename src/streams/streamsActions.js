@@ -3,15 +3,6 @@ import type { Stream, ThunkAction } from '../types';
 import * as api from '../api';
 import { getAuth, getZulipFeatureLevel } from '../selectors';
 
-export const createNewStream = (
-  name: string,
-  description: string,
-  principals: string[],
-  isPrivate: boolean,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  await api.createStream(getAuth(getState()), name, description, principals, isPrivate);
-};
-
 export const updateExistingStream = (
   id: number,
   initialValues: Stream,
