@@ -76,7 +76,7 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
   if (/\.jpe?g$/i.test(uri)) {
     const result = nameWithoutPrefix.replace(/\.heic$/i, '.jpeg');
     if (result !== nameWithoutPrefix) {
-      logging.info('OK, so .HEIC to .jpeg replacement still seems like a good idea.');
+      logging.warn('OK, so .HEIC to .jpeg replacement still seems like a good idea.');
     }
     return result;
   }

@@ -11,9 +11,9 @@ describe('chooseUploadImageFilename', () => {
     'Replaces any extension for the HEIC format with an extension for the JPEG format '
       + 'if the file name does end with an extension for the JPEG format',
     () => {
-      // suppress `logging.info` output
+      // suppress `logging.warn` output
       // $FlowFixMe[prop-missing]: Jest mock
-      logging.info.mockReturnValue();
+      logging.warn.mockReturnValue();
 
       const fileNameWithoutExtension = 'foo';
       expect(
