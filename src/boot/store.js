@@ -13,12 +13,12 @@ import type { Config, Persistor } from '../third/redux-persist';
 
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
-import { stringify, parse } from './replaceRevive';
+import { stringify, parse } from '../storage/replaceRevive';
 import type { Action, GlobalState, ThunkExtras } from '../types';
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
-import ZulipAsyncStorage from './ZulipAsyncStorage';
+import ZulipAsyncStorage from '../storage/ZulipAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { objectFromEntries } from '../jsBackport';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
