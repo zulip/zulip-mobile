@@ -1,5 +1,5 @@
 // `flowgen --no-inexact --interface-records node_modules/expo-sqlite/build/SQLite.types.d.ts`
-// with s/export type/declare export type/g
+// with s/export type/declare export type/g, and as noted with "Zulip fix" below
 declare module 'expo-sqlite/build/SQLite.types' {
   /**
    * Flowtype definitions for SQLite.types
@@ -67,7 +67,7 @@ declare module 'expo-sqlite/build/SQLite.types' {
      */
     executeSql(
       sqlStatement: string,
-      args?: (number | string)[],
+      args?: $ReadOnlyArray<number | string>, // Zulip fix
       callback?: SQLStatementCallback,
       errorCallback?: SQLStatementErrorCallback
     ): void,
