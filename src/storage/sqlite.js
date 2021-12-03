@@ -8,6 +8,7 @@ import {
 import invariant from 'invariant';
 
 /* eslint-disable no-use-before-define */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-void */
 
 /* eslint-disable-next-line flowtype/type-id-match */
@@ -32,11 +33,22 @@ export class SQLDatabase {
     );
   }
 
-  /** For a single read-only query. */
-  async query(statement: string, args?: $ReadOnlyArray<SQLArgument>): Promise<SQLResultSet> {
-    let p: void | Promise<SQLResultSet> = undefined;
+  /**
+   * Convenience method for a single read-only query.
+   *
+   * Warning: nothing checks that the returned rows actually match the given
+   * Row type.  The actual rows will be objects keyed on the column names in
+   * the query.  For effective type-checking, always pass a type parameter
+   * that matches the query.  For example:
+   *   db.query<{ foo: number, bar: string }>('SELECT foo, bar FROM stuff');
+   */
+  async query<Row: { ... } = { ... }>(
+    statement: string,
+    args?: $ReadOnlyArray<SQLArgument>,
+  ): Promise<Row[]> {
+    let p: void | Promise<Row[]> = undefined;
     await this.readTransaction(tx => {
-      p = tx.executeSql(statement, args);
+      p = tx.executeSql(statement, args).then(r => r.rows._array);
     });
     invariant(p, 'transaction finished; statement promise should be initialized');
     return p;
