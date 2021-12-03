@@ -1,25 +1,12 @@
 /* @flow strict-local */
+import LegacyAsyncStorage from '@react-native-async-storage/async-storage';
+
+import invariant from 'invariant';
 import { SQLDatabase } from './sqlite';
+import * as logging from '../utils/logging';
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
-
-// TODO: This needs a migration strategy!  How do we move the user's data
-//   from the old AsyncStorage to the new database?
-//
-//   On Android, we could bypass this by arranging to use the old thing's
-//   database and table name.  Might need some tweaking of expo-sqlite in
-//   order to control the database name fully enough.
-//
-//   But on iOS, it's not so simple.  Values over 1024 characters
-//   (RCTInlineValueThreshold, in RNCAsyncStorage.m) are written as separate
-//   files.  Values up to that threshold go into a single JSON blob (for the
-//   whole key-value store) that's written as one file.  So really our
-//   sanest path is probably to keep the legacy AsyncStorage as a dependency
-//   indefinitely, and use it to read the old data if the new doesn't exist.
-//
-//   Then once we're doing that for iOS, might as well do it for Android
-//   too, and not have to follow the old names.
 
 // A better name for this class might be simply AsyncStorage.
 // But for now we reserve that name for the thing that's a (nearly) drop-in
@@ -32,6 +19,8 @@ export class AsyncStorageImpl {
   // And then that might as well return the same Promise every time, rather
   // than unwrapping it up front and wrapping it in a new Promise on each call.
   dbSingleton: void | Promise<SQLDatabase> = undefined;
+
+  version: number = 1; // Hard-coded for now, with just the migration from legacy AsyncStorage.
 
   _db(): Promise<SQLDatabase> {
     if (this.dbSingleton) {
@@ -59,8 +48,93 @@ export class AsyncStorageImpl {
       `);
       // TODO consider adding STRICT to the schema; requires SQLite 3.37,
       //   from 2021-11: https://www.sqlite.org/stricttables.html
+
+      // We'll use this to record successful migrations, such as from legacy
+      // AsyncStorage.
+      // There should only be one row.
+      tx.executeSql(`
+        CREATE TABLE IF NOT EXISTS migration (
+          version INTEGER NOT NULL
+        )
+      `);
     });
+
+    await this._migrate(db);
+
     return db;
+  }
+
+  async _migrate(db) {
+    const version = (await db.query('SELECT version FROM migration LIMIT 1'))[0]?.version ?? 0;
+    if (version === this.version) {
+      return;
+    }
+
+    if (version > this.version) {
+      logging.error('AsyncStorage: schema is from future', {
+        targetVersion: this.version,
+        storedVersion: version,
+      });
+      throw new Error('AsyncStorage: schema is from future');
+    }
+
+    invariant(this.version === 1, 'AsyncStorage._migrate currently assumes target version 1');
+    if (version !== 0) {
+      logging.error('AsyncStorage: no migration path', {
+        storedVersion: version,
+        targetVersion: this.version,
+      });
+      throw new Error('AsyncStorage: no migration path');
+    }
+
+    // Perform the migration.  For now, we're hardcoding that the only
+    // migration is from version 0 to version 1.
+    await db.transaction(async tx => {
+      await this._migrateFromLegacyAsyncStorage(tx);
+
+      tx.executeSql('DELETE FROM migration');
+      tx.executeSql('INSERT INTO migration (version) VALUES (?)', [this.version]);
+    });
+  }
+
+  // The migration strategy.  How do we move the user's data from the old
+  // AsyncStorage to the new database?
+  //
+  // On Android, we could bypass this by arranging to use the old thing's
+  // database and table name.  Might need some tweaking of expo-sqlite in
+  // order to control the database name fully enough.
+  //
+  // But on iOS, it's not so simple.  Values over 1024 characters
+  // (RCTInlineValueThreshold, in RNCAsyncStorage.m) are written as separate
+  // files.  Values up to that threshold go into a single JSON blob (for the
+  // whole key-value store) that's written as one file.  So rather than try
+  // to duplicate that, we just keep the legacy AsyncStorage as a
+  // dependency, and use it to read the old data if the new doesn't exist.
+  //
+  // Then once we're doing that for iOS, might as well do it for Android
+  // too, and not have to follow the old names.
+  async _migrateFromLegacyAsyncStorage(tx) {
+    // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
+    //   be read-only -- in particular, for new installs to stop creating an
+    //   empty legacy store, which on Android happens just from initializing
+    //   the legacy AsyncStorage module.  This will basically mean vendoring
+    //   the library into src/third-party/, and then stripping out
+    //   everything not needed for read-only use.
+
+    const keys = await LegacyAsyncStorage.getAllKeys();
+    const values = await Promise.all(keys.map(key => LegacyAsyncStorage.getItem(key)));
+    tx.executeSql('DELETE FROM keyvalue');
+    for (let i = 0; i < keys.length; i++) {
+      const value = values[i];
+      if (value == null) {
+        // TODO warn
+        continue;
+      }
+      tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
+    }
+
+    // TODO: After this migration has been out for a while and things seem fine,
+    //   add another to delete the legacy storage.
   }
 
   async getItem(key: string): Promise<string | null> {
@@ -105,6 +179,18 @@ export class AsyncStorageImpl {
     return db.transaction(tx => {
       tx.executeSql('DELETE FROM keyvalue');
     });
+  }
+
+  /**
+   * Forget the AsyncStorage implementation's internal, non-persistent state.
+   *
+   * This should only be used in tests.  It has an effect similar to exiting
+   * the program (but leaving the persistent storage intact), so that the
+   * next use of AsyncStorage will behave as if freshly starting up the
+   * program.
+   */
+  async devForgetState(): Promise<void> {
+    this.dbSingleton = undefined;
   }
 }
 
