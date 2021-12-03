@@ -44,6 +44,9 @@ export default class ZulipAsyncStorage {
         NativeModules.TextCompressionModule
         && header === NativeModules.TextCompressionModule.header
       ) {
+        // TODO: It'd be real nice to handle this decompression on the
+        //   native side within getItem, so that we pass the data one way
+        //   native->JS instead of three ways native->JS->native->JS.
         return NativeModules.TextCompressionModule.decompress(item);
       } else {
         // Panic! If we are confronted with an unknown format, there is
@@ -92,6 +95,9 @@ export default class ZulipAsyncStorage {
         ? await Promise.all(
             keyValuePairs.map(async ([key, value]) => [
               key,
+              // TODO: It'd be real nice to handle this compression on the
+              //   native side within multiSet, so that we pass the data one
+              //   way JS->native instead of three ways JS->native->JS->native.
               await NativeModules.TextCompressionModule.compress(value),
             ]),
           )
