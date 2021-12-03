@@ -6,18 +6,14 @@ import { View } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
-import { useDispatch, useSelector } from '../react-redux';
+import { useSelector } from '../react-redux';
 import { delay } from '../utils/async';
 import { SwitchRow, Screen, ZulipButton } from '../common';
 import { getSettings } from '../directSelectors';
 import { getAuth, getIsAdmin, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
-import {
-  setSubscriptionProperty,
-  navigateToEditStream,
-  navigateToStreamSubscribers,
-} from '../actions';
+import { navigateToEditStream, navigateToStreamSubscribers } from '../actions';
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
@@ -29,8 +25,6 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function StreamSettingsScreen(props: Props): Node {
-  const dispatch = useDispatch();
-
   const auth = useSelector(getAuth);
   const isAdmin = useSelector(getIsAdmin);
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
@@ -41,16 +35,16 @@ export default function StreamSettingsScreen(props: Props): Node {
 
   const handleTogglePinStream = useCallback(
     (newValue: boolean) => {
-      dispatch(setSubscriptionProperty(stream.stream_id, 'pin_to_top', newValue));
+      api.setSubscriptionProperty(auth, stream.stream_id, 'pin_to_top', newValue);
     },
-    [dispatch, stream],
+    [auth, stream],
   );
 
   const handleToggleMuteStream = useCallback(
     (newValue: boolean) => {
-      dispatch(setSubscriptionProperty(stream.stream_id, 'is_muted', newValue));
+      api.setSubscriptionProperty(auth, stream.stream_id, 'is_muted', newValue);
     },
-    [dispatch, stream],
+    [auth, stream],
   );
 
   const handlePressEdit = useCallback(() => {
@@ -71,8 +65,8 @@ export default function StreamSettingsScreen(props: Props): Node {
 
   const handleToggleStreamPushNotification = useCallback(() => {
     const currentValue = getIsNotificationEnabled(subscription, userSettingStreamNotification);
-    dispatch(setSubscriptionProperty(stream.stream_id, 'push_notifications', !currentValue));
-  }, [dispatch, stream, subscription, userSettingStreamNotification]);
+    api.setSubscriptionProperty(auth, stream.stream_id, 'push_notifications', !currentValue);
+  }, [auth, stream, subscription, userSettingStreamNotification]);
 
   return (
     <Screen title="Stream">

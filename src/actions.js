@@ -10,7 +10,6 @@ export * from './outbox/outboxActions';
 export * from './session/sessionActions';
 export * from './settings/settingsActions';
 export * from './streams/streamsActions';
-export * from './subscriptions/subscriptionsActions';
 export * from './topics/topicActions';
 export * from './typing/typingActions';
 export * from './users/usersActions';
