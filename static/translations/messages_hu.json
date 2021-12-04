@@ -1,4 +1,7 @@
 {
+  "Remind me later": "Remind me later",
+  "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
+  "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
   "To upload an image, please grant Zulip additional permissions in Settings.": "Képfeltöltéshez kérjük adj megfelelő hozzáférést a Zulipnak a Beállításokban.",
   "Permissions needed": "Ehhez hozzáférés szükséges",
   "Open settings": "Beállítások megnyitása",
@@ -80,8 +83,6 @@
   "Please check your Internet connection": "Kérjük ellenőrizd az internetkapcsolatodat",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.": "{realm} nem támogatott Zulip Server verziót {serverVersion} futtat. Kérjük frissítse a szervert mihamarabb.",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} nem támogatott Zulip Server verziót {serverVersion} futtat. Kérjük értesítsd az admint, hogy frissítse.",
-  "Dismiss": "Hanyaglold",
-  "Fix now": "Javíts ki",
   "Learn more": "Tudj meg többet",
   "Settings": "Beállítások",
   "Night mode": "Éjszakai mód",

@@ -1,4 +1,7 @@
 {
+  "Remind me later": "Remind me later",
+  "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
+  "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
   "To upload an image, please grant Zulip additional permissions in Settings.": "I uwchlwytho delwedd, rhowch ganiatâd ychwanegol i Zulip mewn Gosodiadau.",
   "Permissions needed": "Angen caniatâd",
   "Open settings": "Agor gosodiadau ",
@@ -80,8 +83,6 @@
   "Please check your Internet connection": "Gwiriwch eich cysylltiad rhyngrwyd",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.": "Mae {realm} yn rhedeg Zulip Server {serverVersion}, sydd heb gefnogaeth. Plis uwchraddiwch eich gweinydd cyn gynted â phosibl.",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "Mae {realm} yn rhedeg Zulip Server {serverVersion}, sydd heb gefnogaeth. Cysylltwch â'ch gweinyddwr ynglŷn ag uwchraddio.",
-  "Dismiss": "Hwfftio",
-  "Fix now": "Atgyweiria nawr",
   "Learn more": "Dysgu mwy",
   "Settings": "Gosodiadau",
   "Night mode": "Modd nos",

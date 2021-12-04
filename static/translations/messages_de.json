@@ -1,4 +1,7 @@
 {
+  "Remind me later": "Remind me later",
+  "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
+  "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
   "To upload an image, please grant Zulip additional permissions in Settings.": "Um ein Bild hochzuladen, gewähre Zulip bitte zusätzliche Berechtigungen in den Einstellungen.",
   "Permissions needed": "Berechtigungen benötigt",
   "Open settings": "Einstellungen öffnen",
@@ -80,8 +83,6 @@
   "Please check your Internet connection": "Bitte überprüfe deine Internetverbindung.",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.": "{realm} nutzt Zulip Server Version {serverVersion}, welche nicht unterstützt wird. Bitte update deinen Server sobald wie möglich.",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} nutzt Zulip Server Version {serverVersion}, welche nicht unterstützt wird. Bitte deinen Administrator den Server zu updaten.",
-  "Dismiss": "Ignorieren",
-  "Fix now": "Jetzt beheben",
   "Learn more": "Mehr erfahren",
   "Settings": "Einstellungen",
   "Night mode": "Nachtmodus",
