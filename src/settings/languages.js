@@ -43,6 +43,7 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'id', name: 'Indonesian', selfname: 'Bahasa Indonesia' },
   { tag: 'ca', name: 'Catalan', selfname: 'Català' },
   { tag: 'cs', name: 'Czech', selfname: 'Čeština' },
+  { tag: 'cy', name: 'Welsh', selfname: 'Cymraeg' },
   { tag: 'da', name: 'Danish', selfname: 'Dansk' },
   { tag: 'de', name: 'German', selfname: 'Deutsch' },
   { tag: 'en', name: 'English', selfname: 'English' },
