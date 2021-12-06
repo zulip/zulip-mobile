@@ -344,16 +344,16 @@ type EventMessageDeleteAction = {|
 type EventUpdateMessageAction = {|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
-  edit_timestamp: number,
+  user_id: UserId,
   message_id: number,
-  orig_content: string,
+  edit_timestamp: number,
   orig_subject?: string,
+  subject: string,
+  subject_links: string[],
+  orig_content: string,
   orig_rendered_content: string,
   prev_rendered_content_version: number,
   rendered_content: string,
-  subject_links: string[],
-  subject: string,
-  user_id: UserId,
 |};
 
 type EventReactionCommon = {|
