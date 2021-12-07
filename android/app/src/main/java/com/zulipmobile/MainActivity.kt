@@ -1,6 +1,5 @@
 package com.zulipmobile
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
@@ -30,15 +29,11 @@ open class MainActivity : ReactActivity() {
     }
 
     /* Returns true just if we did handle the intent. */
-    private fun maybeHandleIntent(
-        intent: Intent?,
-        application: ReactApplication,
-        contentResolver: ContentResolver
-    ): Boolean {
+    private fun maybeHandleIntent(intent: Intent?): Boolean {
         // We handle intents from "sharing" something to Zulip.
         when (intent?.action) {
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
-                handleSend(intent, application, contentResolver)
+                handleSend(intent, (application as ReactApplication), contentResolver)
                 return true
             }
         }
@@ -55,11 +50,11 @@ open class MainActivity : ReactActivity() {
         if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
             return;
         }
-        maybeHandleIntent(intent, application as ReactApplication, contentResolver)
+        maybeHandleIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent?) {
-        if (maybeHandleIntent(intent, application as ReactApplication, contentResolver)) {
+        if (maybeHandleIntent(intent)) {
             return
         }
         super.onNewIntent(intent)
