@@ -36,6 +36,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.177 (2021-12-07)
+
 ### Highlights for users, vs v27.175 (last prod release)
 
 * (Android) Notifications have been reworked to be more informative and
