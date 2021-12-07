@@ -175,13 +175,18 @@ describe('messagesReducer', () => {
         type: EVENT_UPDATE_MESSAGE,
         edit_timestamp: Date.now() - 1000,
         message_id: message3.id,
+        message_ids: [message3.id],
         orig_content: eg.randString(),
         orig_rendered_content: eg.randString(),
         prev_rendered_content_version: 0,
+        propagate_mode: 'change_one',
         rendered_content: eg.randString(),
+        content: eg.randString(),
         subject_links: [],
         subject: eg.randString(),
         user_id: message3.sender_id,
+        is_me_message: false,
+        flags: [],
       });
       const newState = messagesReducer(prevState, action);
       expect(newState).toBe(prevState);
@@ -211,13 +216,18 @@ describe('messagesReducer', () => {
         type: EVENT_UPDATE_MESSAGE,
         edit_timestamp: 123,
         message_id: message3New.id,
+        message_ids: [message3New.id],
         orig_content: '<p>Old content</p>',
         orig_rendered_content: '<p>Old content</p>',
         prev_rendered_content_version: 1,
+        propagate_mode: 'change_one',
         rendered_content: '<p>New content</p>',
+        content: 'New content',
         subject_links: [],
         subject: message3New.subject,
         user_id: message3New.sender_id,
+        is_me_message: false,
+        flags: [],
       });
       const expectedState = eg.makeMessagesState([message1, message2, message3New]);
       const newState = messagesReducer(prevState, action);
@@ -254,14 +264,19 @@ describe('messagesReducer', () => {
         type: EVENT_UPDATE_MESSAGE,
         edit_timestamp: 123,
         message_id: message1New.id,
+        message_ids: [message1New.id],
         orig_content: message1Old.content,
         orig_subject: message1Old.subject,
         orig_rendered_content: message1Old.content,
         prev_rendered_content_version: 1,
+        propagate_mode: 'change_one',
         rendered_content: message1New.content,
+        content: message1New.content,
         subject_links: [],
         subject: message1New.subject,
         user_id: message1Old.sender_id,
+        is_me_message: false,
+        flags: [],
       });
       const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
@@ -307,14 +322,19 @@ describe('messagesReducer', () => {
         type: EVENT_UPDATE_MESSAGE,
         edit_timestamp: 456,
         message_id: message1Old.id,
+        message_ids: [message1Old.id],
         orig_content: message1Old.content,
         orig_rendered_content: message1Old.content,
         rendered_content: message1New.content,
+        content: message1New.content,
+        propagate_mode: 'change_one',
         subject: message1New.subject,
         orig_subject: message1Old.subject,
         prev_rendered_content_version: 1,
         user_id: message1New.sender_id,
         subject_links: [],
+        is_me_message: false,
+        flags: [],
       });
       const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
