@@ -34,10 +34,13 @@ open class MainActivity : ReactActivity() {
             return false
         }
 
+        val host = (application as ReactApplication).reactNativeHost
+        val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
+
         when (intent.action) {
             // Share-to-Zulip
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
-                handleSend(intent, (application as ReactApplication), contentResolver)
+                handleSend(intent, reactContext, contentResolver)
                 return true
             }
             // Launch MainActivity on tapping a notification
@@ -47,7 +50,7 @@ open class MainActivity : ReactActivity() {
                 val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
 
                 logNotificationData("notif opened", data)
-                notifyReact((application as ReactApplication), data)
+                notifyReact(reactContext, data)
                 return true
             }
         }

@@ -4,7 +4,6 @@ package com.zulipmobile.notifications
 
 import android.os.Bundle
 import android.util.Log
-import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.Arguments
@@ -75,11 +74,10 @@ val ReactContext.appStatus: ReactAppStatus
         }
     }
 
-internal fun notifyReact(application: ReactApplication, data: Bundle) {
-    // TODO deduplicate this with handleSend in SharingHelper.kt.
+internal fun notifyReact(reactContext: ReactContext?, data: Bundle) {
+    // TODO deduplicate this with handleSend in SharingHelper.kt; see
+    // https://github.com/zulip/zulip-mobile/pull/5146#discussion_r764437055
     // Until then, keep in sync when changing.
-    val host = application.reactNativeHost
-    val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
     val appStatus = reactContext?.appStatus
     Log.d(TAG, "notifyReact: app status is $appStatus")
     when (appStatus) {

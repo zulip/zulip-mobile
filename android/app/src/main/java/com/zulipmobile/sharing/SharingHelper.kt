@@ -7,19 +7,18 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
-import com.facebook.react.ReactApplication
 import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
 import com.zulipmobile.ZLog
 import com.zulipmobile.notifications.ReactAppStatus
 import com.zulipmobile.notifications.appStatus
 import com.zulipmobile.notifications.emit
-import com.zulipmobile.notifications.tryGetReactInstanceManager
 
 @JvmField
 val TAG = "ShareToZulip"
 
-internal fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
+internal fun handleSend(intent: Intent, reactContext: ReactContext?, contentResolver: ContentResolver) {
     val params: WritableMap = try {
         getParamsFromIntent(intent, contentResolver)
     } catch (e: ShareParamsParseException) {
@@ -27,10 +26,9 @@ internal fun handleSend(intent: Intent, application: ReactApplication, contentRe
         return
     }
 
-    // TODO deduplicate this with notifyReact.
+    // TODO deduplicate this with notifyReact; see
+    // https://github.com/zulip/zulip-mobile/pull/5146#discussion_r764437055
     // Until then, keep in sync when changing.
-    val host = application.reactNativeHost
-    val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
     val appStatus = reactContext?.appStatus
     Log.d(TAG, "app status is $appStatus")
     when (appStatus) {
