@@ -36,8 +36,30 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs v27.175 (last prod release)
+
+* (Android) Notifications have been reworked to be more informative and
+  easier to read. (#2691, #4842, #5136)
+* (Android) The app no longer restarts when you switch between split-view
+  mode and fullscreen mode. (#5068)
+
+
+### Highlights for users, vs v27.176 (last alpha)
+
+* (Android) New vibration pattern for notifications. (#5136)
+* (Android) Fixed a regression where some notifications were dropped.
+  (#5138)
+
+
+### Highlights for developers, vs. 27.176
+
+* Resolved issues: #5136, #1507, #4631, #5138, #5031, #5143
+
 
 ## 27.176 (2021-11-16)
+
+This was an alpha-only release.
+
 
 ### Highlights for users
 
