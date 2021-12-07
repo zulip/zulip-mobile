@@ -1,5 +1,6 @@
 package com.zulipmobile
 
+import android.content.ContentResolver
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
@@ -9,7 +10,7 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.ReactApplication
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import com.zulipmobile.notifications.*
-import com.zulipmobile.sharing.maybeHandleIntent
+import com.zulipmobile.sharing.handleSend
 
 open class MainActivity : ReactActivity() {
     /**
@@ -26,6 +27,24 @@ open class MainActivity : ReactActivity() {
                 return RNGestureHandlerEnabledRootView(this@MainActivity)
             }
         }
+    }
+
+    /* Returns true just if we did handle the intent. */
+    private fun maybeHandleIntent(
+        intent: Intent?,
+        application: ReactApplication,
+        contentResolver: ContentResolver
+    ): Boolean {
+        // We handle intents from "sharing" something to Zulip.
+        when (intent?.action) {
+            Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
+                handleSend(intent, application, contentResolver)
+                return true
+            }
+        }
+        // For other intents, let RN handle it.  In particular this is
+        // important for VIEW intents with zulip: URLs.
+        return false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

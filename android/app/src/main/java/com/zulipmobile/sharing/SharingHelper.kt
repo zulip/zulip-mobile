@@ -19,25 +19,7 @@ import com.zulipmobile.notifications.tryGetReactInstanceManager
 @JvmField
 val TAG = "ShareToZulip"
 
-/* Returns true just if we did handle the intent. */
-fun maybeHandleIntent(
-    intent: Intent?,
-    application: ReactApplication,
-    contentResolver: ContentResolver
-): Boolean {
-    // We handle intents from "sharing" something to Zulip.
-    when (intent?.action) {
-        Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
-            handleSend(intent, application, contentResolver)
-            return true
-        }
-    }
-    // For other intents, let RN handle it.  In particular this is
-    // important for VIEW intents with zulip: URLs.
-    return false
-}
-
-private fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
+fun handleSend(intent: Intent, application: ReactApplication, contentResolver: ContentResolver) {
     val params: WritableMap = try {
         getParamsFromIntent(intent, contentResolver)
     } catch (e: ShareParamsParseException) {
