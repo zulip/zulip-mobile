@@ -12,6 +12,7 @@ public class BasePackageList {
         new expo.modules.filesystem.FileSystemPackage(),
         new expo.modules.imageloader.ImageLoaderPackage(),
         new expo.modules.screenorientation.ScreenOrientationPackage(),
+        new expo.modules.sqlite.SQLitePackage(),
         new expo.modules.webbrowser.WebBrowserPackage()
     );
   }
