@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { Platform, NativeModules } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { AsyncStorage } from '../AsyncStorage';
 import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import * as logging from '../../utils/logging';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -39,7 +40,7 @@ describe('setItem', () => {
 
   describe('success', () => {
     test('resolves correctly', async () => {
-      await expect(run()).resolves.toBe(null);
+      await expect(run()).resolves.toBe(undefined);
     });
 
     test('AsyncStorage.setItem called correctly', async () => {

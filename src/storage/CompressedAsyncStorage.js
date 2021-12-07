@@ -1,8 +1,8 @@
 /* @flow strict-local */
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import invariant from 'invariant';
 import { NativeModules } from 'react-native';
 
+import { AsyncStorage } from './AsyncStorage';
 import * as logging from '../utils/logging';
 
 const NODE_ENV = process.env.NODE_ENV;
