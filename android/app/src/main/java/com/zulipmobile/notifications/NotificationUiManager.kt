@@ -68,6 +68,10 @@ private val CHANNEL_ID = "messages-1"
  */
 private val NOTIFICATION_ID = 435
 
+/** The authority in the `zulip:` URL for opening a notification. */
+@JvmField
+val NOTIFICATION_URL_AUTHORITY = "notification"
+
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
@@ -358,21 +362,21 @@ private fun updateNotification(
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
 
+        // Our own code doesn't read this "data URL" from the intent.
+        // Instead, we get data from the "extra" we add to it.
+        //
+        // But the URL needs to be distinct each time; if it were the same
+        // for two notifications, then we'd get the same PendingIntent twice.
+        // That's because PendingIntents get reused when the Intents are
+        // equal, and for that purpose extras don't count.  See doc:
+        //   https://developer.android.com/reference/android/app/PendingIntent
+        // and in particular the discussion of Intent.filterEquals.
+        val intentUrl = Uri.Builder().scheme("zulip")
+            .authority(NOTIFICATION_URL_AUTHORITY).path(extractMessageKey(fcmMessage)).build()
+
         setContentIntent(
             PendingIntent.getActivity(context, 0,
-                Intent(Intent.ACTION_VIEW,
-                    // Our own code doesn't read this "data URL" from the intent.
-                    // Instead, we get data from the "extra" we add to it.
-                    //
-                    // But the URL needs to be distinct each time; if it were the same
-                    // for two notifications, then we'd get the same PendingIntent twice.
-                    // That's because PendingIntents get reused when the Intents are
-                    // equal, and for that purpose extras don't count.  See doc:
-                    //   https://developer.android.com/reference/android/app/PendingIntent
-                    // and in particular the discussion of Intent.filterEquals.
-                    Uri.fromParts("zulip", extractMessageKey(fcmMessage), ""),
-                    context, MainActivity::class.java
-                )
+                Intent(Intent.ACTION_VIEW, intentUrl, context, MainActivity::class.java)
                     .setFlags(
                         // See these sections in the Android docs:
                         //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
