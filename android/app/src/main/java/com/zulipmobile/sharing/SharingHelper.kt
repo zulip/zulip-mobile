@@ -66,7 +66,7 @@ private fun handleSend(intent: Intent, application: ReactApplication, contentRes
 private fun urlToSharedFile(url: Uri, contentResolver: ContentResolver): WritableMap {
     val file = Arguments.createMap()
     file.putString("name", getFileName(url, contentResolver))
-    file.putString("mimeType", contentResolver.getType(url)?: "application/octet-stream")
+    file.putString("mimeType", contentResolver.getType(url) ?: "application/octet-stream")
     file.putString("url", url.toString())
     return file
 }
@@ -115,7 +115,7 @@ fun getFileName(uri: Uri, contentResolver: ContentResolver): String {
         cursor.moveToFirst()
         val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
         cursor.getString(nameIndex)
-    }?: "unknown." + (contentResolver.getType(uri)?.split('/')?.last() ?: "bin")
+    } ?: "unknown." + (contentResolver.getType(uri)?.split('/')?.last() ?: "bin")
 }
 
 class ShareParamsParseException(errorMessage: String) : RuntimeException(errorMessage)

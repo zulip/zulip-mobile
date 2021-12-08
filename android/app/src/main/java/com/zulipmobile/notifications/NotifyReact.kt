@@ -43,11 +43,13 @@ enum class ReactAppStatus {
      * or never will again.  There might not be an active JS instance.
      */
     NOT_RUNNING,
+
     /**
      * The main activity has been in the foreground, is out of foreground
      * now, but might come back.  There must be an active JS instance.
      */
     BACKGROUND,
+
     /**
      * The main activity is in the foreground.
      * There must be an active JS instance.
