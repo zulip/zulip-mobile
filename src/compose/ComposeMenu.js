@@ -4,24 +4,17 @@ import type { ComponentType } from 'react';
 import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-
+import { connectActionSheet } from '../react-native-action-sheet';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { Dispatch, Narrow, GetText } from '../types';
 import { connect } from '../react-redux';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import {
-  IconPlusCircle,
-  IconLeft,
-  IconImage,
-  IconCamera,
-  IconAttach,
-  IconVideo,
-} from '../common/Icons';
-import AnimatedComponent from '../animation/AnimatedComponent';
+import { IconPlusCircle } from '../common/Icons';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
+import type { ShowActionSheetWithOptions } from '../action-sheets';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
@@ -35,7 +28,7 @@ type SelectorProps = $ReadOnly<{||}>;
 
 type Props = $ReadOnly<{|
   ...OuterProps,
-
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
   // from `connect`
   ...SelectorProps,
   dispatch: Dispatch,
@@ -234,56 +227,58 @@ class ComposeMenuInner extends PureComponent<Props> {
   });
 
   render() {
-    const { expanded, insertVideoCallLink, onExpandContract } = this.props;
-    const numIcons =
-      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+    const { expanded, insertVideoCallLink } = this.props;
+
+    const onOpenActionSheet = () => {
+      const options = [
+        'Upload a file',
+        'Upload a picture',
+        'Take a picture',
+        'Add a video call',
+        'Cancel',
+      ];
+      const cancelButtonIndex = options.length - 1;
+
+      this.props.showActionSheetWithOptions(
+        {
+          options,
+          cancelButtonIndex,
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            this.handleFilesPicker();
+          }
+          if (buttonIndex === 1) {
+            this.handleImagePicker();
+          }
+          if (buttonIndex === 2) {
+            this.handleCameraCapture();
+          }
+          if (buttonIndex === 3) {
+            // Flow actually has a special case for this, this is called an "unknown function".
+            // We know that insertVideoCallLink is a function, but we don't know anything about its
+            // arguments or return type so we can't safely do anything with it except pass it around.
+            // see:https://stackoverflow.com/questions/65314559/flow-type-refine-mixed-to-function
+            if (typeof insertVideoCallLink === 'function') {
+              insertVideoCallLink();
+            }
+          }
+        },
+      );
+    };
 
     return (
       <View style={this.styles.composeMenu}>
-        <AnimatedComponent
-          stylePropertyName="width"
-          fullValue={40 * numIcons}
-          useNativeDriver={false}
-          visible={expanded}
-        >
-          <View style={this.styles.composeMenu}>
-            {Platform.OS === 'android' && (
-              <IconAttach
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={this.handleFilesPicker}
-              />
-            )}
-            <IconImage
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleImagePicker}
-            />
-            <IconCamera
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleCameraCapture}
-            />
-            {insertVideoCallLink !== null ? (
-              <IconVideo
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={insertVideoCallLink}
-              />
-            ) : null}
-          </View>
-        </AnimatedComponent>
         {!expanded && (
-          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onOpenActionSheet} />
         )}
       </View>
     );
   }
 }
 
-const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(ComposeMenuInner);
+const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(
+  connectActionSheet(ComposeMenuInner),
+);
 
 export default ComposeMenu;
