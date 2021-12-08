@@ -24,34 +24,38 @@ export class AsyncStorage {
   }
 
   static async _initDb() {
+    console.log('_initDb 1');
     const db = new SQLDatabase('zulip.db');
-    await db.transaction(tx => {
-      // This schema is just like the one in RN's AsyncStorage (see
-      // ReactDatabaseSupplier.java), except for a small fix: the latter
-      // doesn't mention NOT NULL on the `key` column.  In standard SQL
-      // that'd be redundant with PRIMARY KEY (though c'mon, EIBTI)… but
-      // SQLite has a quirk that PRIMARY KEY does *not* imply NOT NULL:
-      //   https://www.sqlite.org/lang_createtable.html#the_primary_key
-      tx.executeSql(`
+    console.log('_initDb 2');
+    false
+      && (await db.transaction(tx => {
+        // This schema is just like the one in RN's AsyncStorage (see
+        // ReactDatabaseSupplier.java), except for a small fix: the latter
+        // doesn't mention NOT NULL on the `key` column.  In standard SQL
+        // that'd be redundant with PRIMARY KEY (though c'mon, EIBTI)… but
+        // SQLite has a quirk that PRIMARY KEY does *not* imply NOT NULL:
+        //   https://www.sqlite.org/lang_createtable.html#the_primary_key
+        tx.executeSql(`
         CREATE TABLE IF NOT EXISTS keyvalue (
           key TEXT PRIMARY KEY NOT NULL,
           value TEXT NOT NULL
         )
       `);
-      // TODO consider adding STRICT to the schema; requires SQLite 3.37,
-      //   from 2021-11: https://www.sqlite.org/stricttables.html
+        // TODO consider adding STRICT to the schema; requires SQLite 3.37,
+        //   from 2021-11: https://www.sqlite.org/stricttables.html
 
-      // We'll use this to record successfully migrating from legacy
-      // AsyncStorage.
-      tx.executeSql(`
+        // We'll use this to record successfully migrating from legacy
+        // AsyncStorage.
+        tx.executeSql(`
         CREATE TABLE IF NOT EXISTS migrations (
           name TEXT PRIMARY KEY NOT NULL
         )
       `);
-    });
+      }));
 
-    await AsyncStorage._migrateFromLegacyAsyncStorage(db);
+    // await AsyncStorage._migrateFromLegacyAsyncStorage(db);
 
+    console.log('_initDb 3');
     return db;
   }
 
@@ -109,10 +113,13 @@ export class AsyncStorage {
   }
 
   static async getItem(key: string): Promise<string | null> {
+    console.log('getItem 1');
     const db = await AsyncStorage._db();
+    console.log('getItem 2');
     const rows = await db.query<{ value: string }>('SELECT value FROM keyvalue WHERE key = ?', [
       key,
     ]);
+    console.log('getItem 3');
     const row = rows[0];
     return row ? row.value : null;
   }
