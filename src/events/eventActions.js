@@ -2,13 +2,12 @@
 import { addBreadcrumb } from '@sentry/react-native';
 
 import type { GeneralEvent, ThunkAction } from '../types';
-import { assumeSecretlyGlobalState } from '../reduxTypes';
 import * as api from '../api';
 import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { tryGetActiveAccountState, tryGetAuth } from '../selectors';
+import { tryGetAuth } from '../selectors';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
@@ -61,11 +60,9 @@ export const startEventPolling = (
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const globalState = assumeSecretlyGlobalState(getState());
-    const state = tryGetActiveAccountState(globalState);
-    const auth = state ? tryGetAuth(state) : undefined;
+    const auth = tryGetAuth(getState());
     if (!auth) {
-      // There is no logged-in active account.
+      // This account is not logged in.
       break;
     }
     // `auth` represents the active account.  It might be different from
