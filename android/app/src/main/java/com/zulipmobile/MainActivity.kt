@@ -44,10 +44,7 @@ open class MainActivity : ReactActivity() {
 
     /* Returns true just if we did handle the intent. */
     private fun maybeHandleIntent(intent: Intent?): Boolean {
-        if (intent == null) {
-            return false
-        }
-
+        intent ?: return false
         val url = intent.data
         when (intent.action) {
             // Share-to-Zulip
@@ -55,6 +52,7 @@ open class MainActivity : ReactActivity() {
                 handleSend(intent, reactApplication.tryGetReactContext(), contentResolver)
                 return true
             }
+
             Intent.ACTION_VIEW -> when {
                 // Launch MainActivity on tapping a notification
                 url?.scheme == "zulip" && url.authority == NOTIFICATION_URL_AUTHORITY -> {
@@ -63,14 +61,15 @@ open class MainActivity : ReactActivity() {
                     notifyReact(reactApplication.tryGetReactContext(), data)
                     return true
                 }
-                // The web-auth intent's action is also VIEW; leave that for RN
-                //   to handle.
-            }
-        }
 
-        // For other intents, let RN handle it.  In particular this is
-        // important for web-auth intents.
-        return false
+                // Let RN handle other intents.  In particular web-auth intents (parsed in
+                // src/start/webAuth.js) have ACTION_VIEW, scheme "zulip", and authority "login".
+                else -> return false
+            }
+
+            // For other intents, let RN handle it.
+            else -> return false
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
