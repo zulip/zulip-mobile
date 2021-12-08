@@ -69,9 +69,6 @@ private val CHANNEL_ID = "messages-1"
 private val NOTIFICATION_ID = 435
 
 @JvmField
-val ACTION_CLEAR = "ACTION_CLEAR"
-
-@JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
 private val Context.notificationManager: NotificationManager
