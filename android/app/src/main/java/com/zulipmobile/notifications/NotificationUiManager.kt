@@ -362,8 +362,9 @@ private fun updateNotification(
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
         }
 
-        // Our own code doesn't read this "data URL" from the intent.
-        // Instead, we get data from the "extra" we add to it.
+        // Our own code doesn't look at the message details in this URL,
+        // the "data URL" we put on the intent.  Instead, we get data from
+        // the "extra" we put on the intent.
         //
         // But the URL needs to be distinct each time; if it were the same
         // for two notifications, then we'd get the same PendingIntent twice.

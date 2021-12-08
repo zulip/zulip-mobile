@@ -48,21 +48,23 @@ open class MainActivity : ReactActivity() {
             return false
         }
 
+        val url = intent.data
         when (intent.action) {
             // Share-to-Zulip
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
                 handleSend(intent, reactApplication.tryGetReactContext(), contentResolver)
                 return true
             }
-            // Launch MainActivity on tapping a notification
-            Intent.ACTION_VIEW -> {
+            Intent.ACTION_VIEW -> when {
+                // Launch MainActivity on tapping a notification
+                url?.scheme == "zulip" && url.authority == NOTIFICATION_URL_AUTHORITY -> {
+                    val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
+                    logNotificationData("notif opened", data)
+                    notifyReact(reactApplication.tryGetReactContext(), data)
+                    return true
+                }
                 // The web-auth intent's action is also VIEW; leave that for RN
                 //   to handle.
-                val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
-
-                logNotificationData("notif opened", data)
-                notifyReact(reactApplication.tryGetReactContext(), data)
-                return true
             }
         }
 
