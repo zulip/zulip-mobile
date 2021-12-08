@@ -7,9 +7,23 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.ReactApplication
+import com.facebook.react.bridge.ReactContext
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import com.zulipmobile.notifications.*
 import com.zulipmobile.sharing.handleSend
+
+// A convenience shortcut.
+fun ReactApplication.tryGetReactContext(): ReactContext? =
+    this.reactNativeHost.tryGetReactInstanceManager()?.currentReactContext
+
+/**
+ * Like `.application`, but with a more specific type.
+ *
+ * This expresses the invariant that a ReactActivity's application
+ * should always be a ReactApplication.
+ */
+val ReactActivity.reactApplication: ReactApplication
+    get() = application as ReactApplication
 
 open class MainActivity : ReactActivity() {
     /**
@@ -34,13 +48,10 @@ open class MainActivity : ReactActivity() {
             return false
         }
 
-        val host = (application as ReactApplication).reactNativeHost
-        val reactContext = host.tryGetReactInstanceManager()?.currentReactContext
-
         when (intent.action) {
             // Share-to-Zulip
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
-                handleSend(intent, reactContext, contentResolver)
+                handleSend(intent, reactApplication.tryGetReactContext(), contentResolver)
                 return true
             }
             // Launch MainActivity on tapping a notification
@@ -50,7 +61,7 @@ open class MainActivity : ReactActivity() {
                 val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
 
                 logNotificationData("notif opened", data)
-                notifyReact(reactContext, data)
+                notifyReact(reactApplication.tryGetReactContext(), data)
                 return true
             }
         }
