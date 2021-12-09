@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import invariant from 'invariant';
 
 import type { Narrow, UserId } from '../types';
-import { userIdsOfPmNarrow, isPmNarrow } from '../utils/narrow';
+import { userIdsOfPmNarrow } from '../utils/narrow';
 import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
 import type { Action } from '../actionTypes';
 import type {
@@ -70,7 +70,6 @@ export const getUnreadIdsForPmNarrow = (
   narrow: Narrow,
   ownUserId: UserId,
 ): $ReadOnlyArray<number> => {
-  invariant(isPmNarrow(narrow));
   const userIds = userIdsOfPmNarrow(narrow);
 
   if (userIds.length > 1) {
