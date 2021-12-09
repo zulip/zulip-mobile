@@ -4,6 +4,8 @@ import { openDatabase } from 'expo-sqlite';
 import sqlite3 from 'sqlite3';
 import { AsyncStorage } from '../AsyncStorage';
 
+/* eslint-disable no-underscore-dangle */
+
 describe('sqlite3', () => {
   test('smoke', async () => {
     const db = new sqlite3.Database(':memory:');
