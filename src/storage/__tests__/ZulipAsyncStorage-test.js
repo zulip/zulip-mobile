@@ -21,7 +21,7 @@ describe('setItem', () => {
     // ourselves.
 
     test('resolves correctly', async () => {
-      await expect(run()).resolves.toBe(null);
+      await expect(run()).resolves.toBe(undefined);
     });
 
     test('AsyncStorage.setItem called correctly', async () => {
