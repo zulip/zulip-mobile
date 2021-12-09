@@ -44,7 +44,7 @@ describe('expo-sqlite', () => {
         resolve,
       );
     });
-    expect(result).toEqual(null);
+    expect(result.rows._array).toEqual([{ n: 42 }]);
     expect(true).toBeTruthy();
   });
 });

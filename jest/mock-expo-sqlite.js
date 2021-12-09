@@ -43,6 +43,7 @@ export async function exec(
 */
 
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable no-void */
 
 const dbs = new Map();
 
@@ -66,24 +67,29 @@ class SQLiteDatabase {
   }
 
   exec(queries: Query[], readOnly: boolean, callback: SQLiteCallback): void {
+    void this._exec(queries, callback);
+  }
+
+  async _exec(queries, callback) {
     if (this._closed) {
       throw new Error('already closed');
     }
 
     const results = [];
     let error = undefined;
+    console.log('exec queries:', queries);
     for (const query of queries) {
       const { sql, args } = query;
-      this._db.all(sql, ...args, (err, rows) => {
-        if (error) {
-          return;
-        }
-        if (err) {
-          error = err;
-          return;
-        }
+      await new Promise((resolve, reject) => {
+        this._db.all(sql, ...args, (err, rows) => {
+          if (err) {
+            error = err;
+          } else {
+            results.push(rows);
+          }
 
-        results.push(rows);
+          resolve();
+        });
       });
       if (error) {
         break;
@@ -93,8 +99,10 @@ class SQLiteDatabase {
     if (error) {
       callback(error);
     } else {
-      // TODO map results format
-      callback(null, results);
+      console.log('exec results:', results);
+      // TODO rowsAffected?
+      const endResults = results.map(r => ({ rowsAffected: null, rows: r }));
+      callback(null, endResults);
     }
   }
 
