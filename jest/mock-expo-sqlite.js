@@ -1,5 +1,7 @@
 // @flow strict-local
 //
+// TODO: this should probably go to expo-sqlite upstream.
+//
 // Not really so much a "mock" as a fourth platform-specific implementation:
 // this one for Node (and therefore for Jest), complementing upstream's for
 // Android, iOS, and web.
