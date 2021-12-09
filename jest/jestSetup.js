@@ -67,6 +67,8 @@ jest.mock('react-native', () => {
   return ReactNative;
 });
 
+jest.mock('immediate', () => cb => Promise.resolve().then(cb));
+
 /**
  * Boring mocks
  *
