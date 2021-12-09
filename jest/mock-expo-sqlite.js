@@ -5,7 +5,16 @@
 // Android, iOS, and web.
 
 import type { Query, SQLiteCallback, WebSQLDatabase } from 'expo-sqlite';
+
+// We import this dependency of expo-sqlite directly, because we're
+// substituting for the expo-sqlite implementation that uses it.  (In a
+// future where expo-sqlite no longer used this dependency, we'd want to
+// make a similar change here, not keep using it.)
+/* eslint-disable import/no-extraneous-dependencies */
+// $FlowFixMe[untyped-import]
 import customOpenDatabase from '@expo/websql/custom';
+
+// $FlowFixMe[untyped-import]
 import sqlite3 from 'sqlite3';
 
 /* eslint-disable no-underscore-dangle */
@@ -45,6 +54,7 @@ class SQLiteDatabase {
     let error = undefined;
     for (const query of queries) {
       const { sql, args } = query;
+      /* eslint-disable-next-line no-loop-func */
       await new Promise((resolve, reject) => {
         this._db.all(sql, ...args, (err, rows) => {
           if (err) {
@@ -64,8 +74,18 @@ class SQLiteDatabase {
     if (error) {
       callback(error);
     } else {
-      // TODO rowsAffected?
-      const endResults = results.map(r => ({ rowsAffected: null, rows: r }));
+      // TODO get rowsAffected and insertId.  This will mean calling
+      //   `this._db.run` instead of `this._db.all`:
+      //     https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
+      //   which on the other hand will mean it doesn't return rows.
+      //
+      //   The way the Android implementation makes the equivalent choice
+      //   is by checking if the statement looks like a SELECT.
+      //   The iOS implementation uses the SQLite C API, and ends up looking
+      //   more sensible.
+      //   Given what node-sqlite3 gives us, our best strategy is probably
+      //   the one in the Android implementation.
+      const endResults = results.map(r => ({ rowsAffected: 0, rows: r }));
       callback(null, endResults);
     }
   }

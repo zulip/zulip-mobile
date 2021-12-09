@@ -1,6 +1,7 @@
 // @flow strict-local
 
 import { openDatabase } from 'expo-sqlite';
+// $FlowFixMe[untyped-import]
 import sqlite3 from 'sqlite3';
 import { AsyncStorage } from '../AsyncStorage';
 
