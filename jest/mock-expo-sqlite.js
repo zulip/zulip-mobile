@@ -3,6 +3,8 @@
 // Not really so much a "mock" as a fourth platform-specific implementation:
 // this one for Node (and therefore for Jest), complementing upstream's for
 // Android, iOS, and web.
+//
+// OK, well, it's a mock in one respect: the databases are all in-memory.
 
 import type { Query, SQLiteCallback, WebSQLDatabase } from 'expo-sqlite';
 
