@@ -8,11 +8,13 @@ import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { ZulipButton } from '../common';
 import * as api from '../api';
-import { getAuth, getStreams } from '../selectors';
+import { getAuth, getStreams, getOwnUserId } from '../selectors';
+import { getUnread, getUnreadIdsForPmNarrow } from '../unread/unreadModel';
 import {
   isHomeNarrow,
   isStreamNarrow,
   isTopicNarrow,
+  isPmNarrow,
   streamNameOfNarrow,
   topicOfNarrow,
 } from '../utils/narrow';
@@ -34,6 +36,8 @@ export default function MarkAsReadButton(props: Props): Node {
   const { narrow } = props;
   const auth = useSelector(getAuth);
   const streams = useSelector(getStreams);
+  const unread = useSelector(getUnread);
+  const ownUserId = useSelector(getOwnUserId);
 
   const markAllAsRead = useCallback(() => {
     api.markAllAsRead(auth);
@@ -55,6 +59,19 @@ export default function MarkAsReadButton(props: Props): Node {
     }
   }, [auth, narrow, streams]);
 
+  const markPmAsRead = useCallback(() => {
+    // The message IDs come from our unread-messages data, which is
+    //   initialized with "only" the most recent 50K unread messages. So
+    //   we'll occasionally, but rarely, miss some messages here; see #5156.
+    const messageIds = getUnreadIdsForPmNarrow(unread, narrow, ownUserId);
+
+    if (messageIds.length === 0) {
+      return;
+    }
+
+    api.messagesFlags(auth, messageIds, 'add', 'read');
+  }, [auth, unread, narrow, ownUserId]);
+
   if (isHomeNarrow(narrow)) {
     return <ZulipButton style={styles.button} text="Mark all as read" onPress={markAllAsRead} />;
   }
@@ -68,6 +85,12 @@ export default function MarkAsReadButton(props: Props): Node {
   if (isTopicNarrow(narrow)) {
     return (
       <ZulipButton style={styles.button} text="Mark topic as read" onPress={markTopicAsRead} />
+    );
+  }
+
+  if (isPmNarrow(narrow)) {
+    return (
+      <ZulipButton style={styles.button} text="Mark conversation as read" onPress={markPmAsRead} />
     );
   }
 

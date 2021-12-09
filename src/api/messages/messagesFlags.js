@@ -9,7 +9,7 @@ export type ApiResponseMessagesFlags = {|
 
 export default (
   auth: Auth,
-  messages: number[],
+  messages: $ReadOnlyArray<number>,
   op: string,
   flag: string,
 ): Promise<ApiResponseMessagesFlags> =>
