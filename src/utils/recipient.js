@@ -279,6 +279,10 @@ export const pmUnreadsKeyFromMessage = (message: PmMessage, ownUserId?: UserId):
  * This produces the same key string that `pmUnreadsKeyFromMessage` would
  * give, given the list of users that `pmKeyRecipientsFromMessage` would
  * give and which we use in most of our other data structures.
+ *
+ * Careful: This is a *string key*. Don't === against numeric `.sender_id`s
+ * in UnreadPmsState. You won't find the object you're looking for, and Flow
+ * won't complain.
  */
 // See comment on pmUnreadsKeyFromMessage for details on this form.
 //
