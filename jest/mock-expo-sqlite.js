@@ -9,9 +9,9 @@ import {
   type ResultSet,
   type ResultSetError,
   type SQLiteCallback,
-  openDatabase as openDatabaseInner,
   type WebSQLDatabase,
 } from 'expo-sqlite';
+import customOpenDatabase from '@expo/websql/custom';
 import sqlite3 from 'sqlite3';
 
 /*
@@ -71,18 +71,30 @@ class SQLiteDatabase {
     }
 
     const results = [];
+    let error = undefined;
     for (const query of queries) {
       const { sql, args } = query;
-      db.all(sql, ...args, (err, rows) => {
+      this._db.all(sql, ...args, (err, rows) => {
+        if (error) {
+          return;
+        }
         if (err) {
-          // TODO ??
-          callback(err);
+          error = err;
           return;
         }
 
-        // TODO WORK HERE
-        callback(null);
+        results.push(rows);
       });
+      if (error) {
+        break;
+      }
+    }
+
+    if (error) {
+      callback(error);
+    } else {
+      // TODO map results format
+      callback(null, results);
     }
   }
 
@@ -99,7 +111,7 @@ export function openDatabase(
   size?: number,
   callback?: (db: WebSQLDatabase) => void,
 ): WebSQLDatabase {
-  const db = openDatabaseInner(name, version, description, size, callback);
-  db._db;
+  const db = customOpenDatabase(SQLiteDatabase)(name, version, description, size, callback);
+  db._db = new SQLiteDatabase(name);
   return db;
 }

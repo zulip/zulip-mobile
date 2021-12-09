@@ -37,13 +37,8 @@ describe('expo-sqlite', () => {
     const result = await new Promise((resolve, reject) => {
       db.readTransaction(
         tx => {
-          // At this point no actual SQL has been attempted yet; but this
-          // log line isn't reached, even though the one above is.  Perhaps
-          // the "immediate" implementation this library uses isn't playing
-          // well with Jest.
-          console.log('tx cb 1');
           tx.executeSql('SELECT 42 AS n', [], (t, r) => resolve(r));
-          console.log('tx cb 2');
+          console.log('tx cb');
         },
         reject,
         resolve,
