@@ -16,10 +16,6 @@ describe('setItem', () => {
   const run = async () => ZulipAsyncStorage.setItem(key, value);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.setItem`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('resolves correctly', async () => {
       await expect(run()).resolves.toBe(undefined);
     });
@@ -35,9 +31,7 @@ describe('setItem', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.setItem`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves, and reset to the global mock when we're done.
+    // Mock `.setItem` to simulate failure, and reset when we're done.
     const globalMock = AsyncStorage.setItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -69,10 +63,6 @@ describe('multiSet', () => {
   const run = async () => ZulipAsyncStorage.multiSet(keyValuePairs);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.multiSet`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('resolves correctly', async () => {
       await run();
       expect(asyncStorageMultiSetSpy).toHaveBeenCalledTimes(1);
@@ -90,9 +80,7 @@ describe('multiSet', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.multiSet`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves, and reset to the global mock when we're done.
+    // Mock `.multiSet` to simulate failure, and reset when we're done.
     const globalMock = AsyncStorage.multiSet;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -120,8 +108,7 @@ describe('getItem', () => {
   beforeEach(() => asyncStorageGetItemSpy.mockClear());
 
   beforeAll(async () => {
-    // `AsyncStorage` mocks storage by writing to a variable instead
-    // of to the disk. Put something there for our
+    // Store something in `AsyncStorage` for our
     // `ZulipAsyncStorage.getItem` to retrieve.
     await AsyncStorage.setItem(
       key,
@@ -136,10 +123,6 @@ describe('getItem', () => {
   const run = async () => ZulipAsyncStorage.getItem(key);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.getItem`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('calls AsyncStorage.getItem as we expect it to', async () => {
       await run();
       expect(asyncStorageGetItemSpy).toHaveBeenCalledTimes(1);
@@ -152,9 +135,7 @@ describe('getItem', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.getItem`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves.
+    // Mock `.getItem` to simulate failure, and reset when we're done.
     const globalMock = AsyncStorage.getItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -191,9 +172,6 @@ describe('getItem', () => {
 });
 
 describe('set/get together', () => {
-  // AsyncStorage provides its own mocks for `.getItem`, `.setItem`, and
-  // `.multiSet`; it writes to a variable instead of storage.
-
   test('round-tripping of single key-value pair works', async () => {
     const key = eg.randString();
     const value = JSON.stringify(eg.randString());
