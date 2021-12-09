@@ -28,12 +28,13 @@ describe('AsyncStorage', () => {
   //     expect(result).toEqual('b');
   //   });
 });
+*/
 
 describe('expo-sqlite', () => {
   test('smoke', async () => {
     const db = openDatabase('test.db');
     console.log('opened db');
-    await new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => {
       db.readTransaction(
         tx => {
           // At this point no actual SQL has been attempted yet; but this
@@ -41,14 +42,14 @@ describe('expo-sqlite', () => {
           // the "immediate" implementation this library uses isn't playing
           // well with Jest.
           console.log('tx cb 1');
-          tx.executeSql('SELECT 1');
+          tx.executeSql('SELECT 42 AS n', [], (t, r) => resolve(r));
           console.log('tx cb 2');
         },
         reject,
         resolve,
       );
     });
+    expect(result).toEqual(null);
     expect(true).toBeTruthy();
   });
 });
-*/

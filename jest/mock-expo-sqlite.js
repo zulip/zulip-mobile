@@ -4,34 +4,17 @@
 // this one for Node (and therefore for Jest), complementing upstream's for
 // Android, iOS, and web.
 
-import { type ResultSet, type ResultSetError } from 'expo-sqlite';
+import {
+  type Query,
+  type ResultSet,
+  type ResultSetError,
+  type SQLiteCallback,
+  openDatabase as openDatabaseInner,
+  type WebSQLDatabase,
+} from 'expo-sqlite';
 import sqlite3 from 'sqlite3';
 
-/* eslint-disable no-underscore-dangle */
-
-const dbs = new Map();
-
-function openDb(name: string) {
-  const db = dbs.get(name);
-  if (db != null) {
-    return db;
-  }
-
-  /*
-  const newDb = new Promise((resolve, reject) => {
-    console.log('openDb 1');
-    const db_ = new sqlite3.Database(':memory:', undefined, err => {
-      // We fail to get here.  Not sure why, but really we can just skip these promises.
-      console.log('cb');
-      err ? reject(err) : resolve(db_);
-    });
-  });
-  */
-  const newDb = Promise.resolve(new sqlite3.Database(':memory:'));
-  dbs.set(name, newDb);
-  return newDb;
-}
-
+/*
 // TODO expo-sqlite munges queries, sometimes, when Platform.OS android
 export async function exec(
   name: string,
@@ -57,12 +40,56 @@ export async function exec(
 }
 
 // TODO close
+*/
 
-/*
-import { openDatabase as openDatabaseInner, type WebSQLDatabase } from 'expo-sqlite';
+/* eslint-disable no-underscore-dangle */
+
+const dbs = new Map();
+
+function openDb(name: string) {
+  const db = dbs.get(name);
+  if (db != null) {
+    return db;
+  }
+
+  const newDb = new sqlite3.Database(':memory:');
+  dbs.set(name, newDb);
+  return newDb;
+}
 
 class SQLiteDatabase {
+  _db: $FlowFixMe;
+  _closed: boolean = false;
 
+  constructor(name: string) {
+    this._db = openDb(name);
+  }
+
+  exec(queries: Query[], readOnly: boolean, callback: SQLiteCallback): void {
+    if (this._closed) {
+      throw new Error('already closed');
+    }
+
+    const results = [];
+    for (const query of queries) {
+      const { sql, args } = query;
+      db.all(sql, ...args, (err, rows) => {
+        if (err) {
+          // TODO ??
+          callback(err);
+          return;
+        }
+
+        // TODO WORK HERE
+        callback(null);
+      });
+    }
+  }
+
+  close() {
+    this._closed = true;
+    this._db.close();
+  }
 }
 
 export function openDatabase(
@@ -73,7 +100,6 @@ export function openDatabase(
   callback?: (db: WebSQLDatabase) => void,
 ): WebSQLDatabase {
   const db = openDatabaseInner(name, version, description, size, callback);
-  db._db
+  db._db;
   return db;
 }
-*/
