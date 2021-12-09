@@ -38,10 +38,6 @@ describe('setItem', () => {
   const run = async () => CompressedAsyncStorage.setItem(key, value);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.setItem`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('resolves correctly', async () => {
       await expect(run()).resolves.toBe(null);
     });
@@ -57,10 +53,8 @@ describe('setItem', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.setItem`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves, and reset to the global mock when we're done.
-    const globalMock = AsyncStorage.setItem;
+    // Mock `.setItem` to simulate failure, and reset when we're done.
+    const savedMethod = AsyncStorage.setItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
       AsyncStorage.setItem = jest.fn(async (k: string, v: string): Promise<null> => {
@@ -69,7 +63,7 @@ describe('setItem', () => {
     });
     afterAll(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
-      AsyncStorage.setItem = globalMock;
+      AsyncStorage.setItem = savedMethod;
     });
 
     test('rejects correctly', async () => {
@@ -91,10 +85,6 @@ describe('multiSet', () => {
   const run = async () => CompressedAsyncStorage.multiSet(keyValuePairs);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.multiSet`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('resolves correctly', async () => {
       await run();
       expect(asyncStorageMultiSetSpy).toHaveBeenCalledTimes(1);
@@ -112,10 +102,8 @@ describe('multiSet', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.multiSet`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves, and reset to the global mock when we're done.
-    const globalMock = AsyncStorage.multiSet;
+    // Mock `.multiSet` to simulate failure, and reset when we're done.
+    const savedMethod = AsyncStorage.multiSet;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
       AsyncStorage.multiSet = jest.fn(async (p: string[][]): Promise<null> => {
@@ -124,7 +112,7 @@ describe('multiSet', () => {
     });
     afterAll(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
-      AsyncStorage.multiSet = globalMock;
+      AsyncStorage.multiSet = savedMethod;
     });
 
     test('rejects correctly', async () => {
@@ -142,8 +130,7 @@ describe('getItem', () => {
   beforeEach(() => asyncStorageGetItemSpy.mockClear());
 
   beforeAll(async () => {
-    // `AsyncStorage` mocks storage by writing to a variable instead
-    // of to the disk. Put something there for our
+    // Store something in `AsyncStorage` for our
     // `CompressedAsyncStorage.getItem` to retrieve.
     await AsyncStorage.setItem(
       key,
@@ -158,10 +145,6 @@ describe('getItem', () => {
   const run = async () => CompressedAsyncStorage.getItem(key);
 
   describe('success', () => {
-    // AsyncStorage provides its own mock for `.getItem`, which gives
-    // success every time. So, no need to mock that behavior
-    // ourselves.
-
     test('calls AsyncStorage.getItem as we expect it to', async () => {
       await run();
       expect(asyncStorageGetItemSpy).toHaveBeenCalledTimes(1);
@@ -174,10 +157,8 @@ describe('getItem', () => {
   });
 
   describe('failure', () => {
-    // AsyncStorage provides its own mock for `.getItem`, but it's
-    // not set up to simulate failure. So, mock that behavior
-    // ourselves.
-    const globalMock = AsyncStorage.getItem;
+    // Mock `.getItem` to simulate failure, and reset when we're done.
+    const savedMethod = AsyncStorage.getItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
       AsyncStorage.getItem = jest.fn(async (k: string): Promise<string | null> => {
@@ -186,7 +167,7 @@ describe('getItem', () => {
     });
     afterAll(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
-      AsyncStorage.getItem = globalMock;
+      AsyncStorage.getItem = savedMethod;
     });
 
     test('rejects correctly', async () => {
@@ -213,9 +194,6 @@ describe('getItem', () => {
 });
 
 describe('set/get together', () => {
-  // AsyncStorage provides its own mocks for `.getItem`, `.setItem`, and
-  // `.multiSet`; it writes to a variable instead of storage.
-
   test('round-tripping of single key-value pair works', async () => {
     const key = eg.randString();
     const value = JSON.stringify(eg.randString());
