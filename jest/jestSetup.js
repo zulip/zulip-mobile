@@ -67,6 +67,13 @@ jest.mock('react-native', () => {
   return ReactNative;
 });
 
+jest.mock('@unimodules/core', () => {
+  const UnimodulesCore = jest.requireActual('@unimodules/core');
+  const { NativeModulesProxy } = UnimodulesCore;
+  NativeModulesProxy.ExponentSQLite = require('./mock-expo-sqlite');
+  return UnimodulesCore;
+});
+
 /**
  * Boring mocks
  *
