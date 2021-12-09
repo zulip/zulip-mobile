@@ -42,51 +42,39 @@ class SQLiteDatabase {
   }
 
   exec(queries: Query[], readOnly: boolean, callback: SQLiteCallback): void {
-    void this._exec(queries, callback);
-  }
-
-  async _exec(queries, callback) {
     if (this._closed) {
       throw new Error('already closed');
     }
 
-    const results = [];
-    let error = undefined;
-    for (const query of queries) {
-      const { sql, args } = query;
-      /* eslint-disable-next-line no-loop-func */
-      await new Promise((resolve, reject) => {
-        this._db.all(sql, ...args, (err, rows) => {
-          if (err) {
-            error = err;
-          } else {
-            results.push(rows);
-          }
+    void this._exec(queries, callback);
+  }
 
-          resolve();
-        });
-      });
-      if (error) {
-        break;
+  async _exec(queries, callback) {
+    try {
+      const results = [];
+      for (const { sql, args } of queries) {
+        /* eslint-disable no-shadow */
+        const rows = await new Promise((resolve, reject) =>
+          this._db.all(sql, ...args, (err, rows) => (err ? reject(err) : resolve(rows))),
+        );
+
+        // TODO get rowsAffected and insertId.  This will mean calling
+        //   `this._db.run` instead of `this._db.all`:
+        //     https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
+        //   which on the other hand will mean it doesn't return rows.
+        //
+        //   The way the Android implementation makes the equivalent choice
+        //   is by checking if the statement looks like a SELECT.
+        //   The iOS implementation uses the SQLite C API, and ends up looking
+        //   more sensible.
+        //   Given what node-sqlite3 gives us, our best strategy is probably
+        //   the one in the Android implementation.
+        results.push({ rowsAffected: 0, rows });
       }
-    }
 
-    if (error) {
-      callback(error);
-    } else {
-      // TODO get rowsAffected and insertId.  This will mean calling
-      //   `this._db.run` instead of `this._db.all`:
-      //     https://github.com/mapbox/node-sqlite3/wiki/API#databaserunsql-param--callback
-      //   which on the other hand will mean it doesn't return rows.
-      //
-      //   The way the Android implementation makes the equivalent choice
-      //   is by checking if the statement looks like a SELECT.
-      //   The iOS implementation uses the SQLite C API, and ends up looking
-      //   more sensible.
-      //   Given what node-sqlite3 gives us, our best strategy is probably
-      //   the one in the Android implementation.
-      const endResults = results.map(r => ({ rowsAffected: 0, rows: r }));
-      callback(null, endResults);
+      callback(null, results);
+    } catch (e) {
+      callback(e);
     }
   }
 
