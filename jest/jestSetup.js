@@ -69,6 +69,8 @@ jest.mock('react-native', () => {
 
 jest.mock('immediate', () => cb => Promise.resolve().then(cb));
 
+jest.mock('expo-sqlite', () => require('./mock-expo-sqlite'));
+
 /**
  * Boring mocks
  *
