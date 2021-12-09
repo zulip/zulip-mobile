@@ -30,18 +30,15 @@ describe('AsyncStorage', () => {
 describe('expo-sqlite', () => {
   test('smoke', async () => {
     const db = openDatabase('test.db');
-    console.log('opened db');
     const result = await new Promise((resolve, reject) => {
       db.readTransaction(
         tx => {
           tx.executeSql('SELECT 42 AS n', [], (t, r) => resolve(r));
-          console.log('tx cb');
         },
         reject,
         resolve,
       );
     });
     expect(result.rows._array).toEqual([{ n: 42 }]);
-    expect(true).toBeTruthy();
   });
 });

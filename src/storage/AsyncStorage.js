@@ -24,9 +24,7 @@ export class AsyncStorage {
   }
 
   static async _initDb() {
-    console.log('_initDb 1');
     const db = new SQLDatabase('zulip.db');
-    console.log('_initDb 2');
     await db.transaction(tx => {
       // This schema is just like the one in RN's AsyncStorage (see
       // ReactDatabaseSupplier.java), except for a small fix: the latter
@@ -54,7 +52,6 @@ export class AsyncStorage {
 
     await AsyncStorage._migrateFromLegacyAsyncStorage(db);
 
-    console.log('_initDb 3');
     return db;
   }
 
@@ -112,13 +109,10 @@ export class AsyncStorage {
   }
 
   static async getItem(key: string): Promise<string | null> {
-    console.log('getItem 1');
     const db = await AsyncStorage._db();
-    console.log('getItem 2');
     const rows = await db.query<{ value: string }>('SELECT value FROM keyvalue WHERE key = ?', [
       key,
     ]);
-    console.log('getItem 3');
     const row = rows[0];
     return row ? row.value : null;
   }

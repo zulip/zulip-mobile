@@ -29,17 +29,13 @@ export class SQLDatabase {
 
   readTransaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) => {
-      console.log('readTransaction 1');
       this.db.readTransaction(
         tx => {
-          console.log('readTransaction 2');
           cb(new SQLTransaction(this, tx));
-          console.log('readTransaction 3');
         },
         reject,
         resolve,
       );
-      console.log('readTransaction 4');
     });
   }
 
@@ -57,21 +53,9 @@ export class SQLDatabase {
     args?: $ReadOnlyArray<SQLArgument>,
   ): Promise<Row[]> {
     let p: void | Promise<Row[]> = undefined;
-    console.log('query 1');
-    /*
-    await new Promise((resolve, reject) => {
-      console.log('query 2');
-      p = [{ value: 'b' }];
-      resolve();
-      console.log('query 3');
-    });
-    */
     await this.readTransaction(tx => {
-      console.log('query 2');
       p = tx.executeSql(statement, args).then(r => r.rows._array);
-      console.log('query 3');
     });
-    console.log('query 4');
     invariant(p, 'transaction finished; statement promise should be initialized');
     return p;
   }

@@ -4,43 +4,9 @@
 // this one for Node (and therefore for Jest), complementing upstream's for
 // Android, iOS, and web.
 
-import {
-  type Query,
-  type ResultSet,
-  type ResultSetError,
-  type SQLiteCallback,
-  type WebSQLDatabase,
-} from 'expo-sqlite';
+import type { Query, SQLiteCallback, WebSQLDatabase } from 'expo-sqlite';
 import customOpenDatabase from '@expo/websql/custom';
 import sqlite3 from 'sqlite3';
-
-/*
-// TODO expo-sqlite munges queries, sometimes, when Platform.OS android
-export async function exec(
-  name: string,
-  queries: string[],
-  readOnly: boolean,
-): Promise<(ResultSetError | ResultSet)[]> {
-  console.log('exec 0');
-  const db = await openDb(name);
-  console.log('exec');
-  console.log('queries', queries.length, typeof queries[0], queries[0].length, queries[0][0]);
-  return Promise.all(
-    queries.map(query => {
-      const [sql, args] = query;
-      //   console.log('query:', query);
-      return new Promise((resolve, reject) => {
-        // TODO adapt rows
-        db.all(sql, ...args, (err, rows) =>
-          err ? reject(err) : resolve([null, undefined, undefined, undefined, rows]),
-        );
-      });
-    }),
-  );
-}
-
-// TODO close
-*/
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-void */
@@ -77,7 +43,6 @@ class SQLiteDatabase {
 
     const results = [];
     let error = undefined;
-    console.log('exec queries:', queries);
     for (const query of queries) {
       const { sql, args } = query;
       await new Promise((resolve, reject) => {
@@ -99,7 +64,6 @@ class SQLiteDatabase {
     if (error) {
       callback(error);
     } else {
-      console.log('exec results:', results);
       // TODO rowsAffected?
       const endResults = results.map(r => ({ rowsAffected: null, rows: r }));
       callback(null, endResults);
