@@ -359,3 +359,23 @@ overrides:
       # a few variables already declared in upper scope; no bugs known
       # to result from this
       no-shadow: off
+
+  #
+  # ================================================================
+  # Third-party code: react-native.
+  #
+  # We leave this code in the style we received it in.
+  - files: ['src/third/react-native/**']
+    rules:
+      strict: off
+      import/order: off
+      import/first: off
+      object-curly-spacing: off
+      react/state-in-constructor: off
+      no-unused-vars: off
+      no-case-declarations: off
+      react/jsx-closing-bracket-location: off
+
+      # We'll fix these right away:
+      import/no-unresolved: off
+      import/extensions: off

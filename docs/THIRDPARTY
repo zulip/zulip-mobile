@@ -27,6 +27,13 @@ License: Apache-2
 Comment:
  Upstream is licensed as MIT.
 
+Files: src/third/react-native/*
+Copyright: Facebook, Inc., and its affiliates
+License: MIT
+Comment:
+ Changes we make here are designed to be sent upstream.  So even when making
+ changes, we keep our versions on the MIT license, the same as upstream.
+
 Files: src/third/redux-persist/*
 Copyright: 2015-2017 Zack Story, 2020-2021 Kandra Labs, Inc., and contributors
 License: Apache-2
