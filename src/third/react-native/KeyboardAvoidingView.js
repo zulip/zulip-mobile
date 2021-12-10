@@ -81,6 +81,20 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
       return 0;
     }
 
+    if (keyboardFrame.height === 0) {
+      // The keyboard is hidden, and occupies no height.
+      //
+      // This condition is needed because in some circumstances when the
+      // keyboard is hidden we get both `screenY` and `height` (as well as
+      // `screenX` and `width`) of zero.  In particular, this happens on iOS
+      // when the UIAccessibilityPrefersCrossFadeTransitions setting is
+      // true, i.e. when the user has enabled both "Reduce Motion" and
+      // "Prefer Cross-Fade Transitions" under Settings > Accessibility >
+      // Motion. See zulip/zulip-mobile#5162 and
+      // facebook/react-native#29974.
+      return 0;
+    }
+
     const keyboardY = keyboardFrame.screenY - this.props.keyboardVerticalOffset;
 
     // Calculate the displacement needed for the view such that it
