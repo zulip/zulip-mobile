@@ -375,7 +375,3 @@ overrides:
       no-unused-vars: off
       no-case-declarations: off
       react/jsx-closing-bracket-location: off
-
-      # We'll fix these right away:
-      import/no-unresolved: off
-      import/extensions: off
