@@ -22,9 +22,6 @@ node_modules/react-native/Libraries/polyfills/.*
 .*/node_modules/flow-coverage-report/.*
 .*/node_modules/@snyk/.*
 
-; We'll un-ignore this very soon.
-.*/third/react-native/KeyboardAvoidingView.js
-
 ; As of v4.1.1, this package only has TypeScript. That's fine as far as
 ; running the code goes -- Metro transpiles it -- but this line causes Flow
 ; to stop looking for types in that TypeScript, and then go and look in our

@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+
+import KeyboardAvoidingView from '../third/react-native/KeyboardAvoidingView';
 
 type Props = $ReadOnly<{|
   behavior?: ?('height' | 'position' | 'padding'),

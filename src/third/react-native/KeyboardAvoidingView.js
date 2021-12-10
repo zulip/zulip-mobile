@@ -5,26 +5,22 @@
  * docs/THIRDPARTY file from the root directory of this source tree.
  *
  * @format
- * @flow
+ * @flow strict-local
  */
 
 'use strict';
 
-const Keyboard = require('./Keyboard');
-const LayoutAnimation = require('../../LayoutAnimation/LayoutAnimation');
-const Platform = require('../../Utilities/Platform');
-const React = require('react');
-const StyleSheet = require('../../StyleSheet/StyleSheet');
-const View = require('../View/View');
-
-import type {ViewStyleProp} from '../../StyleSheet/StyleSheet';
-import {type EventSubscription} from '../../vendor/emitter/EventEmitter';
+import React from 'react';
+import type { ElementRef, Node } from 'react';
+import { Keyboard, LayoutAnimation, Platform, StyleSheet, View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { EventSubscription } from 'react-native/Libraries/vendor/emitter/EventEmitter';
+import type { KeyboardEvent } from 'react-native/Libraries/Components/Keyboard/Keyboard';
 import type {
   ViewProps,
   ViewLayout,
   ViewLayoutEvent,
-} from '../View/ViewPropTypes';
-import type {KeyboardEvent} from './Keyboard';
+} from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 type Props = $ReadOnly<{|
   ...ViewProps,
@@ -69,7 +65,8 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
   _frame: ?ViewLayout = null;
   _keyboardEvent: ?KeyboardEvent = null;
   _subscriptions: Array<EventSubscription> = [];
-  viewRef: {current: React.ElementRef<any> | null, ...};
+  // $FlowFixMe[unclear-type]
+  viewRef: {current: ElementRef<any> | null, ...};
   _initialFrameHeight: number = 0;
 
   constructor(props: Props) {
@@ -122,6 +119,7 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
       return;
     }
 
+    // $FlowFixMe[sketchy-number-and]
     if (duration && easing) {
       LayoutAnimation.configureNext({
         // We have to pass the duration equal to minimal accepted duration defined here: RCTLayoutAnimation.m
@@ -154,7 +152,7 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
     });
   }
 
-  render(): React.Node {
+  render(): Node {
     const {
       behavior,
       children,
@@ -164,6 +162,7 @@ class KeyboardAvoidingView extends React.Component<Props, State> {
       style,
       ...props
     } = this.props;
+    // $FlowFixMe[sketchy-null-bool]
     const bottomHeight = enabled ? this.state.bottom : 0;
     switch (behavior) {
       case 'height':
