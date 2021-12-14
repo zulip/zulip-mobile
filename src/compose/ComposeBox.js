@@ -484,6 +484,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     },
   };
 
+  submitButtonHitSlop = { top: 8, right: 8, bottom: 8, left: 8 };
+
   render() {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
     const {
@@ -592,14 +594,27 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             />
           </View>
           <View style={this.styles.submitButtonContainer}>
-            <Touchable
-              style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
-              onPress={submitButtonDisabled ? undefined : this.handleSend}
-              accessibilityLabel="Send message"
-              hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
+            <View
+              // Mask the Android ripple-on-touch so it doesn't extend
+              //   outside the circle…
+              // TODO: `Touchable` should do this, and the `hitSlop`
+              //   workaround below.
+              style={{
+                borderRadius: this.styles.submitButton.borderRadius,
+                overflow: 'hidden',
+              }}
+              // …and don't defeat the `Touchable`'s `hitSlop`.
+              hitSlop={this.submitButtonHitSlop}
             >
-              <SubmitButtonIcon size={16} color="white" />
-            </Touchable>
+              <Touchable
+                style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
+                onPress={submitButtonDisabled ? undefined : this.handleSend}
+                accessibilityLabel="Send message"
+                hitSlop={this.submitButtonHitSlop}
+              >
+                <SubmitButtonIcon size={16} color="white" />
+              </Touchable>
+            </View>
           </View>
         </View>
       </View>
