@@ -2,6 +2,9 @@
 import Immutable from 'immutable';
 import invariant from 'invariant';
 
+import type { Narrow, UserId } from '../types';
+import { userIdsOfPmNarrow } from '../utils/narrow';
+import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
 import type { PerAccountApplicableAction } from '../actionTypes';
 import type {
   UnreadState,
@@ -60,6 +63,25 @@ export const getUnreadCountForTopic = (
   streamId: number,
   topic: string,
 ): number => unread.streams.get(streamId)?.get(topic)?.size ?? 0;
+
+/** All the unread message IDs for a given PM narrow. */
+export const getUnreadIdsForPmNarrow = (
+  unread: UnreadState,
+  narrow: Narrow,
+  ownUserId: UserId,
+): $ReadOnlyArray<number> => {
+  const userIds = userIdsOfPmNarrow(narrow);
+
+  if (userIds.length > 1) {
+    const unreadsKey = pmUnreadsKeyFromPmKeyIds(userIds, ownUserId);
+    const unreadItem = unread.huddles.find(x => x.user_ids_string === unreadsKey);
+    return unreadItem?.unread_message_ids ?? [];
+  } else {
+    const senderId = userIds[0];
+    const unreadItem = unread.pms.find(x => x.sender_id === senderId);
+    return unreadItem?.unread_message_ids ?? [];
+  }
+};
 
 //
 //
