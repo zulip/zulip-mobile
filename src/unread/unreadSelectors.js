@@ -9,7 +9,6 @@ import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../mute/muteModel';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
-import { pmUnreadsKeyFromPmKeyIds } from '../utils/recipient';
 import {
   getUnread,
   getUnreadPms,
@@ -17,6 +16,7 @@ import {
   getUnreadMentions,
   getUnreadStreams,
   getUnreadCountForTopic,
+  getUnreadIdsForPmNarrow,
 } from './unreadModel';
 
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
@@ -256,17 +256,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         return getUnreadCountForTopic(unread, stream.stream_id, topic);
       },
 
-      pm: ids => {
-        if (ids.length > 1) {
-          const unreadsKey = pmUnreadsKeyFromPmKeyIds(ids, ownUserId);
-          const unreadItem = unread.huddles.find(x => x.user_ids_string === unreadsKey);
-          return unreadItem?.unread_message_ids.length ?? 0;
-        } else {
-          const senderId = ids[0];
-          const unreadItem = unread.pms.find(x => x.sender_id === senderId);
-          return unreadItem?.unread_message_ids.length ?? 0;
-        }
-      },
+      pm: _ => getUnreadIdsForPmNarrow(unread, narrow, ownUserId).length,
 
       // Unread starred messages are impossible, so 0 is correct for the
       // starred-messages narrow.
