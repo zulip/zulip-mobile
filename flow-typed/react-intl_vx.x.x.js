@@ -224,8 +224,8 @@ declare module 'react-intl' {
       ...
     }, >;
   declare export class FormattedMessage<
-    V: {| [key: string]: any |} = {|
-      [key: string]:
+    V: {| +[key: string]: any |} = {|
+      +[key: string]:
         | PrimitiveType
         | React$Element
         | FormatXMLElementFn<React$Node, React$Node>,
@@ -843,7 +843,7 @@ declare module 'react-intl' {
     children?: (value: React$Node) => React$Element | null,
     ...
   } & FormatPluralOptions;
-  declare type Props_3<V: {| [key: string]: any |} = {| [key: string]: React$Node |}> = {
+  declare type Props_3<V: {| +[key: string]: any |} = {| +[key: string]: React$Node |}> = {
     ...MessageDescriptor,
     values?: V,
     tagName?: React$ElementType,
