@@ -5,12 +5,14 @@ import type {
   RealmEmojiById,
   VideoChatProvider,
 } from '../types';
+import { EventTypes } from '../api/eventTypes';
 import {
   REGISTER_COMPLETE,
   EVENT_REALM_EMOJI_UPDATE,
   LOGOUT,
   LOGIN_SUCCESS,
   ACCOUNT_SWITCH,
+  EVENT,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
@@ -19,6 +21,8 @@ import { objectFromEntries } from '../jsBackport';
 const initialState = {
   crossRealmBots: [],
 
+  name: '',
+  description: '',
   nonActiveUsers: [],
   filters: [],
   emoji: {},
@@ -70,6 +74,8 @@ export default (
       return {
         crossRealmBots: action.data.cross_realm_bots,
 
+        name: action.data.realm_name,
+        description: action.data.realm_description,
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: convertRealmEmoji(action.data.realm_emoji),
@@ -112,6 +118,33 @@ export default (
         default:
           return state;
       }
+
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.realm:
+          if (event.op === 'update_dict') {
+            const { data } = event;
+            const result = { ...state };
+
+            if (data.name !== undefined) {
+              result.name = data.name;
+            }
+            if (data.description !== undefined) {
+              result.description = data.description;
+            }
+
+            return result;
+          }
+
+          // (We've converted any `op: 'update'` events to
+          //   `op: 'update_dict'` events near the edge.)
+          return state;
+
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;

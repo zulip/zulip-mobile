@@ -17,6 +17,8 @@ describe('realmReducer', () => {
       expect(realmReducer(eg.baseReduxState.realm, action)).toEqual({
         crossRealmBots: action.data.cross_realm_bots,
 
+        name: action.data.realm_name,
+        description: action.data.realm_description,
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: {}, // update as necessary if example data changes

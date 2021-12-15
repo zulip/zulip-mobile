@@ -92,6 +92,10 @@ export const getOutbox = (state: PerAccountState): OutboxState => state.outbox;
 
 export const getRealm = (state: PerAccountState): RealmState => state.realm;
 
+export const getRealmName = (state: PerAccountState): string => state.realm.name;
+
+export const getRealmDescription = (state: PerAccountState): string => state.realm.description;
+
 export const getCrossRealmBots = (state: PerAccountState): $ReadOnlyArray<CrossRealmBot> =>
   state.realm.crossRealmBots;
 

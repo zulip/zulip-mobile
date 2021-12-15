@@ -379,6 +379,9 @@ const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     accounts: state.accounts.map(a => ({ ...a, lastDismissedServerPushSetupNotice: null })),
   }),
 
+  // Add name and description to RealmState. No migration; handled
+  // automatically by merging with the new initial state.
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

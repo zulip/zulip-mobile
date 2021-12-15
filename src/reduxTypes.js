@@ -244,6 +244,8 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  *   We use our `AvatarURL` class at `.avatar_url`.
  *
  * About the org/realm:
+ * @prop name - Corresponds to realm_name in initial data.
+ * @prop description - Corresponds to realm_description in initial data.
  * @prop nonActiveUsers - Corresponds to realm_non_active_users in initial
  *   data. We use our `AvatarURL` class at `.avatar_url`.
  * @prop filters - Corresponds to realm_linkifiers/realm_filters in initial
@@ -273,6 +275,8 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
 export type RealmState = $ReadOnly<{|
   crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
 
+  name: string,
+  description: string,
   nonActiveUsers: $ReadOnlyArray<User>,
   filters: $ReadOnlyArray<RealmFilter>,
   emoji: RealmEmojiById,
