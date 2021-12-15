@@ -132,9 +132,30 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         messageIds: event.message_ids ?? [event.message_id],
       };
 
+    case EventTypes.realm:
+      return {
+        type: EVENT,
+        event:
+          /* prettier-ignore */
+          event.op === 'update'
+            // Convert to an equivalent `update_dict` event, so reducers only have
+            //   to handle that one form.
+            // TODO: handle `extra_data` hack property in the `update`
+            //   event, as long as servers still send it
+            ? {
+                id: event.id,
+                type: EventTypes.realm,
+                op: 'update_dict',
+                property: 'default',
+                data: {
+                  [event.property]: event.value,
+                },
+              }
+            : event,
+      };
+
     case EventTypes.restart:
     case EventTypes.stream:
-    case EventTypes.realm:
       return {
         type: EVENT,
         event,

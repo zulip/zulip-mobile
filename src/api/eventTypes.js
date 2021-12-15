@@ -177,6 +177,10 @@ export type RestartEvent = $ReadOnly<{|
 |}>;
 
 // https://zulip.com/api/get-events#realm-update
+// We get events of this shape from the server. But when we dispatch Redux
+// actions for them, we construct the action so its shape matches the action
+// we dispatch for RealmUpdateDictEvent events. That way we don't have to
+// handle two different expressions of "a property has changed".
 export type RealmUpdateEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.realm,
