@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import type { LocalizableText } from '../types';
 import Label from './Label';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
@@ -11,7 +12,7 @@ import styles, { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
   Icon?: SpecificIconType,
-  label: string,
+  label: LocalizableText,
 
   // Use this to navigate to a "nested" screen.
   onPress: () => void,
