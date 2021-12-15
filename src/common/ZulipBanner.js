@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { createStyleSheet, HALF_COLOR } from '../styles';
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 import Label from './Label';
 import ZulipTextButton from './ZulipTextButton';
 
@@ -52,13 +52,13 @@ const styles = createStyleSheet({
 
 type Button = $ReadOnly<{|
   id: string,
-  label: LocalizableText,
+  label: LocalizableReactText,
   onPress: () => void,
 |}>;
 
 type Props = $ReadOnly<{|
   visible: boolean,
-  text: LocalizableText,
+  text: LocalizableReactText,
   buttons: $ReadOnlyArray<Button>,
 |}>;
 

@@ -3,10 +3,10 @@ import React from 'react';
 import type { Node } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 
 type Props = $ReadOnly<{|
-  text: LocalizableText,
+  text: LocalizableReactText,
 |}>;
 
 /**

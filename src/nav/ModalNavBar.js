@@ -3,14 +3,14 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import Label from '../common/Label';
 import NavBarBackButton from './NavBarBackButton';
 
 type Props = $ReadOnly<{|
   canGoBack: boolean,
-  title: LocalizableText,
+  title: LocalizableReactText,
 |}>;
 
 export default function ModalNavBar(props: Props): Node {

@@ -5,11 +5,11 @@ import TranslatedText from './TranslatedText';
 
 import type { BoundedDiff } from '../generics';
 import RawLabel from './RawLabel';
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 
 type Props = $ReadOnly<{|
   ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| +children: ?Node |}>,
-  text: LocalizableText,
+  text: LocalizableReactText,
 |}>;
 
 /**
@@ -17,7 +17,7 @@ type Props = $ReadOnly<{|
  *
  * Use `RawLabel` instead if you don't want the text translated.
  *
- * Unlike `RawLabel`, only accepts a `LocalizableText`, as the `text`
+ * Unlike `RawLabel`, only accepts a `LocalizableReactText`, as the `text`
  * prop, and doesn't support `children`.
  */
 export default class Label extends PureComponent<Props> {

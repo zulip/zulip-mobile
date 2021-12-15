@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -313,9 +314,25 @@ export type MessageLike =
 //   https://formatjs.io/docs/react-intl/api/#formatmessage
 type MessageFormatPrimitiveValue = string | number | boolean | null | void;
 
+/**
+ * A string to show, translated, in the UI as a plain string.
+ *
+ * For when formatting is needed (and possible), see `LocalizableReactText`.
+ */
 export type LocalizableText =
   | string
   | {| +text: string, +values?: {| +[string]: MessageFormatPrimitiveValue |} |};
+
+/**
+ * A string to show, translated, in the UI as a React node.
+ *
+ * Here the values can be React nodes, and so the translated result will be
+ * a React node.  For when the result is a plain string and React nodes
+ * aren't permitted in the values, see `LocalizableText`.
+ */
+export type LocalizableReactText =
+  | string
+  | {| +text: string, +values?: {| +[string]: MessageFormatPrimitiveValue | Node |} |};
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.

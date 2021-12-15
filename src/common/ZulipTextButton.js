@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { Label } from '.';
 import Touchable from './Touchable';
@@ -74,7 +74,7 @@ type Props = $ReadOnly<{|
    *
    * Should be short.
    */
-  label: LocalizableText,
+  label: LocalizableReactText,
 
   onPress: () => void | Promise<void>,
 |}>;

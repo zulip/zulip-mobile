@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import type { LocalizableText } from '../types';
+import type { LocalizableText, LocalizableReactText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
@@ -50,7 +50,7 @@ type Props = $ReadOnly<{|
   searchPlaceholder?: LocalizableText,
 
   canGoBack?: boolean,
-  title?: LocalizableText,
+  title?: LocalizableReactText,
 |}>;
 
 /**
