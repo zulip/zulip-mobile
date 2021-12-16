@@ -85,7 +85,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "Mae {realm} yn rhedeg Zulip Server {serverVersion}, sydd heb gefnogaeth. Cysylltwch â'ch gweinyddwr ynglŷn ag uwchraddio.",
   "Learn more": "Dysgu mwy",
   "Settings": "Gosodiadau",
-  "Night mode": "Modd nos",
+  "Dark theme": "Modd nos",
   "Open links with in-app browser": "Agor dolenni gyda porwr mewn-app",
   "Language": "Iaith",
   "Arabic": "Arabeg",

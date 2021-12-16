@@ -85,7 +85,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.",
   "Learn more": "좀 더 알아보기",
   "Settings": "설정",
-  "Night mode": "야간모드",
+  "Dark theme": "야간모드",
   "Open links with in-app browser": "Open links with in-app browser",
   "Language": "언어",
   "Arabic": "Arabic",

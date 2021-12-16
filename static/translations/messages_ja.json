@@ -85,7 +85,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.",
   "Learn more": "詳細",
   "Settings": "設定",
-  "Night mode": "夜間モード",
+  "Dark theme": "夜間モード",
   "Open links with in-app browser": "Open links with in-app browser",
   "Language": "言語",
   "Arabic": "アラビア語",

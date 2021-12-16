@@ -85,7 +85,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} Zulip Sunucusu desteklenmeyen {serverVersion} versiyonu üzerinde çalışıyor. Lütfen güncelleme ile ilgili sistem yöneticisi ile iletişime geçiniz.",
   "Learn more": "Daha fazla öğren",
   "Settings": "Ayarlar",
-  "Night mode": "Gece modu",
+  "Dark theme": "Gece modu",
   "Open links with in-app browser": "Bağlantıları uygulama içi tarayıcıda aç",
   "Language": "Dil",
   "Arabic": "Arapça",

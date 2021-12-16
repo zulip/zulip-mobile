@@ -43,7 +43,7 @@ export default function SettingsScreen(props: Props): Node {
 
   return (
     <Screen title="Settings">
-      <SwitchRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
+      <SwitchRow label="Dark theme" value={theme === 'night'} onValueChange={handleThemeChange} />
       <SwitchRow
         label="Open links with in-app browser"
         value={shouldUseInAppBrowser(browser)}

@@ -85,7 +85,7 @@
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please contact your administrator about upgrading.": "{realm} esegue Zulip Server {serverVersion}, che non è supportato. Contatta il tuo amministratore per l'aggiornamento.",
   "Learn more": "Per saperne di più.",
   "Settings": "Impostazioni",
-  "Night mode": "Modalità notturna",
+  "Dark theme": "Modalità notturna",
   "Open links with in-app browser": "Apri i link con il browser dell'app",
   "Language": "Lingua",
   "Arabic": "Arabo",
