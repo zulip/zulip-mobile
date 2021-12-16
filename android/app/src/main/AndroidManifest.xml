@@ -107,8 +107,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".notifications.NotificationIntentService" />
-
         <service
             android:name=".notifications.FcmListenerService"
             android:exported="false">
