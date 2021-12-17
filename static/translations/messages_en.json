@@ -280,7 +280,7 @@
   "This will make the mobile app on this device forget {email} on {realmUrl}.": "This will make the mobile app on this device forget {email} on {realmUrl}.",
   "Oops! Something went wrong.": "Oops! Something went wrong.",
   "Uploading {fileName}...": "Uploading {fileName}...",
-  "Uploading {fileName} failed.": "Uploading {fileName} failed.",
+  "Failed to upload file: {fileName}": "Failed to upload file: {fileName}",
   "Attachment": "Attachment",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",

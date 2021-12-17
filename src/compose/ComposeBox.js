@@ -259,11 +259,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
         try {
           response = await api.uploadFile(auth, attachments[i].uri, fileName);
         } catch (e) {
-          showToast(_('Uploading {fileName} failed.', { fileName }));
+          showToast(_('Failed to upload file: {fileName}', { fileName }));
           this.setMessageInputValue(
             this.state.message.replace(
               placeholder,
-              `[${_('Uploading {fileName} failed.', { fileName })}]()`,
+              `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
             ),
           );
           continue;
