@@ -1,7 +1,9 @@
 /* @flow strict-local */
 import LegacyAsyncStorage from '@react-native-async-storage/async-storage';
 
+import invariant from 'invariant';
 import { SQLDatabase } from './sqlite';
+import * as logging from '../utils/logging';
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
@@ -13,6 +15,8 @@ export class BaseAsyncStorage {
   // And then that might as well return the same Promise every time, rather
   // than unwrapping it up front and wrapping it in a new Promise on each call.
   dbSingleton: void | Promise<SQLDatabase> = undefined;
+
+  version: number = 1; // Hard-coded for now, with just the migration from legacy AsyncStorage.
 
   _db(): Promise<SQLDatabase> {
     if (this.dbSingleton) {
@@ -41,18 +45,52 @@ export class BaseAsyncStorage {
       // TODO consider adding STRICT to the schema; requires SQLite 3.37,
       //   from 2021-11: https://www.sqlite.org/stricttables.html
 
-      // We'll use this to record successfully migrating from legacy
+      // We'll use this to record successful migrations, such as from legacy
       // AsyncStorage.
+      // There should only be one row.
       tx.executeSql(`
-        CREATE TABLE IF NOT EXISTS migrations (
-          name TEXT PRIMARY KEY NOT NULL
+        CREATE TABLE IF NOT EXISTS migration (
+          version INTEGER NOT NULL
         )
       `);
     });
 
-    await this._migrateFromLegacyAsyncStorage(db);
+    await this._migrate(db);
 
     return db;
+  }
+
+  async _migrate(db) {
+    const version = (await db.query('SELECT version FROM migration LIMIT 1'))[0]?.version ?? 0;
+    if (version === this.version) {
+      return;
+    }
+
+    if (version > this.version) {
+      logging.error('AsyncStorage: schema is from future', {
+        targetVersion: this.version,
+        storedVersion: version,
+      });
+      throw new Error('AsyncStorage: schema is from future');
+    }
+
+    invariant(this.version === 1, 'AsyncStorage._migrate currently assumes target version 1');
+    if (version !== 0) {
+      logging.error('AsyncStorage: no migration path', {
+        storedVersion: version,
+        targetVersion: this.version,
+      });
+      throw new Error('AsyncStorage: no migration path');
+    }
+
+    // Perform the migration.  For now, we're hardcoding that the only
+    // migration is from version 0 to version 1.
+    await this._migrateFromLegacyAsyncStorage(db);
+
+    await db.transaction(tx => {
+      tx.executeSql('DELETE FROM migration');
+      tx.executeSql('INSERT INTO migration (version) VALUES (?)', [this.version]);
+    });
   }
 
   // The migration strategy.  How do we move the user's data from the old
@@ -72,13 +110,6 @@ export class BaseAsyncStorage {
   // Then once we're doing that for iOS, might as well do it for Android
   // too, and not have to follow the old names.
   async _migrateFromLegacyAsyncStorage(db) {
-    const migrated =
-      (await db.query('SELECT 1 FROM migrations WHERE name = ?', ['legacy-asyncstorage'])).length
-      > 0;
-    if (migrated) {
-      return;
-    }
-
     // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
     //   be read-only -- in particular, for new installs to stop creating an
     //   empty legacy store, which on Android happens just from initializing
@@ -98,10 +129,6 @@ export class BaseAsyncStorage {
         }
         tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
       }
-    });
-
-    await db.transaction(tx => {
-      tx.executeSql('INSERT INTO migrations (name) VALUES (?)', ['legacy-asyncstorage']);
     });
 
     // TODO: After this migration has been out for a while and things seem fine,
