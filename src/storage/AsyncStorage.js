@@ -8,6 +8,34 @@ import * as logging from '../utils/logging';
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable class-methods-use-this */
 
+export class Migration {
+  // This migrations API is inspired in part by AndroidX's Room library:
+  //   https://developer.android.com/training/data-storage/room/migrating-db-versions#manual
+
+  // Currently `startVersion + 1 === endVersion` always.
+  // But we take both start and end versions for two reasons:
+  //
+  //  * It means the migrations are explicitly linked together, one to the
+  //    next, in application code.  Helpful when merging concurrent feature
+  //    branches, by ensuring the later one takes account of the earlier.
+  //
+  //  * It leaves this API open to later supporting shortcut migrations
+  //    that squash together several individual upgrades (like room does.)
+  startVersion: number;
+  endVersion: number;
+  migrate: SQLDatabase => Promise<void>;
+
+  constructor(startVersion: number, endVersion: number, migrate: SQLDatabase => Promise<void>) {
+    invariant(
+      startVersion + 1 === endVersion,
+      'AsyncStorage migration only supports incrementing version by 1',
+    );
+    this.startVersion = startVersion;
+    this.endVersion = endVersion;
+    this.migrate = migrate;
+  }
+}
+
 export class BaseAsyncStorage {
   // This is a Promise rather than directly a SQLDatabase because... well,
   // anything that wants to consume it needs to be prepared to wait in any
@@ -16,7 +44,23 @@ export class BaseAsyncStorage {
   // than unwrapping it up front and wrapping it in a new Promise on each call.
   dbSingleton: void | Promise<SQLDatabase> = undefined;
 
-  version: number = 1; // Hard-coded for now, with just the migration from legacy AsyncStorage.
+  version: number;
+  migrations: $ReadOnlyArray<Migration>;
+
+  constructor(version: number, migrations: $ReadOnlyArray<Migration>) {
+    invariant(
+      // $FlowIssue[unnecessary-optional-chain]: array can lack element
+      version === (migrations[migrations.length - 1]?.endVersion ?? 0),
+      'AsyncStorage: must have migration to target version',
+    );
+    invariant(
+      // $FlowIssue[unnecessary-optional-chain]: array can lack element
+      (migrations[0]?.startVersion ?? 0) === 0,
+      'AsyncStorage: migrations must start from version 0',
+    );
+    this.version = version;
+    this.migrations = migrations;
+  }
 
   _db(): Promise<SQLDatabase> {
     if (this.dbSingleton) {
@@ -61,7 +105,7 @@ export class BaseAsyncStorage {
   }
 
   async _migrate(db) {
-    const version = (await db.query('SELECT version FROM migration LIMIT 1'))[0]?.version ?? 0;
+    let version = (await db.query('SELECT version FROM migration LIMIT 1'))[0]?.version ?? 0;
     if (version === this.version) {
       return;
     }
@@ -74,65 +118,39 @@ export class BaseAsyncStorage {
       throw new Error('AsyncStorage: schema is from future');
     }
 
-    invariant(this.version === 1, 'AsyncStorage._migrate currently assumes target version 1');
-    if (version !== 0) {
-      logging.error('AsyncStorage: no migration path', {
-        storedVersion: version,
-        targetVersion: this.version,
+    for (const migration of this.migrations) {
+      // Yes, this is a linear scan.  But we'll be doing it at most once per
+      // program run (and in fact at most once per migration.)  So building
+      // a fancier data structure of the migrations wouldn't be useful,
+      // because building that data structure would itself take at least
+      // linear time.
+
+      if (migration.startVersion < version) {
+        continue;
+      }
+      if (migration.startVersion !== version) {
+        logging.error('AsyncStorage: no migration path', {
+          version,
+          targetVersion: this.version,
+        });
+        throw new Error('AsyncStorage: no migration path');
+      }
+
+      // Perform the migration.
+      await migration.migrate(db);
+
+      await db.transaction(tx => {
+        tx.executeSql('DELETE FROM migration');
+        tx.executeSql('INSERT INTO migration (version) VALUES (?)', [migration.endVersion]);
       });
-      throw new Error('AsyncStorage: no migration path');
+
+      version = migration.endVersion;
     }
 
-    // Perform the migration.  For now, we're hardcoding that the only
-    // migration is from version 0 to version 1.
-    await this._migrateFromLegacyAsyncStorage(db);
-
-    await db.transaction(tx => {
-      tx.executeSql('DELETE FROM migration');
-      tx.executeSql('INSERT INTO migration (version) VALUES (?)', [this.version]);
-    });
-  }
-
-  // The migration strategy.  How do we move the user's data from the old
-  // AsyncStorage to the new database?
-  //
-  // On Android, we could bypass this by arranging to use the old thing's
-  // database and table name.  Might need some tweaking of expo-sqlite in
-  // order to control the database name fully enough.
-  //
-  // But on iOS, it's not so simple.  Values over 1024 characters
-  // (RCTInlineValueThreshold, in RNCAsyncStorage.m) are written as separate
-  // files.  Values up to that threshold go into a single JSON blob (for the
-  // whole key-value store) that's written as one file.  So rather than try
-  // to duplicate that, we just keep the legacy AsyncStorage as a
-  // dependency, and use it to read the old data if the new doesn't exist.
-  //
-  // Then once we're doing that for iOS, might as well do it for Android
-  // too, and not have to follow the old names.
-  async _migrateFromLegacyAsyncStorage(db) {
-    // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
-    //   be read-only -- in particular, for new installs to stop creating an
-    //   empty legacy store, which on Android happens just from initializing
-    //   the legacy AsyncStorage module.  This will basically mean vendoring
-    //   the library into src/third-party/, and then stripping out
-    //   everything not needed for read-only use.
-
-    const keys = await LegacyAsyncStorage.getAllKeys();
-    const values = await Promise.all(keys.map(key => LegacyAsyncStorage.getItem(key)));
-    await db.transaction(tx => {
-      tx.executeSql('DELETE FROM keyvalue');
-      for (let i = 0; i < keys.length; i++) {
-        const value = values[i];
-        if (value == null) {
-          // TODO warn
-          continue;
-        }
-        tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
-      }
-    });
-
-    // TODO: After this migration has been out for a while and things seem fine,
-    //   add another to delete the legacy storage.
+    invariant(
+      version === this.version,
+      'AsyncStorage: last migration should have reached target version',
+    );
   }
 
   async getItem(key: string): Promise<string | null> {
@@ -193,5 +211,49 @@ export class BaseAsyncStorage {
   }
 }
 
+// The migration strategy.  How do we move the user's data from the old
+// AsyncStorage to the new database?
+//
+// On Android, we could bypass this by arranging to use the old thing's
+// database and table name.  Might need some tweaking of expo-sqlite in
+// order to control the database name fully enough.
+//
+// But on iOS, it's not so simple.  Values over 1024 characters
+// (RCTInlineValueThreshold, in RNCAsyncStorage.m) are written as separate
+// files.  Values up to that threshold go into a single JSON blob (for the
+// whole key-value store) that's written as one file.  So rather than try
+// to duplicate that, we just keep the legacy AsyncStorage as a
+// dependency, and use it to read the old data if the new doesn't exist.
+//
+// Then once we're doing that for iOS, might as well do it for Android
+// too, and not have to follow the old names.
+const migrationFromLegacyAsyncStorage = new Migration(0, 1, async db => {
+  // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
+  //   be read-only -- in particular, for new installs to stop creating an
+  //   empty legacy store, which on Android happens just from initializing
+  //   the legacy AsyncStorage module.  This will basically mean vendoring
+  //   the library into src/third-party/, and then stripping out
+  //   everything not needed for read-only use.
+
+  const keys = await LegacyAsyncStorage.getAllKeys();
+  const values = await Promise.all(keys.map(key => LegacyAsyncStorage.getItem(key)));
+  await db.transaction(tx => {
+    tx.executeSql('DELETE FROM keyvalue');
+    for (let i = 0; i < keys.length; i++) {
+      const value = values[i];
+      if (value == null) {
+        // TODO warn
+        continue;
+      }
+      tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
+    }
+  });
+
+  // TODO: After this migration has been out for a while and things seem fine,
+  //   add another to delete the legacy storage.
+});
+
 // Drop-in replacement for RN's AsyncStorage.
-export const AsyncStorage: BaseAsyncStorage = new BaseAsyncStorage();
+export const AsyncStorage: BaseAsyncStorage = new BaseAsyncStorage(1, [
+  migrationFromLegacyAsyncStorage,
+]);
