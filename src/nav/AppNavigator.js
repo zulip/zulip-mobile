@@ -20,7 +20,7 @@ import DevAuthScreen from '../start/DevAuthScreen';
 import MainTabsScreen from '../main/MainTabsScreen';
 import MessageReactionsScreen from '../reactions/MessageReactionsScreen';
 import AccountDetailsScreen from '../account-info/AccountDetailsScreen';
-import GroupDetailsScreen from '../chat/GroupDetailsScreen';
+import PmConversationDetailsScreen from '../chat/PmConversationDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import UsersScreen from '../users/UsersScreen';
 import ChatScreen from '../chat/ChatScreen';
@@ -49,7 +49,7 @@ import { useHaveServerDataGate } from '../withHaveServerDataGate';
 export type AppNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
   'account-details': RouteParamsOf<typeof AccountDetailsScreen>,
-  'group-details': RouteParamsOf<typeof GroupDetailsScreen>,
+  'pm-conversation-details': RouteParamsOf<typeof PmConversationDetailsScreen>,
   auth: RouteParamsOf<typeof AuthScreen>,
   chat: RouteParamsOf<typeof ChatScreen>,
   'dev-auth': RouteParamsOf<typeof DevAuthScreen>,
@@ -113,7 +113,10 @@ export default function AppNavigator(props: Props): Node {
         name="account-details"
         component={useHaveServerDataGate(AccountDetailsScreen)}
       />
-      <Stack.Screen name="group-details" component={useHaveServerDataGate(GroupDetailsScreen)} />
+      <Stack.Screen
+        name="pm-conversation-details"
+        component={useHaveServerDataGate(PmConversationDetailsScreen)}
+      />
       <Stack.Screen name="chat" component={useHaveServerDataGate(ChatScreen)} />
       <Stack.Screen name="emoji-picker" component={useHaveServerDataGate(EmojiPickerScreen)} />
       <Stack.Screen name="main-tabs" component={useHaveServerDataGate(MainTabsScreen)} />

@@ -15,11 +15,11 @@ import { navigateToAccountDetails } from '../actions';
 import { getOwnUserId } from '../selectors';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'group-details'>,
-  route: RouteProp<'group-details', {| recipients: PmKeyRecipients |}>,
+  navigation: AppNavigationProp<'pm-conversation-details'>,
+  route: RouteProp<'pm-conversation-details', {| recipients: PmKeyRecipients |}>,
 |}>;
 
-export default function GroupDetailsScreen(props: Props): Node {
+export default function PmConversationDetailsScreen(props: Props): Node {
   const { recipients } = props.route.params;
   const ownUserId = useSelector(getOwnUserId);
 

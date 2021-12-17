@@ -18,7 +18,7 @@ import { caseNarrowDefault, streamNameOfNarrow, streamNarrow } from '../utils/na
 import {
   navigateToStream,
   navigateToAccountDetails,
-  navigateToGroupDetails,
+  navigateToPmConversationDetails,
   navigateToTopicList,
   doNarrow,
 } from '../actions';
@@ -98,7 +98,7 @@ function InfoNavButtonGroup(props): Node {
       name="info"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateToGroupDetails(userIds));
+        NavigationService.dispatch(navigateToPmConversationDetails(userIds));
       }}
     />
   );

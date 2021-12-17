@@ -76,8 +76,9 @@ export const navigateToAccountPicker = (): GenericNavigationAction =>
 export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
   StackActions.push('account-details', { userId });
 
-export const navigateToGroupDetails = (recipients: PmKeyRecipients): GenericNavigationAction =>
-  StackActions.push('group-details', { recipients });
+export const navigateToPmConversationDetails = (
+  recipients: PmKeyRecipients,
+): GenericNavigationAction => StackActions.push('pm-conversation-details', { recipients });
 
 export const navigateToRealmInputScreen = (): GenericNavigationAction =>
   StackActions.push('realm-input', { initial: undefined });
