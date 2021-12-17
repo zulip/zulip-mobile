@@ -152,4 +152,16 @@ export class AsyncStorage {
       tx.executeSql('DELETE FROM keyvalue');
     });
   }
+
+  /**
+   * Forget the AsyncStorage implementation's internal, non-persistent state.
+   *
+   * This should only be used in tests.  It has an effect similar to exiting
+   * the program (but leaving the persistent storage intact), so that the
+   * next use of AsyncStorage will behave as if freshly starting up the
+   * program.
+   */
+  static async devForgetState(): Promise<void> {
+    dbSingleton = undefined;
+  }
 }

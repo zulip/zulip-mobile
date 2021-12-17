@@ -88,6 +88,16 @@ class SQLiteDatabase {
   }
 }
 
+/** Not found in expo-sqlite itself, but helpful for tests. */
+export function deleteDatabase(name: string) {
+  const db = dbs.get(name);
+  if (!db) {
+    return;
+  }
+  db.close();
+  dbs.delete(name);
+}
+
 export function openDatabase(
   name: string,
   version?: string,
