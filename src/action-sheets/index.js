@@ -13,7 +13,9 @@ import type {
   Narrow,
   Outbox,
   Subscription,
+  UserId,
   User,
+  UserOrBot,
   EditMessage,
   Stream,
 } from '../types';
@@ -24,11 +26,16 @@ import {
   isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
+import { pmUiRecipientsFromKeyRecipients } from '../utils/recipient';
+import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
 import { showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
-import { navigateToMessageReactionScreen } from '../nav/navActions';
+import {
+  navigateToMessageReactionScreen,
+  navigateToPmConversationDetails,
+} from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
@@ -61,6 +68,12 @@ type TopicArgs = {
   ...
 };
 
+type PmArgs = {
+  pmKeyRecipients: PmKeyRecipients,
+  _: GetText,
+  ...
+};
+
 type MessageArgs = {
   auth: Auth,
   ownUser: User,
@@ -71,7 +84,7 @@ type MessageArgs = {
   ...
 };
 
-type Button<Args: StreamArgs | TopicArgs | MessageArgs> = {|
+type Button<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs> = {|
   (Args): void | Promise<void>,
 
   /** The label for the button. */
@@ -247,6 +260,12 @@ const disableNotifications = async ({ auth, streamId }) => {
 disableNotifications.title = 'Disable notifications';
 disableNotifications.errorMessage = 'Failed to disable notifications';
 
+const seePmConversationDetails = async ({ pmKeyRecipients }) => {
+  NavigationService.dispatch(navigateToPmConversationDetails(pmKeyRecipients));
+};
+seePmConversationDetails.title = 'See details';
+seePmConversationDetails.errorMessage = 'Failed to show details';
+
 const starMessage = async ({ auth, message }) => {
   await api.toggleMessageStarred(auth, [message.id], true);
 };
@@ -366,6 +385,24 @@ export const constructTopicActionButtons = ({
   return buttons;
 };
 
+export const constructPmConversationActionButtons = ({
+  backgroundData,
+  pmKeyRecipients,
+}: {|
+  backgroundData: $ReadOnly<{ ownUser: User, ... }>,
+  pmKeyRecipients: PmKeyRecipients,
+|}): Button<PmArgs>[] => {
+  const buttons = [];
+
+  // TODO: If 1:1 PM, give a mute/unmute-user button, with a confirmation
+  //   dialog saying that it also affects the muted users' stream messages,
+  //   and linking to https://zulip.com/help/mute-a-user
+
+  buttons.push(seePmConversationDetails);
+  buttons.push(cancel);
+  return buttons;
+};
+
 export const constructOutboxActionButtons = (): Button<MessageArgs>[] => {
   const buttons = [];
   buttons.push(copyToClipboard);
@@ -446,7 +483,7 @@ export const constructNonHeaderActionButtons = ({
   }
 };
 
-function makeButtonCallback<Args: StreamArgs | TopicArgs | MessageArgs>(
+function makeButtonCallback<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs>(
   buttonList: Button<Args>[],
   args: Args,
 ) {
@@ -585,5 +622,55 @@ export const showStreamActionSheet = ({
       ...callbacks,
       streamId,
     }),
+  );
+};
+
+export const showPmConversationActionSheet = ({
+  showActionSheetWithOptions,
+  callbacks,
+  backgroundData,
+  pmKeyRecipients,
+}: {|
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+  callbacks: {|
+    _: GetText,
+  |},
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    allUsersById: Map<UserId, UserOrBot>,
+    ...
+  }>,
+  pmKeyRecipients: PmKeyRecipients,
+|}): void => {
+  const buttonList = constructPmConversationActionButtons({ backgroundData, pmKeyRecipients });
+
+  showActionSheetWithOptions(
+    {
+      // TODO(ios-14.5): Check for Intl.ListFormat support in all environments
+      // TODO(i18n): Localize this list (will be easiest when we don't have
+      //   to polyfill Intl.ListFormat); see https://formatjs.io/docs/react-intl/api/#formatlist
+      title: pmUiRecipientsFromKeyRecipients(pmKeyRecipients, backgroundData.ownUser.user_id)
+        .map(userId => {
+          const user = backgroundData.allUsersById.get(userId);
+          invariant(user, 'allUsersById incomplete; could not show PM action sheet');
+          return user.full_name;
+        })
+        .sort()
+        .join(', '),
+      titleTextStyle: {
+        // We hack with this Android-only option to keep extra-long lists of
+        // recipients from sabotaging the UI. Better would be to control the
+        // Text's `numberOfLines` prop, but the library doesn't offer that.
+        // See screenshots at
+        //   https://github.com/zulip/zulip-mobile/issues/5171#issuecomment-997089710.
+        //
+        // On iOS, the native action sheet solves this problem for us, and
+        // we're using that as of 2021-12.
+        maxHeight: 160,
+      },
+      options: buttonList.map(button => callbacks._(button.title)),
+      cancelButtonIndex: buttonList.length - 1,
+    },
+    makeButtonCallback(buttonList, { ...backgroundData, ...callbacks, pmKeyRecipients }),
   );
 };

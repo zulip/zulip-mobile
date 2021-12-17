@@ -9,7 +9,7 @@ import type { BackgroundData } from './MessageList';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
-import { pmUiRecipientsFromMessage } from '../utils/recipient';
+import { pmKeyRecipientsFromMessage } from '../utils/recipient';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
@@ -23,7 +23,11 @@ import {
   navigateToLightbox,
   messageLinkPress,
 } from '../actions';
-import { showTopicActionSheet, showMessageActionSheet } from '../action-sheets';
+import {
+  showTopicActionSheet,
+  showPmConversationActionSheet,
+  showMessageActionSheet,
+} from '../action-sheets';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
 
@@ -228,11 +232,12 @@ const handleLongPress = (
         topic: message.subject,
       });
     } else if (message.type === 'private') {
-      const label = pmUiRecipientsFromMessage(message, backgroundData.ownUser.user_id)
-        .map(r => r.full_name)
-        .sort()
-        .join(', ');
-      showToast(label);
+      showPmConversationActionSheet({
+        showActionSheetWithOptions,
+        callbacks: { _ },
+        backgroundData,
+        pmKeyRecipients: pmKeyRecipientsFromMessage(message, backgroundData.ownUser.user_id),
+      });
     }
   } else if (target === 'message') {
     showMessageActionSheet({

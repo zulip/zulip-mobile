@@ -840,6 +840,7 @@ export const backgroundData: BackgroundData = deepFreeze({
   debug: baseReduxState.session.debug,
   doNotMarkMessagesAsRead: baseReduxState.settings.doNotMarkMessagesAsRead,
   flags: baseReduxState.flags,
+  allUsersById: new Map([[selfUser.user_id, selfUser]]),
   mute: [],
   mutedUsers: Immutable.Map(),
   ownUser: selfUser,
