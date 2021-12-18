@@ -36,7 +36,6 @@ type ButtonType = {|
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
-    showToast('Please download the image from your browser');
     openLinkEmbedded(new URL(src, auth.realm).toString());
     return;
   }
@@ -65,9 +64,11 @@ const actionSheetButtons: ButtonType[] = [
   { title: 'Cancel', onPress: () => {} },
 ];
 
+// TODO(i18n): Wire the titles up for translation.
 export const constructActionSheetButtons = (): string[] =>
   actionSheetButtons.map(button => button.title);
 
+// TODO: Wire toasts, etc., up for translation.
 export const executeActionSheetAction = ({ title, ...props }: ExecuteActionSheetActionType) => {
   const button = actionSheetButtons.find(x => x.title === title);
   if (button) {
