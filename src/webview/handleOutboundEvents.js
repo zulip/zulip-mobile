@@ -213,7 +213,7 @@ const handleLongPress = (
   if (href !== null) {
     const url = new URL(href, props.backgroundData.auth.realm).toString();
     Clipboard.setString(url);
-    showToast(_('Link copied to clipboard'));
+    showToast(_('Link copied'));
     return;
   }
 
