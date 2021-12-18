@@ -261,7 +261,7 @@
   "Share on Zulip": "Share on Zulip",
   "Choose recipients": "Choose recipients",
   "Please choose recipients to share with.": "Please choose recipients to share with.",
-  "Sending Message...": "Sending Message...",
+  "Sending message…": "Sending message…",
   "Failed to send message": "Failed to send message",
   "Message sent": "Message sent",
   "Couldn’t load information about {fullName}": "Couldn’t load information about {fullName}",

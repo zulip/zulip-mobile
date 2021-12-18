@@ -150,7 +150,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
     }
 
     this.setSending();
-    showToast(_('Sending Message...'));
+    showToast(_('Sending message…'));
     if (sharedData.type === 'file') {
       const { files } = this.state;
       for (let i = 0; i < files.length; i++) {
