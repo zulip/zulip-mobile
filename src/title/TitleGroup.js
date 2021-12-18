@@ -5,15 +5,15 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
-import { getMutedUsers } from '../selectors';
-import type { UserId } from '../types';
+import { getMutedUsers, getOwnUserId } from '../selectors';
 import * as NavigationService from '../nav/NavigationService';
+import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
 import styles, { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { navigateToAccountDetails } from '../nav/navActions';
 
 type Props = $ReadOnly<{|
-  userIds: $ReadOnlyArray<UserId>,
+  recipients: PmKeyRecipients,
 |}>;
 
 const componentStyles = createStyleSheet({
@@ -23,8 +23,10 @@ const componentStyles = createStyleSheet({
 });
 
 export default function TitleGroup(props: Props): Node {
-  const { userIds } = props;
+  const { recipients } = props;
   const mutedUsers = useSelector(getMutedUsers);
+  const ownUserId = useSelector(getOwnUserId);
+  const userIds = pmUiRecipientsFromKeyRecipients(recipients, ownUserId);
 
   return (
     <View style={styles.navWrapper}>
