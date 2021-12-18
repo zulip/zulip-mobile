@@ -84,10 +84,11 @@ function MentionWarningsInner(props: Props, ref): Node {
 
   const showSubscriptionStatusLoadError = useCallback(
     (mentionedUser: UserOrBot) => {
-      const alertTitle = _('Couldn’t load information about {fullName}', {
-        fullName: mentionedUser.full_name,
-      });
-      showToast(alertTitle);
+      showToast(
+        _('Couldn’t load information about {fullName}', {
+          fullName: mentionedUser.full_name,
+        }),
+      );
     },
     [_],
   );
