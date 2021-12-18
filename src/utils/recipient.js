@@ -348,11 +348,7 @@ export const pmUnreadsKeyFromPmKeyIds = (userIds: PmKeyRecipients, ownUserId: Us
  */
 // That key string is: just the usual "PM key" list of users, stringified
 // and comma-separated.
-//
-// TODO: It'd be neat to have this consume PmKeyRecipients.  Needs having
-//   Narrow keep one of those around, and caseNarrow return it.
-export const pmTypingKeyFromPmKeyIds = (userIds: $ReadOnlyArray<UserId>): string =>
-  userIds.join(',');
+export const pmTypingKeyFromPmKeyIds = (userIds: PmKeyRecipients): string => userIds.join(',');
 
 /**
  * The key for a PM thread in typing-status data, given a recipients list.

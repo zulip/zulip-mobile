@@ -4,7 +4,11 @@ import { getCurrentTypingUsers } from '../typingSelectors';
 import { HOME_NARROW, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../../utils/narrow';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
-import { pmTypingKeyFromPmKeyIds } from '../../utils/recipient';
+import {
+  pmKeyRecipientsFor1to1,
+  pmKeyRecipientsFromUsers,
+  pmTypingKeyFromPmKeyIds,
+} from '../../utils/recipient';
 
 describe('getCurrentTypingUsers', () => {
   test('return NULL_ARRAY when current narrow is not private or group', () => {
@@ -33,13 +37,13 @@ describe('getCurrentTypingUsers', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
     const users = [user1, user2].sort((a, b) => a.user_id - b.user_id);
-    const userIds = users.map(u => u.user_id);
-
-    const normalizedRecipients = pmTypingKeyFromPmKeyIds(userIds);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds(
+      pmKeyRecipientsFromUsers(users, eg.selfUser.user_id),
+    );
 
     const state = eg.reduxState({
       typing: {
-        [normalizedRecipients]: { userIds },
+        [normalizedRecipients]: { userIds: users.map(u => u.user_id) },
       },
       users: [user1, user2],
     });
@@ -52,7 +56,7 @@ describe('getCurrentTypingUsers', () => {
   test('when in private narrow but different user is typing return NULL_ARRAY', () => {
     const user1 = eg.makeUser();
     const user2 = eg.makeUser();
-    const normalizedRecipients = pmTypingKeyFromPmKeyIds([user1.user_id]);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds(pmKeyRecipientsFor1to1(user1.user_id));
 
     const state = eg.reduxState({
       typing: {
@@ -70,8 +74,10 @@ describe('getCurrentTypingUsers', () => {
     const expectedUser = eg.makeUser();
     const anotherUser = eg.makeUser();
     const users = [expectedUser, anotherUser].sort((a, b) => a.user_id - b.user_id);
+    const normalizedRecipients = pmTypingKeyFromPmKeyIds(
+      pmKeyRecipientsFromUsers(users, eg.selfUser.user_id),
+    );
 
-    const normalizedRecipients = pmTypingKeyFromPmKeyIds(users.map(u => u.user_id));
     const state = eg.reduxState({
       typing: {
         [normalizedRecipients]: { userIds: [expectedUser.user_id] },
