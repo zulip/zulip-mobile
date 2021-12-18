@@ -11,6 +11,7 @@ import {
   pmKeyRecipientUsersFromMessage,
   pmKeyRecipientUsersFromIds,
   pmUnreadsKeyFromPmKeyIds,
+  pmKeyRecipientsFromPmKeyUsers,
 } from '../utils/recipient';
 import { getServerVersion } from '../account/accountsSelectors';
 import * as model from './pmConversationsModel';
@@ -105,7 +106,7 @@ function getRecentConversationsModernImpl(
       }
 
       const unreadsKey = pmUnreadsKeyFromPmKeyIds(
-        keyRecipients.map(r => r.user_id),
+        pmKeyRecipientsFromPmKeyUsers(keyRecipients),
         ownUserId,
       );
 

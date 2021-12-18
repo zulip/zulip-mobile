@@ -330,13 +330,7 @@ export const pmUnreadsKeyFromMessage = (message: PmMessage, ownUserId?: UserId):
  * won't complain.
  */
 // See comment on pmUnreadsKeyFromMessage for details on this form.
-//
-// TODO: It'd be neat to have this consume PmKeyRecipients.  Needs having
-//   Narrow keep one of those around, and caseNarrow return it.
-export const pmUnreadsKeyFromPmKeyIds = (
-  userIds: $ReadOnlyArray<UserId>,
-  ownUserId: UserId,
-): string => {
+export const pmUnreadsKeyFromPmKeyIds = (userIds: PmKeyRecipients, ownUserId: UserId): string => {
   if (userIds.length === 1) {
     // A 1:1 PM.  Both forms include just one user: the other user if any,
     //   and self for a self-1:1.
