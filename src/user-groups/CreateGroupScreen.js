@@ -9,7 +9,7 @@ import type { UserOrBot } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { Screen } from '../common';
 import { doNarrow, navigateBack } from '../actions';
-import { pmNarrowFromUsers } from '../utils/narrow';
+import { pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromUsers } from '../utils/recipient';
 import UserPickerCard from '../user-picker/UserPickerCard';
 import { getOwnUserId } from '../users/userSelectors';
@@ -28,7 +28,7 @@ export default function CreateGroupScreen(props: Props): Node {
   const handleCreateGroup = useCallback(
     (selected: UserOrBot[]) => {
       NavigationService.dispatch(navigateBack());
-      dispatch(doNarrow(pmNarrowFromUsers(pmKeyRecipientsFromUsers(selected, ownUserId))));
+      dispatch(doNarrow(pmNarrowFromRecipients(pmKeyRecipientsFromUsers(selected, ownUserId))));
     },
     [dispatch, ownUserId],
   );
