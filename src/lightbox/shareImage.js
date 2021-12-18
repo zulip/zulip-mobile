@@ -9,10 +9,21 @@ import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
 import * as logging from '../utils/logging';
 
+// TODO(i18n): Wire up toasts for translation.
 export default async (url: string, auth: Auth) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
 
   if (tempUrl === null) {
+    // Open the file in a browser and invite the user to use the browser's
+    // "share" feature. That's probably not what they expected when they hit
+    // "share"… and when the browser opens, it's probably not always clear
+    // what that has to do with the share they wanted to do.
+    //
+    // So we're giving them some kind of indication of "yes, we heard you,
+    // you want to share the file -- this is the path we're offering for
+    // doing that".
+    //
+    // TODO(?): Could find a better way to convey this.
     showToast('Please share the image from your browser');
     openLinkEmbedded(new URL(url, auth.realm).toString());
     return;
@@ -24,19 +35,15 @@ export default async (url: string, auth: Auth) => {
       const res: $FlowFixMe = await downloadFileToCache(tempUrl, fileName);
       await ShareFileAndroid.shareFile(res.path());
     } catch (error) {
-      showToast('Sharing Failed.');
+      showToast('Share failed');
       logging.error(error);
     }
   } else {
     try {
       const uri = await downloadImage(tempUrl, fileName, auth);
-      try {
-        await Share.share({ url: uri, message: url });
-      } catch (error) {
-        showToast('Can not share');
-      }
+      await Share.share({ url: uri, message: url });
     } catch (error) {
-      showToast('Can not download');
+      showToast('Share failed');
     }
   }
 };
