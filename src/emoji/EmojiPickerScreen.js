@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
+import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
@@ -28,6 +29,8 @@ type Props = $ReadOnly<{|
 export default function EmojiPickerScreen(props: Props): Node {
   const { route } = props;
   const { messageId } = route.params;
+
+  const _ = useContext(TranslationContext);
 
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
   const auth = useSelector(getAuth);
@@ -62,11 +65,11 @@ export default function EmojiPickerScreen(props: Props): Node {
       const { reactionType, emojiCode } = getReactionTypeAndCode(emojiName);
       api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
         logging.error('Error adding reaction emoji', err);
-        showToast(`${err}`);
+        showToast(_('Failed to add reaction'));
       });
       NavigationService.dispatch(navigateBack());
     },
-    [auth, messageId, getReactionTypeAndCode],
+    [auth, messageId, getReactionTypeAndCode, _],
   );
 
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
