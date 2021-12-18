@@ -215,11 +215,12 @@ class ShareWrapperInner extends React.Component<Props, State> {
   };
 
   deleteItem = toDelete => {
+    const _ = this.context;
     this.setState(prevState => {
       const filteredItems = [...prevState.files].filter(item => item.url !== toDelete.url);
       if (prevState.files.length !== 0 && filteredItems.length === 0) {
         setTimeout(() => {
-          showToast('Cancelled Share');
+          showToast(_('Share canceled'));
           this.onShareCancelled();
         }, 0);
       }
