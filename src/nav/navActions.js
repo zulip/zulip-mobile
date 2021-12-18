@@ -8,6 +8,7 @@ import {
 
 import * as NavigationService from './NavigationService';
 import type { Message, Narrow, UserId } from '../types';
+import type { PmKeyRecipients } from '../utils/recipient';
 import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 
@@ -75,9 +76,8 @@ export const navigateToAccountPicker = (): GenericNavigationAction =>
 export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
   StackActions.push('account-details', { userId });
 
-export const navigateToGroupDetails = (
-  recipients: $ReadOnlyArray<UserId>,
-): GenericNavigationAction => StackActions.push('group-details', { recipients });
+export const navigateToGroupDetails = (recipients: PmKeyRecipients): GenericNavigationAction =>
+  StackActions.push('group-details', { recipients });
 
 export const navigateToRealmInputScreen = (): GenericNavigationAction =>
   StackActions.push('realm-input', { initial: undefined });
