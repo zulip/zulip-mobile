@@ -4,20 +4,20 @@ import type { Node } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import type { BoundedDiff } from '../generics';
-import RawLabel from './RawLabel';
+import ZulipText from './ZulipText';
 import type { LocalizableReactText } from '../types';
 
 type Props = $ReadOnly<{|
-  ...BoundedDiff<$Exact<React$ElementConfig<typeof RawLabel>>, {| +children: ?Node |}>,
+  ...BoundedDiff<$Exact<React$ElementConfig<typeof ZulipText>>, {| +children: ?Node |}>,
   text: LocalizableReactText,
 |}>;
 
 /**
- * A wrapper for `RawLabel` that also translates the text.
+ * A wrapper for `ZulipText` that also translates the text.
  *
- * Use `RawLabel` instead if you don't want the text translated.
+ * Use `ZulipText` instead if you don't want the text translated.
  *
- * Unlike `RawLabel`, only accepts a `LocalizableReactText`, as the `text`
+ * Unlike `ZulipText`, only accepts a `LocalizableReactText`, as the `text`
  * prop, and doesn't support `children`.
  */
 export default class Label extends PureComponent<Props> {
@@ -28,7 +28,7 @@ export default class Label extends PureComponent<Props> {
     const values = typeof text === 'object' ? text.values : undefined;
 
     return (
-      <RawLabel {...restProps}>
+      <ZulipText {...restProps}>
         <FormattedMessage
           id={message}
           // If you see this in dev, it means there's a user-facing string
@@ -41,7 +41,7 @@ export default class Label extends PureComponent<Props> {
           }
           values={values}
         />
-      </RawLabel>
+      </ZulipText>
     );
   }
 }

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 import { createStyleSheet } from '../styles';
 import type { JSONable } from '../utils/jsonable';
 
@@ -32,8 +32,8 @@ export default class InfoItem extends PureComponent<Props> {
 
     return (
       <View style={styles.item}>
-        <RawLabel style={styles.label} text={label} />
-        <RawLabel style={styles.value} text={JSON.stringify(value)} />
+        <ZulipText style={styles.label} text={label} />
+        <ZulipText style={styles.value} text={JSON.stringify(value)} />
       </View>
     );
   }

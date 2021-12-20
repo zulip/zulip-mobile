@@ -8,7 +8,7 @@ import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
-import { Popup, RawLabel, Touchable } from '../common';
+import { Popup, ZulipText, Touchable } from '../common';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { fetchTopicsForStream } from '../topics/topicActions';
 
@@ -65,7 +65,7 @@ export default function TopicAutocomplete(props: Props): Node {
           keyExtractor={item => item}
           renderItem={({ item }) => (
             <Touchable onPress={() => onAutocomplete(item)}>
-              <RawLabel style={styles.topic} text={item} />
+              <ZulipText style={styles.topic} text={item} />
             </Touchable>
           )}
         />

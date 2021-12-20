@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { GroupAvatar, RawLabel, Touchable, UnreadCount } from '../common';
+import { GroupAvatar, ZulipText, Touchable, UnreadCount } from '../common';
 import { getMutedUsers } from '../selectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 
@@ -46,7 +46,7 @@ export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(
     <Touchable onPress={handlePress}>
       <View style={styles.listItem}>
         <GroupAvatar size={48} names={names} />
-        <RawLabel
+        <ZulipText
           style={componentStyles.text}
           numberOfLines={2}
           ellipsizeMode="tail"

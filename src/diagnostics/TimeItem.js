@@ -6,7 +6,7 @@ import format from 'date-fns/format';
 import type { TimingItemType } from '../types';
 import { createStyleSheet } from '../styles';
 
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 import { numberWithSeparators } from '../utils/misc';
 
 const styles = createStyleSheet({
@@ -34,8 +34,8 @@ export default class TimeItem extends PureComponent<TimingItemType> {
 
     return (
       <View style={styles.item}>
-        <RawLabel style={styles.label} text={text} />
-        <RawLabel style={styles.value} text={timingStr} />
+        <ZulipText style={styles.label} text={text} />
+        <ZulipText style={styles.value} text={timingStr} />
       </View>
     );
   }

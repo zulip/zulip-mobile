@@ -9,7 +9,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
 import type { Protocol } from '../utils/url';
-import RawLabel from './RawLabel';
+import ZulipText from './ZulipText';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -120,7 +120,7 @@ export default function SmartUrlInput(props: Props): Node {
 
   const renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={urlPress}>
-      <RawLabel
+      <ZulipText
         style={[styles.realmInput, { color: themeContext.color }, styles.realmPlaceholder]}
         text={text}
       />

@@ -22,7 +22,7 @@ export { default as SwitchRow } from './SwitchRow';
 export { default as OwnAvatar } from './OwnAvatar';
 export { default as PasswordInput } from './PasswordInput';
 export { default as Popup } from './Popup';
-export { default as RawLabel } from './RawLabel';
+export { default as ZulipText } from './ZulipText';
 export { default as Screen } from './Screen';
 export { default as SearchEmptyState } from './SearchEmptyState';
 export { default as SearchInput } from './SearchInput';

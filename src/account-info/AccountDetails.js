@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
-import { UserAvatar, ComponentList, RawLabel } from '../common';
+import { UserAvatar, ComponentList, ZulipText } from '../common';
 import { getOwnUser, getUserStatusTextForUser } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
@@ -65,10 +65,10 @@ export default function AccountDetails(props: Props): Node {
           hideIfOffline={false}
           useOpaqueBackground={false}
         />
-        <RawLabel style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
+        <ZulipText style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
       </View>
       {userStatusText !== undefined && (
-        <RawLabel style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
+        <ZulipText style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
       )}
       {!isSelf && (
         <View>
@@ -77,7 +77,7 @@ export default function AccountDetails(props: Props): Node {
       )}
       {!isSelf && localTime !== null && (
         <View>
-          <RawLabel style={styles.largerText} text={localTime} />
+          <ZulipText style={styles.largerText} text={localTime} />
         </View>
       )}
     </ComponentList>

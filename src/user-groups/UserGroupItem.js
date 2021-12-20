@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
-import { RawLabel, Touchable } from '../common';
+import { ZulipText, Touchable } from '../common';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 
 const componentStyles = createStyleSheet({
@@ -40,13 +40,13 @@ export default function UserGroupItem(props: Props): Node {
       <View style={styles.listItem}>
         <IconPeople size={32} color={themeContext.color} />
         <View style={componentStyles.textWrapper}>
-          <RawLabel
+          <ZulipText
             style={componentStyles.text}
             text={name}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
-          <RawLabel
+          <ZulipText
             style={[componentStyles.text, componentStyles.textEmail]}
             text={description}
             numberOfLines={1}

@@ -8,7 +8,7 @@ import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import { getPresence, getUserStatus } from '../selectors';
 import { presenceToHumanTime } from '../utils/presence';
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 
 type Props = $ReadOnly<{|
   style: TextStyleProp,
@@ -26,5 +26,5 @@ export default function ActivityText(props: Props): Node {
 
   const activity = presenceToHumanTime(presence, userStatus);
 
-  return <RawLabel style={style} text={`Active ${activity}`} />;
+  return <ZulipText style={style} text={`Active ${activity}`} />;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { RawLabel, Touchable } from '.';
+import { ZulipText, Touchable } from '.';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from './Icons';
 
@@ -66,8 +66,8 @@ export default function SelectableOptionRow<TItemKey: string | number>(
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
       <View style={styles.listItem}>
         <View style={styles.wrapper}>
-          <RawLabel text={title} />
-          {subtitle !== undefined && <RawLabel text={subtitle} style={styles.subtitle} />}
+          <ZulipText text={title} />
+          {subtitle !== undefined && <ZulipText text={subtitle} style={styles.subtitle} />}
         </View>
         <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
       </View>

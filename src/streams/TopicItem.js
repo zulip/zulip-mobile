@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
-import { RawLabel, Touchable, UnreadCount } from '../common';
+import { ZulipText, Touchable, UnreadCount } from '../common';
 import { showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -93,7 +93,7 @@ export default function TopicItem(props: Props): Node {
           isMuted && componentStyles.muted,
         ]}
       >
-        <RawLabel
+        <ZulipText
           style={[componentStyles.label, isSelected && componentStyles.selectedText]}
           text={name}
           numberOfLines={1}

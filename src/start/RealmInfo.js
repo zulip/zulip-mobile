@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View, Image } from 'react-native';
 
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 import { createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({
@@ -35,7 +35,7 @@ export default class RealmInfo extends PureComponent<Props> {
     return (
       <View style={styles.description}>
         {iconUrl && <Image style={styles.icon} source={{ uri: iconUrl }} />}
-        <RawLabel style={styles.name} text={name} />
+        <ZulipText style={styles.name} text={name} />
       </View>
     );
   }

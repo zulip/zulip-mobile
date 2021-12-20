@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 import { createStyleSheet } from '../styles';
 import { numberWithSeparators } from '../utils/misc';
 
@@ -32,8 +32,8 @@ export default class SizeItem extends PureComponent<Props> {
 
     return (
       <View style={styles.item}>
-        <RawLabel style={styles.key} text={text} />
-        <RawLabel style={styles.size} text={numberWithSeparators(size)} />
+        <ZulipText style={styles.key} text={text} />
+        <ZulipText style={styles.size} text={numberWithSeparators(size)} />
       </View>
     );
   }

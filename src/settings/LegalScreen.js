@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
-import { Screen, NestedNavRow, RawLabel } from '../common';
+import { Screen, NestedNavRow, ZulipText } from '../common';
 import { openLinkEmbedded } from '../utils/openLink';
 import { getRealmUrl, getRealmName } from '../selectors';
 
@@ -44,7 +44,7 @@ export default function LegalScreen(props: Props): Node {
         //   We should link to them.
         label={{
           text: 'Terms for {realmName}',
-          values: { realmName: <RawLabel style={{ fontWeight: 'bold' }} text={realmName} /> },
+          values: { realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} /> },
         }}
         onPress={openRealmPolicies}
       />

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { UserId } from '../types';
-import { RawLabel, Touchable, UnreadCount } from '../common';
+import { ZulipText, Touchable, UnreadCount } from '../common';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
@@ -72,14 +72,14 @@ export function UserItemRaw<
           onPress={onPress && handlePress}
         />
         <View style={componentStyles.textWrapper}>
-          <RawLabel
+          <ZulipText
             style={[componentStyles.text, isSelected && componentStyles.selectedText]}
             text={isMuted ? _('Muted user') : user.full_name}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
           {showEmail && !isMuted && (
-            <RawLabel
+            <ZulipText
               style={[
                 componentStyles.text,
                 componentStyles.textEmail,

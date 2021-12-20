@@ -5,7 +5,7 @@ import { Animated, Easing, View } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedValue';
 
 import type { UserId, UserOrBot } from '../types';
-import { UserAvatarWithPresence, ComponentWithOverlay, RawLabel, Touchable } from '../common';
+import { UserAvatarWithPresence, ComponentWithOverlay, ZulipText, Touchable } from '../common';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
 
@@ -83,7 +83,7 @@ export default class AvatarItem extends PureComponent<Props> {
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
-          <RawLabel style={styles.text} text={firstName} numberOfLines={1} />
+          <ZulipText style={styles.text} text={firstName} numberOfLines={1} />
         </View>
       </Animated.View>
     );

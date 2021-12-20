@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
  * @prop ...all other Text props - Passed through verbatim to Text.
  *   See upstream: https://reactnative.dev/docs/text
  */
-export default class RawLabel extends PureComponent<Props> {
+export default class ZulipText extends PureComponent<Props> {
   static contextType: Context<ThemeData> = ThemeContext;
   context: ThemeData;
 
@@ -33,12 +33,15 @@ export default class RawLabel extends PureComponent<Props> {
 
     invariant(
       text != null || children != null,
-      'RawLabel: `text` or `children` should be non-nullish',
+      'ZulipText: `text` or `children` should be non-nullish',
     );
-    invariant(text == null || children == null, 'RawLabel: `text` or `children` should be nullish');
+    invariant(
+      text == null || children == null,
+      'ZulipText: `text` or `children` should be nullish',
+    );
 
     // These attributes will be applied unless specifically overridden
-    // with the `style` prop -- even if this `<RawLabel />` is nested
+    // with the `style` prop -- even if this `<ZulipText />` is nested
     // and would otherwise inherit the attributes from its ancestors.
     const aggressiveDefaultStyle = {
       fontSize: 15,

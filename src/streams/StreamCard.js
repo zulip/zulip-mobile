@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { RawLabel } from '../common';
+import { ZulipText } from '../common';
 import StreamIcon from './StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 
@@ -45,7 +45,7 @@ export default class StreamCard extends PureComponent<Props> {
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream && stream.invite_only}
           />
-          <RawLabel
+          <ZulipText
             style={componentStyles.streamText}
             text={stream.name}
             numberOfLines={1}
@@ -53,7 +53,7 @@ export default class StreamCard extends PureComponent<Props> {
           />
         </View>
         {stream.description.length > 0 && (
-          <RawLabel style={componentStyles.descriptionText} text={stream.description} />
+          <ZulipText style={componentStyles.descriptionText} text={stream.description} />
         )}
       </View>
     );

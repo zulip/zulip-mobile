@@ -18,7 +18,7 @@ import {
   getSettings,
 } from '../selectors';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import { RawLabel, Touchable, UnreadCount, ZulipSwitch } from '../common';
+import { ZulipText, Touchable, UnreadCount, ZulipSwitch } from '../common';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 
@@ -133,14 +133,14 @@ export default function StreamItem(props: Props): Node {
       <View style={wrapperStyle}>
         <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
         <View style={componentStyles.text}>
-          <RawLabel
+          <ZulipText
             numberOfLines={1}
             style={{ color: textColor }}
             text={name}
             ellipsizeMode="tail"
           />
           {description !== undefined && description !== '' && (
-            <RawLabel
+            <ZulipText
               numberOfLines={1}
               style={componentStyles.description}
               text={description}

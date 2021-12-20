@@ -8,7 +8,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
-import { NestedNavRow, OptionDivider, Screen, RawLabel } from '../common';
+import { NestedNavRow, OptionDivider, Screen, ZulipText } from '../common';
 import {
   navigateToDebug,
   navigateToStorage,
@@ -32,7 +32,7 @@ export default class DiagnosticsScreen extends PureComponent<Props> {
   render(): Node {
     return (
       <Screen title="Diagnostics">
-        <RawLabel style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
+        <ZulipText style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
         <OptionDivider />
         <NestedNavRow
           label="Variables"

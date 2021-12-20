@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { EmojiType } from '../types';
 import { createStyleSheet } from '../styles';
-import { RawLabel, Touchable } from '../common';
+import { ZulipText, Touchable } from '../common';
 import Emoji from './Emoji';
 
 const styles = createStyleSheet({
@@ -37,7 +37,7 @@ export default function EmojiRow(props: Props): Node {
     <Touchable onPress={handlePress}>
       <View style={styles.emojiRow}>
         <Emoji code={code} type={type} />
-        <RawLabel style={styles.text} text={name} />
+        <ZulipText style={styles.text} text={name} />
       </View>
     </Touchable>
   );

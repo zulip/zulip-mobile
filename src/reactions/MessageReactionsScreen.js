@@ -11,7 +11,7 @@ import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
 import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../types';
-import { Screen, Label, RawLabel } from '../common';
+import { Screen, Label, ZulipText } from '../common';
 import { getOwnUserId } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
@@ -124,7 +124,10 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
                           code={aggregatedReaction.code}
                           type={emojiTypeFromReactionType(aggregatedReaction.type)}
                         />
-                        <RawLabel style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
+                        <ZulipText
+                          style={styles.paddingLeft}
+                          text={`${aggregatedReaction.count}`}
+                        />
                       </View>
                     ),
                   }}

@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { RawLabel, Touchable, Label } from '../common';
+import { ZulipText, Touchable, Label } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
 
@@ -70,8 +70,8 @@ export default function AccountItem(props: Props): Node {
         ]}
       >
         <View style={styles.details}>
-          <RawLabel style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
-          <RawLabel
+          <ZulipText style={[styles.text, { color: textColor }]} text={email} numberOfLines={1} />
+          <ZulipText
             style={[styles.text, { color: textColor }]}
             text={realm.toString()}
             numberOfLines={1}
