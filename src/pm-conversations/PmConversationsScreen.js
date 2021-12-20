@@ -9,7 +9,7 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
-import { Label, ZulipButton, LoadingBanner } from '../common';
+import { ZulipTextIntl, ZulipButton, LoadingBanner } from '../common';
 import { IconPeople, IconPerson } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
@@ -70,7 +70,7 @@ export default function PmConversationsScreen(props: Props): Node {
       </View>
       <LoadingBanner />
       {conversations.length === 0 ? (
-        <Label style={styles.emptySlate} text="No recent conversations" />
+        <ZulipTextIntl style={styles.emptySlate} text="No recent conversations" />
       ) : (
         <PmConversationList conversations={conversations} />
       )}

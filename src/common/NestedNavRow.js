@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import type { LocalizableReactText } from '../types';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
@@ -33,7 +33,7 @@ export default function NestedNavRow(props: Props): Node {
     <Touchable onPress={onPress}>
       <View style={styles.listItem}>
         {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
-        <Label text={label} />
+        <ZulipTextIntl text={label} />
         <View style={styles.rightItem}>
           <IconRight size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />
         </View>

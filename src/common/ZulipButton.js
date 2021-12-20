@@ -3,7 +3,7 @@ import React from 'react';
 import type { Node } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 
 import type { LocalizableText } from '../types';
 import type { SubsetProperties } from '../generics';
@@ -169,7 +169,7 @@ export default function ZulipButton(props: Props): Node {
       <Touchable onPress={disabled && !isPressHandledWhenDisabled ? undefined : onPress}>
         <View style={styles.buttonContent}>
           {!!Icon && <Icon style={iconStyle} size={25} />}
-          <Label style={textStyle} text={text} />
+          <ZulipTextIntl style={textStyle} text={text} />
         </View>
       </Touchable>
     </View>

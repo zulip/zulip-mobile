@@ -10,7 +10,7 @@ import type { GetText, UserId } from '../types';
 import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { ZulipButton, Label } from '../common';
+import { ZulipButton, ZulipTextIntl } from '../common';
 import UserItem from '../users/UserItem';
 import ChooseRecipientsScreen from './ChooseRecipientsScreen';
 import ShareWrapper from './ShareWrapper';
@@ -76,7 +76,7 @@ export default class ShareToPm extends React.Component<Props, State> {
     const { selectedRecipients } = this.state;
 
     if (selectedRecipients.length === 0) {
-      return <Label text="Please choose recipients to share with" />;
+      return <ZulipTextIntl text="Please choose recipients to share with" />;
     }
     const preview = [];
     selectedRecipients.forEach(userId => {

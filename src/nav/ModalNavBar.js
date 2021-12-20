@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { LocalizableReactText } from '../types';
 import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
-import Label from '../common/Label';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import NavBarBackButton from './NavBarBackButton';
 
 type Props = $ReadOnly<{|
@@ -53,7 +53,7 @@ export default function ModalNavBar(props: Props): Node {
       }}
     >
       {canGoBack && <NavBarBackButton />}
-      <Label style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
+      <ZulipTextIntl style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
     </SafeAreaView>
   );
 }

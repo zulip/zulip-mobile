@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import type { Stream, Narrow } from '../types';
 import { useSelector } from '../react-redux';
 import * as api from '../api';
-import { ZulipButton, Label } from '../common';
+import { ZulipButton, ZulipTextIntl } from '../common';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 
@@ -27,7 +27,10 @@ export default function NotSubscribed(props: Props): Node {
 
   return (
     <View style={styles.disabledComposeBox}>
-      <Label style={styles.disabledComposeText} text="You are not subscribed to this stream" />
+      <ZulipTextIntl
+        style={styles.disabledComposeText}
+        text="You are not subscribed to this stream"
+      />
       {!stream.invite_only && (
         <ZulipButton
           style={styles.disabledComposeButton}

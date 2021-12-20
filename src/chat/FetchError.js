@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
-import { Label } from '../common';
+import { ZulipTextIntl } from '../common';
 import { TimeoutError } from '../utils/async';
 
 const styles = StyleSheet.create({
@@ -32,9 +32,9 @@ export default class FetchError extends PureComponent<Props> {
       <View style={styles.container}>
         {(() => {
           if (this.props.error instanceof TimeoutError) {
-            return <Label style={styles.text} text="Request timed out." />;
+            return <ZulipTextIntl style={styles.text} text="Request timed out." />;
           } else {
-            return <Label style={styles.text} text="Oops! Something went wrong." />;
+            return <ZulipTextIntl style={styles.text} text="Oops! Something went wrong." />;
           }
         })()}
       </View>

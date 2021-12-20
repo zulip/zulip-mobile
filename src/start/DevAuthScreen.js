@@ -9,7 +9,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { DevUser, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { ErrorMsg, Label, Screen, ZulipButton } from '../common';
+import { ErrorMsg, ZulipTextIntl, Screen, ZulipButton } from '../common';
 import * as api from '../api';
 import { loginSuccess } from '../actions';
 
@@ -100,7 +100,7 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
         <View style={componentStyles.container}>
           {progress && <ActivityIndicator />}
           {!!error && <ErrorMsg error={error} />}
-          <Label
+          <ZulipTextIntl
             style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Administrators"
           />
@@ -111,7 +111,7 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
               onPress={() => this.tryDevLogin(admin.email)}
             />
           ))}
-          <Label
+          <ZulipTextIntl
             style={[styles.field, componentStyles.heading2, componentStyles.heading]}
             text="Normal users"
           />

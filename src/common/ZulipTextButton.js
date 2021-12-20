@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { LocalizableReactText } from '../types';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { Label } from '.';
+import { ZulipTextIntl } from '.';
 import Touchable from './Touchable';
 
 // When adding a variant, take care that it's legitimate, it addresses a
@@ -112,7 +112,7 @@ export default function ZulipTextButton(props: Props): Node {
       onPress={onPress}
     >
       <View style={variantStyles.childOfTouchable}>
-        <Label style={variantStyles.text} text={label} />
+        <ZulipTextIntl style={variantStyles.text} text={label} />
       </View>
     </Touchable>
   );

@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { ZulipText, Touchable, Label } from '../common';
+import { ZulipText, Touchable, ZulipTextIntl } from '../common';
 import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
 
@@ -77,7 +77,7 @@ export default function AccountItem(props: Props): Node {
             numberOfLines={1}
           />
           {!isLoggedIn && (
-            <Label style={styles.signedOutText} text="Signed out" numberOfLines={1} />
+            <ZulipTextIntl style={styles.signedOutText} text="Signed out" numberOfLines={1} />
           )}
         </View>
         {!showDoneIcon ? (

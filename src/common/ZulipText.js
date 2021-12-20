@@ -15,7 +15,7 @@ type Props = $ReadOnly<{|
 /**
  * A thin wrapper for `Text` that ensures a consistent, themed style.
  *
- * Unlike `Label`, it does not translate its contents.
+ * Unlike `ZulipTextIntl`, it does not translate its contents.
  *
  * Pass either `text` or `children`, but not both.
  *

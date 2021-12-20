@@ -8,7 +8,7 @@ import type { Stream, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import * as api from '../api';
-import { ZulipButton, Label } from '../common';
+import { ZulipButton, ZulipTextIntl } from '../common';
 import { getAuth } from '../selectors';
 
 type Props = $ReadOnly<{|
@@ -66,7 +66,7 @@ export default function MentionedUserNotSubscribed(props: Props): Node {
   return (
     <View>
       <TouchableOpacity onPress={handleDismiss} style={styles.outer}>
-        <Label
+        <ZulipTextIntl
           text={{
             text: '{username} will not be notified unless you subscribe them to this stream.',
             values: { username: user.full_name },

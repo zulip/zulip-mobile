@@ -8,7 +8,7 @@ import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
-import { Label, ZulipText } from '../common';
+import { ZulipTextIntl, ZulipText } from '../common';
 import MarkAsReadButton from './MarkAsReadButton';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
@@ -48,7 +48,7 @@ export default function UnreadNotice(props: Props): Node {
     <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
       <View style={styles.unreadTextWrapper}>
         <ZulipText style={styles.unreadNumber} text={unreadCount.toString()} />
-        <Label
+        <ZulipTextIntl
           style={styles.unreadText}
           text={unreadCount === 1 ? 'unread message' : 'unread messages'}
         />

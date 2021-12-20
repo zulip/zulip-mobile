@@ -3,7 +3,7 @@
 import React from 'react';
 import type { Node } from 'react';
 
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import { openLinkEmbedded } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
@@ -23,7 +23,7 @@ const componentStyles = createStyleSheet({
  */
 export default function WebLink(props: Props): Node {
   return (
-    <Label
+    <ZulipTextIntl
       style={componentStyles.link}
       text={props.label}
       onPress={() => {

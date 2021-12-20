@@ -7,7 +7,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { UserId } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector, useDispatch } from '../react-redux';
-import { Screen, ZulipButton, Label } from '../common';
+import { Screen, ZulipButton, ZulipTextIntl } from '../common';
 import { IconPrivateChat } from '../common/Icons';
 import { pm1to1NarrowFromUser } from '../utils/narrow';
 import AccountDetails from './AccountDetails';
@@ -52,7 +52,7 @@ export default function AccountDetailsScreen(props: Props): Node {
     <Screen title={title}>
       <AccountDetails user={user} />
       {!isActive && (
-        <Label style={styles.deactivatedText} text="(This user has been deactivated)" />
+        <ZulipTextIntl style={styles.deactivatedText} text="(This user has been deactivated)" />
       )}
       <ZulipButton
         style={styles.pmButton}

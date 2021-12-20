@@ -15,7 +15,7 @@ import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import { useGlobalSelector } from '../react-redux';
-import { Label, Screen } from '../common';
+import { ZulipTextIntl, Screen } from '../common';
 import { getHasAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
@@ -73,7 +73,9 @@ export default function SharingScreen(props: Props): Node {
           component={ShareToStream}
           initialParams={params}
           options={{
-            tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Stream" />,
+            tabBarLabel: ({ color }) => (
+              <ZulipTextIntl style={[styles.tab, { color }]} text="Stream" />
+            ),
           }}
         />
         <Tab.Screen
@@ -82,7 +84,7 @@ export default function SharingScreen(props: Props): Node {
           initialParams={params}
           options={{
             tabBarLabel: ({ color }) => (
-              <Label style={[styles.tab, { color }]} text="Private Message" />
+              <ZulipTextIntl style={[styles.tab, { color }]} text="Private Message" />
             ),
           }}
         />

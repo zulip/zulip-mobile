@@ -7,7 +7,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
-import { ErrorMsg, Label, SmartUrlInput, Screen, ZulipButton } from '../common';
+import { ErrorMsg, ZulipTextIntl, SmartUrlInput, Screen, ZulipButton } from '../common';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { navigateToAuth } from '../actions';
@@ -82,7 +82,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
         keyboardShouldPersistTaps="always"
         shouldShowLoadingBanner={false}
       >
-        <Label text="Enter your Zulip server URL:" />
+        <ZulipTextIntl text="Enter your Zulip server URL:" />
         <SmartUrlInput
           style={styles.input}
           navigation={navigation}
@@ -96,7 +96,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
         {error !== null ? (
           <ErrorMsg error={error} />
         ) : (
-          <Label text="e.g. zulip.example.com" style={styles.hintText} />
+          <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
         )}
         <ZulipButton
           style={styles.button}

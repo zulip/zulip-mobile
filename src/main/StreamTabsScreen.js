@@ -6,7 +6,7 @@ import {
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
 
-import { Label } from '../common';
+import { ZulipTextIntl } from '../common';
 import { createStyleSheet } from '../styles';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
@@ -55,14 +55,18 @@ export default function StreamTabsScreen(props: Props): Node {
         name="subscribed"
         component={SubscriptionsCard}
         options={{
-          tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="Subscribed" />,
+          tabBarLabel: ({ color }) => (
+            <ZulipTextIntl style={[styles.tab, { color }]} text="Subscribed" />
+          ),
         }}
       />
       <Tab.Screen
         name="allStreams"
         component={StreamListCard}
         options={{
-          tabBarLabel: ({ color }) => <Label style={[styles.tab, { color }]} text="All streams" />,
+          tabBarLabel: ({ color }) => (
+            <ZulipTextIntl style={[styles.tab, { color }]} text="All streams" />
+          ),
         }}
       />
     </Tab.Navigator>

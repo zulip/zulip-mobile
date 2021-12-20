@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
-import { Label } from '../common';
+import { ZulipTextIntl } from '../common';
 
 import {
   isHomeNarrow,
@@ -59,8 +59,10 @@ export default class NoMessages extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <Label style={styles.text} text={message.text} />
-        {showComposeBoxOnNarrow(narrow) ? <Label text="Why not start the conversation?" /> : null}
+        <ZulipTextIntl style={styles.text} text={message.text} />
+        {showComposeBoxOnNarrow(narrow) ? (
+          <ZulipTextIntl text="Why not start the conversation?" />
+        ) : null}
       </View>
     );
   }

@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 
 const styles = createStyleSheet({
   header: {
@@ -26,7 +26,7 @@ export default class SectionHeader extends PureComponent<Props> {
     const { text } = this.props;
     return (
       <View style={[styles.header, { backgroundColor: this.context.backgroundColor }]}>
-        <Label text={text} />
+        <ZulipTextIntl text={text} />
       </View>
     );
   }

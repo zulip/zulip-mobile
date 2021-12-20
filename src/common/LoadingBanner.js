@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getLoading } from '../selectors';
-import { Label, LoadingIndicator } from '.';
+import { ZulipTextIntl, LoadingIndicator } from '.';
 import { ThemeContext, createStyleSheet } from '../styles';
 
 const key = 'LoadingBanner';
@@ -54,7 +54,7 @@ export default function LoadingBanner(props: Props): Node {
       <View>
         <LoadingIndicator size={14} color={spinnerColor} />
       </View>
-      <Label
+      <ZulipTextIntl
         style={{
           fontSize: 14,
           margin: 2,

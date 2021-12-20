@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 
 const styles = createStyleSheet({
@@ -47,7 +47,7 @@ export default function PasswordInput(props: Props): Node {
     <View>
       <Input {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none" />
       <Touchable style={styles.showPasswordButton} onPress={handleShow}>
-        <Label style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+        <ZulipTextIntl style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
       </Touchable>
     </View>
   );

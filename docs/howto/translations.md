@@ -30,7 +30,7 @@ few different forms in different contexts in our code:
   at the type of the prop.  If it's `LocalizableText` (which is a
   supertype of `string`), then the component will take responsibility
   for translating it before display.  Most of our components do this,
-  notably `Label` and `ZulipButton`.
+  notably `ZulipTextIntl` and `ZulipButton`.
 
   * Conversely, if adding a new component which accepts as a prop some
     text to show in the UI, generally the component should take the

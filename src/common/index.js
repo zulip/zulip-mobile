@@ -10,7 +10,7 @@ export { default as UserAvatar } from './UserAvatar';
 export { default as Input } from './Input';
 export { default as InputWithClearButton } from './InputWithClearButton';
 export { default as KeyboardAvoider } from './KeyboardAvoider';
-export { default as Label } from './Label';
+export { default as ZulipTextIntl } from './ZulipTextIntl';
 export { default as LineSeparator } from './LineSeparator';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as LoadingBanner } from './LoadingBanner';

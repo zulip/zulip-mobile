@@ -11,7 +11,7 @@ import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
 import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../types';
-import { Screen, Label, ZulipText } from '../common';
+import { Screen, ZulipTextIntl, ZulipText } from '../common';
 import { getOwnUserId } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
@@ -83,7 +83,7 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
       } else if (message.reactions.length === 0) {
         return (
           <View style={[styles.flexed, styles.center]}>
-            <Label style={styles.largerText} text="No reactions" />
+            <ZulipTextIntl style={styles.largerText} text="No reactions" />
           </View>
         );
       } else {

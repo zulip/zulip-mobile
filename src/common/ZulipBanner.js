@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import type { LocalizableReactText } from '../types';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import ZulipTextButton from './ZulipTextButton';
 
 // `textRow` and `buttonsRow` are named for the more common case where
@@ -79,7 +79,7 @@ export default function ZulipBanner(props: Props): Node {
   return (
     <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.wrapper}>
       <View style={styles.textRow}>
-        <Label style={styles.text} text={text} />
+        <ZulipTextIntl style={styles.text} text={text} />
       </View>
       <View style={styles.buttonsRow}>
         {buttons.map(({ id, label, onPress }, index) => (

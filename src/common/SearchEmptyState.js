@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import { createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({
@@ -29,7 +29,7 @@ export default class SearchEmptyState extends PureComponent<Props> {
 
     return (
       <View style={styles.container}>
-        <Label style={styles.text} text={text} />
+        <ZulipTextIntl style={styles.text} text={text} />
       </View>
     );
   }

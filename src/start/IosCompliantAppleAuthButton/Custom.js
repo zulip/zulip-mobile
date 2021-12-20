@@ -6,7 +6,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import type { ThemeName } from '../../reduxTypes';
 import { createStyleSheet } from '../../styles';
-import Label from '../../common/Label';
+import ZulipTextIntl from '../../common/ZulipTextIntl';
 import appleLogoBlackImg from '../../../static/img/apple-logo-black.png';
 import appleLogoWhiteImg from '../../../static/img/apple-logo-white.png';
 
@@ -71,7 +71,7 @@ export default class Custom extends PureComponent<Props> {
         <TouchableWithoutFeedback onPress={onPress}>
           <View style={styles.buttonContent}>
             <Image source={logoSource} />
-            <Label style={textStyle} text="Sign in with Apple" />
+            <ZulipTextIntl style={textStyle} text="Sign in with Apple" />
           </View>
         </TouchableWithoutFeedback>
       </View>

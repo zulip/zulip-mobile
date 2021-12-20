@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { Input, Label, SwitchRow, ZulipButton } from '../common';
+import { Input, ZulipTextIntl, SwitchRow, ZulipButton } from '../common';
 import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
 
@@ -61,7 +61,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
 
     return (
       <View>
-        <Label text="Name" />
+        <ZulipTextIntl text="Name" />
         <Input
           style={styles.marginBottom}
           placeholder="Name"
@@ -69,7 +69,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           defaultValue={initialValues.name}
           onChangeText={this.handleNameChange}
         />
-        <Label text="Description" />
+        <ZulipTextIntl text="Description" />
         <Input
           style={styles.marginBottom}
           placeholder="Description"

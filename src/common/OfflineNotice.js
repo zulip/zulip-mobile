@@ -10,7 +10,7 @@ import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useHasStayedTrueForMs } from '../reactUtils';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSession } from '../selectors';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 
 const styles = createStyleSheet({
   block: {
@@ -68,13 +68,13 @@ export default function OfflineNotice(props: Props): Node {
   if (shouldShowUncertaintyNotice) {
     return (
       <View style={styles.block}>
-        <Label style={styles.text} text="Please check your Internet connection" />
+        <ZulipTextIntl style={styles.text} text="Please check your Internet connection" />
       </View>
     );
   } else if (isOnline === false) {
     return (
       <View style={styles.block}>
-        <Label style={styles.text} text="No Internet connection" />
+        <ZulipTextIntl style={styles.text} text="No Internet connection" />
       </View>
     );
   } else {

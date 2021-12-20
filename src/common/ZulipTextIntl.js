@@ -13,14 +13,14 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
- * A wrapper for `ZulipText` that also translates the text.
+ * A wrapper for `ZulipText` that translates the text with react-intl
  *
  * Use `ZulipText` instead if you don't want the text translated.
  *
  * Unlike `ZulipText`, only accepts a `LocalizableReactText`, as the `text`
  * prop, and doesn't support `children`.
  */
-export default class Label extends PureComponent<Props> {
+export default class ZulipTextIntl extends PureComponent<Props> {
   render(): Node {
     const { text, ...restProps } = this.props;
 

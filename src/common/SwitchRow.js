@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { SpecificIconType } from './Icons';
-import Label from './Label';
+import ZulipTextIntl from './ZulipTextIntl';
 import ZulipSwitch from './ZulipSwitch';
 import styles, { ThemeContext, createStyleSheet } from '../styles';
 
@@ -34,7 +34,7 @@ export default function SwitchRow(props: Props): Node {
   return (
     <View style={[componentStyles.container, styles.listItem, style]}>
       {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
-      <Label text={label} style={styles.flexed} />
+      <ZulipTextIntl text={label} style={styles.flexed} />
       <View style={styles.rightItem}>
         <ZulipSwitch value={value} onValueChange={onValueChange} />
       </View>

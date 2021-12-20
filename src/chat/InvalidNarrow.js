@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
-import { Label } from '../common';
+import { ZulipTextIntl } from '../common';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ export default class InvalidNarrow extends PureComponent<Props> {
   render(): Node {
     return (
       <View style={styles.container}>
-        <Label style={styles.text} text="That conversation doesn't seem to exist." />
+        <ZulipTextIntl style={styles.text} text="That conversation doesn't seem to exist." />
       </View>
     );
   }
