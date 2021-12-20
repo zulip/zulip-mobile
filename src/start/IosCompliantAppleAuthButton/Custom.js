@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { Text, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { ThemeName } from '../../reduxTypes';
 import { createStyleSheet } from '../../styles';
-import TranslatedText from '../../common/TranslatedText';
+import Label from '../../common/Label';
 import appleLogoBlackImg from '../../../static/img/apple-logo-black.png';
 import appleLogoWhiteImg from '../../../static/img/apple-logo-white.png';
 
@@ -71,9 +71,7 @@ export default class Custom extends PureComponent<Props> {
         <TouchableWithoutFeedback onPress={onPress}>
           <View style={styles.buttonContent}>
             <Image source={logoSource} />
-            <Text style={textStyle}>
-              <TranslatedText text="Sign in with Apple" />
-            </Text>
+            <Label style={textStyle} text="Sign in with Apple" />
           </View>
         </TouchableWithoutFeedback>
       </View>
