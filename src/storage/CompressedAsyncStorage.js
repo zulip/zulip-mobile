@@ -2,7 +2,7 @@
 import invariant from 'invariant';
 import { NativeModules } from 'react-native';
 
-import { AsyncStorage } from './AsyncStorage';
+import { AsyncStorage, BaseAsyncStorage } from './AsyncStorage';
 import * as logging from '../utils/logging';
 
 const NODE_ENV = process.env.NODE_ENV;
@@ -17,9 +17,15 @@ function assertPlausiblyJSONEncoded(value: string) {
   invariant(/^[ntf\-0-9"[{]/.test(value), 'value must be JSON-encoded');
 }
 
-export default class CompressedAsyncStorage {
-  static async getItem(key: string): Promise<string | null> {
-    const item = await AsyncStorage.getItem(key);
+class CompressedAsyncStorageImpl {
+  storage: BaseAsyncStorage;
+
+  constructor(storage: BaseAsyncStorage) {
+    this.storage = storage;
+  }
+
+  async getItem(key: string): Promise<string | null> {
+    const item = await this.storage.getItem(key);
 
     // It's possible that getItem() is called on uncompressed state, for
     // example when a user updates their app from a version without
@@ -66,12 +72,12 @@ export default class CompressedAsyncStorage {
   /** (The value must be a result of `JSON.stringify`.) */
   // The invariant that the value is JSON is relied on by `getItem`, to
   // guarantee that our compression header can't appear in uncompressed data.
-  static async setItem(key: string, value: string): Promise<mixed> {
+  async setItem(key: string, value: string): Promise<mixed> {
     if (NODE_ENV !== 'production') {
       assertPlausiblyJSONEncoded(value);
     }
 
-    return AsyncStorage.setItem(
+    return this.storage.setItem(
       key,
       NativeModules.TextCompressionModule
         ? await NativeModules.TextCompressionModule.compress(value)
@@ -82,7 +88,7 @@ export default class CompressedAsyncStorage {
   /** (Each value must be a result of `JSON.stringify`.) */
   // The invariant that the value is JSON is relied on by `getItem`, to
   // guarantee that our compression header can't appear in uncompressed data.
-  static async multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed> {
+  async multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed> {
     if (NODE_ENV !== 'production') {
       // eslint-disable-next-line no-unused-vars
       for (const [_, value] of keyValuePairs) {
@@ -90,7 +96,7 @@ export default class CompressedAsyncStorage {
       }
     }
 
-    return AsyncStorage.multiSet(
+    return this.storage.multiSet(
       NativeModules.TextCompressionModule
         ? await Promise.all(
             keyValuePairs.map(async ([key, value]) => [
@@ -105,9 +111,11 @@ export default class CompressedAsyncStorage {
     );
   }
 
-  static removeItem: typeof AsyncStorage.removeItem = AsyncStorage.removeItem;
+  removeItem: typeof AsyncStorage.removeItem = key => this.storage.removeItem(key);
 
-  static getAllKeys: typeof AsyncStorage.getAllKeys = AsyncStorage.getAllKeys;
+  getAllKeys: typeof AsyncStorage.getAllKeys = () => this.storage.getAllKeys();
 
-  static clear: typeof AsyncStorage.clear = AsyncStorage.clear;
+  clear: typeof AsyncStorage.clear = () => this.storage.clear();
 }
+
+export default (new CompressedAsyncStorageImpl(AsyncStorage): CompressedAsyncStorageImpl);
