@@ -6,9 +6,10 @@ import {
   AsyncStorage,
   BaseAsyncStorage,
   migrationFromLegacyAsyncStorage,
-  type Migration,
+  Migration,
 } from './AsyncStorage';
 import * as logging from '../utils/logging';
+import { SQLDatabase } from './sqlite';
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -96,11 +97,39 @@ async function encodeValues(keyValuePairs: string[][]): Promise<string[][]> {
     : keyValuePairs;
 }
 
+export class CompressedMigration {
+  startVersion: number;
+  endVersion: number;
+  migrate: (
+    SQLDatabase,
+    { encode: string => Promise<string>, decode: string | (null => Promise<string | null>) },
+  ) => Promise<void>;
+
+  constructor(startVersion: number, endVersion: number, migrate: SQLDatabase => Promise<void>) {
+    invariant(
+      startVersion + 1 === endVersion,
+      'AsyncStorage migration only supports incrementing version by 1',
+    );
+    this.startVersion = startVersion;
+    this.endVersion = endVersion;
+    this.migrate = migrate;
+  }
+
+  asPlainMigration(): Migration {
+    return new Migration(this.startVersion, this.endVersion, db =>
+      this.migrate(db, { encode, decode }),
+    );
+  }
+}
+
 class CompressedAsyncStorageImpl {
   storage: BaseAsyncStorage;
 
-  constructor(version: number, migrations: $ReadOnlyArray<Migration>) {
-    this.storage = new BaseAsyncStorage(version, migrations);
+  constructor(version: number, migrations: $ReadOnlyArray<Migration | CompressedMigration>) {
+    this.storage = new BaseAsyncStorage(
+      version,
+      migrations.map(m => (m instanceof CompressedMigration ? m.asPlainMigration() : m)),
+    );
   }
 
   async getItem(key: string): Promise<string | null> {
