@@ -214,12 +214,16 @@ class MessageListInner extends Component<Props> {
       showMessagePlaceholders,
       _,
     } = this.props;
-    const contentHtml = messageListElementHtml({
-      backgroundData,
-      narrow,
-      messageListElements: messageListElementsForShownMessages,
-      _,
-    });
+    const contentHtml = messageListElementsForShownMessages
+      .map(element =>
+        messageListElementHtml({
+          backgroundData,
+          narrow,
+          element,
+          _,
+        }),
+      )
+      .join('');
     const { auth, theme, doNotMarkMessagesAsRead } = backgroundData;
     const html: string = getHtml(contentHtml, theme, {
       scrollMessageId: initialScrollMessageId,

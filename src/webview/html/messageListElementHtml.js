@@ -10,26 +10,23 @@ import time from './time';
 export default ({
   backgroundData,
   narrow,
-  messageListElements,
+  element,
   _,
 }: {|
   backgroundData: BackgroundData,
   narrow: Narrow,
-  messageListElements: $ReadOnlyArray<MessageListElement>,
+  element: MessageListElement,
   _: GetText,
-|}): string =>
-  messageListElements
-    .map(element => {
-      switch (element.type) {
-        case 'time':
-          return time(element);
-        case 'header':
-          return header(backgroundData, element);
-        case 'message':
-          return message(backgroundData, element, _);
-        default:
-          ensureUnreachable(element);
-          throw new Error(`Unidentified element.type: '${element.type}'`);
-      }
-    })
-    .join('');
+|}): string => {
+  switch (element.type) {
+    case 'time':
+      return time(element);
+    case 'header':
+      return header(backgroundData, element);
+    case 'message':
+      return message(backgroundData, element, _);
+    default:
+      ensureUnreachable(element);
+      throw new Error(`Unidentified element.type: '${element.type}'`);
+  }
+};

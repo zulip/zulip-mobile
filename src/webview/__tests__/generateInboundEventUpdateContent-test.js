@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
-import * as eg from '../../../__tests__/lib/exampleData';
+import * as eg from '../../__tests__/lib/exampleData';
 import {
   HOME_NARROW,
   streamNarrow,
@@ -9,10 +9,10 @@ import {
   pmNarrowFromUsersUnsafe,
   keyFromNarrow,
   ALL_PRIVATE_NARROW,
-} from '../../../utils/narrow';
-import type { Message } from '../../../types';
-import messageListElementHtml from '../messageListElementHtml';
-import getMessageListElements from '../../../message/getMessageListElements';
+} from '../../utils/narrow';
+import type { Message } from '../../types';
+import messageListElementHtml from '../html/messageListElementHtml';
+import getMessageListElements from '../../message/getMessageListElements';
 
 /**
  * Highlight changes in content-HTML generation.
@@ -83,12 +83,17 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       'Problem with test data: `messages` should increase monotonically in both `id` and `timestamp`.',
     );
     expect(
-      messageListElementHtml({
-        backgroundData,
-        messageListElements: getMessageListElements(messages, narrow),
-        narrow,
-        _: m => m,
-      }),
+      // Simulate `WebViewInboundEventContent.content`
+      getMessageListElements(messages, narrow)
+        .map(element =>
+          messageListElementHtml({
+            backgroundData,
+            element,
+            narrow,
+            _: m => m,
+          }),
+        )
+        .join(''),
     ).toMatchSnapshot();
   };
 

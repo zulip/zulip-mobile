@@ -52,12 +52,16 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventC
     type: 'content',
     scrollMessageId: nextProps.initialScrollMessageId,
     auth: nextProps.backgroundData.auth,
-    content: messageListElementHtml({
-      backgroundData: nextProps.backgroundData,
-      narrow: nextProps.narrow,
-      messageListElements: nextProps.messageListElementsForShownMessages,
-      _: nextProps._,
-    }),
+    content: nextProps.messageListElementsForShownMessages
+      .map(element =>
+        messageListElementHtml({
+          backgroundData: nextProps.backgroundData,
+          narrow: nextProps.narrow,
+          element,
+          _: nextProps._,
+        }),
+      )
+      .join(''),
     scrollStrategy,
   };
 };
