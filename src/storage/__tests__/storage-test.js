@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import * as eg from '../../__tests__/lib/exampleData';
 import objectEntries from '../../utils/objectEntries';
 import type { GlobalState } from '../../types';
-import ZulipAsyncStorage from '../ZulipAsyncStorage';
+import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import { stringify, parse } from '../replaceRevive';
 
 const getRoundTrippedStateValue = async <K: $Keys<GlobalState>, V: $Values<GlobalState>>(
@@ -19,14 +19,14 @@ const getRoundTrippedStateValue = async <K: $Keys<GlobalState>, V: $Values<Globa
   //    - Compression via TextCompressionModule on Android
   //    - AsyncStorage: the library provides a mock implementation
   //      that writes to a variable instead of to the disk
-  await ZulipAsyncStorage.setItem(key, stringifiedValue);
+  await CompressedAsyncStorage.setItem(key, stringifiedValue);
 
   // 3: Read from storage. Parts of this are mocked; so, stress-test
   // those mocks:
   //    - Decompression via TextCompressionModule on Android
   //    - AsyncStorage: the library provides a mock implementation
   //      that reads from a variable instead of from the disk
-  const valueFromStorage = await ZulipAsyncStorage.getItem(key);
+  const valueFromStorage = await CompressedAsyncStorage.getItem(key);
   invariant(valueFromStorage != null, 'valueFromStorage is not null/undefined');
 
   // 4: "revive", e.g., a ZulipVersion instance.

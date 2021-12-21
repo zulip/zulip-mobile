@@ -18,7 +18,7 @@ import type { Action, GlobalState, ThunkExtras } from '../types';
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
-import ZulipAsyncStorage from '../storage/ZulipAsyncStorage';
+import CompressedAsyncStorage from '../storage/CompressedAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { objectFromEntries } from '../jsBackport';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
@@ -478,7 +478,7 @@ const reduxPersistConfig: Config = {
 
   // Store data through our own wrapper for AsyncStorage, in particular
   // to get compression.
-  storage: ZulipAsyncStorage,
+  storage: CompressedAsyncStorage,
   serialize: stringify,
   deserialize: parse,
 };

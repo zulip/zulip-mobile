@@ -20,7 +20,7 @@ type VersionElements = {|
  *   for the data needed to make other tags to help with event
  *   aggregation.
  *
- * The ZulipVersion instance itself cannot be persisted in ZulipAsyncStorage or
+ * The ZulipVersion instance itself cannot be persisted in CompressedAsyncStorage or
  * sent to Sentry because it isn't serializable. Instead, persist the raw
  * version string.
  */
