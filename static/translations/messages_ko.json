@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Remind me later",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
@@ -173,6 +175,7 @@
   "Mark all as read": "모두 읽음으로 표시",
   "Mark stream as read": "스트림을 읽음으로 표시",
   "Mark topic as read": "주제를 읽음으로 표시",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "읽지 않은 메시지",
   "unread messages": "읽지 않은 메시지",
   "New group PM": "New group PM",

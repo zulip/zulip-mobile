@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Remind me later",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
@@ -173,6 +175,7 @@
   "Mark all as read": "Marcar todo como lido",
   "Mark stream as read": "Marcar o fío como lido",
   "Mark topic as read": "Marcar este tema como lido",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "mensaxe sen ler",
   "unread messages": "mensaxes sen ler",
   "New group PM": "New group PM",

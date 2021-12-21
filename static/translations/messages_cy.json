@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Atgoffwch fi yn nes ymlaen",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "Nid yw'r gweinydd Zulip yn {realm} wedi'i sefydlu i gyflwyno hysbysiadau gwthio.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "Nid yw'r gweinydd Zulip yn {realm} wedi'i sefydlu i gyflwyno hysbysiadau gwthio. Cysylltwch â'ch gweinyddwr.",
@@ -173,6 +175,7 @@
   "Mark all as read": "Marciwch y cyfan fel y'i darllenwyd",
   "Mark stream as read": "Marc ffrwd fel y'i darllenwyd",
   "Mark topic as read": "Marciwch y pwnc fel y'i darllenwyd",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "neges heb ei darllen",
   "unread messages": "negeseuon heb eu darllen",
   "New group PM": "NP newydd y grŵp ",

@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Emlékeztő később",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "A/z {realm} címen található Zulip-szerver nincs beállítva push értesítések kézbesítésére.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "A/z {realm} címen található Zulip-szerver nincs beállítva push értesítések kézbesítésére. Kérjük, forduljon rendszergazdájához.",
@@ -173,6 +175,7 @@
   "Mark all as read": "Mindent olvasottnak jelöl",
   "Mark stream as read": "Üzenetfolyam megjelölése olvasottként",
   "Mark topic as read": "Téma megjelölése olvasottként",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "olvasatlan üzenet",
   "unread messages": "olvasatlan üzenetek",
   "New group PM": "Új csoportos privát üzenet",

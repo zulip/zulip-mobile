@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Remind me later",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "The Zulip server at {realm} is not set up to deliver push notifications.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.",
@@ -173,6 +175,7 @@
   "Mark all as read": "Mаркирай всички като прочетени",
   "Mark stream as read": "Mаркирай канал като прочетен",
   "Mark topic as read": "Маркирай тема като прочетена",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "непрочетено съобщение",
   "unread messages": "непрочетени съобщения",
   "New group PM": "New group PM",

@@ -1,4 +1,6 @@
 {
+  "Zulip terms": "Zulip terms",
+  "Terms for {realmName}": "Terms for {realmName}",
   "Remind me later": "Bana sonra hatırlat",
   "The Zulip server at {realm} is not set up to deliver push notifications.": "{realm} üzerindeki Zulip sunucusu anlık iletiler için ayarlanmamış.",
   "The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.": "{realm} üzerindeki Zulip sunucusu anlık iletiler için ayarlanmamış. Lütfen yöneticiniz ile irtibata geçiniz.",
@@ -173,6 +175,7 @@
   "Mark all as read": "Hepsini okundu işaretle",
   "Mark stream as read": "Kanalı okunmuş işaretle",
   "Mark topic as read": "Konuyu okundu işaretle",
+  "Mark conversation as read": "Mark conversation as read",
   "unread message": "okunmamış ileti",
   "unread messages": "okunmamış iletiler",
   "New group PM": "Yeni grup PM",
