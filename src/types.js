@@ -414,6 +414,9 @@ export type HeaderMessageListElement = {|
  *   TimeMessageListElement (0), HeaderMessageListElement (1), or
  *   MessageMessageListElement (2). The message list should present them in
  *   that order (0-2).
+ *
+ * See generateInboundEventEditSequence for where we implement the compare
+ * function for `key`.
  */
 export type MessageListElement =
   | TimeMessageListElement

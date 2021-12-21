@@ -14,8 +14,12 @@ import {
   ALL_PRIVATE_NARROW,
 } from '../../utils/narrow';
 import type { Message } from '../../types';
-import messageListElementHtml from '../html/messageListElementHtml';
+import { getEditSequence } from '../generateInboundEventEditSequence';
+import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
+
+// Our translation function, usually given the name _.
+const mock_ = m => m; // eslint-disable-line no-underscore-dangle
 
 /**
  * Highlight changes in content-HTML generation.
@@ -92,20 +96,13 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     const msglistElementsDiv = document.querySelector('div#msglist-elements');
     invariant(msglistElementsDiv, 'expected msglistElementsDiv');
 
-    // Simulate `WebViewInboundEventContent.content`…
-    const content = getMessageListElements(messages, narrow)
-      .map(element =>
-        messageListElementHtml({
-          backgroundData,
-          element,
-          narrow,
-          _: m => m,
-        }),
-      )
-      .join('');
-
-    // …and simulate applying it to the DOM.
-    msglistElementsDiv.innerHTML = content;
+    // Simulate applying an edit-sequence event to the DOM.
+    applyEditSequence(
+      getEditSequence(
+        { backgroundData, narrow, elements: [], _: mock_ },
+        { backgroundData, narrow, elements: getMessageListElements(messages, narrow), _: mock_ },
+      ),
+    );
 
     expect(msglistElementsDiv.innerHTML).toMatchSnapshot();
   };
