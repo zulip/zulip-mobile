@@ -2,7 +2,12 @@
 import invariant from 'invariant';
 import { NativeModules } from 'react-native';
 
-import { AsyncStorage, BaseAsyncStorage } from './AsyncStorage';
+import {
+  AsyncStorage,
+  BaseAsyncStorage,
+  migrationFromLegacyAsyncStorage,
+  type Migration,
+} from './AsyncStorage';
 import * as logging from '../utils/logging';
 
 const NODE_ENV = process.env.NODE_ENV;
@@ -20,8 +25,8 @@ function assertPlausiblyJSONEncoded(value: string) {
 class CompressedAsyncStorageImpl {
   storage: BaseAsyncStorage;
 
-  constructor(storage: BaseAsyncStorage) {
-    this.storage = storage;
+  constructor(version: number, migrations: $ReadOnlyArray<Migration>) {
+    this.storage = new BaseAsyncStorage(version, migrations);
   }
 
   async getItem(key: string): Promise<string | null> {
@@ -118,4 +123,6 @@ class CompressedAsyncStorageImpl {
   clear: typeof AsyncStorage.clear = () => this.storage.clear();
 }
 
-export default (new CompressedAsyncStorageImpl(AsyncStorage): CompressedAsyncStorageImpl);
+export default (new CompressedAsyncStorageImpl(1, [
+  migrationFromLegacyAsyncStorage,
+]): CompressedAsyncStorageImpl);

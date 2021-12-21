@@ -234,7 +234,7 @@ export class BaseAsyncStorage {
 //
 // Then once we're doing that for iOS, might as well do it for Android
 // too, and not have to follow the old names.
-const migrationFromLegacyAsyncStorage = new Migration(0, 1, async db => {
+export const migrationFromLegacyAsyncStorage: Migration = new Migration(0, 1, async db => {
   // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
   //   be read-only -- in particular, for new installs to stop creating an
   //   empty legacy store, which on Android happens just from initializing
