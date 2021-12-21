@@ -17,16 +17,22 @@ Comment:
  Kandra Labs of any inaccurate information or errors found in these notices.
 
 Files: *
-Copyright: 2016-2018 Kandra Labs, Inc., and contributors
+Copyright: 2016-2021 Kandra Labs, Inc., and contributors
 License: Apache-2
 
 Files: src/redux-persist-migrate/index.js
-Copyright: 2016-2017 Zack Story and contributors
-License: MIT
+Copyright: 2016-2017 Zack Story and contributors, 2018-2021 Kandra Labs, Inc.,
+ and contributors
+License: Apache-2
+Comment:
+ Upstream is licensed as MIT.
 
-Files: vendor/intl/*
-Copyright: 2013 Andy Earnshaw
-License: MIT
+Files: src/third/redux-persist/*
+Copyright: 2015-2017 Zack Story, 2020-2021 Kandra Labs, Inc., and contributors
+License: Apache-2
+Comment:
+ Upstream is licensed as MIT.  Forked from v4.10.2, at
+ https://github.com/rt2zz/redux-persist/tree/f4a6e86c666 .
 
 Files: static/img/app-store-badge.*
 Copyright: 2018 Apple Inc.
