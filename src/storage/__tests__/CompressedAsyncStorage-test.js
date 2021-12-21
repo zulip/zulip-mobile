@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Platform, NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ZulipAsyncStorage from '../ZulipAsyncStorage';
+import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import * as logging from '../../utils/logging';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -13,7 +13,7 @@ describe('setItem', () => {
   const asyncStorageSetItemSpy = jest.spyOn(AsyncStorage, 'setItem');
   beforeEach(() => asyncStorageSetItemSpy.mockClear());
 
-  const run = async () => ZulipAsyncStorage.setItem(key, value);
+  const run = async () => CompressedAsyncStorage.setItem(key, value);
 
   describe('success', () => {
     // AsyncStorage provides its own mock for `.setItem`, which gives
@@ -66,7 +66,7 @@ describe('multiSet', () => {
   const asyncStorageMultiSetSpy = jest.spyOn(AsyncStorage, 'multiSet');
   beforeEach(() => asyncStorageMultiSetSpy.mockClear());
 
-  const run = async () => ZulipAsyncStorage.multiSet(keyValuePairs);
+  const run = async () => CompressedAsyncStorage.multiSet(keyValuePairs);
 
   describe('success', () => {
     // AsyncStorage provides its own mock for `.multiSet`, which gives
@@ -122,7 +122,7 @@ describe('getItem', () => {
   beforeAll(async () => {
     // `AsyncStorage` mocks storage by writing to a variable instead
     // of to the disk. Put something there for our
-    // `ZulipAsyncStorage.getItem` to retrieve.
+    // `CompressedAsyncStorage.getItem` to retrieve.
     await AsyncStorage.setItem(
       key,
       Platform.OS === 'ios' ? value : await NativeModules.TextCompressionModule.compress(value),
@@ -133,7 +133,7 @@ describe('getItem', () => {
     logging.error.mockReturnValue();
   });
 
-  const run = async () => ZulipAsyncStorage.getItem(key);
+  const run = async () => CompressedAsyncStorage.getItem(key);
 
   describe('success', () => {
     // AsyncStorage provides its own mock for `.getItem`, which gives
@@ -182,7 +182,7 @@ describe('getItem', () => {
           `${unknownHeader}${Buffer.from('123!').toString('hex')}`,
         );
 
-        await expect(ZulipAsyncStorage.getItem(`${key}-unknown`)).rejects.toThrow(
+        await expect(CompressedAsyncStorage.getItem(`${key}-unknown`)).rejects.toThrow(
           `No decompression module found for format ${unknownHeader}`,
         );
       });
@@ -197,8 +197,8 @@ describe('set/get together', () => {
   test('round-tripping of single key-value pair works', async () => {
     const key = eg.randString();
     const value = JSON.stringify(eg.randString());
-    await ZulipAsyncStorage.setItem(key, value);
-    expect(await ZulipAsyncStorage.getItem(key)).toEqual(value);
+    await CompressedAsyncStorage.setItem(key, value);
+    expect(await CompressedAsyncStorage.getItem(key)).toEqual(value);
   });
 
   test('round-tripping of multiple key-value pairs works', async () => {
@@ -206,10 +206,10 @@ describe('set/get together', () => {
       [eg.randString(), JSON.stringify(eg.randString())],
       [eg.randString(), JSON.stringify(eg.randString())],
     ];
-    await ZulipAsyncStorage.multiSet(keyValuePairs);
+    await CompressedAsyncStorage.multiSet(keyValuePairs);
     expect(
       await Promise.all(
-        keyValuePairs.map(async ([key, _]) => [key, await ZulipAsyncStorage.getItem(key)]),
+        keyValuePairs.map(async ([key, _]) => [key, await CompressedAsyncStorage.getItem(key)]),
       ),
     ).toEqual(keyValuePairs);
   });

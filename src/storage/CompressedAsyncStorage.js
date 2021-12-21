@@ -17,7 +17,7 @@ function assertPlausiblyJSONEncoded(value: string) {
   invariant(/^[ntf\-0-9"[{]/.test(value), 'value must be JSON-encoded');
 }
 
-export default class ZulipAsyncStorage {
+export default class CompressedAsyncStorage {
   static async getItem(key: string): Promise<string | null> {
     const item = await AsyncStorage.getItem(key);
 
