@@ -36,8 +36,24 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs v27.175 (last prod release)
+
+* (Android) Notifications have been reworked to be more helpful
+  and readable. (#2691, #4842, #5136)
+* TODO write: Unreads data follows topic/stream moves (#4840)
+* TODO write: "Mark all as read" for PMs too (#5156)
+* (Android) The app no longer restarts when you switch between split-view
+  mode and fullscreen mode. (#5068)
+
+### Highlights for developers, vs. 27.177
+
+* Resolved issues: #4840, #5168, #5156, #5162
+
 
 ## 27.177 (2021-12-07)
+
+This was an alpha-only release.
+
 
 ### Highlights for users, vs v27.175 (last prod release)
 
@@ -56,12 +72,17 @@ It doesn't include
 
 ### Highlights for developers, vs. 27.176
 
-* Resolved issues: #5136, #1507, #4631, #5138, #5031, #5143
+* The tools/checkout-keystore script, used in preparing the published
+  builds, now decrypts the keystore with Sequoia PGP rather than GPG.
+  (PR #5144)
+
+* Resolved issues: #5136, #1507, #4631, #5138, #5031, #5140, #5143,
+  #5153
 
 
 ## 27.176 (2021-11-16)
 
-This was an alpha-only release.
+This was a beta-only release.
 
 
 ### Highlights for users
@@ -77,10 +98,14 @@ experience.
 
 ### Highlights for developers
 
+* (Android) Dropped support for Android versions older than Android 7.
+  (PR #5114)
+
 * Made more progress on preparing our Flow types for better multi-account
   support. (#5066, #5083, #5105, #5113)
 
-* Resolved issues (earliest first): #4239, #5081, #2691, #4633, #5068
+* Resolved issues (earliest first): #4239, #5081, #2691, #4633, #5068,
+  #5119, #5120, #5098
 
 
 ## 27.175 (2021-10-28)
