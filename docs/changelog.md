@@ -37,6 +37,21 @@ It doesn't include
 ## Unreleased
 
 
+### Highlights for users, vs. v27.176
+
+* Fix bug where unreads screen could lead to an empty list of messages
+  if topic was edited (#4840)
+* Add a "Mark all as read" button in PM conversations, just like
+  in topics and streams (#5156)
+* (iOS) Fix behavior when you have "Prefer Cross-Fade Transitions"
+  chosen in system settings (#5162)
+
+
+### Highlights for developers, vs. v27.176
+
+* Resolved issues: #4840, #5156, #5162
+
+
 ## 27.176 (2021-11-16)
 
 ### Highlights for users
