@@ -413,6 +413,29 @@ function mkMigration(
   );
 }
 
+// The `KEY_PREFIX` in src/third/redux-persist/constants.js , copied here
+// for use in migrations.  If this ever changes, we'll want to keep the old
+// version for use in existing migrations, and have a new one for new migrations.
+const reduxPersistKeyPrefix = 'reduxPersist:';
+const encodeKey = k => `${reduxPersistKeyPrefix}${k}`;
+const decodeKey = k => k.slice(reduxPersistKeyPrefix.length);
+
+export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3, async ops => {
+  const serialized = await ops.get(encodeKey('settings'));
+  if (serialized == null) {
+    return;
+  }
+  const settings = parse(serialized);
+
+  // TODO actually split; this is a demo of mkMigration
+  const globalSettings = { ...settings };
+  const perAccountSettings = { ...settings };
+
+  ops.put(encodeKey('globalSettings'), stringify(globalSettings));
+  ops.put(encodeKey('perAccountSettings'), stringify(perAccountSettings));
+  ops.delete(encodeKey('settings'));
+});
+
 // Then write new migrations like CompressedMigration or plain
 // Migration: they identify the keys they care about, and either just
 // UPDATE the keys themselves (to move things around) or SELECT the data,
