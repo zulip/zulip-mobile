@@ -36,6 +36,13 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.178 (2021-12-21)
+
+This is a stable release in the v27.174 series, with cherry-picked
+changes atop v27.175.
+
+
 ### Highlights for users, vs. v27.175
 
 * Fix bug where unreads screen could lead to an empty list of messages
