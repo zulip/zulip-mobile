@@ -160,6 +160,15 @@ class CompressedAsyncStorageImpl {
   clear: typeof AsyncStorage.clear = () => this.storage.clear();
 }
 
+type CompressedAsyncStorage = interface {
+  getItem(key: string): Promise<string | null>,
+  setItem(key: string, value: string): Promise<mixed>,
+  multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed>,
+  removeItem: typeof AsyncStorage.removeItem,
+  getAllKeys: typeof AsyncStorage.getAllKeys,
+  clear: typeof AsyncStorage.clear,
+};
+
 export default (new CompressedAsyncStorageImpl(1, [
   migrationFromLegacyAsyncStorage,
-]): CompressedAsyncStorageImpl);
+]): CompressedAsyncStorage);
