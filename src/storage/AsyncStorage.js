@@ -2,7 +2,7 @@
 import LegacyAsyncStorage from '@react-native-async-storage/async-storage';
 
 import invariant from 'invariant';
-import { SQLDatabase } from './sqlite';
+import { SQLDatabase, type SQLTransaction } from './sqlite';
 import * as logging from '../utils/logging';
 
 /* eslint-disable no-underscore-dangle */
@@ -23,9 +23,9 @@ export class Migration {
   //    that squash together several individual upgrades (like room does.)
   startVersion: number;
   endVersion: number;
-  migrate: SQLDatabase => Promise<void>;
+  migrate: SQLTransaction => Promise<void>;
 
-  constructor(startVersion: number, endVersion: number, migrate: SQLDatabase => Promise<void>) {
+  constructor(startVersion: number, endVersion: number, migrate: SQLTransaction => Promise<void>) {
     invariant(
       startVersion + 1 === endVersion,
       'AsyncStorage migration only supports incrementing version by 1',
@@ -144,9 +144,9 @@ export class BaseAsyncStorage {
       }
 
       // Perform the migration.
-      await migration.migrate(db);
+      await db.transaction(async tx => {
+        await (migration: Migration).migrate(tx);
 
-      await db.transaction(tx => {
         tx.executeSql('DELETE FROM migration');
         tx.executeSql('INSERT INTO migration (version) VALUES (?)', [migration.endVersion]);
       });
@@ -234,7 +234,7 @@ export class BaseAsyncStorage {
 //
 // Then once we're doing that for iOS, might as well do it for Android
 // too, and not have to follow the old names.
-export const migrationFromLegacyAsyncStorage: Migration = new Migration(0, 1, async db => {
+export const migrationFromLegacyAsyncStorage: Migration = new Migration(0, 1, async tx => {
   // TODO: It would be nice to reduce the LegacyAsyncStorage dependency to
   //   be read-only -- in particular, for new installs to stop creating an
   //   empty legacy store, which on Android happens just from initializing
@@ -244,17 +244,15 @@ export const migrationFromLegacyAsyncStorage: Migration = new Migration(0, 1, as
 
   const keys = await LegacyAsyncStorage.getAllKeys();
   const values = await Promise.all(keys.map(key => LegacyAsyncStorage.getItem(key)));
-  await db.transaction(tx => {
-    tx.executeSql('DELETE FROM keyvalue');
-    for (let i = 0; i < keys.length; i++) {
-      const value = values[i];
-      if (value == null) {
-        // TODO warn
-        continue;
-      }
-      tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
+  tx.executeSql('DELETE FROM keyvalue');
+  for (let i = 0; i < keys.length; i++) {
+    const value = values[i];
+    if (value == null) {
+      // TODO warn
+      continue;
     }
-  });
+    tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [keys[i], value]);
+  }
 
   // TODO: After this migration has been out for a while and things seem fine,
   //   add another to delete the legacy storage.

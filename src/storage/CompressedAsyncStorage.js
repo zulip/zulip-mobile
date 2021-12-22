@@ -9,7 +9,7 @@ import {
   Migration,
 } from './AsyncStorage';
 import * as logging from '../utils/logging';
-import { SQLDatabase } from './sqlite';
+import { type SQLTransaction } from './sqlite';
 import getStoredState from '../third/redux-persist/getStoredState';
 
 const NODE_ENV = process.env.NODE_ENV;
@@ -102,11 +102,11 @@ export class CompressedMigration {
   startVersion: number;
   endVersion: number;
   migrate: (
-    SQLDatabase,
+    SQLTransaction,
     { encode: string => Promise<string>, decode: string | (null => Promise<string | null>) },
   ) => Promise<void>;
 
-  constructor(startVersion: number, endVersion: number, migrate: SQLDatabase => Promise<void>) {
+  constructor(startVersion: number, endVersion: number, migrate: SQLTransaction => Promise<void>) {
     invariant(
       startVersion + 1 === endVersion,
       'AsyncStorage migration only supports incrementing version by 1',
@@ -129,7 +129,7 @@ export class StateMigration {
   migrate: mixed => mixed;
 
   asPlainMigration(): Migration {
-    return new Migration(this.startVersion, this.endVersion, async db => {
+    return new Migration(this.startVersion, this.endVersion, async tx => {
       // TODO kind of ugly to re-create a db cxn when we were just passed one
       const storage = new CompressedAsyncStorageImpl(this.startVersion, []);
       // TODO needs serialize/deserialize
