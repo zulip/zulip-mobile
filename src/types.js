@@ -62,6 +62,14 @@ export type Account = {|
   ...Auth,
 
   /**
+   * Our own local ID for this account.
+   *
+   * These are positive integers, distinct for all accounts.  When an
+   * account is deleted/forgotten, its ID is never reused.
+   */
+  accountId: number,
+
+  /**
    * The user's numeric ID.
    *
    * We learn the user ID each time we complete an initial fetch.

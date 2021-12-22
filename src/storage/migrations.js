@@ -461,6 +461,15 @@ export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3,
   ops.delete('settings');
 });
 
+export const WIP_migrationAccountId: CompressedMigration = mkSimpleMigration(
+  3,
+  4,
+  'accounts',
+  // TODO this needs to come after adding a `nextAccountId` so we can assign
+  //   new accounts IDs without reuse
+  accounts => accounts.map((a, i) => ({ ...a, accountId: i + 1 })),
+);
+
 // Then write new migrations like CompressedMigration or plain
 // Migration: they identify the keys they care about, and either just
 // UPDATE the keys themselves (to move things around) or SELECT the data,
