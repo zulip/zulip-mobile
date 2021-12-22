@@ -105,6 +105,13 @@ export class BaseAsyncStorage {
   }
 
   async _migrate(db) {
+    // This looks silly, but avoids a Flow soundness bug: if we say
+    // `this.migrations` directly in the spot where we use it, its type
+    // is `empty` and so there's no useful type-checking of how we
+    // use each migration.
+    // TODO(flow): Report that Flow issue upstream.
+    const migrations = this.migrations;
+
     let version = (await db.query('SELECT version FROM migration LIMIT 1'))[0]?.version ?? 0;
     if (version === this.version) {
       return;
@@ -118,7 +125,7 @@ export class BaseAsyncStorage {
       throw new Error('AsyncStorage: schema is from future');
     }
 
-    for (const migration of this.migrations) {
+    for (const migration of migrations) {
       // Yes, this is a linear scan.  But we'll be doing it at most once per
       // program run (and in fact at most once per migration.)  So building
       // a fancier data structure of the migrations wouldn't be useful,
