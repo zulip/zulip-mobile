@@ -1,6 +1,7 @@
 // @flow strict-local
 
-import { historicalStoreKeys, storeKeys } from '../../boot/store';
+import { historicalStoreKeys } from '../migrations';
+import { storeKeys } from '../../boot/store';
 
 describe('historicalStoreKeys', () => {
   test('equals current storeKeys', () => {
