@@ -97,15 +97,17 @@ async function encodeValues(keyValuePairs: string[][]): Promise<string[][]> {
     : keyValuePairs;
 }
 
+type CompressedMigrationCallback = (
+  SQLTransaction,
+  { encode: string => Promise<string>, decode: string => Promise<string> },
+) => Promise<void>;
+
 export class CompressedMigration {
   startVersion: number;
   endVersion: number;
-  migrate: (
-    SQLTransaction,
-    { encode: string => Promise<string>, decode: string | (null => Promise<string | null>) },
-  ) => Promise<void>;
+  migrate: CompressedMigrationCallback;
 
-  constructor(startVersion: number, endVersion: number, migrate: SQLTransaction => Promise<void>) {
+  constructor(startVersion: number, endVersion: number, migrate: CompressedMigrationCallback) {
     invariant(
       startVersion + 1 === endVersion,
       'AsyncStorage migration only supports incrementing version by 1',
