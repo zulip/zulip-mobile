@@ -23,7 +23,7 @@ function assertPlausiblyJSONEncoded(value: string) {
   invariant(/^[ntf\-0-9"[{]/.test(value), 'value must be JSON-encoded');
 }
 
-async function decode(item: string | null): Promise<string | null> {
+async function decode(item: string): Promise<string> {
   // It's possible that getItem() is called on uncompressed state, for
   // example when a user updates their app from a version without
   // compression to a version with compression.  So we need to detect that.
@@ -40,7 +40,7 @@ async function decode(item: string | null): Promise<string | null> {
   // E.g., `zlib base64` means DATA is a base64 encoding of a zlib
   // encoding of the underlying data.  We call the "z|TRANSFORMS|" part
   // the "header" of the string.
-  if (item !== null && item.startsWith('z')) {
+  if (item.startsWith('z')) {
     // In this block, `item` is compressed state.
     const header = item.substring(0, item.indexOf('|', item.indexOf('|') + 1) + 1);
     if (
@@ -135,7 +135,8 @@ class CompressedAsyncStorageImpl {
   }
 
   async getItem(key: string): Promise<string | null> {
-    return decode(await this.storage.getItem(key));
+    const value = await this.storage.getItem(key);
+    return value == null ? value : decode(value);
   }
 
   /** (The value must be a result of `JSON.stringify`.) */
