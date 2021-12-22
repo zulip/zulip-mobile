@@ -256,7 +256,8 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   }),
 
   // Add `doNotMarkMessagesAsRead` in `SettingsState`.
-  // (Handled automatically by merging with the new initial state.)
+  // (Handled automatically by merging with the new initial state;
+  // but see also 37 below.)
 
   // Use valid language tag for Portuguese (Portugal)
   // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
@@ -302,7 +303,7 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   }),
 
   // Add mandatoryTopics to RealmState. No migration; handled automatically
-  // by merging with the new initial state.
+  // by merging with the new initial state.  But see also 37 below.
 
   // Drop server data from before Accounts had userId.  This way we have an
   // invariant that if there's server data, then the active Account has userId.
@@ -316,10 +317,11 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
 
   // Add messageContentDeleteLimitSeconds and messageContentEditLimitSeconds
   // to RealmState. No migration; handled automatically by merging with the
-  // new initial state.
+  // new initial state.  But see also 37 below.
 
   // Add pushNotificationsEnabled to RealmState. No migration; handled
-  // automatically by merging with the new initial state.
+  // automatically by merging with the new initial state.  But see also 37
+  // below.
 
   // Add `accounts[].lastDismissedServerPushSetupNotice`, as Date | null.
   '36': state => ({
@@ -328,7 +330,21 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   }),
 
   // Add name and description to RealmState. No migration; handled
-  // automatically by merging with the new initial state.
+  // automatically by merging with the new initial state.  But see also 37
+  // below.
+
+  // Handle explicitly the migrations above (before 30, 34, 36, and this
+  // one) that were done implicitly by the behavior of `autoRehydrate` on a
+  // REHYDRATE action.
+  '37': state => ({
+    // This handles the migrations affecting RealmState, before 34, 36, and here.
+    ...dropCache(state),
+    // Handle the migration before 30.
+    settings: {
+      ...state.settings,
+      doNotMarkMessagesAsRead: state.settings.doNotMarkMessagesAsRead ?? false,
+    },
+  }),
 
   // TIP: When adding a migration, consider just using `dropCache`.
 };
