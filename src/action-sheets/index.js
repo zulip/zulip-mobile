@@ -201,6 +201,16 @@ const muteStream = async ({ auth, streamId, subscriptions }) => {
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
+const copyLinkToStream = async ({ _, streamId, streams }) => {
+  const stream = streams.get(streamId);
+  invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  const streamName = stream.name.replace(' ', '-');
+  Clipboard.setString(`https://chat.zulip.org/#narrow/stream/${streamId}-${streamName}`);
+  showToast(_('Message copied'));
+};
+copyLinkToStream.title = 'Copy stream link';
+copyLinkToStream.errorMessage = 'Failed to copy stream link';
+
 const showStreamSettings = ({ streamId, subscriptions }) => {
   NavigationService.dispatch(navigateToStream(streamId));
 };
@@ -304,6 +314,7 @@ export const constructStreamActionButtons = ({
     } else {
       buttons.push(muteStream);
     }
+    buttons.push(copyLinkToStream);
     if (sub.pin_to_top) {
       buttons.push(unpinFromTop);
     } else {
