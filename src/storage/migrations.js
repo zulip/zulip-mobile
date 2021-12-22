@@ -377,13 +377,17 @@ function mkMigration(
   startVersion: number,
   endVersion: number,
   migrate: (ops: {
-    // These helpers put/get take care of encode/decode,  They do not take
-    // care of serializing/deserializing the value, or encoding/decoding the
-    // key with the redux-persist prefix; the caller must handle those.
-    // (Perhaps these helpers should do those too?  But take care in case
-    // they change in the future; existing migrations shouldn't change.)
-    get: (key: string) => Promise<string | null>,
-    put: (key: string, value: string) => Promise<void>,
+    // These helpers put/get/delete take care of calling:
+    //  * encode/decode from CompressedAsyncStorage
+    //  * serializer/deserializer defined above
+    //  * encodeKey defined above
+    //
+    // Note that means they're relying on those staying the same.
+
+    // `get` returns void if the key doesn't exist.  (The deserializer
+    // itself can never return void, because it's JSON-based.)
+    get: (key: string) => Promise<mixed>,
+    put: (key: string, value: mixed) => Promise<void>,
     delete: (key: string) => Promise<void>,
 
     encode: string => Promise<string>,
@@ -398,37 +402,38 @@ function mkMigration(
       encode,
       decode,
       get: async key => {
-        const result = await tx.executeSql('SELECT value FROM keyvalue WHERE key = ?', [key]);
+        const result = await tx.executeSql('SELECT value FROM keyvalue WHERE key = ?', [
+          encodeKey(key),
+        ]);
         const rows: { value: string }[] = result.rows._array;
-        return rows.length > 0 ? decode(rows[0].value) : null;
+        return rows.length > 0 ? deserializer(await decode(rows[0].value)) : undefined;
       },
       put: async (key, value) => {
         await tx.executeSql('INSERT OR REPLACE INTO keyvalue (key, value) VALUES (?, ?)', [
-          key,
-          await encode(value),
+          encodeKey(key),
+          await encode(serializer(value)),
         ]);
       },
       delete: async key => {
-        await tx.executeSql('DELETE FROM keyvalue WHERE key = ?', [key]);
+        await tx.executeSql('DELETE FROM keyvalue WHERE key = ?', [encodeKey(key)]);
       },
     }),
   );
 }
 
 export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3, async ops => {
-  const serialized = await ops.get(encodeKey('settings'));
-  if (serialized == null) {
+  const settings = await ops.get('settings');
+  if (settings === undefined) {
     return;
   }
-  const settings = parse(serialized);
 
   // TODO actually split; this is a demo of mkMigration
   const globalSettings = { ...settings };
   const perAccountSettings = { ...settings };
 
-  ops.put(encodeKey('globalSettings'), stringify(globalSettings));
-  ops.put(encodeKey('perAccountSettings'), stringify(perAccountSettings));
-  ops.delete(encodeKey('settings'));
+  ops.put('globalSettings', globalSettings);
+  ops.put('perAccountSettings', perAccountSettings);
+  ops.delete('settings');
 });
 
 // Then write new migrations like CompressedMigration or plain
