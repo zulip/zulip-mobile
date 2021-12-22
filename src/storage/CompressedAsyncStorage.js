@@ -10,7 +10,6 @@ import {
 } from './AsyncStorage';
 import * as logging from '../utils/logging';
 import { type SQLTransaction } from './sqlite';
-import getStoredState from '../third/redux-persist/getStoredState';
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -120,46 +119,6 @@ export class CompressedMigration {
     return new Migration(this.startVersion, this.endVersion, db =>
       this.migrate(db, { encode, decode }),
     );
-  }
-}
-
-export class StateMigration {
-  startVersion: number;
-  endVersion: number;
-  migrate: mixed => mixed;
-
-  asPlainMigration(): Migration {
-    return new Migration(this.startVersion, this.endVersion, async tx => {
-      // TODO kind of ugly to re-create a db cxn when we were just passed one
-      const storage = new CompressedAsyncStorageImpl(this.startVersion, []);
-      // TODO needs serialize/deserialize
-      const state = getStoredState({ storage });
-      const newState = this.migrate(state);
-      // TODO somehow get at createPersistor#writeOnce
-      //   ... hmm.  In the existing migrations, we're actually using the
-      //   reducers where they act on a REHYDRATE action, in order to merge
-      //   initial values for new fields.  So we'll need that too; or,
-      //   maybe fold those into the existing-style migrations code.
-      //
-      //   Hmm also: there seems to be a latent(?) bug in that: if for some
-      //   subtree we had stored an object that's just the initial values,
-      //   but a subset of the current initial values, then we won't
-      //   immediately go and store the new value for that subtree, because
-      //   rehydrate won't have changed the in-process value.  Really the
-      //   problem there is that we're comparing new vs. previous in-process
-      //   value, and that for REHYDRATE that means merged vs. initial,
-      //   whereas what's relevant is merged vs. previously-stored.
-
-      // I kind of want to only ever write one of these, to wrap all the
-      // old-style migrations.  So it might be a bit messy-looking but
-      // that's fine.  (And should probably be just an instance of
-      // CompressedMigration, not a class.)
-      //
-      // Then write new migrations like CompressedMigration or plain
-      // Migration: they identify the keys they care about, and either just
-      // UPDATE the keys themselves (to move things around) or SELECT them,
-      // decode, shuffle/munge data as needed, encode, then INSERT / DELETE.
-    });
   }
 }
 
