@@ -421,6 +421,31 @@ function mkMigration(
   );
 }
 
+// This type encodes the assumption that a key corresponds to a top-level
+// property of GlobalState, which is an assumption that won't last.  But
+// also it's a rough approximation anyway, in that GlobalState keeps on
+// changing and won't describe the types seen by old migrations; in fact
+// often the input side of a given migration isn't really the same type as
+// the output.  So we'll cross the bridge of revising this when we come to it.
+function mkSimpleMigration<K: string>(
+  startVersion: number,
+  endVersion: number,
+  key: K,
+  migrate: ($ElementType<GlobalState, K>) => $ElementType<GlobalState, K>,
+): CompressedMigration {
+  return mkMigration(startVersion, endVersion, async ops => {
+    const substate: mixed = await ops.get(key);
+    if (substate === undefined) {
+      return;
+    }
+    // This expresses the assumption that the stored state indeed has the
+    // type it should.  Seems like a Flow issue that there's no error to
+    // suppress here.
+    const substateCast: $ElementType<GlobalState, K> = substate;
+    ops.put(key, migrate(substateCast));
+  });
+}
+
 export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3, async ops => {
   const settings = await ops.get('settings');
   if (settings === undefined) {
