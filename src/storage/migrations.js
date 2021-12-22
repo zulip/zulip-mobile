@@ -211,7 +211,9 @@ const legacyMigrations: {| [string]: (GlobalState) => GlobalState |} = {
   '23': dropCache,
 
   // Dummy `dropCache` for #4458.
-  // See `purge` call in src/third/redux-persist/persistStore.js.
+  // (Originally this went with a `purge` call in src/third/redux-persist/persistStore.js.
+  // Now `migrationLegacyRollup` takes care of that comprehensively as part
+  // of running these legacy migrations.)
   '24': dropCache,
 
   // Convert `unread.streams` from over-the-wire array to `Immutable.Map`.
