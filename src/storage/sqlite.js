@@ -23,7 +23,7 @@ export class SQLDatabase {
 
   transaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
-      this.db.transaction(tx => void cb(new SQLTransaction(this, tx)), reject, resolve),
+      this.db.transaction(tx => void cb(new SQLTransactionImpl(this, tx)), reject, resolve),
     );
   }
 
@@ -31,7 +31,7 @@ export class SQLDatabase {
     return new Promise((resolve, reject) => {
       this.db.readTransaction(
         tx => {
-          cb(new SQLTransaction(this, tx));
+          cb(new SQLTransactionImpl(this, tx));
         },
         reject,
         resolve,
@@ -61,7 +61,7 @@ export class SQLDatabase {
   }
 }
 
-class SQLTransaction {
+class SQLTransactionImpl {
   db: SQLDatabase;
   tx: WebSQLTransaction;
 
@@ -84,3 +84,6 @@ class SQLTransaction {
     });
   }
 }
+
+/* eslint-disable-next-line flowtype/type-id-match */
+export type SQLTransaction = SQLTransactionImpl;
