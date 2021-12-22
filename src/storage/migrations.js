@@ -274,6 +274,20 @@ const legacyMigrations: {| [string]: (StoredState) => StoredState |} = {
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 
+// The `KEY_PREFIX` in src/third/redux-persist/constants.js , copied here
+// for use in migrations.  If this ever changes, we'll want to keep the old
+// version for use in existing migrations, and have a new one for new migrations.
+const reduxPersistKeyPrefix = 'reduxPersist:';
+const encodeKey = k => `${reduxPersistKeyPrefix}${k}`;
+const decodeKey = k => k.slice(reduxPersistKeyPrefix.length);
+
+// The serializer/deserializer we pass (in boot/store.js) to redux-persist.
+// These do sometimes change, so in these migrations we're counting on those
+// changes always being compatible.  (They have comments saying so, plus the
+// main use case for changing them naturally tends to stay compatible.)
+const deserializer = parse;
+const serializer = stringify;
+
 export const migrationLegacyRollup: CompressedMigration = new CompressedMigration(
   1,
   2,
@@ -284,20 +298,8 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     //
     // The `storeKeys` list from src/boot/store.js .
     const storeKeys = historicalStoreKeys;
-    // The `KEY_PREFIX` in src/third/redux-persist/constants.js .
-    const reduxPersistKeyPrefix = 'reduxPersist:';
     // The last legacy-style migration above.
     const finalLegacyMigration = 37;
-
-    // These are references to outside code, where we're counting on not
-    // changing that code in incompatible ways.  (They have comments saying
-    // so, plus the main use case for changing them naturally tends to stay
-    // compatible.)
-    const deserializer = parse;
-    const serializer = stringify;
-
-    const encodeKey = k => `${reduxPersistKeyPrefix}${k}`;
-    const decodeKey = k => k.slice(reduxPersistKeyPrefix.length);
 
     const storeCommas = storeKeys.map(_ => '?').join(', ');
     const storeKeysForDb = storeKeys.map(encodeKey);
@@ -412,13 +414,6 @@ function mkMigration(
     }),
   );
 }
-
-// The `KEY_PREFIX` in src/third/redux-persist/constants.js , copied here
-// for use in migrations.  If this ever changes, we'll want to keep the old
-// version for use in existing migrations, and have a new one for new migrations.
-const reduxPersistKeyPrefix = 'reduxPersist:';
-const encodeKey = k => `${reduxPersistKeyPrefix}${k}`;
-const decodeKey = k => k.slice(reduxPersistKeyPrefix.length);
 
 export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3, async ops => {
   const serialized = await ops.get(encodeKey('settings'));
