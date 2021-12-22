@@ -1,6 +1,7 @@
 // @flow strict-local
 import Immutable from 'immutable';
 
+import invariant from 'invariant';
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { GlobalState, MigrationsState } from '../types';
@@ -60,13 +61,9 @@ function dropCache(state: GlobalState): $Shape<GlobalState> {
 /**
  * Migrations for data persisted by previous versions of the app.
  *
- * These are run by `redux-persist-migrate` when the previously persisted
- * state is loaded ("rehydrated") by `redux-persist`; they transform that
- * state object before it's applied to our live state.  The state includes
- * a version number to track which migrations are already reflected in it,
- * so that each only has to be run once.
+ * These are run as part of `migrationLegacyRollup` below.
  */
-export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
+const legacyMigrations: {| [string]: (GlobalState) => GlobalState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
@@ -347,7 +344,7 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
     },
   }),
 
-  // TIP: When adding a migration, consider just using `dropCache`.
+  // END.  Don't add more of these.
 };
 
 /* eslint-disable no-shadow */
@@ -365,6 +362,8 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
     // The `KEY_PREFIX` in src/third/redux-persist/constants.js .
     const reduxPersistKeyPrefix = 'reduxPersist:';
+    // The last legacy-style migration above.
+    const finalLegacyMigration = 37;
 
     // These are references to outside code, where we're counting on not
     // changing that code in incompatible ways.  (They have comments saying
@@ -394,10 +393,11 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     //
     // Apply migrations to the stored state.  Like redux-persist-migrate.
 
-    const versionKeys = Object.keys(migrations)
+    const versionKeys = Object.keys(legacyMigrations)
       .map(k => parseInt(k, 10))
       .sort((a, b) => a - b);
     const currentVersion = versionKeys[versionKeys.length - 1];
+    invariant(currentVersion === finalLegacyMigration, 'There should be no new legacy migrations');
 
     // flowlint-next-line unnecessary-optional-chain:off
     const storedVersion = storedState.migrations?.version;
@@ -423,7 +423,7 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
       if (v <= storedVersion) {
         continue;
       }
-      state = migrations[v.toString()](state);
+      state = legacyMigrations[v.toString()](state);
     }
     state = { ...state, migrations: { version: currentVersion } };
 

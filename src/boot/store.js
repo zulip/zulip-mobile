@@ -18,9 +18,8 @@ import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
 import { CompressedAsyncStorageImpl } from '../storage/CompressedAsyncStorage';
 import { migrationFromLegacyAsyncStorage } from '../storage/AsyncStorage';
-import createMigration from '../redux-persist-migrate/index';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
-import { migrationLegacyRollup, migrations } from '../storage/migrations';
+import { migrationLegacyRollup } from '../storage/migrations';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -135,9 +134,6 @@ const store: Store<GlobalState, Action> = createStore(
   rootReducer,
   undefined,
   compose(
-    // Invoke redux-persist-migrate with our migrations.
-    createMigration(migrations, 'migrations'),
-
     // Various middleware; see `listMiddleware`.
     applyMiddleware(...listMiddleware()),
 
