@@ -20,7 +20,7 @@ import { CompressedAsyncStorageImpl } from '../storage/CompressedAsyncStorage';
 import { migrationFromLegacyAsyncStorage } from '../storage/AsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
-import { migrations } from '../storage/migrations';
+import { migrationLegacyRollup, migrations } from '../storage/migrations';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -153,8 +153,9 @@ const store: Store<GlobalState, Action> = createStore(
 // Store data through our own wrapper for AsyncStorage, in particular
 // to get compression.
 // TODO: type should really be an AsyncStorage interface
-export const storage: CompressedAsyncStorageImpl = new CompressedAsyncStorageImpl(1, [
+export const storage: CompressedAsyncStorageImpl = new CompressedAsyncStorageImpl(2, [
   migrationFromLegacyAsyncStorage,
+  migrationLegacyRollup,
 ]);
 
 /**
