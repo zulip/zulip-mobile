@@ -50,6 +50,7 @@ class SQLiteDatabase {
       throw new Error('already closed');
     }
 
+    console.log('exec', queries);
     void this._exec(queries, callback);
   }
 
