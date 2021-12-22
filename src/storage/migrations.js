@@ -380,8 +380,9 @@ function mkMigration(
     // key with the redux-persist prefix; the caller must handle those.
     // (Perhaps these helpers should do those too?  But take care in case
     // they change in the future; existing migrations shouldn't change.)
-    put: (key: string, value: string) => Promise<void>,
     get: (key: string) => Promise<string | null>,
+    put: (key: string, value: string) => Promise<void>,
+    delete: (key: string) => Promise<void>,
 
     encode: string => Promise<string>,
     decode: string => Promise<string>,
@@ -400,10 +401,13 @@ function mkMigration(
         return rows.length > 0 ? decode(rows[0].value) : null;
       },
       put: async (key, value) => {
-        tx.executeSql('INSERT OR REPLACE INTO keyvalue (key, value) VALUES (?, ?)', [
+        await tx.executeSql('INSERT OR REPLACE INTO keyvalue (key, value) VALUES (?, ?)', [
           key,
           await encode(value),
         ]);
+      },
+      delete: async key => {
+        await tx.executeSql('DELETE FROM keyvalue WHERE key = ?', [key]);
       },
     }),
   );
