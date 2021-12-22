@@ -38,16 +38,66 @@ It doesn't include
 
 ### Highlights for users, vs v27.175 (last prod release)
 
+TODO adjust for actual last prod release, after cherry-pick release
+
 * (Android) Notifications have been reworked to be more helpful
   and readable. (#2691, #4842, #5136)
-* TODO write: Unreads data follows topic/stream moves (#4840)
-* TODO write: "Mark all as read" for PMs too (#5156)
+* Fix bug where unreads screen could lead to an empty list of messages
+  if topic was edited (#4840)
+* Add a "Mark all as read" button in PM conversations, just like
+  in topics and streams (#5156)
 * (Android) The app no longer restarts when you switch between split-view
   mode and fullscreen mode. (#5068)
+
 
 ### Highlights for developers, vs. 27.177
 
 * Resolved issues: #4840, #5168, #5156, #5162
+
+  * Of these, #4840, #5156, and #5162 were also in the two cherry-pick
+    releases v27.178 and v27.179.
+
+
+## 27.179 (2021-12-21)
+
+This is a stable release in the v27.176 series, with cherry-picked
+changes atop v27.176.
+
+
+### Highlights for users, vs. v27.176
+
+* Fix bug where unreads screen could lead to an empty list of messages
+  if topic was edited (#4840)
+* Add a "Mark all as read" button in PM conversations, just like
+  in topics and streams (#5156)
+* (iOS) Fix behavior when you have "Prefer Cross-Fade Transitions"
+  chosen in system settings (#5162)
+
+
+### Highlights for developers, vs. v27.176
+
+* Resolved issues: #4840, #5156, #5162
+
+
+## 27.178 (2021-12-21)
+
+This is a stable release in the v27.174 series, with cherry-picked
+changes atop v27.175.
+
+
+### Highlights for users, vs. v27.175
+
+* Fix bug where unreads screen could lead to an empty list of messages
+  if topic was edited (#4840)
+* Add a "Mark all as read" button in PM conversations, just like
+  in topics and streams (#5156)
+* (iOS) Fix behavior when you have "Prefer Cross-Fade Transitions"
+  chosen in system settings (#5162)
+
+
+### Highlights for developers, vs. v27.175
+
+* Resolved issues: #4840, #5156, #5162
 
 
 ## 27.177 (2021-12-07)
@@ -84,6 +134,9 @@ This was an alpha-only release.
 
 This was a beta-only release.
 
+For the release with cherry-picked changes atop this one, see
+v27.179 above.
+
 
 ### Highlights for users
 
@@ -112,6 +165,9 @@ experience.
 
 This is substantially the same as the previous beta release v27.174,
 but with a fix for a Sentry misconfiguration.
+
+For the release with cherry-picked changes atop this one, see
+v27.178 above.
 
 
 ## 27.174 (2021-10-26)
