@@ -1,13 +1,18 @@
 // @flow strict-local
-import Immutable from 'immutable';
-
 import invariant from 'invariant';
-import type { ReadWrite } from '../generics';
+
+import type { ReadWrite, SubsetProperties } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { GlobalState, MigrationsState } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { CompressedMigration } from './CompressedAsyncStorage';
 import { parse, stringify } from './replaceRevive';
+
+// Like GlobalState, but with only the properties from historicalStoreKeys.
+type StoredState = SubsetProperties<
+  GlobalState,
+  { migrations: mixed, accounts: mixed, drafts: mixed, outbox: mixed, settings: mixed },
+>;
 
 /**
  * Exported only for tests.
@@ -15,7 +20,7 @@ import { parse, stringify } from './replaceRevive';
  * The value of `storeKeys` when the `dropCache` migrations were written.
  */
 // prettier-ignore
-export const historicalStoreKeys: Array<$Keys<GlobalState>> = [
+export const historicalStoreKeys: Array<$Keys<StoredState>> = [
   // Never edit this list.
   'migrations', 'accounts', 'drafts', 'outbox', 'settings',
   // Why never edit?  The existing migrations below that refer to
@@ -43,14 +48,12 @@ export const historicalStoreKeys: Array<$Keys<GlobalState>> = [
  * the `REHYDRATE` handlers in `sessionReducer` and `navReducer` for how
  * that happens.
  */
-function dropCache(state: GlobalState): $Shape<GlobalState> {
-  const result: $Shape<ReadWrite<GlobalState>> = {};
+function dropCache(state: GlobalState | StoredState): $Shape<StoredState> {
+  const result: $Shape<ReadWrite<StoredState>> = {};
   historicalStoreKeys.forEach(key => {
-    // $FlowFixMe[incompatible-indexer]
     // $FlowFixMe[incompatible-exact]
     // $FlowFixMe[prop-missing]
     // $FlowFixMe[incompatible-variance]
-    // $FlowFixMe[incompatible-type-arg]
     /* $FlowFixMe[incompatible-type]
          This is well-typed only because it's the same `key` twice. */
     result[key] = state[key];
@@ -63,7 +66,7 @@ function dropCache(state: GlobalState): $Shape<GlobalState> {
  *
  * These are run as part of `migrationLegacyRollup` below.
  */
-const legacyMigrations: {| [string]: (GlobalState) => GlobalState |} = {
+const legacyMigrations: {| [string]: (StoredState) => StoredState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
@@ -172,10 +175,7 @@ const legacyMigrations: {| [string]: (GlobalState) => GlobalState |} = {
   }),
 
   // Convert `narrows` from object-as-map to `Immutable.Map`.
-  '16': state => ({
-    ...state,
-    narrows: Immutable.Map(state.narrows),
-  }),
+  '16': dropCache,
 
   // Convert messages[].avatar_url from `string | null` to `AvatarURL`.
   '17': dropCache,
@@ -386,7 +386,7 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     const rows: { key: string, value: string }[] = await tx
       .executeSql(`SELECT key, value FROM keyvalue WHERE key IN (${storeCommas})`, storeKeysForDb)
       .then(r => r.rows._array);
-    const storedState: $Shape<GlobalState> = objectFromEntries(
+    const storedState: $Shape<StoredState> = objectFromEntries(
       await Promise.all(
         rows.map(async r => [decodeKey(r.key), deserializer(await decode(r.value))]),
       ),
