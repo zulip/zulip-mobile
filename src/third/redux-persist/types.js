@@ -43,7 +43,6 @@ export type OverpromisedRehydrateAction = {|
 |};
 
 export type Persistor = {
-  purge: (keys?: $ReadOnlyArray<string>) => void | Promise<mixed>,
   pause: () => void,
   resume: () => void,
 

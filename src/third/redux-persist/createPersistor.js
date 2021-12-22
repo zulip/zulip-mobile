@@ -5,7 +5,6 @@ import invariant from 'invariant';
 import type { Config, Persistor } from './types';
 import * as logging from '../../utils/logging';
 import { KEY_PREFIX } from './constants';
-import purgeStoredState from './purgeStoredState';
 
 export default function createPersistor<S: { ... }, A, D>(
   store: Store<S, A, D>,
@@ -127,7 +126,6 @@ export default function createPersistor<S: { ... }, A, D>(
     resume: () => {
       paused = false;
     },
-    purge: keys => purgeStoredState({ storage, keyPrefix }, keys),
 
     /**
      * Set `lastWrittenState` to the current `store.getState()`.

@@ -16,33 +16,16 @@ export default function persistStore<
   config: Config, // = Object.freeze({}),
   onComplete?: () => void,
 ): Persistor {
-  let purgeKeys = null;
-
   const persistor = createPersistor(store, config);
   persistor.pause();
 
   setImmediate(restore);
 
-  return {
-    ...persistor,
-    purge: keys => {
-      purgeKeys = keys || '*';
-      return persistor.purge(keys);
-    },
-  };
+  return persistor;
 
   async function restore() {
     try {
-      let restoredState: { ... } = await getStoredState(config);
-
-      // do not persist state for purgeKeys
-      if (purgeKeys) {
-        if (purgeKeys === '*') {
-          restoredState = {};
-        } else {
-          purgeKeys.forEach(key => delete restoredState[key]);
-        }
-      }
+      const restoredState: { ... } = await getStoredState(config);
 
       // This fixme is how we make the impossible promise in
       // OverpromisedRehydrateAction.  See that type's jsdoc.
