@@ -8,7 +8,7 @@ import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
-import { ZulipTextIntl, ZulipText } from '../common';
+import { ZulipTextIntl } from '../common';
 import MarkAsReadButton from './MarkAsReadButton';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 
@@ -47,10 +47,25 @@ export default function UnreadNotice(props: Props): Node {
   return (
     <AnimatedScaleComponent visible={unreadCount > 0} style={styles.unreadContainer}>
       <View style={styles.unreadTextWrapper}>
-        <ZulipText style={styles.unreadNumber} text={unreadCount.toString()} />
         <ZulipTextIntl
           style={styles.unreadText}
-          text={unreadCount === 1 ? 'unread message' : 'unread messages'}
+          text={
+            // TODO(i18n): Try ICU syntax for plurals, like
+            // `{unreadCount, plural,
+            //   one {{unreadCount} unread message}
+            //   other {{unreadCount} unread messages}
+            // }`
+            // We hope Transifex gives a nice UI to translators so they can
+            // easily translate plurals. We've added the above message to
+            // messages_en.json, and we'll see if that's the case? See:
+            //   https://chat.zulip.org/#narrow/stream/58-translation/topic/ICU.20Message.20syntax/near/1300245
+            unreadCount === 1
+              ? '1 unread message'
+              : {
+                  text: '{unreadCount} unread messages',
+                  values: { unreadCount: unreadCount.toString() },
+                }
+          }
         />
       </View>
       <MarkAsReadButton narrow={narrow} />
