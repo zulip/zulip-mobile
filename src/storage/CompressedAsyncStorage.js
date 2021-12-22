@@ -153,4 +153,6 @@ export class CompressedAsyncStorageImpl {
   getAllKeys: typeof AsyncStorage.getAllKeys = () => this.storage.getAllKeys();
 
   clear: typeof AsyncStorage.clear = () => this.storage.clear();
+
+  devWipe: typeof AsyncStorage.devWipe = () => this.storage.devWipe();
 }

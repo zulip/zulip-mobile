@@ -216,6 +216,20 @@ export class BaseAsyncStorage {
   async devForgetState(): Promise<void> {
     this.dbSingleton = undefined;
   }
+
+  /**
+   * Like `clear` but also forget any migrations.
+   *
+   * This should only be used in tests.
+   */
+  async devWipe(): Promise<void> {
+    const db = await this._db();
+    await db.transaction(tx => {
+      tx.executeSql('DELETE FROM keyvalue');
+      tx.executeSql('DELETE FROM migration');
+    });
+    this.devForgetState();
+  }
 }
 
 // The migration strategy.  How do we move the user's data from the old
