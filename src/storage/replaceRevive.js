@@ -55,6 +55,9 @@ function replacer(key, value) {
     return origValue;
   }
 
+  // NOTE: We use this in migrations.  Don't change how it behaves on
+  //   any already-valid input.  (Same story as `reviver`, below.)
+
   switch (Object.getPrototypeOf(origValue)) {
     // Flow bug: https://github.com/facebook/flow/issues/6110
     case (Date.prototype: $FlowIssue):
@@ -142,6 +145,12 @@ function reviver(key, value) {
   if (value !== null && typeof value === 'object' && SERIALIZED_TYPE_FIELD_NAME in value) {
     const data = value.data;
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
+      // NOTE: We use this in migrations.  Don't change how it behaves on
+      //   any already-valid input.
+      //
+      //   (If we really want to make such a change, our options are:
+      //   carefully check the new behavior is OK for migrations operating
+      //   on old data, or keep a forked old version around for migrations.)
       case 'Date':
         return new Date(data);
       case 'ZulipVersion':

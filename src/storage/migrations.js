@@ -3,9 +3,10 @@ import Immutable from 'immutable';
 
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
-import type { GlobalState } from '../types';
+import type { GlobalState, MigrationsState } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { CompressedMigration } from './CompressedAsyncStorage';
+import { parse, stringify } from './replaceRevive';
 
 /**
  * Exported only for tests.
@@ -349,38 +350,104 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
+/* eslint-disable no-shadow */
+/* eslint-disable no-underscore-dangle */
+
 export const migrationLegacyRollup: CompressedMigration = new CompressedMigration(
   1,
   2,
-  async tx => {
-    // TODO kind of ugly to re-create a db cxn when we were just passed one
-    const storage = new CompressedAsyncStorageImpl(this.startVersion, []);
-    // TODO needs serialize/deserialize
-    const state = getStoredState({ storage });
-    const newState = this.migrate(state);
-    // TODO somehow get at createPersistor#writeOnce
-    //   ... hmm.  In the existing migrations, we're actually using the
-    //   reducers where they act on a REHYDRATE action, in order to merge
-    //   initial values for new fields.  So we'll need that too; or,
-    //   maybe fold those into the existing-style migrations code.
+  async (tx, { decode, encode }) => {
+    // Constants copied from elsewhere in the code, which should keep the
+    // values they had there when this migration was merged, even if those
+    // values outside this migration change.
     //
-    //   Hmm also: there seems to be a latent(?) bug in that: if for some
-    //   subtree we had stored an object that's just the initial values,
-    //   but a subset of the current initial values, then we won't
-    //   immediately go and store the new value for that subtree, because
-    //   rehydrate won't have changed the in-process value.  Really the
-    //   problem there is that we're comparing new vs. previous in-process
-    //   value, and that for REHYDRATE that means merged vs. initial,
-    //   whereas what's relevant is merged vs. previously-stored.
+    // The `storeKeys` list from src/boot/store.js .
+    const storeKeys = ['migrations', 'accounts', 'drafts', 'outbox', 'settings'];
+    // The `KEY_PREFIX` in src/third/redux-persist/constants.js .
+    const reduxPersistKeyPrefix = 'reduxPersist:';
 
-    // I kind of want to only ever write one of these, to wrap all the
-    // old-style migrations.  So it might be a bit messy-looking but
-    // that's fine.  (And should probably be just an instance of
-    // CompressedMigration, not a class.)
+    // These are references to outside code, where we're counting on not
+    // changing that code in incompatible ways.  (They have comments saying
+    // so, plus the main use case for changing them naturally tends to stay
+    // compatible.)
+    const deserializer = parse;
+    const serializer = stringify;
+
+    const encodeKey = k => `${reduxPersistKeyPrefix}${k}`;
+    const decodeKey = k => k.slice(reduxPersistKeyPrefix.length);
+
+    const storeCommas = storeKeys.map(_ => '?').join(', ');
+    const storeKeysForDb = storeKeys.map(encodeKey);
+
     //
-    // Then write new migrations like CompressedMigration or plain
-    // Migration: they identify the keys they care about, and either just
-    // UPDATE the keys themselves (to move things around) or SELECT them,
-    // decode, shuffle/munge data as needed, encode, then INSERT / DELETE.
+    // Get the stored state.  Like redux-persist/getStoredState.js.
+
+    const rows: { key: string, value: string }[] = await tx
+      .executeSql(`SELECT key, value FROM keyvalue WHERE key IN (${storeCommas})`, storeKeysForDb)
+      .then(r => r.rows._array);
+    const storedState: $Shape<GlobalState> = objectFromEntries(
+      await Promise.all(
+        rows.map(async r => [decodeKey(r.key), deserializer(await decode(r.value))]),
+      ),
+    );
+
+    //
+    // Apply migrations to the stored state.  Like redux-persist-migrate.
+
+    const versionKeys = Object.keys(migrations)
+      .map(k => parseInt(k, 10))
+      .sort((a, b) => a - b);
+    const currentVersion = versionKeys[versionKeys.length - 1];
+
+    // flowlint-next-line unnecessary-optional-chain:off
+    const storedVersion = storedState.migrations?.version;
+    if (storedVersion == null) {
+      // No recorded migration state.  This should mean that there's no
+      // stored data at all, as on first launch.
+      //
+      // Here redux-persist-migrate just sets the migration version and
+      // otherwise leaves the rehydration payload to be whatever data we
+      // found, whether empty or not.  We'll go for the same expected state
+      // -- a migration version and nothing else -- but make sure we really
+      // do get that state.
+      tx.executeSql('DELETE FROM keyvalue');
+      tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [
+        encodeKey('migrations'),
+        await encode(serializer(({ version: currentVersion }: MigrationsState))),
+      ]);
+      return;
+    }
+
+    let state = storedState;
+    for (const v of versionKeys) {
+      if (v <= storedVersion) {
+        continue;
+      }
+      state = migrations[v.toString()](state);
+    }
+    state = { ...state, migrations: { version: currentVersion } };
+
+    //
+    // Write the migrated state back to the store.
+
+    // Purge all values, so that we end up with exactly what's in the
+    // migrated state and nothing else.  In particular this purges
+    // all cache keys, and any stray (non-store, non-cache) keys
+    // should any somehow be lying around.
+    tx.executeSql('DELETE FROM keyvalue');
+
+    for (const key of Object.keys(state)) {
+      tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [
+        encodeKey(key),
+        await encode(serializer(state[key])),
+      ]);
+    }
+
+    // And we're done!
   },
 );
+
+// Then write new migrations like CompressedMigration or plain
+// Migration: they identify the keys they care about, and either just
+// UPDATE the keys themselves (to move things around) or SELECT the data,
+// decode, shuffle/munge data as needed, encode, then INSERT / DELETE.
