@@ -75,6 +75,22 @@ export const cacheKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
 ];
 
 /**
+ * Exported only for tests.
+ *
+ * The value of `storeKeys` when the `dropCache` migrations were written.
+ */
+// prettier-ignore
+export const historicalStoreKeys: Array<$Keys<GlobalState>> = [
+  // Never edit this list.
+  'migrations', 'accounts', 'drafts', 'outbox', 'settings',
+  // Why never edit?  The existing migrations below that refer to
+  // `dropCache` are relying on this continuing to have the same value.
+  // So if `storeKeys` changes, we'll need a new separate `dropCache` with
+  // the new list, for use in new migrations, while the existing migrations
+  // continue to use the existing `dropCache` with this list.
+];
+
+/**
  * Drop all server data, as a rehydrate-time migration.
  *
  * Most of our data is just copied from the server, and gets routinely
@@ -94,7 +110,7 @@ export const cacheKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
  */
 function dropCache(state: GlobalState): $Shape<GlobalState> {
   const result: $Shape<ReadWrite<GlobalState>> = {};
-  storeKeys.forEach(key => {
+  historicalStoreKeys.forEach(key => {
     // $FlowFixMe[incompatible-indexer]
     // $FlowFixMe[incompatible-exact]
     // $FlowFixMe[prop-missing]
