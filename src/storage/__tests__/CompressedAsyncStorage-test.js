@@ -1,9 +1,11 @@
 /* @flow strict-local */
 import { Platform, NativeModules } from 'react-native';
 import { AsyncStorage, BaseAsyncStorage } from '../AsyncStorage';
-import CompressedAsyncStorage from '../CompressedAsyncStorage';
+import { CompressedAsyncStorageImpl } from '../CompressedAsyncStorage';
 import * as logging from '../../utils/logging';
 import * as eg from '../../__tests__/lib/exampleData';
+
+const CompressedAsyncStorage = new CompressedAsyncStorageImpl(0, []);
 
 describe('setItem', () => {
   const key = 'foo!';

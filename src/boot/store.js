@@ -16,7 +16,8 @@ import type { Action, GlobalState, ThunkExtras } from '../types';
 import config from '../config';
 import { REHYDRATE } from '../actionConstants';
 import rootReducer from './reducers';
-import CompressedAsyncStorage from '../storage/CompressedAsyncStorage';
+import { CompressedAsyncStorageImpl } from '../storage/CompressedAsyncStorage';
+import { migrationFromLegacyAsyncStorage } from '../storage/AsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
 import { migrations } from '../storage/migrations';
@@ -148,6 +149,14 @@ const store: Store<GlobalState, Action> = createStore(
   ),
 );
 
+/** Exported only for tests. */
+// Store data through our own wrapper for AsyncStorage, in particular
+// to get compression.
+// TODO: type should really be an AsyncStorage interface
+export const storage: CompressedAsyncStorageImpl = new CompressedAsyncStorageImpl(1, [
+  migrationFromLegacyAsyncStorage,
+]);
+
 /**
  * The config options to pass to redux-persist.
  *
@@ -163,9 +172,7 @@ const reduxPersistConfig: Config = {
   // as keys on the top-level state.
   whitelist: [...storeKeys, ...cacheKeys],
 
-  // Store data through our own wrapper for AsyncStorage, in particular
-  // to get compression.
-  storage: CompressedAsyncStorage,
+  storage,
   serialize: stringify,
   deserialize: parse,
 };

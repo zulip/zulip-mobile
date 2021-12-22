@@ -2,12 +2,7 @@
 import invariant from 'invariant';
 import { NativeModules } from 'react-native';
 
-import {
-  AsyncStorage,
-  BaseAsyncStorage,
-  migrationFromLegacyAsyncStorage,
-  Migration,
-} from './AsyncStorage';
+import { AsyncStorage, BaseAsyncStorage, Migration } from './AsyncStorage';
 import * as logging from '../utils/logging';
 import { type SQLTransaction } from './sqlite';
 
@@ -124,7 +119,7 @@ export class CompressedMigration {
   }
 }
 
-class CompressedAsyncStorageImpl {
+export class CompressedAsyncStorageImpl {
   storage: BaseAsyncStorage;
 
   constructor(version: number, migrations: $ReadOnlyArray<Migration | CompressedMigration>) {
@@ -159,16 +154,3 @@ class CompressedAsyncStorageImpl {
 
   clear: typeof AsyncStorage.clear = () => this.storage.clear();
 }
-
-type CompressedAsyncStorage = interface {
-  getItem(key: string): Promise<string | null>,
-  setItem(key: string, value: string): Promise<mixed>,
-  multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed>,
-  removeItem: typeof AsyncStorage.removeItem,
-  getAllKeys: typeof AsyncStorage.getAllKeys,
-  clear: typeof AsyncStorage.clear,
-};
-
-export default (new CompressedAsyncStorageImpl(1, [
-  migrationFromLegacyAsyncStorage,
-]): CompressedAsyncStorage);
