@@ -5,6 +5,7 @@ import type { SubsetProperties } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { GlobalState, MigrationsState } from '../types';
 import { objectFromEntries } from '../jsBackport';
+import { type SQLTransaction } from './sqlite';
 import { CompressedMigration } from './CompressedAsyncStorage';
 import { parse, stringify } from './replaceRevive';
 
@@ -369,6 +370,44 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     // And we're done!
   },
 );
+
+function mkMigration(
+  startVersion: number,
+  endVersion: number,
+  migrate: (ops: {
+    // These helpers put/get take care of encode/decode,  They do not take
+    // care of serializing/deserializing the value, or encoding/decoding the
+    // key with the redux-persist prefix; the caller must handle those.
+    // (Perhaps these helpers should do those too?  But take care in case
+    // they change in the future; existing migrations shouldn't change.)
+    put: (key: string, value: string) => Promise<void>,
+    get: (key: string) => Promise<string | null>,
+
+    encode: string => Promise<string>,
+    decode: string => Promise<string>,
+    tx: SQLTransaction,
+    ...
+  }) => Promise<void>,
+): CompressedMigration {
+  return new CompressedMigration(startVersion, endVersion, (tx, { encode, decode }) =>
+    migrate({
+      tx,
+      encode,
+      decode,
+      get: async key => {
+        const result = await tx.executeSql('SELECT value FROM keyvalue WHERE key = ?', [key]);
+        const rows: { value: string }[] = result.rows._array;
+        return rows.length > 0 ? decode(rows[0].value) : null;
+      },
+      put: async (key, value) => {
+        tx.executeSql('INSERT OR REPLACE INTO keyvalue (key, value) VALUES (?, ?)', [
+          key,
+          await encode(value),
+        ]);
+      },
+    }),
+  );
+}
 
 // Then write new migrations like CompressedMigration or plain
 // Migration: they identify the keys they care about, and either just
