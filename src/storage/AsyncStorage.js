@@ -223,6 +223,7 @@ export class BaseAsyncStorage {
    * This should only be used in tests.
    */
   async devWipe(): Promise<void> {
+    this._db();
     this.devForgetState();
     const db = new SQLDatabase('zulip.db');
     return new Promise((resolve, reject) =>
