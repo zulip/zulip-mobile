@@ -3,11 +3,13 @@
 import invariant from 'invariant';
 import objectEntries from '../../utils/objectEntries';
 import { Migration } from '../AsyncStorage';
-import { CompressedAsyncStorageImpl } from '../CompressedAsyncStorage';
+import { CompressedAsyncStorageImpl, type CompressedMigration } from '../CompressedAsyncStorage';
 import { parse, stringify } from '../replaceRevive';
 import { migrationLegacyRollup } from '../migrations';
 import { objectFromEntries } from '../../jsBackport';
 import { ZulipVersion } from '../../utils/zulipVersion';
+
+const baseStorage = new CompressedAsyncStorageImpl(0, []);
 
 describe('migrations where one top-level subtree is still exactly one key', () => {
   // These are copied from the implementation.
@@ -17,8 +19,6 @@ describe('migrations where one top-level subtree is still exactly one key', () =
   const deserializer = parse;
   const serializer = stringify;
 
-  const baseStorage = new CompressedAsyncStorageImpl(1, [new Migration(0, 1, async () => {})]);
-
   beforeAll(() => baseStorage.devWipe());
   afterEach(() => baseStorage.devWipe());
 
@@ -26,10 +26,13 @@ describe('migrations where one top-level subtree is still exactly one key', () =
     await baseStorage.multiSet(objectEntries(state).map(([k, v]) => [encodeKey(k), serializer(v)]));
   }
 
-  async function fetch(): Promise<{ ... }> {
-    const storage = new CompressedAsyncStorageImpl(2, [
-      new Migration(0, 1, async () => {}),
-      migrationLegacyRollup,
+  async function fetchAfter(migration: Migration | CompressedMigration): Promise<{ ... }> {
+    const baseMigrations = [...Array(migration.startVersion).keys()].map(
+      i => new Migration(i, i + 1, async () => {}),
+    );
+    const storage = new CompressedAsyncStorageImpl(migration.endVersion, [
+      ...baseMigrations,
+      migration,
     ]);
     const keys = await storage.getAllKeys();
     const pairs = await Promise.all(
@@ -222,7 +225,7 @@ describe('migrations where one top-level subtree is still exactly one key', () =
     ]) {
       test(desc, async () => {
         await prep(before);
-        expect(await fetch()).toEqual(after);
+        expect(await fetchAfter(migrationLegacyRollup)).toEqual(after);
       });
     }
   });
