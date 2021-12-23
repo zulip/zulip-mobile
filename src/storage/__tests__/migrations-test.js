@@ -5,7 +5,11 @@ import objectEntries from '../../utils/objectEntries';
 import { Migration } from '../AsyncStorage';
 import { CompressedAsyncStorageImpl, type CompressedMigration } from '../CompressedAsyncStorage';
 import { parse, stringify } from '../replaceRevive';
-import { migrationLegacyRollup } from '../migrations';
+import {
+  migrationLegacyRollup,
+  WIP_migrationAccountId as migrationAccountId,
+  WIP_migrationSplitSettings as migrationSplitSettings,
+} from '../migrations';
 import { objectFromEntries } from '../../jsBackport';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
@@ -230,13 +234,24 @@ describe('migrations where one top-level subtree is still exactly one key', () =
     }
   });
 
-  //   const base = endBase;
+  const base = endBase;
 
-  //   describe('migrationAccountId', () => {
-  //     test('smoke', async () => {
-  //       // TODO fix prep/fetch
-  //       await prep(base);
-  //       expect(await fetch()).toEqual({ ...base, accounts: [{ ...base.accounts[0], accountId: 1 }] });
-  //     });
-  //   });
+  test('migrationSplitSettings', async () => {
+    await prep(base);
+    const { settings, ...rest } = base;
+    expect(await fetchAfter(migrationSplitSettings)).toEqual({
+      ...rest,
+      globalSettings: settings,
+      perAccountSettings: settings,
+    });
+  });
+
+  test('migrationAccountId', async () => {
+    await prep(base);
+    expect(await fetchAfter(migrationAccountId)).toEqual({
+      ...base,
+      // TODO test with multiple accounts
+      accounts: [{ ...base.accounts[0], accountId: 1 }],
+    });
+  });
 });
