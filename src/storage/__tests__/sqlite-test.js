@@ -135,6 +135,6 @@ describe('our promisified sqlite', () => {
       b = await tx.executeSql('SELECT 2 AS n');
     });
     expect(a?.rows._array).toEqual([{ n: 1 }]);
-    expect(b?.rows._array).toEqual([{ n: 2 }]); // FAILS
+    expect(b?.rows._array).toEqual([{ n: 2 }]);
   });
 });

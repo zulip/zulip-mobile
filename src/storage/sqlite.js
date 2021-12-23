@@ -26,20 +26,7 @@ export class SQLDatabase {
   transaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
       this.db.transaction(
-        async tx => {
-          // This bit is an absurd little workaround for expo-sqlite, or really
-          // the @expo/websql library under it, being too eager to check a
-          // transaction's queue and declare it complete.
-          let done = false;
-          const hold = () => tx.executeSql('SELECT 1', [], () => done || hold());
-          hold();
-          try {
-            // This line is the one thing that isn't part of that workaround.
-            await cb(new SQLTransactionImpl(this, tx));
-          } finally {
-            done = true;
-          }
-        },
+        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
         reject,
         resolve,
       ),
@@ -49,9 +36,7 @@ export class SQLDatabase {
   readTransaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.readTransaction(
-        tx => {
-          cb(new SQLTransactionImpl(this, tx));
-        },
+        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
         reject,
         resolve,
       );
@@ -77,6 +62,23 @@ export class SQLDatabase {
     });
     invariant(p, 'transaction finished; statement promise should be initialized');
     return p;
+  }
+}
+
+// An absurd little workaround for expo-sqlite, or really
+// the @expo/websql library under it, being too eager to check a
+// transaction's queue and declare it complete.
+async function keepQueueLiveWhile(
+  tx: WebSQLTransaction,
+  f: () => void | Promise<void>,
+): Promise<void> {
+  let done = false;
+  const hold = () => tx.executeSql('SELECT 1', [], () => (done ? undefined : hold()));
+  hold();
+  try {
+    await f();
+  } finally {
+    done = true;
   }
 }
 
