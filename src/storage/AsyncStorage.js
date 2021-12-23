@@ -223,12 +223,19 @@ export class BaseAsyncStorage {
    * This should only be used in tests.
    */
   async devWipe(): Promise<void> {
-    const db = await this._db();
-    await db.transaction(tx => {
-      tx.executeSql('DELETE FROM keyvalue');
-      tx.executeSql('DELETE FROM migration');
-    });
     this.devForgetState();
+    const db = new SQLDatabase('zulip.db');
+    return new Promise((resolve, reject) =>
+      db.db.exec([{ sql: 'DROP TABLE IF EXISTS keyvalue', args: [] }], false, err =>
+        // prettier-ignore
+        err
+          ? reject(err)
+          // eslint-disable-next-line no-shadow
+          : db.db.exec([{ sql: 'DROP TABLE IF EXISTS migration', args: [] }], false, err =>
+              err ? reject(err) : resolve(),
+            ),
+      ),
+    );
   }
 }
 
