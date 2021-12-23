@@ -292,8 +292,6 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
   1,
   2,
   async (tx, { decode, encode }) => {
-    console.log('migrating');
-
     // Constants copied from elsewhere in the code, which should keep the
     // values they had there when this migration was merged, even if those
     // values outside this migration change.
@@ -309,9 +307,7 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     // ouch workaround
     let done = false;
     const hold = () => {
-      console.log('holding');
       tx.executeSqlCb('SELECT 1 FROM migration', [], () => {
-        console.log('hold-select complete');
         done || hold();
       });
     };
@@ -329,7 +325,6 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
         rows.map(async r => [decodeKey(r.key), deserializer(await decode(r.value))]),
       ),
     );
-    console.log('storedState', storedState);
 
     //
     // Apply migrations to the stored state.  Like redux-persist-migrate.
@@ -351,7 +346,6 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
       // found, whether empty or not.  We'll go for the same expected state
       // -- a migration version and nothing else -- but make sure we really
       // do get that state.
-      console.log('deleting');
       tx.executeSql('DELETE FROM keyvalue');
       tx.executeSql('INSERT INTO keyvalue (key, value) VALUES (?, ?)', [
         encodeKey('migrations'),
