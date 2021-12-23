@@ -64,13 +64,14 @@ describe('migrationLegacyRollup', () => {
     foo: 1,
   };
 
-  // Like `base` after migration 9, for convenience.
+  // What `base` becomes after migrations up through 9.
   const base9 = {
     ...base,
     migrations: { version: 9 },
     accounts: [{ ...base.accounts[0], ackedPushToken: null }],
   };
 
+  // What `base` becomes after migrations up through 15.
   const base15 = {
     ...base9,
     migrations: { version: 15 },
@@ -84,6 +85,7 @@ describe('migrationLegacyRollup', () => {
     ],
   };
 
+  // What `base` becomes after all migrations.
   const endBase = {
     migrations: { version: 37 },
     accounts: [
@@ -169,54 +171,57 @@ describe('migrationLegacyRollup', () => {
     ],
     [
       'check 26',
-      { ...base9, migrations: { version: 10 }, settings: { ...base9.settings, locale: 'id-ID' } },
+      { ...base15, settings: { ...base15.settings, locale: 'id-ID' } },
       { ...endBase, settings: { ...endBase.settings, language: 'id' } },
     ],
     [
       'check 27',
-      { ...base, accounts: [{ ...base.accounts[0], email: '' }] },
+      { ...base15, accounts: [{ ...base15.accounts[0], email: '' }] },
       { ...endBase, accounts: [] },
     ],
     // 28 covered by whole
     [
       'check 29 with outbox-message that does have sender_id',
-      { ...base, outbox: [{ ...base.outbox[0], sender_id: 345 }] },
-      { ...endBase, outbox: [{ ...base.outbox[0], sender_id: 345 }] },
+      { ...base15, outbox: [{ ...base15.outbox[0], sender_id: 345 }] },
+      { ...endBase, outbox: [{ ...base15.outbox[0], sender_id: 345 }] },
     ],
     [
       'check 30',
-      { ...base, settings: { ...base.settings, locale: 'pt_PT' } },
+      { ...base15, settings: { ...base15.settings, locale: 'pt_PT' } },
       { ...endBase, settings: { ...endBase.settings, language: 'pt-PT' } },
     ],
     // 31 covered by whole
     [
       'check 32',
-      { ...base, settings: { ...base.settings, locale: 'zh-Hant' } },
+      { ...base15, settings: { ...base15.settings, locale: 'zh-Hant' } },
       { ...endBase, settings: { ...endBase.settings, language: 'zh-TW' } },
     ],
     // 33 covered by whole
     [
       'check 35 with missing stream_id',
-      { ...base, outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345 }] },
+      { ...base15, outbox: [{ ...base15.outbox[0], type: 'stream', sender_id: 345 }] },
       { ...endBase, outbox: [] },
     ],
     [
       'check 35 with stream_id present',
-      { ...base, outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }] },
+      {
+        ...base15,
+        outbox: [{ ...base15.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }],
+      },
       {
         ...endBase,
-        outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }],
+        outbox: [{ ...base15.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }],
       },
     ],
     // 36 covered by whole
     [
       'check 37 with setting already false',
-      { ...base, settings: { ...base.settings, doNotMarkMessagesAsRead: false } },
+      { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: false } },
       { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: false } },
     ],
     [
       'check 37 with setting already true',
-      { ...base, settings: { ...base.settings, doNotMarkMessagesAsRead: true } },
+      { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: true } },
       { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: true } },
     ],
   ]) {
