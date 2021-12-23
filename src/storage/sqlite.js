@@ -30,39 +30,71 @@ export class SQLDatabase {
   /**
    * Like the `transaction` method in expo-sqlite, but promisified.
    *
+   * The transaction will stay open as long as the Promise the callback
+   * returned stays unsettled.  That means the callback can use `await` as
+   * usual.
+   *
+   * For performance reasons, though, avoid using `await` other than on
+   * `executeSql` results or already-settled values.  In particular, avoid
+   * awaiting network requests or other things that take time but don't need
+   * to occupy the CPU.  That's because the current implementation of this
+   * method effectively busy-waits, by making trivial SQL queries, when SQL
+   * queries are getting to run but the transaction has no other SQL queries
+   * outstanding.
+   *
    * Note that the callback Promise is not treated in all the ways one would
    * hope for from a Promise-based API:
    *  * If the callback throws, the transaction gets committed (!) and the
    *    Promise returned by `transaction` still resolves, unless one of the
    *    SQL queries itself hits an error.
-   *  * If the callback returns a Promise, nothing awaits it.  Any queries
-   *    made after an `await` may be silently ignored.  If the Promise
-   *    ultimately rejects, the rejection goes unhandled.
+   *  * If the callback returns a Promise that ultimately rejects, the same
+   *    thing applies, and the rejection goes unhandled.
    *
    * We'll fix those in the near future.
    */
+  // TODO: It'd be good to be able to remove the performance warning above.
+  //   (Well, part of it; having a transaction block on something
+  //   potentially really slow like a network request will generally be a
+  //   bad idea just because of blocking other things in the app from
+  //   proceeding, even if it doesn't involve busy-waiting.)
+  //
+  //   This will involve modifying expo-sqlite, replacing much of the
+  //   node-websql code under it.
+  //
+  //   More background on that performance warning:
+  //     https://github.com/zulip/zulip-mobile/pull/5184#discussion_r779300110
   transaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
-      this.db.transaction(tx => void cb(new SQLTransactionImpl(this, tx)), reject, resolve),
+      this.db.transaction(
+        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
+        reject,
+        resolve,
+      ),
     );
   }
 
   /**
    * Like the `readTransaction` method in expo-sqlite, but promisified.
    *
+   * See `transaction` for performance considerations on how to use `await`
+   * inside the callback.
+   *
    * Note that the callback Promise is not treated in all the ways one would
    * hope for from a Promise-based API:
    *  * If the callback throws, the Promise returned by `readTransaction`
    *    still resolves, unless one of the SQL queries itself hits an error.
-   *  * If the callback returns a Promise, nothing awaits it.  Any queries
-   *    made after an `await` may be silently ignored.  If the Promise
-   *    ultimately rejects, the rejection goes unhandled.
+   *  * If the callback returns a Promise that ultimately rejects, the same
+   *    thing applies, and the rejection goes unhandled.
    *
    * We'll fix those in the near future.
    */
   readTransaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
-      this.db.readTransaction(tx => void cb(new SQLTransactionImpl(this, tx)), reject, resolve),
+      this.db.readTransaction(
+        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
+        reject,
+        resolve,
+      ),
     );
   }
 
@@ -91,6 +123,29 @@ export class SQLDatabase {
   }
 }
 
+// An absurd little workaround for expo-sqlite, or really the @expo/websql /
+// node-websql library under it, being too eager to check a transaction's
+// queue and declare it complete.
+async function keepQueueLiveWhile(
+  tx: WebSQLTransaction,
+  f: () => void | Promise<void>,
+): Promise<void> {
+  let done = false;
+
+  // To prevent a commit before the transaction is actually ready for it, we
+  // keep a trivial statement in the queue until we're done.  It goes in
+  // before we make our first `await`, and every time the queue reaches it
+  // we synchronously put a new such statement in the queue, until the end.
+  const hold = () => tx.executeSql('SELECT 1', [], () => (done ? undefined : hold()));
+  hold();
+
+  try {
+    await f();
+  } finally {
+    done = true;
+  }
+}
+
 class SQLTransactionImpl {
   db: SQLDatabase;
   tx: WebSQLTransaction;
@@ -102,11 +157,6 @@ class SQLTransactionImpl {
 
   /**
    * Like the `executeSql` method in expo-sqlite, but promisified.
-   *
-   * Note that limitations of the `transaction` and `readTransaction`
-   * methods on `SQLDatabase` mean that you do not want to `await` the
-   * result of this method, or indeed anything else, within the callbacks
-   * passed to those methods.
    */
   executeSql(statement: string, args?: $ReadOnlyArray<SQLArgument>): Promise<SQLResultSet> {
     return new Promise((resolve, reject) => {
