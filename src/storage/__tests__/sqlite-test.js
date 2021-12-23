@@ -1,5 +1,5 @@
 // @flow strict-local
-import { openDatabase } from 'expo-sqlite';
+import { openDatabase, type SQLResultSet } from 'expo-sqlite';
 // $FlowFixMe[untyped-import]
 import sqlite3 from 'sqlite3';
 
@@ -111,5 +111,30 @@ describe('our promisified sqlite', () => {
     });
     const rows = await db.query<{ x: number }>('SELECT x FROM foo', []);
     expect(rows).toEqual([{ x: 1 }, { x: 2 }]);
+  });
+
+  test('read-transaction with no internal await', async () => {
+    const db = new SQLDatabase('test7.db');
+    let a: SQLResultSet | void = undefined;
+    let b: SQLResultSet | void = undefined;
+    await db.readTransaction(async tx => {
+      /* eslint-disable no-return-assign */
+      tx.executeSql('SELECT 1 AS n').then(r => (a = r));
+      tx.executeSql('SELECT 2 AS n').then(r => (b = r));
+    });
+    expect(a?.rows._array).toEqual([{ n: 1 }]);
+    expect(b?.rows._array).toEqual([{ n: 2 }]);
+  });
+
+  test('read-transaction with internal await', async () => {
+    const db = new SQLDatabase('test8.db');
+    let a: SQLResultSet | void = undefined;
+    let b: SQLResultSet | void = undefined;
+    await db.readTransaction(async tx => {
+      a = await tx.executeSql('SELECT 1 AS n');
+      b = await tx.executeSql('SELECT 2 AS n');
+    });
+    expect(a?.rows._array).toEqual([{ n: 1 }]);
+    expect(b?.rows._array).toEqual([{ n: 2 }]); // FAILS
   });
 });
