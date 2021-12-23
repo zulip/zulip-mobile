@@ -125,8 +125,6 @@ describe('migrationLegacyRollup', () => {
     },
   };
 
-  // Exercises migration 10.
-
   for (const [desc, before, after] of [
     ['whole sequence', base, endBase],
     // 6 is redundant with 9
