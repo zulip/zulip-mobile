@@ -8,6 +8,7 @@ import sqlite3 from 'sqlite3';
 
 import { objectFromEntries } from '../../jsBackport';
 import { SQLDatabase } from '../sqlite';
+import { sleep } from '../../utils/async';
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-return-assign */
@@ -249,11 +250,15 @@ describe('our promisified sqlite', () => {
     // This corresponds to the similar test for expo-sqlite above, and
     // shows that we've successfully worked around that issue.
 
+    let p1 = undefined;
+    let p2 = undefined;
+
     const db = new SQLDatabase(dbName);
     const txPromise = db.transaction(async tx => {
       console.log('start tx');
       tx.executeSql('CREATE TABLE foo (name TEXT, value INT)');
-      const result = await tx.executeSql('SELECT 2 + 2 AS total');
+      p1 = tx.executeSql('SELECT 2 + 2 AS total');
+      const result = await p1;
       console.log('first result');
       const { total } = result.rows._array[0];
 
@@ -265,45 +270,35 @@ describe('our promisified sqlite', () => {
       // read earlier in the transaction.  We'll use the exact same function as above:
       console.log('here');
       const asyncSquare = (x, cb) => setTimeout(() => cb(x * x), 0);
-      const square = await new Promise(resolve => asyncSquare(total, resolve));
+      p2 = new Promise(resolve => asyncSquare(total, resolve));
+      const square = await p2;
       console.log('there');
       tx.executeSql('INSERT INTO foo (name, value) VALUES (?, ?)', ['square', square]);
     });
     console.log('after');
 
     // Let that asynchronous computation complete.
-    expect(jest.getTimerCount()).toBe(0);
-    await null;
-    console.log('1');
-    await null;
-    await null;
-    // expect(jest.getTimerCount()).toBe(1);
-    console.log('3');
-    jest.runOnlyPendingTimers();
-    expect(jest.getTimerCount()).toBe(0);
-    console.log('timers run');
-    await null;
+    await new Promise(r => r());
     console.log('awaited a bit');
-    jest.runOnlyPendingTimers();
-    console.log('timers run again');
-    await null;
+
+    await new Promise(r => r());
     console.log('awaited a bit more');
+
+    expect(p1).toBeTruthy();
+    await p1;
+    console.log('awaited p1');
+
     jest.runOnlyPendingTimers();
+    expect(jest.getTimerCount()).toBe(0);
     console.log('timers run again');
-    await null;
+
+    await new Promise(r => r());
     console.log('awaited a bit more');
-    jest.runOnlyPendingTimers();
-    console.log('timers run again');
-    await null;
-    console.log('awaited a bit more');
-    jest.runOnlyPendingTimers();
-    console.log('timers run again');
-    await null;
-    console.log('awaited a bit more');
-    jest.runOnlyPendingTimers();
-    console.log('timers run again');
-    await null;
-    console.log('awaited a bit more');
+
+    expect(p2).toBeTruthy();
+    await p2;
+    console.log('awaited p2');
+
     await txPromise;
     console.log('awaited');
 
