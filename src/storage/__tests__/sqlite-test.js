@@ -110,6 +110,6 @@ describe('our promisified sqlite', () => {
       tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
     });
     const rows = await db.query<{ x: number }>('SELECT x FROM foo', []);
-    expect(rows).toEqual([{ x: 1 }, { x: 2 }]); // FAILS -- no 2
+    expect(rows).toEqual([{ x: 1 }, { x: 2 }]);
   });
 });

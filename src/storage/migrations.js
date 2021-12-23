@@ -304,16 +304,6 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     const storeCommas = storeKeys.map(_ => '?').join(', ');
     const storeKeysForDb = storeKeys.map(encodeKey);
 
-    // ouch workaround
-    let done = false;
-    const hold = () => {
-      tx.executeSqlCb('SELECT 1 FROM migration', [], () => {
-        done || hold();
-      });
-    };
-    hold();
-    try {
-
     //
     // Get the stored state.  Like redux-persist/getStoredState.js.
 
@@ -380,10 +370,6 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
     }
 
     // And we're done!
-
-} finally {
-    done = true;
-}
   },
 );
 
