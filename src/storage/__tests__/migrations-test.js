@@ -42,13 +42,13 @@ describe('migrationLegacyRollup', () => {
     return objectFromEntries(pairs);
   }
 
-  test('empty -> empty', async () => {
+  test('empty -> empty-except-migrations', async () => {
     await prep({});
-    expect(await fetch()).toEqual({});
+    expect(await fetch()).toEqual({ migrations: { version: 37 } });
   });
 
   test('no migration state -> clear other state', async () => {
     await prep({ nonsense: [1, 2, 3] });
-    expect(await fetch()).toEqual({}); // FAILS
+    expect(await fetch()).toEqual({ migrations: { version: 37 } });
   });
 });
