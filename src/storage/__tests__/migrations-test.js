@@ -51,4 +51,9 @@ describe('migrationLegacyRollup', () => {
     await prep({ nonsense: [1, 2, 3] });
     expect(await fetch()).toEqual({ migrations: { version: 37 } });
   });
+
+  test('0 -> ??', async () => {
+    await prep({ migrations: { version: 0 }, foo: 1 });
+    expect(await fetch()).toEqual({ migrations: { version: 37 } });
+  });
 });
