@@ -1,5 +1,7 @@
 // @flow strict-local
-import { openDatabase, type SQLResultSet } from 'expo-sqlite';
+
+// $FlowFixMe[missing-export] -- present in test version of module
+import { openDatabase, deleteDatabase, type SQLResultSet } from 'expo-sqlite';
 // $FlowFixMe[untyped-import]
 import sqlite3 from 'sqlite3';
 
@@ -18,8 +20,18 @@ describe('sqlite3', () => {
 });
 
 describe('expo-sqlite', () => {
+  const dbName = 'test.db';
+
+  beforeAll(async () => {
+    await deleteDatabase(dbName);
+  });
+
+  afterEach(async () => {
+    await deleteDatabase(dbName);
+  });
+
   test('smoke', async () => {
-    const db = openDatabase('test.db');
+    const db = openDatabase(dbName);
     const result = await new Promise((resolve, reject) => {
       db.readTransaction(
         tx => {
@@ -33,7 +45,7 @@ describe('expo-sqlite', () => {
   });
 
   test('transaction with no internal await', async () => {
-    const db = openDatabase('test2.db');
+    const db = openDatabase(dbName);
     await new Promise((resolve, reject) =>
       db.transaction(
         tx => {
@@ -58,7 +70,7 @@ describe('expo-sqlite', () => {
   });
 
   test('transaction with internal await^W callback ', async () => {
-    const db = openDatabase('test3.db');
+    const db = openDatabase(dbName);
     await new Promise((resolve, reject) =>
       db.transaction(
         tx => {
@@ -85,14 +97,24 @@ describe('expo-sqlite', () => {
 });
 
 describe('our promisified sqlite', () => {
+  const dbName = 'test.db';
+
+  beforeAll(async () => {
+    await deleteDatabase(dbName);
+  });
+
+  afterEach(async () => {
+    await deleteDatabase(dbName);
+  });
+
   test('smoke', async () => {
-    const db = new SQLDatabase('test4.db');
+    const db = new SQLDatabase(dbName);
     const rows = await db.query<{ n: number }>('SELECT 42 AS n', []);
     expect(rows).toEqual([{ n: 42 }]);
   });
 
   test('transaction with no internal await', async () => {
-    const db = new SQLDatabase('test5.db');
+    const db = new SQLDatabase(dbName);
     await db.transaction(tx => {
       tx.executeSql('CREATE TABLE foo (x INT)');
       tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
@@ -103,7 +125,7 @@ describe('our promisified sqlite', () => {
   });
 
   test('transaction with internal await', async () => {
-    const db = new SQLDatabase('test6.db');
+    const db = new SQLDatabase(dbName);
     await db.transaction(async tx => {
       tx.executeSql('CREATE TABLE foo (x INT)');
       await tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
@@ -114,7 +136,7 @@ describe('our promisified sqlite', () => {
   });
 
   test('read-transaction with no internal await', async () => {
-    const db = new SQLDatabase('test7.db');
+    const db = new SQLDatabase(dbName);
     let a: SQLResultSet | void = undefined;
     let b: SQLResultSet | void = undefined;
     await db.readTransaction(async tx => {
@@ -127,7 +149,7 @@ describe('our promisified sqlite', () => {
   });
 
   test('read-transaction with internal await', async () => {
-    const db = new SQLDatabase('test8.db');
+    const db = new SQLDatabase(dbName);
     let a: SQLResultSet | void = undefined;
     let b: SQLResultSet | void = undefined;
     await db.readTransaction(async tx => {
