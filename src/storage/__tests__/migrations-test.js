@@ -53,7 +53,7 @@ describe('migrationLegacyRollup', () => {
   });
 
   // A plausible-ish state from before all surviving migrations.
-  const fixture3 = {
+  const base = {
     // Include something non-empty for each of the storeKeys.
     migrations: { version: 3 },
     accounts: [{ email: 'me@example.com', api_key: '1234', realm: 'https://chat.example' }],
@@ -73,7 +73,7 @@ describe('migrationLegacyRollup', () => {
     foo: 1,
   };
 
-  const fixture3_37 = {
+  const endBase = {
     migrations: { version: 37 },
     accounts: [
       {
@@ -104,21 +104,19 @@ describe('migrationLegacyRollup', () => {
     },
   };
 
-  test('3 -> end', async () => {
-    await prep(fixture3);
-    expect(await fetch()).toEqual(fixture3_37);
-  });
-
   // Exercises migration 10.
-  const fixture3_zh = { ...fixture3, settings: { ...fixture3.settings, locale: 'zh' } };
 
-  const fixture3_zh_37 = {
-    ...fixture3_37,
-    settings: { ...fixture3_37.settings, language: 'zh-Hans' },
-  };
-
-  test('3 -> end, locale zh', async () => {
-    await prep(fixture3_zh);
-    expect(await fetch()).toEqual(fixture3_zh_37);
-  });
+  for (const [desc, before, after] of [
+    ['whole sequence', base, endBase],
+    [
+      'check 10 with locale zh',
+      { ...base, settings: { ...base.settings, locale: 'zh' } },
+      { ...endBase, settings: { ...endBase.settings, language: 'zh-Hans' } },
+    ],
+  ]) {
+    test(desc, async () => {
+      await prep(before);
+      expect(await fetch()).toEqual(after);
+    });
+  }
 });
