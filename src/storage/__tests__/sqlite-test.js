@@ -115,14 +115,7 @@ describe('expo-sqlite', () => {
     // tests below.)
 
     const db = openDatabase(dbName);
-
-    // This sets up a promise we'll use purely as part of the test harness,
-    // to confirm the control flow reached the end of our callback chain.
-    let txEndResolve_ = undefined;
-    const txEnd = new Promise(resolve => (txEndResolve_ = resolve));
-    invariant(txEndResolve_, 'Promise constructor callback should have run');
-    const txEndResolve = txEndResolve_;
-
+    let txEnded = false;
     await new Promise((resolve, reject) =>
       db.transaction(
         tx => {
@@ -150,7 +143,7 @@ describe('expo-sqlite', () => {
               // The new statement goes into a queue which will never again
               // get read.  We don't even get an exception -- the next line
               // runs fine (as we confirm below):
-              txEndResolve('reached the end');
+              txEnded = true;
             });
           });
         },
@@ -160,10 +153,11 @@ describe('expo-sqlite', () => {
     );
 
     // Let that asynchronous computation complete, and confirm the callback
-    // completed without an exception.
-    jest.runOnlyPendingTimers();
-    expect(jest.getTimerCount()).toBe(0);
-    expect(await txEnd).toEqual('reached the end');
+    // completes without an exception.
+    jest.runAllTimers();
+    while (!txEnded) {
+      await null;
+    }
 
     // Now read what data got written.
     const result = await new Promise((resolve, reject) => {
