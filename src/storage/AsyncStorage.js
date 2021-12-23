@@ -23,9 +23,13 @@ export class Migration {
   //    that squash together several individual upgrades (like room does.)
   startVersion: number;
   endVersion: number;
-  migrate: SQLTransaction => Promise<void>;
+  migrate: (SQLTransaction, done: () => void) => Promise<void>;
 
-  constructor(startVersion: number, endVersion: number, migrate: SQLTransaction => Promise<void>) {
+  constructor(
+    startVersion: number,
+    endVersion: number,
+    migrate: (SQLTransaction, done: () => void) => Promise<void>,
+  ) {
     invariant(
       startVersion + 1 === endVersion,
       'AsyncStorage migration only supports incrementing version by 1',
@@ -144,11 +148,11 @@ export class BaseAsyncStorage {
       }
 
       // Perform the migration.
-      await db.transaction(async tx => {
-        await (migration: Migration).migrate(tx);
-
-        tx.executeSql('DELETE FROM migration');
-        tx.executeSql('INSERT INTO migration (version) VALUES (?)', [migration.endVersion]);
+      await db.transaction(tx => {
+        (migration: Migration).migrate(tx, () => {
+          tx.executeSql('DELETE FROM migration');
+          tx.executeSql('INSERT INTO migration (version) VALUES (?)', [migration.endVersion]);
+        });
       });
 
       version = migration.endVersion;
@@ -263,6 +267,8 @@ export const migrationFromLegacyAsyncStorage: Migration = new Migration(0, 1, as
   //   the library into src/third-party/, and then stripping out
   //   everything not needed for read-only use.
 
+  // WORK HERE -- ugh and in fact we'd have to delay starting the transaction
+  //   until we've already done these LegacyAsyncStorage reads
   const keys = await LegacyAsyncStorage.getAllKeys();
   const values = await Promise.all(keys.map(key => LegacyAsyncStorage.getItem(key)));
   tx.executeSql('DELETE FROM keyvalue');
