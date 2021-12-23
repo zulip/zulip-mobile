@@ -43,16 +43,6 @@ describe('migrationLegacyRollup', () => {
     return objectFromEntries(pairs);
   }
 
-  test('empty -> empty-except-migrations', async () => {
-    await prep({});
-    expect(await fetch()).toEqual({ migrations: { version: 37 } });
-  });
-
-  test('no migration state -> clear other state', async () => {
-    await prep({ nonsense: [1, 2, 3] });
-    expect(await fetch()).toEqual({ migrations: { version: 37 } });
-  });
-
   // A plausible-ish state from before all surviving migrations.
   const base = {
     // Include something non-empty for each of the storeKeys.
@@ -126,7 +116,22 @@ describe('migrationLegacyRollup', () => {
   };
 
   for (const [desc, before, after] of [
+    // Test the behavior with no migration state, which doesn't apply any
+    // of the specific migrations.
+    ['empty state -> just store version', {}, { migrations: { version: 37 } }],
+    [
+      'no migration state -> just clear and store version',
+      { nonsense: [1, 2, 3] },
+      { migrations: { version: 37 } },
+    ],
+
+    // Test the whole sequence all together.  This covers many of the
+    // individual migrations.  (This might not be a good design if we were
+    // going to be adding more migrations in this sequence.  But we aren't.)
     ['whole sequence', base, endBase],
+
+    // Now test individual migrations further, where needed.
+
     // 6 is redundant with 9
     // 9 covered by whole
     [
