@@ -255,11 +255,9 @@ describe('our promisified sqlite', () => {
 
     const db = new SQLDatabase(dbName);
     const txPromise = db.transaction(async tx => {
-      console.log('start tx');
       tx.executeSql('CREATE TABLE foo (name TEXT, value INT)');
       p1 = tx.executeSql('SELECT 2 + 2 AS total');
       const result = await p1;
-      console.log('first result');
       const { total } = result.rows._array[0];
 
       // Use that data to compute something synchronously, and store it.
@@ -268,39 +266,24 @@ describe('our promisified sqlite', () => {
 
       // Now do some *asynchronous* computation, using the data we
       // read earlier in the transaction.  We'll use the exact same function as above:
-      console.log('here');
       const asyncSquare = (x, cb) => setTimeout(() => cb(x * x), 0);
       p2 = new Promise(resolve => asyncSquare(total, resolve));
       const square = await p2;
-      console.log('there');
       tx.executeSql('INSERT INTO foo (name, value) VALUES (?, ?)', ['square', square]);
     });
-    console.log('after');
 
-    // Let that asynchronous computation complete.
-    await new Promise(r => r());
-    console.log('awaited a bit');
-
-    await new Promise(r => r());
-    console.log('awaited a bit more');
-
-    expect(p1).toBeTruthy();
+    // Let that asynchronous computation complete.  This gets a bit ugly: we
+    // need to tell Jest to run the timer embedded inside that async
+    // computation, and that does no good until the timer has been created,
+    // so we end up having to walk through the async flow step by step.
+    // prettier-ignore
+    while (!p1) { await null; }
     await p1;
-    console.log('awaited p1');
-
-    jest.runOnlyPendingTimers();
-    expect(jest.getTimerCount()).toBe(0);
-    console.log('timers run again');
-
-    await new Promise(r => r());
-    console.log('awaited a bit more');
-
-    expect(p2).toBeTruthy();
-    await p2;
-    console.log('awaited p2');
+    // prettier-ignore
+    while (!p2) { await null; }
+    jest.runAllTimers();
 
     await txPromise;
-    console.log('awaited');
 
     const rows = await db.query<{ name: string, value: number }>('SELECT name, value FROM foo', []);
     const data = objectFromEntries(rows.map(({ name, value }) => [name, value]));

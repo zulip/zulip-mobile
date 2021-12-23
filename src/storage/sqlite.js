@@ -96,7 +96,7 @@ class SQLTransactionImpl {
       this.tx.executeSql(
         statement,
         args,
-        (t, r) => { console.log('resolving', statement); resolve(r) },
+        (t, r) => resolve(r),
         (t, e) => {
           reject(e);
           return true; // true means propagate the error and roll back the transaction
