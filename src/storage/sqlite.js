@@ -4,6 +4,8 @@ import {
   type SQLResultSet,
   type WebSQLDatabase,
   type SQLTransaction as WebSQLTransaction,
+  type SQLStatementCallback,
+  type SQLStatementErrorCallback,
 } from 'expo-sqlite';
 import invariant from 'invariant';
 
@@ -75,13 +77,25 @@ class SQLTransactionImpl {
       this.tx.executeSql(
         statement,
         args,
-        (t, r) => { console.log('resolving', statement, args); resolve(r) },
+        (t, r) => {
+          console.log('resolving', statement, args);
+          resolve(r);
+        },
         (t, e) => {
           reject(e);
           return true; // true means propagate the error and roll back the transaction
         },
       );
     });
+  }
+
+  executeSqlCb(
+    statement: string,
+    args?: $ReadOnlyArray<SQLArgument>,
+    onSuccess?: SQLStatementCallback,
+    onError?: SQLStatementErrorCallback,
+  ): void {
+    return this.tx.executeSql(statement, args, onSuccess, onError);
   }
 }
 

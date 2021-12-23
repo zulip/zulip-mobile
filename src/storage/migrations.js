@@ -308,15 +308,15 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
 
     // ouch workaround
     let done = false;
-    const hold = async () => {
+    const hold = () => {
       console.log('holding');
-      await tx.executeSql('SELECT 1 FROM migration');
-      // ... and the workaround fails -- we don't reach this line until
-      // after the transaction has already checked its queue and found it empty.
-      console.log('hold-select complete');
-      done || hold();
+      tx.executeSqlCb('SELECT 1 FROM migration', [], () => {
+        console.log('hold-select complete');
+        done || hold();
+      });
     };
     hold();
+    try {
 
     //
     // Get the stored state.  Like redux-persist/getStoredState.js.
@@ -385,9 +385,11 @@ export const migrationLegacyRollup: CompressedMigration = new CompressedMigratio
       ]);
     }
 
-    done = true;
-
     // And we're done!
+
+} finally {
+    done = true;
+}
   },
 );
 
