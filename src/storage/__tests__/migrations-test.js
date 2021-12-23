@@ -7,6 +7,7 @@ import { CompressedAsyncStorageImpl } from '../CompressedAsyncStorage';
 import { parse, stringify } from '../replaceRevive';
 import { migrationLegacyRollup } from '../migrations';
 import { objectFromEntries } from '../../jsBackport';
+import { ZulipVersion } from '../../utils/zulipVersion';
 
 // These are copied from the implementation.
 const reduxPersistKeyPrefix = 'reduxPersist:';
@@ -73,6 +74,26 @@ describe('migrationLegacyRollup', () => {
     foo: 1,
   };
 
+  // Like `base` after migration 9, for convenience.
+  const base9 = {
+    ...base,
+    migrations: { version: 9 },
+    accounts: [{ ...base.accounts[0], ackedPushToken: null }],
+  };
+
+  const base15 = {
+    ...base9,
+    migrations: { version: 15 },
+    accounts: [
+      {
+        ...base9.accounts[0],
+        realm: new URL('https://chat.example'),
+        zulipFeatureLevel: null,
+        zulipVersion: null,
+      },
+    ],
+  };
+
   const endBase = {
     migrations: { version: 37 },
     accounts: [
@@ -108,10 +129,92 @@ describe('migrationLegacyRollup', () => {
 
   for (const [desc, before, after] of [
     ['whole sequence', base, endBase],
+    // 6 is redundant with 9
+    // 9 covered by whole
     [
       'check 10 with locale zh',
-      { ...base, settings: { ...base.settings, locale: 'zh' } },
+      // with locale id, 10 gets reverted by 26
+      { ...base9, settings: { ...base9.settings, locale: 'zh' } },
       { ...endBase, settings: { ...endBase.settings, language: 'zh-Hans' } },
+    ],
+    // 12 covered by whole
+    [
+      'check 13',
+      {
+        ...base9,
+        migrations: { version: 12 },
+        accounts: [{ ...base9.accounts[0], zulipVersion: '1.2.3' }],
+      },
+      {
+        ...endBase,
+        accounts: [{ ...endBase.accounts[0], zulipVersion: new ZulipVersion('1.2.3') }],
+      },
+    ],
+    // 14 covered by whole
+    // 15 covered by whole
+    // 21 covered by whole
+    [
+      'check 22',
+      { ...base15, migrations: { version: 21 }, drafts: { 'pm:d:12:other@example.com': 'text' } },
+      // Should be this:
+      //   { ...endBase, drafts: { 'pm:12': 'text' } }, // FAILS
+      // But this migration is buggy!  Should have written tests in the first place.
+      // Instead we get:
+      { ...endBase, drafts: {} }, // WRONG
+      // TODO reflect that in the migration.  (Too late for fixing it to be
+      //   of much use.)
+    ],
+    [
+      'check 26',
+      { ...base9, migrations: { version: 10 }, settings: { ...base9.settings, locale: 'id-ID' } },
+      { ...endBase, settings: { ...endBase.settings, language: 'id' } },
+    ],
+    [
+      'check 27',
+      { ...base, accounts: [{ ...base.accounts[0], email: '' }] },
+      { ...endBase, accounts: [] },
+    ],
+    // 28 covered by whole
+    [
+      'check 29 with outbox-message that does have sender_id',
+      { ...base, outbox: [{ ...base.outbox[0], sender_id: 345 }] },
+      { ...endBase, outbox: [{ ...base.outbox[0], sender_id: 345 }] },
+    ],
+    [
+      'check 30',
+      { ...base, settings: { ...base.settings, locale: 'pt_PT' } },
+      { ...endBase, settings: { ...endBase.settings, language: 'pt-PT' } },
+    ],
+    // 31 covered by whole
+    [
+      'check 32',
+      { ...base, settings: { ...base.settings, locale: 'zh-Hant' } },
+      { ...endBase, settings: { ...endBase.settings, language: 'zh-TW' } },
+    ],
+    // 33 covered by whole
+    [
+      'check 35 with missing stream_id',
+      { ...base, outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345 }] },
+      { ...endBase, outbox: [] },
+    ],
+    [
+      'check 35 with stream_id present',
+      { ...base, outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }] },
+      {
+        ...endBase,
+        outbox: [{ ...base.outbox[0], type: 'stream', sender_id: 345, stream_id: 17 }],
+      },
+    ],
+    // 36 covered by whole
+    [
+      'check 37 with setting already false',
+      { ...base, settings: { ...base.settings, doNotMarkMessagesAsRead: false } },
+      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: false } },
+    ],
+    [
+      'check 37 with setting already true',
+      { ...base, settings: { ...base.settings, doNotMarkMessagesAsRead: true } },
+      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: true } },
     ],
   ]) {
     test(desc, async () => {
