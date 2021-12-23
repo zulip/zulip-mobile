@@ -244,4 +244,72 @@ describe('our promisified sqlite', () => {
     expect(a?.rows._array).toEqual([{ n: 1 }]);
     expect(b?.rows._array).toEqual([{ n: 2 }]);
   });
+
+  test('transaction with internal asynchrony other than executeSql', async () => {
+    // This corresponds to the similar test for expo-sqlite above, and
+    // shows that we've successfully worked around that issue.
+
+    const db = new SQLDatabase(dbName);
+    const txPromise = db.transaction(async tx => {
+      console.log('start tx');
+      tx.executeSql('CREATE TABLE foo (name TEXT, value INT)');
+      const result = await tx.executeSql('SELECT 2 + 2 AS total');
+      console.log('first result');
+      const { total } = result.rows._array[0];
+
+      // Use that data to compute something synchronously, and store it.
+      const double = 2 * total;
+      tx.executeSql('INSERT INTO foo (name, value) VALUES (?, ?)', ['double', double]);
+
+      // Now do some *asynchronous* computation, using the data we
+      // read earlier in the transaction.  We'll use the exact same function as above:
+      console.log('here');
+      const asyncSquare = (x, cb) => setTimeout(() => cb(x * x), 0);
+      const square = await new Promise(resolve => asyncSquare(total, resolve));
+      console.log('there');
+      tx.executeSql('INSERT INTO foo (name, value) VALUES (?, ?)', ['square', square]);
+    });
+    console.log('after');
+
+    // Let that asynchronous computation complete.
+    expect(jest.getTimerCount()).toBe(0);
+    await null;
+    console.log('1');
+    await null;
+    await null;
+    // expect(jest.getTimerCount()).toBe(1);
+    console.log('3');
+    jest.runOnlyPendingTimers();
+    expect(jest.getTimerCount()).toBe(0);
+    console.log('timers run');
+    await null;
+    console.log('awaited a bit');
+    jest.runOnlyPendingTimers();
+    console.log('timers run again');
+    await null;
+    console.log('awaited a bit more');
+    jest.runOnlyPendingTimers();
+    console.log('timers run again');
+    await null;
+    console.log('awaited a bit more');
+    jest.runOnlyPendingTimers();
+    console.log('timers run again');
+    await null;
+    console.log('awaited a bit more');
+    jest.runOnlyPendingTimers();
+    console.log('timers run again');
+    await null;
+    console.log('awaited a bit more');
+    jest.runOnlyPendingTimers();
+    console.log('timers run again');
+    await null;
+    console.log('awaited a bit more');
+    await txPromise;
+    console.log('awaited');
+
+    const rows = await db.query<{ name: string, value: number }>('SELECT name, value FROM foo', []);
+    const data = objectFromEntries(rows.map(({ name, value }) => [name, value]));
+
+    expect(data).toEqual({ double: 8, square: 16 });
+  });
 });
