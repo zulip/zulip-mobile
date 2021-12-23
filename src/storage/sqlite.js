@@ -23,13 +23,18 @@ export class SQLDatabase {
     this.db = openDatabase(name);
   }
 
+  // NB if cb rejects after some executeSql calls are already made, the
+  // transaction will be *committed*.  (In fact even if it outright throws,
+  // the transaction doesn't roll back, but instead hangs open, and future
+  // attempted transactions fail.)
+  // TODO can we extend keepQueueLiveWhile to fix that?
   transaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
       this.db.transaction(
-        // TODO if cb throws or rejects, then keepQueueLiveWhile rejects but
-        //   that goes unhandled; should instead abort tx.  (That isn't
-        //   possible with the Web SQL / expo-sqlite API, though.)
-        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
+        tx =>
+          void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))).catch(err =>
+            reject(err),
+          ),
         reject,
         resolve,
       ),
