@@ -31,7 +31,10 @@ export class SQLDatabase {
   transaction(cb: SQLTransaction => void | Promise<void>): Promise<void> {
     return new Promise((resolve, reject) =>
       this.db.transaction(
-        tx => void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))),
+        tx =>
+          void keepQueueLiveWhile(tx, () => cb(new SQLTransactionImpl(this, tx))).catch(err =>
+            reject(err),
+          ),
         reject,
         resolve,
       ),
@@ -78,23 +81,13 @@ async function keepQueueLiveWhile(
   f: () => void | Promise<void>,
 ): Promise<void> {
   let done = false;
-  let err = undefined;
-  const hold = () =>
-    tx.executeSql('SELECT 1', [], () => {
-      if (err) {
-        tx.executeSql('SELECT failed');
-      } else if (!done) {
-        hold();
-      }
-    });
+  const hold = () => tx.executeSql('SELECT 1', [], () => (done ? undefined : hold()));
   hold();
   try {
     await f();
-  } catch (e) {
-    err = e;
-    throw e;
+  } finally {
+    done = true;
   }
-  done = true;
 }
 
 class SQLTransactionImpl {

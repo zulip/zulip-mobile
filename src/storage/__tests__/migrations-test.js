@@ -18,7 +18,7 @@ const serializer = stringify;
 describe('migrationLegacyRollup', () => {
   const baseStorage = new CompressedAsyncStorageImpl(1, [new Migration(0, 1, async () => {})]);
 
-  //   beforeAll(() => baseStorage.devWipe());
+  beforeAll(() => baseStorage.devWipe());
   afterEach(() => baseStorage.devWipe());
 
   async function prep(state: { ... }) {
@@ -30,14 +30,7 @@ describe('migrationLegacyRollup', () => {
       new Migration(0, 1, async () => {}),
       migrationLegacyRollup,
     ]);
-    try {
-      const keys = await storage.getAllKeys();
-    } catch (e) {
-      console.log('caught');
-      await storage.getAllKeys();
-      console.log('got');
-      throw e;
-    }
+    const keys = await storage.getAllKeys();
     const pairs = await Promise.all(
       keys.map(async k => {
         expect(k).toStartWith(reduxPersistKeyPrefix);
