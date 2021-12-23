@@ -107,5 +107,6 @@ export function openDatabase(
 ): WebSQLDatabase {
   const db = customOpenDatabase(SQLiteDatabase)(name, version, description, size, callback);
   db._db = new SQLiteDatabase(name);
+  db.exec = (...args) => db._db.exec(...args);
   return db;
 }
