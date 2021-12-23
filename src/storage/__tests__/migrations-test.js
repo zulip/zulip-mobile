@@ -90,16 +90,9 @@ describe('migrationLegacyRollup', () => {
     migrations: { version: 37 },
     accounts: [
       {
-        email: 'me@example.com',
-        api_key: '1234',
-        // realm converted
-        realm: new URL('https://chat.example'),
-        // added:
-        ackedPushToken: null,
+        ...base15.accounts[0],
         lastDismissedServerPushSetupNotice: null,
         userId: null,
-        zulipFeatureLevel: null,
-        zulipVersion: null,
       },
     ],
     drafts: {}, // cleared
@@ -129,9 +122,10 @@ describe('migrationLegacyRollup', () => {
 
     // Test the whole sequence all together.  This covers many of the
     // individual migrations.  (This might not be a good design if we were
-    // going to be adding more migrations in this sequence.  But we aren't.)
+    // going to be adding more migrations in this sequence; but we aren't.)
     ['whole sequence', base, endBase],
 
+    //
     // Now test individual migrations further, where needed.
 
     // 6 is redundant with 9
