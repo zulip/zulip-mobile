@@ -156,9 +156,12 @@ const legacyMigrations: {| [string]: (StoredState) => StoredState |} = {
   '22': state => ({
     ...state,
     drafts: objectFromEntries(
-      Object.keys(state.drafts)
-        .map(key => key.replace(/^pm:d:(.*?):.*/s, 'pm:$1'))
-        .map(key => [key, state.drafts[key]]),
+      Object.keys(state.drafts).map(key =>
+        // NB the original version of this migration was buggy; it ended up
+        // just dropping drafts outright for PM narrows.  Fortunately that's
+        // not all that bad; see 21 above where we chose that same behavior.
+        [key.replace(/^pm:d:(.*?):.*/s, 'pm:$1'), state.drafts[key]],
+      ),
     ),
   }),
 
