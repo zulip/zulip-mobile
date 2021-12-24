@@ -431,12 +431,11 @@ function mkMigration(
 // often the input side of a given migration isn't really the same type as
 // the output.  So we'll cross the bridge of revising this when we come to it.
 function mkSimpleMigration<K: string>(
-  startVersion: number,
   endVersion: number,
   key: K,
   migrate: ($ElementType<GlobalState, K>) => $ElementType<GlobalState, K>,
 ): CompressedMigration {
-  return mkMigration(startVersion, endVersion, async ops => {
+  return mkMigration(endVersion - 1, endVersion, async ops => {
     const substate: mixed = await ops.get(key);
     if (substate === undefined) {
       return;
@@ -465,7 +464,6 @@ export const WIP_migrationSplitSettings: CompressedMigration = mkMigration(2, 3,
 });
 
 export const WIP_migrationAccountId: CompressedMigration = mkSimpleMigration(
-  3,
   4,
   'accounts',
   // TODO this needs to come after adding a `nextAccountId` so we can assign
