@@ -139,13 +139,15 @@ describe('migrations', () => {
     // 21 covered by whole
     [
       'check 22',
-      { ...base15, migrations: { version: 21 }, drafts: { 'pm:d:12:other@example.com': 'text' } },
-      // Should be this:
-      //   { ...endBase, drafts: { 'pm:12': 'text' } }, // FAILS
-      // But this migration is buggy!  Should have written tests in the first place.
-      // Instead we get:
-      { ...endBase, drafts: {} }, // WRONG
-      // TODO clear things up in the migration source code
+      {
+        ...base15,
+        migrations: { version: 21 },
+        drafts: { 'pm:d:12:other@example.com': 'text', 'topic:s:general\x00stuff': 'other text' },
+      },
+      { ...endBase, drafts: { 'pm:12': 'text', 'topic:s:general\x00stuff': 'other text' } },
+      // NB the original version of this migration was buggy; it resulted in:
+      //   { ...endBase, drafts: { 'topic:s:general\x00stuff': 'other text' } }, // WRONG
+      // Should have written tests for it the first time. :-)
     ],
     [
       'check 26',
