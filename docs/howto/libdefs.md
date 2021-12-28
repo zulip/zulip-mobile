@@ -17,6 +17,39 @@ dependencies well-typed.
 
 -----
 
+## Normal type definitions (`.js.flow`): `sqlite3`
+
+This library doesn't have its own Flow types, and doesn't have its own
+TypeScript types so it's not suited for Flowgen.  We wrote type
+definitions from scratch.
+
+For doing that, an option that's much more convenient than a libdef in
+`flow-typed` is to write a `.js.flow` file.  In particular iterating
+on changes is much faster and easier, because Flow does its usual
+incremental thing; whereas with a libdef it restarts from scratch on
+each edit.
+
+The major difference in structure between a libdef and a `.js.flow`
+file is that the latter doesn't have `declare module` blocks.
+Instead the whole file describes one module, identified by where it is
+in the filesystem -- just like a normal JS file does.  The contents of
+the file are very much like the body of any given `declare module`
+block in a libdef: `export type Foo = …` and `declare export class
+Bar { … }` and so on.
+
+In order to be able to write a `.js.flow` file for the library in our
+tree (rather than under `node_modules/`) and have Flow find it, we
+added the following line to `.flowconfig`:
+
+    module.name_mapper='^\(sqlite3\)$' -> '<PROJECT_ROOT>/types/\0'
+
+Then the file goes at `types/sqlite3.js.flow`.
+
+The actual contents of the `.js.flow` file were based on the library's
+API documentation, and consulting its implementation for points where
+the documentation wasn't clear.
+
+
 ## `remotedev-serialize`
 
 Some assembly was required for a libdef for `remotedev-serialize`, but

@@ -1,0 +1,69 @@
+/*
+Types for the NPM package `sqlite3`.
+
+Based on upstream API docs:
+  https://github.com/mapbox/node-sqlite3/wiki/API
+
+@flow strict-local
+*/
+
+/* eslint-disable */
+
+// From `Statement::BindParameter` in the implementation.
+// It actually also accepts arbitrary objects using ToString,
+// but let's say that it doesn't.
+export type QueryParameter = string | number | boolean | null | RegExp | Date | Buffer;
+
+type Row = { ... };
+
+type ResultCallback<T> = interface { (Error): void, (null, T): void };
+
+declare export class Database {
+  constructor(filename: string): this; // not modeled: mode and callback
+
+  close(cb?: ResultCallback<void>): void;
+
+  // configure(…) not modeled
+
+  // Does the `run` callback get a second argument?  Not sure from docs.
+  // Not modeled here: the `this` on the `run` callback.
+  run(sql: string, params: QueryParameter[], cb?: ResultCallback<void>): this;
+  run(sql: string, cb?: ResultCallback<void>): this;
+
+  get(sql: string, params: QueryParameter[], cb?: ResultCallback<Row | void>): this;
+  get(sql: string, cb?: ResultCallback<Row | void>): this;
+
+  all(sql: string, params: QueryParameter[], cb?: ResultCallback<Row[]>): this;
+  all(sql: string, cb?: ResultCallback<Row[]>): this;
+
+  each(
+    sql: string,
+    params: QueryParameter[],
+    cb?: ResultCallback<Row>,
+    complete?: ResultCallback<number>,
+  ): this;
+  each(sql: string, cb?: ResultCallback<Row>, complete?: ResultCallback<number>): this;
+
+  exec(sql: string, cb?: ResultCallback<void>): this;
+
+  // Not modeled: the Statement class, and:
+  //   prepare(sql: string, params: QueryParameter[], cb?: ResultCallback<void>): Statement;
+  //   prepare(sql: string, cb?: ResultCallback<void>): Statement;
+
+  // The library also accepts forms one might write like:
+  //   all(sql: string, ...params: QueryParameter[], cb?: ResultCallback<Row[]>): this
+  // with the query parameters splatted right into the arguments list.
+  // But that means a variable-length list of arguments followed by another
+  // argument, which the Flow type system doesn't permit.  We include the
+  // zero-argument version of that for convenience; otherwise, pass an array.
+  //
+  // It also accepts `params` as an object like this:
+  //   db.run("UPDATE tbl SET name = $name WHERE id = $id", { $id: 2, $name: "bar" });
+  // We leave that out for now.
+}
+
+export default {
+  // `verbose` function not modeled
+  Database,
+  // Statement class not modeled
+};
