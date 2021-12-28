@@ -85,6 +85,7 @@
   "Unmute topic": "Unmute topic",
   "Mute stream": "Mute stream",
   "Unmute stream": "Unmute stream",
+  "Copy stream link":"Copy stream link",
   "No Internet connection": "No Internet connection",
   "Please check your Internet connection": "Please check your Internet connection",
   "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.": "{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.",

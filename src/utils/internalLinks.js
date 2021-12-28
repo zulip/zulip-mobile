@@ -22,6 +22,13 @@ const getPathsFromUrl = (url: string = '', realm: URL) => {
   return paths;
 };
 
+const hashReplacements: Map<string, string> = new Map([
+  ['%', '.'],
+  ['(', '.28'],
+  [')', '.29'],
+  ['.', '.2E'],
+]);
+
 /**
  * PRIVATE -- exported only for tests.
  *
@@ -117,6 +124,11 @@ export const decodeHashComponent = (string: string): string => {
     throw err;
   }
 };
+
+// we trying to create uri like web app.
+// see https://github.com/zulip/zulip/blob/HEAD/static/js/hash_util.js
+export const encodeHashComponent = (string: string): string =>
+  encodeURIComponent(string).replace(/[%().]/g, matched => hashReplacements.get(matched) ?? '');
 
 /**
  * Parse the operand of a `stream` operator, returning a stream ID and name.
@@ -217,4 +229,38 @@ export const getMessageIdFromLink = (url: string, realm: URL): number => {
   const paths = getPathsFromUrl(url, realm);
 
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
+};
+
+/**
+ * Get a URL pointing to the given stream narrow.
+ *
+ * Implemented from operators_to_hash in /static/js/hash_util.js at 5.0-dev,
+ * simplified to only deal with a pure stream narrow (not stream+topic or
+ * anything else).
+ */
+export const getStreamURL = (
+  realm: URL,
+  streamId: number,
+  streamsById: Map<number, Stream>,
+): URL => {
+  const stream = streamsById.get(streamId);
+  const prettyStreamName =
+    // The web-app implementation (id_to_slug in static/js/stream_data.js)
+    // says, "The name part of the URL doesn't really matter, so we try to
+    // make it pretty". It sounds like we're assuming that consumers of these
+    // links will always identify the stream by its ID, and that its name is
+    // basically decorative. We definitely prefer to use IDs in general (see
+    // our #3918), and I think in this area we're already doing so. So, might
+    // as well.
+    //   https://github.com/zulip/zulip/blob/5.0-dev/static/js/stream_data.js#L269-L277
+    stream?.name.replace(' ', '-')
+    // The web app does this fallback. It's probably not ideal: the string
+    // isn't translated, and if `stream` is undefined there's probably a bug
+    // that we'd want to fail early on. But for now, just copy the web app.
+    ?? 'unknown';
+
+  // Like `encode_stream_name` in /static/js/hash_util.js.
+  const encodedStreamSlug = encodeHashComponent(`${streamId}-${prettyStreamName}`);
+
+  return new URL(`#narrow/stream/${encodedStreamSlug}`, realm);
 };

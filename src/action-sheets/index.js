@@ -27,6 +27,7 @@ import {
   isTopicNarrow,
 } from '../utils/narrow';
 import { pmUiRecipientsFromKeyRecipients } from '../utils/recipient';
+import { getStreamURL } from '../utils/internalLinks';
 import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
@@ -214,6 +215,14 @@ const muteStream = async ({ auth, streamId, subscriptions }) => {
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
+const copyLinkToStream = async ({ _, streamId, streams, auth }) => {
+  const url = getStreamURL(auth.realm, streamId, streams).toString();
+  Clipboard.setString(url);
+  showToast(_('Link copied'));
+};
+copyLinkToStream.title = 'Copy stream link';
+copyLinkToStream.errorMessage = 'Failed to copy stream link';
+
 const showStreamSettings = ({ streamId, subscriptions }) => {
   NavigationService.dispatch(navigateToStream(streamId));
 };
@@ -323,6 +332,7 @@ export const constructStreamActionButtons = ({
     } else {
       buttons.push(muteStream);
     }
+    buttons.push(copyLinkToStream);
     if (sub.pin_to_top) {
       buttons.push(unpinFromTop);
     } else {
