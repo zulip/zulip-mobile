@@ -24,6 +24,7 @@ import {
   isStreamOrTopicNarrow,
   isTopicNarrow,
 } from '../utils/narrow';
+import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
 import { showToast } from '../utils/info';
@@ -201,11 +202,44 @@ const muteStream = async ({ auth, streamId, subscriptions }) => {
 muteStream.title = 'Mute stream';
 muteStream.errorMessage = 'Failed to mute stream';
 
-const copyLinkToStream = async ({ _, streamId, streams }) => {
+const hashReplacements: Map<string, string> = new Map([
+  ['%', '.'],
+  ['(', '.28'],
+  [')', '.29'],
+  ['.', '.2E'],
+]);
+
+// we trying to create uri like web app.
+// see https://github.com/zulip/zulip/blob/HEAD/static/js/hash_util.js
+const encodeHashComponent = (str: string) =>
+  encodeURIComponent(str).replace(/[%().]/g, matched => hashReplacements.get(matched) ?? '');
+
+const getStreamDetail = (streamId, streams) => {
   const stream = streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId not found.');
+
+  // The name part of the URL doesn't really matter, so we try to
+  // make it pretty.
   const streamName = stream.name.replace(' ', '-');
-  Clipboard.setString(`https://chat.zulip.org/#narrow/stream/${streamId}-${streamName}`);
+
+  const streamDetail = `${streamId}-${streamName}`;
+  return encodeHashComponent(streamDetail);
+};
+
+const getStreamUri = (streamId, streams): string =>
+  `#narrow/stream/${getStreamDetail(streamId, streams)}`;
+
+const getFullUrl = (domainName, streamId, streams) => {
+  const restUri = getStreamUri(streamId, streams);
+  const url = `${domainName}/${restUri}`;
+  return url;
+};
+
+const copyLinkToStream = async ({ _, streamId, streams, auth }) => {
+  const realm = auth.realm;
+  const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
+  const uri = getFullUrl(serverSettings.realm_uri, streamId, streams);
+  Clipboard.setString(uri);
   showToast(_('Message copied'));
 };
 copyLinkToStream.title = 'Copy stream link';
