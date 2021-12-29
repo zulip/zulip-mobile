@@ -28,13 +28,14 @@ import {
   isMessageInNarrow,
   caseNarrowDefault,
   keyFromNarrow,
-  streamNameOfNarrow,
   caseNarrow,
+  streamIdOfNarrow,
 } from '../utils/narrow';
 import { isTopicMuted } from '../mute/muteModel';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
+import { getStreamsById, getSubscriptionsById } from '../selectors';
 
 export const outboxMessagesForNarrow: Selector<$ReadOnlyArray<Outbox>, Narrow> = createSelector(
   (state, narrow) => narrow,
@@ -196,20 +197,20 @@ export const getLastMessageId = (state: PerAccountState, narrow: Narrow): number
 // TODO: clean up what this returns; possibly to just `Stream`
 export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_view: boolean |}, Narrow> = createSelector(
   (state, narrow) => narrow,
-  state => getSubscriptions(state),
-  state => getStreams(state),
+  state => getSubscriptionsById(state),
+  state => getStreamsById(state),
   (narrow, subscriptions, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return NULL_SUBSCRIPTION;
     }
-    const streamName = streamNameOfNarrow(narrow);
+    const streamId = streamIdOfNarrow(narrow);
 
-    const subscription = subscriptions.find(x => x.name === streamName);
+    const subscription = subscriptions.get(streamId);
     if (subscription) {
       return subscription;
     }
 
-    const stream = streams.find(x => x.name === streamName);
+    const stream = streams.get(streamId);
     if (stream) {
       return {
         ...stream,

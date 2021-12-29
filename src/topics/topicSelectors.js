@@ -1,35 +1,27 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { Narrow, Selector, StreamsState, TopicExtended, TopicsState } from '../types';
-import { getMute, getStreams, getTopics } from '../directSelectors';
+import type { Narrow, Selector, TopicExtended, TopicsState } from '../types';
+import { getMute, getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
-import { isStreamNarrow, streamNameOfNarrow } from '../utils/narrow';
+import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
 import { isTopicMuted } from '../mute/muteModel';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getTopics(state),
-  state => getStreams(state),
-  (narrow: Narrow, topics: TopicsState, streams: StreamsState) => {
+  (narrow: Narrow, topics: TopicsState) => {
     if (!isStreamNarrow(narrow)) {
       return NULL_ARRAY;
     }
-    const streamName = streamNameOfNarrow(narrow);
+    const streamId = streamIdOfNarrow(narrow);
 
-    // TODO (#4333): Look for the stream by its ID, not its name. One
-    // expected consequence of the current code is that
-    // `TopicAutocomplete` would stop showing any topics, if someone
-    // changed the stream name while you were looking at
-    // `TopicAutocomplete`.
-    const stream = streams.find(x => x.name === streamName);
-    if (!stream || !topics[stream.stream_id]) {
+    if (!topics[streamId]) {
       return NULL_ARRAY;
     }
-
-    return topics[stream.stream_id].map(x => x.name);
+    return topics[streamId].map(x => x.name);
   },
 );
 

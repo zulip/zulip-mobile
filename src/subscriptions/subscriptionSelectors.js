@@ -2,7 +2,7 @@
 import { createSelector } from 'reselect';
 
 import type { PerAccountState, Narrow, Selector, Stream, Subscription } from '../types';
-import { isStreamOrTopicNarrow, streamNameOfNarrow } from '../utils/narrow';
+import { isStreamOrTopicNarrow, streamIdOfNarrow } from '../utils/narrow';
 import { getSubscriptions, getStreams } from '../directSelectors';
 
 /**
@@ -39,14 +39,12 @@ export const getSubscriptionsByName: Selector<Map<string, Subscription>> = creat
 
 export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
-  state => getSubscriptions(state),
+  state => getSubscriptionsById(state),
   (narrow, subscriptions) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return true;
     }
-    const streamName = streamNameOfNarrow(narrow);
-
-    return subscriptions.find(sub => streamName === sub.name) !== undefined;
+    return subscriptions.get(streamIdOfNarrow(narrow)) !== undefined;
   },
 );
 
@@ -70,14 +68,12 @@ export const getStreamForId = (state: PerAccountState, streamId: number): Stream
 
 export const getIsActiveStreamAnnouncementOnly: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
-  state => getStreams(state),
+  state => getStreamsById(state),
   (narrow, streams) => {
     if (!isStreamOrTopicNarrow(narrow)) {
       return false;
     }
-    const streamName = streamNameOfNarrow(narrow);
-
-    const stream = streams.find(stream_ => streamName === stream_.name);
+    const stream = streams.get(streamIdOfNarrow(narrow));
     return stream ? stream.is_announcement_only : false;
   },
 );
@@ -92,7 +88,7 @@ export const getStreamColorForNarrow = (state: PerAccountState, narrow: Narrow):
     return undefined;
   }
 
-  const subscriptionsByName = getSubscriptionsByName(state);
-  const streamName = streamNameOfNarrow(narrow);
-  return subscriptionsByName.get(streamName)?.color ?? 'gray';
+  const subscriptionsById = getSubscriptionsById(state);
+  const streamId = streamIdOfNarrow(narrow);
+  return subscriptionsById.get(streamId)?.color ?? 'gray';
 };

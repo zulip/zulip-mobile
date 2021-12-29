@@ -8,14 +8,14 @@ import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { ZulipButton } from '../common';
 import * as api from '../api';
-import { getAuth, getStreams, getOwnUserId } from '../selectors';
+import { getAuth, getOwnUserId } from '../selectors';
 import { getUnread, getUnreadIdsForPmNarrow } from '../unread/unreadModel';
 import {
   isHomeNarrow,
   isStreamNarrow,
   isTopicNarrow,
   isPmNarrow,
-  streamNameOfNarrow,
+  streamIdOfNarrow,
   topicOfNarrow,
 } from '../utils/narrow';
 
@@ -35,7 +35,6 @@ type Props = $ReadOnly<{|
 export default function MarkAsReadButton(props: Props): Node {
   const { narrow } = props;
   const auth = useSelector(getAuth);
-  const streams = useSelector(getStreams);
   const unread = useSelector(getUnread);
   const ownUserId = useSelector(getOwnUserId);
 
@@ -44,20 +43,12 @@ export default function MarkAsReadButton(props: Props): Node {
   }, [auth]);
 
   const markStreamAsRead = useCallback(() => {
-    const streamName = streamNameOfNarrow(narrow);
-    const stream = streams.find(s => s.name === streamName);
-    if (stream) {
-      api.markStreamAsRead(auth, stream.stream_id);
-    }
-  }, [auth, narrow, streams]);
+    api.markStreamAsRead(auth, streamIdOfNarrow(narrow));
+  }, [auth, narrow]);
 
   const markTopicAsRead = useCallback(() => {
-    const streamName = streamNameOfNarrow(narrow);
-    const stream = streams.find(s => s.name === streamName);
-    if (stream) {
-      api.markTopicAsRead(auth, stream.stream_id, topicOfNarrow(narrow));
-    }
-  }, [auth, narrow, streams]);
+    api.markTopicAsRead(auth, streamIdOfNarrow(narrow), topicOfNarrow(narrow));
+  }, [auth, narrow]);
 
   const markPmAsRead = useCallback(() => {
     // The message IDs come from our unread-messages data, which is

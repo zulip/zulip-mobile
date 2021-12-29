@@ -14,7 +14,12 @@ import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
-import { caseNarrowDefault, streamNameOfNarrow, streamNarrow } from '../utils/narrow';
+import {
+  caseNarrowDefault,
+  streamIdOfNarrow,
+  streamNameOfNarrow,
+  streamNarrow,
+} from '../utils/narrow';
 import {
   navigateToStream,
   navigateToAccountDetails,
@@ -23,12 +28,11 @@ import {
   doNarrow,
 } from '../actions';
 import * as NavigationService from './NavigationService';
-import { getStreams, isNarrowValid as getIsNarrowValid } from '../selectors';
+import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 
 function ExtraNavButtonStream(props): Node {
   const { color, narrow } = props;
-  const streams = useSelector(getStreams);
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   if (!isNarrowValid) {
@@ -40,11 +44,7 @@ function ExtraNavButtonStream(props): Node {
       name="list"
       color={color}
       onPress={() => {
-        const streamName = streamNameOfNarrow(narrow);
-        const stream = streams.find(x => x.name === streamName);
-        if (stream) {
-          NavigationService.dispatch(navigateToTopicList(stream.stream_id));
-        }
+        NavigationService.dispatch(navigateToTopicList(streamIdOfNarrow(narrow)));
       }}
     />
   );
@@ -53,22 +53,16 @@ function ExtraNavButtonStream(props): Node {
 function ExtraNavButtonTopic(props): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
-  const streams = useSelector(getStreams);
 
   const handlePress = useCallback(() => {
-    const streamName = streamNameOfNarrow(narrow);
-    const stream = streams.find(x => x.name === streamName);
-    if (stream) {
-      dispatch(doNarrow(streamNarrow(stream.name, stream.stream_id)));
-    }
-  }, [dispatch, narrow, streams]);
+    dispatch(doNarrow(streamNarrow(streamNameOfNarrow(narrow), streamIdOfNarrow(narrow))));
+  }, [dispatch, narrow]);
 
   return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
 }
 
 function InfoNavButtonStream(props): Node {
   const { color, narrow } = props;
-  const streams = useSelector(getStreams);
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   if (!isNarrowValid) {
@@ -80,11 +74,7 @@ function InfoNavButtonStream(props): Node {
       name="info"
       color={color}
       onPress={() => {
-        const streamName = streamNameOfNarrow(narrow);
-        const stream = streams.find(x => x.name === streamName);
-        if (stream) {
-          NavigationService.dispatch(navigateToStream(stream.stream_id));
-        }
+        NavigationService.dispatch(navigateToStream(streamIdOfNarrow(narrow)));
       }}
     />
   );
