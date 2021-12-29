@@ -356,7 +356,7 @@ describe('isNarrowValid', () => {
     const state = eg.reduxState({
       streams: [],
     });
-    const narrow = streamNarrow('nonexisting');
+    const narrow = streamNarrow(eg.stream.name);
 
     const result = isNarrowValid(state, narrow);
 

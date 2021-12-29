@@ -41,16 +41,17 @@ describe('fetchingReducer', () => {
         [HOME_NARROW_STR]: { older: false, newer: false },
       });
 
+      const narrow = streamNarrow(eg.stream.name);
       const action = deepFreeze({
         type: MESSAGE_FETCH_START,
-        narrow: streamNarrow('some stream'),
+        narrow,
         numBefore: 10,
         numAfter: 0,
       });
 
       const expectedState = {
         [HOME_NARROW_STR]: { older: false, newer: false },
-        [keyFromNarrow(streamNarrow('some stream'))]: { older: true, newer: false },
+        [keyFromNarrow(narrow)]: { older: true, newer: false },
       };
 
       const newState = fetchingReducer(initialState, action);

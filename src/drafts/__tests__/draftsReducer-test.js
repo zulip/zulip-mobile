@@ -5,9 +5,10 @@ import { NULL_OBJECT } from '../../nullObjects';
 import draftsReducer from '../draftsReducer';
 import { DRAFT_UPDATE } from '../../actionConstants';
 import { topicNarrow, keyFromNarrow } from '../../utils/narrow';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('draftsReducer', () => {
-  const testNarrow = topicNarrow('denmark', 'denmark2');
+  const testNarrow = topicNarrow(eg.stream.name, 'denmark2');
   const testNarrowStr = keyFromNarrow(testNarrow);
 
   describe('DRAFT_UPDATE', () => {
@@ -71,7 +72,7 @@ describe('draftsReducer', () => {
       const action = {
         type: DRAFT_UPDATE,
         content: '   ',
-        narrow: topicNarrow('denmark', 'denmark2'),
+        narrow: testNarrow,
       };
 
       const expectedState = {};

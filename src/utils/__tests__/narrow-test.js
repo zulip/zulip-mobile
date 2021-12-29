@@ -350,16 +350,18 @@ describe('keyFromNarrow+parseNarrow', () => {
   // Try approximately everything else.
   const diverseCharacters = eg.diverseCharacters.replace(/\x00/g, '');
   const htmlEntities = 'h & t &amp; &lquo;ml&quot;';
+  const diverseCharactersStream = eg.makeStream({ name: diverseCharacters });
+  const htmlEntitiesStream = eg.makeStream({ name: htmlEntities });
   const awkwardNarrows = [
-    ['whole stream about awkward characters', streamNarrow(diverseCharacters)],
-    ['whole stream about HTML entities', streamNarrow(htmlEntities)],
+    ['whole stream about awkward characters', streamNarrow(diverseCharactersStream.name)],
+    ['whole stream about HTML entities', streamNarrow(htmlEntitiesStream.name)],
     [
       'stream conversation about awkward characters',
-      topicNarrow(diverseCharacters, `regarding ${diverseCharacters}`),
+      topicNarrow(diverseCharactersStream.name, `regarding ${diverseCharacters}`),
     ],
     [
       'stream conversation about HTML entities',
-      topicNarrow(htmlEntities, `regarding ${htmlEntities}`),
+      topicNarrow(htmlEntitiesStream.name, `regarding ${htmlEntities}`),
     ],
     ['search narrow for awkward characters', SEARCH_NARROW(diverseCharacters)],
     ['search narrow for HTML entities', SEARCH_NARROW(htmlEntities)],
