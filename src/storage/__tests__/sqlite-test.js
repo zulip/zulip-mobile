@@ -391,4 +391,68 @@ describe('our promisified sqlite', () => {
 
     expect(data).toEqual({ double: 8, square: 16 });
   });
+
+  describe('transactions failing in app code', () => {
+    // These tests correspond to "BROKEN" tests above for expo-sqlite
+    // itself, and check that we've successfully worked around those issues.
+
+    test('throws early', async () => {
+      // Do a bit of boring setup.
+      const db = new SQLDatabase(dbName);
+      await db.transaction(async tx => {
+        tx.executeSql('CREATE TABLE foo (x INT)');
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      });
+
+      // Now attempt a transaction, and hit an exception in the transaction
+      // callback.
+      await expect(
+        db.transaction(async tx => {
+          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
+          throw new Error('Fiddlesticks!');
+        }),
+      ).rejects.toThrowError();
+
+      // The transaction gets rolled back.  Its data wasn't committed:
+      const rows = await db.query<{ x: number }>('SELECT x FROM foo', []);
+      expect(rows).toEqual([{ x: 1 }]);
+
+      // … and we can move on to other transactions, and those go just fine:
+      await db.transaction(async tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [3]);
+      });
+      const rows2 = await db.query<{ x: number }>('SELECT x FROM foo', []);
+      expect(rows2).toEqual([{ x: 1 }, { x: 3 }]);
+    });
+
+    test('throws later', async () => {
+      // Do a bit of boring setup.
+      const db = new SQLDatabase(dbName);
+      await db.transaction(async tx => {
+        tx.executeSql('CREATE TABLE foo (x INT)');
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      });
+
+      // Now attempt a transaction, and hit an exception after awaiting some
+      // previous result.
+      await expect(
+        db.transaction(async tx => {
+          await tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
+          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [3]);
+          throw new Error('Fiddlesticks!');
+        }),
+      ).rejects.toThrowError();
+
+      // The transaction gets rolled back.  Its data wasn't committed:
+      const rows = await db.query<{ x: number }>('SELECT x FROM foo', []);
+      expect(rows).toEqual([{ x: 1 }]);
+
+      // … and we can move on to other transactions, and those go just fine:
+      await db.transaction(async tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [4]);
+      });
+      const rows2 = await db.query<{ x: number }>('SELECT x FROM foo', []);
+      expect(rows2).toEqual([{ x: 1 }, { x: 4 }]);
+    });
+  });
 });
