@@ -41,6 +41,7 @@ function openDb(name: string) {
 class SQLiteDatabase {
   _db: Database;
   _closed: boolean = false;
+  _allowUnhandled: boolean = false;
 
   constructor(name: string) {
     this._db = openDb(name);
@@ -81,16 +82,37 @@ class SQLiteDatabase {
         results.push({ rowsAffected: 0, rows });
       }
     } catch (e) {
-      callback(e);
+      try {
+        callback(e);
+      } catch (e) {
+        if (!this._allowUnhandled) {
+          throw e;
+        }
+      }
       return;
     }
 
-    callback(null, results);
+    try {
+      callback(null, results);
+    } catch (e) {
+      if (!this._allowUnhandled) {
+        throw e;
+      }
+    }
   }
 
   close() {
     this._closed = true;
     this._db.close();
+  }
+
+  /**
+   * Suppress otherwise-unhandled Promise rejections when a statement callback throws.
+   *
+   * Not found in expo-sqlite itself, but helpful for tests.
+   */
+  allowUnhandled() {
+    this._allowUnhandled = true;
   }
 }
 
