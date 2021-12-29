@@ -27,68 +27,47 @@ describe('expo-sqlite', () => {
     await deleteDatabase(dbName);
   });
 
+  // These helpers `promiseTxn`, `promiseRead`, and `select` are convenient
+  // for stitching the database control flow into the control flow of a
+  // test.  They're similar to parts of our upcoming promisified wrapper...
+  // namely the outermost, simplest parts.
+  const promiseTxn = (db, cb) =>
+    new Promise((resolve, reject) => db.transaction(cb, reject, resolve));
+
+  const promiseRead = (db, cb) =>
+    new Promise((resolve, reject) => db.readTransaction(cb(resolve), reject, resolve));
+
+  const select = (db, sql, args = []) =>
+    promiseRead(db, resolve => tx => tx.executeSql(sql, args, (t, r) => resolve(r))).then(
+      r => r.rows._array,
+    );
+
   test('smoke', async () => {
     const db = openDatabase(dbName);
-    const result = await new Promise((resolve, reject) => {
-      db.readTransaction(
-        tx => {
-          tx.executeSql('SELECT 42 AS n', [], (t, r) => resolve(r));
-        },
-        reject,
-        resolve,
-      );
-    });
-    expect(result.rows._array).toEqual([{ n: 42 }]);
+    const rows = await select(db, 'SELECT 42 AS n');
+    expect(rows).toEqual([{ n: 42 }]);
   });
 
   test('transaction with no internal await', async () => {
     const db = openDatabase(dbName);
-    await new Promise((resolve, reject) =>
-      db.transaction(
-        tx => {
-          tx.executeSql('CREATE TABLE foo (x INT)');
-          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
-          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
-        },
-        reject,
-        resolve,
-      ),
-    );
-    const result = await new Promise((resolve, reject) => {
-      db.readTransaction(
-        tx => {
-          tx.executeSql('SELECT x FROM foo', [], (t, r) => resolve(r));
-        },
-        reject,
-        resolve,
-      );
+    await promiseTxn(db, tx => {
+      tx.executeSql('CREATE TABLE foo (x INT)');
+      tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
     });
-    expect(result.rows._array).toEqual([{ x: 1 }, { x: 2 }]);
+    const rows = await select(db, 'SELECT x FROM foo');
+    expect(rows).toEqual([{ x: 1 }, { x: 2 }]);
   });
 
   test('transaction with internal await^W callback ', async () => {
     const db = openDatabase(dbName);
-    await new Promise((resolve, reject) =>
-      db.transaction(
-        tx => {
-          tx.executeSql('CREATE TABLE foo (x INT)');
-          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1], () =>
-            tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]),
-          );
-        },
-        reject,
-        resolve,
-      ),
-    );
-    const result = await new Promise((resolve, reject) => {
-      db.readTransaction(
-        tx => {
-          tx.executeSql('SELECT x FROM foo', [], (t, r) => resolve(r));
-        },
-        reject,
-        resolve,
+    await promiseTxn(db, tx => {
+      tx.executeSql('CREATE TABLE foo (x INT)');
+      tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1], () =>
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]),
       );
     });
-    expect(result.rows._array).toEqual([{ x: 1 }, { x: 2 }]);
+    const rows = await select(db, 'SELECT x FROM foo');
+    expect(rows).toEqual([{ x: 1 }, { x: 2 }]);
   });
 });
