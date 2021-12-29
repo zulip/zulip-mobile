@@ -59,8 +59,8 @@ describe('migrations', () => {
     ],
   };
 
-  // What `base` becomes after all migrations.
-  const endBase = {
+  // What `base` becomes after migrations up through 37.
+  const base37 = {
     migrations: { version: 37 },
     accounts: [
       {
@@ -84,14 +84,20 @@ describe('migrations', () => {
     },
   };
 
+  // What `base` becomes after all migrations.
+  const endBase = {
+    ...base37,
+    migrations: { version: 38 },
+  };
+
   for (const [desc, before, after] of [
     // Test the behavior with no migration state, which doesn't apply any
     // of the specific migrations.
-    ['empty state -> just store version', {}, { migrations: { version: 37 } }],
+    ['empty state -> just store version', {}, { migrations: endBase.migrations }],
     [
       'no migration state -> just store version, leave everything else',
       { nonsense: [1, 2, 3] },
-      { migrations: { version: 37 }, nonsense: [1, 2, 3] },
+      { migrations: endBase.migrations, nonsense: [1, 2, 3] },
     ],
 
     // Test the whole sequence all together.  This covers many of the
@@ -144,9 +150,12 @@ describe('migrations', () => {
         migrations: { version: 21 },
         drafts: { 'pm:d:12:other@example.com': 'text', 'topic:s:general\x00stuff': 'other text' },
       },
-      { ...endBase, drafts: { 'pm:12': 'text', 'topic:s:general\x00stuff': 'other text' } },
-      // NB the original version of this migration was buggy; it resulted in:
-      //   { ...endBase, drafts: { 'topic:s:general\x00stuff': 'other text' } }, // WRONG
+      // This migration itself leaves the `topic:` draft in place.  But it
+      // gets dropped later by migration 38.
+      { ...endBase, drafts: { 'pm:12': 'text' } },
+      // NB the original version of this migration was buggy; it would drop
+      // the PM drafts entirely, so this test case would end up as:
+      //   { ...endBase, drafts: {} }, // WRONG
       // Should have written tests for it the first time. :-)
     ],
     [
@@ -203,6 +212,18 @@ describe('migrations', () => {
       'check 37 with setting already true',
       { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: true } },
       { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: true } },
+    ],
+    [
+      'check 38',
+      {
+        ...base37,
+        drafts: {
+          'topic:s:general\x00stuff': 'text',
+          'stream:s:general': 'more text',
+          'pm:12': 'pm text',
+        },
+      },
+      { ...endBase, drafts: { 'pm:12': 'pm text' } },
     ],
   ]) {
     /* eslint-disable no-loop-func */

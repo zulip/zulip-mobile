@@ -26,6 +26,7 @@ import {
   streamNameOfNarrow,
   topicOfNarrow,
   caseNarrowPartial,
+  streamIdOfNarrow,
 } from '../narrow';
 import type { Narrow, Message } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -87,6 +88,7 @@ describe('streamNarrow', () => {
   test('narrows to messages from a specific stream', () => {
     const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
     expect(isStreamNarrow(narrow)).toBeTrue();
+    expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
     expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
   });
 
@@ -101,6 +103,7 @@ describe('topicNarrow', () => {
   test('narrows to a specific topic within a specified stream', () => {
     const narrow = topicNarrow(eg.stream.name, eg.stream.stream_id, 'some topic');
     expect(isTopicNarrow(narrow)).toBeTrue();
+    expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
     expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
     expect(topicOfNarrow(narrow)).toEqual('some topic');
   });

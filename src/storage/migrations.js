@@ -350,6 +350,18 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     },
   }),
 
+  // Change format of keys representing stream and topic narrows, adding IDs.
+  '38': state => ({
+    ...state,
+    drafts: objectFromEntries(
+      // Just drop drafts for stream and topic narrows, for the same reasons
+      // as for PM narrows in migration 21 above.
+      Object.keys(state.drafts)
+        .filter(key => !key.startsWith('stream:') && !key.startsWith('topic:'))
+        .map(key => [key, state.drafts[key]]),
+    ),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

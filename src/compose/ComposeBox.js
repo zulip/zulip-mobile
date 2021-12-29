@@ -35,6 +35,7 @@ import {
   isStreamNarrow,
   isStreamOrTopicNarrow,
   isTopicNarrow,
+  streamIdOfNarrow,
   streamNameOfNarrow,
   topicNarrow,
   topicOfNarrow,
@@ -402,8 +403,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     const { narrow, isEditing } = this.props;
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamName = streamNameOfNarrow(narrow);
+      const streamId = streamIdOfNarrow(narrow);
       const topic = this.state.topic.trim();
-      return topicNarrow(streamName, topic || apiConstants.NO_TOPIC_TOPIC);
+      return topicNarrow(streamName, streamId, topic || apiConstants.NO_TOPIC_TOPIC);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
