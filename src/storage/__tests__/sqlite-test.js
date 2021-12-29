@@ -3,6 +3,10 @@
 import sqlite3 from 'sqlite3';
 // $FlowFixMe[missing-export] -- present in test version of module
 import { openDatabase, deleteDatabase } from 'expo-sqlite';
+/* eslint-disable import/no-extraneous-dependencies */
+// $FlowFixMe[untyped-import]: actually comes from our mock-immediate.js
+import * as immediate from 'immediate';
+import invariant from 'invariant';
 
 import { objectFromEntries } from '../../jsBackport';
 
@@ -135,5 +139,144 @@ describe('expo-sqlite', () => {
 
     // Instead, we get:
     expect(data).toEqual({ double: 8 }); // bad: missing the second INSERT
+  });
+
+  describe('transactions failing in app code', () => {
+    beforeAll(() => immediate.allowUnhandled());
+    afterAll(() => immediate.disallowUnhandled());
+    afterEach(() => expect(immediate.takeUnhandled()).toEqual([]));
+
+    // TODO Here's a Jest gotcha.  Try to report it?
+    //   Say you have `foo: () => Promise<{ foo: number }[]>`.
+    //   You write `expect(foo()).toEqual([{ foo: 3 }])`.
+    //
+    //   This is buggy -- should say `await foo()`, or `.resolves.toEqual(…)`.
+    //   But you don't notice that; maybe you've forgotten `foo` returns a Promise.
+    //
+    //   Jest reports an error.  But the gotcha is: it just says
+    //         Expected: [{"foo": 3}]
+    //         Received: {}
+    //   That is, the thing received is represented as `{}`.  It looks like
+    //   a plain object.  There's no hint that it's actually a Promise.
+    //   That's pretty misleading for debugging.
+
+    test('BROKEN: throws early', async () => {
+      // Do a bit of boring setup.
+      const db = openDatabase(dbName);
+      await promiseTxn(db, tx => {
+        tx.executeSql('CREATE TABLE foo (x INT)');
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      });
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
+      expect(immediate.takeUnhandled()).toEqual([]);
+
+      // Now attempt a transaction, and hit an exception in the transaction
+      // callback.
+      await promiseTxn(db, tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2]);
+        throw new Error('Fiddlesticks!');
+      });
+      // This goes unnoticed by the expo-sqlite implementation, propagating
+      // unhandled up to an `immediate` callback.  (So e.g. with a
+      // Promise-based `immediate` implementation, it'd be an unhandled
+      // Promise rejection.)
+      expect(immediate.takeUnhandled()).toMatchObject([new Error('Fiddlesticks!')]);
+
+      // In itself, that's only a code smell, not a live bug.  But, as usual
+      // for unhandled Promise rejections, it does result in a live bug --
+      // or in any case in user-visible effects that don't seem desirable.
+
+      // A good behavior for that failed transaction to have would be:
+      //   expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]); // FAILS
+      // i.e.: the transaction got rolled back, and we move on.
+
+      // The actual behavior is:
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }, { x: 2 }]); // BAD
+      // The transaction committed!
+
+      // And indeed, we can carry on with more transactions as if all's well.
+      await promiseTxn(db, tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [3]);
+      });
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }, { x: 2 }, { x: 3 }]); // BAD
+    });
+
+    // This describes desired behavior that's currently broken.
+    test.skip('BROKEN: throws later -> cleanly rolls back and errors', async () => {
+      const db = openDatabase(dbName);
+      await promiseTxn(db, tx => {
+        tx.executeSql('CREATE TABLE foo (x INT)');
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      });
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
+
+      // This time, throw in a query callback.
+      // The transaction's error callback gets called (so promiseTxn rejects)…
+      await expect(
+        promiseTxn(db, tx => {
+          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2], (err, r) => {
+            tx.executeSql('INSERT INTO foo (x) VALUES (?)', [3]);
+            throw new Error('Fiddlesticks!');
+          });
+        }),
+      ).rejects.toThrowError('Fiddlesticks!');
+
+      // … and the whole transaction gets rolled back.
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
+
+      // Subsequent queries work fine.
+      await promiseTxn(db, tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [4]);
+      });
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }, { x: 4 }]);
+    });
+
+    test('BROKEN: throws later -> actual, broken behavior', async () => {
+      const db = openDatabase(dbName);
+      await promiseTxn(db, tx => {
+        tx.executeSql('CREATE TABLE foo (x INT)');
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [1]);
+      });
+      expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
+
+      // $FlowFixMe[prop-missing]
+      db._db.allowUnhandled();
+
+      let _ops = undefined;
+      const p1 = new Promise((resolve, reject) => (_ops = { resolve, reject }));
+      invariant(_ops, 'ops should be initialized');
+      const ops = _ops;
+
+      // The overall transaction reports no error; neither its success nor
+      // failure callback ever gets called.
+      // eslint-disable-next-line no-unused-vars
+      const p = promiseTxn(db, tx => {
+        tx.executeSql('INSERT INTO foo (x) VALUES (?)', [2], (err, r) => {
+          tx.executeSql('INSERT INTO foo (x) VALUES (?)', [3]);
+          ops.resolve();
+          throw new Error('Fiddlesticks!');
+        });
+      });
+      // Instead... well, in the actual expo-sqlite implementation, there's
+      // an unhandled Promise rejection, as the `then` callback in the
+      // definition of `exec` in `SQLite.ts` throws.  In our mock
+      // implementation, we selectively let that slide with `allowUnhandled`.
+
+      // Because expo-sqlite never calls the transaction callbacks, we need
+      // our own mechanism to await everything being settled.
+      await p1;
+
+      // This would just hang:
+      //   await p;
+
+      // Then: the `db` object gets left in a stuck state.  (Internally,
+      // `this._running` on the `WebSQLDatabase` is stuck as true.)  So if
+      // we try any query, even something read-only:
+      //   expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
+      // it just never completes.
+
+      // (There isn't an obvious good way to write a test *of* that
+      // particular broken behavior, though.)
+    });
   });
 });
