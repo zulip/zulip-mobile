@@ -138,9 +138,7 @@ export default function ChatScreen(props: Props): Node {
         const content = editMessage.content !== message ? message : undefined;
         const subject = caseNarrowDefault(
           destinationNarrow,
-          {
-            topic: (_1, topic, streamId) => (topic !== editMessage.topic ? topic : undefined),
-          },
+          { topic: (streamId, topic) => (topic !== editMessage.topic ? topic : undefined) },
           () => undefined,
         );
 

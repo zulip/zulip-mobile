@@ -165,8 +165,8 @@ type NarrowCases<T> = {|
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
-  stream: (name: void, streamId: number) => T,
-  topic: (streamName: void, topic: string, streamId: number) => T,
+  stream: (streamId: number) => T,
+  topic: (streamId: number, topic: string) => T,
   search: (query: string) => T,
 |};
 
@@ -177,8 +177,8 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   };
 
   switch (narrow.type) {
-    case 'stream': return cases.stream(undefined, narrow.streamId);
-    case 'topic': return cases.topic(undefined, narrow.topic, narrow.streamId);
+    case 'stream': return cases.stream(narrow.streamId);
+    case 'topic': return cases.topic(narrow.streamId, narrow.topic);
     case 'pm': return cases.pm(narrow.userIds);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
@@ -257,10 +257,10 @@ export function keyFromNarrow(narrow: Narrow): string {
     // Take a close look at migration 19 and any later related migrations.
 
     // An earlier version had `stream:s:`.  Another had `stream:d:`.
-    stream: (_, streamId) => `stream:${streamId}`,
+    stream: streamId => `stream:${streamId}`,
 
     // An earlier version had `topic:s:`.  Another had `topic:d:`.
-    topic: (_, topic, streamId) => `topic:${streamId}:${topic}`,
+    topic: (streamId, topic) => `topic:${streamId}:${topic}`,
 
     // An earlier version had `pm:s:`.  Another had `pm:d:`.
     pm: ids => `pm:${ids.join(',')}`,
@@ -369,7 +369,7 @@ export const streamNameOfNarrow = (narrow: Narrow): void =>
  * of narrows, should be using `caseNarrow`.
  */
 export const streamIdOfNarrow = (narrow: Narrow): number =>
-  caseNarrowPartial(narrow, { stream: (n, id) => id, topic: (n, t, id) => id });
+  caseNarrowPartial(narrow, { stream: id => id, topic: id => id });
 
 /**
  * The topic for a topic narrow; else error.
@@ -379,7 +379,7 @@ export const streamIdOfNarrow = (narrow: Narrow): number =>
  * other kinds of narrows, should be using `caseNarrow`.
  */
 export const topicOfNarrow = (narrow: Narrow): string =>
-  caseNarrowPartial(narrow, { topic: (streamName, topic) => topic });
+  caseNarrowPartial(narrow, { topic: (id, topic) => topic });
 
 export const isPmNarrow = (narrow?: Narrow): boolean =>
   !!narrow && caseNarrowDefault(narrow, { pm: () => true }, () => false);
@@ -438,11 +438,11 @@ export const apiNarrowOfNarrow = (
   };
 
   return caseNarrow(narrow, {
-    stream: (_, streamId) => [
+    stream: streamId => [
       // TODO(server-2.1): just send stream ID instead
       { operator: 'stream', operand: get('stream', streamsById, streamId).name },
     ],
-    topic: (_, topic, streamId) => [
+    topic: (streamId, topic) => [
       // TODO(server-2.1): just send stream ID instead
       { operator: 'stream', operand: get('stream', streamsById, streamId).name },
       { operator: 'topic', operand: topic },
@@ -482,8 +482,8 @@ export const isMessageInNarrow = (
 ): boolean =>
   caseNarrow(narrow, {
     home: () => true,
-    stream: (_, streamId) => message.type === 'stream' && streamId === message.stream_id,
-    topic: (_, topic, streamId) =>
+    stream: streamId => message.type === 'stream' && streamId === message.stream_id,
+    topic: (streamId, topic) =>
       message.type === 'stream' && streamId === message.stream_id && topic === message.subject,
     pm: ids => {
       if (message.type !== 'private') {

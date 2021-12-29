@@ -144,7 +144,7 @@ const outboxPropertiesForNarrow = (
       subject: '',
     }),
 
-    topic: (_, topic, streamId) => {
+    topic: (streamId, topic) => {
       const stream = streamsById.get(streamId);
       invariant(stream, 'narrow must be known stream');
       return {

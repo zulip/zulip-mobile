@@ -229,8 +229,8 @@ export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
     caseNarrowDefault(
       narrow,
       {
-        stream: (_, streamId) => streams.get(streamId) !== undefined,
-        topic: (_, t, streamId) => streams.get(streamId) !== undefined,
+        stream: streamId => streams.get(streamId) !== undefined,
+        topic: streamId => streams.get(streamId) !== undefined,
         pm: ids => ids.every(id => allUsersById.get(id) !== undefined),
       },
       () => true,

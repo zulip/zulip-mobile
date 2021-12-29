@@ -231,7 +231,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
     caseNarrow(narrow, {
       home: () => unreadTotal,
 
-      stream: (_1, streamId) => {
+      stream: streamId => {
         const stream = streams.get(streamId);
         if (!stream) {
           return 0;
@@ -248,7 +248,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         );
       },
 
-      topic: (_, topic, streamId) => getUnreadCountForTopic(unread, streamId, topic),
+      topic: (streamId, topic) => getUnreadCountForTopic(unread, streamId, topic),
 
       pm: _ => getUnreadIdsForPmNarrow(unread, narrow, ownUserId).length,
 

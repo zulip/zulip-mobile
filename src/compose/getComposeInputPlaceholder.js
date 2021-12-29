@@ -31,7 +31,7 @@ export default (
           values: { recipient: `@${user.full_name}` },
         };
       },
-      stream: (_, streamId) => {
+      stream: streamId => {
         const stream = streamsById.get(streamId);
         if (!stream) {
           return { text: 'Type a message' };
