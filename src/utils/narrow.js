@@ -148,11 +148,12 @@ export const ALL_PRIVATE_NARROW: Narrow = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR: string = keyFromNarrow(ALL_PRIVATE_NARROW);
 
-export const streamNarrow = (stream: string): Narrow =>
-  Object.freeze({ type: 'stream', streamName: stream });
+export const streamNarrow = (streamName: string, streamId?: number): Narrow =>
+  Object.freeze({ type: 'stream', streamName });
 
-export const topicNarrow = (stream: string, topic: string): Narrow =>
-  Object.freeze({ type: 'topic', streamName: stream, topic });
+export const topicNarrow = (streamName: string, ...args: [string] | [number, string]): Narrow =>
+  // $FlowFixMe[incompatible-cast]
+  Object.freeze({ type: 'topic', streamName, topic: (args[args.length - 1]: string) });
 
 export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 'search', query });
 
