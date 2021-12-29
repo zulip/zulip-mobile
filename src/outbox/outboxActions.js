@@ -23,7 +23,7 @@ import {
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
 } from '../actionConstants';
-import { getAuth, getStreamsByName } from '../selectors';
+import { getAuth, getStreamsById } from '../selectors';
 import * as api from '../api';
 import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { getUsersAndWildcards } from '../users/userHelpers';
@@ -133,7 +133,7 @@ type DataFromNarrow =
 
 const outboxPropertiesForNarrow = (
   destinationNarrow: Narrow,
-  streamsByName: Map<string, Stream>,
+  streamsById: Map<number, Stream>,
   allUsersById: Map<UserId, UserOrBot>,
   ownUser: UserOrBot,
 ): DataFromNarrow =>
@@ -144,8 +144,8 @@ const outboxPropertiesForNarrow = (
       subject: '',
     }),
 
-    topic: (streamName, topic) => {
-      const stream = streamsByName.get(streamName);
+    topic: (_, topic, streamId) => {
+      const stream = streamsById.get(streamId);
       invariant(stream, 'narrow must be known stream');
       return {
         type: 'stream',
@@ -185,7 +185,7 @@ export const addToOutbox = (
       isSent: false,
       ...outboxPropertiesForNarrow(
         destinationNarrow,
-        getStreamsByName(state),
+        getStreamsById(state),
         getAllUsersById(state),
         ownUser,
       ),

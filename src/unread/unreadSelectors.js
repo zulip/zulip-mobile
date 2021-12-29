@@ -3,9 +3,9 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
-import { getMute, getStreams } from '../directSelectors';
+import { getMute } from '../directSelectors';
 import { getOwnUserId } from '../users/userSelectors';
-import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
+import { getSubscriptionsById, getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { isTopicMuted } from '../mute/muteModel';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
@@ -222,7 +222,7 @@ export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector
  */
 export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
   (state, narrow) => narrow,
-  state => getStreams(state),
+  state => getStreamsById(state),
   state => getOwnUserId(state),
   state => getUnreadTotal(state),
   state => getUnread(state),
@@ -231,8 +231,8 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
     caseNarrow(narrow, {
       home: () => unreadTotal,
 
-      stream: name => {
-        const stream = streams.find(s => s.name === name);
+      stream: (_1, streamId) => {
+        const stream = streams.get(streamId);
         if (!stream) {
           return 0;
         }
@@ -241,20 +241,14 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
           unread.streams
             .get(stream.stream_id)
             ?.entrySeq()
-            .filterNot(([topic, _]) => isTopicMuted(name, topic, mute))
+            .filterNot(([topic, _]) => isTopicMuted(stream.name, topic, mute))
             .map(([_, msgIds]) => msgIds.size)
             .reduce((s, x) => s + x, 0)
             ?? 0
         );
       },
 
-      topic: (streamName, topic) => {
-        const stream = streams.find(s => s.name === streamName);
-        if (!stream) {
-          return 0;
-        }
-        return getUnreadCountForTopic(unread, stream.stream_id, topic);
-      },
+      topic: (_, topic, streamId) => getUnreadCountForTopic(unread, streamId, topic),
 
       pm: _ => getUnreadIdsForPmNarrow(unread, narrow, ownUserId).length,
 

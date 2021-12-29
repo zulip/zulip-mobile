@@ -477,11 +477,9 @@ export const isMessageInNarrow = (
 ): boolean =>
   caseNarrow(narrow, {
     home: () => true,
-    stream: name => message.type === 'stream' && name === streamNameOfStreamMessage(message),
-    topic: (streamName, topic) =>
-      message.type === 'stream'
-      && streamName === streamNameOfStreamMessage(message)
-      && topic === message.subject,
+    stream: (_, streamId) => message.type === 'stream' && streamId === message.stream_id,
+    topic: (_, topic, streamId) =>
+      message.type === 'stream' && streamId === message.stream_id && topic === message.subject,
     pm: ids => {
       if (message.type !== 'private') {
         return false;

@@ -17,7 +17,6 @@ import {
   getSubscriptions,
   getMessages,
   getMute,
-  getStreams,
   getOutbox,
   getFlags,
 } from '../directSelectors';
@@ -224,14 +223,14 @@ export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_vi
 
 export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
-  state => getStreams(state),
+  state => getStreamsById(state),
   state => getAllUsersById(state),
   (narrow, streams, allUsersById) =>
     caseNarrowDefault(
       narrow,
       {
-        stream: streamName => streams.find(s => s.name === streamName) !== undefined,
-        topic: streamName => streams.find(s => s.name === streamName) !== undefined,
+        stream: (_, streamId) => streams.get(streamId) !== undefined,
+        topic: (_, t, streamId) => streams.get(streamId) !== undefined,
         pm: ids => ids.every(id => allUsersById.get(id) !== undefined),
       },
       () => true,
