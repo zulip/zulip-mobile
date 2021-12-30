@@ -17,7 +17,6 @@ import {
   getFlags,
   getSubscriptionsById,
   getStreamsById,
-  getStreamsByName,
   getOwnUser,
 } from '../selectors';
 import { getUnread } from '../unread/unreadModel';
@@ -66,7 +65,6 @@ export default function TopicItem(props: Props): Node {
     auth: getAuth(state),
     mute: getMute(state),
     streams: getStreamsById(state),
-    streamsByName: getStreamsByName(state),
     subscriptions: getSubscriptionsById(state),
     unread: getUnread(state),
     ownUser: getOwnUser(state),
