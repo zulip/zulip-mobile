@@ -1,4 +1,4 @@
-import deepFreeze from 'deep-freeze';
+// @flow strict-local
 
 import {
   getStreamsById,
@@ -16,86 +16,64 @@ import {
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getStreamsById', () => {
-  test('returns empty object for an empty input', () => {
-    const state = deepFreeze({
-      streams: [],
-    });
+  test('returns empty map for an empty input', () => {
+    const state = eg.reduxState({ streams: [] });
     expect(getStreamsById(state)).toEqual(new Map());
   });
 
-  test('returns an object with stream id as keys', () => {
-    const state = deepFreeze({
-      streams: [{ stream_id: 1 }, { stream_id: 2 }],
-    });
-
-    // prettier-ignore
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
-
-    const streamsById = getStreamsById(state);
-
-    expect(streamsById).toEqual(expectedState);
+  test('returns a map with stream id as keys', () => {
+    const state = eg.reduxState({ streams: [eg.stream, eg.otherStream] });
+    expect(getStreamsById(state)).toEqual(
+      new Map([
+        [eg.stream.stream_id, eg.stream],
+        [eg.otherStream.stream_id, eg.otherStream],
+      ]),
+    );
   });
 });
 
 describe('getSubscriptionsById', () => {
-  test('returns empty object for an empty input', () => {
-    const state = deepFreeze({
-      subscriptions: [],
-    });
+  test('returns empty map for an empty input', () => {
+    const state = eg.reduxState({ subscriptions: [] });
     expect(getSubscriptionsById(state)).toEqual(new Map());
   });
 
-  test('returns an object with stream id as keys', () => {
-    const state = deepFreeze({
-      subscriptions: [{ stream_id: 1 }, { stream_id: 2 }],
-    });
-
-    // prettier-ignore
-    const expectedState = new Map([[1, { stream_id: 1 }], [2, { stream_id: 2 }]]);
-
-    const subscriptionsById = getSubscriptionsById(state);
-
-    expect(subscriptionsById).toEqual(expectedState);
+  test('returns a map with stream id as keys', () => {
+    const state = eg.reduxState({ subscriptions: [eg.subscription, eg.otherSubscription] });
+    expect(getSubscriptionsById(state)).toEqual(
+      new Map([
+        [eg.subscription.stream_id, eg.subscription],
+        [eg.otherSubscription.stream_id, eg.otherSubscription],
+      ]),
+    );
   });
 });
 
 describe('getIsActiveStreamSubscribed', () => {
-  test('return true for narrows other than stream and topic', () => {
-    const state = deepFreeze({});
+  const state = eg.reduxStatePlus({ subscriptions: [eg.subscription] });
 
+  test('return true for narrows other than stream and topic', () => {
     expect(getIsActiveStreamSubscribed(state, HOME_NARROW)).toBe(true);
   });
 
   test('return true if current narrowed stream is subscribed', () => {
-    const state = deepFreeze({
-      subscriptions: [{ name: 'announce' }],
-    });
-
-    expect(getIsActiveStreamSubscribed(state, streamNarrow('announce'))).toBe(true);
+    const narrow = streamNarrow(eg.stream.name);
+    expect(getIsActiveStreamSubscribed(state, narrow)).toBe(true);
   });
 
   test('return false if current narrowed stream is not subscribed', () => {
-    const state = deepFreeze({
-      subscriptions: [{ name: 'announce' }],
-    });
-
-    expect(getIsActiveStreamSubscribed(state, streamNarrow('all'))).toBe(false);
+    const narrow = streamNarrow(eg.otherStream.name);
+    expect(getIsActiveStreamSubscribed(state, narrow)).toBe(false);
   });
 
   test('return true if stream of current narrowed topic is subscribed', () => {
-    const state = deepFreeze({
-      subscriptions: [{ name: 'announce' }],
-    });
-
-    expect(getIsActiveStreamSubscribed(state, topicNarrow('announce', 'news'))).toBe(true);
+    const narrow = topicNarrow(eg.stream.name, 'news');
+    expect(getIsActiveStreamSubscribed(state, narrow)).toBe(true);
   });
 
   test('return false if stream of current narrowed topic is not subscribed', () => {
-    const state = deepFreeze({
-      subscriptions: [{ name: 'announce' }],
-    });
-
-    expect(getIsActiveStreamSubscribed(state, topicNarrow('all', 'news'))).toBe(false);
+    const narrow = topicNarrow(eg.otherStream.name, 'news');
+    expect(getIsActiveStreamSubscribed(state, narrow)).toBe(false);
   });
 });
 
@@ -106,18 +84,19 @@ describe('getStreamColorForNarrow', () => {
   });
 
   test('return stream color for stream and topic narrow', () => {
-    expect(getStreamColorForNarrow(state, streamNarrow(eg.stream.name))).toEqual(exampleColor);
+    const narrow = streamNarrow(eg.stream.name);
+    expect(getStreamColorForNarrow(state, narrow)).toEqual(exampleColor);
   });
 
   test('return null stream color for invalid stream or unknown subscriptions', () => {
     const unknownStream = eg.makeStream();
-    expect(getStreamColorForNarrow(state, streamNarrow(unknownStream.name))).toEqual('gray');
+    const narrow = streamNarrow(unknownStream.name);
+    expect(getStreamColorForNarrow(state, narrow)).toEqual('gray');
   });
 
   test('return undefined for non topic/stream narrow', () => {
     expect(getStreamColorForNarrow(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(undefined);
-    expect(
-      getStreamColorForNarrow(state, pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])),
-    ).toEqual(undefined);
+    const narrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]);
+    expect(getStreamColorForNarrow(state, narrow)).toEqual(undefined);
   });
 });

@@ -269,6 +269,10 @@ export const stream: Stream = makeStream({
   name: 'a stream',
   description: 'An example stream.',
 });
+export const otherStream: Stream = makeStream({
+  name: 'another stream',
+  description: 'Another example stream.',
+});
 
 /** A subscription, by default to eg.stream. */
 export const makeSubscription = (
@@ -291,6 +295,9 @@ export const makeSubscription = (
 
 /** A subscription to eg.stream. */
 export const subscription: Subscription = makeSubscription();
+
+/** A subscription to eg.otherStream. */
+export const otherSubscription: Subscription = makeSubscription({ stream: otherStream });
 
 /* ========================================================================
  * Messages
@@ -572,8 +579,8 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
   realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
-  streams: [stream],
-  subscriptions: [subscription],
+  streams: [stream, otherStream],
+  subscriptions: [subscription, otherSubscription],
 });
 
 /**
