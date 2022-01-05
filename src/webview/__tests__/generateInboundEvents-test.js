@@ -113,6 +113,8 @@ describe('generateInboundEvents', () => {
   });
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
+    const message = eg.streamMessage();
+
     const prevProps = {
       ...baseProps,
       messageListElementsForShownMessages: [],
@@ -120,7 +122,7 @@ describe('generateInboundEvents', () => {
     const nextProps = {
       ...baseProps,
       messageListElementsForShownMessages: [
-        { key: 123, type: 'message', isBrief: false, message: eg.streamMessage() },
+        { key: [message.id, 2], type: 'message', isBrief: false, message },
       ],
     };
 

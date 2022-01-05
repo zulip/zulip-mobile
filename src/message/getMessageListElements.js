@@ -24,7 +24,7 @@ export default (
       || !isSameDay(new Date(prevMessage.timestamp * 1000), new Date(message.timestamp * 1000));
     if (showDateSeparator) {
       pieces.push({
-        key: `time${message.timestamp}`,
+        key: [message.id, 0],
         type: 'time',
         timestamp: message.timestamp,
         subsequentMessage: message,
@@ -38,7 +38,7 @@ export default (
     if (showRecipientHeader) {
       pieces.push({
         type: 'header',
-        key: `header${message.id}`,
+        key: [message.id, 1],
 
         style: isStreamNarrow(narrow)
           ? 'topic+date'
@@ -64,7 +64,7 @@ export default (
       || showRecipientHeader;
 
     pieces.push({
-      key: message.id,
+      key: [message.id, 2],
       type: 'message',
       isBrief: !showSender,
       message,

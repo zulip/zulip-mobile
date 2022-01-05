@@ -374,29 +374,59 @@ export type UnreadStreamItem = {|
 
 export type TimeMessageListElement = {|
   type: 'time',
-  key: string,
+
+  // TODO(facebook/flow#4509): Read-only tuple type, when supported
+  key: [number, 0],
+
   timestamp: number,
   subsequentMessage: Message | Outbox,
 |};
 
 export type MessageMessageListElement = {|
   type: 'message',
-  key: number,
+
+  // TODO(facebook/flow#4509): Read-only tuple type, when supported
+  key: [number, 2],
+
   message: Message | Outbox,
   isBrief: boolean,
 |};
 
 export type HeaderMessageListElement = {|
   type: 'header',
-  key: string,
+
+  // TODO(facebook/flow#4509): Read-only tuple type, when supported
+  key: [number, 1],
+
   style: 'topic+date' | 'full',
   subsequentMessage: Message | Outbox,
 |};
 
+/**
+ * Data object for a unit in the message list.
+ *
+ * Formerly called "message peers" and "HTML piece descriptors".
+ *
+ * A list of these is sortable by the `key` property, which holds a tuple
+ * with two members:
+ * - `.key[0]` is the message ID that the MessageListElement is related to.
+ * - `.key[1]` is an integer representing whether the element is a
+ *   TimeMessageListElement (0), HeaderMessageListElement (1), or
+ *   MessageMessageListElement (2). The message list should present them in
+ *   that order (0-2).
+ */
 export type MessageListElement =
   | TimeMessageListElement
   | MessageMessageListElement
   | HeaderMessageListElement;
+
+// Check that all FooMessageListElement.key is reasonable.
+//
+// TODO(facebook/flow#4509): $ReadOnlyArray<number> is a proxy for tuple
+//   type [number, number] with its two members marked as covariant. Flow
+//   has no syntax for that yet.
+// eslint-disable-next-line no-unused-expressions
+(k: $PropertyType<MessageListElement, 'key'>): $ReadOnlyArray<number> => k;
 
 export type TimingItemType = {|
   text: string,

@@ -15,7 +15,7 @@ describe('header', () => {
     const m = eg.streamMessage({ subject: '1 < 2' });
     const h = header(backgroundData, {
       type: 'header',
-      key: `header${m.id}`,
+      key: [m.id, 1],
       style: 'topic+date',
       subsequentMessage: m,
     });
