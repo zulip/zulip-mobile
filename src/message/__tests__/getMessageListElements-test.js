@@ -14,9 +14,7 @@ describe('getMessageListElements', () => {
   test('renders time, header and message for a single input', () => {
     const message = { ...eg.streamMessage({ id: 12345 }), timestamp: 123 };
 
-    const messageListElements = getMessageListElements([message], narrow);
-
-    expect(messageListElements).toMatchObject([
+    expect(getMessageListElements([message], narrow)).toMatchObject([
       { type: 'time', key: [message.id, 0] },
       { type: 'header', key: [message.id, 1] },
       { type: 'message', key: [message.id, 2] },
@@ -31,9 +29,7 @@ describe('getMessageListElements', () => {
     const message2 = eg.streamMessage({ stream, sender, id: 2 });
     const message3 = eg.streamMessage({ stream, sender, id: 3 });
 
-    const messageListElements = getMessageListElements([message1, message2, message3], narrow);
-
-    expect(messageListElements).toMatchObject([
+    expect(getMessageListElements([message1, message2, message3], narrow)).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: [message1.id, 2], isBrief: false },
@@ -49,9 +45,7 @@ describe('getMessageListElements', () => {
     const message2 = eg.streamMessage({ stream, sender: eg.otherUser, id: 2 });
     const message3 = eg.streamMessage({ stream, sender: eg.thirdUser, id: 3 });
 
-    const messageListElements = getMessageListElements([message1, message2, message3], narrow);
-
-    expect(messageListElements).toMatchObject([
+    expect(getMessageListElements([message1, message2, message3], narrow)).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: [message1.id, 2], isBrief: false },
@@ -72,9 +66,7 @@ describe('getMessageListElements', () => {
       id: 2,
     });
 
-    const messageListElements = getMessageListElements([message1, message2], narrow);
-
-    expect(messageListElements).toMatchObject([
+    expect(getMessageListElements([message1, message2], narrow)).toMatchObject([
       { type: 'time' },
       { type: 'header' },
       { type: 'message', key: [message1.id, 2], isBrief: false },
