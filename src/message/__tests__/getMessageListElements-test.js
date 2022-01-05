@@ -30,8 +30,8 @@ describe('getMessageListElements', () => {
     const message3 = eg.streamMessage({ stream, sender, id: 3 });
 
     expect(getMessageListElements([message1, message2, message3], narrow)).toMatchObject([
-      { type: 'time' },
-      { type: 'header' },
+      { type: 'time', key: [message1.id, 0] },
+      { type: 'header', key: [message1.id, 1] },
       { type: 'message', key: [message1.id, 2], isBrief: false },
       { type: 'message', key: [message2.id, 2], isBrief: true },
       { type: 'message', key: [message3.id, 2], isBrief: true },
@@ -46,8 +46,8 @@ describe('getMessageListElements', () => {
     const message3 = eg.streamMessage({ stream, sender: eg.thirdUser, id: 3 });
 
     expect(getMessageListElements([message1, message2, message3], narrow)).toMatchObject([
-      { type: 'time' },
-      { type: 'header' },
+      { type: 'time', key: [message1.id, 0] },
+      { type: 'header', key: [message1.id, 1] },
       { type: 'message', key: [message1.id, 2], isBrief: false },
       { type: 'message', key: [message2.id, 2], isBrief: false },
       { type: 'message', key: [message3.id, 2], isBrief: false },
@@ -67,8 +67,8 @@ describe('getMessageListElements', () => {
     });
 
     expect(getMessageListElements([message1, message2], narrow)).toMatchObject([
-      { type: 'time' },
-      { type: 'header' },
+      { type: 'time', key: [message1.id, 0] },
+      { type: 'header', key: [message1.id, 1] },
       { type: 'message', key: [message1.id, 2], isBrief: false },
       { type: 'message', key: [message2.id, 2], isBrief: false },
     ]);
