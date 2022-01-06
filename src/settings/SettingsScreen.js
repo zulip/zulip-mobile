@@ -25,8 +25,8 @@ import {
 import { shouldUseInAppBrowser } from '../utils/openLink';
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp <'settings'>,
-    route: RouteProp <'settings', void>,
+  navigation:MainTabsNavigationProp <'settings'>,
+  route:RouteProp <'settings', void>,
 |}>;
 
 export default function SettingsScreen(props: Props): Node {
