@@ -25,8 +25,8 @@ import {
 import { shouldUseInAppBrowser } from '../utils/openLink';
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp<'settings'>,
-  route: RouteProp<'settings', void>,
+  navigation: MainTabsNavigationProp < 'settings' >,
+    route: RouteProp < 'settings', void>,
 |}>;
 
 export default function SettingsScreen(props: Props): Node {
@@ -43,7 +43,7 @@ export default function SettingsScreen(props: Props): Node {
 
   return (
     <Screen title="Settings">
-      <SwitchRow label="Dark theme" value={theme === 'night'} onValueChange={handleThemeChange} />
+      <SwitchRow label="dark theme" value={theme === 'night'} onValueChange={handleThemeChange} />
       <SwitchRow
         label="Open links with in-app browser"
         value={shouldUseInAppBrowser(browser)}
