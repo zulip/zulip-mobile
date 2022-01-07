@@ -121,7 +121,7 @@ export default (
           message && {
             ...(message: M),
             submessages: [
-              ...(message.submessages || []),
+              ...(message.submessages ?? []),
               {
                 id: action.submessage_id,
                 message_id: action.message_id,
@@ -143,7 +143,7 @@ export default (
         }
         const messageWithNewCommonFields: M = {
           ...(oldMessage: M),
-          content: action.rendered_content || oldMessage.content,
+          content: action.rendered_content ?? oldMessage.content,
           edit_history: [
             action.orig_rendered_content
               ? action.orig_subject !== undefined
@@ -165,7 +165,7 @@ export default (
                   timestamp: action.edit_timestamp,
                   user_id: action.user_id,
                 },
-            ...(oldMessage.edit_history || NULL_ARRAY),
+            ...(oldMessage.edit_history ?? NULL_ARRAY),
           ],
           last_edit_timestamp: action.edit_timestamp,
         };
@@ -173,8 +173,8 @@ export default (
         return messageWithNewCommonFields.type === 'stream'
           ? {
               ...messageWithNewCommonFields,
-              subject: action.subject || messageWithNewCommonFields.subject,
-              subject_links: action.subject_links || messageWithNewCommonFields.subject_links,
+              subject: action.subject ?? messageWithNewCommonFields.subject,
+              subject_links: action.subject_links ?? messageWithNewCommonFields.subject_links,
             }
           : {
               ...messageWithNewCommonFields,
