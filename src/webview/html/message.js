@@ -72,12 +72,11 @@ const messageBody = (
 ) => {
   const { id, isOutbox, last_edit_timestamp, match_content, reactions } = (message: MessageLike);
   const content = match_content ?? message.content;
-  return template`
+  return template`\
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}
-`;
+$!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}`;
 };
 
 /**
@@ -103,13 +102,12 @@ const widgetBody = (message: Message, ownUserId: UserId) => {
       content: JSON.parse(submessage.content),
     }));
 
-  const errorMessage = template`
+  const errorMessage = template`\
 $!${message.content}
 <div class="special-message"
  ><p>Interactive message</p
  ><p>To use, open on web or desktop</p
-></div>
-`;
+></div>`;
 
   const pollWidget = widgetSubmessages.shift();
   if (!pollWidget || !pollWidget.content) {
@@ -157,7 +155,7 @@ $!${message.content}
 
   const parsedPollData = pollData.get_widget_data();
 
-  return template`
+  return template`\
 <div class="poll-widget">
   <p class="poll-question">${parsedPollData.question}</p>
   <ul>
@@ -176,8 +174,7 @@ $!${message.content}
       )
       .join('')}
   </ul>
-</div>
-  `;
+</div>`;
 };
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnlyArray<string> =>
@@ -198,37 +195,35 @@ export default (
   const flagStrings = flagsStateToStringList(backgroundData.flags, id);
   const isUserMuted = !!message.sender_id && backgroundData.mutedUsers.has(message.sender_id);
 
-  const divOpenHtml = template`
-    <div
-     class="msglist-element message ${isBrief ? 'message-brief' : 'message-full'}"
-     id="msg-${id}"
-     data-msg-id="${id}"
-     data-mute-state="${isUserMuted ? 'hidden' : 'shown'}"
-     $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
-    >`;
+  const divOpenHtml = template`\
+<div
+  class="msglist-element message ${isBrief ? 'message-brief' : 'message-full'}"
+  id="msg-${id}"
+  data-msg-id="${id}"
+  data-mute-state="${isUserMuted ? 'hidden' : 'shown'}"
+  $!${flagStrings.map(flag => template`data-${flag}="true" `).join('')}
+>`;
   const messageTime = shortTime(new Date(timestamp * 1000), backgroundData.twentyFourHourTime);
 
-  const timestampHtml = (showOnRender: boolean) => template`
+  const timestampHtml = (showOnRender: boolean) => template`\
 <div class="time-container">
   <div class="msg-timestamp ${showOnRender ? 'show' : ''}">
     ${messageTime}
   </div>
-</div>
-`;
+</div>`;
   const bodyHtml =
     message.submessages && message.submessages.length > 0
       ? widgetBody(message, backgroundData.ownUser.user_id)
       : messageBody(backgroundData, message);
 
   if (isBrief) {
-    return template`
+    return template`\
 $!${divOpenHtml}
   <div class="content">
     $!${timestampHtml(false)}
     $!${bodyHtml}
   </div>
-</div>
-`;
+</div>`;
   }
 
   const { sender_full_name, sender_id } = message;
@@ -239,23 +234,21 @@ $!${divOpenHtml}
       PixelRatio.getPixelSizeForLayoutSize(48),
     )
     .toString();
-  const subheaderHtml = template`
+  const subheaderHtml = template`\
 <div class="subheader">
   <div class="username" data-sender-id="${sender_id}">
     ${sender_full_name}
   </div>
   <div class="static-timestamp">${messageTime}</div>
-</div>
-`;
+</div>`;
   const mutedMessageHtml = isUserMuted
-    ? template`
+    ? template`\
 <div class="special-message muted-message-explanation">
   ${_('This message was hidden because it is from a user you have muted. Long-press to view.')}
-</div>
-`
+</div>`
     : '';
 
-  return template`
+  return template`\
 $!${divOpenHtml}
   <div class="avatar">
     <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-sender-id="${sender_id}">
@@ -265,6 +258,5 @@ $!${divOpenHtml}
     $!${bodyHtml}
   </div>
   $!${mutedMessageHtml}
-</div>
-`;
+</div>`;
 };

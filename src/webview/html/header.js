@@ -43,7 +43,7 @@ export default (
     const topicHtml = renderSubject(message);
 
     if (headerStyle === 'topic+date') {
-      return template`
+      return template`\
 <div
   class="msglist-element header-wrapper header topic-header"
   data-narrow="${base64Utf8Encode(topicNarrowStr)}"
@@ -51,18 +51,19 @@ export default (
 >
   <div class="topic-text">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
-</div>
-    `;
+</div>`;
     } else if (headerStyle === 'full') {
       const subscription = subscriptions.get(message.stream_id);
       const backgroundColor = subscription ? subscription.color : 'hsl(0, 0%, 80%)';
       const textColor = foregroundColorFromBackground(backgroundColor);
       const streamNarrowStr = keyFromNarrow(streamNarrow(message.stream_id));
 
-      return template`
-<div class="msglist-element header-wrapper header stream-header topic-header"
-    data-msg-id="${message.id}"
-    data-narrow="${base64Utf8Encode(topicNarrowStr)}">
+      return template`\
+<div
+  class="msglist-element header-wrapper header stream-header topic-header"
+  data-msg-id="${message.id}"
+  data-narrow="${base64Utf8Encode(topicNarrowStr)}"
+>
   <div class="header stream-text"
        style="color: ${textColor};
               background: ${backgroundColor}"
@@ -71,8 +72,7 @@ export default (
   </div>
   <div class="topic-text">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
-</div>
-    `;
+</div>`;
     } else {
       ensureUnreachable(headerStyle);
       throw new Error();
@@ -88,16 +88,17 @@ export default (
     const narrowStr = keyFromNarrow(narrowObj);
 
     const uiRecipients = pmUiRecipientsFromMessage(message, ownUser.user_id);
-    return template`
-<div class="msglist-element header-wrapper private-header header"
-     data-narrow="${base64Utf8Encode(narrowStr)}"
-     data-msg-id="${message.id}">
+    return template`\
+<div
+  class="msglist-element header-wrapper private-header header"
+  data-narrow="${base64Utf8Encode(narrowStr)}"
+  data-msg-id="${message.id}"
+>
   ${uiRecipients
     .map(r => r.full_name)
     .sort()
     .join(', ')}
-</div>
-`;
+</div>`;
   } else {
     ensureUnreachable(message.type);
     throw new Error();
