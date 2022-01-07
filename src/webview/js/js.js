@@ -219,7 +219,7 @@ function midMessageListElement(top: number, bottom: number): ?Element {
 
   const midY = (bottom + top) / 2;
 
-  const midElements: Array<HTMLElement> = document.elementsFromPoint(0, midY);
+  const midElements = document.elementsFromPoint(0, midY);
   if (midElements.length < 4) {
     // Just [div#msglist-elements, body, html].
     return null;
