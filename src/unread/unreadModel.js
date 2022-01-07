@@ -240,10 +240,7 @@ function streamsReducer(
       const newTopic = action.subject;
       const origTopic = action.orig_subject ?? newTopic;
 
-      if (
-        (action.subject === action.orig_subject || action.orig_subject == null)
-        && (action.new_stream_id === origStreamId || action.new_stream_id == null)
-      ) {
+      if (newTopic === origTopic && newStreamId === origStreamId) {
         // Stream and topic didn't change.
         return state;
       }
