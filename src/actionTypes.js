@@ -672,7 +672,6 @@ export type PerAccountAction =
   | LoadingAction
   | MessageAction
   | OutboxAction
-  | RegisterCompleteAction
   | DraftUpdateAction
   | PresenceResponseAction
   | InitTopicsAction
