@@ -201,7 +201,7 @@ export type MutedUsersState = Immutable.Map<UserId, number>;
  *  * `FetchingState` for information about which narrows we're actively
  *    fetching more messages from.
  */
-export type NarrowsState = Immutable.Map<string, number[]>;
+export type NarrowsState = Immutable.Map<string, $ReadOnlyArray<number>>;
 
 export type OutboxState = $ReadOnlyArray<Outbox>;
 
@@ -546,11 +546,11 @@ export type GlobalSelector<TResult, TParam = void> = InputSelector<GlobalState, 
  * PerAccountState, but which is perfectly legitimate for per-account code
  * to use.
  */
-export type ThunkExtras = {
+export type ThunkExtras = $ReadOnly<{
   getGlobalSession: () => GlobalSessionState,
   getGlobalSettings: () => GlobalSettingsState,
   ...
-};
+}>;
 
 /** The Redux `dispatch` for a per-account context. */
 export interface Dispatch {
