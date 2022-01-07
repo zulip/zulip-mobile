@@ -227,17 +227,22 @@ function streamsReducer(
     }
 
     case EVENT_UPDATE_MESSAGE: {
-      const { stream_id } = action;
-      if (stream_id == null) {
+      // The API uses "new" for the stream IDs and "orig" for the topics.
+      // Put them both in a consistent naming convention.
+      const origStreamId = action.stream_id;
+      if (origStreamId == null) {
         // Not stream messages, or else a pure content edit (no stream/topic change.)
         // TODO(server-5.0): Simplify comment: since FL 112 this means it's
         //   just not a stream message.
         return state;
       }
+      const newStreamId = action.new_stream_id ?? origStreamId;
+      const newTopic = action.subject;
+      const origTopic = action.orig_subject ?? newTopic;
 
       if (
         (action.subject === action.orig_subject || action.orig_subject == null)
-        && (action.new_stream_id === stream_id || action.new_stream_id == null)
+        && (action.new_stream_id === origStreamId || action.new_stream_id == null)
       ) {
         // Stream and topic didn't change.
         return state;
@@ -245,7 +250,7 @@ function streamsReducer(
 
       const actionIds = new Set(action.message_ids);
       const matchingIds = state
-        .getIn([stream_id, action.orig_subject ?? action.subject], Immutable.List())
+        .getIn([origStreamId, origTopic], Immutable.List())
         .filter(id => actionIds.has(id));
       if (matchingIds.size === 0) {
         // None of the updated messages were unread.
@@ -253,13 +258,11 @@ function streamsReducer(
       }
 
       return state
-        .updateIn(
-          [stream_id, action.orig_subject ?? action.subject],
-          (messages = Immutable.List()) => messages.filter(id => !actionIds.has(id)),
+        .updateIn([origStreamId, origTopic], (messages = Immutable.List()) =>
+          messages.filter(id => !actionIds.has(id)),
         )
-        .updateIn(
-          [action.new_stream_id ?? stream_id, action.subject],
-          (messages = Immutable.List()) => messages.push(...matchingIds).sort(),
+        .updateIn([newStreamId, newTopic], (messages = Immutable.List()) =>
+          messages.push(...matchingIds).sort(),
         );
     }
 
