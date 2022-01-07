@@ -191,7 +191,7 @@ export type RealmUpdateEvent = $ReadOnly<{|
   property: $Keys<RealmDataForUpdate>,
   value: $ElementType<RealmDataForUpdate, $Keys<RealmDataForUpdate>>,
 
-  extra_data: { upload_quota?: number, ... },
+  extra_data: { +upload_quota?: number, ... },
 |}>;
 
 // https://zulip.com/api/get-events#realm-update-dict

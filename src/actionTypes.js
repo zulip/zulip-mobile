@@ -285,10 +285,7 @@ type EventSubscriptionRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
-  subscriptions: $ReadOnlyArray<{|
-    name: string,
-    stream_id: number,
-  |}>,
+  subscriptions: $ReadOnlyArray<{| +stream_id: number, +name: string |}>,
 |}>;
 
 type EventSubscriptionUpdateAction = $ReadOnly<{|
@@ -405,14 +402,8 @@ type EventPresenceAction = $ReadOnly<{|
 type EventTypingCommon = $ReadOnly<{|
   ...ServerEvent,
   ownUserId: UserId,
-  recipients: $ReadOnlyArray<{|
-    user_id: UserId,
-    email: string,
-  |}>,
-  sender: {|
-    user_id: UserId,
-    email: string,
-  |},
+  recipients: $ReadOnlyArray<{| +user_id: UserId, +email: string |}>,
+  sender: {| +user_id: UserId, +email: string |},
   time: number,
 |}>;
 
@@ -488,7 +479,7 @@ type EventUserGroupUpdateAction = $ReadOnly<{|
   type: typeof EVENT_USER_GROUP_UPDATE,
   op: 'update',
   group_id: number,
-  data: {| description?: string, name?: string |},
+  data: {| +description?: string, +name?: string |},
 |}>;
 
 type EventUserGroupAddMembersAction = $ReadOnly<{|
