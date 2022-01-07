@@ -5,26 +5,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"1024\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1024\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -41,13 +29,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -67,26 +49,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"7938\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7938\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -103,13 +73,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -134,26 +98,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"4948\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"4948\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4948\\"
-  data-msg-id=\\"4948\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4948\\" data-msg-id=\\"4948\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -170,26 +122,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"5083\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"5083\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5083\\"
-  data-msg-id=\\"5083\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5083\\" data-msg-id=\\"5083\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -214,26 +154,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"6789\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"6789\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-6789\\"
-  data-msg-id=\\"6789\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-6789\\" data-msg-id=\\"6789\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -250,26 +178,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"7727\\"
-  data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjI=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7727\\" data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjI=\\">
     # stream 2
   </div>
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7727\\"
-  data-msg-id=\\"7727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7727\\" data-msg-id=\\"7727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -294,26 +210,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"9181\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"9181\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -334,13 +238,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -365,19 +263,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"8849\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -394,13 +282,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -420,19 +302,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5287\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -449,13 +321,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -480,19 +346,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5829\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -513,13 +369,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -544,19 +394,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5377\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -573,13 +413,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -599,19 +433,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5637\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5637\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -628,13 +452,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -659,19 +477,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"2794\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -692,13 +500,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -723,26 +525,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"1024\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1024\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -759,13 +549,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -777,19 +561,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
 
   </div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"2794\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -810,13 +584,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -837,26 +605,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"4948\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"4948\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4948\\"
-  data-msg-id=\\"4948\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4948\\" data-msg-id=\\"4948\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -873,26 +629,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"5083\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"5083\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5083\\"
-  data-msg-id=\\"5083\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5083\\" data-msg-id=\\"5083\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -909,19 +653,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5287\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -938,13 +672,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -961,19 +689,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5377\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -990,13 +708,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1008,13 +720,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1026,13 +732,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1049,19 +749,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5829\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1082,13 +772,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1109,26 +793,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"6789\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"6789\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-6789\\"
-  data-msg-id=\\"6789\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-6789\\" data-msg-id=\\"6789\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1145,26 +817,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"7727\\"
-  data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjI=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7727\\" data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjI=\\">
     # stream 2
   </div>
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7727\\"
-  data-msg-id=\\"7727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7727\\" data-msg-id=\\"7727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1181,26 +841,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"7938\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7938\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1217,13 +865,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1240,19 +882,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"8849\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1269,13 +901,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1287,26 +913,14 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
 
   </div>
-</div><div
-  class=\\"msglist-element header-wrapper header stream-header topic-header\\"
-  data-msg-id=\\"9181\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
->
-  <div class=\\"header stream-text\\"
-       style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\"
-       data-narrow=\\"c3RyZWFtOjE=\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"9181\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1327,13 +941,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1358,19 +966,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"8849\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"8849\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1387,13 +985,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1413,19 +1005,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5287\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1442,13 +1024,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1473,19 +1049,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5829\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1506,13 +1072,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1537,19 +1097,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5377\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1566,13 +1116,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1592,19 +1136,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5637\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5637\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1621,13 +1155,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1652,19 +1180,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"2794\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1685,13 +1203,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1716,19 +1228,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"2794\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"2794\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1749,13 +1251,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1776,19 +1272,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5287\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5287\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1805,13 +1291,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1828,19 +1308,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwyLDM=\\"
-  data-msg-id=\\"5377\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwyLDM=\\" data-msg-id=\\"5377\\">
   Nonrandom name one User, Nonrandom name three User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1857,13 +1327,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1875,13 +1339,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -1893,13 +1351,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -1916,19 +1368,9 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper private-header header\\"
-  data-narrow=\\"cG06MSwy\\"
-  data-msg-id=\\"5829\\"
->
+</div><div class=\\"msglist-element header-wrapper private-header header\\" data-narrow=\\"cG06MSwy\\" data-msg-id=\\"5829\\">
   Nonrandom name one User, Nonrandom name two User
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1949,13 +1391,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1976,13 +1412,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -1999,13 +1429,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2025,13 +1449,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2048,13 +1466,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2074,13 +1486,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2097,13 +1503,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -2128,13 +1528,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2155,13 +1549,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2186,13 +1574,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5287\\"
-  data-msg-id=\\"5287\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5287\\" data-msg-id=\\"5287\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2209,13 +1591,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5309\\"
-  data-msg-id=\\"5309\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5309\\" data-msg-id=\\"5309\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -2232,13 +1608,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5829\\"
-  data-msg-id=\\"5829\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5829\\" data-msg-id=\\"5829\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2259,13 +1629,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 26, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5963\\"
-  data-msg-id=\\"5963\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5963\\" data-msg-id=\\"5963\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2286,13 +1650,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8849\\"
-  data-msg-id=\\"8849\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8849\\" data-msg-id=\\"8849\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2309,13 +1667,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-8917\\"
-  data-msg-id=\\"8917\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-8917\\" data-msg-id=\\"8917\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2335,13 +1687,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2358,13 +1704,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2384,13 +1724,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2407,13 +1741,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -2438,13 +1766,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2465,13 +1787,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2496,13 +1812,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-2794\\"
-  data-msg-id=\\"2794\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-2794\\" data-msg-id=\\"2794\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2523,13 +1833,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4581\\"
-  data-msg-id=\\"4581\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4581\\" data-msg-id=\\"4581\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2550,13 +1854,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5377\\"
-  data-msg-id=\\"5377\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5377\\" data-msg-id=\\"5377\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2573,13 +1871,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5620\\"
-  data-msg-id=\\"5620\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5620\\" data-msg-id=\\"5620\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2591,13 +1883,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-5637\\"
-  data-msg-id=\\"5637\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-5637\\" data-msg-id=\\"5637\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2609,13 +1895,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2
 
 
   </div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5727\\"
-  data-msg-id=\\"5727\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5727\\" data-msg-id=\\"5727\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -2640,20 +1920,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"1024\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"1024\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2670,13 +1940,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2696,20 +1960,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"7938\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"7938\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2726,13 +1980,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -2757,20 +2005,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"4948\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"4948\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4948\\"
-  data-msg-id=\\"4948\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4948\\" data-msg-id=\\"4948\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2787,20 +2025,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\"
-  data-msg-id=\\"5083\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\" data-msg-id=\\"5083\\">
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5083\\"
-  data-msg-id=\\"5083\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5083\\" data-msg-id=\\"5083\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2825,20 +2053,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"9181\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"9181\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2859,13 +2077,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2890,20 +2102,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"1024\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"1024\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Feb 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2920,13 +2122,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -2942,13 +2138,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-4948\\"
-  data-msg-id=\\"4948\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-4948\\" data-msg-id=\\"4948\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2965,20 +2155,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\"
-  data-msg-id=\\"5083\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\" data-msg-id=\\"5083\\">
   <div class=\\"topic-text\\">topic 2</div>
   <div class=\\"topic-date\\">Feb 19, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-5083\\"
-  data-msg-id=\\"5083\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-5083\\" data-msg-id=\\"5083\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -2999,20 +2179,10 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element header-wrapper header topic-header\\"
-  data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\"
-  data-msg-id=\\"7938\\"
->
+</div><div class=\\"msglist-element header-wrapper header topic-header\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\" data-msg-id=\\"7938\\">
   <div class=\\"topic-text\\">topic 1</div>
   <div class=\\"topic-date\\">Mar 5, 1995</div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3029,13 +2199,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -3052,13 +2216,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3079,13 +2237,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible stream
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3110,13 +2262,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3133,13 +2279,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -3159,13 +2299,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3182,13 +2316,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -3213,13 +2341,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3240,13 +2362,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3271,13 +2387,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-1024\\"
-  data-msg-id=\\"1024\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1024\\" data-msg-id=\\"1024\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3294,13 +2404,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-brief\\"
-  id=\\"msg-1598\\"
-  data-msg-id=\\"1598\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-brief\\" id=\\"msg-1598\\" data-msg-id=\\"1598\\" data-mute-state=\\"shown\\">
   <div class=\\"content\\">
     <div class=\\"time-container\\">
   <div class=\\"msg-timestamp \\">
@@ -3316,13 +2420,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-7938\\"
-  data-msg-id=\\"7938\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-7938\\" data-msg-id=\\"7938\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3339,13 +2437,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-8060\\"
-  data-msg-id=\\"8060\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-8060\\" data-msg-id=\\"8060\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20two.png\\" alt=\\"Nonrandom name two User\\" class=\\"avatar-img\\" data-sender-id=\\"2\\">
   </div>
@@ -3362,13 +2454,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
 
   </div>
   
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9181\\"
-  data-msg-id=\\"9181\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9181\\" data-msg-id=\\"9181\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>
@@ -3389,13 +2475,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible topic:
   <div class=\\"timerow-left\\"></div>
   Mar 12, 1995
   <div class=\\"timerow-right\\"></div>
-</div><div
-  class=\\"msglist-element message message-full\\"
-  id=\\"msg-9815\\"
-  data-msg-id=\\"9815\\"
-  data-mute-state=\\"shown\\"
-  
->
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-9815\\" data-msg-id=\\"9815\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20one.png\\" alt=\\"Nonrandom name one User\\" class=\\"avatar-img\\" data-sender-id=\\"1\\">
   </div>

@@ -1,4 +1,7 @@
-/* @flow strict-local */
+/**
+ * @jest-environment jsdom
+ * @flow strict-local
+ */
 import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
@@ -82,19 +85,29 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       }),
       'Problem with test data: `messages` should increase monotonically in both `id` and `timestamp`.',
     );
-    expect(
-      // Simulate `WebViewInboundEventContent.content`
-      getMessageListElements(messages, narrow)
-        .map(element =>
-          messageListElementHtml({
-            backgroundData,
-            element,
-            narrow,
-            _: m => m,
-          }),
-        )
-        .join(''),
-    ).toMatchSnapshot();
+
+    invariant(document.body, 'expected jsdom environment');
+    document.body.innerHTML = '<div id="msglist-elements" />';
+
+    const msglistElementsDiv = document.querySelector('div#msglist-elements');
+    invariant(msglistElementsDiv, 'expected msglistElementsDiv');
+
+    // Simulate `WebViewInboundEventContent.content`…
+    const content = getMessageListElements(messages, narrow)
+      .map(element =>
+        messageListElementHtml({
+          backgroundData,
+          element,
+          narrow,
+          _: m => m,
+        }),
+      )
+      .join('');
+
+    // …and simulate applying it to the DOM.
+    msglistElementsDiv.innerHTML = content;
+
+    expect(msglistElementsDiv.innerHTML).toMatchSnapshot();
   };
 
   // Same sender, stream, topic, day
