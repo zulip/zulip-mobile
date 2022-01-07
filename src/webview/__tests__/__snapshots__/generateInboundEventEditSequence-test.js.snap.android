@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getEditSequence correct for interesting changes from empty to empty 1`] = `0`;
+
+exports[`getEditSequence correct for interesting changes from empty to many messages 1`] = `40`;
+
+exports[`getEditSequence correct for interesting changes from empty to one message 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes from many messages delete many messages in middle 1`] = `12`;
+
+exports[`getEditSequence correct for interesting changes from many messages delete one message at end 1`] = `2`;
+
+exports[`getEditSequence correct for interesting changes from many messages delete one message at start 1`] = `6`;
+
+exports[`getEditSequence correct for interesting changes from many messages insert many messages at end 1`] = `20`;
+
+exports[`getEditSequence correct for interesting changes from many messages insert many messages at start 1`] = `24`;
+
+exports[`getEditSequence correct for interesting changes from many messages insert many messages at start and end 1`] = `32`;
+
+exports[`getEditSequence correct for interesting changes from many messages insert one message at end 1`] = `2`;
+
+exports[`getEditSequence correct for interesting changes from many messages insert one message at start 1`] = `6`;
+
+exports[`getEditSequence correct for interesting changes from many messages replace one message at end with new content 1`] = `2`;
+
+exports[`getEditSequence correct for interesting changes from many messages replace one message at start with new content 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes from many messages replace one message in middle with new content 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes from many messages to disjoint set of many earlier messages 1`] = `42`;
+
+exports[`getEditSequence correct for interesting changes from many messages to disjoint set of many later messages 1`] = `42`;
+
+exports[`getEditSequence correct for interesting changes from many messages to empty 1`] = `40`;
+
 exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_NARROW 1`] = `
 "<div class=\\"msglist-element timerow\\" data-msg-id=\\"1024\\">
   <div class=\\"timerow-left\\"></div>

@@ -13,7 +13,7 @@ import {
   keyFromNarrow,
   ALL_PRIVATE_NARROW,
 } from '../../utils/narrow';
-import type { Message } from '../../types';
+import type { Message, Outbox } from '../../types';
 import { getEditSequence } from '../generateInboundEventEditSequence';
 import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
@@ -381,5 +381,213 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         ].sort((a, b) => a.id - b.id),
       },
     ].forEach(testCase => check(testCase));
+  });
+});
+
+describe('getEditSequence correct for interesting changes', () => {
+  const resetMsglist = () => {
+    invariant(document.body, 'expected jsdom environment');
+    document.body.innerHTML = '<div id="msglist-elements" />';
+  };
+
+  const getClonedMsglistElementsDiv = () => {
+    const msglistElementsDiv = document.querySelector('div#msglist-elements');
+    invariant(msglistElementsDiv, 'getClonedMsglistElementsDiv: expected msglistElementsDiv');
+
+    return msglistElementsDiv.cloneNode(true);
+  };
+
+  const check = (
+    // TODO: Test with a variety of different things in background data
+    { oldBackgroundData = baseBackgroundData, oldNarrow = HOME_NARROW, oldMessages },
+    { newBackgroundData = baseBackgroundData, newNarrow = HOME_NARROW, newMessages },
+  ) => {
+    const oldElements = getMessageListElements(oldMessages, oldNarrow);
+    const newElements = getMessageListElements(newMessages, newNarrow);
+
+    resetMsglist();
+
+    applyEditSequence(
+      getEditSequence(
+        { backgroundData: newBackgroundData, narrow: newNarrow, elements: [], _: mock_ },
+        { backgroundData: newBackgroundData, narrow: newNarrow, elements: newElements, _: mock_ },
+      ),
+    );
+
+    const expectedMsglistElementsDiv = getClonedMsglistElementsDiv();
+
+    resetMsglist();
+
+    applyEditSequence(
+      getEditSequence(
+        { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: [], _: mock_ },
+        { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: oldElements, _: mock_ },
+      ),
+    );
+
+    const realEditSequence = getEditSequence(
+      { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: oldElements, _: mock_ },
+      { backgroundData: newBackgroundData, narrow: newNarrow, elements: newElements, _: mock_ },
+    );
+
+    expect(realEditSequence.length).toMatchSnapshot();
+    applyEditSequence(realEditSequence);
+
+    expect(getClonedMsglistElementsDiv().isEqualNode(expectedMsglistElementsDiv)).toBeTrue();
+  };
+
+  // All together, sorted by ID. (Which basically means jumbled;
+  // the IDs in each sub-list are only internally sorted.)
+  const allMessages = [
+    ...streamMessages1,
+    ...streamMessages2,
+    ...streamMessages3,
+    ...streamMessages4,
+    ...streamMessages5,
+    ...pmMessages1,
+    ...pmMessages2,
+    ...pmMessages3,
+    ...pmMessages4,
+    ...pmMessages5,
+    ...pmMessages6,
+  ].sort((a, b) => a.id - b.id);
+
+  const withContentReplaced = <M: Message | Outbox>(m: M): M => ({
+    ...(m: M),
+    content: eg.randString(),
+  });
+
+  describe('from empty', () => {
+    test('to empty', () => {
+      check({ oldMessages: [] }, { newMessages: [] });
+    });
+
+    test('to one message', () => {
+      check({ oldMessages: [] }, { newMessages: [allMessages[0]] });
+    });
+
+    test('to many messages', () => {
+      check({ oldMessages: [] }, { newMessages: allMessages });
+    });
+  });
+
+  describe('from many messages', () => {
+    test('to empty', () => {
+      check({ oldMessages: allMessages }, { newMessages: [] });
+    });
+
+    test('to disjoint set of many later messages', () => {
+      check(
+        { oldMessages: allMessages.slice(0, allMessages.length / 2) },
+        { newMessages: allMessages.slice(allMessages.length / 2, allMessages.length) },
+      );
+    });
+
+    test('to disjoint set of many earlier messages', () => {
+      check(
+        { oldMessages: allMessages.slice(allMessages.length / 2, allMessages.length) },
+        { newMessages: allMessages.slice(0, allMessages.length / 2) },
+      );
+    });
+
+    test('insert one message at end', () => {
+      check(
+        { oldMessages: allMessages.slice(0, allMessages.length - 1) },
+        { newMessages: allMessages },
+      );
+    });
+
+    test('delete one message at end', () => {
+      check(
+        { oldMessages: allMessages },
+        { newMessages: allMessages.slice(0, allMessages.length - 1) },
+      );
+    });
+
+    test('replace one message at end with new content', () => {
+      check(
+        { oldMessages: allMessages },
+        {
+          newMessages: [
+            ...allMessages.slice(0, allMessages.length - 1),
+            withContentReplaced(allMessages[allMessages.length - 1]),
+          ],
+        },
+      );
+    });
+
+    test('insert one message at start', () => {
+      check(
+        { oldMessages: allMessages.slice(1, allMessages.length) },
+        { newMessages: allMessages },
+      );
+    });
+
+    test('delete one message at start', () => {
+      check(
+        { oldMessages: allMessages },
+        { newMessages: allMessages.slice(1, allMessages.length) },
+      );
+    });
+
+    test('replace one message at start with new content', () => {
+      const [firstMessage, ...rest] = allMessages;
+
+      check(
+        { oldMessages: allMessages },
+        { newMessages: [withContentReplaced(firstMessage), ...rest] },
+      );
+    });
+
+    test('insert many messages at end', () => {
+      check(
+        { oldMessages: allMessages.slice(0, allMessages.length / 2) },
+        { newMessages: allMessages },
+      );
+    });
+
+    test('insert many messages at start', () => {
+      check(
+        { oldMessages: allMessages.slice(allMessages.length / 2, allMessages.length - 1) },
+        { newMessages: allMessages },
+      );
+    });
+
+    test('insert many messages at start and end', () => {
+      const firstThirdIndex = Math.floor(allMessages.length / 3);
+      const secondThirdIndex = Math.floor(allMessages.length * (2 / 3));
+      check(
+        { oldMessages: allMessages.slice(firstThirdIndex, secondThirdIndex) },
+        { newMessages: allMessages },
+      );
+    });
+
+    test('delete many messages in middle', () => {
+      const firstThirdIndex = Math.floor(allMessages.length / 3);
+      const secondThirdIndex = Math.floor(allMessages.length * (2 / 3));
+      check(
+        { oldMessages: allMessages },
+        {
+          newMessages: [
+            ...allMessages.slice(0, firstThirdIndex),
+            ...allMessages.slice(secondThirdIndex, allMessages.length - 1),
+          ],
+        },
+      );
+    });
+
+    test('replace one message in middle with new content', () => {
+      const midIndex = Math.floor(allMessages.length / 2);
+      check(
+        { oldMessages: allMessages },
+        {
+          newMessages: [
+            ...allMessages.slice(0, midIndex),
+            withContentReplaced(allMessages[midIndex]),
+            ...allMessages.slice(midIndex + 1, allMessages.length - 1),
+          ],
+        },
+      );
+    });
   });
 });
