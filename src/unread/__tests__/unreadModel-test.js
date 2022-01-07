@@ -69,13 +69,7 @@ describe('stream substate', () => {
 
   describe('EVENT_UPDATE_MESSAGE', () => {
     const mkAction = args => {
-      const {
-        message_ids,
-        stream_id = 123,
-        new_stream_id = undefined,
-        orig_subject = 'foo',
-        subject = 'foo',
-      } = args;
+      const { message_ids, ...restArgs } = args;
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
@@ -83,11 +77,7 @@ describe('stream substate', () => {
         message_id: message_ids[0],
         message_ids,
         edit_timestamp: 10000,
-        stream_id,
-        new_stream_id,
         propagate_mode: 'change_later',
-        orig_subject,
-        subject,
         subject_links: [],
         orig_content: '',
         orig_rendered_content: '',
@@ -96,6 +86,7 @@ describe('stream substate', () => {
         rendered_content: '',
         is_me_message: false,
         flags: [],
+        ...restArgs,
       };
     };
 
@@ -122,25 +113,30 @@ describe('stream substate', () => {
     });
 
     test('if topic/stream not updated, return original state', () => {
-      const state = reducer(baseState, mkAction({ message_ids: [5] }), eg.plusReduxState);
+      const action = mkAction({ message_ids: [5], subject: 'foo' });
+      const state = reducer(baseState, action, eg.plusReduxState);
       expect(state.streams).toBe(baseState.streams);
     });
 
     test('if topic updated, but no unreads, return original state', () => {
-      const state = reducer(
-        baseState,
-        mkAction({ message_ids: [100], orig_subject: 'foo', subject: 'bar' }),
-        eg.plusReduxState,
-      );
+      const action = mkAction({
+        message_ids: [100],
+        stream_id: 123,
+        orig_subject: 'foo',
+        subject: 'bar',
+      });
+      const state = reducer(baseState, action, eg.plusReduxState);
       expect(state.streams).toBe(baseState.streams);
     });
 
     test('if topic updated, move unreads', () => {
-      const state = reducer(
-        baseState,
-        mkAction({ message_ids: [3, 4, 15], orig_subject: 'foo', subject: 'bar' }),
-        eg.plusReduxState,
-      );
+      const action = mkAction({
+        message_ids: [3, 4, 15],
+        stream_id: 123,
+        orig_subject: 'foo',
+        subject: 'bar',
+      });
+      const state = reducer(baseState, action, eg.plusReduxState);
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2]], ['bar', [3, 4, 15]]])],
@@ -149,11 +145,14 @@ describe('stream substate', () => {
     });
 
     test('if stream updated, move unreads', () => {
-      const state = reducer(
-        baseState,
-        mkAction({ message_ids: [3, 4, 15], new_stream_id: 456 }),
-        eg.plusReduxState,
-      );
+      const action = mkAction({
+        message_ids: [3, 4, 15],
+        stream_id: 123,
+        new_stream_id: 456,
+        orig_subject: 'foo',
+        subject: 'foo',
+      });
+      const state = reducer(baseState, action, eg.plusReduxState);
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2]]])],
@@ -162,11 +161,14 @@ describe('stream substate', () => {
     });
 
     test('if moved to topic with existing unreads, ids stay sorted', () => {
-      const state = reducer(
-        baseState,
-        mkAction({ message_ids: [3, 4, 15], new_stream_id: 456, subject: 'zzz' }),
-        eg.plusReduxState,
-      );
+      const action = mkAction({
+        message_ids: [3, 4, 15],
+        stream_id: 123,
+        new_stream_id: 456,
+        orig_subject: 'foo',
+        subject: 'zzz',
+      });
+      const state = reducer(baseState, action, eg.plusReduxState);
       // prettier-ignore
       expect(summary(state)).toEqual(Immutable.Map([
         [123, Immutable.Map([['foo', [1, 2]]])],
