@@ -359,7 +359,7 @@ type EventUpdateMessageAction = $ReadOnly<{|
   new_stream_id?: number,
   propagate_mode: 'change_one' | 'change_later' | 'change_all',
   orig_subject?: string,
-  subject: string,
+  subject?: string,
 
   // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from $ReadOnlyArray<string>
   topic_links?: $ReadOnlyArray<{| +text: string, +url: string |}> | $ReadOnlyArray<string>,

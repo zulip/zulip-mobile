@@ -27,6 +27,7 @@ import {
   MESSAGE_FETCH_COMPLETE,
   REGISTER_COMPLETE,
 } from '../actionConstants';
+import * as logging from '../utils/logging';
 
 //
 //
@@ -237,13 +238,21 @@ function streamsReducer(
         return state;
       }
       const newStreamId = action.new_stream_id ?? origStreamId;
-      const newTopic = action.subject;
-      const origTopic = action.orig_subject ?? newTopic;
+      const origTopic = action.orig_subject;
+      const newTopic = action.subject ?? origTopic;
 
       if (newTopic === origTopic && newStreamId === origStreamId) {
         // Stream and topic didn't change.
         return state;
       }
+
+      if (origTopic == null) {
+        // `orig_subject` is documented to be present when either the
+        // stream or topic changed.
+        logging.warn('Got update_message event with stream/topic change and no orig_subject');
+        return state;
+      }
+      invariant(newTopic != null, 'newTopic must be non-nullish when origTopic is, by `??`');
 
       const actionIds = new Set(action.message_ids);
       const matchingIds = state

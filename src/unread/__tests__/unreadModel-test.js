@@ -150,7 +150,6 @@ describe('stream substate', () => {
         stream_id: 123,
         new_stream_id: 456,
         orig_subject: 'foo',
-        subject: 'foo',
       });
       const state = reducer(baseState, action, eg.plusReduxState);
       // prettier-ignore
