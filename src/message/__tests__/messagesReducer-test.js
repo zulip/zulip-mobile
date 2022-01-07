@@ -19,9 +19,9 @@ import { makeUserId } from '../../api/idTypes';
 describe('messagesReducer', () => {
   describe('EVENT_NEW_MESSAGE', () => {
     test('appends message to state, if any narrow is caught up to newest', () => {
-      const message1 = eg.streamMessage({ id: 1 });
-      const message2 = eg.streamMessage({ id: 2 });
-      const message3 = eg.streamMessage({ id: 3 });
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
 
       const prevState = eg.makeMessagesState([message1, message2]);
       const action = eg.mkActionEventNewMessage(message3, {
@@ -39,9 +39,9 @@ describe('messagesReducer', () => {
     });
 
     test('does nothing, if no narrow is caught up to newest', () => {
-      const message1 = eg.streamMessage({ id: 1 });
-      const message2 = eg.streamMessage({ id: 2 });
-      const message3 = eg.streamMessage({ id: 3 });
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
       const prevState = eg.makeMessagesState([message1, message2]);
       const action = eg.mkActionEventNewMessage(message3, {
         caughtUp: {
@@ -76,7 +76,7 @@ describe('messagesReducer', () => {
     });
 
     test('if the message exists add the incoming data to `submessages`', () => {
-      const message1 = eg.streamMessage({ id: 1 });
+      const message1 = eg.streamMessage();
       const message2 = eg.streamMessage({
         id: 2,
         submessages: [
@@ -137,8 +137,8 @@ describe('messagesReducer', () => {
     });
 
     test('if a message exists it is deleted', () => {
-      const message1 = eg.streamMessage({ id: 1 });
-      const message2 = eg.streamMessage({ id: 2 });
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
 
       const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [message2.id] });
@@ -165,9 +165,9 @@ describe('messagesReducer', () => {
 
   describe('EVENT_UPDATE_MESSAGE', () => {
     test('if a message does not exist no changes are made', () => {
-      const message1 = eg.streamMessage({ id: 1 });
-      const message2 = eg.streamMessage({ id: 2 });
-      const message3 = eg.streamMessage({ id: 3 });
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
 
       const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({
@@ -193,9 +193,9 @@ describe('messagesReducer', () => {
     });
 
     test('when a message exists in state, it is updated', () => {
-      const message1 = eg.streamMessage({ id: 1 });
-      const message2 = eg.streamMessage({ id: 2 });
-      const message3Old = eg.streamMessage({ id: 3, content: '<p>Old content</p>' });
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3Old = eg.streamMessage({ content: '<p>Old content</p>' });
       const message3New = {
         ...message3Old,
         content: '<p>New content</p>',
@@ -236,7 +236,6 @@ describe('messagesReducer', () => {
 
     test('when event contains a new subject but no new content only subject is updated', () => {
       const message1Old = eg.streamMessage({
-        id: 1,
         content: 'Old content',
         subject: 'Old subject',
         last_edit_timestamp: 123,
@@ -285,7 +284,6 @@ describe('messagesReducer', () => {
 
     test('when event contains a new subject and a new content, update both and update edit history object', () => {
       const message1Old = eg.streamMessage({
-        id: 1,
         content: '<p>Old content</p>',
         subject: 'Old subject',
         last_edit_timestamp: 123,
@@ -344,8 +342,8 @@ describe('messagesReducer', () => {
 
   describe('EVENT_REACTION_ADD', () => {
     test('on event received, add reaction to message with given id', () => {
-      const message1 = eg.streamMessage({ id: 1, reactions: [] });
-      const message2 = eg.streamMessage({ id: 2, reactions: [] });
+      const message1 = eg.streamMessage({ reactions: [] });
+      const message2 = eg.streamMessage({ reactions: [] });
       const reaction = eg.unicodeEmojiReaction;
 
       const prevState = eg.makeMessagesState([message1, message2]);
@@ -369,14 +367,14 @@ describe('messagesReducer', () => {
 
   describe('EVENT_REACTION_REMOVE', () => {
     test('if message does not contain reaction, no change is made', () => {
-      const message1 = eg.streamMessage({ id: 1, reactions: [] });
+      const message1 = eg.streamMessage({ reactions: [] });
       const reaction = eg.unicodeEmojiReaction;
 
       const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({
         id: 1,
         type: EVENT_REACTION_REMOVE,
-        message_id: 1,
+        message_id: message1.id,
         ...reaction,
       });
       const expectedState = eg.makeMessagesState([message1]);
@@ -404,7 +402,7 @@ describe('messagesReducer', () => {
         user_id: makeUserId(1),
       };
 
-      const message1 = eg.streamMessage({ id: 1, reactions: [reaction1, reaction2, reaction3] });
+      const message1 = eg.streamMessage({ reactions: [reaction1, reaction2, reaction3] });
       const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({
         id: 1,
