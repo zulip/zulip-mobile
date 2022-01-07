@@ -76,16 +76,8 @@ describe('stream substate', () => {
         user_id: eg.selfUser.user_id,
         message_id: message_ids[0],
         message_ids,
-        edit_timestamp: 10000,
-        propagate_mode: 'change_later',
-        subject_links: [],
-        orig_content: '',
-        orig_rendered_content: '',
-        prev_rendered_content_version: 0,
-        content: '',
-        rendered_content: '',
-        is_me_message: false,
         flags: [],
+        edit_timestamp: 10000,
         ...restArgs,
       };
     };

@@ -198,8 +198,6 @@ describe('messagesReducer', () => {
         prev_rendered_content_version: 0,
         rendered_content: eg.randString(),
         content: eg.randString(),
-        subject_links: [],
-        subject: eg.randString(),
       });
       const newState = messagesReducer(prevState, action);
       expect(newState).toBe(prevState);
@@ -232,8 +230,6 @@ describe('messagesReducer', () => {
         prev_rendered_content_version: 1,
         rendered_content: '<p>New content</p>',
         content: 'New content',
-        subject_links: [],
-        subject: message3New.subject,
       });
       const expectedState = eg.makeMessagesState([message1, message2, message3New]);
       const newState = messagesReducer(prevState, action);
@@ -258,8 +254,6 @@ describe('messagesReducer', () => {
             timestamp: 123,
             user_id: message1Old.sender_id,
             prev_subject: message1Old.subject,
-            prev_rendered_content: message1Old.content,
-            prev_rendered_content_version: 1,
           },
         ],
       };
@@ -267,12 +261,8 @@ describe('messagesReducer', () => {
       const action = mkAction({
         edit_timestamp: 123,
         message: message1New,
-        orig_content: message1Old.content,
+        stream_id: message1Old.stream_id,
         orig_subject: message1Old.subject,
-        orig_rendered_content: message1Old.content,
-        prev_rendered_content_version: 1,
-        rendered_content: message1New.content,
-        content: message1New.content,
         subject_links: [],
         subject: message1New.subject,
       });

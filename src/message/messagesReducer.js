@@ -149,7 +149,7 @@ export default (
             // message to clients) and shouldn't appear in the edit history.
             return null;
           }
-          if (action.orig_rendered_content) {
+          if (action.orig_rendered_content !== undefined) {
             if (action.orig_subject !== undefined) {
               return {
                 prev_rendered_content: action.orig_rendered_content,

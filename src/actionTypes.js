@@ -353,11 +353,12 @@ type EventUpdateMessageAction = $ReadOnly<{|
   //   guaranteed to include message_id.
   message_ids: $ReadOnlyArray<number>,
 
+  flags: $ReadOnlyArray<string>,
   edit_timestamp?: number,
   stream_name?: string,
   stream_id?: number,
   new_stream_id?: number,
-  propagate_mode: 'change_one' | 'change_later' | 'change_all',
+  propagate_mode?: 'change_one' | 'change_later' | 'change_all',
   orig_subject?: string,
   subject?: string,
 
@@ -367,13 +368,12 @@ type EventUpdateMessageAction = $ReadOnly<{|
   // TODO(server-3.0): Replaced in feat. 1 by topic_links
   subject_links?: $ReadOnlyArray<string>,
 
-  orig_content: string,
-  orig_rendered_content: string,
-  prev_rendered_content_version: number,
-  content: string,
-  rendered_content: string,
-  is_me_message: boolean,
-  flags: $ReadOnlyArray<string>,
+  orig_content?: string,
+  orig_rendered_content?: string,
+  prev_rendered_content_version?: number,
+  content?: string,
+  rendered_content?: string,
+  is_me_message?: boolean,
 |}>;
 
 type EventReactionCommon = $ReadOnly<{|
