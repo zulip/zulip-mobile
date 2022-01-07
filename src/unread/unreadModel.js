@@ -230,13 +230,8 @@ function streamsReducer(
       const { stream_id } = action;
       if (stream_id == null) {
         // Not stream messages, or else a pure content edit (no stream/topic change.)
-        //
-        // The docs actually promise this field for all updates to stream
-        // messages.  As of 2021-12 (circa feature level 111):
-        //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.60update_message.60.20event/near/1296823
-        // empirically it's present just on edits affecting either the
-        // stream or topic (so, absent on pure content edits), and the plan
-        // is to make it indeed present for all updates to stream messages.
+        // TODO(server-5.0): Simplify comment: since FL 112 this means it's
+        //   just not a stream message.
         return state;
       }
 
