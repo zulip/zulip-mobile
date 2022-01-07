@@ -18,8 +18,174 @@ import { getEditSequence } from '../generateInboundEventEditSequence';
 import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
 
+// Tell ESLint to recognize `check` as a helper function that runs
+// assertions.
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
+
 // Our translation function, usually given the name _.
 const mock_ = m => m; // eslint-disable-line no-underscore-dangle
+
+const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
+const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
+const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
+
+const stream1 = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
+const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
+
+const topic1 = 'topic 1';
+const topic2 = 'topic 2';
+
+// Same sender, stream, topic, day
+const streamMessages1 = [
+  eg.streamMessage({
+    id: 1024,
+    timestamp: 791985600,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+  eg.streamMessage({
+    id: 1598,
+    timestamp: 791985601,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+];
+// Different senders; same stream, topic, day
+const streamMessages2 = [
+  eg.streamMessage({
+    id: 7938,
+    timestamp: 794404812,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+  eg.streamMessage({
+    id: 8060,
+    timestamp: 794404813,
+    sender: user2,
+    stream: stream1,
+    subject: topic1,
+  }),
+];
+// Same sender, stream, day; different topics
+const streamMessages3 = [
+  eg.streamMessage({
+    id: 4948,
+    timestamp: 793195202,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+  eg.streamMessage({
+    id: 5083,
+    timestamp: 793195203,
+    sender: user1,
+    stream: stream1,
+    subject: topic2,
+  }),
+];
+// Same sender, day; different streams, topics
+const streamMessages4 = [
+  eg.streamMessage({
+    id: 6789,
+    timestamp: 794404810,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+  eg.streamMessage({
+    id: 7727,
+    timestamp: 794404811,
+    sender: user1,
+    stream: stream2,
+    subject: topic2,
+  }),
+];
+// Same sender, stream, topic; different days
+const streamMessages5 = [
+  eg.streamMessage({
+    id: 9181,
+    timestamp: 794404816,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+  eg.streamMessage({
+    id: 9815,
+    timestamp: 795009616,
+    sender: user1,
+    stream: stream1,
+    subject: topic1,
+  }),
+];
+
+// 1:1 PM, same sender, day
+const pmMessages1 = [
+  eg.pmMessage({ id: 8849, timestamp: 794404814, sender: user1, recipients: [user1, user2] }),
+  eg.pmMessage({ id: 8917, timestamp: 794404815, sender: user1, recipients: [user1, user2] }),
+];
+// 1:1 PM, different senders; same day
+const pmMessages2 = [
+  eg.pmMessage({ id: 5287, timestamp: 793195204, sender: user1, recipients: [user1, user2] }),
+  eg.pmMessage({ id: 5309, timestamp: 793195205, sender: user2, recipients: [user1, user2] }),
+];
+// 1:1 PM, same sender; different day
+const pmMessages3 = [
+  eg.pmMessage({ id: 5829, timestamp: 793195210, sender: user1, recipients: [user1, user2] }),
+  eg.pmMessage({ id: 5963, timestamp: 793800010, sender: user1, recipients: [user1, user2] }),
+];
+// Group PM, same sender, day
+const pmMessages4 = [
+  eg.pmMessage({
+    id: 5377,
+    timestamp: 793195206,
+    sender: user1,
+    recipients: [user1, user2, user3],
+  }),
+  eg.pmMessage({
+    id: 5620,
+    timestamp: 793195207,
+    sender: user1,
+    recipients: [user1, user2, user3],
+  }),
+];
+// Group PM, different senders; same day
+const pmMessages5 = [
+  eg.pmMessage({
+    id: 5637,
+    timestamp: 793195208,
+    sender: user1,
+    recipients: [user1, user2, user3],
+  }),
+  eg.pmMessage({
+    id: 5727,
+    timestamp: 793195209,
+    sender: user2,
+    recipients: [user1, user2, user3],
+  }),
+];
+// Group PM, same sender; different day
+const pmMessages6 = [
+  eg.pmMessage({
+    id: 2794,
+    timestamp: 791985602,
+    sender: user1,
+    recipients: [user1, user2, user3],
+  }),
+  eg.pmMessage({
+    id: 4581,
+    timestamp: 792590402,
+    sender: user1,
+    recipients: [user1, user2, user3],
+  }),
+];
+
+const baseBackgroundData = {
+  ...eg.backgroundData,
+  streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
+};
 
 /**
  * Highlight changes in content-HTML generation.
@@ -56,26 +222,10 @@ const mock_ = m => m; // eslint-disable-line no-underscore-dangle
  * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
-  const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
-  const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
-  const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
-
-  const stream1 = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
-  const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
-
-  const topic1 = 'topic 1';
-  const topic2 = 'topic 2';
-
-  // Tell ESLint to recognize `check` as a helper function that runs
-  // assertions.
-  /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = ({
     // TODO: Test with a variety of different things in
     // `backgroundData`.
-    backgroundData = {
-      ...eg.backgroundData,
-      streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
-    },
+    backgroundData = baseBackgroundData,
     narrow,
     messages,
   }) => {
@@ -106,153 +256,6 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
 
     expect(msglistElementsDiv.innerHTML).toMatchSnapshot();
   };
-
-  // Same sender, stream, topic, day
-  const streamMessages1 = [
-    eg.streamMessage({
-      id: 1024,
-      timestamp: 791985600,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-    eg.streamMessage({
-      id: 1598,
-      timestamp: 791985601,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-  ];
-  // Different senders; same stream, topic, day
-  const streamMessages2 = [
-    eg.streamMessage({
-      id: 7938,
-      timestamp: 794404812,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-    eg.streamMessage({
-      id: 8060,
-      timestamp: 794404813,
-      sender: user2,
-      stream: stream1,
-      subject: topic1,
-    }),
-  ];
-  // Same sender, stream, day; different topics
-  const streamMessages3 = [
-    eg.streamMessage({
-      id: 4948,
-      timestamp: 793195202,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-    eg.streamMessage({
-      id: 5083,
-      timestamp: 793195203,
-      sender: user1,
-      stream: stream1,
-      subject: topic2,
-    }),
-  ];
-  // Same sender, day; different streams, topics
-  const streamMessages4 = [
-    eg.streamMessage({
-      id: 6789,
-      timestamp: 794404810,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-    eg.streamMessage({
-      id: 7727,
-      timestamp: 794404811,
-      sender: user1,
-      stream: stream2,
-      subject: topic2,
-    }),
-  ];
-  // Same sender, stream, topic; different days
-  const streamMessages5 = [
-    eg.streamMessage({
-      id: 9181,
-      timestamp: 794404816,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-    eg.streamMessage({
-      id: 9815,
-      timestamp: 795009616,
-      sender: user1,
-      stream: stream1,
-      subject: topic1,
-    }),
-  ];
-
-  // 1:1 PM, same sender, day
-  const pmMessages1 = [
-    eg.pmMessage({ id: 8849, timestamp: 794404814, sender: user1, recipients: [user1, user2] }),
-    eg.pmMessage({ id: 8917, timestamp: 794404815, sender: user1, recipients: [user1, user2] }),
-  ];
-  // 1:1 PM, different senders; same day
-  const pmMessages2 = [
-    eg.pmMessage({ id: 5287, timestamp: 793195204, sender: user1, recipients: [user1, user2] }),
-    eg.pmMessage({ id: 5309, timestamp: 793195205, sender: user2, recipients: [user1, user2] }),
-  ];
-  // 1:1 PM, same sender; different day
-  const pmMessages3 = [
-    eg.pmMessage({ id: 5829, timestamp: 793195210, sender: user1, recipients: [user1, user2] }),
-    eg.pmMessage({ id: 5963, timestamp: 793800010, sender: user1, recipients: [user1, user2] }),
-  ];
-  // Group PM, same sender, day
-  const pmMessages4 = [
-    eg.pmMessage({
-      id: 5377,
-      timestamp: 793195206,
-      sender: user1,
-      recipients: [user1, user2, user3],
-    }),
-    eg.pmMessage({
-      id: 5620,
-      timestamp: 793195207,
-      sender: user1,
-      recipients: [user1, user2, user3],
-    }),
-  ];
-  // Group PM, different senders; same day
-  const pmMessages5 = [
-    eg.pmMessage({
-      id: 5637,
-      timestamp: 793195208,
-      sender: user1,
-      recipients: [user1, user2, user3],
-    }),
-    eg.pmMessage({
-      id: 5727,
-      timestamp: 793195209,
-      sender: user2,
-      recipients: [user1, user2, user3],
-    }),
-  ];
-  // Group PM, same sender; different day
-  const pmMessages6 = [
-    eg.pmMessage({
-      id: 2794,
-      timestamp: 791985602,
-      sender: user1,
-      recipients: [user1, user2, user3],
-    }),
-    eg.pmMessage({
-      id: 4581,
-      timestamp: 792590402,
-      sender: user1,
-      recipients: [user1, user2, user3],
-    }),
-  ];
 
   test('HOME_NARROW', () => {
     [
