@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import type { Submessage } from '../../types';
+import type { Submessage, UserId } from '../../types';
 import messagesReducer from '../messagesReducer';
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
@@ -166,10 +166,15 @@ describe('messagesReducer', () => {
   describe('EVENT_UPDATE_MESSAGE', () => {
     const mkAction = args => {
       const { message, ...restArgs } = args;
+      // Include a user_id just if there's an edit_timestamp.  (Actual
+      // update_message events have both for normal edits, and neither for
+      // stealth server-edits.)
+      const forEdit: { user_id?: UserId } =
+        restArgs.edit_timestamp != null ? { user_id: message.sender_id } : Object.freeze({});
       return {
         id: 1,
         type: EVENT_UPDATE_MESSAGE,
-        user_id: message.sender_id,
+        ...forEdit,
         message_id: message.id,
         message_ids: [message.id],
         flags: [],
@@ -324,6 +329,57 @@ describe('messagesReducer', () => {
       const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);
       expect(newState).toEqual(expectedState);
+    });
+
+    test('handle stealth server-edit (for inline URL previews)', () => {
+      const message = eg.streamMessage({
+        content: 'Some content',
+        edit_history: [],
+      });
+      const messageAfter = {
+        ...message,
+        content: 'Some content with an inline URL preview',
+        // edit_history still empty
+      };
+      const action = mkAction({
+        // no edit_timestamp, no user_id
+        message,
+        orig_content: message.content,
+        orig_rendered_content: message.content,
+        content: messageAfter.content,
+        rendered_content: messageAfter.content,
+        prev_rendered_content_version: 1,
+      });
+      expect(messagesReducer(eg.makeMessagesState([message]), action)).toEqual(
+        eg.makeMessagesState([messageAfter]),
+      );
+    });
+
+    test('handle stealth server-edit, after a real edit', () => {
+      const message = eg.streamMessage({
+        content: 'Some content, edited',
+        edit_history: [
+          { user_id: eg.otherUser.user_id, timestamp: 123, prev_rendered_content: 'Some content' },
+        ],
+        last_edit_timestamp: 123,
+      });
+      const messageAfter = {
+        ...message,
+        content: 'Some content, edited, plus a URL preview ',
+        // still has last_edit_timestamp, rather than clobbering with
+        // undefined from action.edit_timestamp
+      };
+      const action = mkAction({
+        message,
+        orig_content: message.content,
+        orig_rendered_content: message.content,
+        content: messageAfter.content,
+        rendered_content: messageAfter.content,
+        prev_rendered_content_version: 1,
+      });
+      expect(messagesReducer(eg.makeMessagesState([message]), action)).toEqual(
+        eg.makeMessagesState([messageAfter]),
+      );
     });
   });
 

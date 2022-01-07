@@ -17,7 +17,6 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { NULL_ARRAY } from '../nullObjects';
 import { getNarrowsForMessage, keyFromNarrow } from '../utils/narrow';
 
 const initialState: MessagesState = Immutable.Map([]);
@@ -141,33 +140,48 @@ export default (
         if (!oldMessage) {
           return oldMessage;
         }
+
+        const historyEntry = (() => {
+          if (action.edit_timestamp === undefined || action.user_id === undefined) {
+            // The update isn't a real edit; rather it's just filling in an
+            // inline URL preview (which can require the server to make an
+            // external request, so we don't let it block delivering the
+            // message to clients) and shouldn't appear in the edit history.
+            return null;
+          }
+          if (action.orig_rendered_content) {
+            if (action.orig_subject !== undefined) {
+              return {
+                prev_rendered_content: action.orig_rendered_content,
+                prev_subject: oldMessage.subject,
+                timestamp: action.edit_timestamp,
+                prev_rendered_content_version: action.prev_rendered_content_version,
+                user_id: action.user_id,
+              };
+            } else {
+              return {
+                prev_rendered_content: action.orig_rendered_content,
+                timestamp: action.edit_timestamp,
+                prev_rendered_content_version: action.prev_rendered_content_version,
+                user_id: action.user_id,
+              };
+            }
+          } else {
+            return {
+              prev_subject: oldMessage.subject,
+              timestamp: action.edit_timestamp,
+              user_id: action.user_id,
+            };
+          }
+        })();
+
         const messageWithNewCommonFields: M = {
           ...(oldMessage: M),
           content: action.rendered_content ?? oldMessage.content,
-          edit_history: [
-            action.orig_rendered_content
-              ? action.orig_subject !== undefined
-                ? {
-                    prev_rendered_content: action.orig_rendered_content,
-                    prev_subject: oldMessage.subject,
-                    timestamp: action.edit_timestamp,
-                    prev_rendered_content_version: action.prev_rendered_content_version,
-                    user_id: action.user_id,
-                  }
-                : {
-                    prev_rendered_content: action.orig_rendered_content,
-                    timestamp: action.edit_timestamp,
-                    prev_rendered_content_version: action.prev_rendered_content_version,
-                    user_id: action.user_id,
-                  }
-              : {
-                  prev_subject: oldMessage.subject,
-                  timestamp: action.edit_timestamp,
-                  user_id: action.user_id,
-                },
-            ...(oldMessage.edit_history ?? NULL_ARRAY),
-          ],
-          last_edit_timestamp: action.edit_timestamp,
+          edit_history: historyEntry
+            ? [historyEntry, ...(oldMessage.edit_history ?? [])]
+            : oldMessage.edit_history,
+          last_edit_timestamp: action.edit_timestamp ?? oldMessage.last_edit_timestamp,
         };
 
         return messageWithNewCommonFields.type === 'stream'

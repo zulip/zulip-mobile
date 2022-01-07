@@ -344,7 +344,7 @@ type EventMessageDeleteAction = $ReadOnly<{|
 type EventUpdateMessageAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
-  user_id: UserId,
+  user_id?: UserId,
 
   // Any content changes apply to just message_id.
   message_id: number,
@@ -353,7 +353,7 @@ type EventUpdateMessageAction = $ReadOnly<{|
   //   guaranteed to include message_id.
   message_ids: $ReadOnlyArray<number>,
 
-  edit_timestamp: number,
+  edit_timestamp?: number,
   stream_name?: string,
   stream_id?: number,
   new_stream_id?: number,
