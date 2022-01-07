@@ -176,9 +176,7 @@ export default (
               subject: action.subject ?? messageWithNewCommonFields.subject,
               subject_links: action.subject_links ?? messageWithNewCommonFields.subject_links,
             }
-          : {
-              ...messageWithNewCommonFields,
-            };
+          : messageWithNewCommonFields;
       });
 
     default:
