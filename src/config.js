@@ -9,7 +9,7 @@ type Config = {|
   enableReduxSlowReducerWarnings: boolean,
   slowReducersThreshold: number,
   enableErrorConsoleLogging: boolean,
-  appOwnDomains: string[],
+  appOwnDomains: $ReadOnlyArray<string>,
 |};
 
 const config: Config = {

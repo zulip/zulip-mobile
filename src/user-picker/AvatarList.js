@@ -7,7 +7,7 @@ import type { UserId, UserOrBot } from '../types';
 import AvatarItem from './AvatarItem';
 
 type Props = $ReadOnly<{|
-  users: UserOrBot[],
+  users: $ReadOnlyArray<UserOrBot>,
   listRef: React$Ref<typeof FlatList>,
   onPress: UserId => void,
 |}>;

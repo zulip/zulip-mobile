@@ -26,7 +26,7 @@ export default function CreateGroupScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   const handleCreateGroup = useCallback(
-    (selected: UserOrBot[]) => {
+    (selected: $ReadOnlyArray<UserOrBot>) => {
       NavigationService.dispatch(navigateBack());
       dispatch(doNarrow(pmNarrowFromRecipients(pmKeyRecipientsFromUsers(selected, ownUserId))));
     },

@@ -26,7 +26,7 @@ import { androidEnsureStoragePermission } from '../lightbox/download';
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
   destinationNarrow: Narrow,
-  insertAttachment: (DocumentPickerResponse[]) => Promise<void>,
+  insertAttachment: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
 |}>;
@@ -206,7 +206,7 @@ class ComposeMenuInner extends PureComponent<Props> {
     try {
       response = (await DocumentPicker.pickMultiple({
         type: [DocumentPicker.types.allFiles],
-      }): DocumentPickerResponse[]);
+      }): $ReadOnlyArray<DocumentPickerResponse>);
     } catch (e) {
       if (!DocumentPicker.isCancel(e)) {
         showErrorAlert(_('Error'), e);

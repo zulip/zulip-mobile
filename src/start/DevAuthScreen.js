@@ -45,8 +45,8 @@ type Props = $ReadOnly<{|
 
 type State = {|
   progress: boolean,
-  directAdmins: DevUser[],
-  directUsers: DevUser[],
+  directAdmins: $ReadOnlyArray<DevUser>,
+  directUsers: $ReadOnlyArray<DevUser>,
   error: string,
 |};
 

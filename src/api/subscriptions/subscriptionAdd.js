@@ -9,8 +9,8 @@ type SubscriptionObj = {|
 /** See https://zulip.com/api/subscribe */
 export default (
   auth: Auth,
-  subscriptions: SubscriptionObj[],
-  principals?: string[],
+  subscriptions: $ReadOnlyArray<SubscriptionObj>,
+  principals?: $ReadOnlyArray<string>,
 ): Promise<ApiResponse> =>
   apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify(subscriptions),

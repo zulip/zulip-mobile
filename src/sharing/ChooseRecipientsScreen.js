@@ -14,7 +14,7 @@ export default function ChooseRecipientsScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   const handleComplete = useCallback(
-    (selected: Array<UserOrBot>) => {
+    (selected: $ReadOnlyArray<UserOrBot>) => {
       onComplete(selected.map(u => u.user_id));
     },
     [onComplete],

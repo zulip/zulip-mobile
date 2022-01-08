@@ -19,4 +19,4 @@ export type SharedFile = {|
 export type SharedData =
   // Note: Keep these in sync with platform-native code.
   | {| type: 'text', sharedText: string |}
-  | {| type: 'file', files: SharedFile[] |};
+  | {| type: 'file', files: $ReadOnlyArray<SharedFile> |};

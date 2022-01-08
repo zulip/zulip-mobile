@@ -34,7 +34,7 @@ export function removeItemsDeeply<T: SomeUnreadItem>(
 
 function addItemsDeeply<T: SomeUnreadItem>(
   input: $ReadOnlyArray<T>,
-  itemsToAdd: number[],
+  itemsToAdd: $ReadOnlyArray<number>,
   index: number,
 ): $ReadOnlyArray<T> {
   const item = input[index];
@@ -56,7 +56,7 @@ function addItemsDeeply<T: SomeUnreadItem>(
 
 export const addItemsToPmArray = (
   input: $ReadOnlyArray<PmsUnreadItem>,
-  itemsToAdd: number[],
+  itemsToAdd: $ReadOnlyArray<number>,
   senderId: UserId,
 ): $ReadOnlyArray<PmsUnreadItem> => {
   const index = input.findIndex(sender => sender.sender_id === senderId);
@@ -76,7 +76,7 @@ export const addItemsToPmArray = (
 
 export const addItemsToHuddleArray = (
   input: $ReadOnlyArray<HuddlesUnreadItem>,
-  itemsToAdd: number[],
+  itemsToAdd: $ReadOnlyArray<number>,
   userIds: string,
 ): $ReadOnlyArray<HuddlesUnreadItem> => {
   const index = input.findIndex(recipients => recipients.user_ids_string === userIds);

@@ -33,7 +33,7 @@ function truncateForLogging<T: JSONable>(arr: $ReadOnlyArray<T>, len = 10): JSON
   };
 }
 
-export const getPrivateMessages: Selector<PmMessage[]> = createSelector(
+export const getPrivateMessages: Selector<$ReadOnlyArray<PmMessage>> = createSelector(
   getAllNarrows,
   getMessages,
   (narrows, messages) => {

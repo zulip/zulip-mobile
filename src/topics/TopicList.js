@@ -17,7 +17,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   stream: Stream,
-  topics: ?(TopicExtended[]),
+  topics: ?$ReadOnlyArray<TopicExtended>,
   onPress: (streamId: number, streamName: string, topic: string) => void,
 |}>;
 

@@ -174,7 +174,7 @@ class MessageListInner extends Component<Props> {
     console.error(event); // eslint-disable-line
   };
 
-  sendInboundEvents = (uevents: WebViewInboundEvent[]): void => {
+  sendInboundEvents = (uevents: $ReadOnlyArray<WebViewInboundEvent>): void => {
     if (this.webviewRef.current !== null && uevents.length > 0) {
       /* $FlowFixMe[incompatible-type]: This `postMessage` is undocumented;
          tracking as #3572. */

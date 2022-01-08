@@ -44,7 +44,7 @@ type State = {|
    * This is `null` if `query` is empty, representing an empty search box
    * and so effectively not a query to have results from at all.
    */
-  messages: Message[] | null,
+  messages: $ReadOnlyArray<Message> | null,
 
   /** Whether there is currently an active valid network request. */
   isFetching: boolean,
@@ -63,7 +63,7 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
    * Stores the fetched messages in the Redux store. Does not read any
    * of the component's data except `props.dispatch`.
    */
-  fetchSearchMessages = async (query: string): Promise<Message[]> => {
+  fetchSearchMessages = async (query: string): Promise<$ReadOnlyArray<Message>> => {
     const fetchArgs = {
       narrow: SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,

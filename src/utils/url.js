@@ -176,7 +176,7 @@ export type AutocompletionPieces = [Protocol | null, string, string | null];
 /**
  * A short list of some characters not permitted in subdomain name elements.
  */
-const disallowedCharacters: Array<string> = [...'.:/'];
+const disallowedCharacters: $ReadOnlyArray<string> = [...'.:/'];
 
 /**
  * Given user input purporting to identify a Zulip realm, provide a prefix,

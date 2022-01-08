@@ -180,7 +180,7 @@ $!${message.content}
   `;
 };
 
-export const flagsStateToStringList = (flags: FlagsState, id: number): string[] =>
+export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnlyArray<string> =>
   Object.keys(flags).filter(key => flags[key][id]);
 
 /**

@@ -13,7 +13,7 @@ type ApiResponseMessages = {|
   found_anchor: boolean,
   found_newest: boolean,
   found_oldest: boolean,
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
 |};
 
 /**
@@ -49,7 +49,7 @@ export type ServerMessage = ServerMessageOf<PmMessage> | ServerMessageOf<StreamM
 // `ApiResponseMessages` before returning it to application code.
 type ServerApiResponseMessages = {|
   ...ApiResponseMessages,
-  messages: ServerMessage[],
+  messages: $ReadOnlyArray<ServerMessage>,
 |};
 
 /** Exported for tests only. */

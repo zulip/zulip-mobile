@@ -7,7 +7,7 @@ import { getAuth, getStreams } from '../selectors';
 import { deleteOutboxMessage } from '../actions';
 import { getOutbox } from '../directSelectors';
 
-export const initTopics = (topics: Topic[], streamId: number): PerAccountAction => ({
+export const initTopics = (topics: $ReadOnlyArray<Topic>, streamId: number): PerAccountAction => ({
   type: INIT_TOPICS,
   topics,
   streamId,

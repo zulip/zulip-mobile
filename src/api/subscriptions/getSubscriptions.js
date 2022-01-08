@@ -5,7 +5,7 @@ import { apiGet } from '../apiFetch';
 
 type ApiResponseSubscriptions = {|
   ...$Exact<ApiResponseSuccess>,
-  subscriptions: Subscription[],
+  subscriptions: $ReadOnlyArray<Subscription>,
 |};
 
 /** See https://zulip.com/api/get-subscriptions */

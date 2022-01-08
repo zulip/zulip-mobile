@@ -25,7 +25,7 @@ export default function InviteUsersScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   const handleInviteUsers = useCallback(
-    (selected: UserOrBot[]) => {
+    (selected: $ReadOnlyArray<UserOrBot>) => {
       const recipients = selected.map(user => user.email);
       api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
       NavigationService.dispatch(navigateBack());

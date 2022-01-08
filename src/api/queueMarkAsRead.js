@@ -36,7 +36,7 @@ const processQueue = async (auth: Auth) => {
   unackedMessageIds = unackedMessageIds.filter(id => !acked_messages.has(id));
 };
 
-export default (auth: Auth, messageIds: number[]): void => {
+export default (auth: Auth, messageIds: $ReadOnlyArray<number>): void => {
   unackedMessageIds.push(...messageIds);
   processQueue(auth);
 };

@@ -24,7 +24,7 @@ import { tryGetAuth, tryGetActiveAccountState } from '../account/accountsSelecto
  *  * `getActiveUsersById` for leaving out deactivated users
  *  * `User` for details on properties, and links to docs.
  */
-const getAllUsers: Selector<UserOrBot[]> = createSelector(
+const getAllUsers: Selector<$ReadOnlyArray<UserOrBot>> = createSelector(
   getUsers,
   getNonActiveUsers,
   getCrossRealmBots,
@@ -69,7 +69,7 @@ export const getUsersById: Selector<Map<UserId, User>> = createSelector(
  *
  * See `getAllUsers`.
  */
-export const getSortedUsers: Selector<User[]> = createSelector(getUsers, users =>
+export const getSortedUsers: Selector<$ReadOnlyArray<User>> = createSelector(getUsers, users =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase())),
 );
 

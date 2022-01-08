@@ -29,11 +29,11 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   filter: string,
-  onComplete: (selected: UserOrBot[]) => void,
+  onComplete: (selected: $ReadOnlyArray<UserOrBot>) => void,
   showOwnUser: boolean,
 |}>;
 
-const getUsersExceptSelf: Selector<User[]> = createSelector(
+const getUsersExceptSelf: Selector<$ReadOnlyArray<User>> = createSelector(
   getUsers,
   getOwnUserId,
   (users, ownUserId) => users.filter(user => user.user_id !== ownUserId),
@@ -52,7 +52,7 @@ export default function UserPickerCard(props: Props): Node {
   const users = useSelector(state => getUsersToShow(state, showOwnUser));
   const presences = useSelector(getPresence);
 
-  const [selectedState, setSelectedState] = useState<UserOrBot[]>([]);
+  const [selectedState, setSelectedState] = useState<$ReadOnlyArray<UserOrBot>>([]);
   const listRef = useRef<FlatList<UserOrBot> | null>(null);
 
   const prevSelectedState = usePrevious(selectedState);

@@ -5,7 +5,7 @@ import { apiGet } from '../apiFetch';
 
 type ApiResponseStreams = {|
   ...$Exact<ApiResponseSuccess>,
-  streams: Stream[],
+  streams: $ReadOnlyArray<Stream>,
 |};
 
 /** See https://zulip.com/api/get-streams */

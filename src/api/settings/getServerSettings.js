@@ -27,7 +27,7 @@ export type ApiResponseServerSettings = {|
   authentication_methods: AuthenticationMethods,
   // external_authentication_methods added for server v2.1
   // TODO(server-2.1): Mark this as required; simplify downstream.
-  external_authentication_methods?: ExternalAuthenticationMethod[],
+  external_authentication_methods?: $ReadOnlyArray<ExternalAuthenticationMethod>,
   email_auth_enabled: boolean,
   push_notifications_enabled: boolean,
   realm_description: string,

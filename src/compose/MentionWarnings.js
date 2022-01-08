@@ -43,7 +43,7 @@ function MentionWarningsInner(props: Props, ref): Node {
   const auth = useSelector(getAuth);
   const allUsersById = useSelector(getAllUsersById);
 
-  const [unsubscribedMentions, setUnsubscribedMentions] = useState<UserId[]>([]);
+  const [unsubscribedMentions, setUnsubscribedMentions] = useState<$ReadOnlyArray<UserId>>([]);
 
   const _ = useContext(TranslationContext);
 

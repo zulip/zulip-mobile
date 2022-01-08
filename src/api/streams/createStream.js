@@ -7,7 +7,7 @@ export default (
   auth: Auth,
   name: string,
   description?: string = '',
-  principals?: string[] = [],
+  principals?: $ReadOnlyArray<string> = [],
   inviteOnly?: boolean = false,
   announce?: boolean = false,
 ): Promise<ApiResponse> =>

@@ -3,9 +3,11 @@
 import type { Auth } from '../../types';
 
 /** List of routes which accept the API key appended as a GET parameter. */
-const inlineApiRoutes: RegExp[] = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(
-  r => new RegExp(r),
-);
+const inlineApiRoutes: $ReadOnlyArray<RegExp> = [
+  '^/user_uploads/',
+  '^/thumbnail$',
+  '^/avatar/',
+].map(r => new RegExp(r));
 
 /**
  * Rewrite the source URLs of <img> elements under the given root, inclusive.

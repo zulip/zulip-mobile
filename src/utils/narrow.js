@@ -107,7 +107,7 @@ export const pmNarrowFromUsers = (recipients: PmKeyUsers): Narrow =>
  */
 // It'd be fine for test data to go through the usual filtering logic; the
 // annoying thing is just that that requires an ownUserId value.
-export const pmNarrowFromUsersUnsafe = (recipients: UserOrBot[]): Narrow => {
+export const pmNarrowFromUsersUnsafe = (recipients: $ReadOnlyArray<UserOrBot>): Narrow => {
   const userIds = recipients.map(u => u.user_id).sort((a, b) => a - b);
   // This call is unsafe, but that's why this function is too.
   return pmNarrowInternal(makePmKeyRecipients_UNSAFE(userIds));
@@ -522,7 +522,7 @@ export const getNarrowsForMessage = (
   message: Message | Outbox,
   ownUserId: UserId,
   flags: $ReadOnlyArray<string>,
-): Narrow[] => {
+): $ReadOnlyArray<Narrow> => {
   const result = [];
 
   // All messages are in the home narrow.

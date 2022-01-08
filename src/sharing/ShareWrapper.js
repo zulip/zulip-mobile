@@ -87,7 +87,7 @@ type Props = $ReadOnly<{|
 type State = $ReadOnly<{|
   message: string,
   sending: boolean,
-  files: SharedFile[],
+  files: $ReadOnlyArray<SharedFile>,
 |}>;
 
 /**

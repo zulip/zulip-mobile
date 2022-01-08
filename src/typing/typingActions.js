@@ -4,7 +4,7 @@ import type { PerAccountAction, ThunkAction } from '../types';
 import { sleep } from '../utils/async';
 import { getTyping } from '../directSelectors';
 
-export const clearTyping = (outdatedNotifications: string[]): PerAccountAction => ({
+export const clearTyping = (outdatedNotifications: $ReadOnlyArray<string>): PerAccountAction => ({
   type: 'CLEAR_TYPING',
   outdatedNotifications,
 });

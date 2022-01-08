@@ -18,7 +18,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  names: string[],
+  names: $ReadOnlyArray<string>,
   size: number,
   children?: Node,
   onPress?: () => void,

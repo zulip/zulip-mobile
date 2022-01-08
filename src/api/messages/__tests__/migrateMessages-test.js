@@ -26,9 +26,9 @@ describe('migrateMessages', () => {
     avatar_url: null,
   };
 
-  const input: ServerMessage[] = [serverMessage];
+  const input: $ReadOnlyArray<ServerMessage> = [serverMessage];
 
-  const expectedOutput: Message[] = [
+  const expectedOutput: $ReadOnlyArray<Message> = [
     {
       ...serverMessage,
       reactions: [
@@ -43,7 +43,7 @@ describe('migrateMessages', () => {
     },
   ];
 
-  const actualOutput: Message[] = migrateMessages(input, identityOfAuth(eg.selfAuth));
+  const actualOutput: $ReadOnlyArray<Message> = migrateMessages(input, identityOfAuth(eg.selfAuth));
 
   test('In reactions, replace user object with `user_id`', () => {
     expect(actualOutput.map(m => m.reactions)).toEqual(expectedOutput.map(m => m.reactions));

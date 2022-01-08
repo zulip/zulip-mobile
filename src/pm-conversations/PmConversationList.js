@@ -21,7 +21,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  conversations: PmConversationData[],
+  conversations: $ReadOnlyArray<PmConversationData>,
 |}>;
 
 /**

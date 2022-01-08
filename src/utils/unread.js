@@ -1,8 +1,10 @@
 /* @flow strict-local */
 import type { FlagsState, Message, Outbox } from '../types';
 
-export const filterUnreadMessageIds = (messageIds: number[], flags: FlagsState): number[] =>
-  messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
+export const filterUnreadMessageIds = (
+  messageIds: $ReadOnlyArray<number>,
+  flags: FlagsState,
+): number[] => messageIds.filter((msgId: number) => !flags || !flags.read || !flags.read[msgId]);
 
 export const filterUnreadMessagesInRange = (
   messages: $ReadOnlyArray<Message | Outbox>,

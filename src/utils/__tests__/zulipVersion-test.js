@@ -8,7 +8,7 @@ describe('ZulipVersion.prototype.isAtLeast(otherZulipVersion)', () => {
   // if i = j, versions[i][k] = versions[j][l] for all k, l
   // if i < j, versions[i][k] < versions[j][l] for all k, l
   // (where i, j, k, l are valid indexes)
-  const versions: Array<ZulipVersion[]> = [
+  const versions: $ReadOnlyArray<$ReadOnlyArray<ZulipVersion>> = [
     ['0.0.0', '', '-dev', '-devasdfjkl;', '-123-g01ab', 'asdfjkl;-dev'],
     ['0.0.1-dev'],
     ['0.0.1-rc1'],

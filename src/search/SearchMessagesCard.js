@@ -16,7 +16,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  messages: Message[] | null,
+  messages: $ReadOnlyArray<Message> | null,
   narrow: Narrow,
   isFetching: boolean,
 |}>;

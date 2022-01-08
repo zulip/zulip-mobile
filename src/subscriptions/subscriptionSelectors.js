@@ -50,7 +50,7 @@ export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSele
   },
 );
 
-export const getSubscribedStreams: Selector<Subscription[]> = createSelector(
+export const getSubscribedStreams: Selector<$ReadOnlyArray<Subscription>> = createSelector(
   getStreams,
   getSubscriptions,
   (allStreams, allSubscriptions) =>

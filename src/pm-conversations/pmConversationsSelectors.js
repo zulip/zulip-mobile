@@ -30,7 +30,9 @@ function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
 }
 
 // TODO(server-2.1): Delete this, and simplify logic around it.
-export const getRecentConversationsLegacy: Selector<PmConversationData[]> = createSelector(
+export const getRecentConversationsLegacy: Selector<
+  $ReadOnlyArray<PmConversationData>,
+> = createSelector(
   getOwnUserId,
   getPrivateMessages,
   getUnreadByPms,
@@ -38,11 +40,11 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
   getAllUsersById,
   (
     ownUserId,
-    messages: PmMessage[],
+    messages: $ReadOnlyArray<PmMessage>,
     unreadPms: {| [number]: number |},
     unreadHuddles: {| [string]: number |},
     allUsersById,
-  ): PmConversationData[] => {
+  ): $ReadOnlyArray<PmConversationData> => {
     const items = messages
       .map(msg => {
         // Note this can be a different set of users from those in `keyRecipients`.
@@ -73,7 +75,9 @@ export const getRecentConversationsLegacy: Selector<PmConversationData[]> = crea
   },
 );
 
-export const getRecentConversationsModern: Selector<PmConversationData[]> = createSelector(
+export const getRecentConversationsModern: Selector<
+  $ReadOnlyArray<PmConversationData>,
+> = createSelector(
   state => state.pmConversations,
   getUnreadByPms,
   getUnreadByHuddles,
@@ -92,7 +96,7 @@ function getRecentConversationsModernImpl(
   unreadHuddles,
   allUsersById,
   ownUserId,
-): PmConversationData[] {
+): $ReadOnlyArray<PmConversationData> {
   return sorted
     .toSeq()
     .map(recentsKey => {
@@ -129,11 +133,13 @@ const getServerIsOld: Selector<boolean> = createSelector(
 /**
  * The most recent PM conversations, with unread count and latest message ID.
  */
-export const getRecentConversations = (state: PerAccountState): PmConversationData[] =>
+export const getRecentConversations = (
+  state: PerAccountState,
+): $ReadOnlyArray<PmConversationData> =>
   getServerIsOld(state) ? getRecentConversationsLegacy(state) : getRecentConversationsModern(state);
 
 export const getUnreadConversations: Selector<
-  PmConversationData[],
+  $ReadOnlyArray<PmConversationData>,
 > = createSelector(getRecentConversations, conversations =>
   conversations.filter(c => c.unread > 0),
 );

@@ -35,7 +35,7 @@ export type WebViewInboundEventReady = {|
 
 export type WebViewInboundEventMessagesRead = {|
   type: 'read',
-  messageIds: number[],
+  messageIds: $ReadOnlyArray<number>,
 |};
 
 export type WebViewInboundEvent =

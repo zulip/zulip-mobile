@@ -22,7 +22,10 @@ type UsersByStatus = {|
   unavailable: UserOrBot[],
 |};
 
-export const groupUsersByStatus = (users: UserOrBot[], presences: PresenceState): UsersByStatus => {
+export const groupUsersByStatus = (
+  users: $ReadOnlyArray<UserOrBot>,
+  presences: PresenceState,
+): UsersByStatus => {
   const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
   users.forEach(user => {
     const status = statusFromPresence(presences[user.email]);
@@ -46,7 +49,10 @@ const statusOrder = (presence: UserPresence): number => {
   }
 };
 
-export const sortUserList = (users: UserOrBot[], presences: PresenceState): UserOrBot[] =>
+export const sortUserList = (
+  users: $ReadOnlyArray<UserOrBot>,
+  presences: PresenceState,
+): $ReadOnlyArray<UserOrBot> =>
   [...users].sort(
     (x1, x2) =>
       statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
@@ -64,7 +70,7 @@ export const filterUserList = (
   users: $ReadOnlyArray<UserOrBot>,
   filter: string = '',
   ownUserId: ?UserId,
-): UserOrBot[] =>
+): $ReadOnlyArray<UserOrBot> =>
   users.filter(
     user =>
       user.user_id !== ownUserId
@@ -73,7 +79,7 @@ export const filterUserList = (
         || user.email.toLowerCase().includes(filter.toLowerCase())),
   );
 
-export const sortAlphabetically = (users: User[]): User[] =>
+export const sortAlphabetically = (users: $ReadOnlyArray<User>): $ReadOnlyArray<User> =>
   [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
 
 export const filterUserStartWith = (
@@ -154,7 +160,7 @@ export const getAutocompleteSuggestion = (
 export const getAutocompleteUserGroupSuggestions = (
   userGroups: $ReadOnlyArray<UserGroup>,
   filter: string = '',
-): UserGroup[] =>
+): $ReadOnlyArray<UserGroup> =>
   userGroups.filter(
     userGroup =>
       userGroup.name.toLowerCase().includes(filter.toLowerCase())

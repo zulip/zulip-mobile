@@ -5,8 +5,8 @@ import { apiGet } from './apiFetch';
 
 type ApiResponseDevListUsers = {|
   ...$Exact<ApiResponseSuccess>,
-  direct_admins: DevUser[],
-  direct_users: DevUser[],
+  direct_admins: $ReadOnlyArray<DevUser>,
+  direct_users: $ReadOnlyArray<DevUser>,
 |};
 
 export default (auth: Auth): Promise<ApiResponseDevListUsers> => apiGet(auth, 'dev_list_users');

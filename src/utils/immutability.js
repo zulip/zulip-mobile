@@ -8,7 +8,10 @@ export const removeItemsFromArray = (
   return input.length === output.length ? input : output;
 };
 
-export function addItemsToArray<T>(input: $ReadOnlyArray<T>, itemsToAdd: T[]): $ReadOnlyArray<T> {
+export function addItemsToArray<T>(
+  input: $ReadOnlyArray<T>,
+  itemsToAdd: $ReadOnlyArray<T>,
+): $ReadOnlyArray<T> {
   const newItems = itemsToAdd.filter(item => !input.includes(item));
   return newItems.length > 0 ? [...input, ...itemsToAdd] : input;
 }
@@ -25,7 +28,7 @@ export function replaceItemInArray<T>(
   input: $ReadOnlyArray<T>,
   predicate: (item: T) => boolean,
   replaceFunc: (item?: T) => T,
-): T[] {
+): $ReadOnlyArray<T> {
   let replacementHappened = false;
 
   const newArray = input.map(x => {

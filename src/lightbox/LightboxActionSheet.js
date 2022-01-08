@@ -57,7 +57,7 @@ const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
   shareImage(src, auth);
 };
 
-const actionSheetButtons: ButtonType[] = [
+const actionSheetButtons: $ReadOnlyArray<ButtonType> = [
   { title: 'Download image', onPress: tryToDownloadImage },
   { title: 'Share image', onPress: shareImageDirectly },
   { title: 'Share link to image', onPress: shareLink },

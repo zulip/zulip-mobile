@@ -4,7 +4,7 @@ import { apiPost } from '../apiFetch';
 
 export type ApiResponseMessagesFlags = {|
   ...$Exact<ApiResponseSuccess>,
-  messages: number[],
+  messages: $ReadOnlyArray<number>,
 |};
 
 export default (

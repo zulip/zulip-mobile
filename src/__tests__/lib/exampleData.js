@@ -360,7 +360,7 @@ const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
 export const pmMessage = (args?: {|
   ...$Rest<PmMessage, { ... }>,
   sender?: User,
-  recipients?: User[],
+  recipients?: $ReadOnlyArray<User>,
   sender_id?: number, // accept a plain number, for convenience in tests
 |}): PmMessage => {
   // The `Object.freeze` is to work around a Flow issue:
@@ -395,7 +395,7 @@ export const pmMessage = (args?: {|
 
 export const pmMessageFromTo = (
   from: User,
-  to: User[],
+  to: $ReadOnlyArray<User>,
   extra?: $Rest<PmMessage, { ... }>,
 ): PmMessage => pmMessage({ sender: from, recipients: [from, ...to], ...extra });
 
@@ -444,7 +444,7 @@ export const streamMessage = (args?: {|
 };
 
 /** Construct a MessagesState from a list of messages. */
-export const makeMessagesState = (messages: Message[]): MessagesState =>
+export const makeMessagesState = (messages: $ReadOnlyArray<Message>): MessagesState =>
   Immutable.Map(messages.map(m => [m.id, m]));
 
 /* ========================================================================

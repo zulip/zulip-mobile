@@ -235,7 +235,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     }
   };
 
-  insertAttachment = async (attachments: DocumentPickerResponse[]) => {
+  insertAttachment = async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
     this.setState(({ numUploading }) => ({
       numUploading: numUploading + 1,
     }));

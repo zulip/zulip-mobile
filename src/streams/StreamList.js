@@ -61,7 +61,7 @@ export default function StreamList(props: Props): Node {
     return <SearchEmptyState text="No streams found" />;
   }
 
-  const sortedStreams: PseudoSubscription[] = streams
+  const sortedStreams: $ReadOnlyArray<PseudoSubscription> = streams
     .slice()
     .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
   const sections = [

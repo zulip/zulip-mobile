@@ -5,7 +5,7 @@ import { apiGet } from '../apiFetch';
 
 type ApiResponseMessageHistory = {|
   ...$Exact<ApiResponseSuccess>,
-  message_history: MessageSnapshot[],
+  message_history: $ReadOnlyArray<MessageSnapshot>,
 |};
 
 /** See https://zulip.com/api/get-message-history */

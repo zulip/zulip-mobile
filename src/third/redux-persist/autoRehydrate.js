@@ -54,7 +54,7 @@ export default function autoRehydrate<S: { ... }, A: { +type: string, ... }, D>(
   }
 }
 
-function logPreRehydrate<A: { +type: string, ... }>(preRehydrateActions: A[]) {
+function logPreRehydrate<A: { +type: string, ... }>(preRehydrateActions: $ReadOnlyArray<A>) {
   const concernedActions = preRehydrateActions.slice(1);
   if (concernedActions.length > 0) {
     logging.warn(

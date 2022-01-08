@@ -716,7 +716,7 @@ const handleMessageEvent: MessageEventListener = e => {
   // This decoding inverts `base64Utf8Encode`.
   const decodedData = decodeURIComponent(escape(window.atob(e.data)));
   const rawInboundEvents = JSON.parse(decodedData);
-  const inboundEvents: WebViewInboundEvent[] = rawInboundEvents.map(inboundEvent => ({
+  const inboundEvents: $ReadOnlyArray<WebViewInboundEvent> = rawInboundEvents.map(inboundEvent => ({
     ...inboundEvent,
     // A URL object doesn't round-trip through JSON; we get the string
     // representation. So, "revive" it back into a URL object.

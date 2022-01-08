@@ -26,7 +26,7 @@ type VersionElements = {|
  */
 export class ZulipVersion {
   _raw: string;
-  _comparisonArray: number[];
+  _comparisonArray: $ReadOnlyArray<number>;
   _elements: VersionElements;
 
   constructor(raw: string) {
@@ -117,9 +117,9 @@ export class ZulipVersion {
   }
 
   /**
-   * Compute a number[] to be used in .isAtLeast comparisons.
+   * Compute a $ReadOnlyArray<number> to be used in .isAtLeast comparisons.
    */
-  static _getComparisonArray(elements: VersionElements): number[] {
+  static _getComparisonArray(elements: VersionElements): $ReadOnlyArray<number> {
     const { major, minor, patch, flag, numCommits } = elements;
     const result: number[] = [];
 

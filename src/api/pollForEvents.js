@@ -5,7 +5,7 @@ import { apiGet } from './apiFetch';
 
 type ApiResponsePollEvents = {|
   ...$Exact<ApiResponseSuccess>,
-  events: GeneralEvent[],
+  events: $ReadOnlyArray<GeneralEvent>,
 |};
 
 /** See https://zulip.com/api/get-events */

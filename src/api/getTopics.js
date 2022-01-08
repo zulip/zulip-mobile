@@ -5,7 +5,7 @@ import { apiGet } from './apiFetch';
 
 type ApiResponseTopics = {|
   ...$Exact<ApiResponseSuccess>,
-  topics: Topic[],
+  topics: $ReadOnlyArray<Topic>,
 |};
 
 /** See https://zulip.com/api/get-stream-topics */

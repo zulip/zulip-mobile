@@ -26,7 +26,7 @@ describe('BackoffMachine', () => {
     const NUM_TRIALS = 100;
     const expectedMaxDurations = [100, 200, 400, 800, 1600, 3200, 6400, 10000, 10000, 10000, 10000];
 
-    const trialResults: Array<number[]> = [];
+    const trialResults: Array<$ReadOnlyArray<number>> = [];
 
     for (let i = 0; i < NUM_TRIALS; i++) {
       const resultsForThisTrial = [];

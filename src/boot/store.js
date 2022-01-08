@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
  * the lists of properties we do persist, below.
  */
 // prettier-ignore
-export const discardKeys: Array<$Keys<GlobalState>> = [
+export const discardKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
   'alertWords', 'caughtUp', 'fetching',
   'presence', 'session', 'topics', 'typing', 'userStatus',
 ];
@@ -57,7 +57,7 @@ export const discardKeys: Array<$Keys<GlobalState>> = [
  * persist them.
  */
 // prettier-ignore
-export const storeKeys: Array<$Keys<GlobalState>> = [
+export const storeKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
   'migrations', 'accounts', 'drafts', 'outbox', 'settings',
 ];
 
@@ -69,7 +69,7 @@ export const storeKeys: Array<$Keys<GlobalState>> = [
  * don't have to re-download it.
  */
 // prettier-ignore
-export const cacheKeys: Array<$Keys<GlobalState>> = [
+export const cacheKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
   'flags', 'messages', 'mute', 'mutedUsers', 'narrows', 'pmConversations',
   'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];

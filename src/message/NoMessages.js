@@ -37,7 +37,7 @@ type EmptyMessage = {|
   text: string,
 |};
 
-const messages: EmptyMessage[] = [
+const messages: $ReadOnlyArray<EmptyMessage> = [
   { isFunc: isHomeNarrow, text: 'No messages on server' },
   { isFunc: isSpecialNarrow, text: 'No messages' },
   { isFunc: isStreamNarrow, text: 'No messages in stream' },

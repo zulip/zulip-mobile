@@ -28,7 +28,7 @@ export default class AnimatedRotateComponent extends PureComponent<Props> {
     const { children, style } = this.props;
     const rotation = this.rotation.interpolate({
       inputRange: [0, 360],
-      outputRange: (['0deg', '360deg']: string[]),
+      outputRange: (['0deg', '360deg']: $ReadOnlyArray<string>),
     });
     const animatedStyle = { transform: [{ rotate: rotation }] };
 

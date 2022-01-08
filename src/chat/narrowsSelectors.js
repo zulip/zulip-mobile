@@ -65,7 +65,7 @@ export const getFetchedMessageIdsForNarrow = (
   narrow: Narrow,
 ): $ReadOnlyArray<number> => getAllNarrows(state).get(keyFromNarrow(narrow)) || NULL_ARRAY;
 
-const getFetchedMessagesForNarrow: Selector<Message[], Narrow> = createSelector(
+const getFetchedMessagesForNarrow: Selector<$ReadOnlyArray<Message>, Narrow> = createSelector(
   getFetchedMessageIdsForNarrow,
   state => getMessages(state),
   (messageIds, messages) =>

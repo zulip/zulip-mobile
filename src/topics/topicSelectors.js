@@ -33,7 +33,7 @@ export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = crea
   },
 );
 
-export const getTopicsForStream: Selector<?(TopicExtended[]), number> = createSelector(
+export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number> = createSelector(
   (state, streamId) => getTopics(state)[streamId],
   state => getMute(state),
   (state, streamId) => getStreamsById(state).get(streamId),

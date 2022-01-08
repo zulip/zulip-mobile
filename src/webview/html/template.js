@@ -14,9 +14,12 @@ import escape from 'lodash.escape';
  * To include a literal '$!' before a value, write '$\!':
  *   template`Hello $\!${&<world}` -> 'Hello $!&amp;&lt;world'
  */
-export default (strings: string[], ...values: Array<string | number>): string => {
+export default (
+  strings: $ReadOnlyArray<string>,
+  ...values: $ReadOnlyArray<string | number>
+): string => {
   // $FlowIssue[prop-missing] #2616 github.com/facebook/flow/issues/2616
-  const raw: string[] = strings.raw; // eslint-disable-line prefer-destructuring
+  const raw: $ReadOnlyArray<string> = strings.raw; // eslint-disable-line prefer-destructuring
   const result = [];
   values.forEach((value, i) => {
     if (raw[i].endsWith('$!')) {

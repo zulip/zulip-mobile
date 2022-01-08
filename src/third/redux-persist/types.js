@@ -11,7 +11,7 @@ export type Storage = {
 };
 
 export type Config = {|
-  +whitelist: string[],
+  +whitelist: $ReadOnlyArray<string>,
   +storage: Storage,
   +serialize: mixed => string,
   +deserialize: string => mixed,

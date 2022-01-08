@@ -42,7 +42,7 @@ export function keyOfExactUsers(ids: UserId[]): PmConversationKey {
 }
 
 // Input may contain self or not, and needn't be sorted.
-function keyOfUsers(ids: UserId[], ownUserId: UserId): PmConversationKey {
+function keyOfUsers(ids: $ReadOnlyArray<UserId>, ownUserId: UserId): PmConversationKey {
   return keyOfExactUsers(ids.filter(id => id !== ownUserId));
 }
 

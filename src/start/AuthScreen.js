@@ -54,7 +54,7 @@ type AuthenticationMethodDetails = {|
 |};
 
 // Methods that don't show up in external_authentication_methods.
-const availableDirectMethods: AuthenticationMethodDetails[] = [
+const availableDirectMethods: $ReadOnlyArray<AuthenticationMethodDetails> = [
   {
     name: 'dev',
     displayName: 'dev account',
@@ -86,7 +86,7 @@ const availableDirectMethods: AuthenticationMethodDetails[] = [
 // which have that key (Zulip Server v2.1+).  We refer to this array for
 // servers that don't.
 // TODO(server-2.1): Simplify this away.
-const availableExternalMethods: AuthenticationMethodDetails[] = [
+const availableExternalMethods: $ReadOnlyArray<AuthenticationMethodDetails> = [
   {
     name: 'google',
     displayName: 'Google',
@@ -120,8 +120,8 @@ const externalMethodIcons = new Map([
 /** Exported for tests only. */
 export const activeAuthentications = (
   authenticationMethods: AuthenticationMethods,
-  externalAuthenticationMethods: ExternalAuthenticationMethod[] | void,
-): AuthenticationMethodDetails[] => {
+  externalAuthenticationMethods: $ReadOnlyArray<ExternalAuthenticationMethod> | void,
+): $ReadOnlyArray<AuthenticationMethodDetails> => {
   const result = [];
 
   availableDirectMethods.forEach(auth => {

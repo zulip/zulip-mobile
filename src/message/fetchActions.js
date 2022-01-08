@@ -67,7 +67,7 @@ const messageFetchError = (args: {| narrow: Narrow, error: Error |}): PerAccount
 };
 
 const messageFetchComplete = (args: {|
-  messages: Message[],
+  messages: $ReadOnlyArray<Message>,
   narrow: Narrow,
   anchor: number,
   numBefore: number,
@@ -111,7 +111,7 @@ export const fetchMessages = (fetchArgs: {|
   anchor: number,
   numBefore: number,
   numAfter: number,
-|}): ThunkAction<Promise<Message[]>> => async (dispatch, getState) => {
+|}): ThunkAction<Promise<$ReadOnlyArray<Message>>> => async (dispatch, getState) => {
   dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
   try {
     const { messages, found_newest, found_oldest } =
@@ -308,7 +308,7 @@ export const isFetchNeededAtAnchor = (
 export const fetchMessagesInNarrow = (
   narrow: Narrow,
   anchor: number = FIRST_UNREAD_ANCHOR,
-): ThunkAction<Promise<Message[] | void>> => async (dispatch, getState) => {
+): ThunkAction<Promise<$ReadOnlyArray<Message> | void>> => async (dispatch, getState) => {
   if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
     return undefined;
   }
