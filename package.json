@@ -118,5 +118,8 @@
     "sqlite3": "^5.0.2",
     "typescript": "~3.8.3",
     "yarn-deduplicate": "^3.0.0"
+  },
+  "resolutions": {
+    "sqlite3/**/node-gyp": "^8"
   }
 }
