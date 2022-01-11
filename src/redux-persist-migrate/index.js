@@ -17,32 +17,22 @@ const processKey = key => {
 
 export default function createMigration(
   manifest: {| [string]: (State) => State |},
-  versionSelector: string | (State => number | string | void),
-  versionSetter?: (State, number) => State,
+  reducerKey: string,
 ): StoreEnhancer<State, Action, Dispatch<Action>> {
-  if (typeof versionSelector === 'string') {
-    const reducerKey = versionSelector;
-    const realVersionSelector = state => state && state[reducerKey] && state[reducerKey].version;
-    const realVersionSetter = (state, version) => {
-      if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
-        logging.error(
-          'redux-persist-migrate: state for versionSetter key must be an object or undefined',
-          { version, reducerKey, 'actual-state': state[reducerKey] },
-        );
-        return state;
-      }
-      state[reducerKey] = state[reducerKey] || {};
-      state[reducerKey].version = version;
+  const realVersionSelector = state => state && state[reducerKey] && state[reducerKey].version;
+  const realVersionSetter = (state, version) => {
+    if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
+      logging.error(
+        'redux-persist-migrate: state for versionSetter key must be an object or undefined',
+        { version, reducerKey, 'actual-state': state[reducerKey] },
+      );
       return state;
-    };
-    return createMigrationImpl(manifest, realVersionSelector, realVersionSetter);
-  }
-
-  if (versionSetter === undefined) {
-    throw new Error('createMigration: bad arguments');
-  }
-
-  return createMigrationImpl(manifest, versionSelector, versionSetter);
+    }
+    state[reducerKey] = state[reducerKey] || {};
+    state[reducerKey].version = version;
+    return state;
+  };
+  return createMigrationImpl(manifest, realVersionSelector, realVersionSetter);
 }
 
 export function createMigrationImpl(
