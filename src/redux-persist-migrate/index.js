@@ -63,7 +63,7 @@ export default function createMigration(
         // first launch after install, so incoming state is empty object
         // migration not required, just update version
         const payload = versionSetter(incomingState, currentVersion);
-        return next({ ...action, type: REHYDRATE, payload });
+        return next({ ...action, payload });
       }
 
       if (incomingVersion !== currentVersion) {
