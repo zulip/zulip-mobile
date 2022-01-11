@@ -137,12 +137,8 @@ const rehydrate = (state, action) => {
        will be after the rehydrate is complete.  So even if some other
        property is null in the payload, we still do want to ask `getHasAuth`
        what it thinks.) */
-  const payloadForGetHasAuth = (payload: GlobalState | { accounts: null, ... } | void);
-  const haveApiKey = !!(
-    payloadForGetHasAuth
-    && payloadForGetHasAuth.accounts
-    && getHasAuth(payloadForGetHasAuth)
-  );
+  const payloadForGetHasAuth = (payload: GlobalState | { accounts: null, ... });
+  const haveApiKey = !!payloadForGetHasAuth.accounts && getHasAuth(payloadForGetHasAuth);
 
   return {
     ...state,
