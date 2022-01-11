@@ -40,23 +40,20 @@ export default async function getStoredState(config: Config): Promise<{ ... }> {
           return;
         }
         invariant(serialized !== null, 'key was found above, should be present here');
-        restoredState[key] = rehydrate(key, serialized);
+
+        try {
+          restoredState[key] = deserializer(serialized);
+        } catch (err) {
+          logging.warn(err, {
+            message: 'redux-persist/getStoredState: Error restoring data for a key.',
+            key,
+          });
+          restoredState[key] = null;
+        }
       })(),
     ),
   );
   return restoredState;
-
-  function rehydrate(key: string, serialized: string) {
-    try {
-      return deserializer(serialized);
-    } catch (err) {
-      logging.warn(err, {
-        message: 'redux-persist/getStoredState: Error restoring data for a key.',
-        key,
-      });
-      return null;
-    }
-  }
 
   function createStorageKey(key) {
     return `${keyPrefix}${key}`;
