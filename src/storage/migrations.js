@@ -1,6 +1,4 @@
 // @flow strict-local
-import Immutable from 'immutable';
-
 import type { ReadWrite } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { GlobalState } from '../types';
@@ -170,10 +168,7 @@ const migrationsInner: {| [string]: (GlobalState) => GlobalState |} = {
   }),
 
   // Convert `narrows` from object-as-map to `Immutable.Map`.
-  '16': state => ({
-    ...state,
-    narrows: Immutable.Map(state.narrows),
-  }),
+  '16': dropCache,
 
   // Convert messages[].avatar_url from `string | null` to `AvatarURL`.
   '17': dropCache,
