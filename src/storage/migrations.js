@@ -55,16 +55,8 @@ function dropCache(state: GlobalState): $Shape<GlobalState> {
   return result;
 }
 
-/**
- * Migrations for data persisted by previous versions of the app.
- *
- * These are run by `redux-persist-migrate` when the previously persisted
- * state is loaded ("rehydrated") by `redux-persist`; they transform that
- * state object before it's applied to our live state.  The state includes
- * a version number to track which migrations are already reflected in it,
- * so that each only has to be run once.
- */
-export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
+// This is the inward-facing type; see later export for jsdoc.
+const migrationsInner: {| [string]: (GlobalState) => GlobalState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
@@ -353,3 +345,20 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
 
   // TIP: When adding a migration, consider just using `dropCache`.
 };
+
+type PartialState = $ReadOnly<$Rest<GlobalState, { ... }>>;
+
+/**
+ * Migrations for data persisted by previous versions of the app.
+ *
+ * These are run by `redux-persist-migrate` when the previously persisted
+ * state is loaded ("rehydrated") by `redux-persist`; they transform that
+ * state object before it's applied to our live state.  The state includes
+ * a version number to track which migrations are already reflected in it,
+ * so that each only has to be run once.
+ */
+/* $FlowFixMe[incompatible-type] This discrepancy between PartialState
+     (which the exported type claims to accept) and GlobalState (the
+     type actually accepted by the implementation, migrationsInner) is where
+     we pretend that all properties are present. */
+export const migrations: {| [string]: (PartialState) => PartialState |} = migrationsInner;

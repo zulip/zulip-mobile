@@ -15,8 +15,10 @@ const processKey = key => {
 
 /* eslint-disable no-use-before-define */
 
+type PartialState = $ReadOnly<$Rest<State, { ... }>>;
+
 export default function createMigration(
-  manifest: {| [string]: (State) => State |},
+  manifest: {| [string]: (PartialState) => PartialState |},
   reducerKey: string,
 ): StoreEnhancer<State, Action, Dispatch<Action>> {
   const migratePayload = createMigrationFunction(manifest, reducerKey);
@@ -42,9 +44,9 @@ export default function createMigration(
 
 /** Exported only for tests. */
 export function createMigrationFunction(
-  manifest: {| [string]: (State) => State |},
+  manifest: {| [string]: (PartialState) => PartialState |},
   reducerKey: string,
-): State => State {
+): PartialState => PartialState {
   const versionSelector = state => state && state[reducerKey] && state[reducerKey].version;
   const versionSetter = (state, version) => {
     if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
@@ -77,7 +79,7 @@ export function createMigrationFunction(
     return newState;
   };
 
-  return function migratePayload(incomingState: State): State {
+  return function migratePayload(incomingState: PartialState): PartialState {
     const incomingVersion = parseInt(versionSelector(incomingState), 10);
     if (Number.isNaN(incomingVersion)) {
       // first launch after install, so incoming state is empty object
