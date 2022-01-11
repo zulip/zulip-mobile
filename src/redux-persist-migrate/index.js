@@ -54,9 +54,7 @@ export function createMigrationFunction(
       );
       return state;
     }
-    state[reducerKey] = state[reducerKey] || {};
-    state[reducerKey].version = version;
-    return state;
+    return { ...state, [reducerKey]: { ...state[reducerKey], version } };
   };
 
   const versionKeys = Object.keys(manifest)
