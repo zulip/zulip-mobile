@@ -19,8 +19,8 @@ export default function createMigration(
   manifest: {| [string]: (State) => State |},
   reducerKey: string,
 ): StoreEnhancer<State, Action, Dispatch<Action>> {
-  const realVersionSelector = state => state && state[reducerKey] && state[reducerKey].version;
-  const realVersionSetter = (state, version) => {
+  const versionSelector = state => state && state[reducerKey] && state[reducerKey].version;
+  const versionSetter = (state, version) => {
     if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
       logging.error(
         'redux-persist-migrate: state for versionSetter key must be an object or undefined',
@@ -32,14 +32,7 @@ export default function createMigration(
     state[reducerKey].version = version;
     return state;
   };
-  return createMigrationImpl(manifest, realVersionSelector, realVersionSetter);
-}
 
-export function createMigrationImpl(
-  manifest: {| [string]: (State) => State |},
-  versionSelector: State => number | string | void,
-  versionSetter: (State, number) => State,
-): StoreEnhancer<State, Action, Dispatch<Action>> {
   const versionKeys = Object.keys(manifest)
     .map(processKey)
     .sort((a, b) => a - b);
@@ -61,9 +54,6 @@ export function createMigrationImpl(
   };
 
   const migrationDispatch = next => (action: Action) => {
-    if (versionSetter === undefined || typeof versionSelector === 'string') {
-      throw new Error('createMigration: bad arguments');
-    }
     if (action.type === REHYDRATE) {
       /* $FlowIgnore[incompatible-type]
          this really is a lie -- and kind of central to migration */
