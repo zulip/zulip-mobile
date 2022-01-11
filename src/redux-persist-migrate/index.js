@@ -25,10 +25,7 @@ export default function createMigration(
 
   const migrationDispatch = next => (action: Action) => {
     if (action.type === REHYDRATE) {
-      /* $FlowIgnore[incompatible-type]
-         this really is a lie -- and kind of central to migration */
-      const incomingState: State = action.payload;
-      return next({ ...action, payload: migratePayload(incomingState) });
+      return next({ ...action, payload: migratePayload(action.payload) });
     }
     return next(action);
   };

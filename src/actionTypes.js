@@ -101,18 +101,22 @@ import type {
  *
  * It can be very convenient to pass `payload` to selectors, but beware it's
  * incomplete.  At a minimum, reducers should always separately handle the
- * case where the state is empty or has `null` properties before passing the
- * object to any selector.
+ * case where the state is empty before passing the object to any selector.
  *
  * @prop payload A version of the global Redux state, as persisted by the
- *     app's previous runs.  This will be empty on first startup or if the
- *     persisted state is just missing keys, and will have `null` at each
- *     key where an error was encountered in reading the persisted state.
- *     In any case it will only contain the keys we configure to be persisted.
+ *   app's previous runs.  This will have a subset of the properties the
+ *   Redux state has: it has only those we configure to be persisted, it
+ *   may lack any of those too if they aren't present in storage (or we
+ *   hit an error reading them), and in particular it will be empty on
+ *   first launch.
+ *
+ *   On the other hand, before this action reaches reducers its payload has
+ *   been put through our migrations, so any properties it does have should
+ *   actually have the expected type.
  */
 type RehydrateAction = $ReadOnly<{|
   type: typeof REHYDRATE,
-  +payload: $ReadOnly<$ObjMap<$Rest<GlobalState, { ... }>, <V>(V) => V | null>>,
+  +payload: $ReadOnly<$Rest<GlobalState, { ... }>>,
 |}>;
 
 type AppOnlineAction = $ReadOnly<{|

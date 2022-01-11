@@ -48,7 +48,6 @@ export default async function getStoredState(config: Config): Promise<{ ... }> {
             message: 'redux-persist/getStoredState: Error restoring data for a key.',
             key,
           });
-          restoredState[key] = null;
         }
       })(),
     ),
