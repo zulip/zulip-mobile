@@ -19,6 +19,32 @@ export default function createMigration(
   manifest: {| [string]: (State) => State |},
   reducerKey: string,
 ): StoreEnhancer<State, Action, Dispatch<Action>> {
+  const migratePayload = createMigrationFunction(manifest, reducerKey);
+
+  const migrationDispatch = next => (action: Action) => {
+    if (action.type === REHYDRATE) {
+      /* $FlowIgnore[incompatible-type]
+         this really is a lie -- and kind of central to migration */
+      const incomingState: State = action.payload;
+      return next({ ...action, payload: migratePayload(incomingState) });
+    }
+    return next(action);
+  };
+
+  return next => (reducer, initialState) => {
+    const store = next(reducer, initialState);
+    return {
+      ...store,
+      dispatch: migrationDispatch(store.dispatch),
+    };
+  };
+}
+
+/** Exported only for tests. */
+export function createMigrationFunction(
+  manifest: {| [string]: (State) => State |},
+  reducerKey: string,
+): State => State {
   const versionSelector = state => state && state[reducerKey] && state[reducerKey].version;
   const versionSetter = (state, version) => {
     if (['undefined', 'object'].indexOf(typeof state[reducerKey]) === -1) {
@@ -53,32 +79,20 @@ export default function createMigration(
     return newState;
   };
 
-  const migrationDispatch = next => (action: Action) => {
-    if (action.type === REHYDRATE) {
-      /* $FlowIgnore[incompatible-type]
-         this really is a lie -- and kind of central to migration */
-      const incomingState: State = action.payload;
-      const incomingVersion = parseInt(versionSelector(incomingState), 10);
-      if (Number.isNaN(incomingVersion)) {
-        // first launch after install, so incoming state is empty object
-        // migration not required, just update version
-        const payload = versionSetter(incomingState, currentVersion);
-        return next({ ...action, payload });
-      }
-
-      if (incomingVersion !== currentVersion) {
-        const migratedState = migrate(incomingState, incomingVersion);
-        return next({ ...action, payload: migratedState });
-      }
+  return function migratePayload(incomingState: State): State {
+    const incomingVersion = parseInt(versionSelector(incomingState), 10);
+    if (Number.isNaN(incomingVersion)) {
+      // first launch after install, so incoming state is empty object
+      // migration not required, just update version
+      const payload = versionSetter(incomingState, currentVersion);
+      return payload;
     }
-    return next(action);
-  };
 
-  return next => (reducer, initialState) => {
-    const store = next(reducer, initialState);
-    return {
-      ...store,
-      dispatch: migrationDispatch(store.dispatch),
-    };
+    if (incomingVersion !== currentVersion) {
+      const migratedState = migrate(incomingState, incomingVersion);
+      return migratedState;
+    }
+
+    return incomingState;
   };
 }
