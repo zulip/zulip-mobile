@@ -1,8 +1,21 @@
 // @flow strict-local
-import type { ReadWrite } from '../generics';
+import type { ReadWrite, SubsetProperties } from '../generics';
 import { ZulipVersion } from '../utils/zulipVersion';
 import type { GlobalState } from '../types';
 import { objectFromEntries } from '../jsBackport';
+
+// Like GlobalState, but making all properties optional.
+type PartialState = $ReadOnly<$Rest<GlobalState, { ... }>>;
+
+// Like GlobalState, but with only the properties from historicalStoreKeys.
+type StoreKeysState = SubsetProperties<
+  GlobalState,
+  { migrations: mixed, accounts: mixed, drafts: mixed, outbox: mixed, settings: mixed },
+>;
+
+// Like GlobalState, but making optional all except historicalStoreKeys.
+// This is the type we pretend our migrations take and return.
+type LessPartialState = $ReadOnly<{ ...$Rest<GlobalState, { ... }>, ...StoreKeysState }>;
 
 /**
  * Exported only for tests.
@@ -10,7 +23,7 @@ import { objectFromEntries } from '../jsBackport';
  * The value of `storeKeys` when the `dropCache` migrations were written.
  */
 // prettier-ignore
-export const historicalStoreKeys: Array<$Keys<GlobalState>> = [
+export const historicalStoreKeys: Array<$Keys<StoreKeysState>> = [
   // Never edit this list.
   'migrations', 'accounts', 'drafts', 'outbox', 'settings',
   // Why never edit?  The existing migrations below that refer to
@@ -38,14 +51,10 @@ export const historicalStoreKeys: Array<$Keys<GlobalState>> = [
  * the `REHYDRATE` handlers in `sessionReducer` and `navReducer` for how
  * that happens.
  */
-function dropCache(state: GlobalState): $Shape<GlobalState> {
-  const result: $Shape<ReadWrite<GlobalState>> = {};
+function dropCache(state: LessPartialState): LessPartialState {
+  const result: $Shape<ReadWrite<LessPartialState>> = {};
   historicalStoreKeys.forEach(key => {
-    // $FlowFixMe[incompatible-indexer]
-    // $FlowFixMe[incompatible-exact]
     // $FlowFixMe[prop-missing]
-    // $FlowFixMe[incompatible-variance]
-    // $FlowFixMe[incompatible-type-arg]
     /* $FlowFixMe[incompatible-type]
          This is well-typed only because it's the same `key` twice. */
     result[key] = state[key];
@@ -54,7 +63,7 @@ function dropCache(state: GlobalState): $Shape<GlobalState> {
 }
 
 // This is the inward-facing type; see later export for jsdoc.
-const migrationsInner: {| [string]: (GlobalState) => GlobalState |} = {
+const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
@@ -341,8 +350,6 @@ const migrationsInner: {| [string]: (GlobalState) => GlobalState |} = {
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
-type PartialState = $ReadOnly<$Rest<GlobalState, { ... }>>;
-
 /**
  * Migrations for data persisted by previous versions of the app.
  *
@@ -353,7 +360,7 @@ type PartialState = $ReadOnly<$Rest<GlobalState, { ... }>>;
  * so that each only has to be run once.
  */
 /* $FlowFixMe[incompatible-type] This discrepancy between PartialState
-     (which the exported type claims to accept) and GlobalState (the
+     (which the exported type claims to accept) and LessPartialState (the
      type actually accepted by the implementation, migrationsInner) is where
-     we pretend that all properties are present. */
+     we pretend that the storeKeys are all present. */
 export const migrations: {| [string]: (PartialState) => PartialState |} = migrationsInner;
