@@ -34,20 +34,12 @@ export class AvatarURL {
   |}): AvatarURL {
     const { rawAvatarUrl, userId, email, realm } = args;
     if (rawAvatarUrl === undefined) {
-      // New in Zulip 3.0, feature level 18, the field may be missing
-      // on user objects in the register response, at the server's
-      // discretion, if we announce the
-      // `user_avatar_url_field_optional` client capability, which we
-      // do. See the note about `user_avatar_url_field_optional` at
-      // https://zulip.com/api/register-queue.
+      // New in Zulip 3.0, feature level 18, the field may be missing on
+      // user objects in the register response, at the server's discretion,
+      // if we announce the `user_avatar_url_field_optional` client
+      // capability, which we do.  See `user_avatar_url_field_optional` at:
+      //   https://zulip.com/api/register-queue
       //
-      // It will also be absent on cross-realm bots from servers prior
-      // to 58ee3fa8c (1.9.0). The effect of using FallbackAvatarURL for
-      // this case isn't thoroughly considered, but at worst, it means a
-      // 404. We could plumb through the server version and
-      // conditionalize on that.
-      //
-      // TODO(server-1.9): Simplify this comment.
       // TODO(server-3.0): Simplify this comment.
       return FallbackAvatarURL.validateAndConstructInstance({ realm, userId });
     } else if (rawAvatarUrl === null) {
