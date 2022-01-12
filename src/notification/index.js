@@ -36,9 +36,8 @@ export const getAccountFromNotificationData = (
 ): number | null => {
   const { realm_uri, user_id } = data;
   if (realm_uri == null) {
-    // Old server, no realm info included.  If needed to cater to 1.8.x
-    // servers, could try to guess using serverHost; for now, don't.
-    // TODO(server-1.8): Simplify this comment.
+    // Old server, no realm info included.  This field appeared in
+    // Zulip 1.8, so we don't support these servers anyway.
     logging.warn('notification missing field: realm_uri');
     return null;
   }
