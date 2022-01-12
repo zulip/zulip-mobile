@@ -17,47 +17,6 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
   return obj;
 };
 
-/*
-    The Zulip APNs message format is as follows
-    (as of 2020-02, commit 3.0~3347):
-
-    ```
-    type StreamData = {
-        recipient_type: 'stream',
-        stream: string,
-        topic: string,
-    };
-
-    type PmData = {
-        recipient_type: 'private',
-
-        // present only on group PMs
-        pm_users?: string,  // CSV of int (user ids)
-    };
-
-    type Data = { zulip: {
-        message_ids: [number],  // single-element tuple!
-
-        realm_uri: string,  // as in `/server_settings` response
-        // The server and realm_id are an obsolete substitute for realm_uri.
-        server: string,     // settings.EXTERNAL_HOST
-        realm_id: number,   // server-internal realm identifier
-
-        // The user this notification is addressed to; our self-user.
-        // (This lets us distinguish different accounts in the same realm.)
-        // added 2.1-dev-540-g447a517e6f, release 2.1.0+
-        user_id: UserId,    // recipient id
-
-        sender_email: string,
-        sender_id: UserId,
-
-        ...(StreamData | PmData),
-    } };
-    ```
-
-    TODO(server-2.1): Simplify the above comment.
-*/
-
 /** Local error type. */
 class ApnsMsgValidationError extends logging.ExtendableError {
   extras: JSONable;
@@ -76,6 +35,10 @@ class ApnsMsgValidationError extends logging.ExtendableError {
 // @throws An ApnsMsgValidationError on unexpected failure.
 //
 export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
+  //
+  // For the format this parses, see `ApnsPayload` in src/api/notificationTypes.js .
+  //
+
   /** Helper function: fail. */
   const err = (style: string) =>
     new ApnsMsgValidationError(`Received ${style} APNs notification`, {
@@ -106,7 +69,7 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
     }
   })();
 
-  // Always present; see historical type definition, above.
+  // Always present; see `ApnsPayload`.
   const zulip: JSONableInputDict | void = asDict(data.zulip);
   if (!zulip) {
     throw err('alien');
@@ -126,7 +89,11 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
     return undefined;
   }
 
+  //
   // At this point we can begin trying to construct our `Notification`.
+  //
+  // For the format this code is parsing, see `ApnsPayload` in
+  // src/api/notificationTypes.js .
 
   const { recipient_type } = zulip;
   if (recipient_type === undefined) {
