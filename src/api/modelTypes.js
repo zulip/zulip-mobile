@@ -108,9 +108,7 @@ export type User = $ReadOnly<{|
 
   full_name: string,
 
-  // date_joined included since commit 372e9740a (in 1.9.0)
-  // TODO(server-1.9): mark this as required
-  date_joined?: string,
+  date_joined: string,
 
   // is_active doesn't appear in `/register` responses -- instead,
   // users where is_active is true go in `realm_users`, and where false
@@ -178,10 +176,7 @@ export type CrossRealmBot = $ReadOnly<{|
    */
   avatar_url: AvatarURL,
 
-  // date_joined included since commit 58ee3fa8c (in 1.9.0)
-  // TODO(server-1.9): mark this as required
-  date_joined?: string,
-
+  date_joined: string,
   email: string,
   full_name: string,
   is_admin: boolean,
