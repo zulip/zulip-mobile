@@ -49,6 +49,7 @@ import {
   getAuth,
   getIsAdmin,
   getStreamInNarrow,
+  getStreamsById,
   getVideoChatProvider,
   getRealm,
 } from '../selectors';
@@ -72,6 +73,7 @@ type SelectorProps = {|
   videoChatProvider: VideoChatProvider | null,
   mandatoryTopics: boolean,
   stream: Subscription | {| ...Stream, in_home_view: boolean |},
+  streamsById: Map<number, Stream>,
 |};
 
 type OuterProps = $ReadOnly<{|
@@ -543,6 +545,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       isAnnouncementOnly,
       isSubscribed,
       stream,
+      streamsById,
       videoChatProvider,
       _,
     } = this.props;
@@ -556,7 +559,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       return <AnnouncementOnly />;
     }
 
-    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById);
+    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
     const style = {
       paddingBottom: insets.bottom,
       backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
@@ -677,6 +680,7 @@ const ComposeBox: ComponentType<OuterProps> = compose(
     isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
     isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
     stream: getStreamInNarrow(state, props.narrow),
+    streamsById: getStreamsById(state),
     videoChatProvider: getVideoChatProvider(state),
     mandatoryTopics: getRealm(state).mandatoryTopics,
   })),
