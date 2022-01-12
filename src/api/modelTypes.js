@@ -130,9 +130,9 @@ export type User = $ReadOnly<{|
   bot_owner?: string,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
-  // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698, that
-  // both human and bot Users will likely end up having a missing timezone
-  // instead of an empty string.
+  // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
+  // that both human and bot Users will likely end up having a missing
+  // timezone instead of an empty string.
   timezone?: string,
 
   /**
@@ -183,12 +183,10 @@ export type CrossRealmBot = $ReadOnly<{|
   is_bot: true,
   user_id: UserId,
 
-  // The timezone field has been included since commit 58ee3fa8c (in 1.9.0). Tim
-  // mentions in 2020-02, at
-  // https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576,
-  // that, as of the time of writing, it is always '' for bots, but it may be
-  // omitted later to reduce payload sizes. So, we're future-proofing this field
-  // by making it optional. See comment on the same field in User.
+  // The ? is for future-proofing.  For bots it's always '':
+  //   https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576
+  // so a future version may omit it to reduce payload sizes.  See comment
+  // on the same field in User.
   timezone?: string,
 |}>;
 
