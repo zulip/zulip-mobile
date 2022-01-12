@@ -12,7 +12,7 @@ import StreamList from './StreamList';
 import { LoadingBanner } from '../common';
 import { streamNarrow } from '../utils/narrow';
 import { getUnreadByStream } from '../selectors';
-import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
+import { getSubscriptions } from '../directSelectors';
 import { doNarrow } from '../actions';
 
 const styles = createStyleSheet({
@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
 
 export default function SubscriptionsCard(props: Props): Node {
   const dispatch = useDispatch();
-  const subscriptions = useSelector(getSubscribedStreams);
+  const subscriptions = useSelector(getSubscriptions);
   const unreadByStream = useSelector(getUnreadByStream);
 
   const handleNarrow = useCallback(

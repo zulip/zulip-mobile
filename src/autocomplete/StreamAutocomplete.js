@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { Popup } from '../common';
-import { getSubscribedStreams } from '../subscriptions/subscriptionSelectors';
+import { getSubscriptions } from '../directSelectors';
 import StreamItem from '../streams/StreamItem';
 
 type Props = $ReadOnly<{|
@@ -16,7 +16,7 @@ type Props = $ReadOnly<{|
 
 export default function StreamAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
-  const subscriptions = useSelector(getSubscribedStreams);
+  const subscriptions = useSelector(getSubscriptions);
 
   const handleStreamItemAutocomplete = useCallback(
     (streamId: number, streamName: string): void => {

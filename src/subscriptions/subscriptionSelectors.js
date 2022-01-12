@@ -50,16 +50,6 @@ export const getIsActiveStreamSubscribed: Selector<boolean, Narrow> = createSele
   },
 );
 
-export const getSubscribedStreams: Selector<$ReadOnlyArray<Subscription>> = createSelector(
-  getStreams,
-  getSubscriptions,
-  (allStreams, allSubscriptions) =>
-    allSubscriptions.map(subscription => ({
-      ...subscription,
-      ...allStreams.find(stream => stream.stream_id === subscription.stream_id),
-    })),
-);
-
 /**
  * The stream with the given ID; throws if none.
  *

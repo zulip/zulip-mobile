@@ -4,7 +4,6 @@ import {
   getStreamsById,
   getSubscriptionsById,
   getIsActiveStreamSubscribed,
-  getSubscribedStreams,
   getStreamColorForNarrow,
 } from '../subscriptionSelectors';
 import {
@@ -97,33 +96,6 @@ describe('getIsActiveStreamSubscribed', () => {
     });
 
     expect(getIsActiveStreamSubscribed(state, topicNarrow('all', 'news'))).toBe(false);
-  });
-});
-
-describe('getSubscribedStreams', () => {
-  test('get all subscribed streams', () => {
-    const state = deepFreeze({
-      streams: [
-        { stream_id: 1, name: 'all', description: 'stream for all' },
-        { stream_id: 2, name: 'new announce', description: 'stream for announce' },
-        { stream_id: 3, name: 'Denmark', description: 'Denmark is awesome' },
-        { stream_id: 4, name: 'general', description: 'stream for general' },
-      ],
-      subscriptions: [
-        { stream_id: 1, name: 'all', color: '#001' },
-        { stream_id: 2, name: 'announce', color: '#002' },
-        { stream_id: 4, name: 'general', color: '#003' },
-      ],
-    });
-
-    const expectedResult = [
-      { stream_id: 1, name: 'all', color: '#001', description: 'stream for all' },
-      { stream_id: 2, name: 'new announce', color: '#002', description: 'stream for announce' },
-      { stream_id: 4, name: 'general', color: '#003', description: 'stream for general' },
-    ];
-
-    const actualResult = getSubscribedStreams(state);
-    expect(actualResult).toEqual(expectedResult);
   });
 });
 
