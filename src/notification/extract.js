@@ -38,37 +38,24 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
     type Data = { zulip: {
         message_ids: [number],  // single-element tuple!
 
-        sender_email: string,
-        sender_id: UserId,
-
+        realm_uri: string,  // as in `/server_settings` response
+        // The server and realm_id are an obsolete substitute for realm_uri.
         server: string,     // settings.EXTERNAL_HOST
         realm_id: number,   // server-internal realm identifier
 
-        // added 1.8.0-2150-g5f8d193bb7, release 1.9.0+
-        realm_uri: string,  // as in `/server_settings` response
-
+        // The user this notification is addressed to; our self-user.
+        // (This lets us distinguish different accounts in the same realm.)
         // added 2.1-dev-540-g447a517e6f, release 2.1.0+
         user_id: UserId,    // recipient id
+
+        sender_email: string,
+        sender_id: UserId,
 
         ...(StreamData | PmData),
     } };
     ```
 
-    Many of these fields were first introduced in Zulip 1.8; forms of data
-    from before that are not very useful.
-
-    The pair `(server, realm_id)` uniquely identifies a Zulip realm, and was
-    originally intended to permit the client to associate a notification
-    with its associated realm.  Unfortunately, there is no way to get either
-    of these from a server via the API, so this would not be possible until
-    the addition of `realm_uri` in 1.8.0-2150-g5f8d193bb7...
-
-    ... which still didn't permit differentiating between multiple accounts on
-    the same realm. This was only made possible by the addition of the `user_id`
-    field, in 2.1-dev-540-g447a517e6f.
-
-    TODO(server-1.9): Simplify the above comment.
-    TODO(server-2.1): Simplify further.
+    TODO(server-2.1): Simplify the above comment.
 */
 
 /** Local error type. */
