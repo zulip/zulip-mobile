@@ -64,22 +64,21 @@ export type ApiResponseSuccess = $ReadOnly<{
  * A list of current error codes can be found at:
  *   https://github.com/zulip/zulip/blob/main/zerver/lib/exceptions.py
  *
- * It's tempting to make ApiErrorCode an enumerated type, but: when
- * connecting to newer Zulip servers, we may see values of `code` not known
- * to this version of the client!  In particular, new error codes are
- * occasionally assigned to existing classes of error which previously
- * returned the generic 'BAD_REQUEST'.
- *
- * (Note that "newer" here doesn't necessarily mean "newer than this client",
- * but "newer than the last time someone updated the error code list from the
- * server". We have no mechanism in place to share the set of error codes --
- * and, given the facts above, it's not clear that the existence of such a
- * mechanism would be helpful anyway.)
- *
- * Though unstable in the general case, `code` is still useful.  It _is_
- * guaranteed to be stable for certain known classes of errors.
- * Nonetheless: let its user beware.
+ * Note that most possible values of `code` are not documented in the API,
+ * and may change in future versions.  This is especially likely when an
+ * error gives the generic `code: 'BAD_REQUEST'`.  When writing logic to
+ * rely on a `code` value, it's best to make sure it gets written into the
+ * API documentation.
  */
+// It's tempting to make ApiErrorCode an enumerated type, but: when
+// connecting to newer Zulip servers, we may see values of `code` not known
+// to this version of the client!
+//
+// (Note that "newer" here doesn't necessarily mean "newer than this client",
+// but "newer than the last time someone updated the error code list from the
+// server". We have no mechanism in place to share the set of error codes --
+// and, given the facts above, it's not clear that the existence of such a
+// mechanism would be helpful anyway.)
 export type ApiErrorCode = string;
 
 /**
