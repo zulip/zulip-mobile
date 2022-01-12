@@ -329,6 +329,12 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         type: opToActionUserGroup[event.op],
       };
 
+    case 'attachment':
+      // We ignore these events.  We'd want them in a future where we add a
+      // UI that lists the attachments you've uploaded:
+      //   https://zulip.com/api/get-events#attachment-add
+      return null;
+
     default:
       logging.error('Unhandled Zulip API event', event);
       return null;
