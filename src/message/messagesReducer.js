@@ -142,7 +142,7 @@ export default (
         }
 
         const historyEntry = (() => {
-          if (action.edit_timestamp === undefined || action.user_id === undefined) {
+          if (action.edit_timestamp == null || action.user_id == null) {
             // The update isn't a real edit; rather it's just filling in an
             // inline URL preview (which can require the server to make an
             // external request, so we don't let it block delivering the

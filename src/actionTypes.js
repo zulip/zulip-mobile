@@ -344,7 +344,11 @@ type EventMessageDeleteAction = $ReadOnly<{|
 type EventUpdateMessageAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
-  user_id?: UserId,
+
+  // Future servers might send `null` here:
+  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.60update_message.60.20event/near/1309241
+  // TODO(server-5.0): Update this and/or simplify.
+  user_id?: UserId | null,
 
   // Any content changes apply to just message_id.
   message_id: number,
