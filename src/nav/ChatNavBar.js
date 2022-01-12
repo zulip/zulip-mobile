@@ -117,13 +117,13 @@ const ActionItems: ComponentType<{| +color: string, +narrow: Narrow |}> = props 
   caseNarrowDefault(
     props.narrow,
     {
-      stream: streamName => (
+      stream: () => (
         <>
           <ExtraNavButtonStream {...props} />
           <InfoNavButtonStream {...props} />
         </>
       ),
-      topic: (streamName, topic) => (
+      topic: () => (
         <>
           <ExtraNavButtonTopic {...props} />
           <InfoNavButtonStream {...props} />

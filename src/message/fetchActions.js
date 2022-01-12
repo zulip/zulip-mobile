@@ -147,14 +147,14 @@ export const fetchMessages = (fetchArgs: {|
 
       // Describe the narrow without sending sensitive data to Sentry.
       narrow: caseNarrow(fetchArgs.narrow, {
-        stream: name => 'stream',
-        topic: (streamName, topic) => 'topic',
+        stream: () => 'stream',
+        topic: () => 'topic',
         pm: ids => (ids.length > 1 ? 'pm (group)' : 'pm (1:1)'),
         home: () => 'all',
         starred: () => 'starred',
         mentioned: () => 'mentioned',
         allPrivate: () => 'all-pm',
-        search: query => 'search',
+        search: () => 'search',
       }),
 
       anchor: fetchArgs.anchor,
