@@ -335,11 +335,8 @@ export type InitialDataRealmUser = $ReadOnly<{|
 |}>;
 
 export type InitialDataRealmUserGroups = $ReadOnly<{|
-  /**
-   * Absent in servers prior to v1.8.0-rc1~2711 (or thereabouts).
-   */
-  // TODO(server-1.8): Mark as required.
-  realm_user_groups?: $ReadOnlyArray<UserGroup>,
+  // New in Zulip 1.8.
+  realm_user_groups: $ReadOnlyArray<UserGroup>,
 |}>;
 
 export type InitialDataRecentPmConversations = $ReadOnly<{|
