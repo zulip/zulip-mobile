@@ -18,47 +18,29 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
 };
 
 /*
-    The Zulip APNs message format, as far back as 2013-03-23 [0], has always
-    been some subtype of the following:
-
-        type Data = { zulip: { ... } }
-
-    (Comments in `zerver/lib/push_notifications.py` may appear to indicate
-    otherwise, but these refer only to the format of inter-server messages for
-    the Zulip-hosted push-notification bouncer service. Messages sent over APNs
-    itself have always had a `zulip` field.)
-
-    [0] GitHub commit 410ee44eb6e40bac4099d1851d949533026fe4b3.
-
-    The original payload was merely `{ message_ids: [number] }`, but this has
-    been expanded incrementally over the years. As of 2020-02, commit
-    2.2-dev-775-g10e7e15088 (released with 3.0, as "2.2" became 3.0), the
-    current form of APNs messages is as follows:
+    The Zulip APNs message format is as follows
+    (as of 2020-02, commit 3.0~3347):
 
     ```
     type StreamData = {
-        // added 1.7.0-1351-g98943a8333, release 1.8.0+
         recipient_type: 'stream',
         stream: string,
         topic: string,
     };
 
     type PmData = {
-        // added 1.7.0-1351-g98943a8333, release 1.8.0+
         recipient_type: 'private',
 
-        // added 1.7.0-2360-g693a9a5e70, release 1.8.0+
         // present only on group PMs
         pm_users?: string,  // CSV of int (user ids)
     };
 
     type Data = { zulip: {
-        // present since antiquity
         message_ids: [number],  // single-element tuple!
 
-        // added 1.7.0-1351-g98943a8333, release 1.8.0+
         sender_email: string,
         sender_id: UserId,
+
         server: string,     // settings.EXTERNAL_HOST
         realm_id: number,   // server-internal realm identifier
 
@@ -72,21 +54,20 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
     } };
     ```
 
-    Note that prior to 1.7.0-1351-g98943a8333, we only received the
-    `message_ids` field. Messages of this form are not useful.
+    Many of these fields were first introduced in Zulip 1.8; forms of data
+    from before that are not very useful.
 
-    The pair `(server, realm_id)`, added in the same commit, uniquely identifies
-    a Zulip realm, and was originally intended to permit the client to associate
-    a notification with its associated realm. Unfortunately, there is no way to
-    get either of these from a server via the API, so this would not be possible
-    until the addition of `realm_uri` in 1.8.0-2150-g5f8d193bb7...
+    The pair `(server, realm_id)` uniquely identifies a Zulip realm, and was
+    originally intended to permit the client to associate a notification
+    with its associated realm.  Unfortunately, there is no way to get either
+    of these from a server via the API, so this would not be possible until
+    the addition of `realm_uri` in 1.8.0-2150-g5f8d193bb7...
 
     ... which still didn't permit differentiating between multiple accounts on
     the same realm. This was only made possible by the addition of the `user_id`
     field, in 2.1-dev-540-g447a517e6f.
 
-    TODO(server-1.8): Simplify this comment a lot.
-    TODO(server-1.9): Simplify further.
+    TODO(server-1.9): Simplify the above comment.
     TODO(server-2.1): Simplify further.
 */
 
