@@ -1029,6 +1029,9 @@ export type PmMessage = $ReadOnly<{|
    *
    * The ordering is less well specified; if it matters, sort first.
    */
+  // TODO: We frequently do `.map(r => r.id)` on this, via `recipientIdsOfPrivateMessage`.
+  //   Instead of making a new array every time, it'd be good to do that
+  //   once, up front, at the edge.
   display_recipient: $ReadOnlyArray<PmRecipientUser>,
 
   /**

@@ -29,7 +29,7 @@ import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { makeUserId } from '../api/idTypes';
 import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
-import { recipientsOfPrivateMessage } from '../utils/recipient';
+import { recipientIdsOfPrivateMessage } from '../utils/recipient';
 
 export const messageSendStart = (outbox: Outbox): PerAccountAction => ({
   type: MESSAGE_SEND_START,
@@ -77,11 +77,7 @@ const trySendMessages = (dispatch, getState): boolean => {
 
       const params =
         item.type === 'private'
-          ? {
-              ...commonParams,
-              type: 'private',
-              to: recipientsOfPrivateMessage(item).map(r => r.id),
-            }
+          ? { ...commonParams, type: 'private', to: recipientIdsOfPrivateMessage(item) }
           : { ...commonParams, type: 'stream', to: item.stream_id, topic: item.subject };
       await api.sendMessage(auth, params);
       dispatch(messageSendComplete(item.timestamp));
