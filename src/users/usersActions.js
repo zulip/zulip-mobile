@@ -31,11 +31,11 @@ const typingWorker = (state: PerAccountState) => {
     get_current_time: () => new Date().getTime(),
 
     notify_server_start: (user_ids_array: $ReadOnlyArray<UserId>) => {
-      api.typing(auth, JSON.stringify(user_ids_array), 'start');
+      api.typing(auth, user_ids_array, 'start');
     },
 
     notify_server_stop: (user_ids_array: $ReadOnlyArray<UserId>) => {
-      api.typing(auth, JSON.stringify(user_ids_array), 'stop');
+      api.typing(auth, user_ids_array, 'stop');
     },
   };
 };
