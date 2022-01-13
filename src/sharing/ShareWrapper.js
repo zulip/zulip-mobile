@@ -198,7 +198,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
         : {
             content: messageToSend,
             type: 'stream',
-            subject: sendTo.topic || apiConstants.kNoTopicTopic,
+            topic: sendTo.topic || apiConstants.kNoTopicTopic,
             to: sendTo.streamId,
           };
 
