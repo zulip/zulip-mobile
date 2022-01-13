@@ -119,19 +119,18 @@ export const decodeHashComponent = (string: string): string => {
 };
 
 /**
- * Parse the operand of a `stream` operator, returning a stream ID and name.
+ * Parse the operand of a `stream` operator.
  *
  * Return null if the operand doesn't match any known stream.
  */
-// TODO simplify: return only stream ID, not name
-const parseStreamOperand = (operand, streamsById, streamsByName): null | [string, number] => {
+const parseStreamOperand = (operand, streamsById, streamsByName): null | Stream => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
   if (match) {
     const streamId = parseInt(match[1], 10);
     const stream = streamsById.get(streamId);
     if (stream) {
-      return [stream.name, streamId];
+      return stream;
     }
   }
 
@@ -140,7 +139,7 @@ const parseStreamOperand = (operand, streamsById, streamsByName): null | [string
   const streamName = decodeHashComponent(operand);
   const stream = streamsByName.get(streamName);
   if (stream) {
-    return [streamName, stream.stream_id];
+    return stream;
   }
 
   // Not any stream we know.  (Most likely this means a stream the user
@@ -189,12 +188,12 @@ export const getNarrowFromLink = (
       return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
     }
     case 'topic': {
-      const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && topicNarrow(streamNameAndId[1], parseTopicOperand(paths[3]));
+      const stream = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return stream && topicNarrow(stream.stream_id, parseTopicOperand(paths[3]));
     }
     case 'stream': {
-      const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && streamNarrow(streamNameAndId[1]);
+      const stream = parseStreamOperand(paths[1], streamsById, streamsByName);
+      return stream && streamNarrow(stream.stream_id);
     }
     case 'special':
       try {
