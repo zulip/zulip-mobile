@@ -1062,6 +1062,7 @@ export type StreamMessage = $ReadOnly<{|
    *   https://chat.zulip.org/#narrow/stream/19-documentation/topic/.60orig_subject.60.20in.20.60update_message.60.20events/near/1112709
    * (see point 4). We assume this has always been the case.
    */
+  // Still "subject", as of 2022: https://github.com/zulip/zulip/issues/1192
   subject: string,
 
   // We don't actually use this property.  If and when we do, we'll probably
