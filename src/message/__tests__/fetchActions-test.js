@@ -26,7 +26,7 @@ import * as logging from '../../utils/logging';
 
 const mockStore = configureStore([thunk]);
 
-const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
+const narrow = streamNarrow(eg.stream.stream_id);
 const streamNarrowStr = keyFromNarrow(narrow);
 
 global.FormData = class FormData {};

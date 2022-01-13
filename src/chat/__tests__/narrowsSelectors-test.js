@@ -146,7 +146,7 @@ describe('getShownMessagesForNarrow', () => {
   });
 
   describe('stream narrow', () => {
-    const narrow = streamNarrow(stream.name, stream.stream_id);
+    const narrow = streamNarrow(stream.stream_id);
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
@@ -171,7 +171,7 @@ describe('getShownMessagesForNarrow', () => {
   });
 
   describe('topic narrow', () => {
-    const narrow = topicNarrow(stream.name, stream.stream_id, message.subject);
+    const narrow = topicNarrow(stream.stream_id, message.subject);
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
@@ -306,26 +306,26 @@ describe('getStreamInNarrow', () => {
   });
 
   test('return subscription if stream in narrow is subscribed', () => {
-    const narrow = streamNarrow(stream1.name, stream1.stream_id);
+    const narrow = streamNarrow(stream1.stream_id);
 
     expect(getStreamInNarrow(state, narrow)).toEqual(sub1);
   });
 
   test('return stream if stream in narrow is not subscribed', () => {
-    const narrow = streamNarrow(stream3.name, stream3.stream_id);
+    const narrow = streamNarrow(stream3.stream_id);
 
     expect(getStreamInNarrow(state, narrow)).toEqual({ ...stream3, in_home_view: true });
   });
 
   test('return NULL_SUBSCRIPTION if stream in narrow is not valid', () => {
-    const narrow = streamNarrow(stream4.name, stream4.stream_id);
+    const narrow = streamNarrow(stream4.stream_id);
 
     expect(getStreamInNarrow(state, narrow)).toEqual(NULL_SUBSCRIPTION);
   });
 
   test('return NULL_SUBSCRIPTION is narrow is not topic or stream', () => {
     expect(getStreamInNarrow(state, pm1to1NarrowFromUser(eg.otherUser))).toEqual(NULL_SUBSCRIPTION);
-    expect(getStreamInNarrow(state, topicNarrow(stream4.name, stream4.stream_id, 'topic'))).toEqual(
+    expect(getStreamInNarrow(state, topicNarrow(stream4.stream_id, 'topic'))).toEqual(
       NULL_SUBSCRIPTION,
     );
   });
@@ -347,7 +347,7 @@ describe('isNarrowValid', () => {
     const state = eg.reduxState({
       streams: [stream],
     });
-    const narrow = streamNarrow(stream.name, stream.stream_id);
+    const narrow = streamNarrow(stream.stream_id);
 
     const result = isNarrowValid(state, narrow);
 
@@ -358,7 +358,7 @@ describe('isNarrowValid', () => {
     const state = eg.reduxState({
       streams: [],
     });
-    const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
+    const narrow = streamNarrow(eg.stream.stream_id);
 
     const result = isNarrowValid(state, narrow);
 
@@ -371,7 +371,7 @@ describe('isNarrowValid', () => {
     const state = eg.reduxState({
       streams: [stream],
     });
-    const narrow = topicNarrow(stream.name, stream.stream_id, 'topic does not matter');
+    const narrow = topicNarrow(stream.stream_id, 'topic does not matter');
 
     const result = isNarrowValid(state, narrow);
 

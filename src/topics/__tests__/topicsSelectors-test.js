@@ -23,7 +23,7 @@ describe('getTopicsForNarrow', () => {
       },
     });
 
-    const topics = getTopicsForNarrow(state, streamNarrow(stream.name, stream.stream_id));
+    const topics = getTopicsForNarrow(state, streamNarrow(stream.stream_id));
 
     expect(topics).toEqual(['hi', 'wow']);
   });

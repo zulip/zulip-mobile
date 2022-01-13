@@ -6,7 +6,6 @@ import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
   recipientsOfPrivateMessage,
-  streamNameOfStreamMessage,
   type PmKeyRecipients,
   type PmKeyUsers,
   pmKeyRecipientsFromPmKeyUsers,
@@ -148,14 +147,11 @@ export const ALL_PRIVATE_NARROW: Narrow = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR: string = keyFromNarrow(ALL_PRIVATE_NARROW);
 
-export const streamNarrow = (streamNameIgnored: string | void, streamId: number): Narrow =>
+export const streamNarrow = (streamId: number): Narrow =>
   Object.freeze({ type: 'stream', streamId });
 
-export const topicNarrow = (
-  streamNameIgnored: string | void,
-  streamId: number,
-  topic: string,
-): Narrow => Object.freeze({ type: 'topic', streamId, topic });
+export const topicNarrow = (streamId: number, topic: string): Narrow =>
+  Object.freeze({ type: 'topic', streamId, topic });
 
 export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 'search', query });
 
@@ -287,7 +283,7 @@ export const parseNarrow = (narrowStr: string): Narrow => {
       if (!/^\d+$/.test(rest)) {
         throw makeError();
       }
-      return streamNarrow(undefined, Number.parseInt(rest, 10));
+      return streamNarrow(Number.parseInt(rest, 10));
     }
 
     case 'topic:': {
@@ -298,7 +294,7 @@ export const parseNarrow = (narrowStr: string): Narrow => {
       if (!match) {
         throw makeError();
       }
-      return topicNarrow(undefined, Number.parseInt(match[1], 10), match[2]);
+      return topicNarrow(Number.parseInt(match[1], 10), match[2]);
     }
 
     case 'pm:': {
@@ -539,9 +535,8 @@ export const getNarrowsForMessage = (
     result.push(ALL_PRIVATE_NARROW);
     result.push(pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId)));
   } else {
-    const streamName = streamNameOfStreamMessage(message);
-    result.push(topicNarrow(streamName, message.stream_id, message.subject));
-    result.push(streamNarrow(streamName, message.stream_id));
+    result.push(topicNarrow(message.stream_id, message.subject));
+    result.push(streamNarrow(message.stream_id));
   }
 
   if (flags.includes('mentioned') || flags.includes('wildcard_mentioned')) {
@@ -568,7 +563,6 @@ export const getNarrowForReply = (message: Message | Outbox, ownUserId: UserId):
   if (message.type === 'private') {
     return pmNarrowFromRecipients(pmKeyRecipientsFromMessage(message, ownUserId));
   } else {
-    const streamName = streamNameOfStreamMessage(message);
-    return topicNarrow(streamName, message.stream_id, message.subject);
+    return topicNarrow(message.stream_id, message.subject);
   }
 };

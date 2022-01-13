@@ -41,7 +41,7 @@ describe('fetchingReducer', () => {
         [HOME_NARROW_STR]: { older: false, newer: false },
       });
 
-      const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
+      const narrow = streamNarrow(eg.stream.stream_id);
       const action = deepFreeze({
         type: MESSAGE_FETCH_START,
         narrow,

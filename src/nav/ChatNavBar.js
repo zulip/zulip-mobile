@@ -50,7 +50,7 @@ function ExtraNavButtonTopic(props): Node {
   const dispatch = useDispatch();
 
   const handlePress = useCallback(() => {
-    dispatch(doNarrow(streamNarrow(undefined, streamIdOfNarrow(narrow))));
+    dispatch(doNarrow(streamNarrow(streamIdOfNarrow(narrow))));
   }, [dispatch, narrow]);
 
   return <NavButton name="arrow-up" color={color} onPress={handlePress} />;

@@ -123,6 +123,7 @@ export const decodeHashComponent = (string: string): string => {
  *
  * Return null if the operand doesn't match any known stream.
  */
+// TODO simplify: return only stream ID, not name
 const parseStreamOperand = (operand, streamsById, streamsByName): null | [string, number] => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
@@ -189,11 +190,11 @@ export const getNarrowFromLink = (
     }
     case 'topic': {
       const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && topicNarrow(...streamNameAndId, parseTopicOperand(paths[3]));
+      return streamNameAndId && topicNarrow(streamNameAndId[1], parseTopicOperand(paths[3]));
     }
     case 'stream': {
       const streamNameAndId = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return streamNameAndId && streamNarrow(...streamNameAndId);
+      return streamNameAndId && streamNarrow(streamNameAndId[1]);
     }
     case 'special':
       try {

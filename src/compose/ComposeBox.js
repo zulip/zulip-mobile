@@ -405,7 +405,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
       const topic = this.state.topic.trim() || apiConstants.NO_TOPIC_TOPIC;
-      return topicNarrow(undefined, streamId, topic);
+      return topicNarrow(streamId, topic);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;

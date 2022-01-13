@@ -210,8 +210,8 @@ class ShareWrapperInner extends React.Component<Props, State> {
       }
 
       case 'stream': {
-        const { streamName, streamId } = sendTo;
-        const narrow = streamNarrow(streamName, streamId);
+        const { streamId } = sendTo;
+        const narrow = streamNarrow(streamId);
         NavigationService.dispatch(replaceWithChat(narrow));
         break;
       }

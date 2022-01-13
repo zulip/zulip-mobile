@@ -34,7 +34,7 @@ describe('getNarrowFromNotificationData', () => {
       topic: 'some topic',
     };
     const narrow = getNarrowFromNotificationData(notification, new Map(), streamsByName, ownUserId);
-    expect(narrow).toEqual(topicNarrow(stream.name, stream.stream_id, 'some topic'));
+    expect(narrow).toEqual(topicNarrow(stream.stream_id, 'some topic'));
   });
 
   test('on notification for a private message returns a PM narrow', () => {

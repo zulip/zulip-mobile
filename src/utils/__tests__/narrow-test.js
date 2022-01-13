@@ -61,10 +61,8 @@ describe('isPmNarrow', () => {
 describe('isStreamOrTopicNarrow', () => {
   test('check for stream or topic narrow', () => {
     expect(isStreamOrTopicNarrow(undefined)).toBe(false);
-    expect(isStreamOrTopicNarrow(streamNarrow(eg.stream.name, eg.stream.stream_id))).toBe(true);
-    expect(
-      isStreamOrTopicNarrow(topicNarrow(eg.stream.name, eg.stream.stream_id, 'some topic')),
-    ).toBe(true);
+    expect(isStreamOrTopicNarrow(streamNarrow(eg.stream.stream_id))).toBe(true);
+    expect(isStreamOrTopicNarrow(topicNarrow(eg.stream.stream_id, 'some topic'))).toBe(true);
     expect(isStreamOrTopicNarrow(HOME_NARROW)).toBe(false);
     expect(isStreamOrTopicNarrow(pm1to1NarrowFromUser(eg.otherUser))).toBe(false);
     expect(isStreamOrTopicNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]))).toBe(
@@ -78,14 +76,14 @@ describe('specialNarrow', () => {
   test('only narrowing with the "is" operator is special narrow', () => {
     expect(isSpecialNarrow(undefined)).toBe(false);
     expect(isSpecialNarrow(HOME_NARROW)).toBe(false);
-    expect(isSpecialNarrow(streamNarrow(eg.stream.name, eg.stream.stream_id))).toBe(false);
+    expect(isSpecialNarrow(streamNarrow(eg.stream.stream_id))).toBe(false);
     expect(isSpecialNarrow(STARRED_NARROW)).toBe(true);
   });
 });
 
 describe('streamNarrow', () => {
   test('narrows to messages from a specific stream', () => {
-    const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
+    const narrow = streamNarrow(eg.stream.stream_id);
     expect(isStreamNarrow(narrow)).toBeTrue();
     expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
   });
@@ -93,13 +91,13 @@ describe('streamNarrow', () => {
   test('only narrow with operator of "stream" is a stream narrow', () => {
     expect(isStreamNarrow(undefined)).toBe(false);
     expect(isStreamNarrow(HOME_NARROW)).toBe(false);
-    expect(isStreamNarrow(streamNarrow(eg.stream.name, eg.stream.stream_id))).toBe(true);
+    expect(isStreamNarrow(streamNarrow(eg.stream.stream_id))).toBe(true);
   });
 });
 
 describe('topicNarrow', () => {
   test('narrows to a specific topic within a specified stream', () => {
-    const narrow = topicNarrow(eg.stream.name, eg.stream.stream_id, 'some topic');
+    const narrow = topicNarrow(eg.stream.stream_id, 'some topic');
     expect(isTopicNarrow(narrow)).toBeTrue();
     expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
     expect(topicOfNarrow(narrow)).toEqual('some topic');
@@ -108,9 +106,7 @@ describe('topicNarrow', () => {
   test('only narrow with two items, one for stream, one for topic is a topic narrow', () => {
     expect(isTopicNarrow(undefined)).toBe(false);
     expect(isTopicNarrow(HOME_NARROW)).toBe(false);
-    expect(isTopicNarrow(topicNarrow(eg.stream.name, eg.stream.stream_id, 'some topic'))).toBe(
-      true,
-    );
+    expect(isTopicNarrow(topicNarrow(eg.stream.stream_id, 'some topic'))).toBe(true);
   });
 });
 
@@ -131,12 +127,12 @@ describe('isMessageInNarrow', () => {
       ['a message', true, eg.streamMessage()],
     ]],
 
-    ['whole-stream narrow', streamNarrow(eg.stream.name, eg.stream.stream_id), [
+    ['whole-stream narrow', streamNarrow(eg.stream.stream_id), [
       ['matching stream message', true, eg.streamMessage()],
       ['other-stream message', false, eg.streamMessage({ stream: otherStream })],
       ['PM', false, eg.pmMessage()],
     ]],
-    ['stream conversation', topicNarrow(eg.stream.name, eg.stream.stream_id, 'cabbages'), [
+    ['stream conversation', topicNarrow(eg.stream.stream_id, 'cabbages'), [
       ['matching message', true, eg.streamMessage({ subject: 'cabbages' })],
       ['message in same stream but other topic', false, eg.streamMessage({ subject: 'kings' })],
       ['other-stream message', false, eg.streamMessage({ stream: otherStream })],
@@ -257,8 +253,8 @@ describe('getNarrowsForMessage', () => {
       },
       expectedNarrows: [
         HOME_NARROW,
-        streamNarrow(eg.stream.name, eg.stream.stream_id),
-        topicNarrow(eg.stream.name, eg.stream.stream_id, 'myTopic'),
+        streamNarrow(eg.stream.stream_id),
+        topicNarrow(eg.stream.stream_id, 'myTopic'),
       ],
     },
     {
@@ -279,8 +275,8 @@ describe('getNarrowsForMessage', () => {
       },
       expectedNarrows: [
         HOME_NARROW,
-        streamNarrow(eg.stream.name, eg.stream.stream_id),
-        topicNarrow(eg.stream.name, eg.stream.stream_id, ''),
+        streamNarrow(eg.stream.stream_id),
+        topicNarrow(eg.stream.stream_id, ''),
       ],
     },
     {
@@ -331,7 +327,7 @@ describe('getNarrowForReply', () => {
 
   test('for stream message with nonempty topic, returns a topic narrow', () => {
     const message = eg.streamMessage();
-    const expectedNarrow = topicNarrow(eg.stream.name, eg.stream.stream_id, message.subject);
+    const expectedNarrow = topicNarrow(eg.stream.stream_id, message.subject);
 
     const actualNarrow = getNarrowForReply(message, eg.selfUser.user_id);
 
@@ -341,8 +337,8 @@ describe('getNarrowForReply', () => {
 
 describe('keyFromNarrow+parseNarrow', () => {
   const baseNarrows = [
-    ['whole stream', streamNarrow(eg.stream.name, eg.stream.stream_id)],
-    ['stream conversation', topicNarrow(eg.stream.name, eg.stream.stream_id, 'a topic')],
+    ['whole stream', streamNarrow(eg.stream.stream_id)],
+    ['stream conversation', topicNarrow(eg.stream.stream_id, 'a topic')],
     ['1:1 PM conversation, non-self', pm1to1NarrowFromUser(eg.otherUser)],
     ['self-1:1 conversation', pm1to1NarrowFromUser(eg.selfUser)],
     ['group-PM conversation', pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser])],
@@ -361,29 +357,15 @@ describe('keyFromNarrow+parseNarrow', () => {
   const diverseCharactersStream = eg.makeStream({ name: diverseCharacters });
   const htmlEntitiesStream = eg.makeStream({ name: htmlEntities });
   const awkwardNarrows = [
-    [
-      'whole stream about awkward characters',
-      streamNarrow(diverseCharactersStream.name, diverseCharactersStream.stream_id),
-    ],
-    [
-      'whole stream about HTML entities',
-      streamNarrow(htmlEntitiesStream.name, htmlEntitiesStream.stream_id),
-    ],
+    ['whole stream about awkward characters', streamNarrow(diverseCharactersStream.stream_id)],
+    ['whole stream about HTML entities', streamNarrow(htmlEntitiesStream.stream_id)],
     [
       'stream conversation about awkward characters',
-      topicNarrow(
-        diverseCharactersStream.name,
-        diverseCharactersStream.stream_id,
-        `regarding ${diverseCharacters}`,
-      ),
+      topicNarrow(diverseCharactersStream.stream_id, `regarding ${diverseCharacters}`),
     ],
     [
       'stream conversation about HTML entities',
-      topicNarrow(
-        htmlEntitiesStream.name,
-        htmlEntitiesStream.stream_id,
-        `regarding ${htmlEntities}`,
-      ),
+      topicNarrow(htmlEntitiesStream.stream_id, `regarding ${htmlEntities}`),
     ],
     ['search narrow for awkward characters', SEARCH_NARROW(diverseCharacters)],
     ['search narrow for HTML entities', SEARCH_NARROW(htmlEntities)],

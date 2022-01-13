@@ -27,9 +27,9 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('narrowsReducer', () => {
   const privateNarrowStr = keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser));
   const groupNarrowStr = keyFromNarrow(pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]));
-  const streamNarrowStr = keyFromNarrow(streamNarrow(eg.stream.name, eg.stream.stream_id));
+  const streamNarrowStr = keyFromNarrow(streamNarrow(eg.stream.stream_id));
   const egTopic = eg.streamMessage().subject;
-  const topicNarrowStr = keyFromNarrow(topicNarrow(eg.stream.name, eg.stream.stream_id, egTopic));
+  const topicNarrowStr = keyFromNarrow(topicNarrow(eg.stream.stream_id, egTopic));
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {

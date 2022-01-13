@@ -4,9 +4,9 @@ import { getScrollStrategy } from '../scrollStrategy';
 
 import * as eg from '../../__tests__/lib/exampleData';
 
-const someNarrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
+const someNarrow = streamNarrow(eg.stream.stream_id);
 const anotherStream = eg.makeStream();
-const anotherNarrow = streamNarrow(anotherStream.name, anotherStream.stream_id);
+const anotherNarrow = streamNarrow(anotherStream.stream_id);
 
 describe('getScrollStrategy', () => {
   test('initial load positions at anchor (first unread)', () => {

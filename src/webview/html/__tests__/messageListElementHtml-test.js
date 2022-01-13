@@ -273,7 +273,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     ].forEach(testCase => check(testCase));
   });
 
-  const streamNarrow1 = streamNarrow(stream1.name, stream1.stream_id);
+  const streamNarrow1 = streamNarrow(stream1.stream_id);
   test(`${keyFromNarrow(streamNarrow1)}`, () => {
     [
       { narrow: streamNarrow1, messages: streamMessages1 },
@@ -294,7 +294,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     ].forEach(testCase => check(testCase));
   });
 
-  const topicNarrow1 = topicNarrow(stream1.name, stream1.stream_id, topic1);
+  const topicNarrow1 = topicNarrow(stream1.stream_id, topic1);
   test(`${keyFromNarrow(topicNarrow1)}`, () => {
     [
       { narrow: topicNarrow1, messages: streamMessages1 },
