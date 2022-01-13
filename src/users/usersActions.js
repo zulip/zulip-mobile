@@ -4,9 +4,8 @@ import * as typing_status from '@zulip/shared/lib/typing_status';
 import type { Auth, PerAccountState, Narrow, UserId, ThunkAction } from '../types';
 import * as api from '../api';
 import { PRESENCE_RESPONSE } from '../actionConstants';
-import { getAuth, getServerVersion } from '../selectors';
+import { getAuth } from '../selectors';
 import { isPmNarrow, userIdsOfPmNarrow } from '../utils/narrow';
-import { getUserForId } from './userSelectors';
 
 export const reportPresence =
   (isActive: boolean): ThunkAction<Promise<void>> =>
@@ -28,28 +27,15 @@ export const reportPresence =
 const typingWorker = (state: PerAccountState) => {
   const auth: Auth = getAuth(state);
 
-  // User ID arrays are only supported in server versions >= 2.0.0-rc1
-  // (zulip/zulip@2f634f8c0). For versions before this, email arrays
-  // are used.
-  // TODO(server-2.0): Simplify this away.
-  const useEmailArrays = !getServerVersion(state).isAtLeast('2.0.0-rc1');
-
-  const getRecipients = user_ids_array => {
-    if (useEmailArrays) {
-      return JSON.stringify(user_ids_array.map(userId => getUserForId(state, userId).email));
-    }
-    return JSON.stringify(user_ids_array);
-  };
-
   return {
     get_current_time: () => new Date().getTime(),
 
     notify_server_start: (user_ids_array: $ReadOnlyArray<UserId>) => {
-      api.typing(auth, getRecipients(user_ids_array), 'start');
+      api.typing(auth, JSON.stringify(user_ids_array), 'start');
     },
 
     notify_server_stop: (user_ids_array: $ReadOnlyArray<UserId>) => {
-      api.typing(auth, getRecipients(user_ids_array), 'stop');
+      api.typing(auth, JSON.stringify(user_ids_array), 'stop');
     },
   };
 };
