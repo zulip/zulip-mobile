@@ -3,23 +3,25 @@
 import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
+type CommonParams = {|
+  content: string,
+  localId?: number,
+  eventQueueId?: string,
+|};
+
 /** See https://zulip.com/api/send-message */
 export default async (
   auth: Auth,
-  params: {|
-    type: 'private' | 'stream',
-    to: string,
+  // prettier-ignore
+  params:
     // TODO(server-2.0): Say "topic", not "subject"
-    subject?: string,
-    content: string,
-    localId?: number,
-    eventQueueId?: string,
-  |},
+    | {| ...CommonParams, type: 'stream', to: string, subject: string |}
+    | {| ...CommonParams, type: 'private', to: string |},
 ): Promise<ApiResponse> =>
   apiPost(auth, 'messages', {
     type: params.type,
     to: params.to,
-    subject: params.subject,
+    subject: (params: { +subject?: string, ... }).subject,
     content: params.content,
     local_id: params.localId,
     queue_id: params.eventQueueId,
