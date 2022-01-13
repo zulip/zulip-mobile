@@ -20,8 +20,7 @@ export default async (
   apiPost(auth, 'messages', {
     type: params.type,
     to: JSON.stringify(params.to),
-    // TODO(server-2.0): say "topic" instead
-    subject: (params: { +topic?: string, ... }).topic,
+    topic: (params: { +topic?: string, ... }).topic,
     content: params.content,
     local_id: params.localId,
     queue_id: params.eventQueueId,
