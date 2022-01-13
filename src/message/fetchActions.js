@@ -24,6 +24,7 @@ import {
   getFetchingForNarrow,
   getIsAdmin,
   getIdentity,
+  getStreamsById,
 } from '../selectors';
 import config from '../config';
 import {
@@ -121,7 +122,11 @@ export const fetchMessages = (fetchArgs: {|
       await tryFetch(() =>
         api.getMessages(getAuth(getState()), {
           ...fetchArgs,
-          narrow: apiNarrowOfNarrow(fetchArgs.narrow, getAllUsersById(getState())),
+          narrow: apiNarrowOfNarrow(
+            fetchArgs.narrow,
+            getAllUsersById(getState()),
+            getStreamsById(getState()),
+          ),
           useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
         }),
       );
@@ -336,7 +341,11 @@ export const fetchMessagesInNarrow = (
 const fetchPrivateMessages = () => async (dispatch, getState) => {
   const auth = getAuth(getState());
   const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
-    narrow: apiNarrowOfNarrow(ALL_PRIVATE_NARROW, getAllUsersById(getState())),
+    narrow: apiNarrowOfNarrow(
+      ALL_PRIVATE_NARROW,
+      getAllUsersById(getState()),
+      getStreamsById(getState()),
+    ),
     anchor: LAST_MESSAGE_ANCHOR,
     numBefore: 100,
     numAfter: 0,

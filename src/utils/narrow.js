@@ -1,7 +1,7 @@
 /* @flow strict-local */
 
 import { makeUserId } from '../api/idTypes';
-import type { ApiNarrow, Message, Outbox, UserId, UserOrBot } from '../types';
+import type { ApiNarrow, Message, Outbox, Stream, UserId, UserOrBot } from '../types';
 import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
@@ -429,22 +429,28 @@ export const isConversationNarrow = (narrow: Narrow): boolean =>
 export const apiNarrowOfNarrow = (
   narrow: Narrow,
   allUsersById: Map<UserId, UserOrBot>,
-): ApiNarrow =>
-  caseNarrow(narrow, {
-    stream: streamName => [{ operator: 'stream', operand: streamName }],
-    topic: (streamName, topic) => [
-      { operator: 'stream', operand: streamName },
+  streamsById: Map<number, Stream>,
+): ApiNarrow => {
+  const get = <K, V>(description, map: Map<K, V>, key: K): V => {
+    const result = map.get(key);
+    if (result === undefined) {
+      throw new Error(`apiNarrowOfNarrow: missing ${description}`);
+    }
+    return result;
+  };
+
+  return caseNarrow(narrow, {
+    stream: (_, streamId) => [
+      // TODO(server-2.1): just send stream ID instead
+      { operator: 'stream', operand: get('stream', streamsById, streamId).name },
+    ],
+    topic: (_, topic, streamId) => [
+      // TODO(server-2.1): just send stream ID instead
+      { operator: 'stream', operand: get('stream', streamsById, streamId).name },
       { operator: 'topic', operand: topic },
     ],
     pm: ids => {
-      const emails = [];
-      for (const id of ids) {
-        const email = allUsersById.get(id)?.email;
-        if (email === undefined) {
-          throw new Error('apiNarrowOfNarrow: missing user');
-        }
-        emails.push(email);
-      }
+      const emails = ids.map(id => get('user', allUsersById, id).email);
       // TODO(server-2.1): just send IDs instead
       return [{ operator: 'pm-with', operand: emails.join(',') }];
     },
@@ -454,6 +460,7 @@ export const apiNarrowOfNarrow = (
     mentioned: () => [{ operator: 'is', operand: 'mentioned' }],
     allPrivate: () => [{ operator: 'is', operand: 'private' }],
   });
+};
 
 /**
  * True just if the given message is part of the given narrow.
