@@ -193,13 +193,13 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
         ? {
             content: messageToSend,
             type: 'private',
-            to: JSON.stringify(sendTo.selectedRecipients),
+            to: sendTo.selectedRecipients,
           }
         : {
             content: messageToSend,
             type: 'stream',
             subject: sendTo.topic || apiConstants.kNoTopicTopic,
-            to: JSON.stringify(sendTo.streamId),
+            to: sendTo.streamId,
           };
 
     try {

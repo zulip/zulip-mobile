@@ -80,14 +80,9 @@ const trySendMessages = (dispatch, getState): boolean => {
           ? {
               ...commonParams,
               type: 'private',
-              to: JSON.stringify(recipientsOfPrivateMessage(item).map(r => r.id)),
+              to: recipientsOfPrivateMessage(item).map(r => r.id),
             }
-          : {
-              ...commonParams,
-              type: 'stream',
-              to: JSON.stringify(item.stream_id),
-              subject: item.subject,
-            };
+          : { ...commonParams, type: 'stream', to: item.stream_id, subject: item.subject };
       await api.sendMessage(auth, params);
       dispatch(messageSendComplete(item.timestamp));
     });
