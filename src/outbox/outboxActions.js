@@ -69,20 +69,26 @@ const trySendMessages = (dispatch, getState): boolean => {
         return; // i.e., continue
       }
 
-      // prettier-ignore
-      const to =
-        item.type === 'private'
-          ? JSON.stringify(recipientsOfPrivateMessage(item).map(r => r.id))
-          : JSON.stringify(item.stream_id);
-
-      await api.sendMessage(auth, {
-        type: item.type,
-        to,
-        subject: item.subject,
+      const commonParams = {
         content: item.markdownContent,
         localId: item.timestamp,
         eventQueueId: state.session.eventQueueId ?? undefined,
-      });
+      };
+
+      const params =
+        item.type === 'private'
+          ? {
+              ...commonParams,
+              type: 'private',
+              to: JSON.stringify(recipientsOfPrivateMessage(item).map(r => r.id)),
+            }
+          : {
+              ...commonParams,
+              type: 'stream',
+              to: JSON.stringify(item.stream_id),
+              subject: item.subject,
+            };
+      await api.sendMessage(auth, params);
       dispatch(messageSendComplete(item.timestamp));
     });
     return true;
