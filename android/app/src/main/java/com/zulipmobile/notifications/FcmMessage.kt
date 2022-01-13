@@ -203,12 +203,12 @@ private fun extractIdentity(data: Map<String, String>): Identity =
         // `realm_uri` was added in server version 1.9.0
         realmUri = data.require("realm_uri").parseUrl("realm_uri"),
 
-        // Server versions from 1.6.0 through 2.0.0 (and possibly earlier
-        // and later) send the user's email address, as `user`.  We *could*
-        // use this as a substitute for `user_id` when that's missing...
-        // but it'd be inherently buggy, and the bug it'd introduce seems
-        // likely to affect more users than the bug it'd fix.  So just ignore.
-        // TODO(server-2.0): Delete this comment.
+        // Server versions from 1.6.0 up to 3.0~6772 send the user's email
+        // address, as `user`.  We *could* use this as a substitute for
+        // `user_id` when that's missing...  but it'd be inherently buggy,
+        // and the bug it'd introduce seems likely to affect more users
+        // than the bug it'd fix.  So just ignore.
+        // TODO(server-2.1): Delete this comment, relying on user_id.
         // (data["user"] ignored)
 
         // `user_id` was added in server version 2.1.0 (released 2019-12-12;
