@@ -179,7 +179,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             streamName = Example.stream["stream"]!!,
             topic = Example.stream["topic"]!!
         ))
-        expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
     }
 
     @Test
@@ -192,8 +191,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             "stream_name" to Example.stream["stream"]!!,
             "topic" to Example.stream["topic"]!!,
         )
-        expect.that(dataForOpen(Example.stream.minus("user_id")))
-            .isEqualTo(baseExpected.minus("user_id"))
         expect.that(dataForOpen(Example.stream.minus("stream_id")))
             .isEqualTo(baseExpected.minus("stream_id"))
     }
@@ -215,6 +212,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.minus("realm_uri"))
         assertParseFails(Example.pm.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
+        assertParseFails(Example.pm.minus("user_id"))
 
         assertParseFails(Example.stream.minus("recipient_type"))
         assertParseFails(Example.stream.plus("stream_id" to "12,34"))
@@ -294,11 +292,6 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
     }
 
     @Test
-    fun `optional fields missing cause no error`() {
-        expect.that(parse(Example.hybrid.minus("user_id")).identity.userId).isNull()
-    }
-
-    @Test
     fun `parse failures on malformed data`() {
         assertParseFails(Example.hybrid.minus("server"))
         assertParseFails(Example.hybrid.minus("realm_id"))
@@ -307,6 +300,7 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.hybrid.minus("realm_uri"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "/examplecorp"))
+        assertParseFails(Example.hybrid.minus("user_id"))
 
         for (badIntList in sequenceOf(
             "abc,34",

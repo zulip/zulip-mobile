@@ -24,7 +24,7 @@ data class Identity(
 
     /// This user's ID within the server.  Useful mainly in the case where
     /// the user has multiple accounts in the same org.
-    val userId: Int?,
+    val userId: Int,
 )
 
 /**
@@ -120,7 +120,7 @@ data class MessageFcmMessage(
         // NOTE: Keep the JS-side type definition in sync with this code.
         buildArray { list ->
             list.add("realm_uri" to identity.realmUri.toString())
-            identity.userId?.let { list.add("user_id" to it) }
+            list.add("user_id" to identity.userId)
             when (recipient) {
                 is Recipient.Stream -> {
                     list.add("recipient_type" to "stream")
@@ -203,18 +203,8 @@ private fun extractIdentity(data: Map<String, String>): Identity =
         // `realm_uri` was added in server version 1.9.0
         realmUri = data.require("realm_uri").parseUrl("realm_uri"),
 
-        // Server versions from 1.6.0 up to 3.0~6772 send the user's email
-        // address, as `user`.  We *could* use this as a substitute for
-        // `user_id` when that's missing...  but it'd be inherently buggy,
-        // and the bug it'd introduce seems likely to affect more users
-        // than the bug it'd fix.  So just ignore.
-        // TODO(server-2.1): Delete this comment, relying on user_id.
-        // (data["user"] ignored)
-
-        // `user_id` was added in server version 2.1.0 (released 2019-12-12;
-        // commit 447a517e6, PR #12172.)
-        // TODO(server-2.1): Require this.
-        userId = data["user_id"]?.parseInt("user_id")
+        // `user_id` was added in server version 2.1.0.
+        userId = data.require("user_id").parseInt("user_id")
     )
 
 private fun Map<String, String>.require(key: String): String =
