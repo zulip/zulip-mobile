@@ -72,8 +72,7 @@ const trySendMessages = (dispatch, getState): boolean => {
       // prettier-ignore
       const to =
         item.type === 'private'
-            // TODO(server-2.0): switch to numeric user IDs (#3764), not emails.
-          ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
+          ? JSON.stringify(recipientsOfPrivateMessage(item).map(r => r.id))
           : JSON.stringify(item.stream_id);
 
       await api.sendMessage(auth, {
