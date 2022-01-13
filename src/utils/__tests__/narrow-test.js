@@ -23,7 +23,6 @@ import {
   STARRED_NARROW,
   MENTIONED_NARROW,
   keyFromNarrow,
-  streamNameOfNarrow,
   topicOfNarrow,
   caseNarrowPartial,
   streamIdOfNarrow,
@@ -89,7 +88,6 @@ describe('streamNarrow', () => {
     const narrow = streamNarrow(eg.stream.name, eg.stream.stream_id);
     expect(isStreamNarrow(narrow)).toBeTrue();
     expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
-    expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
   });
 
   test('only narrow with operator of "stream" is a stream narrow', () => {
@@ -104,7 +102,6 @@ describe('topicNarrow', () => {
     const narrow = topicNarrow(eg.stream.name, eg.stream.stream_id, 'some topic');
     expect(isTopicNarrow(narrow)).toBeTrue();
     expect(streamIdOfNarrow(narrow)).toEqual(eg.stream.stream_id);
-    expect(streamNameOfNarrow(narrow)).toEqual(eg.stream.name);
     expect(topicOfNarrow(narrow)).toEqual('some topic');
   });
 

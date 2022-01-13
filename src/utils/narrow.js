@@ -34,8 +34,8 @@ import {
  *    server, and `apiNarrowOfNarrow` for converting to it.
  */
 export opaque type Narrow =
-  | {| type: 'stream', streamName: string, streamId: number |}
-  | {| type: 'topic', streamName: string, streamId: number, topic: string |}
+  | {| type: 'stream', streamId: number |}
+  | {| type: 'topic', streamId: number, topic: string |}
   | {| type: 'pm', userIds: PmKeyRecipients |}
   | {| type: 'search', query: string |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
@@ -148,11 +148,14 @@ export const ALL_PRIVATE_NARROW: Narrow = specialNarrow('private');
 
 export const ALL_PRIVATE_NARROW_STR: string = keyFromNarrow(ALL_PRIVATE_NARROW);
 
-export const streamNarrow = (streamName: string, streamId: number): Narrow =>
-  Object.freeze({ type: 'stream', streamName, streamId });
+export const streamNarrow = (streamNameIgnored: string | void, streamId: number): Narrow =>
+  Object.freeze({ type: 'stream', streamId });
 
-export const topicNarrow = (streamName: string, streamId: number, topic: string): Narrow =>
-  Object.freeze({ type: 'topic', streamName, streamId, topic });
+export const topicNarrow = (
+  streamNameIgnored: string | void,
+  streamId: number,
+  topic: string,
+): Narrow => Object.freeze({ type: 'topic', streamId, topic });
 
 export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 'search', query });
 
@@ -162,8 +165,8 @@ type NarrowCases<T> = {|
   starred: () => T,
   mentioned: () => T,
   allPrivate: () => T,
-  stream: (name: string, streamId: number) => T,
-  topic: (streamName: string, topic: string, streamId: number) => T,
+  stream: (name: void, streamId: number) => T,
+  topic: (streamName: void, topic: string, streamId: number) => T,
   search: (query: string) => T,
 |};
 
@@ -174,8 +177,8 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
   };
 
   switch (narrow.type) {
-    case 'stream': return cases.stream(narrow.streamName, narrow.streamId);
-    case 'topic': return cases.topic(narrow.streamName, narrow.topic, narrow.streamId);
+    case 'stream': return cases.stream(undefined, narrow.streamId);
+    case 'topic': return cases.topic(undefined, narrow.topic, narrow.streamId);
     case 'pm': return cases.pm(narrow.userIds);
     case 'search': return cases.search(narrow.query);
     case 'all': return cases.home();
@@ -241,27 +244,25 @@ export function caseNarrowDefault<T>(
  * channel (like an HTML attribute) that only allows certain codepoints, use
  * something like `base64Utf8Encode` to encode into the permitted subset.
  */
-// The arbitrary Unicode codepoints come from (a) stream names and topics,
-// and (b) our use of `\x00` as a delimiter.
+// The arbitrary Unicode codepoints come from topics.  (These aren't
+// *completely* arbitrary, but close enough that there's little to gain
+// from relying on constraints on them.)
 export function keyFromNarrow(narrow: Narrow): string {
-  // The ":s" (for "string") in several of these is to keep them disjoint,
-  // out of an abundance of caution, from future keys that use numeric IDs.
+  // The ":s" (for "string") in several of these was to keep them disjoint,
+  // out of an abundance of caution, from later keys that use numeric IDs.
   //
-  // Similarly, ":d" ("dual") marks those with both numeric IDs and strings.
+  // Similarly, ":d" ("dual") marked those with both numeric IDs and strings.
   return caseNarrow(narrow, {
     // NB if you're changing any of these: be sure to do a migration.
     // Take a close look at migration 19 and any later related migrations.
 
-    // An earlier version had `stream:s:`.
-    stream: (name, streamId) => `stream:d:${streamId}:${name}`,
+    // An earlier version had `stream:s:`.  Another had `stream:d:`.
+    stream: (_, streamId) => `stream:${streamId}`,
 
-    // An earlier version had `topic:s:`.
-    // '\x00' is the one character not allowed in Zulip stream names.
-    // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
-    topic: (streamName, topic, streamId) => `topic:d:${streamId}:${streamName}\x00${topic}`,
+    // An earlier version had `topic:s:`.  Another had `topic:d:`.
+    topic: (_, topic, streamId) => `topic:${streamId}:${topic}`,
 
-    // An earlier version had `pm:s:`.
-    // Another had `pm:d:`.
+    // An earlier version had `pm:s:`.  Another had `pm:d:`.
     pm: ids => `pm:${ids.join(',')}`,
 
     home: () => 'all',
@@ -283,25 +284,21 @@ export const parseNarrow = (narrowStr: string): Narrow => {
   // invariant: tag + rest === narrowStr
   switch (tag) {
     case 'stream:': {
-      // The `/s` regexp flag means the `.` pattern matches absolutely
-      // anything.  By default it rejects certain "newline" characters,
-      // which in principle could appear in stream names.
-      const match = /^d:(\d+):(.*)/s.exec(rest);
-      if (!match) {
+      if (!/^\d+$/.test(rest)) {
         throw makeError();
       }
-      return streamNarrow(match[2], Number.parseInt(match[1], 10));
+      return streamNarrow(undefined, Number.parseInt(rest, 10));
     }
 
     case 'topic:': {
-      // The `/s` regexp flag means the `.` patterns match absolutely
-      // anything.  By default they reject certain "newline" characters,
-      // which in principle could appear in stream names or topics.
-      const match = /^d:(\d+):(.*?)\x00(.*)/s.exec(rest);
+      // The `/s` regexp flag means the `.` pattern matches absolutely
+      // anything.  By default it rejects certain "newline" characters,
+      // which in principle could appear in topics.
+      const match = /^(\d+):(.*)/s.exec(rest);
       if (!match) {
         throw makeError();
       }
-      return topicNarrow(match[2], Number.parseInt(match[1], 10), match[3]);
+      return topicNarrow(undefined, Number.parseInt(match[1], 10), match[2]);
     }
 
     case 'pm:': {
@@ -360,8 +357,9 @@ export const userIdsOfPmNarrow = (narrow: Narrow): PmKeyRecipients =>
  * instead of a Narrow in the first place; or if they do handle other kinds
  * of narrows, should be using `caseNarrow`.
  */
-export const streamNameOfNarrow = (narrow: Narrow): string =>
-  caseNarrowPartial(narrow, { stream: name => name, topic: streamName => streamName });
+// TODO delete
+export const streamNameOfNarrow = (narrow: Narrow): void =>
+  caseNarrowPartial(narrow, { stream: () => undefined, topic: () => undefined });
 
 /**
  * The stream ID for a stream or topic narrow; else error.

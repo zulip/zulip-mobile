@@ -87,7 +87,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base37,
-    migrations: { version: 38 },
+    migrations: { version: 39 },
   };
 
   for (const [desc, before, after] of [
@@ -224,6 +224,22 @@ describe('migrations', () => {
         },
       },
       { ...endBase, drafts: { 'pm:12': 'pm text' } },
+    ],
+    [
+      'check 39',
+      {
+        ...base37,
+        migrations: { version: 38 },
+        drafts: {
+          'topic:d:8:general\x00stuff': 'text',
+          'stream:d:8:general': 'more text',
+          'pm:12': 'pm text',
+        },
+      },
+      {
+        ...endBase,
+        drafts: { 'topic:8:stuff': 'text', 'stream:8': 'more text', 'pm:12': 'pm text' },
+      },
     ],
   ]) {
     /* eslint-disable no-loop-func */

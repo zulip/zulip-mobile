@@ -154,10 +154,10 @@ export const getNarrowFromNotificationData = (
   //   message) and whatever the notification did tell us about the
   //   stream/user: in particular, the stream name.
   //
-  //   But once Narrow objects stop relying on stream names (coming soon),
-  //   doing that will require some alternate plumbing to pass the stream
-  //   name through.  For now, we skip dealing with that; this should be an
-  //   uncommon case, so we settle for not crashing.
+  //   But because Narrow objects don't carry stream names, doing that will
+  //   require some alternate plumbing to pass the stream name through.  For
+  //   now, we skip dealing with that; this should be an uncommon case, so
+  //   we settle for not crashing.
 
   if (data.recipient_type === 'stream') {
     const stream = streamsByName.get(data.stream_name);

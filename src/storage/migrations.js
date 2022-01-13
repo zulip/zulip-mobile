@@ -362,6 +362,19 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     ),
   }),
 
+  // Change format of keys representing stream/topic narrows, dropping names.
+  '39': state => ({
+    ...state,
+    drafts: objectFromEntries(
+      Object.keys(state.drafts).map(key => [
+        key
+          .replace(/^stream:d:(\d+):.*/s, 'stream:$1')
+          .replace(/^topic:d:(\d+):.*?\x00(.*)/s, 'topic:$1:$2'),
+        state.drafts[key],
+      ]),
+    ),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 
