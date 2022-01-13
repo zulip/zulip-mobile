@@ -351,17 +351,6 @@ export const userIdsOfPmNarrow = (narrow: Narrow): PmKeyRecipients =>
   caseNarrowPartial(narrow, { pm: ids => ids });
 
 /**
- * The stream name for a stream or topic narrow; else error.
- *
- * Most callers of this should probably be getting passed a stream name
- * instead of a Narrow in the first place; or if they do handle other kinds
- * of narrows, should be using `caseNarrow`.
- */
-// TODO delete
-export const streamNameOfNarrow = (narrow: Narrow): void =>
-  caseNarrowPartial(narrow, { stream: () => undefined, topic: () => undefined });
-
-/**
  * The stream ID for a stream or topic narrow; else error.
  *
  * Most callers of this should probably be getting passed a stream ID

@@ -14,12 +14,7 @@ import Title from '../title/Title';
 import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
-import {
-  caseNarrowDefault,
-  streamIdOfNarrow,
-  streamNameOfNarrow,
-  streamNarrow,
-} from '../utils/narrow';
+import { caseNarrowDefault, streamIdOfNarrow, streamNarrow } from '../utils/narrow';
 import {
   navigateToStream,
   navigateToAccountDetails,
@@ -55,7 +50,7 @@ function ExtraNavButtonTopic(props): Node {
   const dispatch = useDispatch();
 
   const handlePress = useCallback(() => {
-    dispatch(doNarrow(streamNarrow(streamNameOfNarrow(narrow), streamIdOfNarrow(narrow))));
+    dispatch(doNarrow(streamNarrow(undefined, streamIdOfNarrow(narrow))));
   }, [dispatch, narrow]);
 
   return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
