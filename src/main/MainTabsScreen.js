@@ -89,9 +89,7 @@ export default function MainTabsScreen(props: Props): Node {
             tabBarIcon: ({ color }) => <IconPeople size={24} color={color} />,
             tabBarBadge: unreadPmsCount > 0 ? unreadPmsCount : undefined,
             tabBarBadgeStyle: {
-              // Light in light mode, dark in dark mode; both will contrast
-              //   with BRAND_COLOR.
-              color: backgroundColor,
+              color: 'white',
               backgroundColor: BRAND_COLOR,
             },
           }}
