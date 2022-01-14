@@ -840,11 +840,13 @@ declare module '@react-navigation/material-top-tabs' {
     >>,
     +setOptions: (options: $Shape<ScreenOptions>) => void,
     +setParams: (
-      params: $If<
-        $IsUndefined<$ElementType<ParamList, RouteName>>,
-        empty,
-        $Shape<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
-      >,
+      // We've edited this to be less complicated, so Flow in types-first
+      // mode can handle it.
+      //
+      // The complicated version appears to have been a workaround for the
+      // brokenness of $Shape: `$Shape<empty>` is `{ ... }`.  `$Partial` is
+      // basically the fixed `$Shape`, and makes the complexity unneeded.
+      params: $Partial<$NonMaybeType<$ElementType<ParamList, RouteName>>>,
     ) => void,
     ...
   };
