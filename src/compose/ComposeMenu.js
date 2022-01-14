@@ -4,6 +4,7 @@ import type { ComponentType } from 'react';
 import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+
 import { connectActionSheet } from '../react-native-action-sheet';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -28,7 +29,9 @@ type SelectorProps = $ReadOnly<{||}>;
 
 type Props = $ReadOnly<{|
   ...OuterProps,
+
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+
   // from `connect`
   ...SelectorProps,
   dispatch: Dispatch,
