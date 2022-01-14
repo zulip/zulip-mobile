@@ -4,6 +4,7 @@ import type { ComponentType } from 'react';
 import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+
 import { connectActionSheet } from '../react-native-action-sheet';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -28,11 +29,18 @@ type SelectorProps = $ReadOnly<{||}>;
 
 type Props = $ReadOnly<{|
   ...OuterProps,
+
   showActionSheetWithOptions: ShowActionSheetWithOptions,
+
   // from `connect`
   ...SelectorProps,
   dispatch: Dispatch,
 |}>;
+
+type ButtonType = {|
+  title: string,
+  onPress: (() => void | Promise<void>) | null,
+|};
 
 /**
  * Choose an appropriate filename for an image to upload.
@@ -219,50 +227,46 @@ class ComposeMenuInner extends PureComponent<Props> {
       padding: 12,
       color: BRAND_COLOR,
     },
-    composeMenuButton: {
-      padding: 12,
-      marginRight: -8,
-      color: BRAND_COLOR,
-    },
   });
 
   render() {
     const { expanded, insertVideoCallLink } = this.props;
 
-    const onOpenActionSheet = () => {
-      const options = [
-        'Upload a file',
-        'Upload a picture',
-        'Take a picture',
-        'Add a video call',
-        'Cancel',
-      ];
-      const cancelButtonIndex = options.length - 1;
+    const actionSheetButtons: ButtonType[] = [
+      { title: 'Upload a file', onPress: this.handleFilesPicker },
+      { title: 'Upload a picture', onPress: this.handleImagePicker },
+      { title: 'Take a picture', onPress: this.handleCameraCapture },
+      { title: 'Add a video call', onPress: insertVideoCallLink },
+      { title: 'Cancel', onPress: () => {} },
+    ];
 
+    const constructActionSheetButtons = (): string[] =>
+      actionSheetButtons.map(button => button.title);
+
+    const executeActionSheetAction = title => {
+      const button = actionSheetButtons.find(x => x.title === title);
+
+      if (button) {
+        if (typeof button.onPress === 'function') {
+          button.onPress();
+        }
+      }
+    };
+
+    const onOpenActionSheet = () => {
+      const options = constructActionSheetButtons();
+      if (typeof insertVideoCallLink !== 'function') {
+        const videoCallIndex = options.indexOf('Add a video call');
+        options.splice(videoCallIndex, 1);
+      }
+      const cancelButtonIndex = options.length - 1;
       this.props.showActionSheetWithOptions(
         {
           options,
           cancelButtonIndex,
         },
         buttonIndex => {
-          if (buttonIndex === 0) {
-            this.handleFilesPicker();
-          }
-          if (buttonIndex === 1) {
-            this.handleImagePicker();
-          }
-          if (buttonIndex === 2) {
-            this.handleCameraCapture();
-          }
-          if (buttonIndex === 3) {
-            // Flow actually has a special case for this, this is called an "unknown function".
-            // We know that insertVideoCallLink is a function, but we don't know anything about its
-            // arguments or return type so we can't safely do anything with it except pass it around.
-            // see:https://stackoverflow.com/questions/65314559/flow-type-refine-mixed-to-function
-            if (typeof insertVideoCallLink === 'function') {
-              insertVideoCallLink();
-            }
-          }
+          executeActionSheetAction(options[buttonIndex]);
         },
       );
     };

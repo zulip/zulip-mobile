@@ -290,5 +290,10 @@
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Remove account": "Remove account",
-  "Search topics":"Search topics"
+  "Search topics":"Search topics",
+  "Upload a file":"Upload a file",
+  "Upload a picture":"Upload a picture",
+  "Take a picture":"Take a picture",
+  "Add a video call":"Add a video call"
+
 }
