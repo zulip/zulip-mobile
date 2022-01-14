@@ -13,5 +13,6 @@ module.exports = {
     // @babel/reset-env, but that doesn't get used as a base plugin; see a
     // comment on that issue explaining why.
     '@babel/plugin-proposal-numeric-separator',
+    'react-native-reanimated/plugin',
   ],
 };
