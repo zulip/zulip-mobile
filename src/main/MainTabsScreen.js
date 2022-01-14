@@ -1,12 +1,11 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
 } from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import { getUnreadHuddlesTotal, getUnreadPmsTotal } from '../selectors';
@@ -50,7 +49,7 @@ export default function MainTabsScreen(props: Props): Node {
   const unreadPmsCount = useSelector(getUnreadHuddlesTotal) + useSelector(getUnreadPmsTotal);
 
   return (
-    <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
+    <View style={[styles.flexed, { backgroundColor }]}>
       <OfflineNotice />
       <Tab.Navigator
         {...bottomTabNavigatorConfig({
@@ -105,6 +104,6 @@ export default function MainTabsScreen(props: Props): Node {
           }}
         />
       </Tab.Navigator>
-    </SafeAreaView>
+    </View>
   );
 }

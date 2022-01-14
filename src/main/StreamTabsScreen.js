@@ -5,6 +5,7 @@ import {
   createMaterialTopTabNavigator,
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ZulipTextIntl } from '../common';
 import { createStyleSheet } from '../styles';
@@ -44,31 +45,33 @@ type Props = $ReadOnly<{|
 
 export default function StreamTabsScreen(props: Props): Node {
   return (
-    <Tab.Navigator
-      {...materialTopTabNavigatorConfig({
-        showLabel: true,
-        showIcon: false,
-      })}
-      swipeEnabled
-    >
-      <Tab.Screen
-        name="subscribed"
-        component={SubscriptionsCard}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <ZulipTextIntl style={[styles.tab, { color }]} text="Subscribed" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="allStreams"
-        component={StreamListCard}
-        options={{
-          tabBarLabel: ({ color }) => (
-            <ZulipTextIntl style={[styles.tab, { color }]} text="All streams" />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+    <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
+      <Tab.Navigator
+        {...materialTopTabNavigatorConfig({
+          showLabel: true,
+          showIcon: false,
+        })}
+        swipeEnabled
+      >
+        <Tab.Screen
+          name="subscribed"
+          component={SubscriptionsCard}
+          options={{
+            tabBarLabel: ({ color }) => (
+              <ZulipTextIntl style={[styles.tab, { color }]} text="Subscribed" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="allStreams"
+          component={StreamListCard}
+          options={{
+            tabBarLabel: ({ color }) => (
+              <ZulipTextIntl style={[styles.tab, { color }]} text="All streams" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 }
