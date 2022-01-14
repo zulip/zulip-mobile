@@ -13,7 +13,7 @@ import { useSelector } from '../react-redux';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
-import HomeScreen from './HomeScreen';
+import HomeDrawerNavigator from './home/HomeDrawerNavigator';
 import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
 import { IconInbox, IconStream, IconPeople } from '../common/Icons';
@@ -22,7 +22,7 @@ import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 
 export type MainTabsNavigatorParamList = {|
-  home: RouteParamsOf<typeof HomeScreen>,
+  home: RouteParamsOf<typeof HomeDrawerNavigator>,
   'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
   'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
   profile: RouteParamsOf<typeof ProfileScreen>,
@@ -66,7 +66,7 @@ export default function MainTabsScreen(props: Props): Node {
       >
         <Tab.Screen
           name="home"
-          component={HomeScreen}
+          component={HomeDrawerNavigator}
           options={{
             tabBarLabel: 'Home',
             tabBarIcon: ({ color }) => <IconInbox size={24} color={color} />,
