@@ -38,6 +38,17 @@ if (Platform.OS === 'android') {
 }
 
 export default (): Node => (
+  // If using react-native-gesture-handler directly, not just via React
+  // Navigation, we should use a GestureHandlerRootView; see
+  //  https://docs.swmansion.com/react-native-gesture-handler/docs/1.10.3/#js
+  //
+  // React Nav seems to have followed the following advice, in that doc:
+  //   > If you're using gesture handler in your component library, you may
+  //   > want to wrap your library's code in the GestureHandlerRootView
+  //   > component. This will avoid extra configuration for the user.
+  // which I think is why they don't mention GestureHandlerRootView in their
+  // own setup doc, and why I think it's probably fine to omit it if we're
+  // not using r-n-gesture-handler directly ourselves.
   <RootErrorBoundary>
     <CompatibilityChecker>
       <StoreProvider>
