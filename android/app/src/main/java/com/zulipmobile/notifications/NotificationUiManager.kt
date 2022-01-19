@@ -285,9 +285,7 @@ private fun updateNotification(
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
-        // TODO(Build.VERSION.SDK_INT>=26): This is ignored on newer Android, in favor of
-        //   what we set on the channel.
-        setSound(getNotificationSoundUri())
+        setZulipChannelLikeSettings()
 
         // TODO Perhaps set color and icon based on conversation?
         //   E.g., stream-subscription color, and hash icon or lock icon.
