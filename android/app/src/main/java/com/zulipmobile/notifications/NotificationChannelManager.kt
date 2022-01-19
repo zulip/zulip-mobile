@@ -15,6 +15,12 @@ import com.zulipmobile.R
 // Previous value: "default"
 val CHANNEL_ID = "messages-1"
 
+/** The vibration pattern we set. */
+// We try to set a vibration pattern that, with the phone in one's pocket,
+// is both distinctly present and distinctly different from the default.
+// Discussion: https://chat.zulip.org/#narrow/stream/48-mobile/topic/notification.20vibration.20pattern/near/1284530
+val kVibrationPattern = longArrayOf(0, 125, 100, 450);
+
 fun getNotificationSoundUri(): Uri {
     // TODO(#3150): Find an appropriate Zulip-specific sound to use.
     //   (The one the Zulip web app uses is a bad fit for a mobile notification:
@@ -59,10 +65,7 @@ fun createNotificationChannel(context: Context) {
         //   If so, perhaps just take it out.
         enableLights(true)
 
-        // Try to set a vibration pattern that, with the phone in one's pocket,
-        // is both distinctly present and distinctly different from the default.
-        // Discussion: https://chat.zulip.org/#narrow/stream/48-mobile/topic/notification.20vibration.20pattern/near/1284530
-        vibrationPattern = longArrayOf(0, 125, 100, 450)
+        vibrationPattern = kVibrationPattern
 
         // TODO: Is this just setting these values to their defaults?
         //   Perhaps we can just take it out.
