@@ -38,6 +38,7 @@ private fun getNotificationSoundUri(): Uri {
  * */
 // TODO(Build.VERSION.SDK_INT>=26): Delete this, as it's a no-op.
 fun NotificationCompat.Builder.setZulipChannelLikeSettings() {
+    setVibrate(kVibrationPattern)
     setSound(getNotificationSoundUri())
 }
 
