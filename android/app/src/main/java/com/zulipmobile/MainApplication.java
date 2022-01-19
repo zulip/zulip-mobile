@@ -20,7 +20,7 @@ import java.util.List;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
 
-import com.zulipmobile.notifications.NotificationUiManager;
+import com.zulipmobile.notifications.NotificationChannelManager;
 import com.zulipmobile.notifications.NotificationsPackage;
 import com.zulipmobile.sharing.SharingPackage;
 
@@ -66,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        NotificationUiManager.createNotificationChannel(this);
+        NotificationChannelManager.createNotificationChannel(this);
         SoLoader.init(this, /* native exopackage */ false);
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
         ApplicationLifecycleDispatcher.onApplicationCreate(this);

@@ -55,10 +55,6 @@ import java.net.URL
 @JvmField
 val TAG = "ZulipNotif"
 
-/** The channel ID we use for our one notification channel, which we use for all notifications. */
-// Previous value: "default"
-private val CHANNEL_ID = "messages-1"
-
 /**
  * The constant numeric "ID" we use for all notifications, along with unique tags.
  *
@@ -75,66 +71,11 @@ val NOTIFICATION_URL_AUTHORITY = "notification"
 @JvmField
 val EXTRA_NOTIFICATION_DATA = "data"
 
-private val Context.notificationManager: NotificationManager
+val Context.notificationManager: NotificationManager
     // This `getSystemService` method can return null if the class is not a supported
     // system service.  But NotificationManager was added in API 1, long before the
     // oldest Android version we support, so just assert here that it's non-null.
     get() = this.getSystemService(NotificationManager::class.java)!!
-
-fun createNotificationChannel(context: Context) {
-    if (Build.VERSION.SDK_INT < 26) {
-        // Notification channels don't exist before SDK 26, aka Android 8 Oreo.
-        return
-    }
-
-    // TODO: It'd be nice to use NotificationChannelCompat here: we get a nice builder class,
-    //   plus should then be able to drop the Build.VERSION condition.
-    //   Needs upgrading androidx.core to 1.5.0:
-    //     https://developer.android.com/jetpack/androidx/releases/core#1.5.0-alpha02
-
-    // NOTE when changing anything here: the changes will not take effect
-    // for existing installs of the app!  That's because we'll have already
-    // created the channel with the old settings, and they're in the user's
-    // hands from there.  Our choices are:
-    //
-    //  * Leave the old settings in place for existing installs, so the
-    //    changes only apply to new installs.
-    //
-    //  * Change `CHANNEL_ID`, so that we abandon the old channel and use
-    //    a new one.  Existing installs will get the new settings.
-    //
-    //    This also means that if the user has changed any of the notification
-    //    settings for the channel -- like "override Do Not Disturb", or "use
-    //    a different sound", or "don't pop on screen" -- their changes get
-    //    reset.  So this has to be done sparingly.
-    val manager = context.notificationManager
-    manager.createNotificationChannel(NotificationChannel(
-        CHANNEL_ID,
-        context.getString(R.string.notification_channel_name),
-        NotificationManager.IMPORTANCE_HIGH
-    ).apply {
-        // TODO: Is this the default value anyway for IMPORTANCE_HIGH?
-        //   If so, perhaps just take it out.
-        enableLights(true)
-
-        // Try to set a vibration pattern that, with the phone in one's pocket,
-        // is both distinctly present and distinctly different from the default.
-        // Discussion: https://chat.zulip.org/#narrow/stream/48-mobile/topic/notification.20vibration.20pattern/near/1284530
-        vibrationPattern = longArrayOf(0, 125, 100, 450)
-
-        // TODO: Is this just setting these values to their defaults?
-        //   Perhaps we can just take it out.
-        setSound(getNotificationSoundUri(),
-            AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
-    })
-
-    // Delete any obsolete previous channels.
-    for (channel in manager.notificationChannels) {
-        if (channel.id != CHANNEL_ID) {
-            manager.deleteNotificationChannel(channel.id)
-        }
-    }
-}
 
 /** Write the given data to the device log, for debugging. */
 fun logNotificationData(msg: String, data: Bundle) {
@@ -345,7 +286,7 @@ private fun updateNotification(
         setGroup(groupKey)
 
         // TODO(Build.VERSION.SDK_INT>=26): This is ignored on newer Android, in favor of
-        //   what we set on the channel (above).
+        //   what we set on the channel.
         setSound(getNotificationSoundUri())
 
         // TODO Perhaps set color and icon based on conversation?
@@ -427,12 +368,4 @@ private fun updateNotification(
         notify(groupKey, NOTIFICATION_ID, summaryNotification)
         notify(conversationKey, NOTIFICATION_ID, notification)
     }
-}
-
-private fun getNotificationSoundUri(): Uri {
-    // TODO(#3150): Find an appropriate Zulip-specific sound to use.
-    //   (The one the Zulip web app uses is a bad fit for a mobile notification:
-    //     https://github.com/zulip/zulip-mobile/pull/3233#issuecomment-450245374
-    //   .)  Until then, we use the system default notification sound.
-    return Settings.System.DEFAULT_NOTIFICATION_URI
 }
