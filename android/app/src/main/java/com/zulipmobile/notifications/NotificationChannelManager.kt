@@ -9,6 +9,7 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import androidx.core.app.NotificationCompat
 import com.zulipmobile.R
 
 /** The channel ID we use for our one notification channel, which we use for all notifications. */
@@ -21,12 +22,23 @@ val CHANNEL_ID = "messages-1"
 // Discussion: https://chat.zulip.org/#narrow/stream/48-mobile/topic/notification.20vibration.20pattern/near/1284530
 val kVibrationPattern = longArrayOf(0, 125, 100, 450);
 
-fun getNotificationSoundUri(): Uri {
+private fun getNotificationSoundUri(): Uri {
     // TODO(#3150): Find an appropriate Zulip-specific sound to use.
     //   (The one the Zulip web app uses is a bad fit for a mobile notification:
     //     https://github.com/zulip/zulip-mobile/pull/3233#issuecomment-450245374
     //   .)  Until then, we use the system default notification sound.
     return Settings.System.DEFAULT_NOTIFICATION_URI
+}
+
+/**
+ * Apply our choices for settings that in modern Android go on the channel.
+ *
+ * On newer Android versions where notification channels exist, this has
+ * no effect.
+ * */
+// TODO(Build.VERSION.SDK_INT>=26): Delete this, as it's a no-op.
+fun NotificationCompat.Builder.setZulipChannelLikeSettings() {
+    setSound(getNotificationSoundUri())
 }
 
 fun createNotificationChannel(context: Context) {
