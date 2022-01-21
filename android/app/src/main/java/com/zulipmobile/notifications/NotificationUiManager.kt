@@ -285,7 +285,7 @@ private fun updateNotification(
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
-        setZulipChannelLikeSettings()
+        setZulipChannelLikeSettings(context)
 
         // TODO Perhaps set color and icon based on conversation?
         //   E.g., stream-subscription color, and hash icon or lock icon.
