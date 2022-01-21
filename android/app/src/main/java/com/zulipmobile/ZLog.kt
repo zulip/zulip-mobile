@@ -2,6 +2,7 @@ package com.zulipmobile
 
 import android.util.Log
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 
 /**
  * Zulip-specific logging helpers.
@@ -26,6 +27,12 @@ class ZLog {
         public fun w(tag: String, e: Throwable) {
             Log.w(tag, e)
             SentryX.warnException(e)
+        }
+
+        /** Log a warning to both Sentry and the device log. */
+        public fun w(tag: String, msg: String) {
+            Log.w(tag, msg)
+            Sentry.captureMessage(msg, SentryLevel.WARNING)
         }
     }
 }
