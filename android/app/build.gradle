@@ -2,8 +2,6 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 
-apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
-
 import com.android.build.OutputFile
 
 /**
@@ -255,7 +253,6 @@ dependencies {
 
     implementation 'com.facebook.fresco:animated-gif:2.0.0' // For animated GIF support
     implementation 'androidx.browser:browser:1.0.0'
-    addUnimodulesDependencies()
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'

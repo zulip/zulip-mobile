@@ -5,6 +5,7 @@
 const transformModulesWhitelist = [
   'expo-apple-authentication',
   'expo-application',
+  'expo-modules-core',
   'expo-sqlite',
   'expo-web-browser',
   'react-native',
@@ -16,7 +17,6 @@ const transformModulesWhitelist = [
   '@expo/react-native-action-sheet',
   'react-navigation',
   '@sentry/react-native',
-  '@unimodules/',
   '@zulip/',
 ];
 

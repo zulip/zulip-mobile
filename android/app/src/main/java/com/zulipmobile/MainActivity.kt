@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactContext
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import com.zulipmobile.notifications.*
 import com.zulipmobile.sharing.handleSend
+import expo.modules.ReactActivityDelegateWrapper;
 
 // A convenience shortcut.
 fun ReactApplication.tryGetReactContext(): ReactContext? =
@@ -35,11 +36,14 @@ open class MainActivity : ReactActivity() {
     }
 
     override fun createReactActivityDelegate(): ReactActivityDelegate {
-        return object : ReactActivityDelegate(this, mainComponentName) {
-            override fun createRootView(): ReactRootView {
-                return RNGestureHandlerEnabledRootView(this@MainActivity)
+        return ReactActivityDelegateWrapper(
+            this,
+            object : ReactActivityDelegate(this, mainComponentName) {
+                override fun createRootView(): ReactRootView {
+                    return RNGestureHandlerEnabledRootView(this@MainActivity)
+                }
             }
-        }
+        )
     }
 
     /* Returns true just if we did handle the intent. */

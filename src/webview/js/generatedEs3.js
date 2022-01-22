@@ -267,7 +267,8 @@ var compiledWebviewJs = (function (exports) {
     });
   };
 
-  const rewriteHtml = (auth, element = document) => {
+  const rewriteHtml = function (auth) {
+    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
     rewriteImageUrls(auth, element);
     rewriteTime(element);
     rewriteSpoilers(element);
@@ -525,7 +526,8 @@ var compiledWebviewJs = (function (exports) {
     };
   }
 
-  const getMessageIdFromElement = (element, defaultValue = -1) => {
+  const getMessageIdFromElement = function (element) {
+    let defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
     const msgElement = element.closest('.msglist-element');
     return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
@@ -1002,7 +1004,13 @@ var compiledWebviewJs = (function (exports) {
     longPressTimeout = setTimeout(() => handleLongPress(target), 500);
   });
 
-  const isNearPositions = (x1 = 0, y1 = 0, x2 = 0, y2 = 0) => Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+  const isNearPositions = function () {
+    let x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    let y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    let x2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    let y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+    return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
+  };
 
   documentBody.addEventListener('touchend', e => {
     if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {

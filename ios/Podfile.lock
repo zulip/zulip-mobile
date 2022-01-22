@@ -2,37 +2,31 @@ PODS:
   - boost-for-react-native (1.63.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
-  - EXAppleAuthentication (3.2.1):
-    - UMCore
-  - EXApplication (3.2.0):
-    - UMCore
-  - EXConstants (11.0.2):
+  - EXAppleAuthentication (4.1.0):
     - ExpoModulesCore
-    - UMCore
-  - EXFileSystem (11.1.3):
+  - EXApplication (3.3.0):
     - ExpoModulesCore
-    - UMCore
-  - EXImageLoader (2.2.0):
+  - EXConstants (12.1.3):
+    - ExpoModulesCore
+  - EXErrorRecovery (3.0.4):
+    - ExpoModulesCore
+  - EXFileSystem (13.0.3):
+    - ExpoModulesCore
+  - EXFont (10.0.4):
+    - ExpoModulesCore
+  - EXKeepAwake (10.0.1):
+    - ExpoModulesCore
+  - Expo (43.0.5):
+    - ExpoModulesCore
+  - ExpoModulesCore (0.4.10):
+    - React-Core
+  - EXScreenOrientation (4.0.3):
     - ExpoModulesCore
     - React-Core
-    - UMCore
-  - ExpoModulesCore (0.2.0):
-    - ExpoModulesCore/Core (= 0.2.0)
-    - ExpoModulesCore/Interfaces (= 0.2.0)
-    - UMCore
-  - ExpoModulesCore/Core (0.2.0):
-    - UMCore
-  - ExpoModulesCore/Interfaces (0.2.0):
-    - ExpoModulesCore/Core
-    - UMCore
-  - EXScreenOrientation (3.3.0):
-    - React-Core
-    - UMCore
-  - EXSQLite (9.2.1):
+  - EXSQLite (10.1.0):
     - ExpoModulesCore
-    - UMCore
-  - EXWebBrowser (9.2.0):
-    - UMCore
+  - EXWebBrowser (9.3.0):
+    - ExpoModulesCore
   - FBLazyVector (0.64.3)
   - FBReactNativeSpec (0.64.3):
     - RCT-Folly (= 2020.01.13.00)
@@ -412,14 +406,6 @@ PODS:
     - Sentry/Core (= 7.3.0)
   - Sentry/Core (7.3.0)
   - Toast (4.0.0)
-  - UMAppLoader (2.2.0)
-  - UMCore (7.1.2)
-  - UMReactNativeAdapter (6.3.7):
-    - ExpoModulesCore
-    - React-Core
-    - UMCore
-  - UMTaskManagerInterface (6.2.0):
-    - UMCore
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -429,8 +415,11 @@ DEPENDENCIES:
   - EXAppleAuthentication (from `../node_modules/expo-apple-authentication/ios`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
-  - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
+  - EXFont (from `../node_modules/expo-font/ios`)
+  - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+  - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
   - EXSQLite (from `../node_modules/expo-sqlite/ios`)
@@ -498,10 +487,6 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
-  - "UMCore (from `../node_modules/@unimodules/core/ios`)"
-  - "UMReactNativeAdapter (from `../node_modules/@unimodules/react-native-adapter/ios`)"
-  - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -530,10 +515,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-application/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXErrorRecovery:
+    :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
-  EXImageLoader:
-    :path: "../node_modules/expo-image-loader/ios"
+  EXFont:
+    :path: "../node_modules/expo-font/ios"
+  EXKeepAwake:
+    :path: "../node_modules/expo-keep-awake/ios"
+  Expo:
+    :path: "../node_modules/expo/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core/ios"
   EXScreenOrientation:
@@ -626,14 +617,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@sentry/react-native"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
-  UMAppLoader:
-    :path: "../node_modules/unimodules-app-loader/ios"
-  UMCore:
-    :path: "../node_modules/@unimodules/core/ios"
-  UMReactNativeAdapter:
-    :path: "../node_modules/@unimodules/react-native-adapter/ios"
-  UMTaskManagerInterface:
-    :path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -641,15 +624,18 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
-  EXAppleAuthentication: e8c537fcbe80670dd76fde7a07acb94af70ada00
-  EXApplication: 9ff2a206009d6e55bca6c20b3f33d07986b51ef3
-  EXConstants: 4cb52b6d8f636c767104a44bf7db3873e9c01a6f
-  EXFileSystem: 0a04aba8da751b9ac954065911bcf166503f8267
-  EXImageLoader: d3531a3fe530b22925c19977cb53bb43e3821fe6
-  ExpoModulesCore: 2734852616127a6c1fc23012197890a6f3763dc7
-  EXScreenOrientation: 09fe6b6b87899ae0c9320255bda7b7513cdfc8ec
-  EXSQLite: cddb3b3f4c6999761c157b88dc8b55c7af2cd86b
-  EXWebBrowser: 76783ba5dcb8699237746ecf41a9643d428a4cc5
+  EXAppleAuthentication: 27a4f7dc44a1b510f5af945b58643165ee486d89
+  EXApplication: d99a1ecb99dfb63dab8acb66d0181857ee79b25f
+  EXConstants: 6d585d93723b18d7a8c283591a335609e3bc153e
+  EXErrorRecovery: deea88a01d38f8b1c1181b4e1d179b0ba0e4bb5b
+  EXFileSystem: 99aac7962c11c680681819dd9cbca24e20e5b1e7
+  EXFont: 1fb13af43dc517c01c0ff21a6e32f9f9bf2ea602
+  EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
+  Expo: d9588796cd19999da4d440d87bf7eb7ae4dbd608
+  ExpoModulesCore: c9438f6add0fb7b04b7c64eb97a833d2752a7834
+  EXScreenOrientation: 80c8c07ab3f2beb8e83ba94ab6ee4fb7a6bf01a6
+  EXSQLite: 5b16cc6b280d3c024b0b1d76829dd2161a26acbe
+  EXWebBrowser: f9435daf809a688e0cb63675da208196007573b6
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
   FBReactNativeSpec: ddd61666683147c613f5c89e2ce4e6c5e4f90d63
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
@@ -703,13 +689,9 @@ SPEC CHECKSUMS:
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Sentry: 9a4e621430e2dae4477d791f2f7e905720b6efbf
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
-  UMAppLoader: 21af63390e55c82e037fb9752d93114a80ecf16e
-  UMCore: ce3a4faa010239063b8343895b29a6d97b01069d
-  UMReactNativeAdapter: bb7922210cf6fdb5768f78685f3c3a2060299119
-  UMTaskManagerInterface: 2be431101b73604e64fbfffcf759336f9d8fccbb
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 290180a4dee98c12bb8e245dcc8b9375c022b983
+PODFILE CHECKSUM: a3f311c266417d7f8789c2be02de52991612bc15
 
 COCOAPODS: 1.11.2

@@ -14,6 +14,7 @@
 		8BE55043253A2B6600B0BC8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BE55041253A2B6600B0BC8A /* LaunchScreen.storyboard */; };
 		8BEA1EF024A6983D00674040 /* ZLPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA1EEE24A6983D00674040 /* ZLPConstants.m */; };
 		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
+		A65C1ECEE03CA6692FC807AA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C68E38F2AA306A2C56A4B3 /* ExpoModulesProvider.swift */; };
 		C091D09FD11FDDB8E939257D /* libPods-ZulipMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3CD22CB932FA7EEE0BB66 /* libPods-ZulipMobile.a */; };
 		CFA67D201EC23BCB0070048E /* UtilManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA67D1F1EC23BCB0070048E /* UtilManager.m */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -38,6 +39,7 @@
 		CFA67D1F1EC23BCB0070048E /* UtilManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UtilManager.m; path = ZulipMobile/UtilManager.m; sourceTree = "<group>"; };
 		CFA67D211EC23BDD0070048E /* UtilManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UtilManager.h; path = ZulipMobile/UtilManager.h; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F2C68E38F2AA306A2C56A4B3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ZulipMobile/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		FB0511DD408657240F6D4EA3 /* Pods-ZulipMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZulipMobile.debug.xcconfig"; path = "Target Support Files/Pods-ZulipMobile/Pods-ZulipMobile.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +84,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		55810A95684B8D7A1251DAB2 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				C957E4090AA7A6389ABA170C /* ZulipMobile */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 				35C857DE057BA42A6919FBE9 /* Frameworks */,
 				A1FC272D1F75F05200546415 /* Recovered References */,
 				F8C26711A6226C32E43092A9 /* Pods */,
+				55810A95684B8D7A1251DAB2 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -119,6 +130,14 @@
 			children = (
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		C957E4090AA7A6389ABA170C /* ZulipMobile */ = {
+			isa = PBXGroup;
+			children = (
+				F2C68E38F2AA306A2C56A4B3 /* ExpoModulesProvider.swift */,
+			);
+			name = ZulipMobile;
 			sourceTree = "<group>";
 		};
 		F8C26711A6226C32E43092A9 /* Pods */ = {
@@ -347,6 +366,7 @@
 				8BEA1EF024A6983D00674040 /* ZLPConstants.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				A65C1ECEE03CA6692FC807AA /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

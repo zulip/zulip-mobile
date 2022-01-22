@@ -40,10 +40,36 @@ declare module 'expo-apple-authentication/build/AppleAuthentication' {
 
 declare module 'expo-apple-authentication/build/AppleAuthentication.types' {
   declare export type AppleAuthenticationButtonProps = {
+    // TODO: `View`'s props and…
+
+    /**
+     * The method to call when the user presses the button. You should call
+     *   [`AppleAuthentication.signInAsync`](#isavailableasync) in here.
+     */
     onPress: () => void | Promise<void>,
+
+    /**
+     * The type of button text to display ("Sign In with Apple" vs.
+     *   "Continue with Apple").
+     */
     buttonType: $Values<typeof AppleAuthenticationButtonType>,
+
+    /**
+     * The Apple-defined color scheme to use to display the button.
+     */
     buttonStyle: $Values<typeof AppleAuthenticationButtonStyle>,
+
+    /**
+     * The border radius to use when rendering the button. This works
+     *   similarly to `  style.borderRadius` in other Views.
+     */
     cornerRadius?: number,
+
+    /**
+     * The custom style to apply to the button. Should not include
+     *   `backgroundColor` or `borderRadius` properties.
+     */
+    // TODO: implement
     style?: mixed,
     ...
   };
