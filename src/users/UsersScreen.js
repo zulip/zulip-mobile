@@ -16,7 +16,7 @@ export default function UsersScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   return (
-    <Screen search autoFocus scrollEnabled={false} searchBarOnChange={setFilter}>
+    <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
       <UsersCard filter={filter} />
     </Screen>
   );
