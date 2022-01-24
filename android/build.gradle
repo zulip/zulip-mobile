@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.3.50'
+        kotlin_version = '1.6.10'
 
         // The oldest Android version we support.  Increasing this stops updates
         // for users on old devices, but can simplify the system.  Synced with
