@@ -17,6 +17,9 @@ node_modules/react-native/Libraries/polyfills/.*
 .*/node_modules/match-at/lib/.*
 .*/node_modules/eslint-plugin-jsx-a11y/.*
 
+; https://github.com/facebook/flow/issues/2364
+.*/node_modules/resolve/test/resolver/malformed_package_json/.*
+
 .*/node_modules/react-native-tab-view/.*
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/flow-coverage-report/.*
