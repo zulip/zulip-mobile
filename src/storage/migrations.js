@@ -68,6 +68,11 @@ export const migrations: {| [string]: (GlobalState) => GlobalState |} = {
   // The type is a lie, in several ways:
   //  * The actual object contains only the properties we persist:
   //    those in `storeKeys` and `cacheKeys`, but not `discardKeys`.
+  //  * Conversely, the actual object may be missing some of the expected
+  //    properties.  (We skip these migrations entirely if the `migrations`
+  //    property is missing, e.g. on first launch.  But with our pre-#4841
+  //    unsound storage, a previous run could have managed to store
+  //    `migrations` and any subset of the other keys.)
   //  * The actual input is from an older version of the code, one with
   //    different data structures -- after all, that's the point of the
   //    migration -- which usually have a different type.
