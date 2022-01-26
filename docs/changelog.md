@@ -36,6 +36,12 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.180 (2022-01-25)
+
+This was an alpha-only release for testing notification sounds.
+
+
 ### Highlights for users, vs v27.175 (last prod release)
 
 TODO adjust for actual last prod release, after cherry-pick release
