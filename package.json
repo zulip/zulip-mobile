@@ -57,7 +57,7 @@
     "react-native-gesture-handler": "^1.0.12",
     "react-native-image-picker": "^4.1.1",
     "react-native-photo-view": "alwx/react-native-photo-view#c58fd6b30",
-    "react-native-reanimated": "^2.2.0",
+    "react-native-reanimated": "^2.2.0 <2.3.0",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
     "react-native-simple-toast": "^1.0.0",
@@ -120,6 +120,7 @@
     "yarn-deduplicate": "^3.0.0"
   },
   "resolutions": {
+    "jest-expo/react-test-renderer": "17.0.1",
     "sqlite3/**/node-gyp": "^8"
   }
 }

@@ -279,7 +279,7 @@ PODS:
   - React-jsinspector (0.64.3)
   - react-native-cameraroll (4.0.4):
     - React-Core
-  - react-native-image-picker (4.1.1):
+  - react-native-image-picker (4.7.1):
     - React-Core
   - react-native-netinfo (6.0.0):
     - React-Core
@@ -290,7 +290,7 @@ PODS:
   - react-native-simple-toast (1.1.3):
     - React-Core
     - Toast (~> 4.0.0)
-  - react-native-webview (11.13.0):
+  - react-native-webview (11.17.1):
     - React-Core
   - React-perflogger (0.64.3)
   - React-RCTActionSheet (0.64.3):
@@ -358,17 +358,17 @@ PODS:
     - React-perflogger (= 0.64.3)
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNCAsyncStorage (1.15.8):
+  - RNCAsyncStorage (1.15.17):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNDeviceInfo (8.3.3):
+  - RNDeviceInfo (8.4.8):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNReanimated (2.2.2):
+  - RNReanimated (2.2.4):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -397,14 +397,14 @@ PODS:
     - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSentry (3.1.1):
+  - RNSentry (3.2.13):
     - React-Core
-    - Sentry (= 7.3.0)
+    - Sentry (= 7.9.0)
   - RNVectorIcons (7.0.0):
     - React
-  - Sentry (7.3.0):
-    - Sentry/Core (= 7.3.0)
-  - Sentry/Core (7.3.0)
+  - Sentry (7.9.0):
+    - Sentry/Core (= 7.9.0)
+  - Sentry/Core (7.9.0)
   - Toast (4.0.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -660,12 +660,12 @@ SPEC CHECKSUMS:
   React-jsiexecutor: df6abc9fafbecb8e5b7a5fbc5e6d4bd017d594d5
   React-jsinspector: 34e23860273a23695342f58eed3ffd3ba10c31e0
   react-native-cameraroll: 88f4e62d9ecd0e1f253abe4f685474f2ea14bfa2
-  react-native-image-picker: 92f51a85a62c2d829dcbd0dda5af99e6f988a113
+  react-native-image-picker: 5fe0a96bef4935bbdfb02f59b910bf40d5526109
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
-  react-native-webview: 133a6a5149f963259646e710b4545c67ef35d7c9
+  react-native-webview: 162b6453d074e0b1c7025242bb7a939b6f72b9e7
   React-perflogger: cc76a4254d19640f1d8ad1c66fdee800414b805c
   React-RCTActionSheet: 7448f049318d8d7e8a9a1ebb742ada721757eea8
   React-RCTAnimation: fb9b3fa1a4a9f5e6ab01b3368693ce69860ba76a
@@ -679,15 +679,15 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 493d9abb8b23c3f84e19ae221eeba92cadcb70dc
   ReactCommon: 8fea6422328e2fc093e25c9fac67adbcf0f04fb4
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNCAsyncStorage: e8b8d6320a0dd90eb610fb0d0b1ef90596697c69
+  RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
+  RNDeviceInfo: 0400a6d0c94186d1120c3cbd97b23abc022187a9
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNReanimated: 241c586663f44f19a53883c63375fdd041253960
-  RNSentry: 49abc89b0190b4c8afe0fa5d065f98e36cb53233
+  RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
+  RNSentry: 0aa1567f66c20390f3834637fc4f73380dcd0774
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
-  Sentry: 9a4e621430e2dae4477d791f2f7e905720b6efbf
+  Sentry: 2f7e91f247cfb05b05bd01e0b5d0692557a7687b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
