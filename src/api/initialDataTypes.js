@@ -504,6 +504,7 @@ export type InitialDataUserStatus = $ReadOnly<{|
    * Older servers (through at least 1.9.1) don't send this.
    * A missing value is equivalent to empty.
    */
+  // TODO(server-1.9.1): Make required.
   user_status?: UserStatusMapObject,
 |}>;
 
