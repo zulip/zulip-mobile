@@ -514,7 +514,6 @@ export const showMessageActionSheet = ({
   |},
   backgroundData: $ReadOnly<{
     auth: Auth,
-    subscriptions: Map<number, Subscription>,
     ownUser: User,
     flags: FlagsState,
     ...
@@ -556,7 +555,6 @@ export const showTopicActionSheet = ({
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
-    flags: FlagsState,
     ...
   }>,
   streamId: number,
