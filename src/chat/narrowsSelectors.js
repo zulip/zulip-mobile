@@ -99,6 +99,7 @@ const showStreamInHomeNarrow = (
   streamName: string,
   subscriptions: $ReadOnlyArray<Subscription>,
 ): boolean => {
+  // TODO(#3918): Use the stream ID.
   const sub = subscriptions.find(x => x.name === streamName);
   if (!sub) {
     // If there's no matching subscription, then the user must have

@@ -369,7 +369,7 @@ export type NarrowElement =
  //  * `group-pm-with` since 2.1-dev-1813-gb338fd130
  //  * `sender` since 2.1-dev-1812-gc067c155a
  //  * `pm-with` since 2.1-dev-1350-gd7b4de234
- // TODO(server-2.1): Stop sending stream names or user emails here.
+ // TODO(server-2.1): Stop sending stream names (#3918) or user emails (#3764) here.
  | {| +operator: 'stream', +operand: string | number |} // stream ID
  | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<UserId> |}
  | {| +operator: 'sender', +operand: string | UserId |}

@@ -72,9 +72,9 @@ const trySendMessages = (dispatch, getState): boolean => {
       // prettier-ignore
       const to =
         item.type === 'private'
-            // TODO(server-2.0): switch to numeric user IDs, not emails.
+            // TODO(server-2.0): switch to numeric user IDs (#3764), not emails.
           ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
-            // TODO(server-2.0): switch to numeric stream IDs, not names.
+            // TODO(server-2.0): switch to numeric stream IDs (#3918), not names.
             // HACK: the server attempts to interpret this argument as JSON, then
             //   CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([streamNameOfStreamMessage(item)]);

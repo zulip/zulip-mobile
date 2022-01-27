@@ -23,7 +23,7 @@ import { IconAttachment, IconCancel } from '../common/Icons';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
-  // TODO(#3918): Drop streamName.  Used below for sending, and for narrow.
+  // TODO(#3918): Drop streamName.  Used below for sending.
   | {| type: 'stream', streamName: string, streamId: number, topic: string |};
 
 const styles = createStyleSheet({
@@ -174,7 +174,8 @@ class ShareWrapperInner extends React.Component<Props, State> {
             content: messageToSend,
             type: 'stream',
             subject: sendTo.topic || apiConstants.NO_TOPIC_TOPIC,
-            // TODO(server-2.0): switch to numeric stream ID, not name
+            // TODO(server-2.0): switch to numeric stream ID, not name;
+            //   then drop streamName from SendTo
             to: sendTo.streamName,
           };
 

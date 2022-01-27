@@ -51,6 +51,8 @@ type Props = $ReadOnly<{|
   unreadCount?: number,
   iconSize: number,
   showSwitch?: boolean,
+  // TODO(#3918): Cut streamName from these callbacks; or at least bury it
+  //   so that only the use-sites that actually want it need to mention it.
   onPress: (streamId: number, streamName: string) => void,
   onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
