@@ -291,7 +291,6 @@ export const parseNarrow = (narrowStr: string): Narrow => {
       // The `/s` regexp flag means the `.` patterns match absolutely
       // anything.  By default they reject certain "newline" characters,
       // which in principle could appear in stream names or topics.
-      // eslint-disable-next-line no-control-regex
       const match = /^s:(.*?)\x00(.*)/s.exec(rest);
       if (!match) {
         throw makeError();

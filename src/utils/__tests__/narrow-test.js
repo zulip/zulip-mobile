@@ -348,7 +348,6 @@ describe('keyFromNarrow+parseNarrow', () => {
   // The only character not allowed in Zulip stream names is '\x00'.
   // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
   // Try approximately everything else.
-  /* eslint-disable no-control-regex */
   const diverseCharacters = eg.diverseCharacters.replace(/\x00/g, '');
   const htmlEntities = 'h & t &amp; &lquo;ml&quot;';
   const awkwardNarrows = [

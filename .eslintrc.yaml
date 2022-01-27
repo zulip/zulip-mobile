@@ -75,12 +75,13 @@ rules:
   # of Airbnb's settings where we don't want a full repeal.
   #
 
-  # Tricky code.
+  # Tricky-looking code.  These are all sometimes perfectly legitimate.
   no-bitwise: off
   no-confusing-arrow: off
   no-continue: off
   no-plusplus: off
   no-nested-ternary: off
+  no-control-regex: off
 
   # We prefer `let foo = undefined;` over `let foo;`, not vice versa.
   #
