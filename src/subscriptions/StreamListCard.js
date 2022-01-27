@@ -55,9 +55,7 @@ export default function StreamListCard(props: Props): Node {
   );
 
   const handleNarrow = useCallback(
-    (streamId: number, streamName: string) => {
-      dispatch(doNarrow(streamNarrow(streamId)));
-    },
+    (streamId: number) => dispatch(doNarrow(streamNarrow(streamId))),
     [dispatch],
   );
 

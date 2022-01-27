@@ -33,9 +33,7 @@ export default function SubscriptionsCard(props: Props): Node {
   const unreadByStream = useSelector(getUnreadByStream);
 
   const handleNarrow = useCallback(
-    (streamId: number, streamName: string) => {
-      dispatch(doNarrow(streamNarrow(streamId)));
-    },
+    (streamId: number) => dispatch(doNarrow(streamNarrow(streamId))),
     [dispatch],
   );
 
