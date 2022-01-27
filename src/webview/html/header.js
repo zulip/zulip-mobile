@@ -13,7 +13,11 @@ import {
 } from '../../utils/narrow';
 import { foregroundColorFromBackground } from '../../utils/color';
 import { humanDate } from '../../utils/date';
-import { pmUiRecipientsFromMessage, pmKeyRecipientsFromMessage } from '../../utils/recipient';
+import {
+  pmUiRecipientsFromMessage,
+  pmKeyRecipientsFromMessage,
+  streamNameOfStreamMessage,
+} from '../../utils/recipient';
 import { base64Utf8Encode } from '../../utils/encoding';
 
 const renderSubject = message =>
@@ -28,16 +32,14 @@ const renderSubject = message =>
  * This is a private helper of messageListElementHtml.
  */
 export default (
-  { ownUser, streams, subscriptions }: BackgroundData,
+  { ownUser, subscriptions }: BackgroundData,
   element: HeaderMessageListElement,
 ): string => {
   const { subsequentMessage: message, style: headerStyle } = element;
 
   if (message.type === 'stream') {
-    const stream = streams.get(message.stream_id);
-    invariant(stream, 'stream should exist for message');
-
-    const topicNarrowStr = keyFromNarrow(topicNarrow(stream.name, message.subject));
+    const streamName = streamNameOfStreamMessage(message);
+    const topicNarrowStr = keyFromNarrow(topicNarrow(streamName, message.subject));
     const topicHtml = renderSubject(message);
 
     if (headerStyle === 'topic+date') {
@@ -55,7 +57,7 @@ export default (
       const subscription = subscriptions.get(message.stream_id);
       const backgroundColor = subscription ? subscription.color : 'hsl(0, 0%, 80%)';
       const textColor = foregroundColorFromBackground(backgroundColor);
-      const streamNarrowStr = keyFromNarrow(streamNarrow(stream.name));
+      const streamNarrowStr = keyFromNarrow(streamNarrow(streamName));
 
       return template`
 <div class="msglist-element header-wrapper header stream-header topic-header"
@@ -65,7 +67,7 @@ export default (
        style="color: ${textColor};
               background: ${backgroundColor}"
        data-narrow="${base64Utf8Encode(streamNarrowStr)}">
-    # ${stream.name}
+    # ${streamName}
   </div>
   <div class="topic-text">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
