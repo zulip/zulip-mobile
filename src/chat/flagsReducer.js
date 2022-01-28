@@ -37,7 +37,9 @@ const addFlagsForMessages = (
     return state;
   }
 
-  // $FlowFixMe[incompatible-exact] - #4252
+  /* $FlowFixMe[incompatible-exact] - We should ignore flags from the server
+     that we don't already know about. After all, we can't have any code
+     intending to do anything with them. */
   const newState: FlagsState = {};
 
   flags.forEach(flag => {
@@ -65,6 +67,11 @@ const removeFlagForMessages = (
   });
   return {
     ...state,
+
+    // TODO: We should ignore flags from the server that we don't already
+    // know about. After all, we can't have any code intending to do
+    // anything with them. Flow should be complaining here:
+    //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20spread.20bug/near/1318081
     [flag]: newStateForFlag,
   };
 };
@@ -74,7 +81,9 @@ const processFlagsForMessages = (
   messages: $ReadOnlyArray<Message>,
 ): FlagsState => {
   let stateChanged = false;
-  // $FlowFixMe[incompatible-exact] - #4252
+  /* $FlowFixMe[incompatible-exact] - We should ignore flags from the server
+     that we don't already know about. After all, we can't have any code
+     intending to do anything with them. */
   const newState: FlagsState = {};
   messages.forEach(msg => {
     (msg.flags || []).forEach(flag => {
@@ -102,6 +111,10 @@ const eventUpdateMessageFlags = (state, action) => {
     }
 
     if (action.op === 'remove') {
+      // TODO: We should ignore flags from the server that we don't already
+      // know about. After all, we can't have any code intending to do
+      // anything with them. Flow should be complaining here:
+      //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20spread.20bug/near/1318081
       return { ...state, [action.flag]: {} };
     }
   }
