@@ -23,12 +23,18 @@ import {
   doNarrow,
 } from '../actions';
 import * as NavigationService from './NavigationService';
-import { getStreams } from '../selectors';
+import { getStreams, isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 
 function ExtraNavButtonStream(props): Node {
   const { color, narrow } = props;
   const streams = useSelector(getStreams);
+
+  const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
+  if (!isNarrowValid) {
+    return null;
+  }
+
   return (
     <NavButton
       name="list"
@@ -63,6 +69,12 @@ function ExtraNavButtonTopic(props): Node {
 function InfoNavButtonStream(props): Node {
   const { color, narrow } = props;
   const streams = useSelector(getStreams);
+
+  const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
+  if (!isNarrowValid) {
+    return null;
+  }
+
   return (
     <NavButton
       name="info"
