@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import type { Node } from 'react';
-import { TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, TextInput, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
@@ -54,6 +54,59 @@ type Props = $ReadOnly<{|
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
 |}>;
+
+/**
+ * Work around https://github.com/facebook/react-native/issues/19366.
+ *
+ * The bug: If the keyboard is dismissed only by pressing the built-in
+ *   Android back button, then the next time you call `.focus()` on the
+ *   input, the keyboard won't open again. On the other hand, if you call
+ *   `.blur()`, then the keyboard *will* open the next time you call
+ *   `.focus()`.
+ *
+ * This workaround: Call `.blur()` on the input whenever the keyboard is
+ *   closed, because it might have been closed by the built-in Android back
+ *   button. Then when we call `.focus()` the next time, it will open the
+ *   keyboard, as expected. (We only maintain that keyboard-closed listener
+ *   when this SmartUrlInput is on the screen that's focused in the
+ *   navigation.)
+ *
+ * Other workarounds that didn't work:
+ * - When it comes time to do a `.focus()`, do a sneaky `.blur()` first,
+ *   then do the `.focus()` 100ms later. It's janky. This was #2078,
+ *   probably inspired by
+ *     https://github.com/facebook/react-native/issues/19366#issuecomment-400603928.
+ * - Use RN's `BackHandler` to actually listen for the built-in Android back
+ *   button being used. That didn't work; the event handler wasn't firing
+ *   for either `backPress` or `hardwareBackPress` events. (We never
+ *   committed a version of this workaround.)
+ */
+function useRn19366Workaround(textInputRef) {
+  if (Platform.OS !== 'android') {
+    return;
+  }
+
+  // (Disabling `react-hooks/rules-of-hooks` here is fine; the relevant rule
+  // is not to call Hooks conditionally. But the platform conditional won't
+  // vary in its behavior between multiple renders.)
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useFocusEffect(
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    React.useCallback(() => {
+      const handleKeyboardDidHide = () => {
+        if (textInputRef.current) {
+          // `.current` is not type-checked; see definition.
+          textInputRef.current.blur();
+        }
+      };
+
+      Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+      return () => Keyboard.removeListener('keyboardDidHide', handleKeyboardDidHide);
+    }, [textInputRef]),
+  );
+}
 
 export default function SmartUrlInput(props: Props): Node {
   const {
@@ -113,18 +166,19 @@ export default function SmartUrlInput(props: Props): Node {
     [defaultDomain, defaultProtocol, onChangeText],
   );
 
+  // When the "placeholder parts" are pressed, i.e., the parts of the URL
+  //   line that aren't the TextInput itself, we still want to focus the
+  //   TextInput.
+  // TODO(?): Is it a confusing UX to have a line that looks and acts like
+  //   a text input, but parts of it aren't really?
   const urlPress = useCallback(() => {
     if (textInputRef.current) {
       // `.current` is not type-checked; see definition.
-      textInputRef.current.blur();
-      setTimeout(() => {
-        if (textInputRef.current) {
-          // `.current` is not type-checked; see definition.
-          textInputRef.current.focus();
-        }
-      }, 100);
+      textInputRef.current.focus();
     }
   }, []);
+
+  useRn19366Workaround(textInputRef);
 
   const renderPlaceholderPart = (text: string) => (
     <TouchableWithoutFeedback onPress={urlPress}>
