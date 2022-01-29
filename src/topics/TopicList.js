@@ -18,8 +18,7 @@ const styles = createStyleSheet({
 type Props = $ReadOnly<{|
   stream: Stream,
   topics: ?$ReadOnlyArray<TopicExtended>,
-  // TODO(#3918): Stop passing stream name to this callback.
-  onPress: (streamId: number, streamName: string, topic: string) => void,
+  onPress: (streamId: number, topic: string) => void,
 |}>;
 
 export default class TopicList extends PureComponent<Props> {

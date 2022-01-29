@@ -26,7 +26,7 @@ export default function TopicListScreen(props: Props): Node {
   const [filter, setFilter] = useState<string>('');
 
   const handlePress = useCallback(
-    (streamId: number, _ignored_streamName: string, topic: string) => {
+    (streamId: number, topic: string) => {
       dispatch(doNarrow(topicNarrow(streamId, topic)));
     },
     [dispatch],
