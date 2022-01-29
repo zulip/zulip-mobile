@@ -12,13 +12,7 @@ import type {
   Stream,
   Subscription,
 } from '../types';
-import {
-  getAllNarrows,
-  getSubscriptions,
-  getMessages,
-  getOutbox,
-  getFlags,
-} from '../directSelectors';
+import { getAllNarrows, getMessages, getOutbox, getFlags } from '../directSelectors';
 import { getCaughtUpForNarrow } from '../caughtup/caughtUpSelectors';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import {
@@ -30,7 +24,6 @@ import {
   streamIdOfNarrow,
 } from '../utils/narrow';
 import { getMute, isTopicMuted } from '../mute/muteModel';
-import { streamNameOfStreamMessage } from '../utils/recipient';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
 import { getStreamsById, getSubscriptionsById } from '../selectors';
@@ -96,11 +89,10 @@ export const getMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox>, Na
 
 /** Whether this stream's messages should appear in the "all messages" narrow. */
 const showStreamInHomeNarrow = (
-  streamName: string,
-  subscriptions: $ReadOnlyArray<Subscription>,
+  streamId: number,
+  subscriptions: Map<number, Subscription>,
 ): boolean => {
-  // TODO(#3918): Use the stream ID.
-  const sub = subscriptions.find(x => x.name === streamName);
+  const sub = subscriptions.get(streamId);
   if (!sub) {
     // If there's no matching subscription, then the user must have
     // unsubscribed from the stream since the message was received.  Leave
@@ -123,7 +115,7 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
   createSelector(
     (state, narrow) => narrow,
     getMessagesForNarrow,
-    state => getSubscriptions(state),
+    state => getSubscriptionsById(state),
     state => getMute(state),
     state => getFlags(state),
     (narrow, messagesForNarrow, subscriptions, mute, flags) =>
@@ -136,9 +128,8 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             if (flags.mentioned[message.id]) {
               return true;
             }
-            const streamName = streamNameOfStreamMessage(message);
             return (
-              showStreamInHomeNarrow(streamName, subscriptions)
+              showStreamInHomeNarrow(message.stream_id, subscriptions)
               && !isTopicMuted(message.stream_id, message.subject, mute)
             );
           }),
