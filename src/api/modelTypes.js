@@ -304,20 +304,20 @@ export type MutedUser = $ReadOnly<{|
 //
 //
 
-export type Stream = $ReadOnly<{|
-  stream_id: number,
-  description: string,
-  name: string,
-  invite_only: boolean,
-  is_announcement_only: boolean,
+export type Stream = {|
+  +stream_id: number,
+  +description: string,
+  +name: string,
+  +invite_only: boolean,
+  +is_announcement_only: boolean,
   // TODO(server-2.1): is_web_public was added in Zulip version 2.1;
   //   absence implies the stream is not web-public.
-  is_web_public?: boolean,
-  history_public_to_subscribers: boolean,
-|}>;
+  +is_web_public?: boolean,
+  +history_public_to_subscribers: boolean,
+|};
 
 export type Subscription = {|
-  ...$ReadOnly<$Exact<Stream>>,
+  ...Stream,
   +color: string,
   +in_home_view: boolean,
   +pin_to_top: boolean,
