@@ -12,7 +12,7 @@ export type ThemeData = {|
 |};
 
 export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
-  night: {
+  dark: {
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
     cardColor: 'hsl(212, 31%, 21%)',

@@ -23,10 +23,10 @@ const styles = createStyleSheet({
     borderRadius: 22,
     overflow: 'hidden',
   },
-  nightFrame: {
+  darkFrame: {
     backgroundColor: 'black',
   },
-  dayFrame: {
+  lightFrame: {
     backgroundColor: 'white',
     borderWidth: 1.5,
     borderColor: 'black',
@@ -34,10 +34,10 @@ const styles = createStyleSheet({
   text: {
     fontSize: 16,
   },
-  nightText: {
+  darkText: {
     color: 'white',
   },
-  dayText: {
+  lightText: {
     color: 'black',
   },
 });
@@ -61,10 +61,10 @@ export default class Custom extends PureComponent<Props> {
     const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
     const frameStyle = [
       styles.frame,
-      theme === 'default' ? styles.dayFrame : styles.nightFrame,
+      theme === 'default' ? styles.lightFrame : styles.darkFrame,
       style,
     ];
-    const textStyle = [styles.text, theme === 'default' ? styles.dayText : styles.nightText];
+    const textStyle = [styles.text, theme === 'default' ? styles.lightText : styles.darkText];
 
     return (
       <View style={frameStyle}>

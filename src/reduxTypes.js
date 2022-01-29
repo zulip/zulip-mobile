@@ -296,7 +296,7 @@ export type RealmState = $ReadOnly<{|
 // TODO: Stop using the 'default' name. Any 'default' semantics should
 // only apply the device level, not within the app. See
 // https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
-export type ThemeName = 'default' | 'night';
+export type ThemeName = 'default' | 'dark';
 
 /** What browser the user has set to use for opening links in messages.
  *

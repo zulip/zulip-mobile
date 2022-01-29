@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import type { ThemeName } from '../../types';
 import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
-import cssNight from './cssNight';
+import cssDark from './cssDark';
 
 /**
  * Fix KaTeX frac-line elements disappearing.
@@ -26,8 +26,8 @@ export default (theme: ThemeName): string => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>
-${theme === 'night' ? cssNight : ''}
-${cssPygments(theme === 'night')}
+${theme === 'dark' ? cssDark : ''}
+${cssPygments(theme === 'dark')}
 ${cssEmojis}
 </style>
 <style id="style-hide-js-error-plain">
