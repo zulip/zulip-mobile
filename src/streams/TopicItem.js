@@ -32,8 +32,6 @@ const componentStyles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   streamId: number,
-  // TODO(#3918): Stop taking a stream name here.
-  streamName: string,
   name: string,
   isMuted?: boolean,
   isSelected?: boolean,
