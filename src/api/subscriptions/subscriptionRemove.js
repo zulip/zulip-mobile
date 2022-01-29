@@ -6,6 +6,7 @@ import { apiDelete } from '../apiFetch';
 export default (
   auth: Auth,
   subscriptions: $ReadOnlyArray<string>,
+  // TODO(server-3.0): Send numeric user IDs (#3764), not emails.
   principals?: $ReadOnlyArray<string>,
 ): Promise<ApiResponse> =>
   apiDelete(auth, 'users/me/subscriptions', {

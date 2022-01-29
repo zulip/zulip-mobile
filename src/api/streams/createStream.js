@@ -7,6 +7,7 @@ export default (
   auth: Auth,
   name: string,
   description?: string = '',
+  // TODO(server-3.0): Send numeric user IDs (#3764), not emails.
   principals?: $ReadOnlyArray<string> = [],
   inviteOnly?: boolean = false,
   announce?: boolean = false,

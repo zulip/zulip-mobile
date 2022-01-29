@@ -10,6 +10,7 @@ type SubscriptionObj = {|
 export default (
   auth: Auth,
   subscriptions: $ReadOnlyArray<SubscriptionObj>,
+  // TODO(server-3.0): Send numeric user IDs (#3764), not emails.
   principals?: $ReadOnlyArray<string>,
 ): Promise<ApiResponse> =>
   apiPost(auth, 'users/me/subscriptions', {
