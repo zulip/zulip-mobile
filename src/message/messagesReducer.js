@@ -184,7 +184,7 @@ export default (
           last_edit_timestamp: action.edit_timestamp ?? oldMessage.last_edit_timestamp,
         };
 
-        return messageWithNewCommonFields.type === 'stream'
+        return messageWithNewCommonFields.type === ('stream': 'stream')
           ? {
               ...messageWithNewCommonFields,
               subject: action.subject ?? messageWithNewCommonFields.subject,
