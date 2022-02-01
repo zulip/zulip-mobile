@@ -148,6 +148,8 @@ describe('extract iOS notification data', () => {
   const make = (data: JSONableDict) => () => extractIosNotificationData({ zulip: data });
 
   describe('failure', () => {
+    const sender_email = 'nobody@example.com';
+
     test('completely malformed or inappropriate messages', () => {
       expect(makeRaw({})).toThrow();
       expect(makeRaw({ message_ids: [1] })).toThrow();
@@ -155,7 +157,6 @@ describe('extract iOS notification data', () => {
     });
 
     test('unsupported old-style messages', () => {
-      const sender_email = 'nobody@example.com';
       // pre-1.8
       expect(make({ sender_email })).toThrow(/archaic/);
       // pre-1.9
@@ -166,12 +167,25 @@ describe('extract iOS notification data', () => {
 
     test('broken or partial messages', () => {
       expect(make({ realm_uri, recipient_type: 'huddle' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'stream' })).toThrow(/invalid/);
+
+      expect(
+        make({ realm_uri, recipient_type: 'stream', stream: 'stream name', topic: 'topic' })(),
+      ).toBeTruthy();
       expect(make({ realm_uri, recipient_type: 'stream', stream: 'stream name' })).toThrow(
         /invalid/,
       );
       expect(make({ realm_uri, recipient_type: 'stream', subject: 'topic' })).toThrow(/invalid/);
+      expect(make({ realm_uri, recipient_type: 'stream' })).toThrow(/invalid/);
+
+      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
+      expect(make({ realm_uri, recipient_type: 'private' })).toThrow(/invalid/);
       expect(make({ realm_uri, recipient_type: 'private', subject: 'topic' })).toThrow(/invalid/);
+
+      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,345' })()).toBeTruthy();
+      expect(make({ realm_uri, recipient_type: 'private', pm_users: 123 })).toThrow(/invalid/);
+      expect(make({ realm_uri, recipient_type: 'private', pm_users: [1, 23] })).toThrow(/invalid/);
+      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,ab' })).toThrow(/invalid/);
+      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,' })).toThrow(/invalid/);
     });
 
     test('values of incorrect type', () => {
