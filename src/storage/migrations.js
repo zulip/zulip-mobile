@@ -375,6 +375,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     ),
   }),
 
+  // Change `state.mute` data structure: was an array with stream names.
+  '40': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
 };
 

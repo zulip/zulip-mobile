@@ -126,10 +126,13 @@ export default (globalState: void | GlobalState, origAction: Action): GlobalStat
     /* $FlowFixMe[incompatible-type]: TODO teach Flow that
            isPerAccountApplicableAction checks this */
     const action: PerAccountApplicableAction = origAction;
-    const state = dubPerAccountState(nextPerAccountState);
+    let state = dubPerAccountState(nextPerAccountState);
 
     // prettier-ignore
-    nextPerAccountState = {
+    state = {
+      /* $FlowFixMe[not-an-object]: TODO(#5006) this fixme should go away
+           when PerAccountState is no longer opaque */
+      ...state,
       alertWords: applyReducer('alertWords', alertWords, state.alertWords, action, state),
       caughtUp: applyReducer('caughtUp', caughtUp, state.caughtUp, action, state),
       drafts: applyReducer('drafts', drafts, state.drafts, action, state),
@@ -137,7 +140,7 @@ export default (globalState: void | GlobalState, origAction: Action): GlobalStat
       flags: applyReducer('flags', flags, state.flags, action, state),
       messages: applyReducer('messages', messages, state.messages, action, state),
       narrows: applyReducer('narrows', narrows, state.narrows, action, state),
-      mute: applyReducer('mute', mute, state.mute, action, state),
+      // mute is below
       mutedUsers: applyReducer('mutedUsers', mutedUsers, state.mutedUsers, action, state),
       outbox: applyReducer('outbox', outbox, state.outbox, action, state),
       pmConversations: applyReducer('pmConversations', pmConversations, state.pmConversations, action, state),
@@ -152,6 +155,11 @@ export default (globalState: void | GlobalState, origAction: Action): GlobalStat
       userStatus: applyReducer('userStatus', userStatus, state.userStatus, action, state),
       users: applyReducer('users', users, state.users, action, state),
     };
+
+    // mute must come after streams, for REGISTER_COMPLETE events
+    state.mute = applyReducer('mute', mute, state.mute, action, state);
+
+    nextPerAccountState = state;
   }
 
   const state = globalState;
