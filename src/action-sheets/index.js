@@ -344,13 +344,12 @@ export const constructStreamActionButtons = ({
 };
 
 export const constructTopicActionButtons = ({
-  backgroundData: { mute, ownUser, streams, subscriptions, unread },
+  backgroundData: { mute, ownUser, subscriptions, unread },
   streamId,
   topic,
 }: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
-    streams: Map<number, Stream>,
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
@@ -367,9 +366,7 @@ export const constructTopicActionButtons = ({
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
   }
-  const stream = streams.get(streamId);
-  invariant(stream !== undefined, 'Stream with provided streamId not found.');
-  if (isTopicMuted(stream.stream_id, stream.name, topic, mute)) {
+  if (isTopicMuted(streamId, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);

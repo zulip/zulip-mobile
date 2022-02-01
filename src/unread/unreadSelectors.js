@@ -21,19 +21,13 @@ import {
 /** The number of unreads in each stream, excluding muted topics, by stream ID. */
 export const getUnreadByStream: Selector<{| [number]: number |}> = createSelector(
   getUnreadStreams,
-  getSubscriptionsById,
   getMute,
-  (unreadStreams, subscriptionsById, mute) => {
+  (unreadStreams, mute) => {
     const totals = ({}: {| [number]: number |});
     for (const [streamId, streamData] of unreadStreams.entries()) {
       let total = 0;
       for (const [topic, msgIds] of streamData) {
-        const isMuted = isTopicMuted(
-          streamId,
-          (subscriptionsById.get(streamId) || NULL_SUBSCRIPTION).name,
-          topic,
-          mute,
-        );
+        const isMuted = isTopicMuted(streamId, topic, mute);
         total += isMuted ? 0 : msgIds.size;
       }
       totals[streamId] = total;
@@ -155,7 +149,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       totals.set(streamId, total);
 
       for (const [topic, msgIds] of streamData) {
-        const isMuted = isTopicMuted(streamId, name, topic, mute);
+        const isMuted = isTopicMuted(streamId, topic, mute);
         if (!isMuted) {
           total.unread += msgIds.size;
         }
@@ -231,22 +225,13 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
     caseNarrow(narrow, {
       home: () => unreadTotal,
 
-      stream: streamId => {
-        const stream = streams.get(streamId);
-        if (!stream) {
-          return 0;
-        }
-        // prettier-ignore
-        return (
-          unread.streams
-            .get(stream.stream_id)
-            ?.entrySeq()
-            .filterNot(([topic, _]) => isTopicMuted(stream.stream_id, stream.name, topic, mute))
-            .map(([_, msgIds]) => msgIds.size)
-            .reduce((s, x) => s + x, 0)
-            ?? 0
-        );
-      },
+      stream: streamId =>
+        unread.streams
+          .get(streamId)
+          ?.entrySeq()
+          .filterNot(([topic, _]) => isTopicMuted(streamId, topic, mute))
+          .map(([_, msgIds]) => msgIds.size)
+          .reduce((s, x) => s + x, 0) ?? 0,
 
       topic: (streamId, topic) => getUnreadCountForTopic(unread, streamId, topic),
 

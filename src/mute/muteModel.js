@@ -17,12 +17,8 @@ export const getMute = (state: PerAccountState): MuteState => state.mute;
 // Getters.
 //
 
-export const isTopicMuted = (
-  streamId: number,
-  streamName: string,
-  topic: string,
-  mute: MuteState,
-): boolean => mute.get(streamId)?.has(topic) ?? false;
+export const isTopicMuted = (streamId: number, topic: string, mute: MuteState): boolean =>
+  mute.get(streamId)?.has(topic) ?? false;
 
 //
 //

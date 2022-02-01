@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import type { Narrow, Selector, TopicExtended, TopicsState } from '../types';
 import { getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
-import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
 import { getMute, isTopicMuted } from '../mute/muteModel';
@@ -26,18 +25,18 @@ export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = crea
 );
 
 export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number> = createSelector(
+  (state, streamId) => streamId,
   (state, streamId) => getTopics(state)[streamId],
   state => getMute(state),
-  (state, streamId) => getStreamsById(state).get(streamId),
   state => getUnread(state),
-  (topicList, mute, stream, unread) => {
-    if (!topicList || !stream) {
+  (streamId, topicList, mute, unread) => {
+    if (!topicList) {
       return undefined;
     }
 
     return topicList.map(({ name, max_id }) => {
-      const isMuted = isTopicMuted(stream.stream_id, stream.name, name, mute);
-      const unreadCount = getUnreadCountForTopic(unread, stream.stream_id, name);
+      const isMuted = isTopicMuted(streamId, name, mute);
+      const unreadCount = getUnreadCountForTopic(unread, streamId, name);
       return { name, max_id, isMuted, unreadCount };
     });
   },

@@ -138,7 +138,7 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             const streamName = streamNameOfStreamMessage(message);
             return (
               showStreamInHomeNarrow(streamName, subscriptions)
-              && !isTopicMuted(message.stream_id, streamName, message.subject, mute)
+              && !isTopicMuted(message.stream_id, message.subject, mute)
             );
           }),
 
@@ -150,8 +150,7 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             if (flags.mentioned[message.id]) {
               return true;
             }
-            const streamName = streamNameOfStreamMessage(message);
-            return !isTopicMuted(message.stream_id, streamName, message.subject, mute);
+            return !isTopicMuted(message.stream_id, message.subject, mute);
           }),
 
         // In the starred-message view, ignore stream/topic mutes.
