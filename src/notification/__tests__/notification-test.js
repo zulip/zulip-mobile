@@ -196,12 +196,7 @@ describe('extract iOS notification data', () => {
         /invalid/,
       );
       expect(
-        make({
-          realm_uri,
-          recipient_type: 'stream',
-          stream: { name: 'somewhere' },
-          topic: 'no',
-        }),
+        make({ realm_uri, recipient_type: 'stream', stream: { name: 'somewhere' }, topic: 'no' }),
       ).toThrow(/invalid/);
     });
 
