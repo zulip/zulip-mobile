@@ -334,11 +334,12 @@ export type Topic = $ReadOnly<{|
  *
  * Found in the initial data, and in `muted_topics` events.
  *
- * The elements are the stream name, then topic.
+ * The elements are the stream name, then topic, then possibly timestamp.
  */
 // Server issue for using stream IDs (#3918) for muted topics, not names:
 //   https://github.com/zulip/zulip/issues/21015
-export type MutedTopicTuple = [string, string];
+// TODO(server-3.0): Simplify away the no-timestamp version, new in FL 1.
+export type MutedTopicTuple = [string, string] | [string, string, number];
 
 //
 //
