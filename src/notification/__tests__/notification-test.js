@@ -94,47 +94,45 @@ describe('getNarrowFromNotificationData', () => {
 });
 
 describe('extract iOS notification data', () => {
-  const barebones = deepFreeze({
+  const identity = { realm_uri, user_id };
+  const cases = deepFreeze({
     // TODO(server-5.0): this will become an error case
     'stream, no ID': {
       recipient_type: 'stream',
       stream: 'announce',
       topic: 'New channel',
-      realm_uri,
+      ...identity,
     },
     stream: {
       recipient_type: 'stream',
       stream_id: 234,
       stream: 'announce',
       topic: 'New channel',
-      realm_uri,
+      ...identity,
     },
-    '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com', realm_uri },
-    'group PM': { recipient_type: 'private', pm_users: '54,321', realm_uri },
+    '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com', ...identity },
+    'group PM': { recipient_type: 'private', pm_users: '54,321', ...identity },
   });
 
   describe('success', () => {
     /** Helper function: test data immediately. */
     const verify = (data: JSONableDict) => extractIosNotificationData({ zulip: data });
 
-    for (const [type, data] of objectEntries(barebones)) {
+    for (const [type, data] of objectEntries(cases)) {
       test(`${type} notification`, () => {
         const expected = (() => {
           const { stream: stream_name = undefined, ...rest } = data;
           return stream_name !== undefined ? { ...rest, stream_name } : data;
         })();
 
-        // barebones 1.9.0-style message is accepted
+        // baseline message is accepted
         const msg = data;
         expect(verify(msg)).toEqual(expected);
 
-        // new(-ish) optional user_id is accepted and copied
-        // TODO: Rewrite so modern-style payloads are the baseline, e.g.,
-        //   with a `modern` variable instead of `barebones`. Write
-        //   individual tests for supporting older-style payloads, and mark
-        //   those for future deletion, like with `TODO(1.9.0)`.
-        const msg1 = { ...msg, user_id };
-        expect(verify(msg1)).toEqual({ ...expected, user_id });
+        // pre-2.1 message missing user_id is accepted
+        const { user_id: _ignore, ...msg1 } = msg; // eslint-disable-line no-unused-vars
+        const { user_id: _ignore_, ...expected1 } = expected; // eslint-disable-line no-unused-vars
+        expect(verify(msg1)).toEqual(expected1);
 
         // unused fields are not copied
         const msg2 = { ...msg, realm_id: 8675309 };
@@ -197,12 +195,12 @@ describe('extract iOS notification data', () => {
     });
 
     test('optional data is typechecked', () => {
-      expect(make({ ...barebones.stream, realm_uri: null })).toThrow(/invalid/);
-      expect(make({ ...barebones.stream, stream_id: '234' })).toThrow(/invalid/);
-      expect(make({ ...barebones['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
+      expect(make({ ...cases.stream, realm_uri: null })).toThrow(/invalid/);
+      expect(make({ ...cases.stream, stream_id: '234' })).toThrow(/invalid/);
+      expect(make({ ...cases['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
         /invalid/,
       );
-      expect(make({ ...barebones.stream, user_id: 'abc' })).toThrow(/invalid/);
+      expect(make({ ...cases.stream, user_id: 'abc' })).toThrow(/invalid/);
     });
 
     test('hypothetical future: different event types', () => {
