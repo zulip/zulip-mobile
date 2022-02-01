@@ -29,6 +29,7 @@ describe('getNarrowFromNotificationData', () => {
     const streamsByName = new Map([[stream.name, stream]]);
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'stream',
       stream_id: eg.stream.stream_id,
       // Name points to some other stream, but the ID prevails.
@@ -45,6 +46,7 @@ describe('getNarrowFromNotificationData', () => {
     const streamsByName = new Map([[stream.name, stream]]);
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'stream',
       stream_name: 'some stream',
       topic: 'some topic',
@@ -58,6 +60,7 @@ describe('getNarrowFromNotificationData', () => {
     const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'private',
       sender_email: eg.otherUser.email,
     };
@@ -76,6 +79,7 @@ describe('getNarrowFromNotificationData', () => {
 
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'private',
       pm_users: users.map(u => u.user_id).join(','),
     };
