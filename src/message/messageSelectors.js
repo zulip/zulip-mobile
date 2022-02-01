@@ -3,13 +3,7 @@ import { createSelector, defaultMemoize } from 'reselect';
 import invariant from 'invariant';
 
 import type { Message, PmMessage, Outbox, Narrow, Selector, MessageListElement } from '../types';
-import {
-  getAllNarrows,
-  getFlags,
-  getMessages,
-  getMute,
-  getSubscriptions,
-} from '../directSelectors';
+import { getAllNarrows, getFlags, getMessages } from '../directSelectors';
 import * as logging from '../utils/logging';
 import { getShownMessagesForNarrow } from '../chat/narrowsSelectors';
 import getMessageListElements from './getMessageListElements';
@@ -79,9 +73,7 @@ export const getMessageListElementsMemoized: (
 export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createSelector(
   (state, narrow) => getShownMessagesForNarrow(state, narrow),
   getFlags,
-  getSubscriptions,
-  getMute,
-  (messages, flags, subscriptions, mute) => {
+  (messages, flags) => {
     const firstUnread = messages.find(msg => !flags.read[msg.id]);
     return firstUnread?.id ?? null;
   },
