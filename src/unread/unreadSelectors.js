@@ -29,6 +29,7 @@ export const getUnreadByStream: Selector<{| [number]: number |}> = createSelecto
       let total = 0;
       for (const [topic, msgIds] of streamData) {
         const isMuted = isTopicMuted(
+          streamId,
           (subscriptionsById.get(streamId) || NULL_SUBSCRIPTION).name,
           topic,
           mute,
@@ -154,7 +155,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       totals.set(streamId, total);
 
       for (const [topic, msgIds] of streamData) {
-        const isMuted = isTopicMuted(name, topic, mute);
+        const isMuted = isTopicMuted(streamId, name, topic, mute);
         if (!isMuted) {
           total.unread += msgIds.size;
         }
@@ -240,7 +241,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
           unread.streams
             .get(stream.stream_id)
             ?.entrySeq()
-            .filterNot(([topic, _]) => isTopicMuted(stream.name, topic, mute))
+            .filterNot(([topic, _]) => isTopicMuted(stream.stream_id, stream.name, topic, mute))
             .map(([_, msgIds]) => msgIds.size)
             .reduce((s, x) => s + x, 0)
             ?? 0

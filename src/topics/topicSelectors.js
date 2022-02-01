@@ -36,7 +36,7 @@ export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number
     }
 
     return topicList.map(({ name, max_id }) => {
-      const isMuted = isTopicMuted(stream.name, name, mute);
+      const isMuted = isTopicMuted(stream.stream_id, stream.name, name, mute);
       const unreadCount = getUnreadCountForTopic(unread, stream.stream_id, name);
       return { name, max_id, isMuted, unreadCount };
     });

@@ -369,7 +369,7 @@ export const constructTopicActionButtons = ({
   }
   const stream = streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId not found.');
-  if (isTopicMuted(stream.name, topic, mute)) {
+  if (isTopicMuted(stream.stream_id, stream.name, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);
