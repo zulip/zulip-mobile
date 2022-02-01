@@ -11,14 +11,8 @@ import { showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
-import {
-  getAuth,
-  getMute,
-  getFlags,
-  getSubscriptionsById,
-  getStreamsById,
-  getOwnUser,
-} from '../selectors';
+import { getAuth, getFlags, getSubscriptionsById, getStreamsById, getOwnUser } from '../selectors';
+import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 
 const componentStyles = createStyleSheet({

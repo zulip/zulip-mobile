@@ -18,7 +18,7 @@ import fetching from '../chat/fetchingReducer';
 import flags from '../chat/flagsReducer';
 import narrows from '../chat/narrowsReducer';
 import messages from '../message/messagesReducer';
-import mute from '../mute/muteReducer';
+import { reducer as mute } from '../mute/muteModel';
 import mutedUsers from '../mute/mutedUsersReducer';
 import outbox from '../outbox/outboxReducer';
 import { reducer as pmConversations } from '../pm-conversations/pmConversationsModel';

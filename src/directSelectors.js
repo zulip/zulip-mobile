@@ -12,7 +12,6 @@ import type {
   FetchingState,
   FlagsState,
   MessagesState,
-  MuteState,
   MutedUsersState,
   NarrowsState,
   TopicsState,
@@ -47,8 +46,6 @@ export const getDrafts = (state: PerAccountState): DraftsState => state.drafts;
 export const getLoading = (state: PerAccountState): boolean => state.session.loading;
 
 export const getMessages = (state: PerAccountState): MessagesState => state.messages;
-
-export const getMute = (state: PerAccountState): MuteState => state.mute;
 
 export const getMutedUsers = (state: PerAccountState): MutedUsersState => state.mutedUsers;
 

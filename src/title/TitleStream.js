@@ -14,7 +14,6 @@ import StreamIcon from '../streams/StreamIcon';
 import { isTopicNarrow, topicOfNarrow } from '../utils/narrow';
 import {
   getAuth,
-  getMute,
   getFlags,
   getSubscriptionsById,
   getStreamsById,
@@ -22,6 +21,7 @@ import {
   getStreamInNarrow,
   getSettings,
 } from '../selectors';
+import { getMute } from '../mute/muteModel';
 import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';

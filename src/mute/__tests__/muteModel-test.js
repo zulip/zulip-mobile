@@ -1,30 +1,30 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import muteReducer from '../muteReducer';
+import { reducer } from '../muteModel';
 import { EVENT_MUTED_TOPICS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 
 const initialState = deepFreeze([]);
 
-describe('muteReducer', () => {
+describe('reducer', () => {
   describe('REGISTER_COMPLETE', () => {
     test('when `mute` data is provided init state with it', () => {
       const action = eg.mkActionRegisterComplete({ muted_topics: [['stream', 'topic']] });
-      expect(muteReducer(initialState, action)).toEqual([['stream', 'topic']]);
+      expect(reducer(initialState, action)).toEqual([['stream', 'topic']]);
     });
 
     test('when no `mute` data is given reset state', () => {
       const state = deepFreeze([['stream', 'topic']]);
       const action = eg.mkActionRegisterComplete({ muted_topics: [] });
-      expect(muteReducer(state, action)).toEqual(initialState);
+      expect(reducer(state, action)).toEqual(initialState);
     });
   });
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const state = deepFreeze([['stream', 'some_topic']]);
-      expect(muteReducer(state, eg.action.account_switch)).toEqual(initialState);
+      expect(reducer(state, eg.action.account_switch)).toEqual(initialState);
     });
   });
 
@@ -35,7 +35,7 @@ describe('muteReducer', () => {
         id: -1,
         muted_topics: [['stream', 'topic']],
       });
-      expect(muteReducer(initialState, action)).toEqual([['stream', 'topic']]);
+      expect(reducer(initialState, action)).toEqual([['stream', 'topic']]);
     });
   });
 });

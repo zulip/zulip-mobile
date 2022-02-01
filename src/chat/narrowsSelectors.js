@@ -16,7 +16,6 @@ import {
   getAllNarrows,
   getSubscriptions,
   getMessages,
-  getMute,
   getOutbox,
   getFlags,
 } from '../directSelectors';
@@ -30,7 +29,7 @@ import {
   caseNarrow,
   streamIdOfNarrow,
 } from '../utils/narrow';
-import { isTopicMuted } from '../mute/muteModel';
+import { getMute, isTopicMuted } from '../mute/muteModel';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';

@@ -2,12 +2,12 @@
 import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, TopicExtended, TopicsState } from '../types';
-import { getMute, getTopics } from '../directSelectors';
+import { getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
-import { isTopicMuted } from '../mute/muteModel';
+import { getMute, isTopicMuted } from '../mute/muteModel';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
   (state, narrow) => narrow,

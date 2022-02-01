@@ -39,7 +39,6 @@ import {
   getFlags,
   getFetchingForNarrow,
   getAllUsersById,
-  getMute,
   getMutedUsers,
   getOwnUser,
   getSettings,
@@ -48,6 +47,7 @@ import {
   getStreamsById,
   getRealm,
 } from '../selectors';
+import { getMute } from '../mute/muteModel';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getMessageListElementsMemoized } from '../message/messageSelectors';

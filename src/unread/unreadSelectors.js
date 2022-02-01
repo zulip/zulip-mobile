@@ -3,10 +3,9 @@ import { createSelector } from 'reselect';
 
 import type { Narrow, Selector, UnreadStreamItem } from '../types';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
-import { getMute } from '../directSelectors';
+import { getMute, isTopicMuted } from '../mute/muteModel';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById, getStreamsById } from '../subscriptions/subscriptionSelectors';
-import { isTopicMuted } from '../mute/muteModel';
 import { caseNarrow } from '../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 import {
