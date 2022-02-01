@@ -43,12 +43,6 @@ export const getAccountFromNotificationData = (
   accounts: $ReadOnlyArray<Account>,
 ): Identity | null => {
   const { realm_uri, user_id } = data;
-  if (realm_uri == null) {
-    // Old server, no realm info included.  This field appeared in
-    // Zulip 1.8, so we don't support these servers anyway.
-    logging.warn('notification missing field: realm_uri');
-    return null;
-  }
 
   const realmUrl = tryParseUrl(realm_uri);
   if (realmUrl === undefined) {
