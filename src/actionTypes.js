@@ -70,7 +70,7 @@ import type {
   SubmessageEvent,
   RestartEvent,
 } from './api/eventTypes';
-import type { MutedTopicTuple } from './api/apiTypes';
+import type { MutedTopicTuple, PresenceSnapshot } from './api/apiTypes';
 
 import type {
   Orientation,
@@ -87,7 +87,6 @@ import type {
   RealmFilter,
   Subscription,
   Topic,
-  PresenceState,
   RealmEmojiById,
   GlobalSettingsState,
   CaughtUpState,
@@ -585,7 +584,7 @@ type DraftUpdateAction = $ReadOnly<{|
 
 type PresenceResponseAction = $ReadOnly<{|
   type: typeof PRESENCE_RESPONSE,
-  presence: PresenceState,
+  presence: PresenceSnapshot,
   serverTimestamp: number,
 |}>;
 
