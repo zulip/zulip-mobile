@@ -91,7 +91,6 @@ import type {
   RealmEmojiById,
   GlobalSettingsState,
   CaughtUpState,
-  AlertWordsState,
   UserId,
   UserStatusEvent,
 } from './types';
@@ -257,9 +256,10 @@ type ServerEvent = $ReadOnly<{|
   id: number,
 |}>;
 
+/** https://zulip.com/api/get-events#alert_words */
 type EventAlertWordsAction = $ReadOnly<{|
   type: typeof EVENT_ALERT_WORDS,
-  alert_words: AlertWordsState,
+  alert_words: $ReadOnlyArray<string>,
 |}>;
 
 type EventRealmFiltersAction = $ReadOnly<{|
