@@ -4,6 +4,7 @@ import type {
   CrossRealmBot,
   MutedTopicTuple,
   MutedUser,
+  PresenceSnapshot,
   RealmEmojiById,
   RealmFilter,
   RealmLinkifier,
@@ -13,7 +14,6 @@ import type {
   User,
   UserGroup,
   UserId,
-  UserPresence,
   UserStatusMapObject,
 } from './apiTypes';
 
@@ -77,7 +77,7 @@ export type InitialDataMutedUsers = $ReadOnly<{|
 |}>;
 
 export type InitialDataPresence = $ReadOnly<{|
-  presences: {| +[email: string]: UserPresence |},
+  presences: PresenceSnapshot,
 |}>;
 
 export type AvailableVideoChatProviders = $ReadOnly<{|

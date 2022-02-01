@@ -281,6 +281,13 @@ export type UserPresence = $ReadOnly<{|
   [client: string]: ClientPresence,
 |}>;
 
+/**
+ * A snapshot of the presence status of all users.
+ *
+ * See `UserPresence` and `ClientPresence` for more, and links.
+ */
+export type PresenceSnapshot = {| +[email: string]: UserPresence |};
+
 /** This is what appears in the `muted_users` server event.
  * See https://chat.zulip.org/api/get-events#muted_users for details.
  */

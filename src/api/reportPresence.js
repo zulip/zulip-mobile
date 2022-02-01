@@ -1,12 +1,12 @@
 /* @flow strict-local */
 import type { ApiResponseSuccess, Auth } from './transportTypes';
-import type { UserPresence } from './apiTypes';
+import type { PresenceSnapshot } from './apiTypes';
 import { apiPost } from './apiFetch';
 
 type ApiResponseWithPresence = {|
   ...$Exact<ApiResponseSuccess>,
   server_timestamp: number,
-  presences: {| [email: string]: UserPresence |},
+  presences: PresenceSnapshot,
 |};
 
 /** See https://zulip.readthedocs.io/en/latest/subsystems/presence.html . */
