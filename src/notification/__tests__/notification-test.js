@@ -119,28 +119,25 @@ describe('extract iOS notification data', () => {
     const verify = (data: JSONableDict) => extractIosNotificationData({ zulip: data });
 
     for (const [type, data] of objectEntries(cases)) {
-      test(`${type} notification`, () => {
+      describe(`${type} notification`, () => {
         const expected = (() => {
           const { stream: stream_name = undefined, ...rest } = data;
           return stream_name !== undefined ? { ...rest, stream_name } : data;
         })();
 
-        // baseline message is accepted
         const msg = data;
-        expect(verify(msg)).toEqual(expected);
+        test('baseline', () => expect(verify(msg)).toEqual(expected));
 
-        // pre-2.1 message missing user_id is accepted
         const { user_id: _ignore, ...msg1 } = msg; // eslint-disable-line no-unused-vars
         const { user_id: _ignore_, ...expected1 } = expected; // eslint-disable-line no-unused-vars
-        expect(verify(msg1)).toEqual(expected1);
+        test('pre-2.1 message missing user_id', () => expect(verify(msg1)).toEqual(expected1));
 
-        // unused fields are not copied
         const msg2 = { ...msg, realm_id: 8675309 };
-        expect(verify(msg2)).toEqual(expected);
+        test('unused fields are not copied', () => expect(verify(msg2)).toEqual(expected));
 
-        // unknown fields are ignored and not copied
         const msg2a = { ...msg, unknown_data: ['unknown_data'] };
-        expect(verify(msg2a)).toEqual(expected);
+        test('unknown fields are ignored and not copied', () =>
+          expect(verify(msg2a)).toEqual(expected));
       });
     }
   });
