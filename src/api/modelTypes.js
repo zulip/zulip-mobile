@@ -338,7 +338,7 @@ export type Topic = $ReadOnly<{|
  */
 // Server issue for using stream IDs (#3918) for muted topics, not names:
 //   https://github.com/zulip/zulip/issues/21015
-export type MuteTuple = [string, string];
+export type MutedTopicTuple = [string, string];
 
 //
 //

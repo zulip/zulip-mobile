@@ -70,7 +70,7 @@ import type {
   SubmessageEvent,
   RestartEvent,
 } from './api/eventTypes';
-import type { MuteTuple } from './api/apiTypes';
+import type { MutedTopicTuple } from './api/apiTypes';
 
 import type {
   Orientation,
@@ -460,7 +460,7 @@ type EventUserUpdateAction = $ReadOnly<{|
 type EventMutedTopicsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_MUTED_TOPICS,
-  muted_topics: $ReadOnlyArray<MuteTuple>,
+  muted_topics: $ReadOnlyArray<MutedTopicTuple>,
 |}>;
 
 type EventMutedUsersAction = $ReadOnly<{|
