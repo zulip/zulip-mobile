@@ -70,6 +70,7 @@ import type {
   SubmessageEvent,
   RestartEvent,
 } from './api/eventTypes';
+import type { MuteTuple } from './api/apiTypes';
 
 import type {
   Orientation,
@@ -90,7 +91,6 @@ import type {
   RealmEmojiById,
   GlobalSettingsState,
   CaughtUpState,
-  MuteState,
   AlertWordsState,
   UserId,
   UserStatusEvent,
@@ -460,7 +460,7 @@ type EventUserUpdateAction = $ReadOnly<{|
 type EventMutedTopicsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_MUTED_TOPICS,
-  muted_topics: MuteState,
+  muted_topics: $ReadOnlyArray<MuteTuple>,
 |}>;
 
 type EventMutedUsersAction = $ReadOnly<{|
