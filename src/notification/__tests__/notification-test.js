@@ -128,10 +128,6 @@ describe('extract iOS notification data', () => {
         const msg = data;
         test('baseline', () => expect(verify(msg)).toEqual(expected));
 
-        const { user_id: _ignore, ...msg1 } = msg; // eslint-disable-line no-unused-vars
-        const { user_id: _ignore_, ...expected1 } = expected; // eslint-disable-line no-unused-vars
-        test('pre-2.1 message missing user_id', () => expect(verify(msg1)).toEqual(expected1));
-
         const msg2 = { ...msg, realm_id: 8675309 };
         test('unused fields are not copied', () => expect(verify(msg2)).toEqual(expected));
 
@@ -161,42 +157,48 @@ describe('extract iOS notification data', () => {
       expect(make({ sender_email })).toThrow(/archaic/);
       // pre-1.9
       expect(make({ recipient_type: 'private', sender_email })).toThrow(/archaic/);
+      // pre-2.1
+      expect(make({ realm_uri, recipient_type: 'private', sender_email })).toThrow(/archaic/);
       // baseline, for comparison
-      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
+      expect(make({ realm_uri, user_id, recipient_type: 'private', sender_email })()).toBeTruthy();
     });
 
     test('broken or partial messages', () => {
-      expect(make({ realm_uri, recipient_type: 'huddle' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'huddle' })).toThrow(/invalid/);
 
       expect(
-        make({ realm_uri, recipient_type: 'stream', stream: 'stream name', topic: 'topic' })(),
+        make({ ...identity, recipient_type: 'stream', stream: 'stream name', topic: 'topic' })(),
       ).toBeTruthy();
-      expect(make({ realm_uri, recipient_type: 'stream', stream: 'stream name' })).toThrow(
+      expect(make({ ...identity, recipient_type: 'stream', stream: 'stream name' })).toThrow(
         /invalid/,
       );
-      expect(make({ realm_uri, recipient_type: 'stream', subject: 'topic' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'stream' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'stream', subject: 'topic' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'stream' })).toThrow(/invalid/);
 
-      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
-      expect(make({ realm_uri, recipient_type: 'private' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'private', subject: 'topic' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', sender_email })()).toBeTruthy();
+      expect(make({ ...identity, recipient_type: 'private' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', subject: 'topic' })).toThrow(/invalid/);
 
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,345' })()).toBeTruthy();
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: 123 })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: [1, 23] })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,ab' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: '12,' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,345' })()).toBeTruthy();
+      expect(make({ ...identity, recipient_type: 'private', pm_users: 123 })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', pm_users: [1, 23] })).toThrow(
+        /invalid/,
+      );
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,ab' })).toThrow(
+        /invalid/,
+      );
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,' })).toThrow(/invalid/);
     });
 
     test('values of incorrect type', () => {
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: [1, 2, 3] })).toThrow(
+      expect(make({ ...identity, recipient_type: 'private', pm_users: [1, 2, 3] })).toThrow(
         /invalid/,
       );
-      expect(make({ realm_uri, recipient_type: 'stream', stream: [], topic: 'yes' })).toThrow(
+      expect(make({ ...identity, recipient_type: 'stream', stream: [], topic: 'yes' })).toThrow(
         /invalid/,
       );
       expect(
-        make({ realm_uri, recipient_type: 'stream', stream: { name: 'somewhere' }, topic: 'no' }),
+        make({ ...identity, recipient_type: 'stream', stream: { name: 'somewhere' }, topic: 'no' }),
       ).toThrow(/invalid/);
     });
 

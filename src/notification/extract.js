@@ -103,14 +103,13 @@ export const fromAPNsImpl = (data: ?JSONableDict): Notification | void => {
   if (typeof realm_uri !== 'string') {
     throw err('invalid');
   }
-  if (user_id !== undefined && typeof user_id !== 'number') {
+  if (user_id === undefined) {
+    throw err('archaic (pre-2.1)');
+  }
+  if (typeof user_id !== 'number') {
     throw err('invalid');
   }
-
-  const identity = {
-    realm_uri,
-    ...(user_id === undefined ? Object.freeze({}) : { user_id: makeUserId(user_id) }),
-  };
+  const identity = { realm_uri, user_id: makeUserId(user_id) };
 
   if (recipient_type === 'stream') {
     const { stream: stream_name, stream_id, topic } = zulip;
