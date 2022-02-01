@@ -154,14 +154,14 @@ describe('extract iOS notification data', () => {
       expect(makeRaw({ initechData: 'everything' })).toThrow(/alien/);
     });
 
-    test('very-old-style messages', () => {
+    test('unsupported old-style messages', () => {
       const sender_email = 'nobody@example.com';
-      // baseline
-      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
-      // missing recipient_type
-      expect(make({ realm_uri, sender_email })).toThrow(/archaic/);
-      // missing realm_uri
+      // pre-1.8
+      expect(make({ sender_email })).toThrow(/archaic/);
+      // pre-1.9
       expect(make({ recipient_type: 'private', sender_email })).toThrow(/archaic/);
+      // baseline, for comparison
+      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
     });
 
     test('broken or partial messages', () => {
