@@ -98,7 +98,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
     case 'alert_words':
       return {
         type: EVENT_ALERT_WORDS,
-        alertWords: event.alert_words,
+        alert_words: event.alert_words,
       };
 
     case 'message':

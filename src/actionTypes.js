@@ -259,7 +259,7 @@ type ServerEvent = $ReadOnly<{|
 
 type EventAlertWordsAction = $ReadOnly<{|
   type: typeof EVENT_ALERT_WORDS,
-  alertWords: AlertWordsState,
+  alert_words: AlertWordsState,
 |}>;
 
 type EventRealmFiltersAction = $ReadOnly<{|

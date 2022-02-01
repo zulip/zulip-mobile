@@ -39,7 +39,7 @@ describe('alertWordsReducer', () => {
       const initialState = deepFreeze([]);
       const action = deepFreeze({
         type: EVENT_ALERT_WORDS,
-        alertWords: ['word', '@mobile-core', 'alert'],
+        alert_words: ['word', '@mobile-core', 'alert'],
       });
       const expectedState = ['word', '@mobile-core', 'alert'];
 
@@ -52,7 +52,7 @@ describe('alertWordsReducer', () => {
       const initialState = deepFreeze(['word', '@mobile-core', 'alert']);
       const action = deepFreeze({
         type: EVENT_ALERT_WORDS,
-        alertWords: ['word', '@mobile-core', 'new alert'],
+        alert_words: ['word', '@mobile-core', 'new alert'],
       });
       const expectedState = ['word', '@mobile-core', 'new alert'];
 

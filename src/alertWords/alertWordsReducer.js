@@ -18,7 +18,7 @@ export default (
       return action.data.alert_words || initialState;
 
     case EVENT_ALERT_WORDS:
-      return action.alertWords || initialState;
+      return action.alert_words || initialState;
 
     default:
       return state;
