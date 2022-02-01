@@ -329,6 +329,15 @@ export type Topic = $ReadOnly<{|
   max_id: number,
 |}>;
 
+/**
+ * A muted topic.
+ *
+ * Found in the initial data, and in `muted_topics` events.
+ *
+ * The elements are the stream name, then topic.
+ */
+export type MuteTuple = [string, string];
+
 //
 //
 //

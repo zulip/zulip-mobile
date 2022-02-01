@@ -2,6 +2,7 @@
 
 import type {
   CrossRealmBot,
+  MuteTuple,
   MutedUser,
   RealmEmojiById,
   RealmFilter,
@@ -65,8 +66,6 @@ export type InitialDataAlertWords = $ReadOnly<{|
 export type InitialDataMessage = $ReadOnly<{|
   max_message_id: number,
 |}>;
-
-export type MuteTuple = [string, string];
 
 export type InitialDataMutedTopics = $ReadOnly<{|
   muted_topics: $ReadOnlyArray<MuteTuple>,
