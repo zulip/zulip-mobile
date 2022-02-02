@@ -76,29 +76,8 @@ const getServerVersionTags = (zulipVersion: ?ZulipVersion): ServerVersionTags =>
     };
   }
 
-  const raw = zulipVersion.raw();
-
-  const OMITTED = 'x';
-  const UNKNOWN = '?';
-
-  const elements = zulipVersion.elements();
-  const major = elements.major ?? UNKNOWN;
-  const minor = elements.minor ?? UNKNOWN;
-  const patch = elements.patch ?? UNKNOWN;
-
-  let coarseServerVersion = undefined;
-  let fineServerVersion = undefined;
-  // Effective with 3.0, we changed our numbering conventions; 3.x and
-  // 4.x are each the same level of granularity as 2.1.x or 2.0.x.
-  if (zulipVersion.isAtLeast('3.0')) {
-    coarseServerVersion = [major, OMITTED].join('.');
-    fineServerVersion = [major, minor].join('.');
-  } else {
-    coarseServerVersion = [major, minor, OMITTED].join('.');
-    fineServerVersion = [major, minor, patch].join('.');
-  }
-
-  return { rawServerVersion: raw, coarseServerVersion, fineServerVersion };
+  const { raw, fine, coarse } = zulipVersion.classify();
+  return { rawServerVersion: raw, coarseServerVersion: coarse, fineServerVersion: fine };
 };
 
 export function setTagsFromServerVersion(zulipVersion: ?ZulipVersion) {

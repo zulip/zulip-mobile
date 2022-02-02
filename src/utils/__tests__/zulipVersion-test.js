@@ -93,3 +93,16 @@ describe('ZulipVersion.prototype.elements()', () => {
     });
   });
 });
+
+describe('ZulipVersion.prototype.classify()', () => {
+  for (const [coarse, fine, raw] of [
+    ['1.9.x', '1.9.1', '1.9.1-23-gabcabcabc'],
+    ['2.1.x', '2.1.3', '2.1.3'],
+    ['3.x', '3.1', '3.1'],
+    ['4.x', '4.0', '4.0'],
+  ]) {
+    test(raw, () => {
+      expect(new ZulipVersion(raw).classify()).toStrictEqual({ raw, coarse, fine });
+    });
+  }
+});

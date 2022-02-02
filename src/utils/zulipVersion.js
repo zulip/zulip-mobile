@@ -73,6 +73,33 @@ export class ZulipVersion {
   }
 
   /**
+   * This version, classified by release and by major release.
+   */
+  classify(): {| raw: string, fine: string, coarse: string |} {
+    const OMITTED = 'x';
+    const UNKNOWN = '?';
+
+    const elements = this.elements();
+    const major = elements.major ?? UNKNOWN;
+    const minor = elements.minor ?? UNKNOWN;
+    const patch = elements.patch ?? UNKNOWN;
+
+    let coarse = undefined;
+    let fine = undefined;
+    // Effective with 3.0, we changed our numbering conventions; 3.x and
+    // 4.x are each the same level of granularity as 2.1.x or 2.0.x.
+    if (this.isAtLeast('3.0')) {
+      coarse = [major, OMITTED].join('.');
+      fine = [major, minor].join('.');
+    } else {
+      coarse = [major, minor, OMITTED].join('.');
+      fine = [major, minor, patch].join('.');
+    }
+
+    return { coarse, fine, raw: this.raw() };
+  }
+
+  /**
    * Parse the raw string into a VersionElements.
    */
   static _getElements(raw: string): VersionElements {
