@@ -663,14 +663,9 @@ export type InitialDataUserStatus = $ReadOnly<{|
    * status is the zero status), the server may omit that user's record
    * entirely.
    *
-   * New in Zulip 2.0.  Older servers don't send this, so it's natural
-   * to treat them as if all users have the zero status; and that gives
-   * correct behavior for this feature.
-   *
    * See UserStatusEvent for the event that carries updates to this data.
    */
-  // TODO(server-2.0): Make required.
-  user_status?: $ReadOnly<{|
+  user_status: $ReadOnly<{|
     // Keys are UserId encoded as strings (just because JS objects are
     // string-keyed).
     [userId: string]: UserStatusUpdate,
