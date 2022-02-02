@@ -63,7 +63,7 @@ export default (
     case REGISTER_COMPLETE: {
       const { user_status } = action.data;
       if (!user_status) {
-        // TODO(server-1.9.1): Drop this.
+        // TODO(server-2.0): Drop this.
         return initialState;
       }
 

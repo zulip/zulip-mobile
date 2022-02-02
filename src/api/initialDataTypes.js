@@ -507,7 +507,7 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
 //   assembling this.
 export type InitialDataUserStatus = $ReadOnly<{|
   /**
-   * Older servers (through at least 1.9.1) don't send this.
+   * New in Zulip 2.0.
    *
    * Modern servers still omit some data, by design. The omissions
    * correspond to an "unset" status (not `away`, and no text/emoji status
@@ -517,7 +517,7 @@ export type InitialDataUserStatus = $ReadOnly<{|
    *
    * See UserStatusEvent for the event that carries updates to this data.
    */
-  // TODO(server-1.9.1): Make required.
+  // TODO(server-2.0): Make required.
   user_status?: $ReadOnly<{|
     // How the status has changed relative to the following "zero" value:
     //
