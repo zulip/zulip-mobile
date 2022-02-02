@@ -46,6 +46,7 @@ import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { getAllUsersById, getHaveServerData, getOwnUserId } from '../users/userSelectors';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
+import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
 
 const messageFetchStart = (
   narrow: Narrow,
@@ -494,6 +495,18 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
   const serverVersion = new ZulipVersion(initData.zulip_version);
   if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
     dispatch(fetchPrivateMessages());
+  }
+
+  if (!serverVersion.isAtLeast(kNextMinSupportedVersion)) {
+    // The server version is either one we already don't support, or one
+    // we'll stop supporting the next time we increase our minimum supported
+    // version.  Warn so that we have an idea of how widespread this is.
+    // (Include the coarse version in the warning message, so that it splits
+    // into separate Sentry "issues" by coarse version.  The Sentry events
+    // will also have the detailed version, because we already dispatched
+    // `registerComplete`, which ends up causing a call to
+    // `logging.setTagsFromServerVersion`.)
+    logging.warn(`Old server version: ${serverVersion.classify().coarse}`);
   }
 
   dispatch(sendOutbox());

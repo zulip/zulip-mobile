@@ -9,15 +9,23 @@ import { getIdentity, getServerVersion } from '../account/accountsSelectors';
 import { getIsAdmin, getSession, getGlobalSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 // The oldest version we currently support. Should match what we say at
 //   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading.
-const minSupportedVersion = '2.1.0';
+export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('2.1.0');
 // Notes on known breakage at older versions:
 //  * Before 1.8, the server doesn't send found_newest / found_oldest on
 //    fetching messages, and so `state.caughtUp` will never have truthy
 //    values.  This probably means annoying behavior in a message list,
 //    as we keep trying to fetch newer messages.
+
+/**
+ * The next value we'll give to kMinSupportedVersion in the future.
+ *
+ * This should be the next major Zulip Server version after kMinSupportedVersion.
+ */
+export const kNextMinSupportedVersion: ZulipVersion = new ZulipVersion('3.0');
 
 type Props = $ReadOnly<{||}>;
 
@@ -36,7 +44,7 @@ export default function ServerCompatBanner(props: Props): Node {
 
   let visible = false;
   let text = '';
-  if (zulipVersion.isAtLeast(minSupportedVersion)) {
+  if (zulipVersion.isAtLeast(kMinSupportedVersion)) {
     // don't show
   } else if (hasDismissedServerCompatNotice) {
     // don't show
