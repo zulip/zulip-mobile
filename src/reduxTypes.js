@@ -24,7 +24,7 @@ import type {
   UserGroup,
   UserId,
   UserPresence,
-  UserStatusMapObject,
+  UserStatus,
 } from './api/apiTypes';
 import type {
   PerAccountSessionState,
@@ -383,7 +383,14 @@ export type TypingState = $ReadOnly<{|
 
 export type UserGroupsState = $ReadOnlyArray<UserGroup>;
 
-export type UserStatusState = UserStatusMapObject;
+export type UserStatusState = $ReadOnly<{|
+  // TODO(flow): The key here is really UserId, not just any number; but
+  //   this Flow bug:
+  //     https://github.com/facebook/flow/issues/5407
+  //   means that doesn't work right, and the best workaround is to
+  //   leave it as `number`.
+  [userId: number]: UserStatus,
+|}>;
 
 /**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.

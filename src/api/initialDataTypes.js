@@ -14,7 +14,7 @@ import type {
   User,
   UserGroup,
   UserId,
-  UserStatusMapObject,
+  UserStatus,
 } from './apiTypes';
 
 /*
@@ -504,7 +504,14 @@ export type InitialDataUserStatus = $ReadOnly<{|
    * A missing value is equivalent to empty.
    */
   // TODO(server-1.9.1): Make required.
-  user_status?: UserStatusMapObject,
+  user_status?: $ReadOnly<{|
+    // TODO(flow): The key here is really UserId, not just any number; but
+    //   this Flow bug:
+    //     https://github.com/facebook/flow/issues/5407
+    //   means that doesn't work right, and the best workaround is to
+    //   leave it as `number`.
+    [userId: number]: UserStatus,
+  |}>,
 |}>;
 
 /**

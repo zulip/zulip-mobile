@@ -45,7 +45,7 @@ export default (
         // TODO(flow): The cast here is because we've left this data
         //   structure's type with plain `number` for the key, to work
         //   around a Flow bug.  See the definition of the type
-        //   `UserStatusMapObject`.
+        //   `UserStatusState`.
         [(action.user_id: number)]: newUserStatus,
       };
     }
