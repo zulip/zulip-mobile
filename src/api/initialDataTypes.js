@@ -500,7 +500,12 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
 export type InitialDataUserStatus = $ReadOnly<{|
   /**
    * Older servers (through at least 1.9.1) don't send this.
-   * A missing value is equivalent to empty.
+   *
+   * Modern servers still omit some data, by design. The omissions
+   * correspond to an "unset" status (not `away`, and no text/emoji status
+   * set). When a status is "unset", the various things it would affect
+   * behave as if the feature didn't exist -- so it's convenient and correct
+   * to treat old servers as though all users have an unset status.
    *
    * See UserStatusEvent for the event that carries updates to this data.
    */
