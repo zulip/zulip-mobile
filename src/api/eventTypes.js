@@ -111,6 +111,8 @@ export type PresenceEvent = $ReadOnly<{|
  *       - any string sets user's status to that
  *
  * Not providing a property means 'leave this value unchanged'
+ *
+ * See InitialDataUserStatus for the corresponding initial data.
  */
 export type UserStatusEvent = $ReadOnly<{|
   ...EventCommon,

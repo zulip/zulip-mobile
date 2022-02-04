@@ -14,7 +14,6 @@ import type {
   User,
   UserGroup,
   UserId,
-  UserStatus,
 } from './apiTypes';
 
 /*
@@ -502,6 +501,8 @@ export type InitialDataUserStatus = $ReadOnly<{|
   /**
    * Older servers (through at least 1.9.1) don't send this.
    * A missing value is equivalent to empty.
+   *
+   * See UserStatusEvent for the event that carries updates to this data.
    */
   // TODO(server-1.9.1): Make required.
   user_status?: $ReadOnly<{|
@@ -510,7 +511,14 @@ export type InitialDataUserStatus = $ReadOnly<{|
     //     https://github.com/facebook/flow/issues/5407
     //   means that doesn't work right, and the best workaround is to
     //   leave it as `number`.
-    [userId: number]: UserStatus,
+    [userId: number]: $ReadOnly<{|
+      // TODO: add status emoji properties
+      // TODO: Comment on what these mean (if doc not fixed):
+      //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
+
+      away?: true,
+      status_text?: string,
+    |}>,
   |}>,
 |}>;
 

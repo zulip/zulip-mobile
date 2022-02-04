@@ -24,7 +24,6 @@ import type {
   UserGroup,
   UserId,
   UserPresence,
-  UserStatus,
 } from './api/apiTypes';
 import type {
   PerAccountSessionState,
@@ -382,6 +381,21 @@ export type TypingState = $ReadOnly<{|
 |}>;
 
 export type UserGroupsState = $ReadOnlyArray<UserGroup>;
+
+/**
+ * Specifies user status related properties
+ * @prop away - present if we are to override user's presence status
+ *   * This is the "user status" / "unavailable" feature added in early 2019.
+ *     (At time of writing, there are no docs to link to.)
+ * @prop status_text - a string representing information the user decided to
+ *   manually set as their 'current status'
+ */
+// TODO: fix types, implementation, and jsdoc:
+//   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
+export type UserStatus = $ReadOnly<{|
+  away?: true,
+  status_text?: string,
+|}>;
 
 export type UserStatusState = $ReadOnly<{|
   // TODO(flow): The key here is really UserId, not just any number; but
