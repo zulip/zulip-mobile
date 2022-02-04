@@ -67,7 +67,7 @@ export default function AccountDetails(props: Props): Node {
         />
         <ZulipText style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
       </View>
-      {userStatusText !== undefined && (
+      {userStatusText !== null && (
         <ZulipText style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
       )}
       {!isSelf && (

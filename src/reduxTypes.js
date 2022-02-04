@@ -10,7 +10,7 @@
 import type Immutable from 'immutable';
 import type { InputSelector } from 'reselect';
 
-import type { Account, Outbox } from './types';
+import type { Account, Outbox, ReactionType } from './types';
 import type { Action, DispatchableWithoutAccountAction } from './actionTypes';
 import type {
   Topic,
@@ -383,18 +383,24 @@ export type TypingState = $ReadOnly<{|
 export type UserGroupsState = $ReadOnlyArray<UserGroup>;
 
 /**
- * Specifies user status related properties
- * @prop away - present if we are to override user's presence status
- *   * This is the "user status" / "unavailable" feature added in early 2019.
- *     (At time of writing, there are no docs to link to.)
- * @prop status_text - a string representing information the user decided to
- *   manually set as their 'current status'
+ * A user's chosen availability and text/emoji statuses.
  */
-// TODO: fix types, implementation, and jsdoc:
-//   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
 export type UserStatus = $ReadOnly<{|
-  away?: true,
-  status_text?: string,
+  // true/false: User unavailable/available.
+  away: boolean,
+
+  // "foo": User's status text is "foo".
+  // null: User's status text is unset.
+  status_text: string | null,
+
+  // null: User's status emoji is unset.
+  status_emoji: null | {|
+    // These three properties point to an emoji in the same way the same-named
+    // properties point to an emoji in the Reaction type; see there.
+    +emoji_name: string,
+    +reaction_type: ReactionType,
+    +emoji_code: string,
+  |},
 |}>;
 
 export type UserStatusState = Immutable.Map<UserId, UserStatus>;

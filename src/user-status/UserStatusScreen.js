@@ -38,11 +38,11 @@ export default function UserStatusScreen(props: Props): Node {
   const auth = useSelector(getAuth);
   const userStatusText = useSelector(getSelfUserStatusText);
 
-  const [statusText, setStatusText] = useState<string | void>(userStatusText);
+  const [statusText, setStatusText] = useState<string | null>(userStatusText);
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
-    (_statusText: string | void) => {
+    (_statusText: string | null) => {
       api.updateUserStatus(auth, { status_text: _statusText ?? '' });
       NavigationService.dispatch(navigateBack());
     },
@@ -54,7 +54,7 @@ export default function UserStatusScreen(props: Props): Node {
   }, [statusText, sendToServer]);
 
   const handlePressClear = useCallback(() => {
-    setStatusText(undefined);
+    setStatusText(null);
     sendToServer('');
   }, [sendToServer]);
 

@@ -211,6 +211,32 @@ export type UserGroup = $ReadOnly<{|
   name: string,
 |}>;
 
+/**
+ * The server's representation of the diff between two user-status records.
+ *
+ * A value is mentioned only when it's changed.
+ *
+ * N.B., emoji statuses are new in 5.0 (feature level 86), so they'll never
+ * be present before then. But "unchanged" is still appropriate semantics
+ * and will lead to correct behavior.
+ *
+ * For the strings, the empty string means that component of the user's
+ * status is unset.
+ */
+// TODO(server-5.0): Simplify jsdoc.
+// TODO(docs): All this is observed empirically; update the doc. See
+//   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
+export type UserStatusUpdate = $ReadOnly<{|
+  away?: boolean,
+  status_text?: string,
+
+  // These three properties point to an emoji in the same way the same-named
+  // properties point to an emoji in the Reaction type; see there.
+  emoji_name?: string,
+  emoji_code?: string,
+  reaction_type?: ReactionType | '', // eslint-disable-line no-use-before-define
+|}>;
+
 /** See ClientPresence, and the doc linked there. */
 export type PresenceStatus = 'active' | 'idle' | 'offline';
 

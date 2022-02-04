@@ -10,7 +10,14 @@
  * @flow strict-local
  */
 
-import type { Message, MutedUser, Stream, UserId, UserPresence } from './modelTypes';
+import type {
+  Message,
+  MutedUser,
+  Stream,
+  UserId,
+  UserPresence,
+  UserStatusUpdate,
+} from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
 
 export class EventTypes {
@@ -101,16 +108,9 @@ export type PresenceEvent = $ReadOnly<{|
 |}>;
 
 /**
- * Updates the user status for a user
+ * New value for a user's chosen availability and/or text/emoji status
  *
- * @prop [away] - update user's away status:
- *       - `true` the user is away regardless of presence
- *       - `false` remove the away status, now use presence
- * @prop [status_text] - if present:
- *       - empty string clears the user's status text
- *       - any string sets user's status to that
- *
- * Not providing a property means 'leave this value unchanged'
+ * https://zulip.com/api/get-events#user_status
  *
  * See InitialDataUserStatus for the corresponding initial data.
  */
@@ -118,8 +118,9 @@ export type UserStatusEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.user_status,
   user_id: UserId,
-  away?: boolean,
-  status_text?: string,
+
+  // How the status is updated from the old value.
+  ...UserStatusUpdate,
 |}>;
 
 type StreamListEvent = $ReadOnly<{|

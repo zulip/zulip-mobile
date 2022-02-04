@@ -86,7 +86,7 @@ describe('presenceToHumanTime', () => {
         {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
         },
-        {},
+        { away: false, status_text: null, status_emoji: null },
       ),
     ).toBe('4 minutes ago');
   });
@@ -97,7 +97,7 @@ describe('presenceToHumanTime', () => {
         {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
         },
-        {},
+        { away: false, status_text: null, status_emoji: null },
       ),
     ).toBe('now');
   });
@@ -106,7 +106,7 @@ describe('presenceToHumanTime', () => {
     expect(
       presenceToHumanTime(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: true },
+        { away: true, status_text: null, status_emoji: null },
       ),
     ).toBe('today');
   });
@@ -159,11 +159,11 @@ describe('statusFromPresence', () => {
 });
 
 describe('statusFromPresenceAndUserStatus', () => {
-  test('if `userPresence` is provided but no `away` value do not change', () => {
+  test('if `userPresence` is provided but `away` is false do not change', () => {
     expect(
       statusFromPresenceAndUserStatus(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { status_text: 'Hello, world!' },
+        { away: false, status_text: 'Hello, world!', status_emoji: null },
       ),
     ).toBe('active');
   });
@@ -172,7 +172,7 @@ describe('statusFromPresenceAndUserStatus', () => {
     expect(
       statusFromPresenceAndUserStatus(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: true },
+        { away: true, status_text: null, status_emoji: null },
       ),
     ).toBe('unavailable');
   });

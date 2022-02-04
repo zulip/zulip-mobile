@@ -1,5 +1,6 @@
 /* @flow strict-local */
 
+import type { UserStatusUpdate } from './modelTypes';
 import type {
   CrossRealmBot,
   MutedTopicTuple,
@@ -497,6 +498,13 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
   |}>,
 |}>;
 
+/**
+ * Users' chosen availability and text/emoji statuses.
+ *
+ * See UserStatusEvent for the event that carries updates to this data.
+ */
+// TODO(?): Find out if servers ignore any users (e.g., deactivated ones) when
+//   assembling this.
 export type InitialDataUserStatus = $ReadOnly<{|
   /**
    * Older servers (through at least 1.9.1) don't send this.
@@ -511,16 +519,24 @@ export type InitialDataUserStatus = $ReadOnly<{|
    */
   // TODO(server-1.9.1): Make required.
   user_status?: $ReadOnly<{|
+    // How the status has changed relative to the following "zero" value:
+    //
+    // {
+    //   away: false,
+    //   status_text: '',
+    //   emoji_name: '',
+    //   reaction_type: '',
+    //   emoji_code: '',
+    // };
+    //
+    // (For how we represent that zero value as a UserStatus in our model,
+    // see `kUserStatusZero`.)
+    //
+    // If no change, servers may omit the record for that user entirely.
+    //
     // Keys are UserId encoded as strings (just because JS objects are
     // string-keyed).
-    [userId: string]: $ReadOnly<{|
-      // TODO: add status emoji properties
-      // TODO: Comment on what these mean (if doc not fixed):
-      //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
-
-      away?: true,
-      status_text?: string,
-    |}>,
+    [userId: string]: UserStatusUpdate,
   |}>,
 |}>;
 
