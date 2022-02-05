@@ -76,7 +76,7 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   return { client, status, timestamp };
 };
 
-export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus): string => {
+export const presenceToHumanTime = (presence: UserPresence, status: UserStatus | void): string => {
   if (!presence || !presence.aggregated) {
     return 'never';
   }
@@ -94,7 +94,7 @@ export const presenceToHumanTime = (presence: UserPresence, status?: UserStatus)
     : `${formatDistanceToNow(lastTimeActive)} ago`;
 };
 
-export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
+export const statusFromPresence = (presence: UserPresence | void): PresenceStatus => {
   if (!presence || !presence.aggregated) {
     return 'offline';
   }
@@ -114,7 +114,7 @@ export const statusFromPresence = (presence?: UserPresence): PresenceStatus => {
 };
 
 export const statusFromPresenceAndUserStatus = (
-  presence?: UserPresence,
-  userStatus?: UserStatus,
+  presence: UserPresence | void,
+  userStatus: UserStatus | void,
 ): PresenceStatus | 'unavailable' =>
   userStatus && userStatus.away ? 'unavailable' : statusFromPresence(presence);
