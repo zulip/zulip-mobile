@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { makeUserId } from '../../api/idTypes';
 import type { UserStatusState } from '../../types';
 import * as eg from '../../__tests__/lib/exampleData';
-import { EVENT_USER_STATUS_UPDATE, DISMISS_SERVER_COMPAT_NOTICE } from '../../actionConstants';
+import { EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
 import userStatusReducer from '../userStatusReducer';
 
 describe('userStatusReducer', () => {
@@ -12,13 +12,6 @@ describe('userStatusReducer', () => {
     [makeUserId(1), { away: true }],
     [makeUserId(2), { status_text: 'Hello, world' }],
   ]);
-
-  test('handles unknown action by returning initial state', () => {
-    const initialState = Immutable.Map();
-    // "unknown", meaning not one this reducer wants to act on
-    const newState = userStatusReducer(initialState, { type: DISMISS_SERVER_COMPAT_NOTICE });
-    expect(newState).toBeDefined();
-  });
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
