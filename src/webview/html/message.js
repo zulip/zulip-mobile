@@ -4,6 +4,7 @@ import invariant from 'invariant';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 // $FlowFixMe[untyped-import]
 import { PollData } from '@zulip/shared/js/poll_data';
+import { TaskData } from '../../utils/TaskData';
 
 import template from './template';
 import type {
@@ -109,20 +110,21 @@ $!${message.content}
  ><p>To use, open on web or desktop</p
 ></div>`;
 
-  const pollWidget = widgetSubmessages.shift();
-  if (!pollWidget || !pollWidget.content) {
+  const firstWidgetSubmessage = widgetSubmessages.shift();
+
+  if (!firstWidgetSubmessage || !firstWidgetSubmessage.content) {
     return errorMessage;
   }
-
   /* $FlowFixMe[incompatible-type]: The first widget submessage should be
        a `WidgetData`; see jsdoc on `SubmessageData`. */
-  const pollWidgetContent: WidgetData = pollWidget.content;
+  const widgetContent: WidgetData = firstWidgetSubmessage.content;
+  console.log('widgetContent', widgetContent.widget_type);
 
-  if (pollWidgetContent.widget_type !== 'poll') {
-    return errorMessage;
-  }
+  // if (widgetContent.widget_type !== 'poll' || widgetContent.widget_type !== 'todo') {
+  //   return errorMessage;
+  // }
 
-  if (pollWidgetContent.extra_data == null) {
+  if (widgetContent.widget_type === 'poll' && widgetContent.extra_data == null) {
     // We don't expect this to happen in general, but there are some malformed
     // messages lying around that will trigger this [1]. The code here is slightly
     // different the webapp code, but mostly because the current webapp
@@ -136,26 +138,64 @@ $!${message.content}
     return template`$!${message.content}`;
   }
 
-  const pollData = new PollData({
-    message_sender_id: message.sender_id,
-    current_user_id: ownUserId,
-    is_my_poll: message.sender_id === ownUserId,
-    question: pollWidgetContent.extra_data.question ?? '',
-    options: pollWidgetContent.extra_data.options ?? [],
-    // TODO: Implement this.
-    comma_separated_names: () => '',
-    report_error_function: (msg: string) => {
-      logging.error(msg);
-    },
-  });
+  if (widgetContent.widget_type === 'todo') {
+    const task_data = new TaskData({
+      current_user_id: message.sender_id,
+    });
+    const sendData = {
+      type: 'new_task',
+      key: 1,
+      task: 'Just Testing',
+      desc: 'Just Description',
+    };
+    const data = task_data.handle_event(message.sender_id, sendData);
+    const widget_data = task_data.get_widget_data();
+    console.log('WidgetData', widget_data);
 
-  for (const pollEvent of widgetSubmessages) {
-    pollData.handle_event(pollEvent.sender_id, pollEvent.content);
-  }
+    return template`
+   <div class="todo-widget">
+     <h2>Tasks List</h2>
+     <div class="add-task-bar" >
+       <input type="text" class="add-task-input">
+       <input type="text" class="add-desc-input">
+       <button class="add-task-btn" >Add Task</button>
+     </div>
+     <ul class="todo-widget new-style">
+       $!${widget_data.pending_tasks.map(
+         task =>
+           template`
+           <li>
+            <label class="checkbox" >
+            <input type="checkbox" class="task"  data-key=${task.key} >
+            <strong>${task.task}</strong> - ${task.desc}
+            </label>
+           </li>
+          `,
+       )}
+     </div>
+   </div>
+   `;
+  } else if (widgetContent.widget_type === 'poll') {
+    const pollData = new PollData({
+      message_sender_id: message.sender_id,
+      current_user_id: ownUserId,
+      is_my_poll: message.sender_id === ownUserId,
+      question: widgetContent.extra_data.question ?? '',
+      options: widgetContent.extra_data.options ?? [],
+      // TODO: Implement this.
+      comma_separated_names: () => '',
+      report_error_function: (msg: string) => {
+        logging.error(msg);
+      },
+    });
 
-  const parsedPollData = pollData.get_widget_data();
+    for (const pollEvent of widgetSubmessages) {
+      pollData.handle_event(pollEvent.sender_id, pollEvent.content);
+    }
 
-  return template`\
+    const parsedPollData = pollData.get_widget_data();
+
+    return template`
 <div class="poll-widget">
   <p class="poll-question">${parsedPollData.question}</p>
   <ul>
@@ -174,7 +214,9 @@ $!${message.content}
       )
       .join('')}
   </ul>
-</div>`;
+</div>
+  `;
+  }
 };
 
 export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnlyArray<string> =>

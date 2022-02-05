@@ -892,6 +892,15 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
+    console.log('target', target);
+  if (target.matches('.add-task-btn')) {
+    const messageElement = target.closest('.message');
+    console.log(messageElement);
+
+    if (!messageElement) {
+      throw new Error('Message element not found');
+    }
+  }
 
     if (target.matches('.poll-vote')) {
       const messageElement = target.closest('.message');

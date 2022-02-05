@@ -101,13 +101,13 @@ window.onerror = (message: string, source: string, line: number, column: number,
     const elementSheetGenerated = document.getElementById('generated-styles');
     const elementSheetHide = document.getElementById('style-hide-js-error-plain');
     if (
-      elementJsError
-      && elementSheetGenerated
-      && elementSheetHide
-      && elementSheetHide instanceof HTMLStyleElement
-      && elementSheetHide.sheet
-      && elementSheetGenerated instanceof HTMLStyleElement
-      && elementSheetGenerated.sheet
+      elementJsError &&
+      elementSheetGenerated &&
+      elementSheetHide &&
+      elementSheetHide instanceof HTMLStyleElement &&
+      elementSheetHide.sheet &&
+      elementSheetGenerated instanceof HTMLStyleElement &&
+      elementSheetGenerated.sheet
     ) {
       elementSheetHide.sheet.disabled = true;
       const height = elementJsError.offsetHeight;
@@ -322,10 +322,10 @@ function someVisibleMessage(top: number, bottom: number): ?Element {
   // message (or both) should be visible.
   const midElement = midMessageListElement(top, bottom);
   return (
-    checkVisible(walkToMessage(midElement, 'previousElementSibling'))
-    || checkVisible(walkToMessage(midElement, 'nextElementSibling'))
-    || checkVisible(firstMessage())
-    || checkVisible(lastMessage())
+    checkVisible(walkToMessage(midElement, 'previousElementSibling')) ||
+    checkVisible(walkToMessage(midElement, 'nextElementSibling')) ||
+    checkVisible(firstMessage()) ||
+    checkVisible(lastMessage())
   );
 }
 
@@ -777,7 +777,6 @@ const requireNumericAttribute = (e: Element, name: string): number => {
 documentBody.addEventListener('click', (e: MouseEvent) => {
   e.preventDefault();
   clearTimeout(longPressTimeout);
-
   /* Without a flag `hasLongPressed`, both the short press and the long
    * press actions get triggered. See PR #3404 for more context. */
   if (hasLongPressed) {
@@ -824,10 +823,10 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
    * static/js/lightbox.js , starting at the `#main_div` click handler. */
   const inlineImageLink = target.closest('.message_inline_image a');
   if (
-    inlineImageLink
+    inlineImageLink &&
     /* The web app displays certain videos inline, but on mobile
      * we'd rather let another app handle them, as links. */
-    && !inlineImageLink.closest('.youtube-video, .vimeo-video')
+    !inlineImageLink.closest('.youtube-video, .vimeo-video')
   ) {
     sendMessage({
       type: 'image',
@@ -848,9 +847,16 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     });
     return;
   }
+  if (target.matches('.add-task-btn')) {
+    const messageElement = target.closest('.message');
+    if (!messageElement) {
+      throw new Error('Message element not found');
+    }
+  }
 
   if (target.matches('.poll-vote')) {
     const messageElement = target.closest('.message');
+    console.log('Message ELement', messageElement);
     if (!messageElement) {
       throw new Error('Message element not found');
     }
@@ -929,9 +935,9 @@ const handleLongPress = (target: Element) => {
   const messageNode = target.closest('.message');
 
   if (
-    targetType === 'message'
-    && messageNode
-    && messageNode.getAttribute('data-mute-state') === 'hidden'
+    targetType === 'message' &&
+    messageNode &&
+    messageNode.getAttribute('data-mute-state') === 'hidden'
   ) {
     revealMutedMessages(messageNode);
     return;
