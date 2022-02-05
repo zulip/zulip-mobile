@@ -7,7 +7,8 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
-import { getPresence, getUserStatus } from '../selectors';
+import { getPresence } from '../selectors';
+import { getUserStatusForUser } from '../user-status/userStatusSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
 
@@ -118,16 +119,17 @@ export default function PresenceStatusIndicator(props: Props): Node {
   const { email, style, hideIfOffline, useOpaqueBackground } = props;
   const presence = useSelector(getPresence);
   const allUsersByEmail = useSelector(getAllUsersByEmail);
-  const userStatus = useSelector(getUserStatus);
 
   const userPresence = presence[email];
   const user = allUsersByEmail.get(email);
+
+  const userStatus = useSelector(state => user && getUserStatusForUser(state, user.user_id));
 
   if (!user || !userPresence || !userPresence.aggregated) {
     return null;
   }
 
-  const status = statusFromPresenceAndUserStatus(userPresence, userStatus[user.user_id]);
+  const status = statusFromPresenceAndUserStatus(userPresence, userStatus);
 
   if (hideIfOffline && status === 'offline') {
     return null;

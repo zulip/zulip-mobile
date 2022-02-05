@@ -6,7 +6,7 @@ import { getOwnUserId } from '../users/userSelectors';
 /**
  * The `UserStatus` object for the given UserId, if we have one.
  */
-const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus | void => {
+export const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus | void => {
   const userStatus = getUserStatus(state);
 
   // userStatus[userId] may in fact be missing
