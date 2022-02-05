@@ -6,20 +6,13 @@ import { getOwnUserId } from '../users/userSelectors';
 /**
  * The `UserStatus` object for the given UserId.
  */
-export const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus => {
-  const userStatus = getUserStatus(state);
-
-  return (
-    // userStatus[userId] may in fact be missing
-    (userStatus[userId]: UserStatus | void)
-    // An "unset" UserStatus is an object without status_text / away, which
-    //   turns out to be empty.
-    //
-    // The `Object.freeze` is to work around a Flow issue:
-    //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
-    ?? Object.freeze({})
-  );
-};
+export const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus =>
+  // An "unset" UserStatus is an object without status_text / away, which
+  //   turns out to be empty.
+  //
+  // The `Object.freeze` is to work around a Flow issue:
+  //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+  getUserStatus(state).get(userId, Object.freeze({}));
 
 /**
  * Extract the user status object for the logged in user.

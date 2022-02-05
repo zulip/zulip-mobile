@@ -1,9 +1,10 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
 
-import { objectFromEntries } from '../jsBackport';
 import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
-import type { UserStatusState, PerAccountApplicableAction } from '../types';
+import type { ReadWrite } from '../generics';
+import type { UserStatus, UserStatusState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -11,9 +12,8 @@ import {
   REGISTER_COMPLETE,
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
-import { NULL_OBJECT } from '../nullObjects';
 
-const initialState: UserStatusState = NULL_OBJECT;
+const initialState: UserStatusState = Immutable.Map();
 
 export default (
   state: UserStatusState = initialState,
@@ -26,21 +26,16 @@ export default (
       return initialState;
 
     case REGISTER_COMPLETE:
-      return objectFromEntries(
+      return Immutable.Map(
         objectEntries(action.data.user_status ?? {}).map(([id, status]) => [
-          // Converting from string keys to numeric ones here doesn't
-          // actually make a difference to how the state is represented
-          // at runtime. But it will when we start using
-          // Immutable.Map<UserId, UserStatus> soon, and it satisfies
-          // Flow.
-          // TODO: Use Immutable.Map<UserId, UserStatus>
           makeUserId(Number.parseInt(id, 10)),
           status,
         ]),
       );
 
     case EVENT_USER_STATUS_UPDATE: {
-      const newUserStatus = { ...state[action.user_id] };
+      const oldUserStatus = state.get(action.user_id);
+      const newUserStatus: ReadWrite<UserStatus> = { ...oldUserStatus };
       if (action.away !== undefined) {
         if (action.away === true) {
           newUserStatus.away = action.away;
@@ -55,14 +50,7 @@ export default (
           delete newUserStatus.status_text;
         }
       }
-      return {
-        ...state,
-        // TODO(flow): The cast here is because we've left this data
-        //   structure's type with plain `number` for the key, to work
-        //   around a Flow bug.  See the definition of the type
-        //   `UserStatusState`.
-        [(action.user_id: number)]: newUserStatus,
-      };
+      return state.set(action.user_id, newUserStatus);
     }
 
     default:
