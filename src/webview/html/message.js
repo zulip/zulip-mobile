@@ -118,7 +118,7 @@ $!${message.content}
   /* $FlowFixMe[incompatible-type]: The first widget submessage should be
        a `WidgetData`; see jsdoc on `SubmessageData`. */
   const widgetContent: WidgetData = firstWidgetSubmessage.content;
-  console.log('widgetContent', widgetContent.widget_type);
+  console.log('widgetContent', widgetContent.widget_type, widgetSubmessages);
 
   // if (widgetContent.widget_type !== 'poll' || widgetContent.widget_type !== 'todo') {
   //   return errorMessage;
@@ -142,13 +142,9 @@ $!${message.content}
     const task_data = new TaskData({
       current_user_id: message.sender_id,
     });
-    const sendData = {
-      type: 'new_task',
-      key: 1,
-      task: 'Just Testing',
-      desc: 'Just Description',
-    };
-    const data = task_data.handle_event(message.sender_id, sendData);
+    for (const toDoEvent of widgetSubmessages) {
+      task_data.handle_event(toDoEvent.sender_id, toDoEvent.content);
+    }
     const widget_data = task_data.get_widget_data();
     console.log('WidgetData', widget_data);
 

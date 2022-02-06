@@ -852,11 +852,26 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     if (!messageElement) {
       throw new Error('Message element not found');
     }
+    const descNode = target.previousElementSibling;
+
+    let desc = target.previousElementSibling.value;
+    let task = descNode.previousElementSibling.value;
+
+    sendMessage({
+      type: 'new_task',
+      key: 3,
+      task,
+      desc,
+      completed: false,
+      messageId: requireNumericAttribute(messageElement, 'data-msg-id'),
+    });
+    task = '';
+    desc = '';
+    return;
   }
 
   if (target.matches('.poll-vote')) {
     const messageElement = target.closest('.message');
-    console.log('Message ELement', messageElement);
     if (!messageElement) {
       throw new Error('Message element not found');
     }
