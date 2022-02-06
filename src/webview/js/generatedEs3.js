@@ -905,7 +905,7 @@ var compiledWebviewJs = (function (exports) {
       let task = descNode.previousElementSibling.value;
       sendMessage({
         type: 'new_task',
-        key: 3,
+        key: 12,
         task,
         desc,
         completed: false,
@@ -913,6 +913,22 @@ var compiledWebviewJs = (function (exports) {
       });
       task = '';
       desc = '';
+      return;
+    }
+
+    if (target.matches('.task-checkbox')) {
+      const messageElement = target.closest('.message');
+
+      if (!messageElement) {
+        throw new Error('Message element not found');
+      }
+
+      sendMessage({
+        type: 'strike',
+        key: requireAttribute(target, 'data-key'),
+        messageId: requireNumericAttribute(messageElement, 'data-msg-id')
+      });
+      target.setAttribute('checked', 'checked');
       return;
     }
 

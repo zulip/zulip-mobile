@@ -162,7 +162,18 @@ $!${message.content}
            template`
            <li>
             <label class="checkbox" >
-            <input type="checkbox" class="task"  data-key=${task.key} >
+            <input type="checkbox" class="task-checkbox"  data-key=${task.key} >
+            <strong>${task.task}</strong> - ${task.desc}
+            </label>
+           </li>
+          `,
+       )}
+       $!${widget_data.completed_tasks.map(
+         task =>
+           template`
+           <li>
+            <label class="checkbox" >
+            <input type="checkbox" class="task-checkbox" checked  data-key=${task.key} >
             <strong>${task.task}</strong> - ${task.desc}
             </label>
            </li>

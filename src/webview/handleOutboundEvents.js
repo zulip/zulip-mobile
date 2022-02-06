@@ -151,6 +151,12 @@ type WebViewOutboundEventNewTask = {|
   messageId: number,
 |};
 
+type WebViewOutboundEventStrikeTask = {|
+  type: 'strike',
+  key: string,
+  messageId: number,
+|};
+
 export type WebViewOutboundEvent =
   | WebViewOutboundEventReady
   | WebViewOutboundEventScroll
@@ -167,7 +173,8 @@ export type WebViewOutboundEvent =
   | WebViewOutboundEventMention
   | WebViewOutboundEventTimeDetails
   | WebViewOutboundEventVote
-  | WebViewOutboundEventNewTask;
+  | WebViewOutboundEventNewTask
+  | WebViewOutboundEventStrikeTask;
 
 // TODO: Consider completing this and making it exact, once
 // `MessageList`'s props are type-checked.
@@ -355,6 +362,18 @@ export const handleWebViewOutboundEvent = (
           task: event.task,
           desc: event.desc,
           completed: event.completed,
+        }),
+      );
+      break;
+    }
+
+    case 'strike': {
+      api.sendSubmessage(
+        props.backgroundData.auth,
+        event.messageId,
+        JSON.stringify({
+          type: 'strike',
+          key: event.key,
         }),
       );
       break;
