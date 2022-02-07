@@ -16,6 +16,7 @@ import {
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { initialState, selectorBaseState as unreadState, stream0, stream2 } from './unread-testlib';
+import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const subscription0 = eg.makeSubscription({ stream: stream0, color: 'red' });
 const subscription2 = eg.makeSubscription({ stream: stream2, color: 'blue' });
@@ -34,7 +35,7 @@ describe('getUnreadByStream', () => {
     const state = eg.reduxStatePlus({
       subscriptions,
       unread: unreadState,
-      mute: [['stream 0', 'a topic']],
+      mute: makeMuteState([[stream0, 'a topic']]),
     });
 
     const unreadByStream = getUnreadByStream(state);
@@ -48,7 +49,6 @@ describe('getUnreadStreamTotal', () => {
     const state = eg.reduxStatePlus({
       unread: initialState,
       subscriptions: [],
-      mute: [],
     });
 
     const unreadCount = getUnreadStreamTotal(state);
@@ -59,7 +59,6 @@ describe('getUnreadStreamTotal', () => {
   test('count all the unread messages listed in "streams" key', () => {
     const state = eg.reduxStatePlus({
       unread: unreadState,
-      mute: [],
     });
 
     const unreadCount = getUnreadStreamTotal(state);
@@ -173,7 +172,6 @@ describe('getUnreadTotal', () => {
     const state = eg.reduxStatePlus({
       unread: initialState,
       subscriptions: [],
-      mute: [],
     });
 
     const unreadCount = getUnreadTotal(state);
@@ -184,7 +182,6 @@ describe('getUnreadTotal', () => {
   test('calculates total unread of streams + pms + huddles', () => {
     const state = eg.reduxStatePlus({
       unread: unreadState,
-      mute: [],
     });
 
     const unreadCount = getUnreadTotal(state);
@@ -209,7 +206,6 @@ describe('getUnreadStreamsAndTopics', () => {
     const state = eg.reduxStatePlus({
       subscriptions: subscriptions.map(s => ({ ...s, in_home_view: false })),
       unread: unreadState,
-      mute: [],
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -267,7 +263,7 @@ describe('getUnreadStreamsAndTopics', () => {
     const state = eg.reduxStatePlus({
       subscriptions,
       unread: unreadState,
-      mute: [['stream 0', 'a topic']],
+      mute: makeMuteState([[stream0, 'a topic']]),
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -325,7 +321,6 @@ describe('getUnreadStreamsAndTopics', () => {
     const state = eg.reduxStatePlus({
       subscriptions,
       unread: unreadState,
-      mute: [],
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -397,7 +392,8 @@ describe('getUnreadStreamsAndTopics', () => {
         (st, message) => reducer(st, eg.mkActionEventNewMessage(message), eg.plusReduxState),
         eg.plusReduxState.unread,
       ),
-      mute: [['def stream', 'c topic']],
+      // TODO yuck at constructing this modified stream as a throwaway, with magic string
+      mute: makeMuteState([[{ ...stream2, name: 'def stream' }, 'c topic']]),
     });
 
     const unreadCount = getUnreadStreamsAndTopics(state);
@@ -454,7 +450,6 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
     const state = eg.reduxStatePlus({
       subscriptions: subscriptions.map(s => ({ ...s, in_home_view: false })),
       unread: unreadState,
-      mute: [],
     });
 
     const unreadCount = getUnreadStreamsAndTopicsSansMuted(state);
@@ -466,7 +461,7 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
     const state = eg.reduxStatePlus({
       subscriptions: [subscription0],
       unread: unreadState,
-      mute: [['stream 0', 'a topic']],
+      mute: makeMuteState([[stream0, 'a topic']]),
     });
 
     const unreadCount = getUnreadStreamsAndTopicsSansMuted(state);

@@ -10,6 +10,7 @@ import {
 } from '../index';
 import { reducer } from '../../unread/unreadModel';
 import { initialState } from '../../unread/__tests__/unread-testlib';
+import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
@@ -82,7 +83,7 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute topic option if topic is muted', () => {
-    const mute = deepFreeze([[stream.name, topic]]);
+    const mute = makeMuteState([[stream, topic]]);
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.backgroundData, streams, mute },
       streamId,
@@ -93,7 +94,7 @@ describe('constructTopicActionButtons', () => {
 
   test('show mute topic option if topic is not muted', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams, mute: [] },
+      backgroundData: { ...eg.backgroundData, streams, mute: makeMuteState([]) },
       streamId,
       topic,
     });

@@ -3,6 +3,7 @@ import { getTopicsForNarrow, getTopicsForStream } from '../topicSelectors';
 import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
 import { reducer as unreadReducer } from '../../unread/unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
@@ -61,11 +62,11 @@ describe('getTopicsForStream', () => {
           { name: 'topic 5', max_id: 9 },
         ],
       },
-      mute: [
-        [eg.stream.name, 'topic 1'],
-        [eg.stream.name, 'topic 3'],
-        [eg.otherStream.name, 'topic 2'],
-      ],
+      mute: makeMuteState([
+        [eg.stream, 'topic 1'],
+        [eg.stream, 'topic 3'],
+        [eg.otherStream, 'topic 2'],
+      ]),
       unread: [
         eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 1 }),
         eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 5 }),

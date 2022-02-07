@@ -22,6 +22,7 @@ import {
 } from '../../utils/narrow';
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 describe('getMessagesForNarrow', () => {
   const message = eg.streamMessage({ id: 123 });
@@ -102,7 +103,7 @@ describe('getShownMessagesForNarrow', () => {
   const message = eg.streamMessage();
   const subscription = eg.subscription;
   const mutedSubscription = { ...subscription, in_home_view: false };
-  const mutes = [[stream.name, message.subject]];
+  const mutes = makeMuteState([[stream, message.subject]]);
 
   const makeStateGeneral = (message, narrow, extra) =>
     eg.reduxStatePlus({
