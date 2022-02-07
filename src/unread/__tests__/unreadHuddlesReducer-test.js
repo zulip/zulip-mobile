@@ -68,9 +68,9 @@ describe('unreadHuddlesReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message id already exists, do not mutate state', () => {
-      const user1 = { ...eg.makeUser(), user_id: makeUserId(1) };
-      const user2 = { ...eg.makeUser(), user_id: makeUserId(2) };
-      const user3 = { ...eg.makeUser(), user_id: makeUserId(3) };
+      const user1 = eg.makeUser({ user_id: 1 });
+      const user2 = eg.makeUser({ user_id: 2 });
+      const user3 = eg.makeUser({ user_id: 3 });
 
       const message1 = eg.pmMessage({ id: 1, recipients: [user1, user2, user3] });
       const message2 = eg.pmMessage({ id: 2, recipients: [user1, user2, user3] });
