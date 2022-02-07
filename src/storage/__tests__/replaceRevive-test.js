@@ -17,6 +17,7 @@ const data = {
   jsMapWithTypeKey: new Map([['a', 1], [SERIALIZED_TYPE_FIELD_NAME, { b: [2] }]]),
   // prettier-ignore
   jsMapNumKeys: new Map([[1, 2], [3, 4]]),
+  jsSet: new Set([1, 2, 'a', null, { b: [3] }]),
   list: Immutable.List([1, 2, 'a', null]),
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
   mapWithTypeKey: Immutable.Map({
@@ -56,6 +57,7 @@ const stringified = {
   jsMapWithTypeKey:
     '{"data":[["a",1],["__serializedType__",{"b":[2]}]],"__serializedType__":"Map"}',
   jsMapNumKeys: '{"data":[[1,2],[3,4]],"__serializedType__":"Map"}',
+  jsSet: '{"data":[1,2,"a",null,{"b":[3]}],"__serializedType__":"Set"}',
   list: '{"data":[1,2,"a",null],"__serializedType__":"ImmutableList"}',
   map: '{"data":{"a":1,"b":2,"c":3,"d":4},"__serializedType__":"ImmutableMap"}',
   mapWithTypeKey:
