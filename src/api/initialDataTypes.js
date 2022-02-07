@@ -511,12 +511,9 @@ export type InitialDataUserStatus = $ReadOnly<{|
    */
   // TODO(server-1.9.1): Make required.
   user_status?: $ReadOnly<{|
-    // TODO(flow): The key here is really UserId, not just any number; but
-    //   this Flow bug:
-    //     https://github.com/facebook/flow/issues/5407
-    //   means that doesn't work right, and the best workaround is to
-    //   leave it as `number`.
-    [userId: number]: $ReadOnly<{|
+    // Keys are UserId encoded as strings (just because JS objects are
+    // string-keyed).
+    [userId: string]: $ReadOnly<{|
       // TODO: add status emoji properties
       // TODO: Comment on what these mean (if doc not fixed):
       //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/Emoji.20statuses.20in.20zulip.2Eyaml/near/1322329
