@@ -125,13 +125,15 @@ export const diverseCharacters: string =
 type UserOrBotPropertiesArgs = {|
   name?: string,
   user_id?: number, // accept a plain number, for convenience in tests
+  email?: string,
 |};
 
 const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
   makeUniqueRandInt('user IDs', 10000),
 );
-const userOrBotProperties = ({ name: _name, user_id }: UserOrBotPropertiesArgs) => {
-  const name = _name ?? randString();
+const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
+  const name = args.name ?? randString();
+  const email = args.email ?? `${name}@example.org`;
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return deepFreeze({
     // Internally the UploadedAvatarURL mutates itself for memoization.
@@ -143,11 +145,11 @@ const userOrBotProperties = ({ name: _name, user_id }: UserOrBotPropertiesArgs) 
       .toString()
       .padStart(2, '0')}`,
 
-    email: `${name}@example.org`,
+    email,
     full_name: `${capsName} User`,
     is_admin: false,
     timezone: 'UTC',
-    user_id: user_id != null ? makeUserId(user_id) : randUserId(),
+    user_id: args.user_id != null ? makeUserId(args.user_id) : randUserId(),
   });
 };
 
