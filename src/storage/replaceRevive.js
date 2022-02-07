@@ -113,7 +113,7 @@ function replacer(key, value) {
     // Flow bug: https://github.com/facebook/flow/issues/6110
     origValuePrototype === (Object.prototype: $FlowIssue)
       || origValuePrototype === (Array.prototype: $FlowIssue),
-    'unexpected class',
+    `stringify: unexpected class: ${origValuePrototype.constructor.name}`,
   );
 
   // Ensure that objects with a [SERIALIZED_TYPE_FIELD_NAME] property
