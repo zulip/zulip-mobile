@@ -14,7 +14,7 @@ describe('getTopicsForNarrow', () => {
   });
 
   test('when there are topics in the active narrow, return them as string array', () => {
-    const stream = { ...eg.makeStream({ name: 'hello' }), stream_id: 123 };
+    const stream = eg.makeStream({ stream_id: 123, name: 'hello' });
     const state = eg.reduxState({
       streams: [stream],
       topics: {
@@ -43,7 +43,7 @@ describe('getTopicsForStream', () => {
   });
 
   test('when topics loaded for given stream return them', () => {
-    const stream = { ...eg.makeStream({ name: 'stream 123' }), stream_id: 123 };
+    const stream = eg.makeStream({ stream_id: 123, name: 'stream 123' });
     const state = eg.reduxState({
       streams: [stream],
       topics: {
@@ -58,7 +58,7 @@ describe('getTopicsForStream', () => {
   });
 
   test('Return list of topic object with isMuted, unreadCount, topic name and max id in it.', () => {
-    const stream = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
+    const stream = eg.makeStream({ stream_id: 1, name: 'stream 1' });
 
     const state = eg.reduxStatePlus({
       streams: [stream],

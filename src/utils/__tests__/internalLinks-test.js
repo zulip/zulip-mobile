@@ -309,7 +309,7 @@ describe('getNarrowFromLink', () => {
       });
 
       test('on ambiguous new- or old-style: new wins', () => {
-        const collider = { ...eg.makeStream({ name: 'collider' }), stream_id: 311 };
+        const collider = eg.makeStream({ stream_id: 311, name: 'collider' });
         expectStream('311', [numbers, collider], collider);
         expectStream('311-', [numbersHyphen, collider], collider);
         expectStream('311-help', [numbersPlus, collider], collider);

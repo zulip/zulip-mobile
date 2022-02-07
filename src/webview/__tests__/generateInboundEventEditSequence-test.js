@@ -29,8 +29,8 @@ const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
 const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
 const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
 
-const stream1 = { ...eg.makeStream({ name: 'stream 1' }), stream_id: 1 };
-const stream2 = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
+const stream1 = eg.makeStream({ stream_id: 1, name: 'stream 1' });
+const stream2 = eg.makeStream({ stream_id: 2, name: 'stream 2' });
 
 const topic1 = 'topic 1';
 const topic2 = 'topic 2';

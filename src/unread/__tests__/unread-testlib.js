@@ -11,8 +11,8 @@ export const initialState: UnreadState = reducer(
   eg.baseReduxState,
 );
 
-export const stream0: Stream = { ...eg.makeStream({ name: 'stream 0' }), stream_id: 0 };
-export const stream2: Stream = { ...eg.makeStream({ name: 'stream 2' }), stream_id: 2 };
+export const stream0: Stream = eg.makeStream({ stream_id: 0, name: 'stream 0' });
+export const stream2: Stream = eg.makeStream({ stream_id: 2, name: 'stream 2' });
 
 const [user0, user1, user2, user3, user4, user5] = [0, 1, 2, 3, 4, 5].map(user_id =>
   eg.makeUser({ user_id }),
