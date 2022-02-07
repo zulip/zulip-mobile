@@ -6,7 +6,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
-    const state = eg.reduxState();
+    const state = eg.reduxStatePlus();
 
     const topics = getTopicsForNarrow(state, HOME_NARROW);
 
@@ -14,16 +14,14 @@ describe('getTopicsForNarrow', () => {
   });
 
   test('when there are topics in the active narrow, return them as string array', () => {
-    const stream = eg.makeStream({ stream_id: 123, name: 'hello' });
-    const state = eg.reduxState({
-      streams: [stream],
+    const state = eg.reduxStatePlus({
       topics: {
         // prettier-ignore
-        [stream.stream_id]: [{ name: 'hi', max_id: 123 }, { name: 'wow', max_id: 234 }]
+        [eg.stream.stream_id]: [{ name: 'hi', max_id: 123 }, { name: 'wow', max_id: 234 }]
       },
     });
 
-    const topics = getTopicsForNarrow(state, streamNarrow(stream.stream_id));
+    const topics = getTopicsForNarrow(state, streamNarrow(eg.stream.stream_id));
 
     expect(topics).toEqual(['hi', 'wow']);
   });
@@ -31,39 +29,31 @@ describe('getTopicsForNarrow', () => {
 
 describe('getTopicsForStream', () => {
   test('when no topics loaded for given stream return undefined', () => {
-    const state = eg.reduxState({
-      streams: [],
+    const state = eg.reduxStatePlus({
       topics: {},
-      mute: [],
     });
 
-    const topics = getTopicsForStream(state, 123);
+    const topics = getTopicsForStream(state, eg.stream.stream_id);
 
     expect(topics).toEqual(undefined);
   });
 
   test('when topics loaded for given stream return them', () => {
-    const stream = eg.makeStream({ stream_id: 123, name: 'stream 123' });
-    const state = eg.reduxState({
-      streams: [stream],
+    const state = eg.reduxStatePlus({
       topics: {
-        [stream.stream_id]: [{ name: 'topic', max_id: 456 }],
+        [eg.stream.stream_id]: [{ name: 'topic', max_id: 456 }],
       },
-      mute: [],
     });
 
-    const topics = getTopicsForStream(state, stream.stream_id);
+    const topics = getTopicsForStream(state, eg.stream.stream_id);
 
     expect(topics).toEqual([{ name: 'topic', max_id: 456, isMuted: false, unreadCount: 0 }]);
   });
 
   test('Return list of topic object with isMuted, unreadCount, topic name and max id in it.', () => {
-    const stream = eg.makeStream({ stream_id: 1, name: 'stream 1' });
-
     const state = eg.reduxStatePlus({
-      streams: [stream],
       topics: {
-        [stream.stream_id]: [
+        [eg.stream.stream_id]: [
           { name: 'topic 1', max_id: 5 },
           { name: 'topic 2', max_id: 6 },
           { name: 'topic 3', max_id: 7 },
@@ -71,14 +61,17 @@ describe('getTopicsForStream', () => {
           { name: 'topic 5', max_id: 9 },
         ],
       },
-      // prettier-ignore
-      mute: [['stream 1', 'topic 1'], ['stream 1', 'topic 3'], ['stream 2', 'topic 2']],
+      mute: [
+        [eg.stream.name, 'topic 1'],
+        [eg.stream.name, 'topic 3'],
+        [eg.otherStream.name, 'topic 2'],
+      ],
       unread: [
-        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 1 }),
-        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 5 }),
-        eg.streamMessage({ stream_id: 1, subject: 'topic 2', id: 6 }),
-        eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 7 }),
-        eg.streamMessage({ stream_id: 1, subject: 'topic 4', id: 8 }),
+        eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 1 }),
+        eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 5 }),
+        eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 6 }),
+        eg.streamMessage({ stream: eg.stream, subject: 'topic 4', id: 7 }),
+        eg.streamMessage({ stream: eg.stream, subject: 'topic 4', id: 8 }),
       ].reduce(
         (st, message) => unreadReducer(st, eg.mkActionEventNewMessage(message), eg.plusReduxState),
         eg.plusReduxState.unread,
@@ -92,7 +85,7 @@ describe('getTopicsForStream', () => {
       { name: 'topic 5', max_id: 9, isMuted: false, unreadCount: 0 },
     ];
 
-    const topics = getTopicsForStream(state, 1);
+    const topics = getTopicsForStream(state, eg.stream.stream_id);
 
     expect(topics).toEqual(expected);
   });
