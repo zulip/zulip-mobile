@@ -49,6 +49,7 @@ import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
 import type { BackgroundData } from '../../webview/MessageList';
 import { getSettings, getStreamsById, getSubscriptionsById } from '../../selectors';
+import { getGlobalSettings } from '../../directSelectors';
 
 /* ========================================================================
  * Utilities
@@ -846,20 +847,20 @@ export const mkActionEventNewMessage = (
  */
 
 export const backgroundData: BackgroundData = deepFreeze({
-  alertWords: [],
-  allImageEmojiById: action.register_complete.data.realm_emoji,
+  alertWords: baseReduxState.alertWords,
+  allImageEmojiById: {}, // in reality would also have :zulip:
   auth: selfAuth,
   debug: baseReduxState.session.debug,
   doNotMarkMessagesAsRead: baseReduxState.settings.doNotMarkMessagesAsRead,
   flags: baseReduxState.flags,
   allUsersById: new Map([[selfUser.user_id, selfUser]]),
-  mute: [],
-  mutedUsers: Immutable.Map(),
+  mute: baseReduxState.mute,
+  mutedUsers: baseReduxState.mutedUsers,
   ownUser: selfUser,
   streams: getStreamsById(baseReduxState),
   subscriptions: getSubscriptionsById(baseReduxState),
   unread: baseReduxState.unread,
-  theme: 'default',
-  twentyFourHourTime: false,
+  theme: getGlobalSettings(baseReduxState).theme,
+  twentyFourHourTime: baseReduxState.realm.twentyFourHourTime,
   userSettingStreamNotification: getSettings(baseReduxState).streamNotification,
 });
