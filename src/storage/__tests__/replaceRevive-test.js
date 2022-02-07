@@ -11,6 +11,12 @@ import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
 
 const data = {
+  // prettier-ignore
+  jsMap: new Map([['a', 1], ['b', 2], ['c', 3]]),
+  // prettier-ignore
+  jsMapWithTypeKey: new Map([['a', 1], [SERIALIZED_TYPE_FIELD_NAME, { b: [2] }]]),
+  // prettier-ignore
+  jsMapNumKeys: new Map([[1, 2], [3, 4]]),
   list: Immutable.List([1, 2, 'a', null]),
   map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
   mapWithTypeKey: Immutable.Map({
@@ -46,6 +52,10 @@ const data = {
 };
 
 const stringified = {
+  jsMap: '{"data":[["a",1],["b",2],["c",3]],"__serializedType__":"Map"}',
+  jsMapWithTypeKey:
+    '{"data":[["a",1],["__serializedType__",{"b":[2]}]],"__serializedType__":"Map"}',
+  jsMapNumKeys: '{"data":[[1,2],[3,4]],"__serializedType__":"Map"}',
   list: '{"data":[1,2,"a",null],"__serializedType__":"ImmutableList"}',
   map: '{"data":{"a":1,"b":2,"c":3,"d":4},"__serializedType__":"ImmutableMap"}',
   mapWithTypeKey:

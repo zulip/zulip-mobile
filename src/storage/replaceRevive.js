@@ -59,6 +59,8 @@ function replacer(key, value) {
     // Flow bug: https://github.com/facebook/flow/issues/6110
     case (Date.prototype: $FlowIssue):
       return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'Date' };
+    case (Map.prototype: $FlowIssue):
+      return { data: [...value.entries()], [SERIALIZED_TYPE_FIELD_NAME]: 'Map' };
     case (ZulipVersion.prototype: $FlowIssue):
       return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
     case (URL.prototype: $FlowIssue):
@@ -144,6 +146,8 @@ function reviver(key, value) {
     switch (value[SERIALIZED_TYPE_FIELD_NAME]) {
       case 'Date':
         return new Date(data);
+      case 'Map':
+        return new Map(data);
       case 'ZulipVersion':
         return new ZulipVersion(data);
       case 'URL':
