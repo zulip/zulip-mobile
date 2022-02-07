@@ -133,12 +133,7 @@ describe('subscriptionsReducer', () => {
 
   describe('EVENT_SUBSCRIPTION -> update', () => {
     test('Change the in_home_view property', () => {
-      const subNotInHomeView = deepFreeze({
-        ...eg.makeSubscription({
-          stream: stream1,
-        }),
-        in_home_view: false,
-      });
+      const subNotInHomeView = eg.makeSubscription({ stream: stream1, in_home_view: false });
 
       const initialState = deepFreeze([subNotInHomeView, sub2, sub3]);
 

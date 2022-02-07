@@ -297,8 +297,8 @@ describe('getStreamInNarrow', () => {
   const stream2 = eg.makeStream({ name: 'stream2' });
   const stream3 = eg.makeStream({ name: 'stream3' });
   const stream4 = eg.makeStream({ name: 'stream4' });
-  const sub1 = { ...eg.makeSubscription({ stream: stream1 }), in_home_view: false };
-  const sub2 = { ...eg.makeSubscription({ stream: stream2 }), in_home_view: true };
+  const sub1 = eg.makeSubscription({ stream: stream1, in_home_view: false });
+  const sub2 = eg.makeSubscription({ stream: stream2, in_home_view: true });
 
   const state = eg.reduxState({
     streams: [stream1, stream2, stream3],
