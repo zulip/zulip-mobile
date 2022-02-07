@@ -34,6 +34,7 @@ import type {
 import type { Auth, Account, StreamOutbox } from '../../types';
 import { dubJointState } from '../../reduxTypes';
 import { UploadedAvatarURL } from '../../utils/avatar';
+import type { AvatarURL } from '../../utils/avatar';
 import { ZulipVersion } from '../../utils/zulipVersion';
 import {
   ACCOUNT_SWITCH,
@@ -126,6 +127,7 @@ type UserOrBotPropertiesArgs = {|
   name?: string,
   user_id?: number, // accept a plain number, for convenience in tests
   email?: string,
+  avatar_url?: AvatarURL,
 |};
 
 const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
@@ -139,7 +141,9 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     // Internally the UploadedAvatarURL mutates itself for memoization.
     // That conflicts with the deepFreeze we do for tests; so construct it
     // here with a full-blown URL object in the first place to prevent that.
-    avatar_url: new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${name}.png`)),
+    avatar_url:
+      args.avatar_url
+      ?? new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${name}.png`)),
 
     date_joined: `2014-04-${randInt(30)
       .toString()

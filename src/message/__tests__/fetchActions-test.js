@@ -230,10 +230,10 @@ describe('fetchActions', () => {
 
   describe('fetchMessages', () => {
     const email = 'abc123@example.com';
-    const sender = {
-      ...eg.makeUser({ email }),
+    const sender = eg.makeUser({
+      email,
       avatar_url: GravatarURL.validateAndConstructInstance({ email }),
-    };
+    });
     const message1 = eg.streamMessage({ id: 1, sender });
 
     // message1 exactly as we receive it from the server, before our
