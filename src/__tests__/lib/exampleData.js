@@ -276,14 +276,19 @@ export const otherStream: Stream = makeStream({
 
 /** A subscription, by default to eg.stream. */
 export const makeSubscription = (
-  args: {| stream?: Stream, in_home_view?: boolean |} = Object.freeze({}),
+  args: {|
+    stream?: Stream,
+    in_home_view?: boolean,
+    pin_to_top?: boolean,
+    color?: string,
+  |} = Object.freeze({}),
 ): Subscription => {
-  const { stream: streamInner = stream, in_home_view } = args;
+  const { stream: streamInner = stream } = args;
   return deepFreeze({
     ...streamInner,
-    color: '#123456',
-    in_home_view: in_home_view ?? true,
-    pin_to_top: false,
+    color: args.color ?? '#123456',
+    in_home_view: args.in_home_view ?? true,
+    pin_to_top: args.pin_to_top ?? false,
     audible_notifications: false,
     desktop_notifications: false,
     email_address: '??? make this value representative before using in a test :)',

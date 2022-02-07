@@ -80,7 +80,7 @@ describe('getIsActiveStreamSubscribed', () => {
 describe('getStreamColorForNarrow', () => {
   const exampleColor = '#fff';
   const state = eg.reduxState({
-    subscriptions: [{ ...eg.makeSubscription({ stream: eg.stream }), color: exampleColor }],
+    subscriptions: [eg.makeSubscription({ stream: eg.stream, color: exampleColor })],
   });
 
   test('return stream color for stream and topic narrow', () => {
