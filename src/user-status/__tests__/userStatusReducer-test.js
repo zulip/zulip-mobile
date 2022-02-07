@@ -4,7 +4,7 @@ import { ACCOUNT_SWITCH, REGISTER_COMPLETE, EVENT_USER_STATUS_UPDATE } from '../
 import userStatusReducer from '../userStatusReducer';
 
 describe('userStatusReducer', () => {
-  const testUserStatusData = deepFreeze({
+  const testUserStatusState = deepFreeze({
     1: {
       away: true,
     },
@@ -21,7 +21,7 @@ describe('userStatusReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = testUserStatusData;
+      const initialState = testUserStatusState;
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
       });
@@ -39,17 +39,24 @@ describe('userStatusReducer', () => {
       const action = {
         type: REGISTER_COMPLETE,
         data: {
-          user_status: testUserStatusData,
+          user_status: deepFreeze({
+            1: {
+              away: true,
+            },
+            2: {
+              status_text: 'Hello, world',
+            },
+          }),
         },
       };
 
       const actualState = userStatusReducer(initialState, action);
 
-      expect(actualState).toEqual(testUserStatusData);
+      expect(actualState).toEqual(testUserStatusState);
     });
 
     test('handles older back-ends that do not have `user_status` data by resetting the state', () => {
-      const initialState = deepFreeze(testUserStatusData);
+      const initialState = deepFreeze(testUserStatusState);
       const action = deepFreeze({
         type: REGISTER_COMPLETE,
         data: {},
