@@ -36,32 +36,83 @@ It doesn't include
 
 ## Unreleased
 
-### Highlights for users, vs v27.175 (last prod release)
-
-TODO adjust for actual last prod release, after cherry-pick release
+### Highlights for users, vs v27.178 (last prod release)
 
 * (Android) Notifications have been reworked to be more helpful
   and readable. (#2691, #4842, #5136)
-* Fix bug where unreads screen could lead to an empty list of messages
-  if topic was edited (#4840)
-* Add a "Mark all as read" button in PM conversations, just like
-  in topics and streams (#5156)
 * (Android) The app no longer restarts when you switch between split-view
   mode and fullscreen mode. (#5068)
+* Fixed a family of bugs when a stream is renamed while you're looking
+  at it. (#4333)
+* Wordle players rejoice: Zulip fully supports the emoji for large
+  green, yellow, and black squares. (#5220)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
 
 
-### Highlights for developers, vs. 27.177
+### Highlights for developers, vs. 27.177 (last release from main)
 
-* Resolved issues: #4840, #5168, #5156, #5162
+* Platforms and dependencies:
+  * Bumped targetSdkVersion to 31, aka Android 12.
+    Almost a year ahead of deadline! (#5101)
+  * Upgraded to Flow v0.141.0. (#5219)
+  * Upgraded to React Native v0.64.3 from v0.64.2, so a new
+    minor release. (#5167)
+  * Migrated to Expo modules, from their "unimodules".  This unblocks
+    upgrading Expo packages more generally, and we did. (#5133, #5203)
 
+* Server versions and API:
+  * We warn to Sentry on server versions before server-3.0.  The
+    minimum supported version, the threshold for warning users,
+    remains server-2.1. (#5218)
+  * Our code now relies on server-1.9, i.e. Zulip Server 1.9+,
+    released in 2018.  These changes affected only comments and tests;
+    future changes to rely on 2.0 and later will change actual
+    behavior, as did the change in v27.177 to rely on
+    server-1.8. (#5192)
+  * In `update_message` events for server stealth-edits, we handle a
+    possible future protocol with `user_id: null` instead of omitted.
+    (#5194)
+
+* We link separately to /policies/ on zulip.com and on the current
+  server, rather than only to /terms/ and /privacy/ on the current
+  server. (#5168)
+
+* Types and data structures:
+  * Our migrations for our Redux data now have tests.  These found a
+    year-old migration didn't work; it's fixed. (#5190)
+  * We now use stream IDs instead of stream names to identify streams
+    in most places, including the Narrow type. (#5183, #5205, #4333,
+    toward #3918)
+  * We now use $ReadOnlyArray and read-only object types in lots more
+    places, including all the array and object types in our actions
+    and other Redux-related types. (#5186)
+
+* Resolved issues: #5145, #4840, #5168, #5156, #5162, #5171, #5101,
+  #5187, #4687, #5195, #5206, #5133, #4333, #5130, #5218, #5220
   * Of these, #4840, #5156, and #5162 were also in the two cherry-pick
     releases v27.178 and v27.179.
+  * #5206 was a regression in v27.180, not present in any beta or
+    production release.
+  * User-visible fixes not detailed in user highlights include: #5187,
+    #5195, plus see v27.177 and v27.176
+
+
+## 27.180 (2022-01-25)
+
+This was an alpha-only release for testing notification sounds.
+
+It included a draft version of PR #5221 atop a current version
+of the main branch.
 
 
 ## 27.179 (2021-12-21)
 
 This is a stable release in the v27.176 series, with cherry-picked
 changes atop v27.176.
+
+This was a beta-only release.
 
 
 ### Highlights for users, vs. v27.176
@@ -122,12 +173,17 @@ This was an alpha-only release.
 
 ### Highlights for developers, vs. 27.176
 
+* We now warn the user when the server isn't registered for push
+  notifications. (#1507)
+
 * The tools/checkout-keystore script, used in preparing the published
   builds, now decrypts the keystore with Sequoia PGP rather than GPG.
   (PR #5144)
 
 * Resolved issues: #5136, #1507, #4631, #5138, #5031, #5140, #5143,
   #5153
+  * User-visible fixes not detailed in user highlights include: #4631,
+    #5143
 
 
 ## 27.176 (2021-11-16)
@@ -154,11 +210,18 @@ experience.
 * (Android) Dropped support for Android versions older than Android 7.
   (PR #5114)
 
+* Dropped some legacy compatibility code, to rely on server-1.8.
+  (PR #5100)
+
+  Also now fully upgraded to take advantage of server-1.6, released
+  in 2017.  (The code affected here was only a line in the types.)
+
 * Made more progress on preparing our Flow types for better multi-account
   support. (#5066, #5083, #5105, #5113)
 
 * Resolved issues (earliest first): #4239, #5081, #2691, #4633, #5068,
   #5119, #5120, #5098
+  * User-visible fixes not detailed in user highlights include: #5098
 
 
 ## 27.175 (2021-10-28)
@@ -376,6 +439,8 @@ experience.
 
 * (Android) Dropped support for Android versions older than Android 6 (PR
   #4938).
+* Bumped to server-2.1 the threshold for warning users of unsupported
+  old servers. (PR #4962)
 * Over a dozen dependencies upgraded across major versions (PRs #4949,
   #4950, #4952); also other minor/patch upgrades, and some deps removed.
 * Resolved issues (earliest first): #4852, #4890, #4938, #4964, #4285,
@@ -520,6 +585,7 @@ experience.
 
 ### Highlights for developers
 
+* Started warning users when server older than server-2.0. (PR #4750)
 * Extended Jest coverage to include Android-only codepaths. (#4700)
 * Ran `yarn upgrade` to take all semver-compatible upgrades, as of
   2021-06-07. (It had been almost two years since the last one.) (PR #4789)
