@@ -4,6 +4,7 @@ import type { MuteState, PerAccountApplicableAction, PerAccountState } from '../
 import { REGISTER_COMPLETE, LOGOUT, ACCOUNT_SWITCH, EVENT_MUTED_TOPICS } from '../actionConstants';
 import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as logging from '../utils/logging';
+import DefaultMap from '../utils/DefaultMap';
 
 //
 //
@@ -28,21 +29,16 @@ export const isTopicMuted = (streamId: number, topic: string, mute: MuteState): 
 const initialState: MuteState = new Map();
 
 function convert(data, streams): MuteState {
-  const result = new Map();
+  const result = new DefaultMap(() => new Set());
   for (const [streamName, topic] of data) {
     const stream = streams.get(streamName);
     if (!stream) {
       logging.warn('mute: unknown stream');
       continue;
     }
-    let perStream = result.get(stream.stream_id);
-    if (!perStream) {
-      perStream = new Set();
-      result.set(stream.stream_id, perStream);
-    }
-    perStream.add(topic);
+    result.getOrCreate(stream.stream_id).add(topic);
   }
-  return result;
+  return result.map;
 }
 
 export const reducer = (
