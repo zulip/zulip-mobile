@@ -1,12 +1,6 @@
 /* @flow strict-local */
 import config from '../config';
-import type {
-  Action,
-  PerAccountState,
-  PerAccountApplicableAction,
-  GlobalState,
-  MigrationsState,
-} from '../types';
+import type { Action, PerAccountApplicableAction, GlobalState, MigrationsState } from '../types';
 import { dubPerAccountState } from '../reduxTypes';
 import { isPerAccountApplicableAction } from '../actionTypes';
 
@@ -95,39 +89,68 @@ function applyReducer<GS, A: Action, Key: $Keys<GS> & $Keys<GlobalState>, State>
 // Based on Redux upstream's combineReducers.
 export default (globalState: void | GlobalState, origAction: Action): GlobalState => {
   let nextPerAccountState = globalState;
-  if (!nextPerAccountState || isPerAccountApplicableAction(origAction)) {
-    // Update the per-account state.  We do this when the action is a
-    // PerAccountApplicableAction... and also when it's the store
-    // initialization action, signalled by the previous state being void.
+  if (!nextPerAccountState) {
+    // Initialize the per-account state.  This must be the store
+    // initialization action, because the previous state is void.
+
+    /* $FlowFixMe[incompatible-type]:  */
+    const action: PerAccountApplicableAction = origAction;
+
+    // prettier-ignore
+    nextPerAccountState = {
+      alertWords: applyReducer('alertWords', alertWords, undefined, action, undefined),
+      caughtUp: applyReducer('caughtUp', caughtUp, undefined, action, undefined),
+      drafts: applyReducer('drafts', drafts, undefined, action, undefined),
+      fetching: applyReducer('fetching', fetching, undefined, action, undefined),
+      flags: applyReducer('flags', flags, undefined, action, undefined),
+      messages: applyReducer('messages', messages, undefined, action, undefined),
+      narrows: applyReducer('narrows', narrows, undefined, action, undefined),
+      mute: applyReducer('mute', mute, undefined, action, undefined),
+      mutedUsers: applyReducer('mutedUsers', mutedUsers, undefined, action, undefined),
+      outbox: applyReducer('outbox', outbox, undefined, action, undefined),
+      pmConversations: applyReducer('pmConversations', pmConversations, undefined, action, undefined),
+      presence: applyReducer('presence', presence, undefined, action, undefined),
+      realm: applyReducer('realm', realm, undefined, action, undefined),
+      streams: applyReducer('streams', streams, undefined, action, undefined),
+      subscriptions: applyReducer('subscriptions', subscriptions, undefined, action, undefined),
+      topics: applyReducer('topics', topics, undefined, action, undefined),
+      typing: applyReducer('typing', typing, undefined, action, undefined),
+      unread: applyReducer('unread', unread, undefined, action, undefined),
+      userGroups: applyReducer('userGroups', userGroups, undefined, action, undefined),
+      userStatus: applyReducer('userStatus', userStatus, undefined, action, undefined),
+      users: applyReducer('users', users, undefined, action, undefined),
+    };
+  } else if (isPerAccountApplicableAction(origAction)) {
+    // Update the per-account state, for this PerAccountApplicableAction.
 
     /* $FlowFixMe[incompatible-type]: TODO teach Flow that
            isPerAccountApplicableAction checks this */
     const action: PerAccountApplicableAction = origAction;
-    const state: void | PerAccountState = globalState ? dubPerAccountState(globalState) : undefined;
+    const state = dubPerAccountState(nextPerAccountState);
 
     // prettier-ignore
     nextPerAccountState = {
-      alertWords: applyReducer('alertWords', alertWords, state?.alertWords, action, state),
-      caughtUp: applyReducer('caughtUp', caughtUp, state?.caughtUp, action, state),
-      drafts: applyReducer('drafts', drafts, state?.drafts, action, state),
-      fetching: applyReducer('fetching', fetching, state?.fetching, action, state),
-      flags: applyReducer('flags', flags, state?.flags, action, state),
-      messages: applyReducer('messages', messages, state?.messages, action, state),
-      narrows: applyReducer('narrows', narrows, state?.narrows, action, state),
-      mute: applyReducer('mute', mute, state?.mute, action, state),
-      mutedUsers: applyReducer('mutedUsers', mutedUsers, state?.mutedUsers, action, state),
-      outbox: applyReducer('outbox', outbox, state?.outbox, action, state),
-      pmConversations: applyReducer('pmConversations', pmConversations, state?.pmConversations, action, state),
-      presence: applyReducer('presence', presence, state?.presence, action, state),
-      realm: applyReducer('realm', realm, state?.realm, action, state),
-      streams: applyReducer('streams', streams, state?.streams, action, state),
-      subscriptions: applyReducer('subscriptions', subscriptions, state?.subscriptions, action, state),
-      topics: applyReducer('topics', topics, state?.topics, action, state),
-      typing: applyReducer('typing', typing, state?.typing, action, state),
-      unread: applyReducer('unread', unread, state?.unread, action, state),
-      userGroups: applyReducer('userGroups', userGroups, state?.userGroups, action, state),
-      userStatus: applyReducer('userStatus', userStatus, state?.userStatus, action, state),
-      users: applyReducer('users', users, state?.users, action, state),
+      alertWords: applyReducer('alertWords', alertWords, state.alertWords, action, state),
+      caughtUp: applyReducer('caughtUp', caughtUp, state.caughtUp, action, state),
+      drafts: applyReducer('drafts', drafts, state.drafts, action, state),
+      fetching: applyReducer('fetching', fetching, state.fetching, action, state),
+      flags: applyReducer('flags', flags, state.flags, action, state),
+      messages: applyReducer('messages', messages, state.messages, action, state),
+      narrows: applyReducer('narrows', narrows, state.narrows, action, state),
+      mute: applyReducer('mute', mute, state.mute, action, state),
+      mutedUsers: applyReducer('mutedUsers', mutedUsers, state.mutedUsers, action, state),
+      outbox: applyReducer('outbox', outbox, state.outbox, action, state),
+      pmConversations: applyReducer('pmConversations', pmConversations, state.pmConversations, action, state),
+      presence: applyReducer('presence', presence, state.presence, action, state),
+      realm: applyReducer('realm', realm, state.realm, action, state),
+      streams: applyReducer('streams', streams, state.streams, action, state),
+      subscriptions: applyReducer('subscriptions', subscriptions, state.subscriptions, action, state),
+      topics: applyReducer('topics', topics, state.topics, action, state),
+      typing: applyReducer('typing', typing, state.typing, action, state),
+      unread: applyReducer('unread', unread, state.unread, action, state),
+      userGroups: applyReducer('userGroups', userGroups, state.userGroups, action, state),
+      userStatus: applyReducer('userStatus', userStatus, state.userStatus, action, state),
+      users: applyReducer('users', users, state.users, action, state),
     };
   }
 
