@@ -20,14 +20,10 @@ describe('settingsReducer', () => {
         streamNotification: false,
       });
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          enable_offline_push_notifications: true,
-          enable_online_push_notifications: true,
-          enable_stream_push_notifications: true,
-        },
+      const action = eg.mkActionRegisterComplete({
+        enable_offline_push_notifications: true,
+        enable_online_push_notifications: true,
+        enable_stream_push_notifications: true,
       });
 
       const actualState = settingsReducer(prevState, action);

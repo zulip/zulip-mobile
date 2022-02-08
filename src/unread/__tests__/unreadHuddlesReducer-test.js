@@ -34,22 +34,17 @@ describe('unreadHuddlesReducer', () => {
     test('received data from "unread_msgs.huddles" key replaces the current state ', () => {
       const initialState = deepFreeze([]);
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          unread_msgs: {
-            ...eg.action.register_complete.data.unread_msgs,
-            streams: [],
-            huddles: [
-              {
-                user_ids_string: '0,1,2',
-                unread_message_ids: [1, 2, 4, 5],
-              },
-            ],
-            pms: [],
-            mentions: [1, 2, 3],
-          },
+      const action = eg.mkActionRegisterComplete({
+        unread_msgs: {
+          streams: [],
+          huddles: [
+            {
+              user_ids_string: '0,1,2',
+              unread_message_ids: [1, 2, 4, 5],
+            },
+          ],
+          pms: [],
+          mentions: [1, 2, 3],
         },
       });
 

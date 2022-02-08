@@ -60,10 +60,7 @@ describe('sessionReducer', () => {
 
   test('REGISTER_COMPLETE', () => {
     const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
-    const action = deepFreeze({
-      ...eg.action.register_complete,
-      data: { ...eg.action.register_complete.data, queue_id: '100' },
-    });
+    const action = eg.mkActionRegisterComplete({ queue_id: '100' });
     const newState = sessionReducer(state, action);
     expect(newState).toEqual({
       ...baseState,

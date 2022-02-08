@@ -14,12 +14,8 @@ describe('usersReducer', () => {
     test('when `users` data is provided init state with it', () => {
       const prevState = deepFreeze([]);
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          realm_users: [user1],
-        },
+      const action = eg.mkActionRegisterComplete({
+        realm_users: [user1],
       });
 
       const actualState = usersReducer(prevState, action);

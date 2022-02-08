@@ -21,12 +21,8 @@ describe('subscriptionsReducer', () => {
     test('when `subscriptions` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          subscriptions: [sub1],
-        },
+      const action = eg.mkActionRegisterComplete({
+        subscriptions: [sub1],
       });
 
       const actualState = subscriptionsReducer(initialState, action);
@@ -37,12 +33,8 @@ describe('subscriptionsReducer', () => {
     test('when `subscriptions` is an empty array, reset state', () => {
       const initialState = deepFreeze([sub1]);
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          subscriptions: [],
-        },
+      const action = eg.mkActionRegisterComplete({
+        subscriptions: [],
       });
 
       const expectedState = [];

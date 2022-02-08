@@ -11,12 +11,8 @@ describe('mutedUsersReducer', () => {
 
   describe('REGISTER_COMPLETE', () => {
     test('when `muted_users` data is provided init state with it', () => {
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          muted_users: [{ id: eg.otherUser.user_id, timestamp: 1618822632 }],
-        },
+      const action = eg.mkActionRegisterComplete({
+        muted_users: [{ id: eg.otherUser.user_id, timestamp: 1618822632 }],
       });
       expect(mutedUsersReducer(eg.baseReduxState.mutedUsers, action)).toEqual(
         Immutable.Map([[eg.otherUser.user_id, 1618822632]]),

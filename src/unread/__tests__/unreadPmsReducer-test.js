@@ -40,22 +40,17 @@ describe('unreadPmsReducer', () => {
       const message4 = eg.pmMessage({ id: 4, sender_id: 1 });
       const message5 = eg.pmMessage({ id: 5, sender_id: 1 });
 
-      const action = deepFreeze({
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          unread_msgs: {
-            ...eg.action.register_complete.data.unread_msgs,
-            streams: [],
-            huddles: [],
-            pms: [
-              {
-                sender_id: message1.sender_id,
-                unread_message_ids: [message1.id, message2.id, message4.id, message5.id],
-              },
-            ],
-            mentions: [message1.id, message2.id, message3.id],
-          },
+      const action = eg.mkActionRegisterComplete({
+        unread_msgs: {
+          streams: [],
+          huddles: [],
+          pms: [
+            {
+              sender_id: message1.sender_id,
+              unread_message_ids: [message1.id, message2.id, message4.id, message5.id],
+            },
+          ],
+          mentions: [message1.id, message2.id, message3.id],
         },
       });
 

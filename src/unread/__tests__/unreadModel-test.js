@@ -40,25 +40,20 @@ describe('stream substate', () => {
     test('received data from "unread_msgs.streams" key replaces the current state ', () => {
       const message1 = eg.streamMessage({ id: 1 });
 
-      const action = {
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          unread_msgs: {
-            ...eg.action.register_complete.data.unread_msgs,
-            streams: [
-              {
-                stream_id: message1.stream_id,
-                topic: message1.subject,
-                unread_message_ids: [message1.id, 2],
-              },
-            ],
-            huddles: [],
-            pms: [],
-            mentions: [message1.id, 2, 3],
-          },
+      const action = eg.mkActionRegisterComplete({
+        unread_msgs: {
+          streams: [
+            {
+              stream_id: message1.stream_id,
+              topic: message1.subject,
+              unread_message_ids: [message1.id, 2],
+            },
+          ],
+          huddles: [],
+          pms: [],
+          mentions: [message1.id, 2, 3],
         },
-      };
+      });
 
       // prettier-ignore
       expect(summary(reducer(initialState, action, eg.plusReduxState))).toEqual(Immutable.Map([

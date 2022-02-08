@@ -29,19 +29,9 @@ describe('unreadMentionsReducer', () => {
     test('received data from "unread_msgs.mentioned" key replaces the current state ', () => {
       const initialState = deepFreeze([]);
 
-      const action = {
-        ...eg.action.register_complete,
-        data: {
-          ...eg.action.register_complete.data,
-          unread_msgs: {
-            ...eg.action.register_complete.data.unread_msgs,
-            streams: [],
-            huddles: [],
-            pms: [],
-            mentions: [1, 2, 3],
-          },
-        },
-      };
+      const action = eg.mkActionRegisterComplete({
+        unread_msgs: { streams: [], huddles: [], pms: [], mentions: [1, 2, 3] },
+      });
 
       const expectedState = [1, 2, 3];
 

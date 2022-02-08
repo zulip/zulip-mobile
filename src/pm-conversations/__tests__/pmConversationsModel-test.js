@@ -45,10 +45,7 @@ describe('reducer', () => {
         sorted: Immutable.List(['1,2', '', '1']),
       };
       expect(
-        reducer(someState, {
-          ...eg.action.register_complete,
-          data: { ...eg.action.register_complete.data, recent_private_conversations },
-        }),
+        reducer(someState, eg.mkActionRegisterComplete({ recent_private_conversations })),
       ).toEqual(expected);
     });
   });

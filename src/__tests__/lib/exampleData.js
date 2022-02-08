@@ -17,6 +17,7 @@ import type {
   UserId,
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
+import type { InitialData } from '../../api/apiTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -628,7 +629,15 @@ export const action = Object.freeze({
     apiKey: selfAccount.apiKey,
   }): LoginSuccessAction),
 
-  /** Beware! Data contained may not be representative. */
+  /**
+   * A minimal well-typed REGISTER_COMPLETE action.
+   *
+   * Beware!  The data here may not be representative.  Generally each test
+   * should specify the particular properties that it cares about.
+   *
+   * See also `eg.mkActionRegisterComplete`, for combining this data with
+   * test-specific other data.
+   */
   register_complete: (deepFreeze({
     type: REGISTER_COMPLETE,
     data: {
@@ -778,6 +787,7 @@ export const action = Object.freeze({
       user_status: {},
     },
   }): RegisterCompleteAction),
+
   message_fetch_start: (deepFreeze({
     type: MESSAGE_FETCH_START,
     narrow: HOME_NARROW,
@@ -815,6 +825,30 @@ export const action = Object.freeze({
  * enough.  For action types without (a), even that isn't necessary, because
  * each test might as well define the action values it needs directly.
  */
+
+/**
+ * A REGISTER_COMPLETE action.
+ *
+ * The result will be based on `eg.action.register_complete`, but with the
+ * additional data given in the argument.
+ */
+export const mkActionRegisterComplete = (extra: {|
+  ...$Rest<InitialData, { ... }>,
+  unread_msgs?: $Rest<$PropertyType<InitialData, 'unread_msgs'>, { ... }>,
+|}): PerAccountAction => {
+  const { unread_msgs, ...rest } = extra;
+  return deepFreeze({
+    ...action.register_complete,
+    data: {
+      ...action.register_complete.data,
+      ...rest,
+      unread_msgs: {
+        ...action.register_complete.data.unread_msgs,
+        ...unread_msgs,
+      },
+    },
+  });
+};
 
 /**
  * An EVENT_NEW_MESSAGE action.
