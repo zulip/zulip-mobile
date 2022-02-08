@@ -2,6 +2,22 @@
 
 import { type UserId } from './idTypes';
 
+//
+// Note: No code actually refers to these type definitions!
+//
+// The code that consumes this part of the API is in:
+//   src/notification/extract.js
+//   android/app/src/main/java/com/zulipmobile/notifications/FcmMessage.kt
+// of which the latter is used on Android, and the former on iOS.
+//
+// The Android-side code doesn't use these because it's not in JS.
+// (Moreover the data it receives is slightly different; see that code, or
+// the server at zerver/lib/push_notifications.py , for details.)
+//
+// The JS-side code has a signature taking an arbitrary JSON blob, so that
+// the type-checker can verify it systematically validates all the pieces it
+// uses.  But these types describe the form of data it *expects* to receive.
+
 // This format is as of 2020-02, commit 3.0~3347.
 type BaseData = {|
   /** The realm URL, same as in the `/server_settings` response. */
@@ -17,8 +33,8 @@ type BaseData = {|
    * (This lets us distinguish different accounts in the same realm.)
    */
   // added 2.1-dev-540-g447a517e6f, release 2.1.0+
-  // TODO(server-2.1): Simplify comment.
-  +user_id: UserId,
+  // TODO(server-2.1): Mark required; simplify comment.
+  +user_id?: UserId,
 
   // The rest of the data is about the Zulip message we're being notified
   // about.
@@ -62,6 +78,8 @@ type PmData = {|
 |};
 
 /** An APNs message sent by the Zulip server. */
+// Note that no code actually refers to this type!  Rather it serves as
+// documentation.  See module comment.
 export type ApnsPayload = {|
   /** Our own data. */
   +zulip: StreamData | PmData,

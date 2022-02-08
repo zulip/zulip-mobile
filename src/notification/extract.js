@@ -38,6 +38,9 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
   //
   // For the format this parses, see `ApnsPayload` in src/api/notificationTypes.js .
   //
+  // Though what it actually receives is more like this:
+  //   $Rest<ApnsPayload, {| aps: mixed |}>
+  // See comment below about PushNotificationsIOS.
 
   /** Helper function: fail. */
   const err = (style: string) =>
