@@ -2,8 +2,12 @@
 
 The date on a release generally reflects when the source commit was
 tagged and the release build was first posted to GitHub or our alpha
-channels on the Play Store and Apple's App Store.  The main rollout
-to users in general on the app stores is typically a few days later.
+channels on the Play Store and Apple's App Store.
+
+The main rollout to users in general on the app stores is typically a
+few days later.  See announcements in [#announce > mobile releases][].
+
+[#announce > mobile releases]: https://chat.zulip.org/#narrow/stream/1-announce/topic/mobile.20releases
 
 
 #### Version numbering
@@ -14,10 +18,9 @@ We number our versions like so:
   Call that N.  We increment it on each release, including those that
   only go to alpha or beta.
 
-* Then we use version numbers A.B.N, where N is that same N, and...
-  * A is incremented for "a major release", whatever that means. (It's
-    a bit of an arbitrary choice we make when making the release.)
-  * B is reset to zero on "a major release", and otherwise incremented.
+* Then we use version numbers 27.N, where N is that same N.
+  * Before v27.154 (in 2020), we had a more complicated scheme of
+    A.B.N, where A counted "major" releases.
 
 
 #### "Resolved issues"
