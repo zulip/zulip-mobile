@@ -160,6 +160,8 @@ export const getNarrowFromNotificationData = (
   //   we settle for not crashing.
 
   if (data.recipient_type === 'stream') {
+    // TODO(server-5.0): Always use the stream ID (#3918).
+    // TODO(#3918): Use the notification's own stream_id, where present.
     const stream = streamsByName.get(data.stream_name);
     return (stream && topicNarrow(stream.stream_id, data.topic)) ?? null;
   }

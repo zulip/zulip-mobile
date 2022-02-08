@@ -54,10 +54,11 @@ type StreamData = {|
 
   /**
    * The name of the message's stream.
-   *
-   * Sadly no stream ID: https://github.com/zulip/zulip/issues/18067
    */
   +stream: string,
+
+  // TODO(server-5.0): Require stream_id (#3918).
+  // +stream_id?: number, // TODO(#3918): Add this, and use it.
 
   +topic: string,
 |};

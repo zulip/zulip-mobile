@@ -55,6 +55,8 @@ sealed class Recipient {
     }
 
     /** A stream message. */
+    // TODO(server-5.0): Require the stream ID (#3918).
+    // TODO(#3918): Get the stream ID, when present.
     data class Stream(val streamName: String, val topic: String) : Recipient()
 }
 
