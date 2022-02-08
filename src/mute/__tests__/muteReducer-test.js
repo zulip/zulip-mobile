@@ -1,30 +1,24 @@
+/* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
 import muteReducer from '../muteReducer';
-import { ACCOUNT_SWITCH, EVENT_MUTED_TOPICS, REGISTER_COMPLETE } from '../../actionConstants';
+import { EVENT_MUTED_TOPICS } from '../../actionConstants';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('muteReducer', () => {
   describe('REGISTER_COMPLETE', () => {
     test('when `mute` data is provided init state with it', () => {
       const initialState = deepFreeze([]);
-      const action = deepFreeze({
-        type: REGISTER_COMPLETE,
-        data: {
-          muted_topics: [['stream'], ['topic']],
-        },
-      });
+      const action = eg.mkActionRegisterComplete({ muted_topics: [['stream', 'topic']] });
 
       const actualState = muteReducer(initialState, action);
 
-      expect(actualState).toEqual([['stream'], ['topic']]);
+      expect(actualState).toEqual([['stream', 'topic']]);
     });
 
     test('when no `mute` data is given reset state', () => {
-      const initialState = deepFreeze([['stream'], ['topic']]);
-      const action = deepFreeze({
-        type: REGISTER_COMPLETE,
-        data: {},
-      });
+      const initialState = deepFreeze([['stream', 'topic']]);
+      const action = eg.mkActionRegisterComplete({ muted_topics: [] });
       const expectedState = [];
 
       const actualState = muteReducer(initialState, action);
@@ -35,11 +29,9 @@ describe('muteReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze(['some_topic']);
+      const initialState = deepFreeze([['stream', 'some_topic']]);
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-      });
+      const action = eg.action.account_switch;
 
       const expectedState = [];
 
@@ -55,10 +47,11 @@ describe('muteReducer', () => {
 
       const action = deepFreeze({
         type: EVENT_MUTED_TOPICS,
-        muted_topics: [[['stream'], ['topic']]],
+        id: -1,
+        muted_topics: [['stream', 'topic']],
       });
 
-      const expectedState = [[['stream'], ['topic']]];
+      const expectedState = [['stream', 'topic']];
 
       const newState = muteReducer(initialState, action);
 
