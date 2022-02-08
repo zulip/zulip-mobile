@@ -81,13 +81,13 @@ describe('userStatusReducer', () => {
     });
 
     test('if the user already has user status stored update their key', () => {
-      const initialState = Immutable.Map([[1, { away: false }]]);
+      const initialState = Immutable.Map([[1, { status_text: 'foo' }]]);
       const action = deepFreeze({
         type: EVENT_USER_STATUS_UPDATE,
         user_id: 1,
-        away: true,
+        status_text: 'bar',
       });
-      const expectedState = Immutable.Map([[1, { away: true }]]);
+      const expectedState = Immutable.Map([[1, { status_text: 'bar' }]]);
 
       const actualState = userStatusReducer(initialState, action);
 
@@ -109,7 +109,7 @@ describe('userStatusReducer', () => {
     });
 
     test('both `away` and `status_text` values can be updated in one event', () => {
-      const initialState = Immutable.Map([[1, { away: false }]]);
+      const initialState = Immutable.Map([[1, {}]]);
       const action = deepFreeze({
         type: EVENT_USER_STATUS_UPDATE,
         user_id: 1,
