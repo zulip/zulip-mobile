@@ -156,6 +156,7 @@ markTopicAsRead.errorMessage = 'Failed to mark topic as read';
 const unmuteTopic = async ({ auth, streamId, topic, streams }) => {
   const stream = streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+  // This still uses a stream name (#3918) because the API method does; see there.
   await api.setTopicMute(auth, stream.name, topic, false);
 };
 unmuteTopic.title = 'Unmute topic';
@@ -164,6 +165,7 @@ unmuteTopic.errorMessage = 'Failed to unmute topic';
 const muteTopic = async ({ auth, streamId, topic, streams }) => {
   const stream = streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+  // This still uses a stream name (#3918) because the API method does; see there.
   await api.setTopicMute(auth, stream.name, topic, true);
 };
 muteTopic.title = 'Mute topic';
