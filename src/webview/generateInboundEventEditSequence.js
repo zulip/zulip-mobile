@@ -92,6 +92,8 @@ function doElementsDifferInterestingly(
             && oldBackgroundData.flags[flagName][oldElement.message.id]
               !== newBackgroundData.flags[flagName][newElement.message.id],
         )
+        || oldBackgroundData.mutedUsers.get(oldElement.message.sender_id)
+          !== newBackgroundData.mutedUsers.get(newElement.message.sender_id)
       );
     }
     default: {
