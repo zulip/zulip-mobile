@@ -16,11 +16,22 @@ import type {
   UserOrBot,
 } from '../types';
 
-/** The stream name a stream message was sent to. */
+/**
+ * The stream name a stream message was sent to.
+ *
+ * BUG(#5208): This is as of whenever we learned about the message;
+ *   it doesn't get updated if the stream is renamed.
+ */
 export const streamNameOfStreamMessage = (message: StreamMessage | StreamOutbox): string =>
   message.display_recipient;
 
-/** The recipients of a PM, in the form found on PmMessage. */
+/**
+ * The recipients of a PM, in the form found on PmMessage.
+ *
+ * BUG(#5208): This is as of whenever we learned about the message;
+ *   it doesn't get updated if one of these users changes their
+ *   name, email, avatar, or other details.
+ */
 export const recipientsOfPrivateMessage = (
   message: PmMessage | PmOutbox,
 ): $ReadOnlyArray<PmRecipientUser> => message.display_recipient;
@@ -142,6 +153,10 @@ export const normalizeRecipientsAsUserIdsSansMe = (
  *    data structures.
  *  * `pmUiRecipientsFromKeyRecipients`, which takes a `PmKeyRecipients`
  *    as input instead of a message.
+ *
+ * BUG(#5208): This is as of whenever we learned about the message;
+ *   it doesn't get updated if one of these users changes their
+ *   name, email, avatar, or other details.
  */
 export const pmUiRecipientsFromMessage = (
   message: PmMessage | PmOutbox,
