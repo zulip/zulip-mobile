@@ -1494,6 +1494,498 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 </div>"
 `;
 
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with a poll 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <div class=\\"poll-widget\\">
+  <p class=\\"poll-question\\">Choose a choice:</p>
+  <ul>
+    
+        <li>
+          <button class=\\"poll-vote\\" data-voted=\\"true\\" data-key=\\"10,1\\">3</button>
+          <span class=\\"poll-option\\">Choice A</span>
+        </li>
+        <li>
+          <button class=\\"poll-vote\\" data-voted=\\"false\\" data-key=\\"10,2\\">1</button>
+          <span class=\\"poll-option\\">Choice B</span>
+        </li>
+  </ul>
+</div>
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: collapsed 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-collapsed=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: force_collapse 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-force_collapse=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: force_expand 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-force_expand=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: has_alert_word 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-has_alert_word=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: historical 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-historical=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: is_me_message 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-is_me_message=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: mentioned 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-mentioned=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: read 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-read=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: starred 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-starred=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+<div class=\\"message-tags\\"><span class=\\"message-tag\\">starred</span></div>
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: summarize_in_home 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-summarize_in_home=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: summarize_in_stream 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-summarize_in_stream=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: wildcard_mentioned 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-wildcard_mentioned=\\"true\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with reactions 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+<div class=\\"reaction-list\\"><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"github_parrot\\" data-code=\\"80\\" data-type=\\"realm_emoji\\">&nbsp;2</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"thumbs_up\\" data-code=\\"1f44d\\" data-type=\\"unicode_emoji\\">👍&nbsp;1</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"zulip\\" data-code=\\"zulip\\" data-type=\\"zulip_extra_emoji\\">&nbsp;1</span></div>
+  </div>
+  
+</div>"
+`;
+
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) muted sender 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # nonrandom stream
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"hidden\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"username\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  <div class=\\"special-message muted-message-explanation\\">
+  This message was hidden because it is from a user you have muted. Long-press to view.
+</div>
+</div>"
+`;
+
 exports[`messages -> piece descriptors -> content HTML is stable/sensible pm:1,2 1`] = `
 "<div class=\\"msglist-element timerow\\" data-msg-id=\\"8849\\">
   <div class=\\"timerow-left\\"></div>

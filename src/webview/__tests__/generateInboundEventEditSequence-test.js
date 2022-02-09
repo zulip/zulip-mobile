@@ -14,7 +14,8 @@ import {
   keyFromNarrow,
   ALL_PRIVATE_NARROW,
 } from '../../utils/narrow';
-import type { Message, Outbox } from '../../types';
+import type { Message, Outbox, FlagsState } from '../../types';
+import type { ReadWrite } from '../../generics';
 import { getEditSequence } from '../generateInboundEventEditSequence';
 import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
@@ -223,13 +224,7 @@ const baseBackgroundData = {
  * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
-  const check = ({
-    // TODO: Test with a variety of different things in
-    // `backgroundData`.
-    backgroundData = baseBackgroundData,
-    narrow,
-    messages,
-  }) => {
+  const check = ({ backgroundData = baseBackgroundData, narrow, messages }) => {
     invariant(
       messages.every((message, i, allMessages) => {
         const prevMessage: Message | void = allMessages[i - 1];
@@ -382,6 +377,137 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         ].sort((a, b) => a.id - b.id),
       },
     ].forEach(testCase => check(testCase));
+  });
+
+  describe('other interesting cases (single messages)', () => {
+    const stableSelfUser = eg.makeUser({ user_id: 1, name: 'nonrandom name self' });
+    const stableOtherUser = eg.makeUser({ user_id: 2, name: 'nonrandom name other' });
+    const stableThirdUser = eg.makeUser({ user_id: 3, name: 'nonrandom name third' });
+
+    const singleMessageSender = eg.makeUser({ user_id: 10, name: 'nonrandom name sender' });
+    const baseSingleMessage = eg.streamMessage({
+      id: -1,
+      timestamp: -1,
+      stream: eg.makeStream({ stream_id: 1, name: 'nonrandom stream' }),
+      sender: singleMessageSender,
+    });
+
+    test('message with reactions', () => {
+      check({
+        narrow: HOME_NARROW,
+        messages: [
+          {
+            ...baseSingleMessage,
+            reactions: [
+              { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+              { ...eg.zulipExtraEmojiReaction, user_id: stableSelfUser.user_id },
+              { ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id },
+              { ...eg.realmEmojiReaction, user_id: stableThirdUser.user_id },
+            ],
+          },
+        ],
+      });
+    });
+
+    test('message with a poll', () => {
+      const baseSubmessage = {
+        message_id: baseSingleMessage.id,
+        msg_type: 'widget',
+      };
+
+      check({
+        narrow: HOME_NARROW,
+        backgroundData: {
+          ...eg.backgroundData,
+          ownUser: stableSelfUser,
+          allUsersById: new Map([
+            [singleMessageSender.user_id, singleMessageSender],
+            [stableSelfUser.user_id, stableSelfUser],
+            [stableOtherUser.user_id, stableOtherUser],
+          ]),
+        },
+        messages: [
+          {
+            ...baseSingleMessage,
+            submessages: [
+              {
+                // poll
+                ...baseSubmessage,
+                content:
+                  '{"widget_type": "poll", "extra_data": {"question": "Choose a choice:", "options": []}}',
+                sender_id: baseSingleMessage.sender_id,
+                id: 1,
+              },
+              {
+                // "Choice A" added
+                ...baseSubmessage,
+                content: '{"type":"new_option","idx":1,"option":"Choice A"}',
+                sender_id: baseSingleMessage.sender_id,
+                id: 2,
+              },
+              {
+                // Vote for "Choice A" by self
+                ...baseSubmessage,
+                content: `{"type":"vote","key":"${baseSingleMessage.sender_id},1","vote":1}`,
+                sender_id: stableSelfUser.user_id,
+                id: 3,
+              },
+              {
+                // Vote for "Choice A" by other
+                ...baseSubmessage,
+                content: `{"type":"vote","key":"${baseSingleMessage.sender_id},1","vote":1}`,
+                sender_id: stableOtherUser.user_id,
+                id: 4,
+              },
+              {
+                // Vote for "Choice A" by sender
+                ...baseSubmessage,
+                content: `{"type":"vote","key":"${baseSingleMessage.sender_id},1","vote":1}`,
+                sender_id: baseSingleMessage.sender_id,
+                id: 5,
+              },
+              {
+                // "Choice B" added
+                ...baseSubmessage,
+                content: '{"type":"new_option","idx":2,"option":"Choice B"}',
+                sender_id: baseSingleMessage.sender_id,
+                id: 6,
+              },
+              {
+                // Vote for "Choice B" by other
+                ...baseSubmessage,
+                content: `{"type":"vote","key":"${baseSingleMessage.sender_id},2","vote":1}`,
+                sender_id: stableOtherUser.user_id,
+                id: 7,
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    Object.keys(eg.baseReduxState.flags).forEach(flag => {
+      test(`message with flag: ${flag}`, () => {
+        const flags: ReadWrite<FlagsState> = { ...eg.backgroundData.flags };
+        flags[flag] = { [baseSingleMessage.id]: true };
+        check({
+          narrow: HOME_NARROW,
+          messages: [baseSingleMessage],
+          backgroundData: { ...eg.backgroundData, flags },
+        });
+      });
+    });
+
+    test('muted sender', () => {
+      check({
+        narrow: HOME_NARROW,
+        messages: [baseSingleMessage],
+        backgroundData: {
+          ...eg.backgroundData,
+          mutedUsers: Immutable.Map([[baseSingleMessage.sender_id, 1644366787]]),
+        },
+      });
+    });
   });
 });
 
