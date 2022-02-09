@@ -317,6 +317,20 @@ export const unicodeEmojiReaction: Reaction = deepFreeze({
   emoji_name: 'thumbs_up',
 });
 
+export const zulipExtraEmojiReaction: Reaction = deepFreeze({
+  user_id: randUserId(),
+  reaction_type: 'zulip_extra_emoji',
+  emoji_code: 'zulip',
+  emoji_name: 'zulip',
+});
+
+export const realmEmojiReaction: Reaction = deepFreeze({
+  user_id: randUserId(),
+  reaction_type: 'realm_emoji',
+  emoji_code: '80',
+  emoji_name: 'github_parrot',
+});
+
 export const displayRecipientFromUser = (user: User): PmRecipientUser => {
   const { email, full_name, user_id: id } = user;
   return deepFreeze({
@@ -583,7 +597,19 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
       lastDismissedServerPushSetupNotice: null,
     },
   ],
-  realm: { ...baseReduxState.realm, user_id: selfUser.user_id, email: selfUser.email },
+  realm: {
+    ...baseReduxState.realm,
+    user_id: selfUser.user_id,
+    email: selfUser.email,
+    emoji: {
+      [realmEmojiReaction.emoji_code]: {
+        deactivated: false,
+        code: realmEmojiReaction.emoji_code,
+        name: realmEmojiReaction.emoji_name,
+        source_url: `/user_avatars/2/emoji/images/${realmEmojiReaction.emoji_code}.gif`,
+      },
+    },
+  },
   // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
   streams: [stream, otherStream],
