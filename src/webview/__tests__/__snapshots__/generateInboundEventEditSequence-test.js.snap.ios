@@ -34,6 +34,22 @@ exports[`getEditSequence correct for interesting changes from many messages to d
 
 exports[`getEditSequence correct for interesting changes from many messages to empty 1`] = `40`;
 
+exports[`getEditSequence correct for interesting changes within a given message add reactions to a message 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes within a given message mute a sender 1`] = `1`;
+
+exports[`getEditSequence correct for interesting changes within a given message polls choice added 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes within a given message polls vote added 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes within a given message remove reactions from a message 1`] = `3`;
+
+exports[`getEditSequence correct for interesting changes within a given message star a message 1`] = `1`;
+
+exports[`getEditSequence correct for interesting changes within a given message unmute a sender 1`] = `1`;
+
+exports[`getEditSequence correct for interesting changes within a given message unstar a message 1`] = `1`;
+
 exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_NARROW 1`] = `
 "<div class=\\"msglist-element timerow\\" data-msg-id=\\"1024\\">
   <div class=\\"timerow-left\\"></div>

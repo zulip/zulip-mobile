@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  * @flow strict-local
  */
+import Immutable from 'immutable';
 import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
@@ -576,6 +577,149 @@ describe('getEditSequence correct for interesting changes', () => {
             withContentReplaced(allMessages[midIndex]),
             ...allMessages.slice(midIndex + 1, allMessages.length - 1),
           ],
+        },
+      );
+    });
+  });
+
+  describe('within a given message', () => {
+    test('add reactions to a message', () => {
+      const message = eg.streamMessage();
+      check(
+        { messages: [message] },
+        { messages: [{ ...message, reactions: [eg.unicodeEmojiReaction] }] },
+      );
+    });
+
+    test('remove reactions from a message', () => {
+      const message = eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] });
+      check({ messages: [message] }, { messages: [{ ...message, reactions: [] }] });
+    });
+
+    describe('polls', () => {
+      const baseMessage = eg.streamMessage();
+      const baseSubmessage = {
+        message_id: baseMessage.id,
+        msg_type: 'widget',
+        sender_id: baseMessage.sender_id,
+      };
+      const msgWithPoll = {
+        ...baseMessage,
+        submessages: [
+          {
+            ...baseSubmessage,
+            content:
+              '{"widget_type": "poll", "extra_data": {"question": "Choose a choice:", "options": []}}',
+            id: 1,
+          },
+        ],
+      };
+      const msgWithChoice = {
+        ...baseMessage,
+        submessages: [
+          ...msgWithPoll.submessages,
+          {
+            ...baseSubmessage,
+            content: '{"type":"new_option","idx":1,"option":"Choice A"}',
+            id: 2,
+          },
+        ],
+      };
+
+      test('choice added', () => {
+        check({ messages: [msgWithPoll] }, { messages: [msgWithChoice] });
+      });
+
+      const msgWithVote = {
+        ...baseMessage,
+        submessages: [
+          ...msgWithChoice.submessages,
+          {
+            ...baseSubmessage,
+            content: `{"type":"vote","key":"${baseMessage.sender_id},1","vote":1}`,
+            id: 3,
+          },
+        ],
+      };
+
+      test('vote added', () => {
+        check({ messages: [msgWithChoice] }, { messages: [msgWithVote] });
+      });
+    });
+
+    test('star a message', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            flags: { ...eg.backgroundData.flags, starred: {} },
+          },
+        },
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            flags: { ...eg.backgroundData.flags, starred: { [message.id]: true } },
+          },
+        },
+      );
+    });
+
+    test('unstar a message', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            flags: { ...eg.backgroundData.flags, starred: { [message.id]: true } },
+          },
+        },
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            flags: { ...eg.backgroundData.flags, starred: {} },
+          },
+        },
+      );
+    });
+
+    // TODO(#5208): We haven't settled how we want to track name/avatar
+    test.todo("sender's name/avatar changed");
+
+    test('mute a sender', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          backgroundData: { ...eg.backgroundData, mutedUsers: Immutable.Map() },
+        },
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
+          },
+        },
+      );
+    });
+
+    test('unmute a sender', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          backgroundData: {
+            ...eg.backgroundData,
+            mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
+          },
+        },
+        {
+          messages: [message],
+          backgroundData: { ...eg.backgroundData, mutedUsers: Immutable.Map() },
         },
       );
     });
