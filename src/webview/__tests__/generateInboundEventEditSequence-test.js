@@ -399,8 +399,16 @@ describe('getEditSequence correct for interesting changes', () => {
 
   const check = (
     // TODO: Test with a variety of different things in background data
-    { oldBackgroundData = baseBackgroundData, oldNarrow = HOME_NARROW, oldMessages },
-    { newBackgroundData = baseBackgroundData, newNarrow = HOME_NARROW, newMessages },
+    {
+      backgroundData: oldBackgroundData = baseBackgroundData,
+      narrow: oldNarrow = HOME_NARROW,
+      messages: oldMessages,
+    },
+    {
+      backgroundData: newBackgroundData = baseBackgroundData,
+      narrow: newNarrow = HOME_NARROW,
+      messages: newMessages,
+    },
   ) => {
     const oldElements = getMessageListElements(oldMessages, oldNarrow);
     const newElements = getMessageListElements(newMessages, newNarrow);
@@ -459,56 +467,50 @@ describe('getEditSequence correct for interesting changes', () => {
 
   describe('from empty', () => {
     test('to empty', () => {
-      check({ oldMessages: [] }, { newMessages: [] });
+      check({ messages: [] }, { messages: [] });
     });
 
     test('to one message', () => {
-      check({ oldMessages: [] }, { newMessages: [allMessages[0]] });
+      check({ messages: [] }, { messages: [allMessages[0]] });
     });
 
     test('to many messages', () => {
-      check({ oldMessages: [] }, { newMessages: allMessages });
+      check({ messages: [] }, { messages: allMessages });
     });
   });
 
   describe('from many messages', () => {
     test('to empty', () => {
-      check({ oldMessages: allMessages }, { newMessages: [] });
+      check({ messages: allMessages }, { messages: [] });
     });
 
     test('to disjoint set of many later messages', () => {
       check(
-        { oldMessages: allMessages.slice(0, allMessages.length / 2) },
-        { newMessages: allMessages.slice(allMessages.length / 2, allMessages.length) },
+        { messages: allMessages.slice(0, allMessages.length / 2) },
+        { messages: allMessages.slice(allMessages.length / 2, allMessages.length) },
       );
     });
 
     test('to disjoint set of many earlier messages', () => {
       check(
-        { oldMessages: allMessages.slice(allMessages.length / 2, allMessages.length) },
-        { newMessages: allMessages.slice(0, allMessages.length / 2) },
+        { messages: allMessages.slice(allMessages.length / 2, allMessages.length) },
+        { messages: allMessages.slice(0, allMessages.length / 2) },
       );
     });
 
     test('insert one message at end', () => {
-      check(
-        { oldMessages: allMessages.slice(0, allMessages.length - 1) },
-        { newMessages: allMessages },
-      );
+      check({ messages: allMessages.slice(0, allMessages.length - 1) }, { messages: allMessages });
     });
 
     test('delete one message at end', () => {
-      check(
-        { oldMessages: allMessages },
-        { newMessages: allMessages.slice(0, allMessages.length - 1) },
-      );
+      check({ messages: allMessages }, { messages: allMessages.slice(0, allMessages.length - 1) });
     });
 
     test('replace one message at end with new content', () => {
       check(
-        { oldMessages: allMessages },
+        { messages: allMessages },
         {
-          newMessages: [
+          messages: [
             ...allMessages.slice(0, allMessages.length - 1),
             withContentReplaced(allMessages[allMessages.length - 1]),
           ],
@@ -517,39 +519,27 @@ describe('getEditSequence correct for interesting changes', () => {
     });
 
     test('insert one message at start', () => {
-      check(
-        { oldMessages: allMessages.slice(1, allMessages.length) },
-        { newMessages: allMessages },
-      );
+      check({ messages: allMessages.slice(1, allMessages.length) }, { messages: allMessages });
     });
 
     test('delete one message at start', () => {
-      check(
-        { oldMessages: allMessages },
-        { newMessages: allMessages.slice(1, allMessages.length) },
-      );
+      check({ messages: allMessages }, { messages: allMessages.slice(1, allMessages.length) });
     });
 
     test('replace one message at start with new content', () => {
       const [firstMessage, ...rest] = allMessages;
 
-      check(
-        { oldMessages: allMessages },
-        { newMessages: [withContentReplaced(firstMessage), ...rest] },
-      );
+      check({ messages: allMessages }, { messages: [withContentReplaced(firstMessage), ...rest] });
     });
 
     test('insert many messages at end', () => {
-      check(
-        { oldMessages: allMessages.slice(0, allMessages.length / 2) },
-        { newMessages: allMessages },
-      );
+      check({ messages: allMessages.slice(0, allMessages.length / 2) }, { messages: allMessages });
     });
 
     test('insert many messages at start', () => {
       check(
-        { oldMessages: allMessages.slice(allMessages.length / 2, allMessages.length - 1) },
-        { newMessages: allMessages },
+        { messages: allMessages.slice(allMessages.length / 2, allMessages.length - 1) },
+        { messages: allMessages },
       );
     });
 
@@ -557,8 +547,8 @@ describe('getEditSequence correct for interesting changes', () => {
       const firstThirdIndex = Math.floor(allMessages.length / 3);
       const secondThirdIndex = Math.floor(allMessages.length * (2 / 3));
       check(
-        { oldMessages: allMessages.slice(firstThirdIndex, secondThirdIndex) },
-        { newMessages: allMessages },
+        { messages: allMessages.slice(firstThirdIndex, secondThirdIndex) },
+        { messages: allMessages },
       );
     });
 
@@ -566,9 +556,9 @@ describe('getEditSequence correct for interesting changes', () => {
       const firstThirdIndex = Math.floor(allMessages.length / 3);
       const secondThirdIndex = Math.floor(allMessages.length * (2 / 3));
       check(
-        { oldMessages: allMessages },
+        { messages: allMessages },
         {
-          newMessages: [
+          messages: [
             ...allMessages.slice(0, firstThirdIndex),
             ...allMessages.slice(secondThirdIndex, allMessages.length - 1),
           ],
@@ -579,9 +569,9 @@ describe('getEditSequence correct for interesting changes', () => {
     test('replace one message in middle with new content', () => {
       const midIndex = Math.floor(allMessages.length / 2);
       check(
-        { oldMessages: allMessages },
+        { messages: allMessages },
         {
-          newMessages: [
+          messages: [
             ...allMessages.slice(0, midIndex),
             withContentReplaced(allMessages[midIndex]),
             ...allMessages.slice(midIndex + 1, allMessages.length - 1),
