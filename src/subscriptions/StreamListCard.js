@@ -50,22 +50,21 @@ export default function StreamListCard(props: Props): Node {
   );
 
   const handleSwitchChange = useCallback(
-    (streamId: number, streamName: string, switchValue: boolean) => {
+    (stream, switchValue: boolean) => {
       if (switchValue) {
         // This still uses a stream name (#3918) because the API method does; see there.
-        api.subscriptionAdd(auth, [{ name: streamName }]);
+        api.subscriptionAdd(auth, [{ name: stream.name }]);
       } else {
         // This still uses a stream name (#3918) because the API method does; see there.
-        api.subscriptionRemove(auth, [streamName]);
+        api.subscriptionRemove(auth, [stream.name]);
       }
     },
     [auth],
   );
 
-  const handleNarrow = useCallback(
-    (streamId: number) => dispatch(doNarrow(streamNarrow(streamId))),
-    [dispatch],
-  );
+  const handleNarrow = useCallback(stream => dispatch(doNarrow(streamNarrow(stream.stream_id))), [
+    dispatch,
+  ]);
 
   return (
     <View style={styles.wrapper}>

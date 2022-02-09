@@ -48,10 +48,9 @@ export default function SubscriptionsCard(props: Props): Node {
     ];
   }, [subscriptions]);
 
-  const handleNarrow = useCallback(
-    (streamId: number) => dispatch(doNarrow(streamNarrow(streamId))),
-    [dispatch],
-  );
+  const handleNarrow = useCallback(stream => dispatch(doNarrow(streamNarrow(stream.stream_id))), [
+    dispatch,
+  ]);
 
   return (
     <View style={styles.container}>

@@ -51,10 +51,10 @@ type Props = $ReadOnly<{|
   unreadCount?: number,
   iconSize: number,
   showSwitch?: boolean,
-  // TODO(#3918): Cut streamName from these callbacks; or at least bury it
-  //   so that only the use-sites that actually want it need to mention it.
-  onPress: (streamId: number, streamName: string) => void,
-  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
+  // These stream names are here for a mix of good reasons and (#3918) bad ones.
+  // To audit all uses, change `name` to write-only (`-name:`), and run Flow.
+  onPress: ({ stream_id: number, name: string, ... }) => void,
+  onSwitch?: ({ stream_id: number, name: string, ... }, newValue: boolean) => void,
 |}>;
 
 /**
@@ -75,8 +75,8 @@ type Props = $ReadOnly<{|
  * @prop unreadCount - number of unread messages
  * @prop iconSize
  * @prop showSwitch - whether to show a toggle switch (ZulipSwitch)
- * @prop onPress - press handler for the item; receives the stream name
- * @prop onSwitch - if switch exists; receives stream name and new value
+ * @prop onPress - press handler for the item
+ * @prop onSwitch - if switch exists
  */
 export default function StreamItem(props: Props): Node {
   const {
@@ -125,7 +125,7 @@ export default function StreamItem(props: Props): Node {
 
   return (
     <Touchable
-      onPress={() => onPress(streamId, name)}
+      onPress={() => onPress({ stream_id: streamId, name })}
       onLongPress={() => {
         showStreamActionSheet({
           showActionSheetWithOptions,
@@ -165,7 +165,7 @@ export default function StreamItem(props: Props): Node {
             value={!!isSubscribed}
             onValueChange={(newValue: boolean) => {
               if (onSwitch) {
-                onSwitch(streamId, name, newValue);
+                onSwitch({ stream_id: streamId, name }, newValue);
               }
             }}
             disabled={!isSubscribed && isPrivate}
