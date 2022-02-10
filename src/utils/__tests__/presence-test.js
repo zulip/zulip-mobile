@@ -82,17 +82,23 @@ describe('getAggregatedPresence', () => {
 describe('presenceToHumanTime', () => {
   test('given a presence return human readable time', () => {
     expect(
-      presenceToHumanTime({
-        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
-      }),
+      presenceToHumanTime(
+        {
+          aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
+        },
+        {},
+      ),
     ).toBe('4 minutes ago');
   });
 
   test('if less than a threshold, the user is currently active', () => {
     expect(
-      presenceToHumanTime({
-        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
-      }),
+      presenceToHumanTime(
+        {
+          aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+        },
+        {},
+      ),
     ).toBe('now');
   });
 
@@ -153,14 +159,6 @@ describe('statusFromPresence', () => {
 });
 
 describe('statusFromPresenceAndUserStatus', () => {
-  test('if no `userPresence` is passed do not take it into account', () => {
-    expect(
-      statusFromPresenceAndUserStatus({
-        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
-      }),
-    ).toBe('active');
-  });
-
   test('if `userPresence` is provided but no `away` value do not change', () => {
     expect(
       statusFromPresenceAndUserStatus(

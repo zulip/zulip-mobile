@@ -76,14 +76,14 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   return { client, status, timestamp };
 };
 
-export const presenceToHumanTime = (presence: UserPresence, status: UserStatus | void): string => {
+export const presenceToHumanTime = (presence: UserPresence, status: UserStatus): string => {
   if (!presence || !presence.aggregated) {
     return 'never';
   }
 
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
 
-  if (status && status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
+  if (status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
     // Be vague when an unavailable user is recently online.
     // TODO: This phrasing doesn't really match the logic and can be misleading.
     return 'today';
@@ -115,6 +115,6 @@ export const statusFromPresence = (presence: UserPresence | void): PresenceStatu
 
 export const statusFromPresenceAndUserStatus = (
   presence: UserPresence | void,
-  userStatus: UserStatus | void,
+  userStatus: UserStatus,
 ): PresenceStatus | 'unavailable' =>
-  userStatus && userStatus.away ? 'unavailable' : statusFromPresence(presence);
+  userStatus.away ? 'unavailable' : statusFromPresence(presence);
