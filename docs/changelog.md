@@ -41,10 +41,10 @@ It doesn't include
 
 ### Highlights for users, vs v27.178 (last prod release)
 
-* (Android) Notifications have been reworked to be more helpful
-  and readable. (#2691, #4842, #5136)
-* (Android) The app no longer restarts when you switch between split-view
-  mode and fullscreen mode. (#5068)
+* (Android) Notifications have a distinct sound, show more context,
+  and expand to individual conversations. (#2691, #4842, #5136, #3150)
+* (Android) The app no longer restarts when you switch between
+  split-view mode and fullscreen mode. (#5068)
 * Fixed a family of bugs when a stream is renamed while you're looking
   at it. (#4333)
 * Wordle players rejoice: Zulip fully supports the emoji for large
@@ -87,19 +87,20 @@ experience.
     year-old migration didn't work; it's fixed. (#5190)
   * We now use stream IDs instead of stream names to identify streams
     in most places, including the Narrow type. (#5183, #5205, #4333,
-    toward #3918)
+    #5223, toward #3918)
   * We now use $ReadOnlyArray and read-only object types in lots more
     places, including all the array and object types in our actions
     and other Redux-related types. (#5186)
 
 * Resolved issues: #5145, #4840, #5168, #5156, #5162, #5171, #5101,
-  #5187, #4687, #5195, #5206, #5133, #4333, #5130, #5218, #5220
+  #5187, #4687, #5195, #5206, #5133, #4333, #5130, #5218, #5220,
+  #3150, #5223
   * Of these, #4840, #5156, and #5162 were also in the two cherry-pick
     releases v27.178 and v27.179.
   * #5206 was a regression in v27.180, not present in any beta or
     production release.
   * User-visible fixes not detailed in user highlights include: #5187,
-    #5195, plus see v27.177 and v27.176
+    #5195, #5223, plus see v27.177 and v27.176
 
 
 ## 27.180 (2022-01-25)
