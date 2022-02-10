@@ -360,7 +360,7 @@ export const streamIdOfNarrow = (narrow: Narrow): number =>
  * The topic for a topic narrow; else error.
  *
  * Most callers of this should probably be getting passed a topic (and a
- * stream name) instead of a Narrow in the first place; or if they do handle
+ * stream ID) instead of a Narrow in the first place; or if they do handle
  * other kinds of narrows, should be using `caseNarrow`.
  */
 export const topicOfNarrow = (narrow: Narrow): string =>
