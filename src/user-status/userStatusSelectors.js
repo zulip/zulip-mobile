@@ -4,13 +4,21 @@ import { getUserStatus } from '../directSelectors';
 import { getOwnUserId } from '../users/userSelectors';
 
 /**
+ * The `UserStatus` object for the given UserId, if we have one.
+ */
+const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus | void => {
+  const userStatus = getUserStatus(state);
+
+  // userStatus[userId] may in fact be missing
+  return (userStatus[userId]: UserStatus | void);
+};
+
+/**
  * Extract the user status object for the logged in user.
  * If no away status and status text have been set we do not have any data thus `undefined`.
  */
-export const getSelfUserStatus: Selector<?UserStatus> = (state: PerAccountState) => {
-  const userStatus = getUserStatus(state);
-  return userStatus[getOwnUserId(state)];
-};
+export const getSelfUserStatus: Selector<UserStatus | void> = (state: PerAccountState) =>
+  getUserStatusForUser(state, getOwnUserId(state));
 
 /**
  * Returns the effective `away` status of the logged in user.
@@ -37,6 +45,6 @@ export const getSelfUserStatusText = (state: PerAccountState): string => {
  * We return `undefined` if no value is set.
  */
 export const getUserStatusTextForUser = (state: PerAccountState, userId: UserId): string | void => {
-  const userStatus = getUserStatus(state);
-  return userStatus[userId] && userStatus[userId].status_text;
+  const userStatus = getUserStatusForUser(state, userId);
+  return userStatus && userStatus.status_text;
 };
