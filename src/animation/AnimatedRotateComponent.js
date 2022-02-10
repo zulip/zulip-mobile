@@ -16,12 +16,14 @@ export default class AnimatedRotateComponent extends PureComponent<Props> {
 
   componentDidMount() {
     this.rotation.setValue(0);
-    Animated.timing(this.rotation, {
-      toValue: 360 * 1000,
-      duration: 1000 * 1000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
+    Animated.loop(
+      Animated.timing(this.rotation, {
+        toValue: 360,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start();
   }
 
   render(): Node {
