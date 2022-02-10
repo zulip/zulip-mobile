@@ -38,12 +38,12 @@ export default function UserStatusScreen(props: Props): Node {
   const auth = useSelector(getAuth);
   const userStatusText = useSelector(getSelfUserStatusText);
 
-  const [statusText, setStatusText] = useState<string>(userStatusText);
+  const [statusText, setStatusText] = useState<string | void>(userStatusText);
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
-    (_statusText: string) => {
-      api.updateUserStatus(auth, { status_text: _statusText });
+    (_statusText: string | void) => {
+      api.updateUserStatus(auth, { status_text: _statusText ?? '' });
       NavigationService.dispatch(navigateBack());
     },
     [auth],
@@ -54,7 +54,7 @@ export default function UserStatusScreen(props: Props): Node {
   }, [statusText, sendToServer]);
 
   const handlePressClear = useCallback(() => {
-    setStatusText('');
+    setStatusText(undefined);
     sendToServer('');
   }, [sendToServer]);
 
@@ -65,7 +65,7 @@ export default function UserStatusScreen(props: Props): Node {
         maxLength={60}
         style={styles.statusTextInput}
         placeholder="What’s your status?"
-        value={statusText}
+        value={statusText || ''}
         onChangeText={setStatusText}
       />
       <FlatList

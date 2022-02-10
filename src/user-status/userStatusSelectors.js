@@ -41,8 +41,8 @@ export const getSelfUserAwayStatus = (state: PerAccountState): boolean =>
  * If it is set we get as result that value.
  * If no value is set we get a valid but empty string.
  */
-export const getSelfUserStatusText = (state: PerAccountState): string =>
-  getSelfUserStatus(state).status_text || '';
+export const getSelfUserStatusText = (state: PerAccountState): string | void =>
+  getSelfUserStatus(state).status_text;
 
 /**
  * Returns the `status text` value of the user with the given userId.
