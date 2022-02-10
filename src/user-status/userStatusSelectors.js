@@ -31,5 +31,5 @@ export const getSelfUserStatusText = (state: PerAccountState): string | null =>
 /**
  * The status text for the given UserId, or `null` if not set.
  */
-export const getUserStatusTextForUser = (state: PerAccountState, userId: UserId): string | null =>
+export const getUserStatusText = (state: PerAccountState, userId: UserId): string | null =>
   getUserStatusForUser(state, userId).status_text;

@@ -7,7 +7,7 @@ import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { UserAvatar, ComponentList, ZulipText } from '../common';
-import { getOwnUser, getUserStatusTextForUser } from '../selectors';
+import { getOwnUser, getUserStatusText } from '../selectors';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import ActivityText from '../title/ActivityText';
 import { nowInTimeZone } from '../utils/date';
@@ -38,7 +38,7 @@ export default function AccountDetails(props: Props): Node {
   const { user } = props;
 
   const ownUser = useSelector(getOwnUser);
-  const userStatusText = useSelector(state => getUserStatusTextForUser(state, props.user.user_id));
+  const userStatusText = useSelector(state => getUserStatusText(state, props.user.user_id));
 
   const isSelf = user.user_id === ownUser.user_id;
 
