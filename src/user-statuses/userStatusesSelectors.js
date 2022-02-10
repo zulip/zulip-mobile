@@ -1,7 +1,6 @@
 /* @flow strict-local */
-import type { PerAccountState, Selector, UserId, UserStatus } from '../types';
+import type { PerAccountState, UserId, UserStatus } from '../types';
 import { getUserStatuses } from '../directSelectors';
-import { getOwnUserId } from '../users/userSelectors';
 import { kUserStatusZero } from './userStatusesReducer';
 
 /**
@@ -11,22 +10,10 @@ export const getUserStatus = (state: PerAccountState, userId: UserId): UserStatu
   getUserStatuses(state).get(userId, kUserStatusZero);
 
 /**
- * The `UserStatus` object for the self-user.
+ * The `away` status for the given UserId.
  */
-export const getSelfUserStatus: Selector<UserStatus> = (state: PerAccountState) =>
-  getUserStatus(state, getOwnUserId(state));
-
-/**
- * The `away` status of the self-user.
- */
-export const getSelfUserAwayStatus = (state: PerAccountState): boolean =>
-  getSelfUserStatus(state).away;
-
-/**
- * The status text of the self-user, or `null` if not set.
- */
-export const getSelfUserStatusText = (state: PerAccountState): string | null =>
-  getSelfUserStatus(state).status_text;
+export const getUserStatusAway = (state: PerAccountState, userId: UserId): boolean =>
+  getUserStatus(state, userId).away;
 
 /**
  * The status text for the given UserId, or `null` if not set.

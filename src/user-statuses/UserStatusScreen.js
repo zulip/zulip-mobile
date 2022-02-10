@@ -10,7 +10,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import { Input, SelectableOptionRow, Screen, ZulipButton } from '../common';
-import { getAuth, getSelfUserStatusText } from '../selectors';
+import { getAuth, getOwnUserId, getUserStatusText } from '../selectors';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import { navigateBack } from '../nav/navActions';
@@ -36,7 +36,8 @@ type Props = $ReadOnly<{|
 
 export default function UserStatusScreen(props: Props): Node {
   const auth = useSelector(getAuth);
-  const userStatusText = useSelector(getSelfUserStatusText);
+  const ownUserId = useSelector(getOwnUserId);
+  const userStatusText = useSelector(state => getUserStatusText(state, ownUserId));
 
   const [statusText, setStatusText] = useState<string | null>(userStatusText);
   const _ = useContext(TranslationContext);
