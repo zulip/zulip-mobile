@@ -56,10 +56,12 @@ export default function StreamSettingsScreen(props: Props): Node {
   }, [stream]);
 
   const handlePressSubscribe = useCallback(() => {
+    // This still uses a stream name (#3918) because the API method does; see there.
     api.subscriptionAdd(auth, [{ name: stream.name }]);
   }, [auth, stream]);
 
   const handlePressUnsubscribe = useCallback(() => {
+    // This still uses a stream name (#3918) because the API method does; see there.
     api.subscriptionRemove(auth, [stream.name]);
   }, [auth, stream]);
 

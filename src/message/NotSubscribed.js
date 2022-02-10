@@ -22,6 +22,7 @@ export default function NotSubscribed(props: Props): Node {
   );
 
   const subscribeToStream = useCallback(() => {
+    // This still uses a stream name (#3918) because the API method does; see there.
     api.subscriptionAdd(auth, [{ name: stream.name }]);
   }, [auth, stream]);
 

@@ -3,6 +3,9 @@ import type { ApiResponse, Auth } from '../transportTypes';
 import { apiPost } from '../apiFetch';
 
 type SubscriptionObj = {|
+  // TODO(server-future): This should use a stream ID (#3918), not stream name.
+  //   Server issue: https://github.com/zulip/zulip/issues/10744
+  // TODO(#3918): Change example in docs/style.md to something without this issue.
   name: string,
 |};
 

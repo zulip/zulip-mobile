@@ -52,8 +52,10 @@ export default function StreamListCard(props: Props): Node {
   const handleSwitchChange = useCallback(
     (streamId: number, streamName: string, switchValue: boolean) => {
       if (switchValue) {
+        // This still uses a stream name (#3918) because the API method does; see there.
         api.subscriptionAdd(auth, [{ name: streamName }]);
       } else {
+        // This still uses a stream name (#3918) because the API method does; see there.
         api.subscriptionRemove(auth, [streamName]);
       }
     },

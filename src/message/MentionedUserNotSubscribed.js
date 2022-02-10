@@ -59,6 +59,7 @@ export default function MentionedUserNotSubscribed(props: Props): Node {
   }, [user, onDismiss]);
 
   const subscribeToStream = useCallback(() => {
+    // This still uses a stream name (#3918) because the API method does; see there.
     api.subscriptionAdd(auth, [{ name: stream.name }], [user.email]);
     handleDismiss();
   }, [auth, handleDismiss, stream, user]);

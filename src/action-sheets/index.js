@@ -223,6 +223,7 @@ showStreamSettings.errorMessage = 'Failed to show stream settings';
 const subscribe = async ({ auth, streamId, streams }) => {
   const stream = streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId not found.');
+  // This still uses a stream name (#3918) because the API method does; see there.
   await api.subscriptionAdd(auth, [{ name: stream.name }]);
 };
 subscribe.title = 'Subscribe';
@@ -231,6 +232,7 @@ subscribe.errorMessage = 'Failed to subscribe';
 const unsubscribe = async ({ auth, streamId, subscriptions }) => {
   const sub = subscriptions.get(streamId);
   invariant(sub !== undefined, 'Subscription with provided streamId not found.');
+  // This still uses a stream name (#3918) because the API method does; see there.
   await api.subscriptionRemove(auth, [sub.name]);
 };
 unsubscribe.title = 'Unsubscribe';

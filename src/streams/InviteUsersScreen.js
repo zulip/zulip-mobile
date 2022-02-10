@@ -27,6 +27,7 @@ export default function InviteUsersScreen(props: Props): Node {
   const handleInviteUsers = useCallback(
     (selected: $ReadOnlyArray<UserOrBot>) => {
       const recipients = selected.map(user => user.email);
+      // This still uses a stream name (#3918) because the API method does; see there.
       api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
       NavigationService.dispatch(navigateBack());
     },
