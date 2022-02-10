@@ -288,7 +288,7 @@ type EventSubscriptionRemoveAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_SUBSCRIPTION,
   op: 'remove',
-  subscriptions: $ReadOnlyArray<{| +stream_id: number, +name: string |}>,
+  subscriptions: $ReadOnlyArray<{| +stream_id: number, -name: string |}>,
 |}>;
 
 type EventSubscriptionUpdateAction = $ReadOnly<{|
