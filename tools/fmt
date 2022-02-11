@@ -36,5 +36,9 @@ else
     files=( 'src/**/*.js' )
 fi
 
-prettier --write --loglevel=warn "${files[@]}"
+prettier-eslint \
+    --write \
+    --eslint-config-path ./tools/formatting.eslintrc.yaml \
+    --log-level=warn \
+    "${files[@]}"
 eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix "${files[@]}"
