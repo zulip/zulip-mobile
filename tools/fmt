@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+this_dir=${BASH_SOURCE[0]%/*}
+. "${this_dir}"/lib/eslintignore.sh
+
+
 ## CLI PARSING
 
 usage() {
@@ -30,10 +34,10 @@ cd "$(git rev-parse --show-toplevel)"
 PATH=node_modules/.bin:"$PATH"
 
 if [ -z "$all" ]; then
-    files=( $(tools/info changed-files | grep '^src/.*\.js$') ) \
+    files=( $(apply_eslintignore $(tools/info changed-files | grep '^src/.*\.js$') ) ) \
         || exit 0
 else
-    files=( 'src/**/*.js' )
+    files=( $(apply_eslintignore 'src/**/*.js' ) )
 fi
 
 prettier-eslint \
