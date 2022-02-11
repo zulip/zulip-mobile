@@ -210,6 +210,10 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     this.handleMessageChange(message);
   };
 
+  handleTopicChange = (topic: string) => {
+    this.setState({ topic, isMenuExpanded: false });
+  };
+
   setTopicInputValue = (topic: string) => {
     updateTextInput(this.topicInputRef.current, topic);
     this.handleTopicChange(topic);
@@ -300,10 +304,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     this.setState({
       height: event.nativeEvent.layout.height,
     });
-  };
-
-  handleTopicChange = (topic: string) => {
-    this.setState({ topic, isMenuExpanded: false });
   };
 
   handleTopicAutocomplete = (topic: string) => {
