@@ -205,6 +205,19 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     return this.state.isFocused;
   };
 
+  handleMessageChange = (message: string) => {
+    this.setState({ message, isMenuExpanded: false });
+    const { dispatch, isEditing, narrow } = this.props;
+    if (message.length === 0) {
+      dispatch(sendTypingStop(narrow));
+    } else {
+      dispatch(sendTypingStart(narrow));
+    }
+    if (!isEditing) {
+      dispatch(draftUpdate(narrow, message));
+    }
+  };
+
   setMessageInputValue = (message: string) => {
     updateTextInput(this.messageInputRef.current, message);
     this.handleMessageChange(message);
@@ -309,19 +322,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   handleTopicAutocomplete = (topic: string) => {
     this.setTopicInputValue(topic);
     this.messageInputRef.current?.focus();
-  };
-
-  handleMessageChange = (message: string) => {
-    this.setState({ message, isMenuExpanded: false });
-    const { dispatch, isEditing, narrow } = this.props;
-    if (message.length === 0) {
-      dispatch(sendTypingStop(narrow));
-    } else {
-      dispatch(sendTypingStart(narrow));
-    }
-    if (!isEditing) {
-      dispatch(draftUpdate(narrow, message));
-    }
   };
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
