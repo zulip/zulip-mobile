@@ -80,12 +80,6 @@ describe('getAggregatedPresence', () => {
 });
 
 describe('presenceToHumanTime', () => {
-  test('passing an invalid value does not throw but returns "never"', () => {
-    /* $FlowIgnore[incompatible-call]: Testing with impossible input. We
-       actually don't need this test; we should remove it. */
-    expect(presenceToHumanTime(undefined)).toBe('never');
-  });
-
   test('given a presence return human readable time', () => {
     expect(
       presenceToHumanTime({
@@ -113,16 +107,6 @@ describe('presenceToHumanTime', () => {
 });
 
 describe('statusFromPresence', () => {
-  // Testing with impossible input. We actually don't need these tests; we
-  // should remove them.
-  test('invalid input does not throw but returns "offline"', () => {
-    expect(statusFromPresence(undefined)).toBe('offline');
-    // $FlowIgnore[incompatible-call]
-    expect(statusFromPresence({})).toBe('offline');
-    // $FlowIgnore[incompatible-call]
-    expect(statusFromPresence('something invalid')).toBe('offline');
-  });
-
   test('if aggregate status is "offline" the result is always "offline"', () => {
     expect(
       statusFromPresence({
