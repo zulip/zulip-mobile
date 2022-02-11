@@ -232,6 +232,53 @@ successfully download and install them.
 [those caches can get stale]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/cocoapods.20error/near/1124409
 
 
+### iOS build fails, and `Podfile.lock` has unexpected changes
+
+When building for iOS, you may see the build fail with a C++ compiler
+error, perhaps like this:
+```
+In file included from /Users/greg/z/mobile/node_modules/react-native/ReactCommon/jsi/jsi/JSIDynamic.cpp:7:
+In file included from /Users/greg/z/mobile/node_modules/react-native/ReactCommon/jsi/jsi/JSIDynamic.h:9:
+In file included from /Users/greg/z/mobile/ios/Pods/Folly/folly/dynamic.h:717:
+In file included from /Users/greg/z/mobile/ios/Pods/Folly/folly/dynamic-inl.h:21:
+/Users/greg/z/mobile/ios/Pods/Folly/folly/Conv.h:38:10: fatal error: 'double-conversion/double-conversion.h' file not found
+#include <double-conversion/double-conversion.h> // V8 JavaScript implementation
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+```
+
+When you see an iOS build failure, use `git status` (or
+`git diff -a ios/Podfile.lock`) to check whether the file
+`ios/Podfile.lock` has any changes you didn't intentionally make.
+In particular, it may have changes to one or more spec checksums,
+like this:
+```diff
+ SPEC CHECKSUMS:
+   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
+-  DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
++  DoubleConversion: cde416483dac037923206447da6e1454df403714
+```
+
+This means that CocoaPods has ended up with a different version of the
+given dependency from the one we specify in `Podfile.lock`.  That in
+turn can cause the build to fail when the version it gets doesn't
+match our other dependencies.
+
+To fix the problem, run `rm -rf "ios/Pods/Local Podspecs"`.
+Then rerun `yarn install`.
+
+The cause of the issue is that CocoaPods [trusts the version number][] in
+the metadata inside a given pod artifact, and assumes that different
+versions of a given pod will always have different version numbers;
+and React Native, in particular, [does not reliably satisfy][] that
+assumption in its internal pods.
+
+[trusts the version number]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/ios.20build.3A.20double-conversion/near/913869
+[does not reliably satisfy]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/ios.20build.3A.20double-conversion/near/913880
+
+
+
 ### Bundling failure: Unable to resolve module ...
 
 When running the app, you might see in the output of the Metro bundler

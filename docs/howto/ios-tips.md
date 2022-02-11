@@ -62,17 +62,12 @@ folder is used for command-line builds and builds through Xcode.
   there, you can find it in Xcode at File > Workspace Settings > Build
   Location.
 
-## Clearing `ios/Pods`
 
-If you didn't touch anything in `ios/Pods` but you're still seeing
-some automatic changes in `ios/Podfile.lock` after you run `yarn` (or
-just `pod install`), try running `rm -rf ios/Pods` and running `yarn`
-again.
+## Troubleshooting
 
-It seems like there's some caching strategy to avoid fetching
-`.podspec` files unnecessarily, potentially with network requests.
-(See
-[discussion](https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M3548.20RN.20v0.2E60.2E0.20upgrade/near/896746).)
+Take a look at [the troubleshooting
+section](build-run.md#troubleshooting) in our build-run.md.
+
 
 ## Sign in with Apple
 
