@@ -27,8 +27,6 @@ import type { BoundedDiff } from './generics';
 // eslint-disable-next-line no-restricted-imports
 export { Provider } from 'react-redux';
 
-/* eslint-disable flowtype/generic-spacing */
-
 // We leave this as invariant in `C` (i.e., we don't write `-C` or `+C`)
 // because Flow says `ElementConfig` is invariant.  (If you try writing
 // `OwnProps<-C, …` or `OwnProps<+C, …`, Flow gives an error saying the `C`

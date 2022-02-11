@@ -65,7 +65,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  /* eslint-disable flowtype/generic-spacing */
   style?: SubsetProperties<
     ViewStyle,
     {|

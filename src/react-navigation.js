@@ -14,8 +14,6 @@ import {
 
 import type { GlobalParamList } from './nav/globalTypes';
 
-/* eslint-disable flowtype/generic-spacing */
-
 /**
  * A type to use for the `route` prop on a screen component.
  *

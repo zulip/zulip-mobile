@@ -205,7 +205,6 @@ type OutboxBase = $ReadOnly<{|
   // It's used for sending the message to the server.
   markdownContent: string,
 
-  /* eslint-disable flowtype/generic-spacing */
   ...SubsetProperties<
     // Could use `MessageBase` here.  Then Flow would check that the listed
     // properties are in `MessageBase`, rather than just in both branches of

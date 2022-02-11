@@ -13,7 +13,6 @@ import { getGlobalSettings } from '../../selectors';
 type Props = $ReadOnly<{|
   // See `ZulipButton`'s `style` prop, where a comment discusses this
   // idea.
-  /* eslint-disable flowtype/generic-spacing */
   style?: SubsetProperties<
     ViewStyle,
     {|

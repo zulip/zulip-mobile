@@ -5,8 +5,6 @@ import { connectActionSheet as connectActionSheetInner } from '@expo/react-nativ
 
 import type { BoundedDiff } from './generics';
 
-/* eslint-disable flowtype/generic-spacing */
-
 export type ShowActionSheetWithOptions = (
   { options: string[], cancelButtonIndex: number, ... },
   (number) => void,

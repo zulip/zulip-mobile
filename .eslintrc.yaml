@@ -316,7 +316,6 @@ rules:
   flowtype/boolean-style: [error, boolean]
   flowtype/define-flow-type: warn
   flowtype/delimiter-dangle: off
-  flowtype/generic-spacing: [error, never]
   flowtype/no-dupe-keys: error
   flowtype/no-primitive-constructor-types: error
   flowtype/no-types-missing-file-annotation: error

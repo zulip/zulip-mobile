@@ -9,8 +9,6 @@ import { createStackNavigator, type StackNavigationProp } from '@react-navigatio
 
 import { type RouteProp, type RouteParamsOf } from '../react-navigation';
 
-/* eslint-disable flowtype/generic-spacing */
-
 // Test that `RouteProp` gives route.params the right type.
 function testRouteParamTypes() {
   type ProfileProps = {|

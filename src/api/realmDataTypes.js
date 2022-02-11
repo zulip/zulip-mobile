@@ -11,7 +11,6 @@ import type { InitialDataRealm } from './initialDataTypes';
  * in the /register response (InitialDataRealm has lots of properties that
  * start with "realm_"). But we expect the values to be typed the same.
  */
-/* eslint-disable flowtype/generic-spacing */
 /* prettier-ignore */
 export type RealmDataForUpdate = $ReadOnly<{
   //

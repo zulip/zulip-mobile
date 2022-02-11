@@ -7,8 +7,6 @@ import {
 
 import type { BoundedDiff } from './generics';
 
-/* eslint-disable flowtype/generic-spacing */
-
 /**
  * Exactly like `withSafeAreaInsets` upstream, but properly typed.
  *

@@ -3,8 +3,6 @@
  * Tools for manipulating generic types in the Flow type system.
  */
 
-/* eslint-disable flowtype/generic-spacing */
-
 /**
  * The type `S`, plus a check that `S` is a supertype of `T`.
  *
