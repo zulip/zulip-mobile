@@ -43,8 +43,7 @@ It doesn't include
 
 * (Android) Notifications have a distinct sound, show more context,
   and expand to individual conversations. (#2691, #4842, #5136, #3150)
-* (Android) The app no longer restarts when you switch between
-  split-view mode and fullscreen mode. (#5068)
+* Fixed one cause of slow startup times. (#5226)
 * Fixed a family of bugs when a stream is renamed while you're looking
   at it. (#4333)
 * Wordle players rejoice: Zulip fully supports the emoji for large
@@ -94,13 +93,14 @@ experience.
 
 * Resolved issues: #5145, #4840, #5168, #5156, #5162, #5171, #5101,
   #5187, #4687, #5195, #5206, #5133, #4333, #5130, #5218, #5220,
-  #3150, #5223
+  #3150, #5223, #5226
   * Of these, #4840, #5156, and #5162 were also in the two cherry-pick
     releases v27.178 and v27.179.
   * #5206 was a regression in v27.180, not present in any beta or
     production release.
   * User-visible fixes not detailed in user highlights include: #5187,
-    #5195, #5223, plus see v27.177 and v27.176
+    #5195, #5223, plus #5068 (in beta v27.176 highlights), plus see
+    v27.177 and v27.176.
 
 
 ## 27.180 (2022-01-25)
