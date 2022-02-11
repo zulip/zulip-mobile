@@ -550,9 +550,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       _,
     } = this.props;
 
-    const insertVideoCallLink =
-      videoChatProvider !== null ? () => this.insertVideoCallLink(videoChatProvider) : null;
-
     if (!isSubscribed) {
       return <NotSubscribed narrow={narrow} />;
     } else if (isAnnouncementOnly && !isAdmin) {
@@ -590,7 +587,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
             destinationNarrow={this.getDestinationNarrow()}
             expanded={isMenuExpanded}
             insertAttachment={this.insertAttachment}
-            insertVideoCallLink={insertVideoCallLink}
+            insertVideoCallLink={
+              videoChatProvider !== null ? () => this.insertVideoCallLink(videoChatProvider) : null
+            }
             onExpandContract={this.handleComposeMenuToggle}
           />
           <View style={this.styles.composeText}>
