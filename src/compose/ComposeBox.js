@@ -412,6 +412,32 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     return narrow;
   };
 
+  getValidationErrors = (): $ReadOnlyArray<ValidationError> => {
+    const { mandatoryTopics } = this.props;
+    const destinationNarrow = this.getDestinationNarrow();
+    const { message } = this.state;
+
+    const result = [];
+
+    if (
+      isTopicNarrow(destinationNarrow)
+      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
+      && mandatoryTopics
+    ) {
+      result.push('mandatory-topic-empty');
+    }
+
+    if (message.trim().length === 0) {
+      result.push('message-empty');
+    }
+
+    if (this.state.numUploading > 0) {
+      result.push('upload-in-progress');
+    }
+
+    return result;
+  };
+
   handleSubmit = () => {
     const { dispatch, _, isEditing } = this.props;
     const { message } = this.state;
@@ -506,32 +532,6 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   submitButtonHitSlop = { top: 8, right: 8, bottom: 8, left: 8 };
-
-  getValidationErrors = (): $ReadOnlyArray<ValidationError> => {
-    const { mandatoryTopics } = this.props;
-    const destinationNarrow = this.getDestinationNarrow();
-    const { message } = this.state;
-
-    const result = [];
-
-    if (
-      isTopicNarrow(destinationNarrow)
-      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
-      && mandatoryTopics
-    ) {
-      result.push('mandatory-topic-empty');
-    }
-
-    if (message.trim().length === 0) {
-      result.push('message-empty');
-    }
-
-    if (this.state.numUploading > 0) {
-      result.push('upload-in-progress');
-    }
-
-    return result;
-  };
 
   render() {
     const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
