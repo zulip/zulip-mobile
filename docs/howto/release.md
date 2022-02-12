@@ -225,7 +225,7 @@ simple terminology for the process we follow with both.
 * Watch progress on [App Store Connect][app-store-connect].
 
   * The new build will appear first in
-    [Activity -> iOS History -> All Builds][asc-builds], with the
+    [TestFlight -> Builds -> iOS][asc-builds], with the
     caveat "(Processing)" next to its build number.  If it doesn't
     appear there, look for an email from Apple explaining why; this
     can happen if an automated check doesn't like it.
@@ -241,7 +241,7 @@ simple terminology for the process we follow with both.
   ```
 
 [app-store-connect]: https://appstoreconnect.apple.com/
-[asc-builds]: https://appstoreconnect.apple.com/apps/1203036395/recent/activity/ios/builds?m=
+[asc-builds]: https://appstoreconnect.apple.com/apps/1203036395/testflight/ios
 
 
 ### Promote to beta
