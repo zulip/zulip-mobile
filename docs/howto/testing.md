@@ -58,12 +58,21 @@ or both of them.
     To convert such code to well-typed code, you'll want to use
     `exampleData` as described above.
 
-* Use [deepFreeze](https://github.com/substack/deep-freeze) to test
-  functions which access redux state. This won't allow the object to
-  be mutated and hence will eventually fail tests in case of mutation.
+* We sometimes use [deepFreeze](https://github.com/substack/deep-freeze)
+  when constructing fragments of Redux state.  This would throw an
+  error, causing a test failure, if some of our code wrongly attempted
+  to mutate that data.
+
+  * Generally don't worry about doing this -- this isn't a very likely
+    class of bug in the first place, plus our types should tell Flow
+    not to allow this anyway.
+
+  * But do use it in the `exampleData` module, and other shared places
+    where we make test data for many tests to use, because it's cheap
+    to do.
 
 
-## Native-code tests:
+## Native-code tests
 
 ### Android
 
@@ -109,9 +118,14 @@ good incremental step will be to at least check that the build
 completes without errors.
 
 
-## Functional tests
+## End-to-end tests
 
-Functional tests have not been set up. We plan to use [Appium](http://appium.io/).
+We don't currently have any automated end-to-end tests.
+
+It would be nice to have some of these.  See [chat thread][pirlo-chat-thread]
+on an experiment we did in this area in 2019.
+
+[pirlo-chat-thread]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/end-to-end.20testing/near/788968
 
 
 ## Linting
@@ -156,8 +170,22 @@ what we can do to support it.
 We use the [Flow][] type-checker on our JS code, and [flow-typed][]
 for community-maintained type definitions for many dependencies.
 
-Flow is not among the world's best-documented software.  If you don't
-find something in its docs, it's worth
+If you're spending any significant time in our JS codebase, it's worth
+taking a look through two key areas of the Flow docs:
+* [Type Annotations][flow-doc-types], which describes much of the type
+  system and the syntax.  (Not just that one page, but the whole guide
+  it's part of: see the table of contents at the side or bottom, and
+  in particular "Primitive Types", "Object Types", "Union Types", and
+  "Utility Types".)
+* [Type System][flow-doc-lang], which describes key concepts of the
+  type system with less focus on the specific syntax.  (Again, not
+  just the one page but the whole set of them, up through at least
+  "Type Refinements".)
+
+Flow is not among the world's best-documented software, though.  If
+you look for something in its docs and don't find it there, ask about
+it in chat in `#mobile` or `#mobile-team`.  If none of us know, some
+good places we might look are:
 * searching [its issues][flow-issues] (including closed issues);
   sometimes a valuable feature is undocumented and the best discussion
   of it is where someone offers it as a workaround in an issue thread.
@@ -165,7 +193,9 @@ find something in its docs, it's worth
   another Flow user, which provides an index of features both
   documented and undocumented.
 
-[Flow]: https://flowtype.org/
+[Flow]: https://flow.org/
 [flow-typed]: https://github.com/flowtype/flow-typed
+[flow-doc-types]: https://flow.org/en/docs/types/
+[flow-doc-lang]: https://flow.org/en/docs/lang/
 [flow-issues]: https://github.com/facebook/flow/issues?q=is%3Aissue
 [flow-cheat-sheet]: https://www.saltycrane.com/flow-type-cheat-sheet/latest/
