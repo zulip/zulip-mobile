@@ -91,7 +91,7 @@ History:
 * We dropped iOS 10 support in 2020-10. It was 0.3% of iOS users who
   tried Zulip, and we wanted to use a feature introduced in iOS 11,
   called "named colors".
-* We [dropped iOS 11 support] in 2021-04. It was 0.1% of iOS users
+* We [dropped iOS 11 support][] in 2021-04. It was 0.1% of iOS users
   who tried Zulip. We started iOS 12 support at 12.1 because Xcode's
   dropdown for "Deployment Target" didn't have a 12.0.
 * We [dropped Android 5 Lollipop support][dropped-android-l] in

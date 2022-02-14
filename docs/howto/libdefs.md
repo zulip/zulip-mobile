@@ -53,7 +53,7 @@ the documentation wasn't clear.
 ## `remotedev-serialize`
 
 Some assembly was required for a libdef for `remotedev-serialize`, but
-it was important to get one working [1]. Here's a summary of what that
+it was important to get one working [1][]. Here's a summary of what that
 was like.
 
 1. Check to see if someone has already submitted a libdef to
@@ -75,14 +75,14 @@ was like.
    make to get clobbered by an eventual libdef in the FlowTyped repo.
    Delete the metadata lines at the top; they work as a tag on libdef
    contents that come from the FlowTyped repo, which this one doesn't
-   [2].
+   [2][].
 
 3. Here, we could enter everything in manually, but it turns out that
    DefinitelyTyped has a TypeScript libdef for `remotedev-serialize`
-   [3], which we can use as a starting point. So, copy that into a
+   [3][], which we can use as a starting point. So, copy that into a
    temporary local text file as, e.g., libdef.d.ts.
 
-4. Flowgen [4] [5] [6] is a tool for translating from TypeScript to
+4. Flowgen [4][] [5][] [6][] is a tool for translating from TypeScript to
    Flow. It isn't perfect, and it's transparent about that, which is
    good to see. We just need this single file translated, and it's
    small, so that increases our chances of success. Run `flowgen
@@ -105,11 +105,11 @@ was like.
 
 6. The minimal set of changes to get it working was
 
-   A) replace 'export' with 'declare export' [7]
+   A) replace 'export' with 'declare export' [7][]
 
    B) replace `typeof Immutable` with `any` and remove the Immutable
       import. You can't import types from other libdefs in a libdef
-      [8].
+      [8][].
 
 7. Step 2 created a lot of extra stubs in case we wanted to make a
    libdef for every single file in `node_modules/remotedev-serialize`.
@@ -202,7 +202,7 @@ want to do, e.g., to correctly express that the `WebView` component
 can take all the props that the `View` component can. React Native has
 a convenient type, `ViewProps`, for that, but there are open issues in
 Flow and FlowTyped about not being able to import third-party types
-into one's own libdefs that haven't been resolved. [9]
+into one's own libdefs that haven't been resolved. [9][]
 
 [9]: https://github.com/zulip/zulip-mobile/issues/3458#issuecomment-639859987
 
@@ -241,7 +241,7 @@ Namely:
    particular, replacing `export` with `declare export` everywhere may
    be necessary) or adjustments to imports. You may only import from
    something that's been declared in that same file, with
-   `declare export` [1] [2].
+   `declare export` [1a][] [2a][].
 
-[1]: https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
-[2]: See discussion around https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/libdef.3A.20react-native-webview/near/896713.
+[1a]: https://github.com/flow-typed/flow-typed/blob/master/CONTRIBUTING.md#dont-import-types-from-other-libdefs
+[2a]: See discussion around https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/libdef.3A.20react-native-webview/near/896713.

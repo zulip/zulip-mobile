@@ -1719,7 +1719,7 @@ Many fixes and improvements, including:
   easier to read and the code is less prone to bugs.
 
   So far this is demonstrated in parsing of notification data
-  (i.e. FCM messages) in our Android code, in [FcmMessage.kt].
+  (i.e. FCM messages) in our Android code, in [FcmMessage.kt][].
   See also discussion in the commit message of f85d3250f.
   The same pattern works great in JS too, and we may gradually 
   also move to it there.

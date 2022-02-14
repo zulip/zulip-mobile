@@ -145,7 +145,7 @@ next person with a setup like yours.
 ## Troubleshooting
 
 Apart from the steps mentioned below, you may find the
-[React Native troubleshooting docs] to be helpful.
+[React Native troubleshooting docs][] to be helpful.
 
 [React Native troubleshooting docs]: https://reactnative.dev/docs/troubleshooting
 

@@ -82,11 +82,11 @@ We have a small, nascent suite of unit tests for our Android-native
 `tools/test native` runs this suite, as well as building all the
 Android code.
 
-Tests are written in Kotlin, using [JUnit 4] and the [Truth] library.
+Tests are written in Kotlin, using [JUnit 4][] and the [Truth][] library.
 If you're writing Android unit tests:
-* Definitely read the short Android guide on [principles of testing]
+* Definitely read the short Android guide on [principles of testing][]
   -- it's a good writeup.
-* Definitely also read the short Android guide on [local unit tests],
+* Definitely also read the short Android guide on [local unit tests][],
   which has more concrete details about the APIs we use here.
   * (A "local unit test" is Android jargon for a genuine,
     self-contained unit test, specifically a test that doesn't require
@@ -95,7 +95,7 @@ If you're writing Android unit tests:
 
 Other sources which might be helpful to read or refer to:
 * Truth docs: [homepage][Truth], [FAQ][truth-faq]
-* JUnit docs: e.g. [Assertions javadoc], [user guide][junit5-user-guide]
+* JUnit docs: e.g. [Assertions javadoc][], [user guide][junit5-user-guide]
 * Good blog-style articles from "Baeldung":
   on [JUnit in Kotlin][baeldung-junit-kotlin]
   and on [Truth][baeldung-truth].
@@ -130,13 +130,13 @@ on an experiment we did in this area in 2019.
 
 ## Linting
 
-We use [ESLint] to catch many kinds of style issues, together with
-[Prettier] to maintain consistent formatting.
+We use [ESLint][] to catch many kinds of style issues, together with
+[Prettier][] to maintain consistent formatting.
 
 [ESLint]: https://eslint.org/
 [Prettier]: https://prettier.io/
 
-Our [lint config] starts from the Airbnb guides
+Our [lint config][] starts from the Airbnb guides
 ([for ES6][airbnb-base] and [for React][airbnb-react]),
 with a number of specific changes.
 
@@ -147,7 +147,7 @@ with a number of specific changes.
 Prettier is an "opinionated" tool, which is a euphemism for having
 virtually no configuration options; and unfortunately a few of its
 unchangeable "opinions" are outright harmful.  So we use
-[prettier-eslint] to overrule it on those points; the details are in a
+[prettier-eslint][] to overrule it on those points; the details are in a
 [small, formatting-only ESLint config file][formatting.eslintrc].
 
 [prettier-eslint]: https://github.com/prettier/prettier-eslint

@@ -12,12 +12,12 @@ Notifications, in particular, rely heavily on platform-native code.
 
 Our build config on Android is written in Gradle, in the Groovy
 language, following typical usage for Android apps.  See upstream
-Android [build config docs] for copious tips and details.
+Android [build config docs][] for copious tips and details.
 
 [build config docs]: https://developer.android.com/studio/build
 
-When editing the build config, the reference docs for the [Gradle DSL]
-and the [Android Gradle Plugin] are highly recommended.
+When editing the build config, the reference docs for the [Gradle DSL][]
+and the [Android Gradle Plugin][] are highly recommended.
 
 [Gradle DSL]: https://docs.gradle.org/4.10.3/dsl/
 [Android Gradle Plugin]: https://google.github.io/android-gradle-dsl/current/
@@ -40,7 +40,7 @@ it's highly recommended to use Android Studio.  See our
 ## Kotlin and Java
 
 Until early 2019, the Android-native code in our app was entirely
-Java.  Since then, we've started using [Kotlin].
+Java.  Since then, we've started using [Kotlin][].
 
 [Kotlin]: http://kotlinlang.org/
 
@@ -64,9 +64,9 @@ a few hours on reading or exercises before starting to use it "for
 real", either in Zulip or another real project.
 
 Some resources for *getting started*:
-* [Kotlin by Example], from Kotlin upstream
-* [Other tutorials] listed on Kotlin upstream docs
-* [Get Started with Kotlin on Android], in Android upstream docs
+* [Kotlin by Example][], from Kotlin upstream
+* [Other tutorials][] listed on Kotlin upstream docs
+* [Get Started with Kotlin on Android][], in Android upstream docs
 
 [Kotlin by Example]: https://play.kotlinlang.org/byExample/overview
 [Other tutorials]: https://kotlinlang.org/docs/tutorials/
@@ -97,15 +97,15 @@ general, algorithm for learning is:
 5. Do the thing you just learned how to do, and repeat from step 1.
 
 Good resources for looking things up and learning more include:
-* [Kotlin reference docs] upstream -- tons of good stuff here,
+* [Kotlin reference docs][] upstream -- tons of good stuff here,
   including many pages you'll definitely want to read eventually.
   Here's an incomplete list:
   * Key concepts that don't exist in Java:
-    [null safety], [extensions], [inline functions].
+    [null safety][], [extensions][], [inline functions][].
   * Key concepts that exist in Java but with differences:
     [control flow (especially `when`)][control-flow];
-    [classes].
-  * Some [Kotlin idioms].  This one is like StackOverflow answers;
+    [classes][].
+  * Some [Kotlin idioms][].  This one is like StackOverflow answers;
     once you find something relevant here, you'll want to go look up
     its real documentation.
 * [Kotlin standard library reference][kotlin-stdlib]; especially on
@@ -114,7 +114,7 @@ Good resources for looking things up and learning more include:
   and a [bonus style guide][android-kotlin-java-interop] for Kotlin
   code that'll be used from Java.  These come from Android upstream,
   but their content isn't specific to Android.
-* [Android KTX], a library that uses Kotlin features to provide nicer
+* [Android KTX][], a library that uses Kotlin features to provide nicer
   interfaces to Android APIs.
 * Various resources linked from [Android upstream][android-kotlin-resources].
 
@@ -145,7 +145,7 @@ Our strategy is:
 Specific tactics when migrating a piece of Java code to Kotlin:
 * Always make *separate commits* for migrating to Kotlin vs. making
   any other refactors, or any changes to the code's behavior.  This is
-  an example of making [clear and coherent commits].
+  an example of making [clear and coherent commits][].
 * Use the [*automatic conversion*][automatic-conversion] feature of
   Android Studio (which hilariously even has a keyboard shortcut:
   Ctrl+Alt+Shift+K.)

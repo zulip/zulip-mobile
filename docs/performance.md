@@ -8,7 +8,7 @@ Try to follow these tips to avoid needless rerenders of your components.
 1. Divide your components into Presentational and Container components. This helps in separation of concerns and also increase performance.
 Refer to this [document](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 
-    Also have a look at these [redux examples] (https://github.com/reactjs/redux/tree/master/examples) to gain a better understanding of this separation.
+    Also have a look at these [redux examples](https://github.com/reactjs/redux/tree/master/examples) to gain a better understanding of this separation.
 
 2. Use [PureComponent](https://facebook.github.io/react/docs/react-api.html#react.purecomponent) where props and component level state is not mutated.
 

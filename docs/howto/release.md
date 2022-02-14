@@ -560,7 +560,7 @@ Install Transifex's CLI client, `tx`, using our instructions at
 
 ### Prepare Android
 
-We have a keystore file containing our [app signing key].  As the
+We have a keystore file containing our [app signing key][].  As the
 linked upstream doc explains, this is a highly sensitive secret
 which it's very important to handle securely.
 
