@@ -864,8 +864,8 @@ declare module '@react-navigation/bottom-tabs' {
   |};
 
   declare export type ScreenListeners<
-    EventMap: EventMapBase = EventMapCore<State>,
     State: NavigationState = NavigationState,
+    EventMap: EventMapBase = EventMapCore<State>,
   > = $ObjMapi<
     {| [name: $Keys<EventMap>]: empty |},
     <K: $Keys<EventMap>>(K, empty) => EventListenerCallback<K, State, EventMap>,
@@ -887,11 +887,11 @@ declare module '@react-navigation/bottom-tabs' {
           navigation: NavProp,
         |}) => ScreenOptions,
     +listeners?:
-      | ScreenListeners<EventMap, State>
+      | ScreenListeners<State, EventMap>
       | ({|
           route: RouteProp<ParamList, RouteName>,
           navigation: NavProp,
-        |}) => ScreenListeners<EventMap, State>,
+        |}) => ScreenListeners<State, EventMap>,
     +initialParams?: $Shape<$ElementType<ParamList, RouteName>>,
   |};
 
