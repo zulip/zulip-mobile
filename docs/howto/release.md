@@ -336,7 +336,7 @@ simple terminology for the process we follow with both.
 
     * In the draft listing:
 
-      * At the top, fill in "What's New in This Version".  Use
+      * Near the top, fill in "What's New in This Version".  Use
         `tools/changelog user`, editing as needed, just like for
         TestFlight.
 
@@ -350,7 +350,11 @@ simple terminology for the process we follow with both.
         release this version" is selected (vs. "Automatically release
         this version").
 
-      * Back at the top, hit "Save" and then "Submit for Review".
+      * Back at the top, hit "Save" and then "Add for Review", and hit
+        "Continue" in the resulting dialog box.
+
+      * In the resulting "Confirm Submission" page, hit
+        "Submit to App Review".
 
     * The draft listing should enter state "Waiting for Review".  From
       here, it typically takes a day or so to get a result from the
