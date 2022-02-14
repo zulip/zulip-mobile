@@ -569,7 +569,7 @@ declare module '@react-navigation/drawer' {
     +type: $PropertyType<State, 'type'>,
     +getInitialState: (options: RouterConfigOptions) => State,
     +getRehydratedState: (
-      partialState: PossibleStaleNavigationState,
+      partialState: PossiblyStaleNavigationState,
       options: RouterConfigOptions,
     ) => State,
     +getStateForRouteNamesChange: (
