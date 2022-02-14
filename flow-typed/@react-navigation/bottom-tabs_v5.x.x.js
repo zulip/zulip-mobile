@@ -26,7 +26,7 @@ declare module '@react-navigation/bottom-tabs' {
     | false
     | ''
     | $ReadOnlyArray<StyleObj>
-    | {| [name: string]: any |};
+    | {| [name: string]: $FlowFixMe |};
   declare type ViewStyleProp = StyleObj;
   declare type TextStyleProp = StyleObj;
   declare type AnimatedViewStyleProp = StyleObj;
@@ -59,9 +59,9 @@ declare module '@react-navigation/bottom-tabs' {
   declare interface AnimatedTracking {
     constructor(
       value: AnimatedValue,
-      parent: any,
-      animationClass: any,
-      animationConfig: Object,
+      parent: $FlowFixMe,
+      animationClass: $FlowFixMe,
+      animationConfig: $FlowFixMe,
       callback?: ?EndCallback,
     ): void;
     update(): void;
@@ -307,7 +307,7 @@ declare module '@react-navigation/bottom-tabs' {
     uri?: ?string,
     bundle?: ?string,
     method?: ?string,
-    headers?: ?Object,
+    headers?: ?$FlowFixMe,
     body?: ?string,
     cache?: ?('default' | 'reload' | 'force-cache' | 'only-if-cached'),
     width?: ?number,
@@ -367,8 +367,8 @@ declare module '@react-navigation/bottom-tabs' {
     ...$EventHandlers<ExtraEventsProps>,
     id?: string,
     enabled?: boolean,
-    waitFor?: React$Ref<any> | Array<React$Ref<any>>,
-    simultaneousHandlers?: React$Ref<any> | Array<React$Ref<any>>,
+    waitFor?: React$Ref<$FlowFixMe> | Array<React$Ref<$FlowFixMe>>,
+    simultaneousHandlers?: React$Ref<$FlowFixMe> | Array<React$Ref<$FlowFixMe>>,
     shouldCancelWhenOutside?: boolean,
     minPointers?: number,
     hitSlop?: HitSlop,
@@ -541,7 +541,7 @@ declare module '@react-navigation/bottom-tabs' {
     State: NavigationState,
     Action: GenericNavigationAction,
   > = {|
-    +[key: string]: (...args: any) => (Action | State => Action),
+    +[key: string]: (...args: $FlowFixMe) => (Action | State => Action),
   |};
 
   declare export type DefaultRouterOptions = {
@@ -1558,7 +1558,7 @@ declare module '@react-navigation/bottom-tabs' {
   declare export type PaperRoute = {|
     +key: string,
     +title?: string,
-    +icon?: any,
+    +icon?: $FlowFixMe,
     +badge?: string | number | boolean,
     +color?: string,
     +accessibilityLabel?: string,
@@ -1684,7 +1684,7 @@ declare module '@react-navigation/bottom-tabs' {
     +children: ({|
       +addListener: (type: 'enter', listener: number => void) => void,
       +removeListener: (type: 'enter', listener: number => void) => void,
-      +position: any, // Reanimated.Node<number>
+      +position: $FlowFixMe, // Reanimated.Node<number>
       +render: React$Node => React$Node,
       +jumpTo: string => void,
     |}) => React$Node,
@@ -1736,13 +1736,13 @@ declare module '@react-navigation/bottom-tabs' {
     ...MaterialTopTabBarOptions,
     ...MaterialTopTabNavigationBuilderResult,
     +layout: {| +width: number, +height: number |},
-    +position: any, // Reanimated.Node<number>
+    +position: $FlowFixMe, // Reanimated.Node<number>
     +jumpTo: string => void,
   |};
 
   declare export type MaterialTopTabNavigationConfig = {|
     ...$Partial<MaterialTopTabPagerCommonProps>,
-    +position?: any, // Reanimated.Value<number>
+    +position?: $FlowFixMe, // Reanimated.Value<number>
     +tabBarPosition?: 'top' | 'bottom',
     +initialLayout?: $Shape<{| +width: number, +height: number |}>,
     +lazy?: boolean,
@@ -1865,7 +1865,7 @@ declare module '@react-navigation/bottom-tabs' {
   declare export type DrawerContentProps = {|
     ...DrawerContentOptions,
     ...DrawerNavigationBuilderResult,
-    +progress: any, // Reanimated.Node<number>
+    +progress: $FlowFixMe, // Reanimated.Node<number>
   |};
 
   declare export type DrawerNavigationConfig = {|
