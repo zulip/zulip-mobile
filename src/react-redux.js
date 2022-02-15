@@ -1,8 +1,17 @@
-/* @flow strict-local */
+/**
+ * Type-wrappers for the react-redux package.
+ *
+ * These functions each correspond directly to a function exported by
+ * react-redux upstream, but with more-specific types.
+ *
+ * @flow strict-local
+ */
 import type { ComponentType, ElementConfig } from 'react';
-/* eslint-disable no-restricted-imports */
-// This file is where we type-wrap items from react-redux for use in the
-// rest of the codebase.
+// We use the ESLint rule `no-restricted-imports` to ensure the rest of the
+// codebase gets its react-redux from here, rather than directly from
+// upstream.  That means this file is the exception that does import
+// directly from upstream.
+// eslint-disable-next-line no-restricted-imports
 import {
   connect as connectInner,
   useSelector as useSelectorInner,
@@ -15,6 +24,7 @@ import type { BoundedDiff } from './generics';
 // There's not a lot to say about the type of `Provider`, and it only has
 // one use-site anyway; so we don't wrap it.  But do re-export it from here,
 // so everything else can uniformly never import directly from react-redux.
+// eslint-disable-next-line no-restricted-imports
 export { Provider } from 'react-redux';
 
 /* eslint-disable flowtype/generic-spacing */
@@ -40,6 +50,9 @@ export type OwnProps<C, -SP, -D> = BoundedDiff<
 
 /**
  * Exactly like the `connect` in `react-redux` upstream, but more typed.
+ *
+ * Upstream docs:
+ *   https://react-redux.js.org/api/connect
  *
  * NOTE:
  *  * This version works great with a `mapStateToProps` that takes only
@@ -84,6 +97,7 @@ export function connect<SP, P, C: ComponentType<P>>(
   return connectInner(mapStateToProps);
 }
 
+/** Just like `connect`, but for global rather than per-account state. */
 export function connectGlobal<SP, P, C: ComponentType<P>>(
   mapStateToProps?: (
     GlobalState,
@@ -103,10 +117,12 @@ export function connectGlobal<SP, P, C: ComponentType<P>>(
  *
  * Specifically, this encodes once and for all the type of our Redux state.
  *
- * Without this, if Flow isn't specifically told that the type of `state` is
- * `GlobalState`, it'll infer it as `empty` -- which means the selector
- * function effectively gets no type-checking of anything it does with it.
+ * Upstream docs:
+ *   https://react-redux.js.org/api/hooks#useselector
  */
+// Without this, if Flow isn't specifically told that the type of `state` is
+// `PerAccountState`, it'll infer it as `empty` -- which means the selector
+// function effectively gets no type-checking of anything it does with it.
 export function useSelector<SS>(
   selector: (state: PerAccountState) => SS,
   equalityFn?: (a: SS, b: SS) => boolean,
@@ -114,6 +130,7 @@ export function useSelector<SS>(
   return useSelectorInner<PerAccountState, SS>(selector, equalityFn);
 }
 
+/** Just like `useSelector`, but for global rather than per-account state. */
 export function useGlobalSelector<SS>(
   selector: (state: GlobalState) => SS,
   equalityFn?: (a: SS, b: SS) => boolean,
@@ -127,15 +144,18 @@ export function useGlobalSelector<SS>(
  * Specifically, this encodes once and for all the type of our Redux
  * dispatch function.
  *
- * Without this, if Flow isn't told that the return value is of type
- * `Dispatch`, it'll infer it as `empty` -- which means we effectively
- * get no type-checking on the actions we pass to our dispatch
- * function.
+ * Upstream docs:
+ *   https://react-redux.js.org/api/hooks#usedispatch
  */
+// Without this, if Flow isn't told that the return value is of type
+// `Dispatch`, it'll infer it as `empty` -- which means we effectively
+// get no type-checking on the actions we pass to our dispatch
+// function.
 export function useDispatch(): Dispatch {
   return useDispatchInner<Dispatch>();
 }
 
+/** Just like `useDispatch`, but for a global rather than per-account context. */
 export function useGlobalDispatch(): GlobalDispatch {
   return useDispatchInner<GlobalDispatch>();
 }
