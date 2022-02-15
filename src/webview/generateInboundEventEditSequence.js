@@ -148,7 +148,6 @@ export function getEditSequence(
         index: j,
         html: messageListElementHtml({
           backgroundData: newArgs.backgroundData,
-          narrow: newArgs.narrow,
           element: newElement,
           _: newArgs._,
         }),
@@ -182,7 +181,6 @@ export function getEditSequence(
           index: j,
           html: messageListElementHtml({
             backgroundData: newArgs.backgroundData,
-            narrow: newArgs.narrow,
             element: newElement,
             _: newArgs._,
           }),
@@ -198,7 +196,6 @@ export function getEditSequence(
       index: j,
       html: messageListElementHtml({
         backgroundData: newArgs.backgroundData,
-        narrow: newArgs.narrow,
         element: newElements[j],
         _: newArgs._,
       }),

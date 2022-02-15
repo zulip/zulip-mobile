@@ -209,7 +209,6 @@ class MessageListInner extends Component<Props> {
       backgroundData,
       messageListElementsForShownMessages,
       initialScrollMessageId,
-      narrow,
       showMessagePlaceholders,
       _,
     } = this.props;
@@ -217,7 +216,6 @@ class MessageListInner extends Component<Props> {
       .map(element =>
         messageListElementHtml({
           backgroundData,
-          narrow,
           element,
           _,
         }),

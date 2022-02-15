@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GetText, Narrow, MessageListElement } from '../../types';
+import type { GetText, MessageListElement } from '../../types';
 import { ensureUnreachable } from '../../generics';
 import type { BackgroundData } from '../MessageList';
 
@@ -9,12 +9,10 @@ import time from './time';
 
 export default ({
   backgroundData,
-  narrow,
   element,
   _,
 }: {|
   backgroundData: BackgroundData,
-  narrow: Narrow,
   element: MessageListElement,
   _: GetText,
 |}): string => {

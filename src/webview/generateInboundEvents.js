@@ -56,7 +56,6 @@ const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventC
       .map(element =>
         messageListElementHtml({
           backgroundData: nextProps.backgroundData,
-          narrow: nextProps.narrow,
           element,
           _: nextProps._,
         }),
