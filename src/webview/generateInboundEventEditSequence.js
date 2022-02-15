@@ -3,9 +3,8 @@
 import isEqual from 'lodash.isequal';
 import invariant from 'invariant';
 
-import type { MessageListElement, Narrow, GetText } from '../types';
+import type { MessageListElement, GetText } from '../types';
 import { ensureUnreachable } from '../generics';
-import { keyFromNarrow } from '../utils/narrow';
 import type { BackgroundData } from './MessageList';
 import messageListElementHtml from './html/messageListElementHtml';
 
@@ -108,13 +107,11 @@ function doElementsDifferInterestingly(
 export function getEditSequence(
   oldArgs: {|
     backgroundData: BackgroundData,
-    narrow: Narrow,
     elements: $ReadOnlyArray<MessageListElement>,
     _: GetText,
   |},
   newArgs: {|
     backgroundData: BackgroundData,
-    narrow: Narrow,
     elements: $ReadOnlyArray<MessageListElement>,
     _: GetText,
   |},
@@ -128,8 +125,6 @@ export function getEditSequence(
   }
 
   const hasLanguageChanged = oldArgs._ !== newArgs._;
-  // We might not want to keep allowing this. We allow it, now, in search.
-  const hasNarrowChanged = keyFromNarrow(oldArgs.narrow) !== keyFromNarrow(newArgs.narrow);
 
   const result = [];
 
@@ -165,10 +160,6 @@ export function getEditSequence(
       if (
         // Replace any translated text, like muted-user placeholders.
         hasLanguageChanged
-        // Replace if `hasNarrowChanged`. Not sure if this triggers any
-        // changes that aren't otherwise triggered...but it might, or at
-        // least we could reasonably want it to.
-        || hasNarrowChanged
         || doElementsDifferInterestingly(
           oldElement,
           newElement,

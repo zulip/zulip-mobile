@@ -249,8 +249,8 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     // Simulate applying an edit-sequence event to the DOM.
     applyEditSequence(
       getEditSequence(
-        { backgroundData, narrow, elements: [], _: mock_ },
-        { backgroundData, narrow, elements: getMessageListElements(messages, narrow), _: mock_ },
+        { backgroundData, elements: [], _: mock_ },
+        { backgroundData, elements: getMessageListElements(messages, narrow), _: mock_ },
       ),
     );
 
@@ -409,8 +409,8 @@ describe('getEditSequence correct for interesting changes', () => {
 
     applyEditSequence(
       getEditSequence(
-        { backgroundData: newBackgroundData, narrow: newNarrow, elements: [], _: mock_ },
-        { backgroundData: newBackgroundData, narrow: newNarrow, elements: newElements, _: mock_ },
+        { backgroundData: newBackgroundData, elements: [], _: mock_ },
+        { backgroundData: newBackgroundData, elements: newElements, _: mock_ },
       ),
     );
 
@@ -420,14 +420,14 @@ describe('getEditSequence correct for interesting changes', () => {
 
     applyEditSequence(
       getEditSequence(
-        { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: [], _: mock_ },
-        { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: oldElements, _: mock_ },
+        { backgroundData: oldBackgroundData, elements: [], _: mock_ },
+        { backgroundData: oldBackgroundData, elements: oldElements, _: mock_ },
       ),
     );
 
     const realEditSequence = getEditSequence(
-      { backgroundData: oldBackgroundData, narrow: oldNarrow, elements: oldElements, _: mock_ },
-      { backgroundData: newBackgroundData, narrow: newNarrow, elements: newElements, _: mock_ },
+      { backgroundData: oldBackgroundData, elements: oldElements, _: mock_ },
+      { backgroundData: newBackgroundData, elements: newElements, _: mock_ },
     );
 
     expect(realEditSequence.length).toMatchSnapshot();
