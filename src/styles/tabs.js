@@ -5,13 +5,13 @@ import type { ExtraBottomTabNavigatorProps } from '@react-navigation/bottom-tabs
 
 import { BRAND_COLOR } from './constants';
 
-type Props = $ReadOnly<{|
-  showLabel: boolean,
-  showIcon: boolean,
-  style?: ViewStyle,
-|}>;
-
-const baseTabNavigatorConfig = (args: Props) => {
+export const bottomTabNavigatorConfig = (
+  args: $ReadOnly<{|
+    showLabel: boolean,
+    showIcon: boolean,
+    style?: ViewStyle,
+  |}>,
+): ExtraBottomTabNavigatorProps => {
   const { showLabel, showIcon, style } = args;
   return {
     tabBarOptions: {
@@ -38,15 +38,29 @@ const baseTabNavigatorConfig = (args: Props) => {
     },
   };
 };
-export const bottomTabNavigatorConfig = (args: Props): ExtraBottomTabNavigatorProps =>
-  baseTabNavigatorConfig(args);
 
-export const materialTopTabNavigatorConfig = (args: Props): ExtraMaterialTopTabNavigatorProps => {
-  const baseConfig = baseTabNavigatorConfig(args);
+export const materialTopTabNavigatorConfig = (
+  args: $ReadOnly<{|
+    showLabel: boolean,
+    showIcon: boolean,
+    style?: ViewStyle,
+  |}>,
+): ExtraMaterialTopTabNavigatorProps => {
+  const { showLabel, showIcon, style } = args;
   return {
-    ...baseConfig,
     tabBarOptions: {
-      ...baseConfig.tabBarOptions,
+      showLabel,
+      showIcon,
+      activeTintColor: BRAND_COLOR,
+      inactiveTintColor: 'gray',
+      labelStyle: {
+        fontSize: 13,
+        margin: 0,
+      },
+      tabStyle: {
+        flex: 1,
+      },
+
       pressColor: BRAND_COLOR,
       indicatorStyle: {
         backgroundColor: BRAND_COLOR,
@@ -66,14 +80,21 @@ export const materialTopTabNavigatorConfig = (args: Props): ExtraMaterialTopTabN
       // Greg's comment at
       // https://github.com/zulip/zulip-mobile/pull/4393#discussion_r556949209f).
       style: {
-        ...baseConfig.tabBarOptions.style,
+        backgroundColor: 'transparent',
 
-        // Setting a zero-width border (instead of none) works around an issue
+        // Fix a bug introduced in React Navigation v5 that is exposed
+        // by setting `backgroundColor` to 'transparent', as we do.
+        elevation: 0,
+
+        ...style,
+
+        // Setting borderWidth and elevation to 0 works around an issue
         // affecting react-navigation's createMaterialTopTabNavigator.
         // https://github.com/zulip/zulip-mobile/issues/2065
         // https://github.com/satya164/react-native-tab-view/pull/519#issuecomment-689724208
+        // TODO: Brief testing suggests this workaround isn't needed; confirm.
         borderWidth: 0,
-        elevation: 0,
+        elevation: 0, // eslint-disable-line no-dupe-keys
       },
     },
   };
