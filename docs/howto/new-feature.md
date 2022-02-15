@@ -4,21 +4,72 @@ This guide describes how to add support in the Zulip mobile app for
 a new feature in Zulip.
 
 
+## Prologue: Interacting with the server
+
+The first step in implementing the mobile side of a new Zulip feature
+is to work out what it looks like in the Zulip server API.
+
+ * If the feature is still in development on the server side, there
+   should be a chat thread on `#api design` about what the API should
+   look like.
+   * If there's a proposed design there, you'll probably start by
+     proceeding based on that.
+   * Your feedback from implementing the mobile side will also be an
+     important input for making revisions to the feature's API.
+   * Note you'll need to use a Zulip server development environment,
+     so that you can have your development version of the mobile app
+     talk to a version of the server based on the server PR for the
+     feature.
+   * Ideally we'd implement every new Zulip feature while it's at this
+     stage.  But there's also a backlog of old features not yet
+     implemented in mobile, so…
+
+ * If the server side of the feature has already been merged, then it
+   should appear in the Zulip API documentation, at
+   https://zulip.com/api/.
+   * If the feature was very recently merged, it may not have been
+     deployed to zulip.com yet; try https://chat.zulip.org/api/.
+   * If it was *very* recently merged (perhaps up to a day or two), it
+     may not be on chat.zulip.org yet either; consult the server PR
+     that added it, which should include documentation.
+   * Changes to the API are documented at
+     https://zulip.com/api/changelog , so that's a good first place to
+     look.  That should then link to the pages with the details.
+
+ * If the feature already exists on the server and you can't find API
+   docs for it, ask in the `#api documentation` stream.
+   * A small number of longstanding features don't have API docs yet.
+     If you ask about one of those, you'll get answers on how it
+     works, and ideally your question may cause the docs to get
+     written.
+   * It's also possible that the docs exist somewhere but were hard to
+     find.  In that case you'll get the link and then we'll try to
+     make it more findable, e.g. by cross-referencing from elsewhere
+     in the docs.
+
+In general, if anything in the API documentation is unclear or seems
+wrong, or there's a question it leaves unanswered, please bring it up
+in `#api documentation`.  That should produce an answer to your
+question, and is also how we make the API docs better for the next
+reader.
+
+If the API seems less helpful than it could be -- e.g. if there's some
+other data you'd like it to provide, or a better form of parameter
+you'd like it to accept, or some change that would make it cleaner to
+work with -- please bring that up too, in `#api design`.  (Often it
+may not be clear whether a question belongs in `#api design` or
+`#api documentation`; in that case pick either, and we can always
+move the thread after we understand the issue better.)
+
+
 ## Adding to our API types and bindings
 
 We describe in `src/api/` the Zulip server's API.  Any new feature
-typically involves a change somewhere in the API, so the first step is
-to update our API code to reflect that.
+typically involves a change somewhere in the API, so the first step in
+our codebase is to update our API code to reflect that.
 
-The server API is documented at https://zulip.com/api/.  (For a very
-recently merged change, within the past week or so, you might find
-https://chat.zulip.org/api/ has it while https://zulip.com/api/
-doesn't.)  Changes are documented at
-https://chat.zulip.org/api/changelog, so that's a good first place to
-look, and it should link to the pages with the details.
-
-Depending on the nature of the API change, places you might update
-include:
+Depending on the nature of the API change (as you find it in the
+previous step), places you might update include:
 
  * `src/api/initialDataTypes.js` reflects the data returned by
    `/api/register-queue`, which is the initial snapshot of server data
