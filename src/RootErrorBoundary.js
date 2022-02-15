@@ -3,6 +3,8 @@ import React from 'react';
 import type { Node } from 'react';
 import { View, Text, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
 import Toast from 'react-native-simple-toast';
+// $FlowFixMe[untyped-import]
+import isEqual from 'lodash.isequal';
 
 import * as logging from './utils/logging';
 
@@ -46,6 +48,19 @@ export default class ErrorBoundary extends React.Component<Props, State> {
       ...
     },
   ) {
+    if (!isEqual(Object.keys(errorInfo), ['componentStack'])) {
+      logging.warn(
+        "RootErrorBoundary: Object.keys(errorInfo) suggests we should change `errorInfo`'s Flow type",
+        {
+          // If we get this, find how it's happening in the implementation and
+          // fix `errorInfo`'s type to match. If possible/useful, include any
+          // additional data in the `logging.error` below.
+          actualErrorInfoKeys: Object.keys(errorInfo),
+          error,
+        },
+      );
+    }
+
     // The error was caught [1], so Sentry wouldn't hear about it
     // unless we intervene.
     //
@@ -55,7 +70,11 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     //     within an error boundary. This will result in errors being
     //     reported twice to Sentry with the above setup, but this
     //     won’t occur in your production build."
-    logging.error(error, errorInfo);
+    logging.error(
+      error,
+      // Add any other JSONable data as appropriate
+      { componentStack: errorInfo.componentStack },
+    );
   }
 
   state: State = {
