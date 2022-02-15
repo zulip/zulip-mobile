@@ -38,12 +38,10 @@ const baseTabNavigatorConfig = (args: Props) => {
     },
   };
 };
-export const bottomTabNavigatorConfig: Props => ExtraBottomTabNavigatorProps = (args: Props) =>
+export const bottomTabNavigatorConfig = (args: Props): ExtraBottomTabNavigatorProps =>
   baseTabNavigatorConfig(args);
 
-export const materialTopTabNavigatorConfig: Props => ExtraMaterialTopTabNavigatorProps = (
-  args: Props,
-) => {
+export const materialTopTabNavigatorConfig = (args: Props): ExtraMaterialTopTabNavigatorProps => {
   const baseConfig = baseTabNavigatorConfig(args);
   return {
     ...baseConfig,
