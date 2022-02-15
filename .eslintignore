@@ -4,6 +4,7 @@
 # These are purely type definitions, no runtime code.  Most of them
 # are third-party code, too, so naturally don't match our style.
 **/flow-typed/**
+types/@react-navigation
 
 # These are type-tests, made up of code that gets type-checked but
 # never actually run.  They're naturally full of dead code which

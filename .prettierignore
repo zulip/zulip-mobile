@@ -9,6 +9,7 @@ flow-typed/@react-navigation
 # These are purely type definitions, no runtime code.  Most of them
 # are third-party code, too, so naturally don't match our style.
 **/flow-typed/**
+types/@react-navigation
 
 # Third-party code: react-native. We leave this code in the style we
 # received it in.
