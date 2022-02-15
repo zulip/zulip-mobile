@@ -149,6 +149,11 @@ export default (
             // message to clients) and shouldn't appear in the edit history.
             return null;
           }
+          // TODO(#3408): This should handle the full complexity of update_message
+          //   events: in particular, moves between streams.  (Probably the
+          //   first step is to refactor this logic for less duplication.)
+          //   This is OK for now because we don't actually have any UI that
+          //   exposes this history: #4134.
           if (action.orig_rendered_content !== undefined) {
             if (action.orig_subject !== undefined) {
               return {
