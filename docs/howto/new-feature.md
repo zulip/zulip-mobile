@@ -16,10 +16,10 @@ is to work out what it looks like in the Zulip server API.
      proceeding based on that.
    * Your feedback from implementing the mobile side will also be an
      important input for making revisions to the feature's API.
-   * Note you'll need to use a Zulip server development environment,
-     so that you can have your development version of the mobile app
-     talk to a version of the server based on the server PR for the
-     feature.
+   * Note you'll need to [use a Zulip server development
+     environment](./dev-server.md), so that you can have your
+     development version of the mobile app talk to a version of the
+     server based on the server PR for the feature.
    * Ideally we'd implement every new Zulip feature while it's at this
      stage.  But there's also a backlog of old features not yet
      implemented in mobile, so…
@@ -73,7 +73,8 @@ previous step), places you might update include:
 
  * `src/api/initialDataTypes.js` reflects the data returned by
    `/api/register-queue`, which is the initial snapshot of server data
-   that we then keep up to date through the Zulip event system.
+   that we then keep up to date through
+   [the Zulip event system](../architecture/realtime.md).
 
  * `src/api/eventTypes.js` reflects the data in those Zulip server
    events, returned by `/api/get-events`.
@@ -90,6 +91,7 @@ previous step), places you might update include:
  * Any new endpoint is reflected as a small file imported and
    re-exported in `src/api/index.js`.  See that file's imports for
    examples; see in particular `git log -p --full-diff src/api/index.js`
+   (and [use the "secret" of `git log -p`](./git.md#reading-history))
    for recent examples.
 
 
@@ -112,7 +114,8 @@ Some general points about updating the API code:
 
    * The type should cover both the new API and the old API.  For
      example, when an object the server returns gains a new property,
-     the property should be marked as optional.
+     the property should be marked as optional, like `foo?: boolean`
+     ([Flow docs][flow-optional-property]).
      * This makes Flow able to check that our code handles both
        possibilities.
 
@@ -126,6 +129,8 @@ Some general points about updating the API code:
        first server version that has the new behavior.  We'll use this
        to find this condition and simplify it away in the future when
        that version (or a later one) becomes the oldest we support.
+
+[flow-optional-property]: https://flow.org/en/docs/types/objects/#toc-optional-object-type-properties
 
 
 ## Getting the data into Redux
@@ -152,9 +157,9 @@ Other parts of the API are reflected as Redux actions like so:
 
  * New endpoints generally are used only for making changes on the
    server, not for getting information back from it -- this is part
-   how the Zulip event system maintains a consistent, up-to-date
-   picture of the data on the server.  So they don't result in Redux
-   actions.
+   of how the Zulip event system [maintains a consistent, up-to-date
+   picture](../architecture/realtime.md) of the data on the server.
+   So they don't result in Redux actions.
 
 
 ### The Redux state type
@@ -167,7 +172,7 @@ you'll want to make an update there.
    type; `RealmState` is the home of miscellaneous data like
    realm/org-level settings.
 
- * A small amount of data is actually (pending issue #5006) not in
+ * A small amount of data is actually (pending [issue #5006][]) not in
    `PerAccountState` but rather in the `Account` type, which is found
    under `state.accounts`.
 
@@ -176,6 +181,8 @@ you'll want to make an update there.
    updates you made in the API code were purely in `modelTypes.js`,
    then the state type may not need any further changes beyond that.
    (We'll still want a migration; see below.)
+
+[issue #5006]: https://github.com/zulip/zulip-mobile/issues/5006
 
 
 #### Redux state migrations
@@ -199,6 +206,8 @@ migration, you'll make a small update there; for anything more
 complex, add test cases as needed to cover it.  For examples,
 see:
 `git log --stat -p src/storage/migrations.js src/storage/__tests__/migrations-test.js`
+(and [use the "secret" of `git log -p`](./git.md#reading-history)
+to browse through those.)
 
 
 ### Reducers
@@ -270,9 +279,18 @@ rendering a React component, use the functions in
  * Most often this means `useSelector`.  To see existing usage, try a
    search like `git grep 'useSelector\('`.
 
+   * Specifically `useSelector` is a [React *hook*][react-hooks], and
+     is how we get data from `PerAccountState` when inside a React
+     function component.  For more on the behavior of `useSelector`,
+     see [upstream docs][react-redux-useSelector].
+
  * If the React component type you're working on is a class component,
    this may mean `connect` (and there will typically already be a call
-   to that, which you'll add to.)
+   to that, which you'll add to.)  See [upstream docs][react-redux-connect].
+
+[react-hooks]: https://reactjs.org/docs/hooks-intro.html
+[react-redux-useSelector]: https://react-redux.js.org/api/hooks#useselector
+[react-redux-connect]: https://react-redux.js.org/api/connect
 
 
 ### The message list, in a WebView
@@ -307,18 +325,18 @@ list, which we show in a WebView.
        for where the type `WebViewOutboundEvent` is defined.
      * Inside the WebView, call `sendMessage` to send such an event.
        See its call sites for examples.
-     * Most of the call sites are inside our `click` (press) handler
-       and our long-press handler.  If you're also responding to a
-       press or long-press, add your new logic there, following the
-       surrounding examples.
+     * Most of the call sites are inside our `click` (i.e., press)
+       handler and our long-press handler.  If you're also responding
+       to a press or long-press, add your new logic there, following
+       the surrounding examples.
 
 
 ### Action sheets
 
 The main example of a part of our UI that's neither in React nor the
 message-list WebView (… other than the UI that's outside of React
-Native entirely, which is basically just notifications) is action
-sheets.  These are the menus we bring up when you long-press on many
+Native entirely, which is basically just notifications) is *action
+sheets*.  These are the menus we bring up when you long-press on many
 surfaces in the app, offering ways to interact with a particular
 stream, topic, message, etc.
 
