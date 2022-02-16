@@ -119,6 +119,7 @@ declare module '@sentry/react-native' {
   |};
 
   // Taken from @sentry/types/src/breadcrumb.ts.
+  // See doc at https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/
   declare export type Breadcrumb = {|
     type?: string,
     level?: SeverityType,

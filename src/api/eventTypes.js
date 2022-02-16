@@ -48,6 +48,7 @@ type EventCommon = $ReadOnly<{|
 export type GeneralEvent = $ReadOnly<{
   ...EventCommon,
   type: string,
+  op?: string,
   // Note this is an inexact object type!  There will be more properties.
   ...
 }>;

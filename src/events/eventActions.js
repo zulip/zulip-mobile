@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import { addBreadcrumb } from '@sentry/react-native';
+
 import type { GeneralEvent, ThunkAction } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
 import * as api from '../api';
@@ -18,6 +20,12 @@ import * as logging from '../utils/logging';
  * for discussion.
  */
 const handleEvent = (event: GeneralEvent, dispatch, getState) => {
+  addBreadcrumb({
+    category: 'z-event',
+    level: 'info',
+    data: { type: event.type, ...(event.op !== undefined && { op: event.op }) },
+  });
+
   try {
     const action = eventToAction(getState(), event);
     if (!action) {
