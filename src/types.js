@@ -353,25 +353,6 @@ export type GetText = {|
   intl: IntlShape,
 |};
 
-export type UnreadStreamItem = {|
-  key: string,
-  streamId: number,
-  streamName: string,
-  unread: number,
-  color: string,
-  isMuted: boolean,
-  isPinned: boolean,
-  isPrivate: boolean,
-  isWebPublic: boolean | void,
-  data: Array<{|
-    key: string,
-    topic: string,
-    unread: number,
-    isMuted: boolean,
-    lastUnreadMsgId: number,
-  |}>,
-|};
-
 export type TimeMessageListElement = {|
   type: 'time',
 
