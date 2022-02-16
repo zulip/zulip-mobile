@@ -36,7 +36,14 @@ export const historicalStoreKeys: Array<$Keys<StoreKeysState>> = [
 /**
  * Drop all server data, as a rehydrate-time migration.
  *
- * Most of our data is just copied from the server, and gets routinely
+ * For any change to our Redux state affecting the data we fetch from the
+ * server, use this so that we simply re-fetch it from the server.
+ *
+ * If the change also affects any of the data in `historicalStoreKeys`
+ * above, then the migration needs specific code to handle those too;
+ * otherwise, `dropCache` suffices as the entire migration.
+ *
+ * Rationale: Most of our data is just copied from the server, and gets routinely
  * discarded any time the event queue expires and we make a new `/register`
  * call.  That's much more frequent than a new app release, let alone one
  * with a data migration... so forcing the same thing in a migration is
@@ -260,8 +267,10 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   }),
 
   // Add `doNotMarkMessagesAsRead` in `SettingsState`.
-  // (Handled automatically by merging with the new initial state;
-  // but see also 37 below.)
+  // (At the time, we used no migration and let this just be handled
+  // automatically by merging with the new initial state.  For similar
+  // changes today, we use an explicit migration.  See 37 below, which added
+  // a migration corresponding to what we would have had here.)
 
   // Use valid language tag for Portuguese (Portugal)
   // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
@@ -306,8 +315,11 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     })),
   }),
 
-  // Add mandatoryTopics to RealmState. No migration; handled automatically
-  // by merging with the new initial state.  But see also 37 below.
+  // Add mandatoryTopics to RealmState.
+  // (At the time, we used no migration and let this just be handled
+  // automatically by merging with the new initial state.  For similar
+  // changes today, we use an explicit migration.  See 37 below, which added
+  // a `dropCache` migration corresponding to what we would have had here.)
 
   // Drop server data from before Accounts had userId.  This way we have an
   // invariant that if there's server data, then the active Account has userId.
@@ -320,12 +332,17 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   }),
 
   // Add messageContentDeleteLimitSeconds and messageContentEditLimitSeconds
-  // to RealmState. No migration; handled automatically by merging with the
-  // new initial state.  But see also 37 below.
+  // to RealmState.
+  // (At the time, we used no migration and let this just be handled
+  // automatically by merging with the new initial state.  For similar
+  // changes today, we use an explicit migration.  See 37 below, which added
+  // a `dropCache` migration corresponding to what we would have had here.)
 
-  // Add pushNotificationsEnabled to RealmState. No migration; handled
-  // automatically by merging with the new initial state.  But see also 37
-  // below.
+  // Add pushNotificationsEnabled to RealmState.
+  // (At the time, we used no migration and let this just be handled
+  // automatically by merging with the new initial state.  For similar
+  // changes today, we use an explicit migration.  See 37 below, which added
+  // a `dropCache` migration corresponding to what we would have had here.)
 
   // Add `accounts[].lastDismissedServerPushSetupNotice`, as Date | null.
   '36': state => ({
@@ -333,9 +350,11 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     accounts: state.accounts.map(a => ({ ...a, lastDismissedServerPushSetupNotice: null })),
   }),
 
-  // Add name and description to RealmState. No migration; handled
-  // automatically by merging with the new initial state.  But see also 37
-  // below.
+  // Add name and description to RealmState.
+  // (At the time, we used no migration and let this just be handled
+  // automatically by merging with the new initial state.  For similar
+  // changes today, we use an explicit migration.  See 37 below, which added
+  // a `dropCache` migration corresponding to what we would have had here.)
 
   // Handle explicitly the migrations above (before 30, 34, 36, and this
   // one) that were done implicitly by the behavior of `autoRehydrate` on a
@@ -379,6 +398,7 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   '40': dropCache,
 
   // TIP: When adding a migration, consider just using `dropCache`.
+  //   (See its jsdoc for guidance on when that's the right answer.)
 };
 
 /**
