@@ -408,6 +408,12 @@ export async function tryFetch<T>(
           }
           await backoffMachine.wait();
         }
+
+        // Without this, Flow 0.149.0 does not know this code is unreachable,
+        // and it incorrectly thinks Promise<undefined> could be returned,
+        // which is inconsistent with the stated Promise<T> return type.
+        // eslint-disable-next-line no-unreachable
+        throw new Error();
       })(),
       config.requestLongTimeoutMs,
     );
