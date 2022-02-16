@@ -199,15 +199,6 @@ export const getUnreadStreamsAndTopicsSansMuted: Selector<
     .filter(stream => !stream.isMuted && stream.data.length > 0),
 );
 
-/** Total number of a certain subset of unreads, plus ??? double-counting. */
-// TODO: This appears to double-count @-mentions.
-export const getUnreadByHuddlesMentionsAndPMs: Selector<number> = createSelector(
-  getUnreadPmsTotal,
-  getUnreadHuddlesTotal,
-  getUnreadMentionsTotal,
-  (unreadPms, unreadHuddles, unreadMentions) => unreadPms + unreadHuddles + unreadMentions,
-);
-
 /**
  * Total number of unreads in the given narrow... mostly.
  *
