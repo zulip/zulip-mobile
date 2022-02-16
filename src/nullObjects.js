@@ -45,5 +45,6 @@ export const NULL_SUBSCRIPTION: Subscription = {
   push_notifications: false,
   is_old_stream: false,
   is_announcement_only: false,
+  is_web_public: false,
   history_public_to_subscribers: false,
 };

@@ -93,6 +93,7 @@ export default function TitleStream(props: Props): Node {
             style={styles.halfMarginRight}
             isMuted={!stream.in_home_view}
             isPrivate={stream.invite_only}
+            isWebPublic={stream.is_web_public}
             color={color}
             size={styles.navTitle.fontSize}
           />

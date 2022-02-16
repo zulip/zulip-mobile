@@ -44,6 +44,7 @@ export default class StreamCard extends PureComponent<Props> {
             color={subscription?.color || NULL_SUBSCRIPTION.color}
             isMuted={subscription ? !subscription.in_home_view : false}
             isPrivate={stream.invite_only}
+            isWebPublic={stream.is_web_public}
           />
           <ZulipText
             style={componentStyles.streamText}

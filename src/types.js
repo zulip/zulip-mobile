@@ -362,6 +362,7 @@ export type UnreadStreamItem = {|
   isMuted: boolean,
   isPinned: boolean,
   isPrivate: boolean,
+  isWebPublic: boolean | void,
   data: Array<{|
     key: string,
     topic: string,

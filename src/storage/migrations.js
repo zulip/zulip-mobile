@@ -397,6 +397,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Change `state.mute` data structure: was an array with stream names.
   '40': dropCache,
 
+  // Add is_web_public to Stream and Subscription.
+  '41': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

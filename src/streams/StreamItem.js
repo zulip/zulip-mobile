@@ -44,6 +44,7 @@ type Props = $ReadOnly<{|
   isMuted: boolean,
   isPrivate: boolean,
   isSubscribed?: boolean,
+  isWebPublic: boolean | void,
   color?: string,
   backgroundColor?: string,
 
@@ -83,6 +84,7 @@ export default function StreamItem(props: Props): Node {
     backgroundColor,
     isPrivate,
     isMuted,
+    isWebPublic,
     isSubscribed = false,
     iconSize,
     showSwitch = false,
@@ -131,7 +133,13 @@ export default function StreamItem(props: Props): Node {
       }}
     >
       <View style={wrapperStyle}>
-        <StreamIcon size={iconSize} color={iconColor} isMuted={isMuted} isPrivate={isPrivate} />
+        <StreamIcon
+          size={iconSize}
+          color={iconColor}
+          isMuted={isMuted}
+          isPrivate={isPrivate}
+          isWebPublic={isWebPublic}
+        />
         <View style={componentStyles.text}>
           <ZulipText
             numberOfLines={1}

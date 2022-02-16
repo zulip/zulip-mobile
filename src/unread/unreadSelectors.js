@@ -132,7 +132,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
   (subscriptionsById, unreadStreams, mute) => {
     const totals = new Map();
     for (const [streamId, streamData] of unreadStreams.entries()) {
-      const { name, color, in_home_view, invite_only, pin_to_top } =
+      const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } =
         subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
 
       const total = {
@@ -142,6 +142,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         isMuted: !in_home_view,
         isPrivate: invite_only,
         isPinned: pin_to_top,
+        isWebPublic: is_web_public,
         color,
         unread: 0,
         data: [],

@@ -52,6 +52,7 @@ export default function UnreadCards(props: Props): Node {
             iconSize={16}
             isMuted={section.isMuted}
             isPrivate={section.isPrivate}
+            isWebPublic={section.isWebPublic}
             backgroundColor={section.color}
             unreadCount={section.unread}
             onPress={(streamId: number) => {

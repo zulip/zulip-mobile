@@ -88,6 +88,7 @@ export default function StreamList(props: Props): Node {
           name={item.name}
           iconSize={16}
           isPrivate={item.invite_only}
+          isWebPublic={item.is_web_public}
           description={showDescriptions ? item.description : ''}
           color={item.color}
           unreadCount={unreadByStream[item.stream_id]}

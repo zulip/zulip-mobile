@@ -263,6 +263,7 @@ export const makeStream = (
     description: args.description ?? `On the ${randString()} of ${name}`,
     invite_only: false,
     is_announcement_only: false,
+    is_web_public: false,
     history_public_to_subscribers: true,
   });
 };

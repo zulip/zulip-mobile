@@ -303,6 +303,9 @@ export type Stream = $ReadOnly<{|
   name: string,
   invite_only: boolean,
   is_announcement_only: boolean,
+  // TODO(server-2.1): is_web_public was added in Zulip version 2.1;
+  //   absence implies the stream is not web-public.
+  is_web_public?: boolean,
   history_public_to_subscribers: boolean,
 |}>;
 

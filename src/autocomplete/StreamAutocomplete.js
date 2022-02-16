@@ -51,6 +51,7 @@ export default function StreamAutocomplete(props: Props): Node {
             name={item.name}
             isMuted={!item.in_home_view}
             isPrivate={item.invite_only}
+            isWebPublic={item.is_web_public}
             iconSize={12}
             color={item.color}
             onPress={handleStreamItemAutocomplete}

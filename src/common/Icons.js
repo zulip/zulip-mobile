@@ -88,3 +88,4 @@ export const IconUserMuted: SpecificIconType = makeIcon(FontAwesome, 'user');
 export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
+export const IconPublic: SpecificIconType = makeIcon(FontAwesome, 'globe');

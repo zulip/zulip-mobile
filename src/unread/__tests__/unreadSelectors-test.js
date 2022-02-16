@@ -232,6 +232,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: true,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         key: 'stream:stream 0',
         streamId: 0,
         streamName: 'stream 0',
@@ -251,6 +252,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: true,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         key: 'stream:stream 2',
         streamId: 2,
         streamName: 'stream 2',
@@ -290,6 +292,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         key: 'stream:stream 0',
         streamId: 0,
         streamName: 'stream 0',
@@ -309,6 +312,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         key: 'stream:stream 2',
         streamId: 2,
         streamName: 'stream 2',
@@ -335,6 +339,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         data: [
           {
             key: 'another topic',
@@ -355,6 +360,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         data: [
           {
             key: 'some other topic',
@@ -407,6 +413,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPrivate: false,
         isPinned: true,
+        isWebPublic: false,
         unread: 2,
         data: [
           { key: 'e topic', topic: 'e topic', unread: 1, isMuted: false, lastUnreadMsgId: 10 },
@@ -421,6 +428,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPrivate: false,
         isPinned: false,
+        isWebPublic: false,
         unread: 5,
         data: [
           { key: 'a topic', topic: 'a topic', unread: 2, isMuted: false, lastUnreadMsgId: 5 },
@@ -435,6 +443,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isMuted: false,
         isPrivate: false,
         isPinned: false,
+        isWebPublic: false,
         unread: 2,
         data: [
           { key: 'c topic', topic: 'c topic', unread: 2, isMuted: true, lastUnreadMsgId: 8 },
@@ -481,6 +490,7 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
         isMuted: false,
         isPinned: false,
         isPrivate: false,
+        isWebPublic: false,
         key: 'stream:stream 0',
         streamId: 0,
         streamName: 'stream 0',
