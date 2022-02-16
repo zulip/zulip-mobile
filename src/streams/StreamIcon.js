@@ -14,7 +14,14 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default ({ color, style, isPrivate, isMuted, size }: Props): Node => {
-  const StreamIcon = isMuted ? IconMute : isPrivate ? IconPrivate : IconStream;
+  let StreamIcon = undefined;
+  if (isMuted) {
+    StreamIcon = IconMute;
+  } else if (isPrivate) {
+    StreamIcon = IconPrivate;
+  } else {
+    StreamIcon = IconStream;
+  }
 
   return <StreamIcon size={size} color={color} style={style} />;
 };
