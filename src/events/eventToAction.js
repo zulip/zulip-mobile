@@ -336,7 +336,10 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       return null;
 
     default:
-      logging.error('Unhandled Zulip API event', event);
+      // Note there are also some event types that are mentioned above
+      // (so don't reach this default case), but that at some later stage
+      // we don't fully handle: #3408.
+      logging.error(`Unhandled Zulip API event type: ${event.type}`);
       return null;
   }
 };
