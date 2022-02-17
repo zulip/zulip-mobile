@@ -105,6 +105,8 @@ export default function generateInboundEvents(
       nextProps.messageListElementsForShownMessages,
     )
     || !equalFlagsExcludingRead(prevProps.backgroundData.flags, nextProps.backgroundData.flags)
+    // TODO(#4655): Should also update here if backgroundData.mutedUsers
+    //   changes, e.g. because the user muted someone.
   ) {
     uevents.push(updateContent(prevProps, nextProps));
   }

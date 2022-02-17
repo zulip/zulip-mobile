@@ -391,7 +391,7 @@ export const constructPmConversationActionButtons = ({
 |}): Button<PmArgs>[] => {
   const buttons = [];
 
-  // TODO: If 1:1 PM, give a mute/unmute-user button, with a confirmation
+  // TODO(#4655): If 1:1 PM, give a mute/unmute-user button, with a confirmation
   //   dialog saying that it also affects the muted users' stream messages,
   //   and linking to https://zulip.com/help/mute-a-user
 
