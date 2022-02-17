@@ -413,10 +413,12 @@ seem to be bad regressions.
     at the time of the beta rollout, and accepted.  See beta steps
     above for how to submit it.)
 
-  * In App Store Connect for the app, [go to the "App Store"
-    tab][asc-main], and select the draft release.
+  * In App Store Connect for the app, go to [App Store > iOS App >
+    (the draft release)][asc-inflight].
 
   * Hit the big blue button at top right to release to the App Store.
+
+[asc-inflight]: https://appstoreconnect.apple.com/apps/1203036395/appstore/ios/version/inflight
 
 
 ## Security releases
