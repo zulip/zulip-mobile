@@ -21,9 +21,9 @@ export default (
 window.__forceSmoothScrollPolyfill__ = true;
 ${smoothScroll}
 ${matchesPolyfill}
-window.isDevelopment = ${(process.env.NODE_ENV === 'development').toString()};
 document.addEventListener('DOMContentLoaded', function() {
   var platformOS = ${JSON.stringify(Platform.OS)};
+  var isDevelopment = ${JSON.stringify(process.env.NODE_ENV === 'development')};
   var doNotMarkMessagesAsRead = ${JSON.stringify(doNotMarkMessagesAsRead)};
   ${compiledWebviewJs}
   compiledWebviewJs.handleInitialLoad(

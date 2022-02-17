@@ -74,7 +74,7 @@ declare var platformOS: string;
  *
  * Provided by the template in `script.js`.
  */
-declare var isDevelopment: string;
+declare var isDevelopment: boolean;
 
 /**
  * used to control behavior based on debug settings.
