@@ -6,6 +6,8 @@
 ### Index:
 
 * [Git: commits, commit messages](#git)
+  * See also the Zulip guide to [clear and coherent commits][].
+  * See also our [Git guide](howto/git.md).
   * [Communicating in the commit message](#commit-message)
   * [Squashing and not-squashing commits](#commit-series)
   * [Commit messages, comments, code](#commit-messages-code)
@@ -37,6 +39,7 @@
   * [[link](#react-function-prop-defaults)] Don't use React
     `defaultProps` for function components.
 * [Internal to Zulip and our codebase](#zulip)
+  * See also [the new-feature guide](howto/new-feature.md).
   * [Interacting with the Zulip server](#zulip-server)
     * [[link](#api-doc-links)] Link to the API docs wherever
       describing the API.
@@ -527,6 +530,9 @@ interface in order to use it elsewhere.
 
 ### Interacting with the Zulip server
 
+**See also [the new-feature guide](howto/new-feature.md)**.
+
+
 <div id="api-doc-links" />
 
 **Link to the API docs wherever describing the API**: Wherever the
@@ -541,9 +547,12 @@ In particular:
    has the link https://zulip.com/api/get-messages .
 
  * Each type representing a server event type should link to the
-   corresponding entry on the `/api/get-events` page.  For example,
-   on `RealmUpdateEvent` we have the link
-   https://zulip.com/api/get-events#realm-update .
+   corresponding entry on the `/api/get-events` page, like
+   https://zulip.com/api/get-events#realm-update .  (When browsing
+   that page, click on a heading to get a direct link to it.)
+
+ * For the `/api/register-queue` response described by
+   `src/api/initialDataTypes.js`, there isn't a good way to do this.
 
  * Other types and logic that express any facts about how the Zulip
    API works should have appropriate links to where those facts are
@@ -561,8 +570,8 @@ back at the code years later, partly because they give a
 straightforward place to check to see if the current server API
 differs from the version reflected in our code.
 
-You'll find that existing places in our code don't have these links
-where they should.  Most often this is because they were written
+You'll find that some existing places in our code don't have these
+links where they should.  Most often this is because they were written
 before Zulip's API docs existed.
 
 

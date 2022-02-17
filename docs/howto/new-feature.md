@@ -98,16 +98,8 @@ previous step), places you might update include:
 Some general points about updating the API code:
 
  * Each chunk of the API code should have a link to the relevant part
-   of the docs.
-   * For an endpoint binding (one of those functions re-exported by
-     `src/api/index.js`), this means linking to the page for that
-     endpoint.
-   * For an event, this means linking to the relevant section in
-     `/api/get-events`, like
-     https://zulip.com/api/get-events#realm-update .  (When browsing
-     that page, click on a heading to get a direct link to it.)
-   * For the `/api/register-queue` response in `initialDataTypes.js`,
-     there isn't a good way to do this.
+   of the docs.  See [style guide](../style.md#api-doc-links) for
+   details.
 
  * Our API code describes the full range of behavior we expect from
    the different Zulip server versions we support.  This means:
@@ -120,15 +112,11 @@ Some general points about updating the API code:
        possibilities.
 
    * A comment should explain how the behavior differs by server
-     version.
-     * Include a mention of the Zulip feature level, as seen in
-       `/api/changelog`.  This helps the reader find the change on
-       that page; it's also what we'd use to condition, if necessary,
-       on whether we expect the server to support the feature.
+     version; see [style guide](../style.md#todo-server).  In
+     particular:
+     * Include a mention of the Zulip feature level.
      * Include a marker like `TODO(server-x.y):`, referring to the
-       first server version that has the new behavior.  We'll use this
-       to find this condition and simplify it away in the future when
-       that version (or a later one) becomes the oldest we support.
+       first server version that has the new behavior.
 
 [flow-optional-property]: https://flow.org/en/docs/types/objects/#toc-optional-object-type-properties
 
