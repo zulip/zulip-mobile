@@ -98,11 +98,7 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
               initialRouteName={
                 aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
               }
-              {...materialTopTabNavigatorConfig({
-                style: {
-                  borderWidth: 0.15,
-                },
-              })}
+              {...materialTopTabNavigatorConfig()}
               swipeEnabled
             >
               {
