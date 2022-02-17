@@ -37,7 +37,14 @@
   * [[link](#react-function-prop-defaults)] Don't use React
     `defaultProps` for function components.
 * [Internal to Zulip and our codebase](#zulip)
-  * [Zulip API bindings](#zulip-api-bindings)
+  * [Interacting with the Zulip server](#zulip-server)
+    * [[link](#api-doc-links)] Link to the API docs wherever
+      describing the API.
+    * [[link](#api-doc-dry)] Don't repeat in comments what's in the
+      API docs.
+    * [[link](#todo-server)] Mark old-server compatibility code with
+      `TODO(server-N.M)`.
+  * [Using our Zulip API bindings](#zulip-api-bindings)
     * [[link](#import-api)] Use `import * as api` and `api.doThing(…)`.
   * [Zulip data model](#zulip-data-model)
     * [[link](#avoid-display-recipient)] Avoid using
@@ -516,10 +523,116 @@ interface in order to use it elsewhere.
 
 ## Internal to Zulip and our codebase
 
+<div id="zulip-server" />
+
+### Interacting with the Zulip server
+
+<div id="api-doc-links" />
+
+**Link to the API docs wherever describing the API**: Wherever the
+purpose of some code is to represent how some part of the Zulip server
+API works, include (in jsdoc or another comment) a link pointing at
+the relevant spot in the Zulip API documentation.
+
+In particular:
+
+ * Each function corresponding to an API endpoint should link to the
+   corresponding page.  For example, the jsdoc on `api.getMessages`
+   has the link https://zulip.com/api/get-messages .
+
+ * Each type representing a server event type should link to the
+   corresponding entry on the `/api/get-events` page.  For example,
+   on `RealmUpdateEvent` we have the link
+   https://zulip.com/api/get-events#realm-update .
+
+ * Other types and logic that express any facts about how the Zulip
+   API works should have appropriate links to where those facts are
+   documented.  For example:
+   * The `NarrowElement` type in `src/api/modelTypes.js` links to
+     https://zulip.com/api/construct-narrow , because that's the
+     best documentation the server currently has for that concept.
+   * `ApiResponse` and related types in `src/api/transportTypes.js`
+     link to https://zulip.com/api/rest-error-handling .
+
+These links are important when adding the code for the first time,
+because the API docs are the first source a reviewer will want to look
+at to compare with the new code.  They're also important when looking
+back at the code years later, partly because they give a
+straightforward place to check to see if the current server API
+differs from the version reflected in our code.
+
+You'll find that existing places in our code don't have these links
+where they should.  Most often this is because they were written
+before Zulip's API docs existed.
+
+
+<div id="api-doc-dry" />
+
+**Don't repeat in comments what's in the API docs**: When some
+information about the Zulip API is covered by the API documentation
+(at https://zulip.com/api/ ), generally don't repeat it in our jsdoc
+or other comments; just link to the docs as discussed
+[above](#api-doc-links).
+
+In particular this means that for most of the types and bindings in
+`src/api/`, the jsdoc should consist of a link to the API docs and
+nothing else.
+
+Avoiding this repetition lets us focus the effort of writing accurate,
+readable prose descriptions in a single place, shared by all clients.
+
+Occasionally some information covered in the docs is worth repeating
+anyway because it's highly counterintuitive, perhaps because a name in
+the API is actively misleading; for example, see `sender_id` on our
+`PmsUnreadItem`.
+
+We also sometimes record information that the API docs should cover
+but don't; for example, see `Reaction` and `ReactionType` in
+`src/api/modelTypes.js`.  Usually these were written before Zulip had
+API documentation; ideally they should all get folded into the API
+docs and then replaced with just a link.
+
+
+<div id="todo-server" />
+
+**Mark old-server compatibility code with `TODO(server-N.M)`**: Many
+small bits of our code (and occasional larger areas) exist for the
+sake of older versions of the server.  Wherever we have such code,
+mark it with a comment of the form `TODO(server-N.M): …`, identifying
+the first server version that doesn't need that logic.
+
+Moreover, mention the Zulip feature level (as seen in
+[the API changelog](https://zulip.com/api/changelog)) where the change
+occurred.  This helps a reader quickly and reliably find in that
+changelog the change you had in mind.  It's also what we would use as
+a threshold if we need to condition on whether we expect the server to
+have the new feature.
+
+The reason for this systematic format is so that when we desupport
+servers older than a given version, we can come sweep through with a
+simple grep and find all the new opportunities to simplify.
+
+A typical small example looks like this:
+```js
+  // TODO(server-5.0): Added in feat. 103
+  realm_create_web_public_stream_policy?: number,
+```
+This means that when we no longer support older than Zulip Server 5.0,
+we can mark that property as required (by replacing the `?:` with `:`)
+and delete that comment.  It also means that we'll find this change
+recorded under "Feature level 103" at https://zulip.com/api/changelog .
+
+A larger example looks like this:
+```js
+// TODO(server-2.1): Delete this and all code conditioned on older than it.
+export const MIN_RECENTPMS_SERVER_VERSION: ZulipVersion = new ZulipVersion('2.1');
+```
+where the code it says to delete adds up to about a hundred lines.
+
 
 <div id="zulip-api-bindings" />
 
-### Zulip API bindings
+### Using our Zulip API bindings
 
 <div id="import-api" />
 
