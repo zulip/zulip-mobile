@@ -5,6 +5,8 @@ import { polyfillGlobal } from 'react-native/Libraries/Utilities/PolyfillFunctio
 import { URL, URLSearchParams } from 'react-native-url-polyfill';
 // $FlowIgnore[untyped-import] - this is not anywhere near critical
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
+// $FlowIgnore[untyped-import] - this is not anywhere near critical
+import mockClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock';
 
 import { assertUsingModernFakeTimers } from '../src/__tests__/lib/fakeTimers';
 
@@ -101,6 +103,10 @@ jest.mock('react-native-reanimated', () => {
 });
 
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
+
+// As instructed at
+// https://github.com/react-native-clipboard/clipboard/tree/v1.9.0#mocking-clipboard
+jest.mock('@react-native-clipboard/clipboard', () => mockClipboard);
 
 // Without this, we get lots of these errors on importing the module:
 // `Invariant Violation: Native module cannot be null.`
