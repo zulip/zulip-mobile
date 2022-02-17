@@ -1,14 +1,12 @@
 /* @flow strict-local */
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import type { Node } from 'react';
-import { Platform, TextInput, TouchableWithoutFeedback, View, Keyboard } from 'react-native';
+import { Platform, TextInput, View, Keyboard } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { ThemeContext, createStyleSheet } from '../styles';
-import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
-import ZulipText from './ZulipText';
+import { ThemeContext, createStyleSheet, HALF_COLOR } from '../styles';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -16,14 +14,9 @@ const styles = createStyleSheet({
     opacity: 0.8,
   },
   realmInput: {
+    flex: 1,
     padding: 0,
     fontSize: 20,
-  },
-  realmPlaceholder: {
-    opacity: 0.75,
-  },
-  realmInputEmpty: {
-    width: 1,
   },
 });
 
@@ -32,6 +25,7 @@ type Props = $ReadOnly<{|
   // `navigation` prop we pass to a `SmartUrlInput` instance is the
   // one from a component on AppNavigator.
   navigation: AppNavigationProp<>,
+
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
@@ -94,20 +88,12 @@ function useRn19366Workaround(textInputRef) {
 export default function SmartUrlInput(props: Props): Node {
   const { style, onChangeText, onSubmitEditing, enablesReturnKeyAutomatically } = props;
 
-  const defaultProtocol = 'https://';
-  const defaultOrganization = 'your-org';
-  const defaultDomain = 'zulipchat.com';
-
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
   const textInputRef = useRef<$FlowFixMe>();
 
-  /**
-   * The actual input string, exactly as entered by the user,
-   * without modifications by autocomplete.
-   */
   const [value, setValue] = useState<string>('');
 
   const themeContext = useContext(ThemeContext);
@@ -135,53 +121,20 @@ export default function SmartUrlInput(props: Props): Node {
   const handleChange = useCallback(
     (_value: string) => {
       setValue(_value);
-
-      onChangeText(
-        fixRealmUrl(
-          autocompleteRealm(_value, { protocol: defaultProtocol, domain: defaultDomain }),
-        ),
-      );
+      onChangeText(_value);
     },
-    [defaultDomain, defaultProtocol, onChangeText],
+    [onChangeText],
   );
-
-  // When the "placeholder parts" are pressed, i.e., the parts of the URL
-  //   line that aren't the TextInput itself, we still want to focus the
-  //   TextInput.
-  // TODO(?): Is it a confusing UX to have a line that looks and acts like
-  //   a text input, but parts of it aren't really?
-  const urlPress = useCallback(() => {
-    if (textInputRef.current) {
-      // `.current` is not type-checked; see definition.
-      textInputRef.current.focus();
-    }
-  }, []);
 
   useRn19366Workaround(textInputRef);
 
-  const renderPlaceholderPart = (text: string) => (
-    <TouchableWithoutFeedback onPress={urlPress}>
-      <ZulipText
-        style={[styles.realmInput, { color: themeContext.color }, styles.realmPlaceholder]}
-        text={text}
-      />
-    </TouchableWithoutFeedback>
-  );
-
-  const [prefix, , suffix] = autocompleteRealmPieces(value, {
-    domain: defaultDomain,
-    protocol: defaultProtocol,
-  });
-
   return (
     <View style={[styles.wrapper, style]}>
-      {prefix !== null && renderPlaceholderPart(prefix)}
       <TextInput
-        style={[
-          styles.realmInput,
-          { color: themeContext.color },
-          value.length === 0 && styles.realmInputEmpty,
-        ]}
+        value={value}
+        placeholder="your-org.zulipchat.com"
+        placeholderTextColor={HALF_COLOR}
+        style={[styles.realmInput, { color: themeContext.color }]}
         autoFocus
         autoCorrect={false}
         autoCapitalize="none"
@@ -194,8 +147,6 @@ export default function SmartUrlInput(props: Props): Node {
         enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
         ref={textInputRef}
       />
-      {!value && renderPlaceholderPart(defaultOrganization)}
-      {suffix !== null && renderPlaceholderPart(suffix)}
     </View>
   );
 }

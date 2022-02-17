@@ -115,8 +115,6 @@ export type Protocol = 'https://' | 'http://';
 
 const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
 
-const hasProtocol = (url: string = '') => url.search(protocolRegex) !== -1;
-
 // Split a (possible) URL into protocol and non-protocol parts.
 // The former will be null if no recognized protocol is a component
 // of the string.
@@ -137,17 +135,6 @@ export const parseProtocol = (value: string): [Protocol | null, string] => {
   return [null, value];
 };
 
-export const fixRealmUrl = (url: string = ''): string => {
-  if (url === '') {
-    return '';
-  }
-  const trimmedUrl = url
-    .replace(/\s/g, '') // strip any spaces, internal or otherwise
-    .replace(/\/+$/, ''); // eliminate trailing slash(es)
-
-  return hasProtocol(trimmedUrl) ? trimmedUrl : `https://${trimmedUrl}`;
-};
-
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
 export const isUrlAnImage = (url: string): boolean =>
@@ -165,45 +152,3 @@ const mimes = {
 
 export const getMimeTypeFromFileExtension = (extension: string): string =>
   mimes[extension.toLowerCase()] || 'application/octet-stream';
-
-export type AutocompletionDefaults = {|
-  protocol: Protocol,
-  domain: string,
-|};
-
-export type AutocompletionPieces = [Protocol | null, string, string | null];
-
-/**
- * A short list of some characters not permitted in subdomain name elements.
- */
-const disallowedCharacters: $ReadOnlyArray<string> = [...'.:/'];
-
-/**
- * Given user input purporting to identify a Zulip realm, provide a prefix,
- * derived value, and suffix which may suffice to turn it into a full URL.
- *
- * Presently, the derived value will always be equal to the input value;
- * this property should not be relied on, as it may change in future.
- */
-export const autocompleteRealmPieces = (
-  value: string,
-  defaults: AutocompletionDefaults,
-): AutocompletionPieces => {
-  const [protocol, nonProtocolValue] = parseProtocol(value);
-
-  const prefix = protocol === null ? defaults.protocol : null;
-
-  // If the user supplies one of these characters, assume they know what they're doing.
-  const suffix = disallowedCharacters.some(c => nonProtocolValue.includes(c))
-    ? null
-    : `.${defaults.domain}`;
-
-  return [prefix, value, suffix];
-};
-
-export const autocompleteRealm = (value: string, data: AutocompletionDefaults): string =>
-  value === ''
-    ? ''
-    : autocompleteRealmPieces(value, data)
-        .filter(s => s)
-        .join('');

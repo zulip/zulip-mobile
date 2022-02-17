@@ -27,6 +27,14 @@ type State = {|
   progress: boolean,
 |};
 
+const urlFromInputValue = (realmInputValue: string): URL | void => {
+  const withScheme = /^https?:\/\//.test(realmInputValue)
+    ? realmInputValue
+    : `https://${realmInputValue}`;
+
+  return tryParseUrl(withScheme);
+};
+
 export default class RealmInputScreen extends PureComponent<Props, State> {
   state: State = {
     progress: false,
@@ -37,7 +45,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
   tryRealm: () => Promise<void> = async () => {
     const { realmInputValue } = this.state;
 
-    const parsedRealm = tryParseUrl(realmInputValue);
+    const parsedRealm = urlFromInputValue(realmInputValue);
     if (!parsedRealm) {
       this.setState({ error: 'Please enter a valid URL' });
       return;
@@ -106,7 +114,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
           text="Enter"
           progress={progress}
           onPress={this.tryRealm}
-          disabled={tryParseUrl(realmInputValue) === undefined}
+          disabled={urlFromInputValue(realmInputValue) === undefined}
         />
       </Screen>
     );
