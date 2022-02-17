@@ -99,8 +99,6 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
                 aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
               }
               {...materialTopTabNavigatorConfig({
-                showLabel: true,
-                showIcon: false,
                 style: {
                   borderWidth: 0.15,
                 },

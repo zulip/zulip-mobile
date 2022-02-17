@@ -44,13 +44,7 @@ type Props = $ReadOnly<{|
 
 export default function StreamTabsScreen(props: Props): Node {
   return (
-    <Tab.Navigator
-      {...materialTopTabNavigatorConfig({
-        showLabel: true,
-        showIcon: false,
-      })}
-      swipeEnabled
-    >
+    <Tab.Navigator {...materialTopTabNavigatorConfig()} swipeEnabled>
       <Tab.Screen
         name="subscribed"
         component={SubscriptionsCard}

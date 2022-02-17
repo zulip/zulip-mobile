@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { Platform } from 'react-native';
 import {
   createBottomTabNavigator,
   type BottomTabNavigationProp,
@@ -52,19 +51,7 @@ export default function MainTabsScreen(props: Props): Node {
   return (
     <SafeAreaView mode="padding" edges={['top']} style={[styles.flexed, { backgroundColor }]}>
       <OfflineNotice />
-      <Tab.Navigator
-        {...bottomTabNavigatorConfig({
-          // TODO: Find a way to tell if we're on an Android tablet,
-          // and use that -- we don't want to assume Android users
-          // aren't on tablets, but `isPad` is iOS only and `Platform`
-          // doesn't have something else for Android (yet):
-          // https://reactnative.dev/docs/platform#ispad-ios
-          showLabel: Platform.OS === 'ios' && Platform.isPad,
-          showIcon: true,
-        })}
-        lazy={false}
-        backBehavior="none"
-      >
+      <Tab.Navigator {...bottomTabNavigatorConfig()} lazy={false} backBehavior="none">
         <Tab.Screen
           name="home"
           component={HomeScreen}

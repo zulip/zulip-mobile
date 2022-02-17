@@ -1,56 +1,50 @@
 /* @flow strict-local */
+import { Platform } from 'react-native';
 import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type { ExtraMaterialTopTabNavigatorProps } from '@react-navigation/material-top-tabs';
 import type { ExtraBottomTabNavigatorProps } from '@react-navigation/bottom-tabs';
 
 import { BRAND_COLOR } from './constants';
 
-export const bottomTabNavigatorConfig = (
-  args: $ReadOnly<{|
-    showLabel: boolean,
-    showIcon: boolean,
-    style?: ViewStyle,
-  |}>,
-): ExtraBottomTabNavigatorProps => {
-  const { showLabel, showIcon, style } = args;
-  return {
-    tabBarOptions: {
-      showLabel,
-      showIcon,
-      activeTintColor: BRAND_COLOR,
-      inactiveTintColor: 'gray',
-      labelStyle: {
-        fontSize: 13,
-        margin: 0,
-      },
-      tabStyle: {
-        flex: 1,
-      },
-      style: {
-        backgroundColor: 'transparent',
+export const bottomTabNavigatorConfig = (): ExtraBottomTabNavigatorProps => ({
+  tabBarOptions: {
+    // TODO: Find a way to tell if we're on an Android tablet,
+    //   and use that -- we don't want to assume Android users
+    //   aren't on tablets, but `isPad` is iOS only and `Platform`
+    //   doesn't have something else for Android (yet):
+    //   https://reactnative.dev/docs/platform#ispad-ios
+    showLabel: Platform.OS === 'ios' && Platform.isPad,
+    showIcon: true,
 
-        // Fix a bug introduced in React Navigation v5 that is exposed
-        // by setting `backgroundColor` to 'transparent', as we do.
-        elevation: 0,
-
-        ...style,
-      },
+    activeTintColor: BRAND_COLOR,
+    inactiveTintColor: 'gray',
+    labelStyle: {
+      fontSize: 13,
+      margin: 0,
     },
-  };
-};
+    tabStyle: {
+      flex: 1,
+    },
+    style: {
+      backgroundColor: 'transparent',
+
+      // Fix a bug introduced in React Navigation v5 that is exposed
+      // by setting `backgroundColor` to 'transparent', as we do.
+      elevation: 0,
+    },
+  },
+});
 
 export const materialTopTabNavigatorConfig = (
-  args: $ReadOnly<{|
-    showLabel: boolean,
-    showIcon: boolean,
+  args?: $ReadOnly<{|
     style?: ViewStyle,
   |}>,
 ): ExtraMaterialTopTabNavigatorProps => {
-  const { showLabel, showIcon, style } = args;
+  const { style } = args ?? {};
   return {
     tabBarOptions: {
-      showLabel,
-      showIcon,
+      showLabel: true,
+      showIcon: false,
       activeTintColor: BRAND_COLOR,
       inactiveTintColor: 'gray',
       labelStyle: {
