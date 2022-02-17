@@ -1,7 +1,8 @@
 /*
  * This is a GENERATED file -- do not edit.
  * To make changes:
- *   1. Edit `js.js`, which is the source for this file.
+ *   1. Edit `js.js` or the files it imports, which together make up
+ *      the source for this file.
  *   2. Run `tools/generate-webview-js`.
  *
  * @generated

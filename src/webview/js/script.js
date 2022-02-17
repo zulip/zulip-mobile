@@ -6,6 +6,12 @@ import smoothScroll from './smoothScroll.min';
 import matchesPolyfill from './matchesPolyfill';
 import compiledWebviewJs from './generatedEs3';
 
+/**
+ * An HTML fragment for the main `script` element for our message-list WebView.
+ */
+// The bulk of the code in this `script` element comes from
+// `compiledWebviewJs`, which in turn is derived from `js.js`
+// and its imports.  See module jsdoc on `js.js`.
 export default (
   scrollMessageId: number | null,
   auth: Auth,

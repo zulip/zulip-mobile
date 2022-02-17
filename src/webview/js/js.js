@@ -1,4 +1,27 @@
-/* @flow strict-local */
+/**
+ * Main entry point for our code running inside the message-list WebView.
+ *
+ * This file, together with the code it imports, does not run in the normal
+ * React Native environment.  Instead, it runs in a browser environment
+ * (Chrome when on Android, Safari when on iOS), inside a WebView, where we
+ * present the message list.
+ *
+ * The way this code gets run is:
+ *  * The script `tools/generate-webview-js`, using Babel and Rollup,
+ *    compiles this file and its imports.  The result goes into
+ *    `./generatedEs3.js`, as a giant string literal.
+ *  * That file `generatedEs3.js` is imported by `./script.js`.  There the
+ *    compiled code it contains, along with some other code, goes inside a
+ *    `<script>` element in an HTML fragment string.
+ *  * That string in turn becomes part of the HTML string passed in the
+ *    `source` prop of the `WebView` component created in `MessageList`.
+ *
+ * This code does not run at the top level of the `<script>` element.
+ * Rather, it goes inside an event listener for `DOMContentLoaded`.
+ * (See `script.js`.)
+ *
+ * @flow strict-local
+ */
 /* eslint-disable no-useless-return */
 import type { Auth } from '../../types';
 import type {
@@ -622,7 +645,12 @@ const handleInboundEventContent = (uevent: WebViewInboundEventContent) => {
   });
 };
 
-// We call this when the webview's content first loads.
+/**
+ * Called by the `script.js` template immediately after this module's toplevel.
+ *
+ * (This provides a way for the template to pass arguments for this code to
+ * use at initialization.)
+ */
 export const handleInitialLoad = (
   scrollMessageId: number | null,
   // The `realm` part of an `Auth` object is a URL object. It's passed
