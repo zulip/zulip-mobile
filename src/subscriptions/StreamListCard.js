@@ -6,7 +6,6 @@ import { View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import type { Stream } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
@@ -27,26 +26,24 @@ const listStyles = createStyleSheet({
   },
 });
 
-// TODO(#3767): Clean this up.
-type StreamPlus = $ReadOnly<{| ...Stream, subscribed: boolean |}>;
-
 type StreamListProps = $ReadOnly<{|
-  streams: $ReadOnlyArray<StreamPlus>,
   onPress: (streamId: number, streamName: string) => void,
   onSwitch: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 // TODO(#3767): Simplify this by specializing to its one caller.
 function StreamList(props: StreamListProps): Node {
-  const { streams, onPress, onSwitch } = props;
+  const { onPress, onSwitch } = props;
+
+  const subscriptions = useSelector(getSubscriptionsById);
+  const streams = useSelector(getStreams);
 
   if (streams.length === 0) {
     return <SearchEmptyState text="No streams found" />;
   }
 
-  const sortedStreams: $ReadOnlyArray<StreamPlus> = streams
-    .slice()
-    .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
+  // TODO(perf): We should memoize this sorted list.
+  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
 
   return (
     <FlatList
@@ -74,7 +71,7 @@ function StreamList(props: StreamListProps): Node {
             false
           }
           showSwitch
-          isSubscribed={item.subscribed}
+          isSubscribed={subscriptions.has(item.stream_id)}
           onPress={onPress}
           onSwitch={onSwitch}
         />
@@ -101,15 +98,6 @@ export default function StreamListCard(props: Props): Node {
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
   const canCreateStreams = useSelector(getCanCreateStreams);
-  const streams = useSelector(getStreams);
-  const subscriptions = useSelector(getSubscriptionsById);
-
-  const subsAndStreams = streams.map(x => ({
-    ...x,
-    // TODO: Avoid spreading Stream into these new objects; pass the Stream
-    //   objects verbatim, to avoid constructing so much new data.
-    subscribed: subscriptions.has(x.stream_id),
-  }));
 
   const handleSwitchChange = useCallback(
     (streamId: number, streamName: string, switchValue: boolean) => {
@@ -142,7 +130,7 @@ export default function StreamListCard(props: Props): Node {
           }
         />
       )}
-      <StreamList streams={subsAndStreams} onSwitch={handleSwitchChange} onPress={handleNarrow} />
+      <StreamList onSwitch={handleSwitchChange} onPress={handleNarrow} />
     </View>
   );
 }
