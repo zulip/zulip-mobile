@@ -24,29 +24,31 @@ const listStyles = createStyleSheet({
   },
 });
 
-type StreamListProps = $ReadOnly<{|
-  streams: $ReadOnlyArray<Subscription>,
+type SubscriptionListProps = $ReadOnly<{|
+  subscriptions: $ReadOnlyArray<Subscription>,
   unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamId: number, streamName: string) => void,
 |}>;
 
 // TODO(#3767): Simplify this by specializing to its one caller.
-function StreamList(props: StreamListProps): Node {
-  const { streams, unreadByStream, onPress } = props;
+function SubscriptionList(props: SubscriptionListProps): Node {
+  const { subscriptions, unreadByStream, onPress } = props;
 
-  if (streams.length === 0) {
+  if (subscriptions.length === 0) {
     return <SearchEmptyState text="No streams found" />;
   }
 
-  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
+  const sortedSubscriptions = subscriptions
+    .slice()
+    .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
   const sections = [
     {
       key: 'Pinned',
-      data: sortedStreams.filter(x => x.pin_to_top),
+      data: sortedSubscriptions.filter(x => x.pin_to_top),
     },
     {
       key: 'Unpinned',
-      data: sortedStreams.filter(x => !x.pin_to_top),
+      data: sortedSubscriptions.filter(x => !x.pin_to_top),
     },
   ];
 
@@ -103,7 +105,11 @@ export default function SubscriptionsCard(props: Props): Node {
   return (
     <View style={styles.container}>
       <LoadingBanner />
-      <StreamList streams={subscriptions} unreadByStream={unreadByStream} onPress={handleNarrow} />
+      <SubscriptionList
+        subscriptions={subscriptions}
+        unreadByStream={unreadByStream}
+        onPress={handleNarrow}
+      />
     </View>
   );
 }
