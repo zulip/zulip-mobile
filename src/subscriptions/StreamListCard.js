@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
-import { View, SectionList } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
@@ -10,7 +10,7 @@ import type { Stream } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
-import { ZulipButton, LoadingBanner, SectionSeparatorBetween, SearchEmptyState } from '../common';
+import { ZulipButton, LoadingBanner, SearchEmptyState } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
@@ -46,21 +46,14 @@ function StreamList(props: StreamListProps): Node {
   const sortedStreams: $ReadOnlyArray<StreamPlus> = streams
     .slice()
     .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
-  const sections = [
-    {
-      key: 'Unpinned',
-      data: sortedStreams,
-    },
-  ];
 
   return (
-    <SectionList
+    <FlatList
       style={listStyles.list}
-      sections={sections}
-      extraData={{}}
+      data={sortedStreams}
       initialNumToRender={20}
-      keyExtractor={item => item.stream_id}
-      renderItem={({ item }: { item: StreamPlus, ... }) => (
+      keyExtractor={item => item.stream_id.toString()}
+      renderItem={({ item }) => (
         <StreamItem
           streamId={item.stream_id}
           name={item.name}
@@ -85,7 +78,6 @@ function StreamList(props: StreamListProps): Node {
           onSwitch={onSwitch}
         />
       )}
-      SectionSeparatorComponent={SectionSeparatorBetween}
     />
   );
 }
