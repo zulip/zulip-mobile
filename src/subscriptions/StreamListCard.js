@@ -6,7 +6,7 @@ import { View, SectionList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import type { Stream, Subscription } from '../types';
+import type { Stream } from '../types';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
@@ -27,22 +27,10 @@ const listStyles = createStyleSheet({
 });
 
 // TODO(#3767): Clean this up.
-type PseudoSubscription =
-  // The `foo?: void` properties are a way of saying: "this property isn't
-  // here, but when I read it just say it gets `undefined` and don't worry
-  // about it."  The code below reads some properties that exist in only one
-  // branch of the union, and relies on getting `undefined` in the other branch.
-  | $ReadOnly<{| ...Subscription, subscribed?: void |}>
-  | $ReadOnly<{|
-      ...Stream,
-      subscribed: boolean,
-      pin_to_top?: void,
-      color?: void,
-      in_home_view?: void,
-    |}>;
+type StreamPlus = $ReadOnly<{| ...Stream, subscribed: boolean |}>;
 
 type StreamListProps = $ReadOnly<{|
-  streams: $ReadOnlyArray<PseudoSubscription>,
+  streams: $ReadOnlyArray<StreamPlus>,
   onPress: (streamId: number, streamName: string) => void,
   onSwitch: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
@@ -55,17 +43,13 @@ function StreamList(props: StreamListProps): Node {
     return <SearchEmptyState text="No streams found" />;
   }
 
-  const sortedStreams: $ReadOnlyArray<PseudoSubscription> = streams
+  const sortedStreams: $ReadOnlyArray<StreamPlus> = streams
     .slice()
     .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
   const sections = [
     {
-      key: 'Pinned',
-      data: sortedStreams.filter(x => x.pin_to_top),
-    },
-    {
       key: 'Unpinned',
-      data: sortedStreams.filter(x => !x.pin_to_top),
+      data: sortedStreams,
     },
   ];
 
@@ -76,7 +60,7 @@ function StreamList(props: StreamListProps): Node {
       extraData={{}}
       initialNumToRender={20}
       keyExtractor={item => item.stream_id}
-      renderItem={({ item }: { item: PseudoSubscription, ... }) => (
+      renderItem={({ item }: { item: StreamPlus, ... }) => (
         <StreamItem
           streamId={item.stream_id}
           name={item.name}
@@ -84,9 +68,17 @@ function StreamList(props: StreamListProps): Node {
           isPrivate={item.invite_only}
           isWebPublic={item.is_web_public}
           description={item.description}
-          color={item.color}
+          color={
+            /* Even if the user happens to be subscribed to this stream,
+               we don't show their subscription color. */
+            undefined
+          }
           unreadCount={undefined}
-          isMuted={item.in_home_view === false} // if 'undefined' is not muted
+          isMuted={
+            /* This stream may in reality be muted.
+               But in this UI, we don't show that distinction. */
+            false
+          }
           showSwitch
           isSubscribed={item.subscribed}
           onPress={onPress}
@@ -121,6 +113,9 @@ export default function StreamListCard(props: Props): Node {
 
   const subsAndStreams = streams.map(x => ({
     ...x,
+    // TODO(#3339): Avoid this linear scan.  (Also avoid spreading Stream
+    //   into these new objects; pass the Stream objects verbatim, to avoid
+    //   constructing so much new data.)
     subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
   }));
 
