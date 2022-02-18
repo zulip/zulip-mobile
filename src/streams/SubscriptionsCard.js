@@ -40,24 +40,14 @@ type PseudoSubscription =
     |}>;
 
 type StreamListProps = $ReadOnly<{|
-  showDescriptions?: boolean,
-  showSwitch?: boolean,
-  streams?: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream?: $ReadOnly<{| [number]: number |}>,
+  streams: $ReadOnlyArray<PseudoSubscription>,
+  unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamId: number, streamName: string) => void,
-  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 // TODO(#3767): Simplify this by specializing to its one caller.
 function StreamList(props: StreamListProps): Node {
-  const {
-    streams = [],
-    showDescriptions = false,
-    showSwitch = false,
-    unreadByStream = {},
-    onPress,
-    onSwitch,
-  } = props;
+  const { streams, unreadByStream, onPress } = props;
 
   if (streams.length === 0) {
     return <SearchEmptyState text="No streams found" />;
@@ -91,14 +81,13 @@ function StreamList(props: StreamListProps): Node {
           iconSize={16}
           isPrivate={item.invite_only}
           isWebPublic={item.is_web_public}
-          description={showDescriptions ? item.description : ''}
+          description=""
           color={item.color}
           unreadCount={unreadByStream[item.stream_id]}
           isMuted={item.in_home_view === false} // if 'undefined' is not muted
-          showSwitch={showSwitch}
+          showSwitch={false}
           isSubscribed={item.subscribed}
           onPress={onPress}
-          onSwitch={onSwitch}
         />
       )}
       SectionSeparatorComponent={SectionSeparatorBetween}

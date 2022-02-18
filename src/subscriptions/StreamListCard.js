@@ -42,24 +42,14 @@ type PseudoSubscription =
     |}>;
 
 type StreamListProps = $ReadOnly<{|
-  showDescriptions?: boolean,
-  showSwitch?: boolean,
-  streams?: $ReadOnlyArray<PseudoSubscription>,
-  unreadByStream?: $ReadOnly<{| [number]: number |}>,
+  streams: $ReadOnlyArray<PseudoSubscription>,
   onPress: (streamId: number, streamName: string) => void,
-  onSwitch?: (streamId: number, streamName: string, newValue: boolean) => void,
+  onSwitch: (streamId: number, streamName: string, newValue: boolean) => void,
 |}>;
 
 // TODO(#3767): Simplify this by specializing to its one caller.
 function StreamList(props: StreamListProps): Node {
-  const {
-    streams = [],
-    showDescriptions = false,
-    showSwitch = false,
-    unreadByStream = {},
-    onPress,
-    onSwitch,
-  } = props;
+  const { streams, onPress, onSwitch } = props;
 
   if (streams.length === 0) {
     return <SearchEmptyState text="No streams found" />;
@@ -83,7 +73,7 @@ function StreamList(props: StreamListProps): Node {
     <SectionList
       style={listStyles.list}
       sections={sections}
-      extraData={unreadByStream}
+      extraData={{}}
       initialNumToRender={20}
       keyExtractor={item => item.stream_id}
       renderItem={({ item }: { item: PseudoSubscription, ... }) => (
@@ -93,11 +83,11 @@ function StreamList(props: StreamListProps): Node {
           iconSize={16}
           isPrivate={item.invite_only}
           isWebPublic={item.is_web_public}
-          description={showDescriptions ? item.description : ''}
+          description={item.description}
           color={item.color}
-          unreadCount={unreadByStream[item.stream_id]}
+          unreadCount={undefined}
           isMuted={item.in_home_view === false} // if 'undefined' is not muted
-          showSwitch={showSwitch}
+          showSwitch
           isSubscribed={item.subscribed}
           onPress={onPress}
           onSwitch={onSwitch}
@@ -165,13 +155,7 @@ export default function StreamListCard(props: Props): Node {
           }
         />
       )}
-      <StreamList
-        streams={subsAndStreams}
-        showSwitch
-        showDescriptions
-        onSwitch={handleSwitchChange}
-        onPress={handleNarrow}
-      />
+      <StreamList streams={subsAndStreams} onSwitch={handleSwitchChange} onPress={handleNarrow} />
     </View>
   );
 }
