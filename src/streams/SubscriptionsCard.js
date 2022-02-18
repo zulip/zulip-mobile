@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { View, SectionList } from 'react-native';
 
@@ -38,13 +38,15 @@ export default function SubscriptionsCard(props: Props): Node {
   const subscriptions = useSelector(getSubscriptions);
   const unreadByStream = useSelector(getUnreadByStream);
 
-  const sortedSubscriptions = subscriptions
-    .slice()
-    .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
-  const sections = [
-    { key: 'Pinned', data: sortedSubscriptions.filter(x => x.pin_to_top) },
-    { key: 'Unpinned', data: sortedSubscriptions.filter(x => !x.pin_to_top) },
-  ];
+  const sections = useMemo(() => {
+    const sortedSubscriptions = subscriptions
+      .slice()
+      .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
+    return [
+      { key: 'Pinned', data: sortedSubscriptions.filter(x => x.pin_to_top) },
+      { key: 'Unpinned', data: sortedSubscriptions.filter(x => !x.pin_to_top) },
+    ];
+  }, [subscriptions]);
 
   const handleNarrow = useCallback(
     (streamId: number) => dispatch(doNarrow(streamNarrow(streamId))),

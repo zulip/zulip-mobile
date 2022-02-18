@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { View, FlatList } from 'react-native';
 
@@ -44,8 +44,10 @@ export default function StreamListCard(props: Props): Node {
   const subscriptions = useSelector(getSubscriptionsById);
   const streams = useSelector(getStreams);
 
-  // TODO(perf): We should memoize this sorted list.
-  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
+  const sortedStreams = useMemo(
+    () => streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name)),
+    [streams],
+  );
 
   const handleSwitchChange = useCallback(
     (streamId: number, streamName: string, switchValue: boolean) => {
