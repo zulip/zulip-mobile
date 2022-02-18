@@ -40,7 +40,9 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
   //
   // Though what it actually receives is more like this:
   //   $Rest<ApnsPayload, {| aps: mixed |}>
-  // See comment below about PushNotificationsIOS.
+  // because the `ApnsPayload` gets parsed by the `PushNotificationIOS`
+  // library, and what it gives us through `getData` is everything but the
+  // `aps` property.
 
   /** Helper function: fail. */
   const err = (style: string) =>
@@ -54,23 +56,8 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
     throw err('nullish');
   }
 
-  // APNs messages are JSON dictionaries. The `aps` entry of this dictionary is
-  // required, with a structure defined by Apple; all other entries are
-  // available to the application.
-  //
-  // PushNotificationsIOS filters out `aps`, parses it, and hands us the rest
-  // as "data". Pretty much any iOS notifications library should do
-  // the same, but we don't rely on that.
-
-  const data: JSONableInputDict = (() => {
-    if ('aps' in rawData) {
-      // eslint-disable-next-line no-unused-vars
-      const { aps, ...rest } = rawData;
-      return rest;
-    } else {
-      return rawData;
-    }
-  })();
+  // TODO: simplify this.
+  const data: JSONableInputDict = rawData;
 
   // Always present; see `ApnsPayload`.
   const zulip: JSONableInputDict | void = asDict(data.zulip);
