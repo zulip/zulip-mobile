@@ -42,14 +42,8 @@ function SubscriptionList(props: SubscriptionListProps): Node {
     .slice()
     .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
   const sections = [
-    {
-      key: 'Pinned',
-      data: sortedSubscriptions.filter(x => x.pin_to_top),
-    },
-    {
-      key: 'Unpinned',
-      data: sortedSubscriptions.filter(x => !x.pin_to_top),
-    },
+    { key: 'Pinned', data: sortedSubscriptions.filter(x => x.pin_to_top) },
+    { key: 'Unpinned', data: sortedSubscriptions.filter(x => !x.pin_to_top) },
   ];
 
   return (
