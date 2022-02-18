@@ -14,10 +14,11 @@ import { ZulipButton, LoadingBanner, SearchEmptyState } from '../common';
 import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
-import { getAuth, getCanCreateStreams, getStreams, getSubscriptions } from '../selectors';
+import { getAuth, getCanCreateStreams, getStreams } from '../selectors';
 import { doNarrow, navigateToCreateStream } from '../actions';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from '../streams/StreamItem';
+import { getSubscriptionsById } from './subscriptionSelectors';
 
 const listStyles = createStyleSheet({
   list: {
@@ -101,14 +102,13 @@ export default function StreamListCard(props: Props): Node {
   const auth = useSelector(getAuth);
   const canCreateStreams = useSelector(getCanCreateStreams);
   const streams = useSelector(getStreams);
-  const subscriptions = useSelector(getSubscriptions);
+  const subscriptions = useSelector(getSubscriptionsById);
 
   const subsAndStreams = streams.map(x => ({
     ...x,
-    // TODO(#3339): Avoid this linear scan.  (Also avoid spreading Stream
-    //   into these new objects; pass the Stream objects verbatim, to avoid
-    //   constructing so much new data.)
-    subscribed: subscriptions.some(s => s.stream_id === x.stream_id),
+    // TODO: Avoid spreading Stream into these new objects; pass the Stream
+    //   objects verbatim, to avoid constructing so much new data.
+    subscribed: subscriptions.has(x.stream_id),
   }));
 
   const handleSwitchChange = useCallback(
