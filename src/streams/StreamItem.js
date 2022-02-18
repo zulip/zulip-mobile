@@ -65,7 +65,8 @@ type Props = $ReadOnly<{|
  * @prop description - the stream's description
  * @prop isMuted - false for a Stream; !sub.in_home_view for Subscription
  * @prop isPrivate - .invite_only for a Stream or a Subscription
- * @prop isSubscribed - whether the user is subscribed to the stream
+ * @prop isSubscribed - whether the user is subscribed to the stream;
+ *   ignored (and can be any value) unless showSwitch is true
  * @prop color - if provided, MUST be .color on a Subscription
  * @prop backgroundColor - if provided, MUST be .color on a Subscription
  *

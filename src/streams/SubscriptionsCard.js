@@ -6,7 +6,7 @@ import { View, SectionList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import type { Stream, Subscription } from '../types';
+import type { Subscription } from '../types';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import { LoadingBanner, SectionSeparatorBetween, SearchEmptyState } from '../common';
@@ -24,23 +24,8 @@ const listStyles = createStyleSheet({
   },
 });
 
-// TODO(#3767): Clean this up.
-type PseudoSubscription =
-  // The `foo?: void` properties are a way of saying: "this property isn't
-  // here, but when I read it just say it gets `undefined` and don't worry
-  // about it."  The code below reads some properties that exist in only one
-  // branch of the union, and relies on getting `undefined` in the other branch.
-  | $ReadOnly<{| ...Subscription, subscribed?: void |}>
-  | $ReadOnly<{|
-      ...Stream,
-      subscribed: boolean,
-      pin_to_top?: void,
-      color?: void,
-      in_home_view?: void,
-    |}>;
-
 type StreamListProps = $ReadOnly<{|
-  streams: $ReadOnlyArray<PseudoSubscription>,
+  streams: $ReadOnlyArray<Subscription>,
   unreadByStream: $ReadOnly<{| [number]: number |}>,
   onPress: (streamId: number, streamName: string) => void,
 |}>;
@@ -53,9 +38,7 @@ function StreamList(props: StreamListProps): Node {
     return <SearchEmptyState text="No streams found" />;
   }
 
-  const sortedStreams: $ReadOnlyArray<PseudoSubscription> = streams
-    .slice()
-    .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
+  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
   const sections = [
     {
       key: 'Pinned',
@@ -74,7 +57,7 @@ function StreamList(props: StreamListProps): Node {
       extraData={unreadByStream}
       initialNumToRender={20}
       keyExtractor={item => item.stream_id}
-      renderItem={({ item }: { item: PseudoSubscription, ... }) => (
+      renderItem={({ item }: { item: Subscription, ... }) => (
         <StreamItem
           streamId={item.stream_id}
           name={item.name}
@@ -86,7 +69,7 @@ function StreamList(props: StreamListProps): Node {
           unreadCount={unreadByStream[item.stream_id]}
           isMuted={item.in_home_view === false} // if 'undefined' is not muted
           showSwitch={false}
-          isSubscribed={item.subscribed}
+          // isSubscribed is ignored when showSwitch false
           onPress={onPress}
         />
       )}
