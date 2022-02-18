@@ -30,6 +30,8 @@ const urlFromInputValue = (realmInputValue: string): URL | void => {
 };
 
 export default function RealmInputScreen(props: Props): Node {
+  const { navigation } = props;
+
   const [progress, setProgress] = useState<boolean>(false);
   const [realmInputValue, setRealmInputValue] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -62,8 +64,6 @@ export default function RealmInputScreen(props: Props): Node {
       setProgress(false);
     }
   }, [realmInputValue]);
-
-  const { navigation } = props;
 
   const styles = {
     input: { marginTop: 16, marginBottom: 8 },
