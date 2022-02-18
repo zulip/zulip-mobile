@@ -19,73 +19,16 @@ import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from '../streams/StreamItem';
 import { getSubscriptionsById } from './subscriptionSelectors';
 
-const listStyles = createStyleSheet({
-  list: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
-
-type StreamListProps = $ReadOnly<{|
-  onPress: (streamId: number, streamName: string) => void,
-  onSwitch: (streamId: number, streamName: string, newValue: boolean) => void,
-|}>;
-
-// TODO(#3767): Simplify this by specializing to its one caller.
-function StreamList(props: StreamListProps): Node {
-  const { onPress, onSwitch } = props;
-
-  const subscriptions = useSelector(getSubscriptionsById);
-  const streams = useSelector(getStreams);
-
-  if (streams.length === 0) {
-    return <SearchEmptyState text="No streams found" />;
-  }
-
-  // TODO(perf): We should memoize this sorted list.
-  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
-
-  return (
-    <FlatList
-      style={listStyles.list}
-      data={sortedStreams}
-      initialNumToRender={20}
-      keyExtractor={item => item.stream_id.toString()}
-      renderItem={({ item }) => (
-        <StreamItem
-          streamId={item.stream_id}
-          name={item.name}
-          iconSize={16}
-          isPrivate={item.invite_only}
-          isWebPublic={item.is_web_public}
-          description={item.description}
-          color={
-            /* Even if the user happens to be subscribed to this stream,
-               we don't show their subscription color. */
-            undefined
-          }
-          unreadCount={undefined}
-          isMuted={
-            /* This stream may in reality be muted.
-               But in this UI, we don't show that distinction. */
-            false
-          }
-          showSwitch
-          isSubscribed={subscriptions.has(item.stream_id)}
-          onPress={onPress}
-          onSwitch={onSwitch}
-        />
-      )}
-    />
-  );
-}
-
 const styles = createStyleSheet({
   wrapper: {
     flex: 1,
   },
   button: {
     margin: 16,
+  },
+  list: {
+    flex: 1,
+    flexDirection: 'column',
   },
 });
 
@@ -98,6 +41,11 @@ export default function StreamListCard(props: Props): Node {
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
   const canCreateStreams = useSelector(getCanCreateStreams);
+  const subscriptions = useSelector(getSubscriptionsById);
+  const streams = useSelector(getStreams);
+
+  // TODO(perf): We should memoize this sorted list.
+  const sortedStreams = streams.slice().sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
 
   const handleSwitchChange = useCallback(
     (streamId: number, streamName: string, switchValue: boolean) => {
@@ -130,7 +78,41 @@ export default function StreamListCard(props: Props): Node {
           }
         />
       )}
-      <StreamList onSwitch={handleSwitchChange} onPress={handleNarrow} />
+      {streams.length === 0 ? (
+        <SearchEmptyState text="No streams found" />
+      ) : (
+        <FlatList
+          style={styles.list}
+          data={sortedStreams}
+          initialNumToRender={20}
+          keyExtractor={item => item.stream_id.toString()}
+          renderItem={({ item }) => (
+            <StreamItem
+              streamId={item.stream_id}
+              name={item.name}
+              iconSize={16}
+              isPrivate={item.invite_only}
+              isWebPublic={item.is_web_public}
+              description={item.description}
+              color={
+                /* Even if the user happens to be subscribed to this stream,
+                   we don't show their subscription color. */
+                undefined
+              }
+              unreadCount={undefined}
+              isMuted={
+                /* This stream may in reality be muted.
+                   But in this UI, we don't show that distinction. */
+                false
+              }
+              showSwitch
+              isSubscribed={subscriptions.has(item.stream_id)}
+              onPress={handleNarrow}
+              onSwitch={handleSwitchChange}
+            />
+          )}
+        />
+      )}
     </View>
   );
 }
