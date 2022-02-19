@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 
 import type { Config } from './types';
 import { KEY_PREFIX } from './constants';
@@ -39,7 +38,15 @@ export default async function getStoredState(config: Config): Promise<{ ... }> {
           });
           return;
         }
-        invariant(serialized !== null, 'key was found above, should be present here');
+        if (serialized === null) {
+          // This shouldn't be possible, but empirically it does happen, so
+          // we don't use `invariant` here. It may have to do with the janky
+          // way AsyncStorage stores large values out-of-line in separate
+          // files on iOS? ¯\_(ツ)_/¯ If so, it will go away when we switch
+          // to a sound version of AsyncStorage, #4841.
+          logging.warn('key was found above, should be present here', { key });
+          return;
+        }
 
         try {
           restoredState[key] = deserializer(serialized);
