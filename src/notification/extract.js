@@ -34,7 +34,7 @@ class ApnsMsgValidationError extends logging.ExtendableError {
 // @returns A `Notification` on success, `undefined` on suppressible failure.
 // @throws An ApnsMsgValidationError on unexpected failure.
 //
-export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
+export const fromAPNsImpl = (data: ?JSONableDict): Notification | void => {
   //
   // For the format this parses, see `ApnsPayload` in src/api/notificationTypes.js .
   //
@@ -49,15 +49,12 @@ export const fromAPNsImpl = (rawData: ?JSONableDict): Notification | void => {
     new ApnsMsgValidationError(`Received ${style} APNs notification`, {
       // an `undefined` value would make `extras` not JSONable, but we will
       // want to know if the value is undefined
-      data: rawData === undefined ? '__undefined__' : rawData,
+      data: data === undefined ? '__undefined__' : data,
     });
 
-  if (rawData == null) {
+  if (data == null) {
     throw err('nullish');
   }
-
-  // TODO: simplify this.
-  const data: JSONableInputDict = rawData;
 
   // Always present; see `ApnsPayload`.
   const zulip: JSONableInputDict | void = asDict(data.zulip);
