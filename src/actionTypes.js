@@ -72,6 +72,7 @@ import type {
   UpdateMessageEvent,
 } from './api/eventTypes';
 import type { MutedTopicTuple, PresenceSnapshot } from './api/apiTypes';
+import type { MessageMove } from './api/misc';
 
 import type {
   Orientation,
@@ -346,6 +347,7 @@ type EventMessageDeleteAction = $ReadOnly<{|
 type EventUpdateMessageAction = $ReadOnly<{|
   type: typeof EVENT_UPDATE_MESSAGE,
   event: UpdateMessageEvent,
+  move: null | MessageMove,
 |}>;
 
 type EventReactionCommon = $ReadOnly<{|

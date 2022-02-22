@@ -36,6 +36,7 @@ import {
 import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
 import { getRealmUrl } from '../account/accountsSelectors';
+import { messageMoved } from '../api/misc';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -164,6 +165,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       return {
         type: EVENT_UPDATE_MESSAGE,
         event,
+        move: messageMoved(event),
       };
 
     case 'subscription':

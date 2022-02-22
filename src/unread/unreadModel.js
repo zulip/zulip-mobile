@@ -28,7 +28,6 @@ import {
   REGISTER_COMPLETE,
 } from '../actionConstants';
 import DefaultMap from '../utils/DefaultMap';
-import { messageMoved } from '../api/misc';
 
 //
 //
@@ -224,8 +223,7 @@ function streamsReducer(
     }
 
     case EVENT_UPDATE_MESSAGE: {
-      const { event } = action;
-      const move = messageMoved(event);
+      const { event, move } = action;
       if (!move) {
         return state;
       }

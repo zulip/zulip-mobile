@@ -53,6 +53,7 @@ import { HOME_NARROW } from '../../utils/narrow';
 import type { BackgroundData } from '../../webview/MessageList';
 import { getSettings, getStreamsById, getSubscriptionsById } from '../../selectors';
 import { getGlobalSettings } from '../../directSelectors';
+import { messageMoved } from '../../api/misc';
 
 /* ========================================================================
  * Utilities
@@ -907,15 +908,19 @@ export const mkActionEventNewMessage = (
  */
 export const mkActionEventUpdateMessage = (args: {|
   ...$Rest<UpdateMessageEvent, { id: mixed, type: mixed, flags?: mixed }>,
-|}): PerAccountAction => ({
-  type: EVENT_UPDATE_MESSAGE,
-  event: {
+|}): PerAccountAction => {
+  const event = {
     id: 1,
     type: EventTypes.update_message,
     flags: [],
     ...args,
-  },
-});
+  };
+  return {
+    type: EVENT_UPDATE_MESSAGE,
+    event,
+    move: messageMoved(event),
+  };
+};
 
 // If a given action is only relevant to a single test file, no need to
 // provide a generic factory for it here; just define the test data there.
