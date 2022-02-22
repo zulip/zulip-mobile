@@ -497,6 +497,75 @@ describe('narrowsReducer', () => {
     });
   });
 
+  describe('EVENT_UPDATE_MESSAGE', () => {
+    const mkAction = args => {
+      const { messages, ...restArgs } = args;
+      const message = messages[0];
+      return eg.mkActionEventUpdateMessage({
+        message_id: message.id,
+        message_ids: messages.map(m => m.id),
+        stream_id: message.stream_id,
+        orig_subject: message.subject,
+        ...restArgs,
+      });
+    };
+
+    const mkKey = (stream, topic) =>
+      topic !== undefined
+        ? keyFromNarrow(topicNarrow(stream.stream_id, topic))
+        : keyFromNarrow(streamNarrow(stream.stream_id));
+
+    const topic1 = 'topic foo';
+    const topic2 = 'topic bar';
+    // const message1a = eg.streamMessage({ subject: topic1, id: 1 });
+    const message1b = eg.streamMessage({ subject: topic1, id: 2 });
+    // const message1c = eg.streamMessage({ subject: topic1, id: 3 });
+    // const message2a = eg.streamMessage({ subject: topic2, id: 4 });
+
+    test('new topic, same stream', () => {
+      expect(
+        narrowsReducer(
+          Immutable.Map([
+            [mkKey(eg.stream, topic1), [1, 2, 3]],
+            [mkKey(eg.stream, topic2), [4]],
+            [mkKey(eg.stream), [1, 2, 3, 4]],
+          ]),
+          mkAction({ messages: [message1b], subject: topic2 }),
+        ),
+      ).toEqual(
+        Immutable.Map([
+          [mkKey(eg.stream, topic1), [1, 3]], // removed from old topic narrow
+          // new topic narrow gets cleared
+          [mkKey(eg.stream), [1, 2, 3, 4]], // stream narrow unchanged
+        ]),
+      );
+    });
+
+    test('same topic, new stream', () => {
+      expect(
+        narrowsReducer(
+          Immutable.Map([
+            [mkKey(eg.stream, topic1), [1, 2, 3]],
+            [mkKey(eg.stream), [1, 2, 3]],
+            [mkKey(eg.otherStream, topic1), [4]],
+            [mkKey(eg.otherStream), [4]],
+          ]),
+          mkAction({ messages: [message1b], new_stream_id: eg.otherStream.stream_id }),
+        ),
+      ).toEqual(
+        Immutable.Map([
+          [mkKey(eg.stream, topic1), [1, 3]], // removed from old topic narrow
+          [mkKey(eg.stream), [1, 3]], // removed from old stream narrow
+          // new topic narrow and stream narrow both cleared
+        ]),
+      );
+    });
+
+    // Try to keep these tests corresponding closely to those for the
+    // caughtUp reducer.  (In the future these should really be a single
+    // sub-reducer.)
+  });
+
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     const allMessages = eg.makeMessagesState([
       eg.streamMessage({ id: 1 }),

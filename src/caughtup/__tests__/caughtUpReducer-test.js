@@ -4,7 +4,15 @@ import deepFreeze from 'deep-freeze';
 import * as eg from '../../__tests__/lib/exampleData';
 import caughtUpReducer from '../caughtUpReducer';
 import { MESSAGE_FETCH_ERROR } from '../../actionConstants';
-import { HOME_NARROW, HOME_NARROW_STR, SEARCH_NARROW } from '../../utils/narrow';
+import {
+  HOME_NARROW,
+  HOME_NARROW_STR,
+  keyFromNarrow,
+  SEARCH_NARROW,
+  streamNarrow,
+  topicNarrow,
+} from '../../utils/narrow';
+import { objectFromEntries } from '../../jsBackport';
 
 describe('caughtUpReducer', () => {
   describe('MESSAGE_FETCH_START', () => {
@@ -139,5 +147,77 @@ describe('caughtUpReducer', () => {
     const newState = caughtUpReducer(initialState, action);
 
     expect(newState).toEqual(expectedState);
+  });
+
+  describe('EVENT_UPDATE_MESSAGE', () => {
+    const mkAction = args => {
+      const { messages, ...restArgs } = args;
+      const message = messages[0];
+      return eg.mkActionEventUpdateMessage({
+        message_id: message.id,
+        message_ids: messages.map(m => m.id),
+        stream_id: message.stream_id,
+        orig_subject: message.subject,
+        ...restArgs,
+      });
+    };
+
+    const mkKey = (stream, topic) =>
+      topic !== undefined
+        ? keyFromNarrow(topicNarrow(stream.stream_id, topic))
+        : keyFromNarrow(streamNarrow(stream.stream_id));
+
+    const topic1 = 'topic foo';
+    const topic2 = 'topic bar';
+    // const message1a = eg.streamMessage({ subject: topic1, id: 1 });
+    const message1b = eg.streamMessage({ subject: topic1, id: 2 });
+    // const message1c = eg.streamMessage({ subject: topic1, id: 3 });
+    // const message2a = eg.streamMessage({ subject: topic2, id: 4 });
+
+    test('new topic, same stream', () => {
+      expect(
+        caughtUpReducer(
+          objectFromEntries([
+            [mkKey(eg.stream, topic1), { older: true, newer: true }],
+            [mkKey(eg.stream, topic2), { older: true, newer: true }],
+            [mkKey(eg.stream), { older: true, newer: true }],
+          ]),
+          mkAction({ messages: [message1b], subject: topic2 }),
+        ),
+      ).toEqual(
+        objectFromEntries([
+          // old topic narrow remains caught up:
+          [mkKey(eg.stream, topic1), { older: true, newer: true }],
+          // new topic narrow gets cleared
+          // stream narrow unchanged:
+          [mkKey(eg.stream), { older: true, newer: true }],
+        ]),
+      );
+    });
+
+    test('same topic, new stream', () => {
+      expect(
+        caughtUpReducer(
+          objectFromEntries([
+            [mkKey(eg.stream, topic1), { older: true, newer: true }],
+            [mkKey(eg.stream), { older: true, newer: true }],
+            [mkKey(eg.otherStream, topic1), { older: true, newer: true }],
+            [mkKey(eg.otherStream), { older: true, newer: true }],
+          ]),
+          mkAction({ messages: [message1b], new_stream_id: eg.otherStream.stream_id }),
+        ),
+      ).toEqual(
+        objectFromEntries([
+          // old topic and stream narrows remain caught up:
+          [mkKey(eg.stream, topic1), { older: true, newer: true }],
+          [mkKey(eg.stream), { older: true, newer: true }],
+          // new topic and stream narrows both cleared
+        ]),
+      );
+    });
+
+    // Try to keep these tests corresponding closely to those for the
+    // narrows reducer.  (In the future these should really be a single
+    // sub-reducer.)
   });
 });

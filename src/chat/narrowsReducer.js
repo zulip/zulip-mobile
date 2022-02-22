@@ -16,6 +16,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
 import {
@@ -24,9 +25,50 @@ import {
   STARRED_NARROW_STR,
   isSearchNarrow,
   keyFromNarrow,
+  topicNarrow,
+  streamNarrow,
 } from '../utils/narrow';
 
 const initialState: NarrowsState = Immutable.Map();
+
+function removeMessages(state: NarrowsState, narrow, messageIds): NarrowsState {
+  return state.update(
+    keyFromNarrow(narrow),
+    messages => messages && messages.filter(id => !messageIds.has(id)),
+  );
+}
+
+/**
+ * Incorporate possibly old, possibly discontiguous, messages in the narrow.
+ *
+ * This differs from the MESSAGE_FETCH_COMPLETE case in that we aren't
+ * assured that the messages listed are a contiguous segment of the full
+ * list of messages in the narrow.  (For example, someone may have merged
+ * one conversation into another, where some messages already in the
+ * destination conversation fall in between some of the moved messages.)
+ */
+// We need to maintain the state.narrows invariant -- the fact that the
+// message IDs we have in a narrow should be a contiguous segment of the
+// full list of messages that actually exist in the narrow.  That can
+// prevent us from adding the messages to our record of the narrow, and
+// force us to instead downgrade how much we think we know about the narrow.
+function addMessages(state: NarrowsState, narrow, messageIds): NarrowsState {
+  // NOTE: This behavior must stay parallel with how the caughtUp reducer
+  //   handles the same cases.
+  const key = keyFromNarrow(narrow);
+
+  // TODO: If the state at the narrow covers the given messages, then
+  //   incorporate them.
+
+  // TODO: If the state at a *parent* narrow -- in particular the stream
+  //   narrow, if this is a topic narrow -- covers the given messages, then
+  //   use that.
+
+  // Do what's simple and always correct, even when not optimal: stop
+  // claiming to know anything about the narrow.  (The caughtUp reducer must
+  // also delete its record.)
+  return state.delete(key);
+}
 
 const messageFetchComplete = (state, action) => {
   // We don't want to accumulate old searches that we'll never need again.
@@ -188,6 +230,33 @@ export default (
 
     case EVENT_MESSAGE_DELETE:
       return eventMessageDelete(state, action);
+
+    case EVENT_UPDATE_MESSAGE: {
+      // Compare the corresponding caughtUpReducer case.
+
+      let result: NarrowsState = state;
+      const { event, move } = action;
+
+      if (move) {
+        // The edit changed topic and/or stream.
+        const { orig_stream_id, orig_topic, new_stream_id, new_topic } = move;
+        const messageIdSet = new Set(event.message_ids);
+        result = addMessages(result, topicNarrow(new_stream_id, new_topic), event.message_ids);
+        result = removeMessages(result, topicNarrow(orig_stream_id, orig_topic), messageIdSet);
+        if (new_stream_id !== orig_stream_id) {
+          result = addMessages(result, streamNarrow(new_stream_id), event.message_ids);
+          result = removeMessages(result, streamNarrow(orig_stream_id), messageIdSet);
+        }
+      }
+
+      // We don't attempt to update search narrows.
+
+      // The other way editing a message can affect what narrows it falls
+      // into is by changing its flags.  Those cause a separate event; see
+      // the EVENT_UPDATE_MESSAGE_FLAGS case.
+
+      return result;
+    }
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
       return eventUpdateMessageFlags(state, action);
