@@ -18,6 +18,7 @@ import type {
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
+import { type UpdateMessageEvent } from '../../api/eventTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -44,6 +45,7 @@ import {
   EVENT_NEW_MESSAGE,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_COMPLETE,
+  EVENT_UPDATE_MESSAGE,
 } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
@@ -899,6 +901,18 @@ export const mkActionEventNewMessage = (
 
     message: { ...message, flags: message.flags ?? [] },
   });
+
+/**
+ * An EVENT_UPDATE_MESSAGE action.
+ */
+export const mkActionEventUpdateMessage = (args: {|
+  ...$Rest<UpdateMessageEvent, { id: mixed, type: mixed, flags?: mixed }>,
+|}): PerAccountAction => ({
+  id: 1,
+  type: EVENT_UPDATE_MESSAGE,
+  flags: [],
+  ...args,
+});
 
 // If a given action is only relevant to a single test file, no need to
 // provide a generic factory for it here; just define the test data there.

@@ -8,7 +8,6 @@ import {
   MESSAGE_FETCH_COMPLETE,
   EVENT_SUBMESSAGE,
   EVENT_MESSAGE_DELETE,
-  EVENT_UPDATE_MESSAGE,
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
 } from '../../actionConstants';
@@ -171,17 +170,14 @@ describe('messagesReducer', () => {
       // stealth server-edits.)
       const forEdit: { user_id?: UserId } =
         restArgs.edit_timestamp != null ? { user_id: message.sender_id } : Object.freeze({});
-      return {
-        id: 1,
-        type: EVENT_UPDATE_MESSAGE,
+      return eg.mkActionEventUpdateMessage({
         ...forEdit,
         message_id: message.id,
         message_ids: [message.id],
-        flags: [],
         propagate_mode: 'change_one',
         is_me_message: false,
         ...restArgs,
-      };
+      });
     };
 
     test('if a message does not exist no changes are made', () => {
