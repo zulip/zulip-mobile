@@ -41,7 +41,7 @@
 * [Internal to Zulip and our codebase](#zulip)
   * See also [the new-feature guide](howto/new-feature.md).
   * [Interacting with the Zulip server](#zulip-server)
-    * [[link](#api-doc-links)] Link to the API docs wherever
+    * [[link](#api-doc-link)] Link to the API docs wherever
       describing the API.
     * [[link](#api-doc-dry)] Don't repeat in comments what's in the
       API docs.
@@ -533,7 +533,8 @@ interface in order to use it elsewhere.
 **See also [the new-feature guide](howto/new-feature.md)**.
 
 
-<div id="api-doc-links" />
+<div id="api-doc-links" /> <!-- old name -->
+<div id="api-doc-link" />
 
 **Link to the API docs wherever describing the API**: Wherever the
 purpose of some code is to represent how some part of the Zulip server
@@ -581,7 +582,7 @@ before Zulip's API docs existed.
 information about the Zulip API is covered by the API documentation
 (at https://zulip.com/api/ ), generally don't repeat it in our jsdoc
 or other comments; just link to the docs as discussed
-[above](#api-doc-links).
+[above](#api-doc-link).
 
 In particular this means that for most of the types and bindings in
 `src/api/`, the jsdoc should consist of a link to the API docs and

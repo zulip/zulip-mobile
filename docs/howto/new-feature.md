@@ -98,7 +98,7 @@ previous step), places you might update include:
 Some general points about updating the API code:
 
  * Each chunk of the API code should have a link to the relevant part
-   of the docs.  See [style guide](../style.md#api-doc-links) for
+   of the docs.  See [style guide](../style.md#api-doc-link) for
    details.
 
  * Our API code describes the full range of behavior we expect from
