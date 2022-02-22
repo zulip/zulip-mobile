@@ -56,7 +56,6 @@ const opToActionTyping = {
 };
 
 const actionTypeOfEventType = {
-  update_message: EVENT_UPDATE_MESSAGE,
   subscription: EVENT_SUBSCRIPTION,
   presence: EVENT_PRESENCE,
   muted_topics: EVENT_MUTED_TOPICS,
@@ -161,7 +160,12 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         event,
       };
 
-    case 'update_message':
+    case EventTypes.update_message:
+      return {
+        type: EVENT_UPDATE_MESSAGE,
+        event,
+      };
+
     case 'subscription':
     case 'presence':
     case 'muted_topics':

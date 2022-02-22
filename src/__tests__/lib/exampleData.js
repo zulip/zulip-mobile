@@ -18,7 +18,7 @@ import type {
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
-import { type UpdateMessageEvent } from '../../api/eventTypes';
+import { EventTypes, type UpdateMessageEvent } from '../../api/eventTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -908,10 +908,13 @@ export const mkActionEventNewMessage = (
 export const mkActionEventUpdateMessage = (args: {|
   ...$Rest<UpdateMessageEvent, { id: mixed, type: mixed, flags?: mixed }>,
 |}): PerAccountAction => ({
-  id: 1,
   type: EVENT_UPDATE_MESSAGE,
-  flags: [],
-  ...args,
+  event: {
+    id: 1,
+    type: EventTypes.update_message,
+    flags: [],
+    ...args,
+  },
 });
 
 // If a given action is only relevant to a single test file, no need to

@@ -224,18 +224,20 @@ function streamsReducer(
     }
 
     case EVENT_UPDATE_MESSAGE: {
+      const { event } = action;
+
       // The API uses "new" for the stream IDs and "orig" for the topics.
       // Put them both in a consistent naming convention.
-      const origStreamId = action.stream_id;
+      const origStreamId = event.stream_id;
       if (origStreamId == null) {
         // Not stream messages, or else a pure content edit (no stream/topic change.)
         // TODO(server-5.0): Simplify comment: since FL 112 this means it's
         //   just not a stream message.
         return state;
       }
-      const newStreamId = action.new_stream_id ?? origStreamId;
-      const origTopic = action.orig_subject;
-      const newTopic = action.subject ?? origTopic;
+      const newStreamId = event.new_stream_id ?? origStreamId;
+      const origTopic = event.orig_subject;
+      const newTopic = event.subject ?? origTopic;
 
       if (newTopic === origTopic && newStreamId === origStreamId) {
         // Stream and topic didn't change.
@@ -250,10 +252,10 @@ function streamsReducer(
       }
       invariant(newTopic != null, 'newTopic must be non-nullish when origTopic is, by `??`');
 
-      const actionIds = new Set(action.message_ids);
+      const eventIds = new Set(event.message_ids);
       const matchingIds = state
         .getIn([origStreamId, origTopic], Immutable.List())
-        .filter(id => actionIds.has(id));
+        .filter(id => eventIds.has(id));
       if (matchingIds.size === 0) {
         // None of the updated messages were unread.
         return state;
@@ -261,7 +263,7 @@ function streamsReducer(
 
       return state
         .updateIn([origStreamId, origTopic], (messages = Immutable.List()) =>
-          messages.filter(id => !actionIds.has(id)),
+          messages.filter(id => !eventIds.has(id)),
         )
         .updateIn([newStreamId, newTopic], (messages = Immutable.List()) =>
           messages.push(...matchingIds).sort(),

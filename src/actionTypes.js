@@ -344,8 +344,8 @@ type EventMessageDeleteAction = $ReadOnly<{|
 |}>;
 
 type EventUpdateMessageAction = $ReadOnly<{|
-  ...UpdateMessageEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
+  event: UpdateMessageEvent,
 |}>;
 
 type EventReactionCommon = $ReadOnly<{|
