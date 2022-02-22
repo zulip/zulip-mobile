@@ -164,7 +164,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
     case EventTypes.update_message:
       return {
         type: EVENT_UPDATE_MESSAGE,
-        event,
+        event: { ...event, message_ids: event.message_ids.sort((a, b) => a - b) },
         move: messageMoved(event),
       };
 

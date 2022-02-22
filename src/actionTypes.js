@@ -346,6 +346,7 @@ type EventMessageDeleteAction = $ReadOnly<{|
 
 type EventUpdateMessageAction = $ReadOnly<{|
   type: typeof EVENT_UPDATE_MESSAGE,
+  /** Here `message_ids` is sorted.  (This isn't guaranteed in the server event.) */
   event: UpdateMessageEvent,
   move: null | MessageMove,
 |}>;

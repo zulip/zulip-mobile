@@ -229,6 +229,9 @@ export type UpdateMessageEvent = $ReadOnly<{|
 
   // Any stream/topic changes apply to all of message_ids, which is
   //   guaranteed to include message_id.
+  // TODO(server-future): It'd be nice for these to be sorted; NB they may
+  //   not be.  As of server 5.0-dev-3868-gca17a452f (2022-02), there's no
+  //   guarantee of that in the API nor, apparently, in the implementation.
   message_ids: $ReadOnlyArray<number>,
 
   flags: $ReadOnlyArray<string>,
