@@ -208,8 +208,13 @@ export type RealmUpdateDictEvent = $ReadOnly<{|
   data: $Rest<RealmDataForUpdate, { ... }>,
 |}>;
 
-/** https://zulip.com/api/get-events#update_message */
+/**
+ * https://zulip.com/api/get-events#update_message
+ *
+ * See also `messageMoved` in `misc.js`.
+ */
 // This is current to feature level 109.
+// NB if this ever gains a feature of moving PMs, `messageMoved` needs updating.
 export type UpdateMessageEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.update_message,
