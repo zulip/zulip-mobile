@@ -69,6 +69,7 @@ import type {
   RealmUpdateDictEvent,
   SubmessageEvent,
   RestartEvent,
+  UpdateMessageEvent,
 } from './api/eventTypes';
 import type { MutedTopicTuple, PresenceSnapshot } from './api/apiTypes';
 
@@ -342,45 +343,9 @@ type EventMessageDeleteAction = $ReadOnly<{|
   messageIds: $ReadOnlyArray<number>,
 |}>;
 
-// This is current to feature level 109:
-//   https://zulip.com/api/get-events#update_message
 type EventUpdateMessageAction = $ReadOnly<{|
-  ...ServerEvent,
+  ...UpdateMessageEvent,
   type: typeof EVENT_UPDATE_MESSAGE,
-
-  // Future servers might send `null` here:
-  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.60update_message.60.20event/near/1309241
-  // TODO(server-5.0): Update this and/or simplify.
-  user_id?: UserId | null,
-
-  // Any content changes apply to just message_id.
-  message_id: number,
-
-  // Any stream/topic changes apply to all of message_ids, which is
-  //   guaranteed to include message_id.
-  message_ids: $ReadOnlyArray<number>,
-
-  flags: $ReadOnlyArray<string>,
-  edit_timestamp?: number,
-  stream_name?: string,
-  stream_id?: number,
-  new_stream_id?: number,
-  propagate_mode?: 'change_one' | 'change_later' | 'change_all',
-  orig_subject?: string,
-  subject?: string,
-
-  // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from $ReadOnlyArray<string>
-  topic_links?: $ReadOnlyArray<{| +text: string, +url: string |}> | $ReadOnlyArray<string>,
-
-  // TODO(server-3.0): Replaced in feat. 1 by topic_links
-  subject_links?: $ReadOnlyArray<string>,
-
-  orig_content?: string,
-  orig_rendered_content?: string,
-  prev_rendered_content_version?: number,
-  content?: string,
-  rendered_content?: string,
-  is_me_message?: boolean,
 |}>;
 
 type EventReactionCommon = $ReadOnly<{|
