@@ -7,7 +7,7 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import { getPresence } from '../selectors';
-import { getUserStatusForUser } from '../user-status/userStatusSelectors';
+import { getUserStatusForUser } from '../user-statuses/userStatusesSelectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { ZulipText } from '../common';
 

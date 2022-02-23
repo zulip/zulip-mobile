@@ -26,7 +26,7 @@ import topics from '../topics/topicsReducer';
 import typing from '../typing/typingReducer';
 import { reducer as unread } from '../unread/unreadModel';
 import userGroups from '../user-groups/userGroupsReducer';
-import userStatus from '../user-status/userStatusReducer';
+import userStatuses from '../user-statuses/userStatusesReducer';
 import users from '../users/usersReducer';
 import timing from '../utils/timing';
 
@@ -117,7 +117,7 @@ export default (globalState: void | GlobalState, origAction: Action): GlobalStat
       typing: applyReducer('typing', typing, undefined, action, undefined),
       unread: applyReducer('unread', unread, undefined, action, undefined),
       userGroups: applyReducer('userGroups', userGroups, undefined, action, undefined),
-      userStatus: applyReducer('userStatus', userStatus, undefined, action, undefined),
+      userStatuses: applyReducer('userStatuses', userStatuses, undefined, action, undefined),
       users: applyReducer('users', users, undefined, action, undefined),
     };
   } else if (isPerAccountApplicableAction(origAction)) {
@@ -152,7 +152,7 @@ export default (globalState: void | GlobalState, origAction: Action): GlobalStat
       typing: applyReducer('typing', typing, state.typing, action, state),
       unread: applyReducer('unread', unread, state.unread, action, state),
       userGroups: applyReducer('userGroups', userGroups, state.userGroups, action, state),
-      userStatus: applyReducer('userStatus', userStatus, state.userStatus, action, state),
+      userStatuses: applyReducer('userStatuses', userStatuses, state.userStatuses, action, state),
       users: applyReducer('users', users, state.users, action, state),
     };
 

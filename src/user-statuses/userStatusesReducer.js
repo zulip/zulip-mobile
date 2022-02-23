@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import type { UserStatusUpdate } from '../api/modelTypes';
 import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
-import type { UserStatusState, UserStatus, PerAccountApplicableAction } from '../types';
+import type { UserStatusesState, UserStatus, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -14,7 +14,7 @@ import {
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
 
-const initialState: UserStatusState = Immutable.Map();
+const initialState: UserStatusesState = Immutable.Map();
 
 /**
  * The canonical default, "unset" user status.
@@ -51,9 +51,9 @@ function updateUserStatus(
 }
 
 export default (
-  state: UserStatusState = initialState,
+  state: UserStatusesState = initialState,
   action: PerAccountApplicableAction,
-): UserStatusState => {
+): UserStatusesState => {
   switch (action.type) {
     case LOGOUT:
     case LOGIN_SUCCESS:

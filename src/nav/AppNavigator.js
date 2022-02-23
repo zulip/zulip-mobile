@@ -42,7 +42,7 @@ import TopicListScreen from '../topics/TopicListScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
 import SettingsScreen from '../settings/SettingsScreen';
-import UserStatusScreen from '../user-status/UserStatusScreen';
+import UserStatusScreen from '../user-statuses/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 

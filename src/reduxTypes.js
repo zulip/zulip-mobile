@@ -403,7 +403,7 @@ export type UserStatus = $ReadOnly<{|
   |},
 |}>;
 
-export type UserStatusState = Immutable.Map<UserId, UserStatus>;
+export type UserStatusesState = Immutable.Map<UserId, UserStatus>;
 
 /**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.
@@ -465,7 +465,7 @@ type PerAccountStateImpl = $ReadOnly<{
   typing: TypingState,
   unread: UnreadState,
   userGroups: UserGroupsState,
-  userStatus: UserStatusState,
+  userStatuses: UserStatusesState,
   users: UsersState,
 
   ...

@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === 'development') {
 // prettier-ignore
 export const discardKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
   'alertWords', 'caughtUp', 'fetching',
-  'presence', 'session', 'topics', 'typing', 'userStatus',
+  'presence', 'session', 'topics', 'typing', 'userStatuses',
 ];
 
 /**

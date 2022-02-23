@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import type { PerAccountState, Selector, UserId, UserStatus } from '../types';
-import { getUserStatus } from '../directSelectors';
+import { getUserStatuses } from '../directSelectors';
 import { getOwnUserId } from '../users/userSelectors';
-import { kUserStatusZero } from './userStatusReducer';
+import { kUserStatusZero } from './userStatusesReducer';
 
 /**
  * The `UserStatus` object for the given UserId.
  */
 export const getUserStatusForUser = (state: PerAccountState, userId: UserId): UserStatus =>
-  getUserStatus(state).get(userId, kUserStatusZero);
+  getUserStatuses(state).get(userId, kUserStatusZero);
 
 /**
  * The `UserStatus` object for the self-user.

@@ -7,7 +7,7 @@ type UserStatusParams = {|
   status_text?: string,
 |};
 
-// TODO: Take a partial UserStatus object from our user-status model.
+// TODO: Take a partial UserStatus object from our user-statuses model.
 //   Partial because servers allow updating just part of the status in a
 //   request, and it's nice to let callers do that.
 export default (auth: Auth, params: UserStatusParams): Promise<ApiResponseSuccess> =>

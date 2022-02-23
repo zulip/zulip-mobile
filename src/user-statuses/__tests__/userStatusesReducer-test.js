@@ -3,14 +3,14 @@ import Immutable from 'immutable';
 
 import { objectFromEntries } from '../../jsBackport';
 import { makeUserId, type UserId } from '../../api/idTypes';
-import type { UserStatusState } from '../../types';
+import type { UserStatusesState } from '../../types';
 import type { UserStatusUpdate } from '../../api/modelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 import { EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
-import userStatusReducer, { kUserStatusZero } from '../userStatusReducer';
+import userStatusesReducer, { kUserStatusZero } from '../userStatusesReducer';
 
-describe('userStatusReducer', () => {
-  const testUserStatusState: UserStatusState = Immutable.Map([
+describe('userStatusesReducer', () => {
+  const testUserStatusesState: UserStatusesState = Immutable.Map([
     [makeUserId(1), { away: true, status_text: null, status_emoji: null }],
     [makeUserId(2), { away: false, status_text: 'Hello, world', status_emoji: null }],
   ]);
@@ -30,7 +30,7 @@ describe('userStatusReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      expect(userStatusReducer(testUserStatusState, eg.action.account_switch)).toEqual(
+      expect(userStatusesReducer(testUserStatusesState, eg.action.account_switch)).toEqual(
         Immutable.Map(),
       );
     });
@@ -44,20 +44,20 @@ describe('userStatusReducer', () => {
 
     test('when `user_status` data is provided init state with it', () => {
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map(),
           mkAction(
             [makeUserId(1), { away: true }],
             [makeUserId(2), { status_text: 'Hello, world' }],
           ),
         ),
-      ).toEqual(testUserStatusState);
+      ).toEqual(testUserStatusesState);
     });
 
     test('handles older back-ends that do not have `user_status` data by resetting the state', () => {
       expect(
-        userStatusReducer(
-          testUserStatusState,
+        userStatusesReducer(
+          testUserStatusesState,
           eg.mkActionRegisterComplete({ user_status: undefined }),
         ),
       ).toEqual(Immutable.Map());
@@ -65,20 +65,23 @@ describe('userStatusReducer', () => {
 
     test('away set', () => {
       expect(
-        userStatusReducer(Immutable.Map(), mkAction([eg.selfUser.user_id, { away: true }])),
+        userStatusesReducer(Immutable.Map(), mkAction([eg.selfUser.user_id, { away: true }])),
       ).toEqual(Immutable.Map([[eg.selfUser.user_id, { ...kUserStatusZero, away: true }]]));
     });
 
     test('text set', () => {
       expect(
-        userStatusReducer(Immutable.Map(), mkAction([eg.selfUser.user_id, { status_text: 'foo' }])),
+        userStatusesReducer(
+          Immutable.Map(),
+          mkAction([eg.selfUser.user_id, { status_text: 'foo' }]),
+        ),
       ).toEqual(Immutable.Map([[eg.selfUser.user_id, { ...kUserStatusZero, status_text: 'foo' }]]));
     });
 
     test('emoji set', () => {
       const emoji = mkEmoji();
       expect(
-        userStatusReducer(Immutable.Map(), mkAction([eg.selfUser.user_id, { ...emoji }])),
+        userStatusesReducer(Immutable.Map(), mkAction([eg.selfUser.user_id, { ...emoji }])),
       ).toEqual(
         Immutable.Map([[eg.selfUser.user_id, { ...kUserStatusZero, status_emoji: emoji }]]),
       );
@@ -87,7 +90,7 @@ describe('userStatusReducer', () => {
     test('all components set together', () => {
       const emoji = mkEmoji();
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map(),
           mkAction([eg.selfUser.user_id, { away: true, status_text: 'Hello, world!', ...emoji }]),
         ),
@@ -109,7 +112,7 @@ describe('userStatusReducer', () => {
 
     test('when the user does not already have entry add a key by their `user_id`', () => {
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map([[eg.selfUser.user_id, kUserStatusZero]]),
           mkAction({ away: true }, eg.otherUser.user_id),
         ),
@@ -123,7 +126,7 @@ describe('userStatusReducer', () => {
 
     test('if the user already has user status stored update their key', () => {
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map([
             [eg.selfUser.user_id, { away: false, status_text: 'foo', status_emoji: null }],
           ]),
@@ -138,7 +141,7 @@ describe('userStatusReducer', () => {
 
     test('when the user_ status text is updated this is reflected in the state', () => {
       expect(
-        userStatusReducer(Immutable.Map(), mkAction({ status_text: 'Hello, world!' })),
+        userStatusesReducer(Immutable.Map(), mkAction({ status_text: 'Hello, world!' })),
       ).toEqual(
         Immutable.Map([
           [eg.selfUser.user_id, { away: false, status_text: 'Hello, world!', status_emoji: null }],
@@ -149,7 +152,7 @@ describe('userStatusReducer', () => {
     test('away, text, and emoji status components can be set in one event', () => {
       const emoji = mkEmoji();
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map([[eg.selfUser.user_id, kUserStatusZero]]),
           mkAction({ away: true, status_text: 'Hello, world!', ...emoji }),
         ),
@@ -163,7 +166,7 @@ describe('userStatusReducer', () => {
     test('away, text, and emoji status components can be unset in one event', () => {
       const emoji = mkEmoji();
       expect(
-        userStatusReducer(
+        userStatusesReducer(
           Immutable.Map([
             [
               eg.selfUser.user_id,
