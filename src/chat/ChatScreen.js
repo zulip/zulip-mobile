@@ -101,8 +101,9 @@ const useMessagesWithFetch = args => {
     if (shouldFetchWhenNextFocused.current && isFocused === true) {
       fetch();
     }
-    // `eventQueueId` needed here because it affects `shouldFetchWhenNextFocused`.
-  }, [isFocused, eventQueueId, fetch]);
+    // No dependencies list, to run this effect after every render.  This
+    // effect does its own checking of whether any work needs to be done.
+  });
 
   return { fetchError, isFetching, messages, firstUnreadIdInNarrow };
 };
