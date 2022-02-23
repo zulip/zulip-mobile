@@ -25,10 +25,11 @@ import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import { addToOutbox } from '../actions';
-import { getAuth } from '../selectors';
+import { getAuth, getCaughtUpForNarrow } from '../selectors';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
+import { useEdgeTriggeredEffect } from '../reactUtils';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -61,6 +62,7 @@ const useMessagesWithFetch = args => {
   const loading = useSelector(getLoading);
   const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
   const isFetching = fetching.older || fetching.newer || loading;
+  const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
   const messages = useSelector(state => getShownMessagesForNarrow(state, narrow));
   const firstUnreadIdInNarrow = useSelector(state => getFirstUnreadIdInNarrow(state, narrow));
 
@@ -90,9 +92,20 @@ const useMessagesWithFetch = args => {
   // dropped it.)
   React.useEffect(scheduleFetch, [eventQueueId]);
 
-  // On first mount, fetch. Also unset `shouldFetchWhenNextFocused.current`
-  // that was set in the previous `useEffect`, so the fetch below doesn't
-  // also fire.
+  // If we stop having any data at all about the messages in this narrow --
+  // we don't know any, and nor do we know if there are some -- then
+  // schedule a fetch.  (As long as we have *some* messages, we'll show a
+  // proper MessageList, and scroll events can cause us to fetch newer or
+  // older messages.  But with none, we'll show NoMessages.)
+  //
+  // TODO: We may still briefly show NoMessages; this render will have
+  //   isFetching false, even though the fetch effect will cause a rerender
+  //   with isFetching true.  It'd be nice to avoid that.
+  const nothingKnown = messages.length === 0 && !caughtUp.older && !caughtUp.newer;
+  useEdgeTriggeredEffect(scheduleFetch, nothingKnown, true);
+
+  // On first mount, fetch.  (This also makes a fetch no longer scheduled,
+  // so the if-scheduled fetch below doesn't also fire.)
   React.useEffect(() => {
     fetch();
   }, [fetch]);
