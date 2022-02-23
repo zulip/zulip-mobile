@@ -206,14 +206,6 @@ describe('messagesReducer', () => {
       const message3New = {
         ...message3Old,
         content: '<p>New content</p>',
-        edit_history: [
-          {
-            prev_rendered_content: '<p>Old content</p>',
-            prev_rendered_content_version: 1,
-            timestamp: 123,
-            user_id: message3Old.sender_id,
-          },
-        ],
         last_edit_timestamp: 123,
       };
 
@@ -245,13 +237,6 @@ describe('messagesReducer', () => {
         subject: 'New topic',
         last_edit_timestamp: 123,
         subject_links: [],
-        edit_history: [
-          {
-            timestamp: 123,
-            user_id: message1Old.sender_id,
-            prev_subject: message1Old.subject,
-          },
-        ],
       };
       const prevState = eg.makeMessagesState([message1Old]);
       const action = mkAction({
@@ -267,7 +252,7 @@ describe('messagesReducer', () => {
       expect(newState).toEqual(expectedState);
     });
 
-    test('when event contains a new subject and a new content, update both and update edit history object', () => {
+    test('when event contains a new subject and a new content, update both', () => {
       const message1Old = eg.streamMessage({
         content: '<p>Old content</p>',
         subject: 'Old subject',
@@ -287,16 +272,6 @@ describe('messagesReducer', () => {
         subject: 'New updated topic',
         last_edit_timestamp: 456,
         subject_links: [],
-        edit_history: [
-          {
-            prev_rendered_content: '<p>Old content</p>',
-            prev_rendered_content_version: 1,
-            prev_subject: 'Old subject',
-            timestamp: 456,
-            user_id: message1Old.sender_id,
-          },
-          ...message1Old.edit_history,
-        ],
       };
 
       const prevState = eg.makeMessagesState([message1Old]);

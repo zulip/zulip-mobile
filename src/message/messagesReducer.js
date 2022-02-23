@@ -142,52 +142,12 @@ export default (
           return oldMessage;
         }
 
-        const historyEntry = (() => {
-          if (event.edit_timestamp == null || event.user_id == null) {
-            // The update isn't a real edit; rather it's just filling in an
-            // inline URL preview (which can require the server to make an
-            // external request, so we don't let it block delivering the
-            // message to clients) and shouldn't appear in the edit history.
-            return null;
-          }
-          // TODO(#3408): This should handle the full complexity of update_message
-          //   events: in particular, moves between streams.  (Probably the
-          //   first step is to refactor this logic for less duplication.)
-          //   This is OK for now because we don't actually have any UI that
-          //   exposes this history: #4134.
-          if (event.orig_rendered_content !== undefined) {
-            if (event.orig_subject !== undefined) {
-              return {
-                prev_rendered_content: event.orig_rendered_content,
-                prev_subject: oldMessage.subject,
-                timestamp: event.edit_timestamp,
-                prev_rendered_content_version: event.prev_rendered_content_version,
-                user_id: event.user_id,
-              };
-            } else {
-              return {
-                prev_rendered_content: event.orig_rendered_content,
-                timestamp: event.edit_timestamp,
-                prev_rendered_content_version: event.prev_rendered_content_version,
-                user_id: event.user_id,
-              };
-            }
-          } else {
-            return {
-              prev_subject: oldMessage.subject,
-              timestamp: event.edit_timestamp,
-              user_id: event.user_id,
-            };
-          }
-        })();
-
         const messageWithNewCommonFields: M = {
           ...(oldMessage: M),
           content: event.rendered_content ?? oldMessage.content,
-          edit_history: historyEntry
-            ? [historyEntry, ...(oldMessage.edit_history ?? [])]
-            : oldMessage.edit_history,
           last_edit_timestamp: event.edit_timestamp ?? oldMessage.last_edit_timestamp,
+          // TODO(#3408): Update edit_history, too.  This is OK for now
+          //   because we don't actually have any UI to expose it: #4134.
         };
 
         // FlowIssue: https://github.com/facebook/flow/issues/8833
