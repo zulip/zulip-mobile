@@ -137,7 +137,9 @@ class ComposeMenuInner extends PureComponent<Props> {
     const { uri, fileName } = firstAsset ?? {};
 
     if (!firstAsset || uri == null || fileName == null) {
-      // TODO: See if we these unexpected situations actually happen.
+      // TODO: See if we these unexpected situations actually happen. …Ah,
+      //   yep, reportedly (and we've seen in Sentry):
+      //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
       showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
       logging.error('Unexpected response from image picker', {
         '!firstAsset': !firstAsset,
