@@ -69,6 +69,9 @@ const useMessagesWithFetch = args => {
   // like using instance variables in class components:
   //   https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
   const shouldFetchWhenNextFocused = React.useRef<boolean>(false);
+  const scheduleFetch = () => {
+    shouldFetchWhenNextFocused.current = true;
+  };
 
   const [fetchError, setFetchError] = React.useState<Error | null>(null);
 
@@ -85,9 +88,7 @@ const useMessagesWithFetch = args => {
   // set this to null from a non-null value, so this really does mean the
   // event queue has changed; it can't mean that we had a queue ID and
   // dropped it.)
-  React.useEffect(() => {
-    shouldFetchWhenNextFocused.current = true;
-  }, [eventQueueId]);
+  React.useEffect(scheduleFetch, [eventQueueId]);
 
   // On first mount, fetch. Also unset `shouldFetchWhenNextFocused.current`
   // that was set in the previous `useEffect`, so the fetch below doesn't
