@@ -3,7 +3,7 @@
 import omit from 'lodash.omit';
 import Immutable from 'immutable';
 
-import type { MessagesState, Message, PerAccountApplicableAction } from '../types';
+import type { MessagesState, Message, PerAccountApplicableAction, PerAccountState } from '../types';
 import {
   REGISTER_COMPLETE,
   LOGOUT,
@@ -65,6 +65,7 @@ const eventNewMessage = (state, action) => {
 export default (
   state: MessagesState = initialState,
   action: PerAccountApplicableAction,
+  globalState: PerAccountState,
 ): MessagesState => {
   switch (action.type) {
     case REGISTER_COMPLETE:

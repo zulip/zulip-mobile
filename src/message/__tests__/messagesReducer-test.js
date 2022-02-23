@@ -32,7 +32,7 @@ describe('messagesReducer', () => {
         },
       });
       const expectedState = eg.makeMessagesState([message1, message2, message3]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
     });
@@ -50,7 +50,7 @@ describe('messagesReducer', () => {
           },
         },
       });
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(prevState);
     });
   });
@@ -70,7 +70,7 @@ describe('messagesReducer', () => {
         msg_type: 'widget',
         content: eg.randString(),
       });
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toBe(prevState);
     });
 
@@ -118,7 +118,7 @@ describe('messagesReducer', () => {
           ],
         },
       ]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
       expect(newState).not.toBe(prevState);
     });
@@ -130,7 +130,7 @@ describe('messagesReducer', () => {
 
       const prevState = eg.makeMessagesState([message1]);
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [2] });
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(prevState);
       expect(newState).toBe(prevState);
     });
@@ -142,7 +142,7 @@ describe('messagesReducer', () => {
       const prevState = eg.makeMessagesState([message1, message2]);
       const action = deepFreeze({ type: EVENT_MESSAGE_DELETE, messageIds: [message2.id] });
       const expectedState = eg.makeMessagesState([message1]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
 
@@ -157,7 +157,7 @@ describe('messagesReducer', () => {
         messageIds: [message2.id, message3.id, 4],
       });
       const expectedState = eg.makeMessagesState([message1]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
   });
@@ -195,7 +195,7 @@ describe('messagesReducer', () => {
         rendered_content: eg.randString(),
         content: eg.randString(),
       });
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toBe(prevState);
     });
 
@@ -220,7 +220,7 @@ describe('messagesReducer', () => {
         content: 'New content',
       });
       const expectedState = eg.makeMessagesState([message1, message2, message3New]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
 
@@ -245,7 +245,7 @@ describe('messagesReducer', () => {
         subject: message1New.subject,
       });
       const expectedState = eg.makeMessagesState([message1New]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
 
@@ -282,7 +282,7 @@ describe('messagesReducer', () => {
         prev_rendered_content_version: 1,
       });
       const expectedState = eg.makeMessagesState([message1New]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
 
@@ -305,7 +305,7 @@ describe('messagesReducer', () => {
         rendered_content: messageAfter.content,
         prev_rendered_content_version: 1,
       });
-      expect(messagesReducer(eg.makeMessagesState([message]), action)).toEqual(
+      expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
         eg.makeMessagesState([messageAfter]),
       );
     });
@@ -332,7 +332,7 @@ describe('messagesReducer', () => {
         rendered_content: messageAfter.content,
         prev_rendered_content_version: 1,
       });
-      expect(messagesReducer(eg.makeMessagesState([message]), action)).toEqual(
+      expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
         eg.makeMessagesState([messageAfter]),
       );
     });
@@ -358,7 +358,7 @@ describe('messagesReducer', () => {
           reactions: [reaction],
         },
       ]);
-      const actualState = messagesReducer(prevState, action);
+      const actualState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(actualState).toEqual(expectedState);
     });
   });
@@ -376,7 +376,7 @@ describe('messagesReducer', () => {
         ...reaction,
       });
       const expectedState = eg.makeMessagesState([message1]);
-      const actualState = messagesReducer(prevState, action);
+      const actualState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(actualState).toEqual(expectedState);
     });
 
@@ -411,7 +411,7 @@ describe('messagesReducer', () => {
       const expectedState = eg.makeMessagesState([
         { ...message1, reactions: [reaction2, reaction3] },
       ]);
-      const actualState = messagesReducer(prevState, action);
+      const actualState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(actualState).toEqual(expectedState);
     });
   });
@@ -443,7 +443,7 @@ describe('messagesReducer', () => {
         message4,
         message5,
       ]);
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toEqual(expectedState);
     });
 
@@ -465,7 +465,7 @@ describe('messagesReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
 
       expect(newState.get(message2.id)).toEqual(message2);
       expect(newState.get(message3.id)).toEqual(message3);
@@ -490,7 +490,7 @@ describe('messagesReducer', () => {
         foundNewest: false,
         ownUserId: eg.selfUser.user_id,
       });
-      const newState = messagesReducer(prevState, action);
+      const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState.get(message2.id)).toEqual(message2);
       expect(newState.get(message3.id)).toEqual(message3);
       expect(newState.get(message4New.id)).toEqual(message4New);
