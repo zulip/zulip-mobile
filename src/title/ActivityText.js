@@ -7,7 +7,7 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import { getPresence } from '../selectors';
-import { getUserStatusForUser } from '../user-statuses/userStatusesSelectors';
+import { getUserStatus } from '../user-statuses/userStatusesSelectors';
 import { presenceToHumanTime } from '../utils/presence';
 import { ZulipText } from '../common';
 
@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 export default function ActivityText(props: Props): Node {
   const { style } = props;
   const presence = useSelector(state => getPresence(state)[props.user.email]);
-  const userStatus = useSelector(state => getUserStatusForUser(state, props.user.user_id));
+  const userStatus = useSelector(state => getUserStatus(state, props.user.user_id));
 
   if (!presence) {
     return null;

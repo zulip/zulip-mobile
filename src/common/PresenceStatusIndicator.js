@@ -9,7 +9,7 @@ import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence } from '../selectors';
-import { getUserStatusForUser } from '../user-statuses/userStatusesSelectors';
+import { getUserStatus } from '../user-statuses/userStatusesSelectors';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
 
@@ -124,7 +124,7 @@ export default function PresenceStatusIndicator(props: Props): Node {
   const userPresence = presence[email];
   const user = allUsersByEmail.get(email);
 
-  const userStatus = useSelector(state => user && getUserStatusForUser(state, user.user_id));
+  const userStatus = useSelector(state => user && getUserStatus(state, user.user_id));
 
   if (!user || !userPresence || !userPresence.aggregated) {
     return null;
