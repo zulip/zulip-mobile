@@ -400,8 +400,8 @@ PODS:
   - RNSentry (3.2.13):
     - React-Core
     - Sentry (= 7.9.0)
-  - RNVectorIcons (7.0.0):
-    - React
+  - RNVectorIcons (9.1.0):
+    - React-Core
   - Sentry (7.9.0):
     - Sentry/Core (= 7.9.0)
   - Sentry/Core (7.9.0)
@@ -686,7 +686,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNSentry: 0aa1567f66c20390f3834637fc4f73380dcd0774
-  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
+  RNVectorIcons: 7923e585eaeb139b9f4531d25a125a1500162a0b
   Sentry: 2f7e91f247cfb05b05bd01e0b5d0692557a7687b
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
