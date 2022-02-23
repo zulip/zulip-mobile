@@ -42,6 +42,7 @@ export const resetToMainTabs = (): GenericNavigationAction =>
 
 /** Only call this via `doNarrow`.  See there for details. */
 export const navigateToChat = (narrow: Narrow): GenericNavigationAction =>
+  // This route name 'chat' appears in one more place than usual: doEventActionSideEffects.js .
   StackActions.push('chat', { narrow, editMessage: null });
 
 export const replaceWithChat = (narrow: Narrow): GenericNavigationAction =>
