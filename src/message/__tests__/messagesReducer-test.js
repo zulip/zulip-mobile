@@ -180,6 +180,18 @@ describe('messagesReducer', () => {
       });
     };
 
+    const mkMoveAction = args => {
+      const { message, ...restArgs } = args;
+      return mkAction({
+        message,
+        // stream_id and orig_subject are always present when either
+        // the stream or the topic was changed.
+        stream_id: message.stream_id,
+        orig_subject: message.subject,
+        ...restArgs,
+      });
+    };
+
     test('if a message does not exist no changes are made', () => {
       const message1 = eg.streamMessage();
       const message2 = eg.streamMessage();
@@ -197,6 +209,88 @@ describe('messagesReducer', () => {
       });
       const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toBe(prevState);
+    });
+
+    describe('move', () => {
+      test('edited topic', () => {
+        const message = eg.streamMessage();
+        const newTopic = `${message.subject}abc`;
+        const action = mkMoveAction({ message, subject: newTopic });
+        expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
+          eg.makeMessagesState([{ ...message, subject: newTopic }]),
+        );
+      });
+
+      test('other messages in conversation are unaffected', () => {
+        const topic = 'some topic';
+        const message1 = eg.streamMessage({ subject: topic });
+        const message2 = eg.streamMessage({ subject: topic });
+        const message3 = eg.streamMessage({ subject: topic });
+        const newTopic = 'some revised topic';
+        const action = mkMoveAction({
+          message: message1,
+          message_ids: [message1.id, message2.id],
+          subject: newTopic,
+        });
+        expect(
+          messagesReducer(
+            eg.makeMessagesState([message1, message2, message3]),
+            action,
+            eg.plusReduxState,
+          ),
+        ).toEqual(
+          eg.makeMessagesState([
+            { ...message1, subject: newTopic },
+            { ...message2, subject: newTopic },
+            message3,
+          ]),
+        );
+      });
+
+      test('new stream', () => {
+        const message = eg.streamMessage();
+        const action = mkMoveAction({ message, new_stream_id: eg.otherStream.stream_id });
+        expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
+          eg.makeMessagesState([
+            {
+              ...message,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+            },
+          ]),
+        );
+      });
+
+      test('new stream + edited topic', () => {
+        const message = eg.streamMessage();
+        const newTopic = `${message.subject}abc`;
+        const action = mkMoveAction({
+          message,
+          new_stream_id: eg.otherStream.stream_id,
+          subject: newTopic,
+        });
+        expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
+          eg.makeMessagesState([
+            {
+              ...message,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: newTopic,
+            },
+          ]),
+        );
+      });
+
+      test('new, unknown stream', () => {
+        const message = eg.streamMessage();
+        const unknownStream = eg.makeStream();
+        const action = mkMoveAction({ message, new_stream_id: unknownStream.stream_id });
+        expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
+          eg.makeMessagesState([
+            { ...message, stream_id: unknownStream.stream_id, display_recipient: 'unknown' },
+          ]),
+        );
+      });
     });
 
     test('when a message exists in state, it is updated', () => {
@@ -237,11 +331,9 @@ describe('messagesReducer', () => {
         last_edit_timestamp: 123,
       };
       const prevState = eg.makeMessagesState([message1Old]);
-      const action = mkAction({
+      const action = mkMoveAction({
         edit_timestamp: 123,
-        message: message1New,
-        stream_id: message1Old.stream_id,
-        orig_subject: message1Old.subject,
+        message: message1Old,
         subject: message1New.subject,
       });
       const expectedState = eg.makeMessagesState([message1New]);
@@ -270,7 +362,7 @@ describe('messagesReducer', () => {
       };
 
       const prevState = eg.makeMessagesState([message1Old]);
-      const action = mkAction({
+      const action = mkMoveAction({
         edit_timestamp: 456,
         message: message1Old,
         orig_content: message1Old.content,
@@ -278,7 +370,6 @@ describe('messagesReducer', () => {
         rendered_content: message1New.content,
         content: message1New.content,
         subject: message1New.subject,
-        orig_subject: message1Old.subject,
         prev_rendered_content_version: 1,
       });
       const expectedState = eg.makeMessagesState([message1New]);

@@ -18,6 +18,8 @@ import {
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
 import { getNarrowsForMessage, keyFromNarrow } from '../utils/narrow';
+import * as logging from '../utils/logging';
+import { getStreamsById } from '../selectors';
 
 const initialState: MessagesState = Immutable.Map([]);
 
@@ -137,32 +139,66 @@ export default (
       return state.deleteAll(action.messageIds);
 
     case EVENT_UPDATE_MESSAGE: {
-      const { event } = action;
-      return state.update(event.message_id, <M: Message>(oldMessage: M): M => {
+      const { event, move } = action;
+      let result = state;
+
+      result = result.update(event.message_id, <M: Message>(oldMessage: M): M => {
         if (!oldMessage) {
           return oldMessage;
         }
 
-        const messageWithNewCommonFields: M = {
+        return {
           ...(oldMessage: M),
           content: event.rendered_content ?? oldMessage.content,
           last_edit_timestamp: event.edit_timestamp ?? oldMessage.last_edit_timestamp,
           // TODO(#3408): Update edit_history, too.  This is OK for now
           //   because we don't actually have any UI to expose it: #4134.
         };
-
-        // FlowIssue: https://github.com/facebook/flow/issues/8833
-        //   The cast `: 'stream'` is silly but harmless, and works
-        //   around a Flow issue which causes an error.
-        return messageWithNewCommonFields.type === ('stream': 'stream')
-          ? {
-              ...messageWithNewCommonFields,
-              subject: event.subject ?? messageWithNewCommonFields.subject,
-              // TODO(#3408): Update topic_links.  This is OK for now
-              //   because we don't have any UI to expose it.
-            }
-          : messageWithNewCommonFields;
       });
+
+      if (move) {
+        const update: { subject: string, stream_id?: number, display_recipient?: string } = {
+          subject: move.new_topic,
+          // TODO(#3408): Update topic_links.  This is OK for now
+          //   because we don't have any UI to expose it.
+          // TODO(#3408): Update last_edit_timestamp, probably.  But want to
+          //   say "moved" in the UI in this case, not "edited".
+        };
+        if (move.new_stream_id !== move.orig_stream_id) {
+          update.stream_id = move.new_stream_id;
+          const newStream = getStreamsById(globalState).get(move.new_stream_id);
+          // It's normal for newStream to potentially be missing here: it
+          // happens when the move was to a stream our user can't see.
+          // TODO(i18n): Not sure this "unknown" ever reaches the UI, but
+          //   it'd be nice to somehow translate it in case it can.
+          update.display_recipient = newStream?.name ?? 'unknown';
+        }
+
+        // eslint-disable-next-line no-shadow
+        result = result.withMutations(state => {
+          for (const id of event.message_ids) {
+            state.update(id, <M: Message>(oldMessage: M | void): M | void => {
+              if (!oldMessage) {
+                return oldMessage;
+              }
+
+              // FlowIssue: https://github.com/facebook/flow/issues/8833
+              //   The cast `: 'stream'` is silly but harmless, and works
+              //   around a Flow issue which causes an error.
+              if (oldMessage.type !== ('stream': 'stream')) {
+                logging.warn('messagesReducer: got update_message with stream/topic move on PM');
+                return oldMessage;
+              }
+
+              // TODO(#3408): Update edit_history, too.  This is OK for now
+              //   because we don't actually have any UI to expose it: #4134.
+              return { ...oldMessage, ...update };
+            });
+          }
+        });
+      }
+
+      return result;
     }
 
     default:
