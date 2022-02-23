@@ -83,3 +83,35 @@ export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean
 
   return result;
 };
+
+/**
+ * Invoke the callback as an effect when `value` turns from false to true.
+ *
+ * This differs from putting `value` in a `useEffect` dependency list in
+ * that the callback will *not* be invoked when the value changes in the
+ * other direction, from true to false.
+ *
+ * `includeStart` controls what happens if `value` is true on the very first
+ * render.  If `includeStart` is true, then the effect is triggered (so
+ * treating its previous state of nonexistence as equivalent to being
+ * false).  If `includeStart` is false, then the effect is not triggered (so
+ * treating its previous state of nonexistence as not a valid state to
+ * compare to.)
+ *
+ * The callback is not permitted to return a cleanup function, because it's
+ * not clear what the semantics should be of when such a cleanup function
+ * would be run.
+ */
+export const useEdgeTriggeredEffect = (
+  cb: () => void,
+  value: boolean,
+  includeStart: boolean,
+): void => {
+  const prev = usePrevious(value, !includeStart);
+  useEffect(() => {
+    if (value && !prev) {
+      cb();
+    }
+    // No dependencies list -- the effect itself decides whether to act.
+  });
+};
