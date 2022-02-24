@@ -44,76 +44,69 @@ describe('userStatusReducer', () => {
   });
 
   describe('EVENT_USER_STATUS_UPDATE', () => {
+    const mkAction = (update, userId = eg.selfUser.user_id) => ({
+      id: 0,
+      type: EVENT_USER_STATUS_UPDATE,
+      user_id: userId,
+      ...update,
+    });
+
     test('when the user does not already have entry add a key by their `user_id`', () => {
       expect(
-        userStatusReducer(Immutable.Map([[makeUserId(2), { away: true }]]), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          away: true,
-        }),
+        userStatusReducer(
+          Immutable.Map([[eg.selfUser.user_id, { away: true }]]),
+          mkAction({ away: true }, eg.otherUser.user_id),
+        ),
       ).toEqual(
         Immutable.Map([
-          [1, { away: true }],
-          [2, { away: true }],
+          [eg.selfUser.user_id, { away: true }],
+          [eg.otherUser.user_id, { away: true }],
         ]),
       );
     });
 
     test('if the user already has user status stored update their key', () => {
       expect(
-        userStatusReducer(Immutable.Map([[makeUserId(1), { status_text: 'foo' }]]), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          status_text: 'bar',
-        }),
-      ).toEqual(Immutable.Map([[1, { status_text: 'bar' }]]));
+        userStatusReducer(
+          Immutable.Map([[eg.selfUser.user_id, { status_text: 'foo' }]]),
+          mkAction({ status_text: 'bar' }),
+        ),
+      ).toEqual(Immutable.Map([[eg.selfUser.user_id, { status_text: 'bar' }]]));
     });
 
     test('when the user_ status text is updated this is reflected in the state', () => {
       expect(
-        userStatusReducer(Immutable.Map(), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          status_text: 'Hello, world!',
-        }),
-      ).toEqual(Immutable.Map([[1, { status_text: 'Hello, world!' }]]));
+        userStatusReducer(Immutable.Map(), mkAction({ status_text: 'Hello, world!' })),
+      ).toEqual(Immutable.Map([[eg.selfUser.user_id, { status_text: 'Hello, world!' }]]));
     });
 
     test('both `away` and `status_text` values can be updated in one event', () => {
       expect(
-        userStatusReducer(Immutable.Map([[makeUserId(1), {}]]), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          away: true,
-          status_text: 'Hello, world!',
-        }),
-      ).toEqual(Immutable.Map([[1, { away: true, status_text: 'Hello, world!' }]]));
+        userStatusReducer(
+          Immutable.Map([[eg.selfUser.user_id, {}]]),
+          mkAction({ away: true, status_text: 'Hello, world!' }),
+        ),
+      ).toEqual(
+        Immutable.Map([[eg.selfUser.user_id, { away: true, status_text: 'Hello, world!' }]]),
+      );
     });
 
     test('if `away` status is removed delete the key from the object', () => {
       expect(
-        userStatusReducer(Immutable.Map([[makeUserId(1), { away: true }]]), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          away: false,
-        }),
-      ).toEqual(Immutable.Map([[1, {}]]));
+        userStatusReducer(
+          Immutable.Map([[eg.selfUser.user_id, { away: true }]]),
+          mkAction({ away: false }),
+        ),
+      ).toEqual(Immutable.Map([[eg.selfUser.user_id, {}]]));
     });
 
     test('if `status_text` is removed delete the key from the object', () => {
       expect(
-        userStatusReducer(Immutable.Map([[makeUserId(1), { status_text: 'Hello, world!' }]]), {
-          id: 0,
-          type: EVENT_USER_STATUS_UPDATE,
-          user_id: makeUserId(1),
-          status_text: '',
-        }),
-      ).toEqual(Immutable.Map([[1, {}]]));
+        userStatusReducer(
+          Immutable.Map([[eg.selfUser.user_id, { status_text: 'Hello, world!' }]]),
+          mkAction({ status_text: '' }),
+        ),
+      ).toEqual(Immutable.Map([[eg.selfUser.user_id, {}]]));
     });
   });
 });
