@@ -507,33 +507,28 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
 //   assembling this.
 export type InitialDataUserStatus = $ReadOnly<{|
   /**
-   * New in Zulip 2.0.
+   * Each user's status, expressed relative to a "zero" status.
    *
-   * Modern servers still omit some data, by design. The omissions
-   * correspond to an "unset" status (not `away`, and no text/emoji status
-   * set). When a status is "unset", the various things it would affect
-   * behave as if the feature didn't exist -- so it's convenient and correct
-   * to treat old servers as though all users have an unset status.
+   * The zero status is:
+   *   { away: false, status_text: '',
+   *     emoji_name: '', reaction_type: '', emoji_code: '' }
+   *
+   * For the corresponding value in our model in the app, see
+   * `kUserStatusZero`.  For discussion of the "zero value" concept, see:
+   *   https://github.com/zulip/zulip-mobile/pull/5224#discussion_r808451105
+   *
+   * When the update for a given user would be empty (i.e., when their
+   * status is the zero status), the server may omit that user's record
+   * entirely.
+   *
+   * New in Zulip 2.0.  Older servers don't send this, so it's natural
+   * to treat them as if all users have the zero status; and that gives
+   * correct behavior for this feature.
    *
    * See UserStatusEvent for the event that carries updates to this data.
    */
   // TODO(server-2.0): Make required.
   user_status?: $ReadOnly<{|
-    // How the status has changed relative to the following "zero" value:
-    //
-    // {
-    //   away: false,
-    //   status_text: '',
-    //   emoji_name: '',
-    //   reaction_type: '',
-    //   emoji_code: '',
-    // };
-    //
-    // (For how we represent that zero value as a UserStatus in our model,
-    // see `kUserStatusZero`.)
-    //
-    // If no change, servers may omit the record for that user entirely.
-    //
     // Keys are UserId encoded as strings (just because JS objects are
     // string-keyed).
     [userId: string]: UserStatusUpdate,
