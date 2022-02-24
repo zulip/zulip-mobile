@@ -80,14 +80,7 @@ export default (
     }
 
     case EVENT_USER_STATUS_UPDATE: {
-      const oldUserStatus = state.get(
-        action.user_id,
-        // This user had a "zero" status at /register time, so the server
-        // omitted the user from its /register payload. Or, this user didn't
-        // exist at /register time.
-        kUserStatusZero,
-      );
-
+      const oldUserStatus = state.get(action.user_id, kUserStatusZero);
       return state.set(action.user_id, updateUserStatus(oldUserStatus, action));
     }
 

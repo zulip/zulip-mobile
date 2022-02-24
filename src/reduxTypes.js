@@ -403,6 +403,12 @@ export type UserStatus = $ReadOnly<{|
   |},
 |}>;
 
+/**
+ * The user status of each user.
+ *
+ * Users who have the "zero" status, `kUserStatusZero`, may be represented
+ * implicitly by having no record in this map.
+ */
 export type UserStatusesState = Immutable.Map<UserId, UserStatus>;
 
 /**
