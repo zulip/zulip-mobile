@@ -50,7 +50,7 @@
     "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.4.0",
     "react": "17.0.1",
-    "react-intl": "5.20.1",
+    "react-intl": "5.24.6",
     "react-native": "0.64.3",
     "react-native-device-info": "^8.1.7",
     "react-native-document-picker": "^3.2.4",
