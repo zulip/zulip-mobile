@@ -54,7 +54,7 @@ function updateUserStatus(
   };
 }
 
-export default (
+export const reducer = (
   state: UserStatusesState = initialState,
   action: PerAccountApplicableAction,
 ): UserStatusesState => {

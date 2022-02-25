@@ -26,7 +26,7 @@ import topics from '../topics/topicsReducer';
 import typing from '../typing/typingReducer';
 import { reducer as unread } from '../unread/unreadModel';
 import userGroups from '../user-groups/userGroupsReducer';
-import userStatuses from '../user-statuses/userStatusesReducer';
+import { reducer as userStatuses } from '../user-statuses/userStatusesModel';
 import users from '../users/usersReducer';
 import timing from '../utils/timing';
 
