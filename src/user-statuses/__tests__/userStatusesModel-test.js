@@ -7,7 +7,8 @@ import type { UserStatusesState } from '../../types';
 import type { UserStatusUpdate } from '../../api/modelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 import { EVENT_USER_STATUS_UPDATE } from '../../actionConstants';
-import { reducer, kUserStatusZero } from '../userStatusesModel';
+import { reducer } from '../userStatusesModel';
+import { kUserStatusZero } from '../userStatusesCore';
 
 describe('reducer', () => {
   const testUserStatusesState: UserStatusesState = Immutable.Map([

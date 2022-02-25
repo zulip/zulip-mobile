@@ -4,13 +4,8 @@ import Immutable from 'immutable';
 import type { UserStatusUpdate } from '../api/modelTypes';
 import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
-import type {
-  PerAccountState,
-  PerAccountApplicableAction,
-  UserId,
-  UserStatus,
-  UserStatusesState,
-} from '../types';
+import type { PerAccountState, PerAccountApplicableAction, UserId } from '../types';
+import type { UserStatus, UserStatusesState } from './userStatusesCore';
 import { getUserStatuses } from '../directSelectors';
 import {
   LOGOUT,
@@ -20,31 +15,7 @@ import {
   EVENT_USER_REMOVE,
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
-
-//
-//
-// Structure.
-//
-
-/**
- * The canonical default, "unset" user status.
- *
- * This is the user-status you have if you've just created your account and
- * never interacted with the feature.
- *
- * It's effectively the user-status you have if you're on an old server that
- * doesn't support user statuses.
- *
- * See the corresponding "zero status" in the API described at
- * InitialDataUserStatus.
- */
-// TODO(server-2.0): Simplify jsdoc.
-// PRIVATE: Only to be used in this model's code.
-export const kUserStatusZero: UserStatus = {
-  away: false,
-  status_text: null,
-  status_emoji: null,
-};
+import { kUserStatusZero } from './userStatusesCore';
 
 //
 //

@@ -10,7 +10,7 @@
 import type Immutable from 'immutable';
 import type { InputSelector } from 'reselect';
 
-import type { Account, Outbox, ReactionType } from './types';
+import type { Account, Outbox } from './types';
 import type { Action, DispatchableWithoutAccountAction } from './actionTypes';
 import type {
   Topic,
@@ -33,8 +33,10 @@ import type {
 import type { MuteState } from './mute/muteModelTypes';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
+import type { UserStatusesState } from './user-statuses/userStatusesCore';
 
 export type { MuteState } from './mute/muteModelTypes';
+export type { UserStatus, UserStatusesState } from './user-statuses/userStatusesCore';
 export type * from './actionTypes';
 
 /**
@@ -381,35 +383,6 @@ export type TypingState = $ReadOnly<{|
 |}>;
 
 export type UserGroupsState = $ReadOnlyArray<UserGroup>;
-
-/**
- * A user's chosen availability and text/emoji statuses.
- */
-export type UserStatus = $ReadOnly<{|
-  // true/false: User unavailable/available.
-  away: boolean,
-
-  // "foo": User's status text is "foo".
-  // null: User's status text is unset.
-  status_text: string | null,
-
-  // null: User's status emoji is unset.
-  status_emoji: null | {|
-    // These three properties point to an emoji in the same way the same-named
-    // properties point to an emoji in the Reaction type; see there.
-    +emoji_name: string,
-    +reaction_type: ReactionType,
-    +emoji_code: string,
-  |},
-|}>;
-
-/**
- * The user status of each user.
- *
- * Users who have the "zero" status, `kUserStatusZero`, may be represented
- * implicitly by having no record in this map.
- */
-export type UserStatusesState = Immutable.Map<UserId, UserStatus>;
 
 /**
  * A collection of (almost) all users in the Zulip org; our `users` state subtree.
