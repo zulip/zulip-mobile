@@ -2159,7 +2159,7 @@ declare export function useLinking(
 declare export function useLinkTo(): (path: string) => void;
 
 declare export function useLinkProps<To: string>(props: {|
-  +to: Top,
+  +to: To,
   +action?: GenericNavigationAction,
 |}): {|
   +href: To,
