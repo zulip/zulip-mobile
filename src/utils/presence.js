@@ -3,7 +3,8 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import differenceInDays from 'date-fns/differenceInDays';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
+import type { ClientPresence, UserPresence, PresenceStatus } from '../types';
+import type { UserStatus } from '../user-statuses/userStatusesModelTypes';
 import { ensureUnreachable } from '../types';
 import objectEntries from './objectEntries';
 

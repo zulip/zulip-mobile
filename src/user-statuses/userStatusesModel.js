@@ -2,9 +2,10 @@
 import Immutable from 'immutable';
 
 import type { UserStatusUpdate } from '../api/modelTypes';
-import { makeUserId } from '../api/idTypes';
+import { makeUserId, type UserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
-import type { UserStatusesState, UserStatus, PerAccountApplicableAction } from '../types';
+import type { PerAccountApplicableAction, PerAccountState } from '../types';
+import type { UserStatusesState, UserStatus } from './userStatusesModelTypes';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -13,8 +14,6 @@ import {
   EVENT_USER_REMOVE,
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
-
-const initialState: UserStatusesState = Immutable.Map();
 
 /**
  * The canonical default, "unset" user status.
@@ -29,12 +28,49 @@ const initialState: UserStatusesState = Immutable.Map();
  * InitialDataUserStatus.
  */
 // TODO(server-2.0): Simplify jsdoc.
-// PRIVATE: Only to be used in this model's code.
+// PRIVATE: Exported only for tests.
 export const kUserStatusZero: UserStatus = {
   away: false,
   status_text: null,
   status_emoji: null,
 };
+
+//
+//
+// Selectors.
+//
+
+export const getUserStatuses = (state: PerAccountState): UserStatusesState => state.userStatuses;
+
+//
+//
+// Getters.
+//
+
+/**
+ * The `UserStatus` object for the given UserId.
+ */
+export const getUserStatus = (state: PerAccountState, userId: UserId): UserStatus =>
+  getUserStatuses(state).get(userId, kUserStatusZero);
+
+/**
+ * The `away` status for the given UserId.
+ */
+export const getUserStatusAway = (state: PerAccountState, userId: UserId): boolean =>
+  getUserStatus(state, userId).away;
+
+/**
+ * The status text for the given UserId, or `null` if not set.
+ */
+export const getUserStatusText = (state: PerAccountState, userId: UserId): string | null =>
+  getUserStatus(state, userId).status_text;
+
+//
+//
+// Reducer.
+//
+
+const initialState: UserStatusesState = Immutable.Map();
 
 function updateUserStatus(
   status: UserStatus,
@@ -54,7 +90,7 @@ function updateUserStatus(
   };
 }
 
-export default (
+export const reducer = (
   state: UserStatusesState = initialState,
   action: PerAccountApplicableAction,
 ): UserStatusesState => {

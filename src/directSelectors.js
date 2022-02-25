@@ -25,7 +25,6 @@ import type {
   Debug,
   VideoChatProvider,
   User,
-  UserStatusesState,
 } from './types';
 import type { PerAccountSessionState, GlobalSessionState } from './session/sessionReducer';
 
@@ -54,8 +53,6 @@ export const getTyping = (state: PerAccountState): TypingState => state.typing;
 export const getTopics = (state: PerAccountState): TopicsState => state.topics;
 
 export const getUserGroups = (state: PerAccountState): UserGroupsState => state.userGroups;
-
-export const getUserStatuses = (state: PerAccountState): UserStatusesState => state.userStatuses;
 
 /**
  * WARNING: despite the name, only (a) `is_active` users (b) excluding cross-realm bots.

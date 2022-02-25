@@ -4,7 +4,8 @@ import type { Node } from 'react';
 
 import { useSelector } from '../react-redux';
 import { SwitchRow } from '../common';
-import { getAuth, getUserStatusAway, getOwnUserId } from '../selectors';
+import { getAuth, getOwnUserId } from '../selectors';
+import { getUserStatusAway } from '../user-statuses/userStatusesModel';
 import * as api from '../api';
 
 type Props = $ReadOnly<{||}>;

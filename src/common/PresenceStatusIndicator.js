@@ -9,7 +9,7 @@ import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence } from '../selectors';
-import { getUserStatus } from '../user-statuses/userStatusesSelectors';
+import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { getAllUsersByEmail } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
 
