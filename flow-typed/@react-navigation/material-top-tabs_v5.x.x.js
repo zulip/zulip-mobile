@@ -320,6 +320,8 @@ declare module '@react-navigation/material-top-tabs' {
    * The following is copied from react-native-gesture-handler's libdef
    */
 
+  declare type $Event<T> = $FlowFixMe; // TODO: fill this in (from r-n-gesture-handler?)
+
   declare type $EventHandlers<ExtraProps: {...}> = {|
     onGestureEvent?: ($Event<ExtraProps>) => mixed,
     onHandlerStateChange?: ($Event<ExtraProps>) => mixed,
@@ -1521,6 +1523,8 @@ declare module '@react-navigation/material-top-tabs' {
       | '800'
       | '900',
   |};
+
+  declare type Font = $FlowFixMe; // TODO: Fill this in (from @react-navigation/material-bottom-tabs?)
 
   declare export type PaperFonts = {|
     +regular: Font,
