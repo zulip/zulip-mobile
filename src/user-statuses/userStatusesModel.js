@@ -4,7 +4,14 @@ import Immutable from 'immutable';
 import type { UserStatusUpdate } from '../api/modelTypes';
 import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
-import type { UserStatusesState, UserStatus, PerAccountApplicableAction } from '../types';
+import type {
+  PerAccountState,
+  PerAccountApplicableAction,
+  UserId,
+  UserStatus,
+  UserStatusesState,
+} from '../types';
+import { getUserStatuses } from '../directSelectors';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -14,7 +21,10 @@ import {
   EVENT_USER_STATUS_UPDATE,
 } from '../actionConstants';
 
-const initialState: UserStatusesState = Immutable.Map();
+//
+//
+// Structure.
+//
 
 /**
  * The canonical default, "unset" user status.
@@ -35,6 +45,24 @@ export const kUserStatusZero: UserStatus = {
   status_text: null,
   status_emoji: null,
 };
+
+//
+//
+// Selectors.
+//
+
+/**
+ * The `UserStatus` object for the given UserId.
+ */
+export const getUserStatus = (state: PerAccountState, userId: UserId): UserStatus =>
+  getUserStatuses(state).get(userId, kUserStatusZero);
+
+//
+//
+// Reducer.
+//
+
+const initialState: UserStatusesState = Immutable.Map();
 
 function updateUserStatus(
   status: UserStatus,
