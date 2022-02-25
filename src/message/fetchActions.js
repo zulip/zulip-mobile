@@ -494,14 +494,12 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
     }
     return;
   }
-  dispatch(registerComplete(initData));
-
-  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
   const serverVersion = new ZulipVersion(initData.zulip_version);
-  if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
-    dispatch(fetchPrivateMessages());
-  }
+
+  // Set Sentry tags for the server version immediately, so they're accurate
+  // in case we hit an exception in reducers on `registerComplete` below.
+  logging.setTagsFromServerVersion(serverVersion);
 
   if (!serverVersion.isAtLeast(kNextMinSupportedVersion)) {
     // The server version is either one we already don't support, or one
@@ -509,10 +507,17 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
     // version.  Warn so that we have an idea of how widespread this is.
     // (Include the coarse version in the warning message, so that it splits
     // into separate Sentry "issues" by coarse version.  The Sentry events
-    // will also have the detailed version, because we already dispatched
-    // `registerComplete`, which ends up causing a call to
+    // will also have the detailed version, from the call above to
     // `logging.setTagsFromServerVersion`.)
     logging.warn(`Old server version: ${serverVersion.classify().coarse}`);
+  }
+
+  dispatch(registerComplete(initData));
+
+  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
+
+  if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
+    dispatch(fetchPrivateMessages());
   }
 
   dispatch(sendOutbox());

@@ -35,6 +35,10 @@ export default class StoreProvider extends PureComponent<Props> {
       zulipVersion => {
         // TODO(#5005): This is for the *active* account; that may not be
         //   the one a given piece of code is working with!
+        //
+        // On fetch, we'll have called this already before entering the
+        // reducers, so this will be redundant.  But on switching accounts,
+        // this is the call that will make the change.
         logging.setTagsFromServerVersion(zulipVersion);
       },
     );
