@@ -2092,7 +2092,7 @@ declare export var DrawerContentScrollView: React$ComponentType<{
   */
 
 declare type GestureHandlerRef = React$Ref<
-  React$ComponentType<GestureHandlerProps>,
+  React$ComponentType<PanGestureHandlerProps>,
 >;
 declare export var DrawerGestureContext: React$Context<?GestureHandlerRef>;
 

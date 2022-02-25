@@ -2131,7 +2131,7 @@ declare export function useHeaderHeight(): number;
   */
 
 declare type GestureHandlerRef = React$Ref<
-  React$ComponentType<GestureHandlerProps>,
+  React$ComponentType<PanGestureHandlerProps>,
 >;
 declare export var GestureHandlerRefContext: React$Context<
   ?GestureHandlerRef,
