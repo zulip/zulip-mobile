@@ -675,7 +675,15 @@ export type StreamMessage = $ReadOnly<{|
    * (see point 4). We assume this has always been the case.
    */
   subject: string,
-  subject_links: $ReadOnlyArray<string>,
+
+  // We don't actually use this property.  If and when we do, we'll probably
+  // want in our internal model to canonicalize it to the newest form (with
+  // the name topic_links rather than subject_links, and newest type.)
+  // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from $ReadOnlyArray<string>
+  topic_links?: $ReadOnlyArray<{| +text: string, +url: string |}> | $ReadOnlyArray<string>,
+
+  // TODO(server-3.0): Replaced in feat. 1 by topic_links
+  subject_links?: $ReadOnlyArray<string>,
 |}>;
 
 /**

@@ -229,14 +229,12 @@ describe('messagesReducer', () => {
         content: 'Old content',
         subject: 'Old subject',
         last_edit_timestamp: 123,
-        subject_links: [],
         edit_history: [],
       });
       const message1New = {
         ...message1Old,
         subject: 'New topic',
         last_edit_timestamp: 123,
-        subject_links: [],
       };
       const prevState = eg.makeMessagesState([message1Old]);
       const action = mkAction({
@@ -244,7 +242,6 @@ describe('messagesReducer', () => {
         message: message1New,
         stream_id: message1Old.stream_id,
         orig_subject: message1Old.subject,
-        subject_links: [],
         subject: message1New.subject,
       });
       const expectedState = eg.makeMessagesState([message1New]);
@@ -257,7 +254,6 @@ describe('messagesReducer', () => {
         content: '<p>Old content</p>',
         subject: 'Old subject',
         last_edit_timestamp: 123,
-        subject_links: [],
         edit_history: [
           {
             prev_subject: 'Old subject',
@@ -271,7 +267,6 @@ describe('messagesReducer', () => {
         content: '<p>New content</p>',
         subject: 'New updated topic',
         last_edit_timestamp: 456,
-        subject_links: [],
       };
 
       const prevState = eg.makeMessagesState([message1Old]);
@@ -285,7 +280,6 @@ describe('messagesReducer', () => {
         subject: message1New.subject,
         orig_subject: message1Old.subject,
         prev_rendered_content_version: 1,
-        subject_links: [],
       });
       const expectedState = eg.makeMessagesState([message1New]);
       const newState = messagesReducer(prevState, action);

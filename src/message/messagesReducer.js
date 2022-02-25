@@ -157,7 +157,8 @@ export default (
           ? {
               ...messageWithNewCommonFields,
               subject: event.subject ?? messageWithNewCommonFields.subject,
-              subject_links: event.subject_links ?? messageWithNewCommonFields.subject_links,
+              // TODO(#3408): Update topic_links.  This is OK for now
+              //   because we don't have any UI to expose it.
             }
           : messageWithNewCommonFields;
       });

@@ -467,7 +467,7 @@ export const streamMessage = (args?: {|
     content_type: 'text/html',
     id: randMessageId(),
     subject: 'example topic',
-    subject_links: [],
+    topic_links: ([]: {| text: string, url: string |}[]),
     timestamp: 1556579727,
     type: 'stream',
   };
