@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import type { UserStatusUpdate } from '../api/modelTypes';
+import type { UserStatusUpdate, ReactionType } from '../api/modelTypes';
 import { makeUserId, type UserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
 import type { PerAccountApplicableAction, PerAccountState } from '../types';
@@ -64,6 +64,15 @@ export const getUserStatusAway = (state: PerAccountState, userId: UserId): boole
  */
 export const getUserStatusText = (state: PerAccountState, userId: UserId): string | null =>
   getUserStatus(state, userId).status_text;
+
+/**
+ * The status emoji for the given UserId, or `null` if not set.
+ */
+export const getUserStatusEmoji = (
+  state: PerAccountState,
+  userId: UserId,
+): {| +emoji_name: string, +emoji_code: string, +reaction_type: ReactionType |} | null =>
+  getUserStatus(state, userId).status_emoji;
 
 //
 //
