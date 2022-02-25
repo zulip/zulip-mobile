@@ -2025,7 +2025,7 @@ export type NavigationContainerType = React$AbstractComponent<
   * createBottomTabNavigator
   */
 
-export var createBottomTabNavigator: CreateNavigator<
+declare export var createBottomTabNavigator: CreateNavigator<
   TabNavigationState,
   BottomTabOptions,
   BottomTabNavigationEventMap,
@@ -2036,7 +2036,7 @@ export var createBottomTabNavigator: CreateNavigator<
   * BottomTabBar
   */
 
-export var BottomTabBar: React$ComponentType<BottomTabBarProps>;
+declare export var BottomTabBar: React$ComponentType<BottomTabBarProps>;
 
 /**
   * BottomTabView
@@ -2046,4 +2046,4 @@ export type BottomTabViewProps = {|
   ...BottomTabNavigationConfig,
   ...BottomTabNavigationBuilderResult,
 |};
-export var BottomTabView: React$ComponentType<BottomTabViewProps>;
+declare export var BottomTabView: React$ComponentType<BottomTabViewProps>;
