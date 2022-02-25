@@ -5,7 +5,8 @@
 import md5 from 'blueimp-md5';
 
 import * as logging from './logging';
-import { ensureUnreachable, type UserId } from '../types';
+import { ensureUnreachable } from '../generics';
+import { type UserId } from '../api/idTypes';
 import { isUrlAbsolute, isUrlPathAbsolute } from './url';
 
 /**

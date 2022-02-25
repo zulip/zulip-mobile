@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Auth } from '../types';
+import type { Auth } from '../api/transportTypes';
 import { getAuthHeaders } from '../api/transport';
 import objectEntries from './objectEntries';
 
