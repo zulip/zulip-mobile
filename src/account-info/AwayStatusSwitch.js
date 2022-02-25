@@ -4,7 +4,7 @@ import type { Node } from 'react';
 
 import { useSelector } from '../react-redux';
 import { SwitchRow } from '../common';
-import { getAuth, getUserStatusAway, getOwnUserId } from '../selectors';
+import { getAuth, getUserStatus, getOwnUserId } from '../selectors';
 import * as api from '../api';
 
 type Props = $ReadOnly<{||}>;
@@ -17,7 +17,7 @@ type Props = $ReadOnly<{||}>;
 export default function AwayStatusSwitch(props: Props): Node {
   const auth = useSelector(getAuth);
   const ownUserId = useSelector(getOwnUserId);
-  const awayStatus = useSelector(state => getUserStatusAway(state, ownUserId));
+  const awayStatus = useSelector(state => getUserStatus(state, ownUserId).away);
 
   return (
     <SwitchRow
