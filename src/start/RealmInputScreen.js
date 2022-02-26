@@ -2,6 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import { Keyboard } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -15,6 +16,7 @@ import ZulipButton from '../common/ZulipButton';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { navigateToAuth } from '../actions';
+import { useClipboardHasURL } from '../@react-native-clipboard/clipboard';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -79,6 +81,24 @@ export default function RealmInputScreen(props: Props): Node {
     button: { marginTop: 8 },
   };
 
+  const tryCopiedUrl = useCallback(async () => {
+    // The copied string might not be a valid realm URL:
+    // - It might not be a URL because useClipboardHasURL is subject to
+    //   races (and Clipboard.getString is itself async).
+    // - It might not be a valid Zulip realm that the client can connect to.
+    //
+    // So…
+    const url = await Clipboard.getString();
+
+    // …let the user see what string is being tried and edit it if it fails…
+    setRealmInputValue(url);
+
+    // …and run it through our usual validation.
+    await tryRealm(url);
+  }, [tryRealm]);
+
+  const clipboardHasURL = useClipboardHasURL();
+
   return (
     <Screen
       title="Welcome"
@@ -109,6 +129,19 @@ export default function RealmInputScreen(props: Props): Node {
         onPress={handleInputSubmit}
         disabled={urlFromInputValue(realmInputValue) === undefined}
       />
+      {clipboardHasURL === true && (
+        // Recognize when the user has copied a URL, and let them use it
+        // without making them enter it into the input.
+        //
+        // TODO(?): Instead, use a FAB that persists while
+        //   clipboardHasURL !== true && !progress
+        <ZulipButton
+          style={styles.button}
+          text="Use copied URL"
+          progress={progress}
+          onPress={tryCopiedUrl}
+        />
+      )}
     </Screen>
   );
 }
