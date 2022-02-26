@@ -6,7 +6,6 @@ import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
 import type { PerAccountState, PerAccountApplicableAction, UserId } from '../types';
 import type { UserStatus, UserStatusesState } from './userStatusesCore';
-import { getUserStatuses } from '../directSelectors';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -21,6 +20,8 @@ import { kUserStatusZero } from './userStatusesCore';
 //
 // Selectors.
 //
+
+const getUserStatuses = (state: PerAccountState): UserStatusesState => state.userStatuses;
 
 /**
  * The `UserStatus` object for the given UserId.
