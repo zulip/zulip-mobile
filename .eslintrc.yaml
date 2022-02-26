@@ -230,7 +230,8 @@ rules:
       - group: ['/react-redux']
         message: 'Use our own src/react-redux.js instead.'
 
-  import/no-cycle: off  # This would be nice to fix; but isn't easy.
+  import/no-cycle: error
+
   import/export: off  # This is redundant with Flow, and buggy.
 
 

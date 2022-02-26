@@ -21,8 +21,8 @@ shopt -s globstar
 # it's used) and rerun.
 #
 # NB these cycles generally do *not* mean an import cycle in the
-# transpiled runtime code.  To specifically find those, use the
-# ESLint rule import/no-cycle.
+# transpiled runtime code.  In fact, we use ESLint to prohibit those,
+# with rule import/no-cycle.
 
 this_file=$(readlink -f "$0")
 rootdir=${this_file%/*/*}
