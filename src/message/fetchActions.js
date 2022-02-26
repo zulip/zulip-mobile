@@ -14,7 +14,8 @@ import type { RegisterAbortReason } from '../actionTypes';
 import type { InitialData } from '../api/initialDataTypes';
 import * as api from '../api';
 import { ApiError, Server5xxError, NetworkError } from '../api/apiErrors';
-import { resetToAccountPicker, deadQueue } from '../actions';
+import { resetToAccountPicker } from '../nav/navActions';
+import { deadQueue } from '../session/sessionActions';
 import {
   getAuth,
   getSession,

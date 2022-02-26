@@ -4,7 +4,7 @@ import * as api from '../api';
 import { INIT_TOPICS } from '../actionConstants';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
 import { getAuth } from '../selectors';
-import { deleteOutboxMessage } from '../actions';
+import { deleteOutboxMessage } from '../outbox/outboxActions';
 import { getOutbox } from '../directSelectors';
 
 export const initTopics = (topics: $ReadOnlyArray<Topic>, streamId: number): PerAccountAction => ({

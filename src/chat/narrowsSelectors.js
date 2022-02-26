@@ -26,7 +26,7 @@ import {
 import { getMute, isTopicMuted } from '../mute/muteModel';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
-import { getStreamsById, getSubscriptionsById } from '../selectors';
+import { getStreamsById, getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 
 export const outboxMessagesForNarrow: Selector<$ReadOnlyArray<Outbox>, Narrow> = createSelector(
   (state, narrow) => narrow,
