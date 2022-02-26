@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { BRAND_COLOR, createStyleSheet, NAVBAR_SIZE } from '../styles';
 import { Icon } from '../common/Icons';
 import type { IconNames } from '../common/Icons';
-import { Touchable } from '../common';
+import Touchable from '../common/Touchable';
 
 const componentStyles = createStyleSheet({
   buttonFrame: {

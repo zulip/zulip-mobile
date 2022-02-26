@@ -8,7 +8,9 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
-import { NestedNavRow, SwitchRow, Screen } from '../common';
+import NestedNavRow from '../common/NestedNavRow';
+import SwitchRow from '../common/SwitchRow';
+import Screen from '../common/Screen';
 import {
   IconDiagnostics,
   IconNotifications,

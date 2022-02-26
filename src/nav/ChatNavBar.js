@@ -7,7 +7,8 @@ import Color from 'color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { Narrow, EditMessage } from '../types';
-import { LoadingBanner, ZulipStatusBar } from '../common';
+import LoadingBanner from '../common/LoadingBanner';
+import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useSelector, useDispatch } from '../react-redux';
 import { BRAND_COLOR, NAVBAR_SIZE, ThemeContext } from '../styles';
 import Title from '../title/Title';

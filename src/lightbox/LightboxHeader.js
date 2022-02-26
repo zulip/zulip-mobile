@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
-import { UserAvatarWithPresence } from '../common';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { AvatarURL } from '../utils/avatar';
 

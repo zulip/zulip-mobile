@@ -9,7 +9,7 @@ import { useSelector } from '../react-redux';
 import { getPresence } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { presenceToHumanTime } from '../utils/presence';
-import { ZulipText } from '../common';
+import ZulipText from '../common/ZulipText';
 
 type Props = $ReadOnly<{|
   style: TextStyleProp,

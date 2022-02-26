@@ -6,7 +6,7 @@ import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/T
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch, Message } from '../types';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import SearchMessagesCard from './SearchMessagesCard';
 import styles from '../styles';
 import { SEARCH_NARROW } from '../utils/narrow';

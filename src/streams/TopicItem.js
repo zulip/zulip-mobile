@@ -6,7 +6,9 @@ import { View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
-import { ZulipText, Touchable, UnreadCount } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
+import UnreadCount from '../common/UnreadCount';
 import { showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';

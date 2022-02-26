@@ -5,7 +5,9 @@ import { View } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { UserId } from '../types';
-import { ZulipText, Touchable, UnreadCount } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
+import UnreadCount from '../common/UnreadCount';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';

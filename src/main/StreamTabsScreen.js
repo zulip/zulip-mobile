@@ -6,7 +6,7 @@ import {
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
 
-import { ZulipTextIntl } from '../common';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import { createStyleSheet } from '../styles';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';

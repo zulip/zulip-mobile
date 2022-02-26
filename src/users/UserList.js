@@ -6,7 +6,8 @@ import { useSelector } from '../react-redux';
 
 import type { PresenceState, UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
-import { SectionHeader, SearchEmptyState } from '../common';
+import SectionHeader from '../common/SectionHeader';
+import SearchEmptyState from '../common/SearchEmptyState';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 import { getMutedUsers } from '../selectors';

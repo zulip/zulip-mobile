@@ -27,7 +27,9 @@ import {
 import type { SpecificIconType } from '../common/Icons';
 import { connect } from '../react-redux';
 import styles from '../styles';
-import { Centerer, Screen, ZulipButton } from '../common';
+import Centerer from '../common/Centerer';
+import Screen from '../common/Screen';
+import ZulipButton from '../common/ZulipButton';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';

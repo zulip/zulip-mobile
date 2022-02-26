@@ -27,7 +27,8 @@ import type {
 import { connect } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
-import { Touchable, Input } from '../common';
+import Touchable from '../common/Touchable';
+import Input from '../common/Input';
 import { showToast, showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {

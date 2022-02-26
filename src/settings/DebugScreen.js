@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'debug'>,

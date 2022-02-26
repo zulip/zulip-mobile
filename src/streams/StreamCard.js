@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { Stream, Subscription } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { ZulipText } from '../common';
+import ZulipText from '../common/ZulipText';
 import StreamIcon from './StreamIcon';
 import { NULL_SUBSCRIPTION } from '../nullObjects';
 

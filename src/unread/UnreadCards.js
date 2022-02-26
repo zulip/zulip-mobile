@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
 import { useDispatch, useSelector } from '../react-redux';
-import { SearchEmptyState } from '../common';
+import SearchEmptyState from '../common/SearchEmptyState';
 import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';

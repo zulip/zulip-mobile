@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { View, FlatList } from 'react-native';
 
 import type { AccountStatus } from './accountsSelectors';
-import { ViewPlaceholder } from '../common';
+import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountItem from './AccountItem';
 
 type Props = $ReadOnly<{|

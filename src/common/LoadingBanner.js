@@ -6,7 +6,8 @@ import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getLoading } from '../selectors';
-import { ZulipTextIntl, LoadingIndicator } from '.';
+import ZulipTextIntl from './ZulipTextIntl';
+import LoadingIndicator from './LoadingIndicator';
 import { ThemeContext, createStyleSheet } from '../styles';
 
 const key = 'LoadingBanner';

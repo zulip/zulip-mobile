@@ -5,7 +5,8 @@ import { View } from 'react-native';
 
 import type { EmojiType } from '../types';
 import { createStyleSheet } from '../styles';
-import { ZulipText, Touchable } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
 import Emoji from './Emoji';
 
 const styles = createStyleSheet({

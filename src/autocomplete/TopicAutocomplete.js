@@ -8,7 +8,9 @@ import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import { getTopicsForNarrow } from '../selectors';
-import { Popup, ZulipText, Touchable } from '../common';
+import Popup from '../common/Popup';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 import { fetchTopicsForStream } from '../topics/topicActions';
 

@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import config from '../config';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import InfoItem from './InfoItem';
 
 type Props = $ReadOnly<{|

@@ -20,7 +20,7 @@ import { constructActionSheetButtons, executeActionSheetAction } from './Lightbo
 import { createStyleSheet } from '../styles';
 import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
-import { ZulipStatusBar } from '../common';
+import ZulipStatusBar from '../common/ZulipStatusBar';
 
 const styles = createStyleSheet({
   img: {

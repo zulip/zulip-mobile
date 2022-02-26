@@ -4,7 +4,9 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { ZulipText, Touchable, ZulipTextIntl } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import { IconDone, IconTrash } from '../common/Icons';
 import type { AccountStatus } from './accountsSelectors';
 

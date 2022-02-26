@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import type { Narrow } from '../types';
-import { ZulipTextIntl } from '../common';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 const styles = StyleSheet.create({
   container: {

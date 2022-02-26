@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
-import { ZulipButton } from '../common';
+import ZulipButton from '../common/ZulipButton';
 import * as api from '../api';
 import { getAuth, getOwnUserId } from '../selectors';
 import { getUnread, getUnreadIdsForPmNarrow } from '../unread/unreadModel';

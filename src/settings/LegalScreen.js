@@ -6,7 +6,9 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
-import { Screen, NestedNavRow, ZulipText } from '../common';
+import Screen from '../common/Screen';
+import NestedNavRow from '../common/NestedNavRow';
+import ZulipText from '../common/ZulipText';
 import { openLinkEmbedded } from '../utils/openLink';
 import { getRealmUrl, getRealmName } from '../selectors';
 

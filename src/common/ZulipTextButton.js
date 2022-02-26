@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import type { LocalizableReactText } from '../types';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { ZulipTextIntl } from '.';
+import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 
 // When adding a variant, take care that it's legitimate, it addresses a

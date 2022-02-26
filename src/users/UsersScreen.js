@@ -4,7 +4,7 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import UsersCard from './UsersCard';
 
 type Props = $ReadOnly<{|

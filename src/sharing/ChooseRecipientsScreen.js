@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import type { UserId, UserOrBot } from '../types';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import UserPickerCard from '../user-picker/UserPickerCard';
 
 type Props = $ReadOnly<{|

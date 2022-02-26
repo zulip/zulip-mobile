@@ -8,7 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import { navigateBack } from '../actions';
 import { getAuth, getOwnEmail } from '../selectors';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
 import * as api from '../api';
 

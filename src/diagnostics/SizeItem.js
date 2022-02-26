@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { ZulipText } from '../common';
+import ZulipText from '../common/ZulipText';
 import { createStyleSheet } from '../styles';
 import { numberWithSeparators } from '../utils/misc';
 

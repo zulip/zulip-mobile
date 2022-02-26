@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import { Image, Text, View, Platform } from 'react-native';
 
 import { openLinkExternal } from '../utils/openLink';
-import { Touchable } from '../common';
+import Touchable from '../common/Touchable';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import appStoreBadgePNG from '../../static/img/app-store-badge.png';
 import googlePlayBadgePNG from '../../static/img/google-play-badge.png';

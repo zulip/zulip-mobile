@@ -7,7 +7,8 @@ import { View } from 'react-native';
 import type { Stream, Narrow } from '../types';
 import { useSelector } from '../react-redux';
 import * as api from '../api';
-import { ZulipButton, ZulipTextIntl } from '../common';
+import ZulipButton from '../common/ZulipButton';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import { getAuth, getStreamInNarrow } from '../selectors';
 import styles from '../styles';
 

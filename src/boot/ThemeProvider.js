@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings } from '../directSelectors';
 import { themeData, ThemeContext } from '../styles/theme';
-import { ZulipStatusBar } from '../common';
+import ZulipStatusBar from '../common/ZulipStatusBar';
 
 type Props = $ReadOnly<{|
   children: Node,

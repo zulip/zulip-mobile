@@ -17,7 +17,8 @@ import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
 import { IconInbox, IconStream, IconPeople } from '../common/Icons';
-import { OwnAvatar, OfflineNotice } from '../common';
+import OwnAvatar from '../common/OwnAvatar';
+import OfflineNotice from '../common/OfflineNotice';
 import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 

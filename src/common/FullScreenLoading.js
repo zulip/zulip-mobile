@@ -5,7 +5,8 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import { LoadingIndicator, ZulipStatusBar } from '.';
+import LoadingIndicator from './LoadingIndicator';
+import ZulipStatusBar from './ZulipStatusBar';
 
 const componentStyles = createStyleSheet({
   center: {

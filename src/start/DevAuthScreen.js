@@ -9,7 +9,10 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { DevUser, Dispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
-import { ErrorMsg, ZulipTextIntl, Screen, ZulipButton } from '../common';
+import ErrorMsg from '../common/ErrorMsg';
+import ZulipTextIntl from '../common/ZulipTextIntl';
+import Screen from '../common/Screen';
+import ZulipButton from '../common/ZulipButton';
 import * as api from '../api';
 import { loginSuccess } from '../actions';
 

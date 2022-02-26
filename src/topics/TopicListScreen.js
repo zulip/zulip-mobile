@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector, useDispatch } from '../react-redux';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import { topicNarrow } from '../utils/narrow';
 import { getTopicsForStream } from '../selectors';
 import { getStreamForId } from '../subscriptions/subscriptionSelectors';

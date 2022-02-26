@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { ZulipTextIntl } from '../common';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import styles from '../styles';
 
 class AnnouncementOnly extends PureComponent<{||}> {

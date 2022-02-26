@@ -4,7 +4,8 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { ComponentWithOverlay, UnreadCount } from '.';
+import ComponentWithOverlay from './ComponentWithOverlay';
+import UnreadCount from './UnreadCount';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({

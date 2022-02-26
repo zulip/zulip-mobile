@@ -9,16 +9,14 @@ import type { Dispatch } from '../types';
 import { createStyleSheet } from '../styles';
 import { connect } from '../react-redux';
 import * as api from '../api';
-import {
-  ErrorMsg,
-  Input,
-  PasswordInput,
-  Screen,
-  WebLink,
-  ZulipButton,
-  ViewPlaceholder,
-  ZulipText,
-} from '../common';
+import ErrorMsg from '../common/ErrorMsg';
+import Input from '../common/Input';
+import PasswordInput from '../common/PasswordInput';
+import Screen from '../common/Screen';
+import WebLink from '../common/WebLink';
+import ZulipButton from '../common/ZulipButton';
+import ViewPlaceholder from '../common/ViewPlaceholder';
+import ZulipText from '../common/ZulipText';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
 

@@ -9,7 +9,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import UserItem from '../users/UserItem';
 import { navigateToAccountDetails } from '../actions';
 import { getOwnUserId } from '../selectors';

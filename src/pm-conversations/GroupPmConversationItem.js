@@ -6,7 +6,10 @@ import { View } from 'react-native';
 import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { GroupAvatar, ZulipText, Touchable, UnreadCount } from '../common';
+import GroupAvatar from '../common/GroupAvatar';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
+import UnreadCount from '../common/UnreadCount';
 import { getMutedUsers } from '../selectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 

@@ -7,7 +7,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import { navigateBack } from '../actions';
 import * as api from '../api';
 import { getAuth, getStreamForId } from '../selectors';

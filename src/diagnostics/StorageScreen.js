@@ -7,7 +7,7 @@ import { FlatList } from 'react-native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import SizeItem from './SizeItem';
 
 const calculateKeyStorageSizes = obj =>

@@ -3,7 +3,7 @@ import React from 'react';
 import type { Node } from 'react';
 
 import { useSelector } from '../react-redux';
-import { SwitchRow } from '../common';
+import SwitchRow from '../common/SwitchRow';
 import { getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import * as api from '../api';

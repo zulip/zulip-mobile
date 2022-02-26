@@ -12,7 +12,7 @@ import {
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
 } from '../users/userHelpers';
-import { Popup } from '../common';
+import Popup from '../common/Popup';
 import { UserItemRaw } from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 import { getOwnUserId } from '../users/userSelectors';

@@ -3,7 +3,8 @@ import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { ZulipText, Touchable } from '.';
+import ZulipText from './ZulipText';
+import Touchable from './Touchable';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from './Icons';
 

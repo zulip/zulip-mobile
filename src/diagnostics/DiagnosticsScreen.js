@@ -8,7 +8,10 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
-import { NestedNavRow, OptionDivider, Screen, ZulipText } from '../common';
+import NestedNavRow from '../common/NestedNavRow';
+import OptionDivider from '../common/OptionDivider';
+import Screen from '../common/Screen';
+import ZulipText from '../common/ZulipText';
 import {
   navigateToDebug,
   navigateToStorage,

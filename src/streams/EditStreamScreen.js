@@ -8,7 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { useSelector, useDispatch } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
 
 type Props = $ReadOnly<{|

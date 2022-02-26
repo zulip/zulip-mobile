@@ -9,7 +9,7 @@ import type { Dispatch, Auth, GetText, Stream } from '../types';
 import type { SharedData } from './types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
-import { Input } from '../common';
+import Input from '../common/Input';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
 import TopicAutocomplete from '../autocomplete/TopicAutocomplete';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';

@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
-import { ZulipTextIntl } from '../common';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 import {
   isHomeNarrow,

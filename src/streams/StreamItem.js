@@ -18,7 +18,10 @@ import {
   getSettings,
 } from '../selectors';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
-import { ZulipText, Touchable, UnreadCount, ZulipSwitch } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
+import UnreadCount from '../common/UnreadCount';
+import ZulipSwitch from '../common/ZulipSwitch';
 import { foregroundColorFromBackground } from '../utils/color';
 import StreamIcon from './StreamIcon';
 

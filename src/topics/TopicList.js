@@ -6,7 +6,8 @@ import { FlatList } from 'react-native';
 import type { Stream, TopicExtended } from '../types';
 import { createStyleSheet } from '../styles';
 import TopicItem from '../streams/TopicItem';
-import { LoadingIndicator, SearchEmptyState } from '../common';
+import LoadingIndicator from '../common/LoadingIndicator';
+import SearchEmptyState from '../common/SearchEmptyState';
 
 const styles = createStyleSheet({
   list: {

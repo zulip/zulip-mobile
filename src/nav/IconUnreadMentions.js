@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import { useSelector } from '../react-redux';
 import { getUnreadMentionsTotal } from '../selectors';
 import { IconMention } from '../common/Icons';
-import { CountOverlay } from '../common';
+import CountOverlay from '../common/CountOverlay';
 
 type Props = $ReadOnly<{|
   color: string,

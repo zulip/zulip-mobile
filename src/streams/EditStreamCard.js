@@ -3,7 +3,10 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { Input, ZulipTextIntl, SwitchRow, ZulipButton } from '../common';
+import Input from '../common/Input';
+import ZulipTextIntl from '../common/ZulipTextIntl';
+import SwitchRow from '../common/SwitchRow';
+import ZulipButton from '../common/ZulipButton';
 import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
 

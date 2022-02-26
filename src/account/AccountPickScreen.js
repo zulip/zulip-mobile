@@ -11,7 +11,11 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useGlobalSelector, useGlobalDispatch } from '../react-redux';
 import { getAccountStatuses } from '../selectors';
-import { Centerer, ZulipButton, Logo, Screen, ViewPlaceholder } from '../common';
+import Centerer from '../common/Centerer';
+import ZulipButton from '../common/ZulipButton';
+import Logo from '../common/Logo';
+import Screen from '../common/Screen';
+import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountList from './AccountList';
 import {
   navigateToRealmInputScreen,

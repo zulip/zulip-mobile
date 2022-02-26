@@ -7,7 +7,8 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
-import { SwitchRow, Screen } from '../common';
+import SwitchRow from '../common/SwitchRow';
+import Screen from '../common/Screen';
 import * as api from '../api';
 import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
 

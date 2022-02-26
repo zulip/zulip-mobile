@@ -6,7 +6,7 @@ import type { Node } from 'react';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useDispatch } from '../react-redux';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import LanguagePicker from './LanguagePicker';
 import { getGlobalSettings } from '../selectors';
 import { setGlobalSettings } from '../actions';

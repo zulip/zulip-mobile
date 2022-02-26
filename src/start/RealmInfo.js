@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import type { Node } from 'react';
 import { View, Image } from 'react-native';
 
-import { ZulipText } from '../common';
+import ZulipText from '../common/ZulipText';
 import { createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({

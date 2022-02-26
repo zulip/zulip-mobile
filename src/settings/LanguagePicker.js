@@ -5,7 +5,8 @@ import { FlatList } from 'react-native';
 
 import type { GetText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { OptionDivider, SelectableOptionRow } from '../common';
+import OptionDivider from '../common/OptionDivider';
+import SelectableOptionRow from '../common/SelectableOptionRow';
 import languages from './languages';
 import type { Language } from './languages';
 

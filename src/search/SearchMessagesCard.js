@@ -6,7 +6,8 @@ import { View } from 'react-native';
 
 import type { Message, Narrow } from '../types';
 import { createStyleSheet } from '../styles';
-import { LoadingIndicator, SearchEmptyState } from '../common';
+import LoadingIndicator from '../common/LoadingIndicator';
+import SearchEmptyState from '../common/SearchEmptyState';
 import MessageList from '../webview/MessageList';
 
 const styles = createStyleSheet({

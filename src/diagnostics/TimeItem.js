@@ -6,7 +6,7 @@ import format from 'date-fns/format';
 import type { TimingItemType } from '../types';
 import { createStyleSheet } from '../styles';
 
-import { ZulipText } from '../common';
+import ZulipText from '../common/ZulipText';
 import { numberWithSeparators } from '../utils/misc';
 
 const styles = createStyleSheet({

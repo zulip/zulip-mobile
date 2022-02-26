@@ -10,7 +10,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import { unicodeCodeByName } from './codePointMap';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojis } from './data';
 import type { ReactionType } from '../types';

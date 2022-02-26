@@ -8,7 +8,7 @@ import type { Narrow } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUnreadCountForNarrow } from '../selectors';
-import { ZulipTextIntl } from '../common';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import MarkAsReadButton from './MarkAsReadButton';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
 

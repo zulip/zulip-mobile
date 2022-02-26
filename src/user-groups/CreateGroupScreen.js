@@ -7,7 +7,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
-import { Screen } from '../common';
+import Screen from '../common/Screen';
 import { doNarrow, navigateBack } from '../actions';
 import { pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromUsers } from '../utils/recipient';

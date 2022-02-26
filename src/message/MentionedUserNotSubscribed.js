@@ -8,7 +8,8 @@ import type { Stream, UserOrBot, Subscription } from '../types';
 import { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import * as api from '../api';
-import { ZulipButton, ZulipTextIntl } from '../common';
+import ZulipButton from '../common/ZulipButton';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import { getAuth } from '../selectors';
 
 type Props = $ReadOnly<{|

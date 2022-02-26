@@ -4,7 +4,8 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
-import { ZulipText, Touchable } from '../common';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 
 const componentStyles = createStyleSheet({

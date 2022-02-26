@@ -4,7 +4,7 @@ import React from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
-import { Popup } from '../common';
+import Popup from '../common/Popup';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojis } from '../emoji/data';
 import { useSelector } from '../react-redux';

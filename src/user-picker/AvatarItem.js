@@ -5,7 +5,10 @@ import { Animated, Easing, View } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedValue';
 
 import type { UserId, UserOrBot } from '../types';
-import { UserAvatarWithPresence, ComponentWithOverlay, ZulipText, Touchable } from '../common';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
+import ComponentWithOverlay from '../common/ComponentWithOverlay';
+import ZulipText from '../common/ZulipText';
+import Touchable from '../common/Touchable';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
 

@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
 import { useSelector } from '../react-redux';
-import { Popup } from '../common';
+import Popup from '../common/Popup';
 import { getSubscriptions } from '../directSelectors';
 import StreamItem from '../streams/StreamItem';
 

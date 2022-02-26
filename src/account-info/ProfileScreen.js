@@ -9,7 +9,7 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
-import { ZulipButton } from '../common';
+import ZulipButton from '../common/ZulipButton';
 import {
   logout,
   tryStopNotifications,
