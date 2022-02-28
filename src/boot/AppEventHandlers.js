@@ -9,7 +9,7 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import type { GlobalDispatch, Orientation as OrientationT } from '../types';
 import { createStyleSheet } from '../styles';
 import { connectGlobal } from '../react-redux';
-import { handleInitialNotification } from '../notification';
+import { handleInitialNotification } from '../notification/notifOpen';
 import NotificationListener from '../notification/NotificationListener';
 import { ShareReceivedListener, handleInitialShare } from '../sharing';
 import { appOnline, appOrientation } from '../actions';

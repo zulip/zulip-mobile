@@ -5,7 +5,6 @@ export * from './nav/navActions';
 export * from './drafts/draftsActions';
 export * from './message/fetchActions';
 export * from './message/messagesActions';
-export * from './notification/notificationActions';
 export * from './outbox/outboxActions';
 export * from './session/sessionActions';
 export * from './settings/settingsActions';

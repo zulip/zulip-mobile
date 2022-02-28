@@ -4,7 +4,7 @@ import deepFreeze from 'deep-freeze';
 import type { Notification } from '../types';
 import type { UserOrBot } from '../../api/modelTypes';
 import type { JSONableDict } from '../../utils/jsonable';
-import { getNarrowFromNotificationData } from '..';
+import { getNarrowFromNotificationData } from '../notifOpen';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../../utils/narrow';
 
 import * as eg from '../../__tests__/lib/exampleData';

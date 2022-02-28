@@ -9,7 +9,7 @@ import { androidGetToken, handleDeviceToken } from './notifTokens';
 import type { Notification } from './types';
 import * as logging from '../utils/logging';
 import { fromPushNotificationIOS } from './extract';
-import { narrowToNotification } from './notificationActions';
+import { narrowToNotification } from './notifOpen';
 
 /**
  * From ios/RNCPushNotificationIOS.m in @rnc/push-notification-ios at 1.2.2.
