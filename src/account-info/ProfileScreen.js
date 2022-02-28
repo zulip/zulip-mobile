@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
 import {
   logout,
-  tryStopNotifications,
   navigateToAccountPicker,
   navigateToUserStatus,
   navigateToSettings,
 } from '../actions';
+import { tryStopNotifications } from '../notification/notifTokens';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';

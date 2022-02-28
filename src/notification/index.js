@@ -3,16 +3,14 @@ import { NativeModules, Platform } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type { GlobalDispatch, Account, Narrow, Stream, UserId, UserOrBot } from '../types';
+import type { Account, GlobalDispatch, Narrow, Stream, UserId, UserOrBot } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
-import type { JSONable } from '../utils/jsonable';
 import * as logging from '../utils/logging';
-import { gotPushToken, sendAllPushToken, narrowToNotification } from './notificationActions';
+import { narrowToNotification } from './notificationActions';
 import { fromPushNotificationIOS } from './extract';
 import { tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
-import { getAccounts } from '../directSelectors';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -193,119 +191,4 @@ const readInitialNotification = async (): Promise<Notification | null> => {
 export const handleInitialNotification = async (dispatch: GlobalDispatch) => {
   const data = await readInitialNotification();
   dispatch(narrowToNotification(data));
-};
-
-/**
- * Get the FCM token.
- *
- * Returns null (and logs a warning or error) if getting the token failed.
- */
-export const androidGetToken = async (dispatch: GlobalDispatch): Promise<mixed> => {
-  try {
-    return await NativeModules.Notifications.getToken();
-  } catch (e) {
-    // `getToken` failed.  That happens sometimes, apparently including
-    // due to network errors: see #5061.  In that case all will be well
-    // if the user later launches the app while on a working network.
-    //
-    // But maybe this can happen in other, non-transient situations too.
-    // Log it so we can hope to find out if that's happening.
-    const ackedPushTokens = dispatch((_, getState) =>
-      getAccounts(getState()).map(a => a.ackedPushToken),
-    );
-    if (ackedPushTokens.some(t => t !== null) || ackedPushTokens.length === 0) {
-      // It's probably a transient issue: we've previously gotten a
-      // token (that we've even successfully sent to a server), or else
-      // we have no accounts at all so we haven't had a chance to do so.
-      logging.warn(`notif: getToken failed, but looks transient: ${e.message}`);
-    } else {
-      // Might not be transient!  The user might be persistently unable
-      // to get push notifications.
-      logging.error(`notif: getToken failed, seems persistent: ${e.message}`);
-    }
-
-    return null;
-  }
-};
-
-/**
- * Try to cause a `remoteNotificationsRegistered` event.
- *
- * Our 'register' listener will fire on that event.
- */
-export const getNotificationToken = () => {
-  if (Platform.OS === 'ios') {
-    // This leads to a call in RNCPushNotificationIOS to this, to
-    // maybe prompt the user to grant authorization, with options for
-    // what things to authorize (badge, sound, alert, etc.):
-    //   https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorizationwithoptions
-    //
-    // If authorization is granted, the library calls this, to have the
-    // application register for remote notifications:
-    //   https://developer.apple.com/documentation/appkit/nsapplication/2967172-registerforremotenotifications?language=occ
-    //
-    // (Then, in case we're interested, the library calls
-    //   https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649524-getnotificationsettingswithcompl
-    // and sets the eventual result to be the resolution of the
-    // Promise we get, so we can know if the user has enabled
-    // alerts, the badge count, and sound.)
-    //
-    // The above-mentioned `registerForRemoteNotifications` function
-    // ends up sending the app a device token; the app receives it in
-    // our own code: `AppDelegate`'s
-    // `didRegisterForRemoteNotificationsWithDeviceToken` method:
-    //   https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application?language=objc.
-    // Following the library's setup instructions, we've asked that
-    // method to hand control back to the library.
-    //
-    // It looks like the library then creates a notification, with the
-    // magic-string name "RemoteNotificationsRegistered", using
-    //   https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415812-postnotificationname?language=objc.
-    // It listens for this notification with
-    //   https://developer.apple.com/documentation/foundation/nsnotificationcenter/1415360-addobserver
-    // and, upon receipt, sends a React Native event to the JavaScript
-    // part of the library. We can listen to this event, with
-    // `PushNotificationIOS.addEventListener`, under the alias
-    // 'register'. (We can also listen for registration failure under
-    // the alias 'registrationError'.)
-    //
-    // In short, this kicks off a sequence:
-    //   authorization, with options ->
-    //   register for remote notifications ->
-    //   send event we already have a global listener for
-    //
-    // This satisfies the stern warnings in Apple's docs (at the above
-    // links) to request authorization before registering with the push
-    // notification service.
-    PushNotificationIOS.requestPermissions();
-  } else {
-    // On Android, we do this at application startup.
-  }
-};
-
-/**
- * Act on having learned a new device token.
- *
- * @param deviceToken This should be a `?string`, but there's no typechecking
- *   at the registration site to allow us to ensure it. As we've been burned
- *   by unexpected types here before, we do the validation explicitly.
- */
-export const handleDeviceToken = async (deviceToken: mixed, dispatch: GlobalDispatch) => {
-  // Null device tokens are known to occur (at least) on Android emulators
-  // without Google Play services, and have been reported in other scenarios.
-  // See https://stackoverflow.com/q/37517860 for relevant discussion.
-  //
-  // Otherwise, a device token should be some (platform-dependent and largely
-  // unspecified) flavor of string.
-  if (deviceToken !== null && typeof deviceToken !== 'string') {
-    /* $FlowFixMe[incompatible-type]: `deviceToken` probably _is_
-         JSONable, but we can only hope. */
-    const token: JSONable = deviceToken;
-    logging.error('Received invalid device token', { token });
-    // Take no further action.
-    return;
-  }
-
-  dispatch(gotPushToken(deviceToken));
-  await dispatch(sendAllPushToken());
 };

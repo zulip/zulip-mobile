@@ -40,7 +40,7 @@ import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { showErrorAlert } from '../utils/info';
 import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow } from '../utils/narrow';
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
-import { initNotifications } from '../notification/notificationActions';
+import { initNotifications } from '../notification/notifTokens';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';

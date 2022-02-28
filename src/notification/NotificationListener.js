@@ -5,7 +5,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { JSONableDict } from '../utils/jsonable';
 import type { GlobalDispatch } from '../types';
-import { androidGetToken, handleDeviceToken } from '.';
+import { androidGetToken, handleDeviceToken } from './notifTokens';
 import type { Notification } from './types';
 import * as logging from '../utils/logging';
 import { fromPushNotificationIOS } from './extract';
