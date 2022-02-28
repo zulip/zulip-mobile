@@ -7,15 +7,7 @@ import { NativeModules, Platform } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type {
-  Account,
-  GlobalDispatch,
-  GlobalThunkAction,
-  Narrow,
-  Stream,
-  UserId,
-  UserOrBot,
-} from '../types';
+import type { Account, GlobalThunkAction, Narrow, Stream, UserId, UserOrBot } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import * as logging from '../utils/logging';
 import { fromPushNotificationIOS } from './extract';
@@ -252,7 +244,7 @@ export const narrowToNotification = (data: ?Notification): GlobalThunkAction<voi
  * This consumes the relevant data; if called multiple times after the user
  * only once opened a notification, it'll only do anything once.
  */
-export const handleInitialNotification = async (dispatch: GlobalDispatch) => {
+export const handleInitialNotification = (): GlobalThunkAction<Promise<void>> => async dispatch => {
   const data = await readInitialNotification();
   dispatch(narrowToNotification(data));
 };

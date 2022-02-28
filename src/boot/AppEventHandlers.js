@@ -118,7 +118,7 @@ class AppEventHandlersInner extends PureComponent<Props> {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    handleInitialNotification(dispatch);
+    dispatch(handleInitialNotification());
     handleInitialShare();
 
     NetInfo.configure({
