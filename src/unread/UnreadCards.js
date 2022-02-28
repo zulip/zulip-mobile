@@ -32,7 +32,7 @@ export type UnreadStreamItem = {|
   isPinned: boolean,
   isPrivate: boolean,
   isWebPublic: boolean | void,
-  data: Array<{|
+  data: $ReadOnlyArray<{|
     key: string,
     topic: string,
     unread: number,

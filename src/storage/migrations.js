@@ -23,7 +23,7 @@ type LessPartialState = $ReadOnly<{ ...$Rest<GlobalState, { ... }>, ...StoreKeys
  * The value of `storeKeys` when the `dropCache` migrations were written.
  */
 // prettier-ignore
-export const historicalStoreKeys: Array<$Keys<StoreKeysState>> = [
+export const historicalStoreKeys: $ReadOnlyArray<$Keys<StoreKeysState>> = [
   // Never edit this list.
   'migrations', 'accounts', 'drafts', 'outbox', 'settings',
   // Why never edit?  The existing migrations below that refer to
