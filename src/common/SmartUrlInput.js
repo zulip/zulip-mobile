@@ -8,7 +8,6 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { autocompleteRealmPieces, autocompleteRealm, fixRealmUrl } from '../utils/url';
-import type { Protocol } from '../utils/url';
 import ZulipText from './ZulipText';
 
 const styles = createStyleSheet({
@@ -29,22 +28,6 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  /**
-   * The protocol which will be used if the user doesn't specify one.
-   * Should almost certainly be "https://".
-   */
-  defaultProtocol: Protocol,
-  /**
-   * The example organization name that will be displayed while the
-   * entry field is empty. Appears, briefly, as the initial (lowest-
-   * level) component of the realm's domain.
-   */
-  defaultOrganization: string,
-  /**
-   * The default domain to which the user's input will be appended, if
-   * it appears not to contain an explicit domain.
-   */
-  defaultDomain: string,
   // TODO: Currently this type is acceptable because the only
   // `navigation` prop we pass to a `SmartUrlInput` instance is the
   // one from a component on AppNavigator.
@@ -109,15 +92,11 @@ function useRn19366Workaround(textInputRef) {
 }
 
 export default function SmartUrlInput(props: Props): Node {
-  const {
-    defaultProtocol,
-    defaultOrganization,
-    defaultDomain,
-    style,
-    onChangeText,
-    onSubmitEditing,
-    enablesReturnKeyAutomatically,
-  } = props;
+  const { style, onChangeText, onSubmitEditing, enablesReturnKeyAutomatically } = props;
+
+  const defaultProtocol = 'https://';
+  const defaultOrganization = 'your-org';
+  const defaultDomain = 'zulipchat.com';
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
