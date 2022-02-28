@@ -9,7 +9,6 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import type {
   Account,
-  Dispatch,
   GlobalDispatch,
   Identity,
   AccountIndependentAction,
@@ -131,30 +130,30 @@ const ackPushToken = (pushToken: string, identity: Identity): AllAccountsAction 
 });
 
 /** Tell the given server about this device token, if it doesn't already know. */
-const sendPushToken = async (
-  // Why `Dispatch | GlobalDispatch`?  Well, this function is per-account...
-  // but whereas virtually all our other per-account code is implicitly
-  // about the active account, this is about a specific account it's
-  // explicitly passed.  That makes it equally legitimate to call from
+const sendPushToken = (
+  account: Account | void,
+  pushToken: string,
+): GlobalThunkAction<Promise<void>> & ThunkAction<Promise<void>> =>
+  // Why both GlobalThunkAction and ThunkAction?  Well, this function is
+  // per-account... but whereas virtually all our other per-account code is
+  // implicitly about the active account, this is about a specific account
+  // it's explicitly passed.  That makes it equally legitimate to call from
   // per-account or global code, and we do both.
   // TODO(#5006): Once we have per-account states for all accounts, make
   //   this an ordinary per-account action.
-  dispatch: Dispatch | GlobalDispatch,
-  account: Account | void,
-  pushToken: string,
-) => {
-  if (!account || account.apiKey === '') {
-    // We've logged out of the account and/or forgotten it.  Shrug.
-    return;
-  }
-  if (account.ackedPushToken === pushToken) {
-    // The server already knows this device token.
-    return;
-  }
-  const auth = authOfAccount(account);
-  await api.savePushToken(auth, Platform.OS, pushToken);
-  dispatch(ackPushToken(pushToken, identityOfAccount(account)));
-};
+  async dispatch => {
+    if (!account || account.apiKey === '') {
+      // We've logged out of the account and/or forgotten it.  Shrug.
+      return;
+    }
+    if (account.ackedPushToken === pushToken) {
+      // The server already knows this device token.
+      return;
+    }
+    const auth = authOfAccount(account);
+    await api.savePushToken(auth, Platform.OS, pushToken);
+    dispatch(ackPushToken(pushToken, identityOfAccount(account)));
+  };
 
 /** Tell this account's server about our device token, if needed. */
 export const initNotifications = (): ThunkAction<Promise<void>> => async (
@@ -181,7 +180,7 @@ export const initNotifications = (): ThunkAction<Promise<void>> => async (
     return;
   }
   const account = getAccount(getState());
-  await sendPushToken(dispatch, account, pushToken);
+  await dispatch(sendPushToken(account, pushToken));
 };
 
 /** Tell all logged-in accounts' servers about our device token, as needed. */
@@ -191,7 +190,7 @@ const sendAllPushToken = (): GlobalThunkAction<Promise<void>> => async (dispatch
     return;
   }
   const accounts = getAccounts(getState());
-  await Promise.all(accounts.map(account => sendPushToken(dispatch, account, pushToken)));
+  await Promise.all(accounts.map(account => dispatch(sendPushToken(account, pushToken))));
 };
 
 /**
