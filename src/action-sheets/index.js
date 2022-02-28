@@ -40,6 +40,7 @@ import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
+import { draftUpdate } from '../drafts/draftsActions';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -79,6 +80,7 @@ type MessageArgs = {
   ownUser: User,
   message: Message | Outbox,
   dispatch: Dispatch,
+  narrow: Narrow,
   _: GetText,
   startEditMessage: (editMessage: EditMessage) => void,
   ...
@@ -110,6 +112,15 @@ const reply = ({ message, dispatch, ownUser }) => {
 };
 reply.title = 'Reply';
 reply.errorMessage = 'Failed to reply';
+
+const replyWithMention = ({ message, dispatch, ownUser, narrow }) => {
+  const replyNarrow = getNarrowForReply(message, ownUser.user_id);
+  const replyMessage = `@**${message.sender_full_name}|${message.sender_id}**`;
+  dispatch(draftUpdate(replyNarrow, replyMessage));
+  dispatch(doNarrow(replyNarrow, message.id));
+};
+replyWithMention.title = 'Reply with mention';
+replyWithMention.errorMessage = 'Failed to reply with mention';
 
 const copyToClipboard = async ({ _, auth, message }) => {
   const rawMessage = message.isOutbox
@@ -438,6 +449,9 @@ export const constructMessageActionButtons = ({
   }
   if (!isTopicNarrow(narrow) && !isPmNarrow(narrow)) {
     buttons.push(reply);
+  }
+  if (message.sender_id !== ownUser.user_id && !isPmNarrow(narrow) && !isTopicNarrow(narrow)) {
+    buttons.push(replyWithMention);
   }
   if (messageNotDeleted(message)) {
     buttons.push(copyToClipboard);
