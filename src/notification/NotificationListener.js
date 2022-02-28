@@ -110,7 +110,7 @@ export default class NotificationListener {
       // settle on a better, more consistent architecture, just grab
       // the token here and do the same thing our handler does (by
       // just calling the handler).
-      const token = await androidGetToken(this.dispatch);
+      const token = await this.dispatch(androidGetToken());
       if (token !== null) {
         this.handleDeviceToken(token);
       }

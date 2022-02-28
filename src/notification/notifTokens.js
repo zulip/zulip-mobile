@@ -30,7 +30,10 @@ import * as logging from '../utils/logging';
  *
  * Returns null (and logs a warning or error) if getting the token failed.
  */
-export const androidGetToken = async (dispatch: GlobalDispatch): Promise<mixed> => {
+export const androidGetToken = (): GlobalThunkAction<Promise<mixed>> => async (
+  dispatch,
+  getState,
+) => {
   try {
     return await NativeModules.Notifications.getToken();
   } catch (e) {
@@ -40,9 +43,7 @@ export const androidGetToken = async (dispatch: GlobalDispatch): Promise<mixed> 
     //
     // But maybe this can happen in other, non-transient situations too.
     // Log it so we can hope to find out if that's happening.
-    const ackedPushTokens = dispatch((_, getState) =>
-      getAccounts(getState()).map(a => a.ackedPushToken),
-    );
+    const ackedPushTokens = getAccounts(getState()).map(a => a.ackedPushToken);
     if (ackedPushTokens.some(t => t !== null) || ackedPushTokens.length === 0) {
       // It's probably a transient issue: we've previously gotten a
       // token (that we've even successfully sent to a server), or else
