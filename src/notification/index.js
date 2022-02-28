@@ -4,27 +4,11 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type {
-  Auth,
-  Dispatch,
-  GlobalDispatch,
-  Account,
-  Narrow,
-  Stream,
-  UserId,
-  UserOrBot,
-} from '../types';
+import type { GlobalDispatch, Account, Narrow, Stream, UserId, UserOrBot } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import type { JSONable, JSONableDict } from '../utils/jsonable';
-import * as api from '../api';
 import * as logging from '../utils/logging';
-import {
-  unackPushToken,
-  gotPushToken,
-  sendAllPushToken,
-  narrowToNotification,
-} from './notificationActions';
-import { identityOfAuth } from '../account/accountMisc';
+import { gotPushToken, sendAllPushToken, narrowToNotification } from './notificationActions';
 import { fromPushNotificationIOS } from './extract';
 import { tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
@@ -436,20 +420,5 @@ export const getNotificationToken = () => {
     PushNotificationIOS.requestPermissions();
   } else {
     // On Android, we do this at application startup.
-  }
-};
-
-export const tryStopNotifications = async (
-  auth: Auth,
-  token: string | null,
-  dispatch: Dispatch,
-) => {
-  if (token !== null) {
-    dispatch(unackPushToken(identityOfAuth(auth)));
-    try {
-      await api.forgetPushToken(auth, Platform.OS, token);
-    } catch (e) {
-      logging.warn(e);
-    }
   }
 };

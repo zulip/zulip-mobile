@@ -14,7 +14,6 @@ import type {
 import * as api from '../api';
 import {
   getNotificationToken,
-  tryStopNotifications as innerStopNotifications,
   getNarrowFromNotificationData,
   getAccountFromNotificationData,
 } from '.';
@@ -22,11 +21,12 @@ import type { Notification } from './types';
 import { getAuth, getStreamsByName } from '../selectors';
 import { getGlobalSession, getAccounts } from '../directSelectors';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
-import { identityOfAccount, authOfAccount } from '../account/accountMisc';
+import { identityOfAccount, authOfAccount, identityOfAuth } from '../account/accountMisc';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
 import { getAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
+import * as logging from '../utils/logging';
 
 export const gotPushToken = (pushToken: string | null): AccountIndependentAction => ({
   type: GOT_PUSH_TOKEN,
@@ -171,5 +171,12 @@ export const tryStopNotifications = (): ThunkAction<Promise<void>> => async (
 ) => {
   const auth = getAuth(getState());
   const { ackedPushToken } = getAccount(getState());
-  innerStopNotifications(auth, ackedPushToken, dispatch);
+  if (ackedPushToken !== null) {
+    dispatch(unackPushToken(identityOfAuth(auth)));
+    try {
+      await api.forgetPushToken(auth, Platform.OS, ackedPushToken);
+    } catch (e) {
+      logging.warn(e);
+    }
+  }
 };
