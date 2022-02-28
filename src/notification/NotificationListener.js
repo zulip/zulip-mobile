@@ -75,7 +75,7 @@ export default class NotificationListener {
 
   /** Private. */
   handleDeviceToken: mixed => Promise<void> = deviceToken =>
-    handleDeviceToken(deviceToken, this.dispatch);
+    this.dispatch(handleDeviceToken(deviceToken));
 
   /** Private. */
   handleIOSRegistrationFailure: NotificationRegistrationFailedEvent => void = err => {

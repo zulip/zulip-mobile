@@ -9,7 +9,6 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
 import type {
   Account,
-  GlobalDispatch,
   Identity,
   AccountIndependentAction,
   AllAccountsAction,
@@ -200,7 +199,9 @@ const sendAllPushToken = (): GlobalThunkAction<Promise<void>> => async (dispatch
  *   at the registration site to allow us to ensure it. As we've been burned
  *   by unexpected types here before, we do the validation explicitly.
  */
-export const handleDeviceToken = async (deviceToken: mixed, dispatch: GlobalDispatch) => {
+export const handleDeviceToken = (
+  deviceToken: mixed,
+): GlobalThunkAction<Promise<void>> => async dispatch => {
   // Null device tokens are known to occur (at least) on Android emulators
   // without Google Play services, and have been reported in other scenarios.
   // See https://stackoverflow.com/q/37517860 for relevant discussion.
