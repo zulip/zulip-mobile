@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { Store } from 'redux';
 
-import { cacheKeys } from '../../boot/store';
+import { historicalCacheKeys24 } from '../../storage/migrations';
 
 import type { Config, OverpromisedRehydrateAction, Persistor } from './types';
 import { REHYDRATE } from './constants';
@@ -65,7 +65,7 @@ export default function persistStore<
         // (because not-fully-migrated) data from #4458.
         // TODO: A proper, non-hacky fix, as Greg describes at
         //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4458.3A.20.22t.2Eget.20is.20not.20a.20function.22.20on.20state.2Enarrows.20at.20sta.2E.2E.2E/near/1119541.
-        await persistor.purge(cacheKeys);
+        await persistor.purge(historicalCacheKeys24);
       }
 
       // This fixme is how we make the impossible promise in

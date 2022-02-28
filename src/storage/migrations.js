@@ -34,6 +34,18 @@ export const historicalStoreKeys: $ReadOnlyArray<$Keys<StoreKeysState>> = [
 ];
 
 /**
+ * The value of `cacheKeys` as of migration 24.
+ */
+// prettier-ignore
+export const historicalCacheKeys24: $ReadOnlyArray<$Keys<GlobalState>> = [
+  // Never edit this list.
+  'flags', 'messages', 'mute', 'narrows', 'pmConversations', 'realm', 'streams',
+  'subscriptions', 'unread', 'userGroups', 'users',
+  // Why never edit?  Much like for `historicalStoreKeys` above, but in this
+  // case this is about a one-off migration we don't expect to repeat.
+];
+
+/**
  * Drop all server data, as a rehydrate-time migration.
  *
  * For any change to our Redux state affecting the data we fetch from the
