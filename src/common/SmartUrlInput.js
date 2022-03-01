@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   value: string,
-  onSubmitEditing: () => Promise<void>,
+  onSubmitEditing: () => void,
   enablesReturnKeyAutomatically: boolean,
 |}>;
 
