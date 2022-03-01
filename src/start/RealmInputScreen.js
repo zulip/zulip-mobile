@@ -33,7 +33,11 @@ export default function RealmInputScreen(props: Props): Node {
   const { navigation } = props;
 
   const [progress, setProgress] = useState<boolean>(false);
+
+  // Prepopulate with "https://"; not everyone has memorized that sequence
+  // of characters.
   const [realmInputValue, setRealmInputValue] = useState<string>('');
+
   const [error, setError] = useState<string | null>(null);
 
   const tryRealm = useCallback(async () => {
@@ -85,6 +89,7 @@ export default function RealmInputScreen(props: Props): Node {
         style={styles.input}
         navigation={navigation}
         onChangeText={setRealmInputValue}
+        value={realmInputValue}
         onSubmitEditing={tryRealm}
         enablesReturnKeyAutomatically
       />

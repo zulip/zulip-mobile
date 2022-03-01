@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useState, useRef, useCallback, useContext } from 'react';
+import React, { useRef, useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { TextInput, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -28,20 +28,19 @@ type Props = $ReadOnly<{|
 
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
+  value: string,
   onSubmitEditing: () => Promise<void>,
   enablesReturnKeyAutomatically: boolean,
 |}>;
 
 export default function SmartUrlInput(props: Props): Node {
-  const { style, onChangeText, onSubmitEditing, enablesReturnKeyAutomatically } = props;
+  const { style, onChangeText, value, onSubmitEditing, enablesReturnKeyAutomatically } = props;
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
   const textInputRef = useRef<$FlowFixMe>();
-
-  const [value, setValue] = useState<string>('');
 
   const themeContext = useContext(ThemeContext);
 
@@ -65,14 +64,6 @@ export default function SmartUrlInput(props: Props): Node {
     }, []),
   );
 
-  const handleChange = useCallback(
-    (_value: string) => {
-      setValue(_value);
-      onChangeText(_value);
-    },
-    [onChangeText],
-  );
-
   return (
     <View style={[styles.wrapper, style]}>
       <TextInput
@@ -84,7 +75,7 @@ export default function SmartUrlInput(props: Props): Node {
         autoCorrect={false}
         autoCapitalize="none"
         returnKeyType="go"
-        onChangeText={handleChange}
+        onChangeText={onChangeText}
         blurOnSubmit={false}
         keyboardType="url"
         underlineColorAndroid="transparent"
