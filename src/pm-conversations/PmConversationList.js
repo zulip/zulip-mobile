@@ -52,7 +52,6 @@ export default function PmConversationList(props: Props): Node {
       style={styles.list}
       initialNumToRender={20}
       data={conversations}
-      keyExtractor={item => item.key}
       renderItem={({ item }) => {
         const users = item.keyRecipients;
         if (users.length === 1) {

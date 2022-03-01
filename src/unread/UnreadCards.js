@@ -70,7 +70,6 @@ export default function UnreadCards(props: Props): Node {
       stickySectionHeadersEnabled
       initialNumToRender={20}
       sections={unreadCards}
-      keyExtractor={item => item.key}
       renderSectionHeader={({ section }) =>
         section.key === 'private' ? null : (
           <StreamItem

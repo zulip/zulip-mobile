@@ -31,7 +31,6 @@ export default function StorageScreen(props: Props): Node {
     <Screen title="Storage" scrollEnabled={false}>
       <FlatList
         data={storageSizes}
-        keyExtractor={item => item.key}
         renderItem={({ item }) => <SizeItem text={item.key} size={item.size} />}
       />
     </Screen>
