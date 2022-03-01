@@ -296,10 +296,10 @@ private fun updateNotification(
 
         setNumber(messagingStyle.messages.size)
 
-        extras = Bundle().apply {
+        setExtras(Bundle().apply {
             // We use this for deciding when a RemoveFcmMessage should clear this notification.
             putInt("lastZulipMessageId", fcmMessage.zulipMessageId)
-        }
+        })
 
         // Our own code doesn't look at the message details in this URL,
         // the "data URL" we put on the intent.  Instead, we get data from
