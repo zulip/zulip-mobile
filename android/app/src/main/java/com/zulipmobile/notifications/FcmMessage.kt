@@ -51,7 +51,7 @@ sealed class Recipient {
      * pmUsers: the user IDs of all users in the conversation.
      */
     data class GroupPm(val pmUsers: Set<Int>) : Recipient() {
-        fun getPmUsersString() = pmUsers.sorted().joinToString(separator=",") { it.toString() }
+        fun getPmUsersString() = pmUsers.sorted().joinToString(separator = ",") { it.toString() }
     }
 
     /** A stream message. */
@@ -139,7 +139,8 @@ data class MessageFcmMessage(
                 "stream" ->
                     Recipient.Stream(
                         data.require("stream"),
-                        data.require("topic"))
+                        data.require("topic")
+                    )
                 "private" ->
                     data["pm_users"]?.parseCommaSeparatedInts("pm_users")?.let {
                         Recipient.GroupPm(it.toSet())

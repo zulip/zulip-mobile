@@ -85,7 +85,7 @@ class TextCompressionModule extends ReactContextBaseJavaModule {
       inflater.end();
       outputStream.close();
       promise.resolve(outputStream.toString("UTF-8"));
-    } catch(java.io.UnsupportedEncodingException e) {
+    } catch (java.io.UnsupportedEncodingException e) {
       promise.reject("UNSUPPORTED_ENCODING_EXCEPTION", e);
     } catch (IOException e) {
       promise.reject("IO_EXCEPTION", e);

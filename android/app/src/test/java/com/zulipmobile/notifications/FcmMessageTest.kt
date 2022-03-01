@@ -55,12 +55,13 @@ class FcmMessageTest : FcmMessageTestBase() {
 class RecipientTest : FcmMessageTestBase() {
     @Test
     fun `GroupPm#getPmUsersString gives the correct string`() {
-        expect.that(Recipient.GroupPm(pmUsers = setOf(123,234,345)).getPmUsersString())
+        expect.that(Recipient.GroupPm(pmUsers = setOf(123, 234, 345)).getPmUsersString())
             .isEqualTo("123,234,345")
     }
+
     @Test
     fun `GroupPm#getPmUsersString correctly reorders user ids`() {
-        expect.that(Recipient.GroupPm(pmUsers = setOf(234,123,23,345)).getPmUsersString())
+        expect.that(Recipient.GroupPm(pmUsers = setOf(234, 123, 23, 345)).getPmUsersString())
             .isEqualTo("23,123,234,345")
     }
 }
