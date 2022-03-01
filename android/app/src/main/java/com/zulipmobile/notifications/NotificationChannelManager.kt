@@ -41,7 +41,8 @@ fun Context.resourceUrl(resourceId: Int): Uri = with(resources) {
 }
 
 private enum class NotificationSound constructor(
-    val resourceId: Int, val fileDisplayName: String) {
+    val resourceId: Int, val fileDisplayName: String,
+) {
     chime2(R.raw.chime2, "Zulip - Low Chime.m4a"),
     chime3(R.raw.chime3, "Zulip - Chime.m4a"),
     chime4(R.raw.chime4, "Zulip - High Chime.m4a"),

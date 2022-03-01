@@ -25,7 +25,7 @@ data class Identity(
 
     /// This user's ID within the server.  Useful mainly in the case where
     /// the user has multiple accounts in the same org.
-    val userId: Int?
+    val userId: Int?,
 )
 
 /**
@@ -35,7 +35,7 @@ data class Sender(
     val id: Int,
     val email: String,
     val avatarURL: URL,
-    val fullName: String
+    val fullName: String,
 )
 
 /**
@@ -102,7 +102,7 @@ data class MessageFcmMessage(
     val zulipMessageId: Int,
     val recipient: Recipient,
     val content: String,
-    val timeMs: Long
+    val timeMs: Long,
 ) : FcmMessage() {
 
     /**
@@ -170,7 +170,7 @@ data class MessageFcmMessage(
 
 data class RemoveFcmMessage(
     val identity: Identity,
-    val messageIds: Set<Int>
+    val messageIds: Set<Int>,
 ) : FcmMessage() {
     companion object {
         fun fromFcmData(data: Map<String, String>): RemoveFcmMessage {

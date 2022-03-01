@@ -230,7 +230,8 @@ fun fetchBitmap(url: URL): Bitmap? {
 
 /** Handle a MessageFcmMessage, adding or extending notifications in the UI. */
 private fun updateNotification(
-    context: Context, fcmMessage: MessageFcmMessage) {
+    context: Context, fcmMessage: MessageFcmMessage,
+) {
     // We have an FCM message telling us about a Zulip message.  We'll add
     // a message (in the Android NotificationCompat.MessagingStyle.Message sense)
     // to the notification for that Zulip message's conversation.  We create

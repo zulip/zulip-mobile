@@ -12,6 +12,9 @@
       </option>
       <option name="JD_P_AT_EMPTY_LINES" value="false" />
     </JavaCodeStyleSettings>
+    <JetCodeStyleSettings>
+      <option name="ALLOW_TRAILING_COMMA" value="true" />
+    </JetCodeStyleSettings>
     <Properties>
       <option name="KEEP_BLANK_LINES" value="true" />
     </Properties>
