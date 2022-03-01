@@ -112,13 +112,17 @@ export const fromAPNsImpl = (data: ?JSONableDict): Notification | void => {
   };
 
   if (recipient_type === 'stream') {
-    const { stream: stream_name, topic } = zulip;
+    const { stream: stream_name, stream_id, topic } = zulip;
     if (typeof stream_name !== 'string' || typeof topic !== 'string') {
+      throw err('invalid');
+    }
+    if (stream_id !== undefined && typeof stream_id !== 'number') {
       throw err('invalid');
     }
     return {
       ...identity,
       recipient_type: 'stream',
+      ...((stream_id !== undefined ? { stream_id } : Object.freeze({})): { stream_id?: number }),
       stream_name,
       topic,
     };

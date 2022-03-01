@@ -55,8 +55,7 @@ sealed class Recipient {
 
     /** A stream message. */
     // TODO(server-5.0): Require the stream ID (#3918).
-    // TODO(#3918): Get the stream ID, when present.
-    data class Stream(val streamName: String, val topic: String) : Recipient()
+    data class Stream(val streamId: Int?, val streamName: String, val topic: String) : Recipient()
 }
 
 /**
@@ -125,6 +124,7 @@ data class MessageFcmMessage(
             when (recipient) {
                 is Recipient.Stream -> {
                     list.add("recipient_type" to "stream")
+                    recipient.streamId?.let { list.add("stream_id" to it) }
                     list.add("stream_name" to recipient.streamName)
                     list.add("topic" to recipient.topic)
                 }
@@ -145,6 +145,7 @@ data class MessageFcmMessage(
             val recipient = when (recipientType) {
                 "stream" ->
                     Recipient.Stream(
+                        data["stream_id"]?.parseInt("stream_id"),
                         data.require("stream"),
                         data.require("topic")
                     )

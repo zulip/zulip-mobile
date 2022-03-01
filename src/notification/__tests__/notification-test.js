@@ -79,7 +79,20 @@ describe('getNarrowFromNotificationData', () => {
 
 describe('extract iOS notification data', () => {
   const barebones = deepFreeze({
-    stream: { recipient_type: 'stream', stream: 'announce', topic: 'New channel', realm_uri },
+    // TODO(server-5.0): this will become an error case
+    'stream, no ID': {
+      recipient_type: 'stream',
+      stream: 'announce',
+      topic: 'New channel',
+      realm_uri,
+    },
+    stream: {
+      recipient_type: 'stream',
+      stream_id: 234,
+      stream: 'announce',
+      topic: 'New channel',
+      realm_uri,
+    },
     '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com', realm_uri },
     'group PM': { recipient_type: 'private', pm_users: '54,321', realm_uri },
   });
@@ -169,6 +182,7 @@ describe('extract iOS notification data', () => {
 
     test('optional data is typechecked', () => {
       expect(make({ ...barebones.stream, realm_uri: null })).toThrow(/invalid/);
+      expect(make({ ...barebones.stream, stream_id: '234' })).toThrow(/invalid/);
       expect(make({ ...barebones['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
         /invalid/,
       );

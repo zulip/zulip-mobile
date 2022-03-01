@@ -86,6 +86,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
         val stream = base.plus(sequenceOf(
             "recipient_type" to "stream",
+            "stream_id" to "42",
             "stream" to "denmark",
             "topic" to "play",
 
@@ -131,6 +132,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
                 ),
                 zulipMessageId = 12345,
                 recipient = Recipient.Stream(
+                    streamId = Example.stream["stream_id"]!!.toInt(),
                     streamName = Example.stream["stream"]!!,
                     topic = Example.stream["topic"]!!
                 ),
@@ -152,6 +154,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             "realm_uri" to Example.stream["realm_uri"]!!,
             "user_id" to Example.stream["user_id"]!!.toInt(),
             "recipient_type" to "stream",
+            "stream_id" to Example.stream["stream_id"]!!.toInt(),
             "stream_name" to Example.stream["stream"]!!,
             "topic" to Example.stream["topic"]!!,
         ))
@@ -171,6 +174,11 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
 
     @Test
     fun `optional fields missing cause no error`() {
+        expect.that(parse(Example.stream.minus("stream_id")).recipient).isEqualTo(Recipient.Stream(
+            streamId = null,
+            streamName = Example.stream["stream"]!!,
+            topic = Example.stream["topic"]!!
+        ))
         expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
     }
 
@@ -180,11 +188,14 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             "realm_uri" to Example.stream["realm_uri"]!!,
             "user_id" to Example.stream["user_id"]!!.toInt(),
             "recipient_type" to "stream",
+            "stream_id" to Example.stream["stream_id"]!!.toInt(),
             "stream_name" to Example.stream["stream"]!!,
             "topic" to Example.stream["topic"]!!,
         )
         expect.that(dataForOpen(Example.stream.minus("user_id")))
             .isEqualTo(baseExpected.minus("user_id"))
+        expect.that(dataForOpen(Example.stream.minus("stream_id")))
+            .isEqualTo(baseExpected.minus("stream_id"))
     }
 
     @Test
@@ -206,6 +217,8 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
 
         assertParseFails(Example.stream.minus("recipient_type"))
+        assertParseFails(Example.stream.plus("stream_id" to "12,34"))
+        assertParseFails(Example.stream.plus("stream_id" to "abc"))
         assertParseFails(Example.stream.minus("stream"))
         assertParseFails(Example.stream.minus("topic"))
         assertParseFails(Example.groupPm.minus("recipient_type"))

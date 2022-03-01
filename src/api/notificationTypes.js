@@ -58,7 +58,7 @@ type StreamData = {|
   +stream: string,
 
   // TODO(server-5.0): Require stream_id (#3918).
-  // +stream_id?: number, // TODO(#3918): Add this, and use it.
+  +stream_id?: number,
 
   +topic: string,
 |};

@@ -19,11 +19,16 @@ type NotificationBase = {|
  */
 // NOTE: Keep the Android-side code in sync with this type definition.
 export type Notification =
-  // TODO(server-5.0): Rely on stream ID (#3918).  (We'll still want the
-  //   stream name, as a hint for display in case the stream is unknown;
-  //   see comment in getNarrowFromNotificationData.)
-  // TODO(#3918): Add stream_id.
-  | {| ...NotificationBase, recipient_type: 'stream', stream_name: string, topic: string |}
+  | {|
+      ...NotificationBase,
+      recipient_type: 'stream',
+      // TODO(server-5.0): Rely on stream ID (#3918).  (We'll still want the
+      //   stream name, as a hint for display in case the stream is unknown;
+      //   see comment in getNarrowFromNotificationData.)
+      stream_id?: number,
+      stream_name: string,
+      topic: string,
+    |}
   // Group PM messages have `pm_users`, which is sorted, comma-separated IDs.
   | {| ...NotificationBase, recipient_type: 'private', pm_users: string |}
   // 1:1 PM messages lack `pm_users`.
