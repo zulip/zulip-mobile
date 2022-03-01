@@ -1,9 +1,14 @@
 package com.zulipmobile.notifications;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.util.Log;
-import com.facebook.react.bridge.*;
+import androidx.annotation.Nullable;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import static com.zulipmobile.notifications.NotificationUiManager.TAG;

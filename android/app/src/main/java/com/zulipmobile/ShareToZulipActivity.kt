@@ -1,10 +1,9 @@
 package com.zulipmobile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.content.ComponentName;
-import android.os.Bundle;
+import android.content.ComponentName
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 /// The activity for when a user shares to Zulip from another app.
 ///

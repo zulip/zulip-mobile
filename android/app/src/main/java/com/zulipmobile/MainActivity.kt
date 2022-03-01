@@ -4,14 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import com.facebook.react.ReactActivity
-import com.facebook.react.ReactActivityDelegate;
-import com.facebook.react.ReactRootView;
+import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.ReactApplication
+import com.facebook.react.ReactRootView
 import com.facebook.react.bridge.ReactContext
-import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView
 import com.zulipmobile.notifications.*
 import com.zulipmobile.sharing.handleSend
-import expo.modules.ReactActivityDelegateWrapper;
+import expo.modules.ReactActivityDelegateWrapper
 
 // A convenience shortcut.
 fun ReactApplication.tryGetReactContext(): ReactContext? =
