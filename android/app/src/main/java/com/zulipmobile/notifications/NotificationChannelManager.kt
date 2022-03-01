@@ -82,7 +82,8 @@ private fun ensureInitNotificationSounds(context: Context): Uri {
     // First, look to see what notification sounds we've already stored,
     // and check against our list of sounds we have.
 
-    val soundsTodo = NotificationSound.values().map { it.fileDisplayName to it }.toMap().toMutableMap()
+    val soundsTodo =
+        NotificationSound.values().map { it.fileDisplayName to it }.toMap().toMutableMap()
     // Query and cursor-loop based on: https://developer.android.com/training/data-storage/shared/media#query-collection
     val cursor = resolver.query(
         collection,
@@ -103,7 +104,8 @@ private fun ensureInitNotificationSounds(context: Context): Uri {
         // default sound, then use it as the default sound.
         val ownerPackageName = cursor.getString(ownerColumn)
         if (name == kDefaultNotificationSound.fileDisplayName
-            && ownerPackageName == context.packageName) {
+            && ownerPackageName == context.packageName
+        ) {
             val id = cursor.getLong(idColumn)
             defaultSoundUrl = ContentUris.withAppendedId(collection, id)
         }

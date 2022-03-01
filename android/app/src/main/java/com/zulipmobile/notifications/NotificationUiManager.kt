@@ -142,7 +142,8 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
         if (fcmMessage.messageIds.contains(lastMessageId)) {
             // The latest Zulip message in this conversation was read.
             // That's our cue to cancel the notification for the conversation.
-            NotificationManagerCompat.from(context).cancel(statusBarNotification.tag, statusBarNotification.id)
+            NotificationManagerCompat.from(context)
+                .cancel(statusBarNotification.tag, statusBarNotification.id)
         } else {
             // This notification is for another conversation that's still unread.
             // We won't cancel the summary notification.

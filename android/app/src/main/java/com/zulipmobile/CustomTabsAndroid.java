@@ -16,7 +16,7 @@ import java.util.List;
 
 class CustomTabsAndroid extends ReactContextBaseJavaModule {
 
-    private ReactApplicationContext context;
+    private final ReactApplicationContext context;
 
 
     CustomTabsAndroid(ReactApplicationContext reactContext) {
