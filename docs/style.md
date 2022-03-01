@@ -654,7 +654,7 @@ import * as api from '../api';
 
 // …
 
-    api.subscriptionAdd(auth, [{ name: stream.name }]);
+    const response = await api.uploadFile(auth, url, name);
 
 ```
 
@@ -662,12 +662,12 @@ rather than like this:
 
 ```js
 // BAD
-import subscriptionAdd from '../api/subscriptions/subscriptionAdd';
+import uploadFile from '../api/uploadFile.js;
 
 // …
 
     // BAD
-    subscriptionAdd(auth, [{ name: stream.name }]);
+    const response = await uploadFile(auth, url, name);
 ```
 
 We do this because a lot of the names in our API bindings are also
