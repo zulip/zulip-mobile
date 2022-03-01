@@ -1,6 +1,7 @@
 package com.zulipmobile.notifications
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
@@ -87,6 +88,13 @@ sealed class FcmMessage {
     }
 }
 
+// This exists mainly to give a properly-typed wrapper around ArrayList#toArray.
+inline fun <reified T> buildArray(block: (ArrayList<T>) -> Unit): Array<T> {
+    val result = arrayListOf<T>()
+    block(result)
+    return result.toArray(arrayOf<T>())
+}
+
 /**
  * Parsed version of an FCM message of type `message`.
  *
@@ -111,26 +119,27 @@ data class MessageFcmMessage(
      * For the corresponding type definition on the JS side, see `Notification`
      * in `src/notification/types.js`.
      */
-    fun dataForOpen(): Bundle = Bundle().apply {
+    fun dataForOpen(): Bundle =
         // NOTE: Keep the JS-side type definition in sync with this code.
-        putString("realm_uri", identity.realmUri.toString())
-        identity.userId?.let { putInt("user_id", it) }
-        when (recipient) {
-            is Recipient.Stream -> {
-                putString("recipient_type", "stream")
-                putString("stream_name", recipient.streamName)
-                putString("topic", recipient.topic)
+        bundleOf(*buildArray { list ->
+            list.add("realm_uri" to identity.realmUri.toString())
+            identity.userId?.let { list.add("user_id" to it) }
+            when (recipient) {
+                is Recipient.Stream -> {
+                    list.add("recipient_type" to "stream")
+                    list.add("stream_name" to recipient.streamName)
+                    list.add("topic" to recipient.topic)
+                }
+                is Recipient.GroupPm -> {
+                    list.add("recipient_type" to "private")
+                    list.add("pm_users" to recipient.getPmUsersString())
+                }
+                is Recipient.Pm -> {
+                    list.add("recipient_type" to "private")
+                    list.add("sender_email" to sender.email)
+                }
             }
-            is Recipient.GroupPm -> {
-                putString("recipient_type", "private")
-                putString("pm_users", recipient.getPmUsersString())
-            }
-            is Recipient.Pm -> {
-                putString("recipient_type", "private")
-                putString("sender_email", sender.email)
-            }
-        }
-    }
+        })
 
     companion object {
         fun fromFcmData(data: Map<String, String>): MessageFcmMessage {
