@@ -193,14 +193,19 @@ private fun extractGroupKey(identity: Identity): String {
 private fun extractConversationKey(fcmMessage: MessageFcmMessage): String {
     val groupKey = extractGroupKey(fcmMessage.identity)
     val conversation = when (fcmMessage.recipient) {
-        // So long as this uses the stream name, we use `\u0000` as the delimiter because
-        // it's the one character not allowed in Zulip stream names.
-        // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
         // TODO(server-5.0): Rely on the stream ID (#3918).
-        // TODO(#3918): When we have the stream ID, use that here instead of the
-        //   stream name, so things stay together if the stream is renamed.
-        //   See: https://github.com/zulip/zulip/issues/18067
-        is Recipient.Stream -> "stream:${fcmMessage.recipient.streamName}\u0000${fcmMessage.recipient.topic}"
+        is Recipient.Stream -> when (fcmMessage.recipient.streamId) {
+            // When using the stream name, we use `\u0000` as the delimiter because
+            // it's the one character not allowed in Zulip stream names.
+            // (See `check_stream_name` in zulip.git:zerver/lib/streams.py.)
+            null -> "stream:${fcmMessage.recipient.streamName}\u0000${fcmMessage.recipient.topic}"
+
+            // The conditional use of streamId means a slight glitch: when upgrading either the
+            // client or server (whichever comes later) so that we start using stream IDs, any
+            // existing notifications from before the upgrade won't get threaded together with new
+            // ones.  That seems OK; after all it's inherently transient.
+            else -> "stream:${fcmMessage.recipient.streamId}:${fcmMessage.recipient.topic}"
+        }
         is Recipient.GroupPm -> "groupPM:${fcmMessage.recipient.pmUsers.toString()}"
         is Recipient.Pm -> "private:${fcmMessage.sender.id}"
     }
