@@ -76,7 +76,12 @@ declare var Clipboard: {
    * }
    * ```
    */
-  hasString(): $FlowFixMe, // `any` in TypeScript upstream :(
+  // In the TS upstream, this is `any`. But reading code in 1.8.5, the
+  // resolve value is always a boolean:
+  //   [NSNumber numberWithBool: …]
+  // (NSNumber is a funny way of saying boolean; it's a "boxed value":
+  //   https://clang.llvm.org/docs/ObjectiveCLiterals.html )
+  hasString(): Promise<boolean>,
 
   /**
    * Returns whether the clipboard has an image or is empty.
@@ -87,7 +92,12 @@ declare var Clipboard: {
    * }
    * ```
    */
-  hasImage(): $FlowFixMe, // `any` in TypeScript upstream :(
+  // In the TS upstream, this is `any`. But reading code in 1.8.5, the
+  // resolve value is always a boolean:
+  //   [NSNumber numberWithBool: …]
+  // (NSNumber is a funny way of saying boolean; it's a "boxed value":
+  //   https://clang.llvm.org/docs/ObjectiveCLiterals.html )
+  hasImage(): Promise<boolean>,
 
   /**
    * (IOS Only)
@@ -100,7 +110,12 @@ declare var Clipboard: {
    * }
    * ```
    */
-  hasURL(): $FlowFixMe, // `any` in TypeScript upstream :(
+  // In the TS upstream, this is `any`. But reading code in 1.8.5, the
+  // resolve value is always a boolean:
+  //   [NSNumber numberWithBool: …]
+  // (NSNumber is a funny way of saying boolean; it's a "boxed value":
+  //   https://clang.llvm.org/docs/ObjectiveCLiterals.html )
+  hasURL(): Promise<boolean>,
 
   /**
    * (IOS 14+ Only)
@@ -113,7 +128,12 @@ declare var Clipboard: {
    * }
    * ```
    */
-  hasNumber(): $FlowFixMe, // `any` in TypeScript upstream :(
+  // In the TS upstream, this is `any`. But reading code in 1.8.5, the
+  // resolve value is always a boolean:
+  //   [NSNumber numberWithBool: …]
+  // (NSNumber is a funny way of saying boolean; it's a "boxed value":
+  //   https://clang.llvm.org/docs/ObjectiveCLiterals.html )
+  hasNumber(): Promise<boolean>,
 
   /**
    * (IOS 14+ Only)
@@ -126,7 +146,12 @@ declare var Clipboard: {
    * }
    * ```
    */
-  hasWebURL(): $FlowFixMe, // `any` in TypeScript upstream :(
+  // In the TS upstream, this is `any`. But reading code in 1.8.5, the
+  // resolve value is always a boolean:
+  //   [NSNumber numberWithBool: …]
+  // (NSNumber is a funny way of saying boolean; it's a "boxed value":
+  //   https://clang.llvm.org/docs/ObjectiveCLiterals.html )
+  hasWebURL(): Promise<boolean>,
 
   /**
    * (iOS and Android Only)
