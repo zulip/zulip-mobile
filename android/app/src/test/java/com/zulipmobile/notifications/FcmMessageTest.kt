@@ -115,6 +115,9 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     private fun parse(data: Map<String, String>) =
         FcmMessage.fromFcmData(data) as MessageFcmMessage
 
+    private fun dataForOpen(data: Map<String, String>) =
+        mapOf(*parse(data).dataForOpen())
+
     @Test
     fun `fields get parsed right in 'message' happy path`() {
         expect.that(parse(Example.stream)).isEqualTo(
@@ -144,8 +147,44 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
     }
 
     @Test
+    fun `dataForOpen works right in happy path`() {
+        expect.that(dataForOpen(Example.stream)).isEqualTo(mapOf(
+            "realm_uri" to Example.stream["realm_uri"]!!,
+            "user_id" to Example.stream["user_id"]!!.toInt(),
+            "recipient_type" to "stream",
+            "stream_name" to Example.stream["stream"]!!,
+            "topic" to Example.stream["topic"]!!,
+        ))
+        expect.that(dataForOpen(Example.groupPm)).isEqualTo(mapOf(
+            "realm_uri" to Example.groupPm["realm_uri"]!!,
+            "user_id" to Example.groupPm["user_id"]!!.toInt(),
+            "recipient_type" to "private",
+            "pm_users" to "123,234,345",
+        ))
+        expect.that(dataForOpen(Example.pm)).isEqualTo(mapOf(
+            "realm_uri" to Example.pm["realm_uri"]!!,
+            "user_id" to Example.pm["user_id"]!!.toInt(),
+            "recipient_type" to "private",
+            "sender_email" to Example.pm["sender_email"]!!,
+        ))
+    }
+
+    @Test
     fun `optional fields missing cause no error`() {
         expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
+    }
+
+    @Test
+    fun `dataForOpen leaves out optional fields missing in input`() {
+        val baseExpected = mapOf(
+            "realm_uri" to Example.stream["realm_uri"]!!,
+            "user_id" to Example.stream["user_id"]!!.toInt(),
+            "recipient_type" to "stream",
+            "stream_name" to Example.stream["stream"]!!,
+            "topic" to Example.stream["topic"]!!,
+        )
+        expect.that(dataForOpen(Example.stream.minus("user_id")))
+            .isEqualTo(baseExpected.minus("user_id"))
     }
 
     @Test
