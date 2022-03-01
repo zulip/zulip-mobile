@@ -1,7 +1,5 @@
 package com.zulipmobile.notifications
 
-import android.os.Bundle
-import androidx.core.os.bundleOf
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
@@ -119,9 +117,9 @@ data class MessageFcmMessage(
      * For the corresponding type definition on the JS side, see `Notification`
      * in `src/notification/types.js`.
      */
-    fun dataForOpen(): Bundle =
+    fun dataForOpen(): Array<Pair<String, Any?>> =
         // NOTE: Keep the JS-side type definition in sync with this code.
-        bundleOf(*buildArray { list ->
+        buildArray { list ->
             list.add("realm_uri" to identity.realmUri.toString())
             identity.userId?.let { list.add("user_id" to it) }
             when (recipient) {
@@ -139,7 +137,7 @@ data class MessageFcmMessage(
                     list.add("sender_email" to sender.email)
                 }
             }
-        })
+        }
 
     companion object {
         fun fromFcmData(data: Map<String, String>): MessageFcmMessage {

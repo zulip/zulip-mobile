@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.os.bundleOf
 import com.zulipmobile.BuildConfig
 import com.zulipmobile.MainActivity
 import com.zulipmobile.R
@@ -334,7 +335,7 @@ private fun updateNotification(
                         //   all the activities on top of the target one.
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     )
-                    .putExtra(EXTRA_NOTIFICATION_DATA, fcmMessage.dataForOpen()),
+                    .putExtra(EXTRA_NOTIFICATION_DATA, bundleOf(*fcmMessage.dataForOpen())),
                 PendingIntent.FLAG_IMMUTABLE))
         setAutoCancel(true)
     }.build()
