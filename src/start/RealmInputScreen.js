@@ -63,10 +63,6 @@ export default function RealmInputScreen(props: Props): Node {
     }
   }, [realmInputValue]);
 
-  const handleRealmChange = useCallback(value => {
-    setRealmInputValue(value);
-  }, []);
-
   const { navigation } = props;
 
   const styles = {
@@ -88,7 +84,7 @@ export default function RealmInputScreen(props: Props): Node {
       <SmartUrlInput
         style={styles.input}
         navigation={navigation}
-        onChangeText={handleRealmChange}
+        onChangeText={setRealmInputValue}
         onSubmitEditing={tryRealm}
         enablesReturnKeyAutomatically
       />
