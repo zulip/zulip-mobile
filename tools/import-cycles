@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s globstar
+
+# Tool to explore import cycles, as seen by Flow.
+#
+# Basic usage:
+#
+#       # See what cycles exist:
+#   $ tools/import-cycles
+#
+#       # Then pick one and investigate:
+#   $ tools/import-cycles inspect src/foo/bar.js
+#
+# Look for edges that seem like they're pointing in the wrong
+# direction, e.g. pointing out from subsystems that should be
+# self-contained.  Then try cutting them and rerunning.
+#
+# Tip: To quickly find out how helpful it'd be to cut a given edge,
+# just comment that import out (even though it causes an error where
+# it's used) and rerun.
+#
+# NB these cycles generally do *not* mean an import cycle in the
+# transpiled runtime code.  To specifically find those, use the
+# ESLint rule import/no-cycle.
+
+this_file=$(readlink -f "$0")
+rootdir=${this_file%/*/*}
+
+bindir=${rootdir}/node_modules/.bin
+
+# List all the files and import-edges in this file's cycle-blob.
+#
+# If this file doesn't participate in any (nontrivial) import cycles,
+# then the output is empty.
+inspect_blob()
+{
+    local f="$1";
+    "${bindir}"/flow cycle --strip-root "${f}"
+}
+
+# List the files that participate in a cycle-blob with this one.
+#
+# If this file doesn't participate in any (nontrivial) import cycles,
+# then the output is empty.
+blob_at()
+{
+    local f="$1";
+    inspect_blob "${f}" \
+        | perl -lane 'print $1 if (/"(.*?)"/)' \
+        | sort -u
+}
+
+# List at least one file from each cycle-blob.
+#
+# Note this may not include all the files that participate in import
+# cycles, even if it includes most of them.
+survey()
+{
+    "${rootdir}"/tools/tsort-modules pairs \
+        | tsort 2>&1 >/dev/null \
+        | sort -u \
+        | perl -lne 'print $1 if (/ (.*\.js)$/)' \
+    || :  # expect tsort to fail
+}
+
+# List all the (nontrivial) import cycle-blobs.
+#
+# That is, all the strongly-connected components of the import graph,
+# other than those consisting of a single node.
+list_blobs()
+{
+    local tmpdir f
+    tmpdir="$(mktemp -d)"
+
+    survey >"${tmpdir}"/survey
+
+    cp "${tmpdir}"/survey "${tmpdir}"/todo
+    while [ -s "${tmpdir}"/todo ]; do
+        read -r f <"${tmpdir}"/todo
+        blob_at "${f}" | tee -a "${tmpdir}"/found
+        echo
+
+        grep -vxFf "${tmpdir}"/found "${tmpdir}"/survey >"${tmpdir}"/todo
+    done
+}
+
+case "${1:-}" in
+    inspect) inspect_blob "$2";;
+    at) blob_at "$2";;
+    survey) survey;;
+    ''|list) list_blobs;;
+esac
