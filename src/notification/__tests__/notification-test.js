@@ -30,6 +30,22 @@ describe('getNarrowFromNotificationData', () => {
     const notification = {
       realm_uri,
       recipient_type: 'stream',
+      stream_id: eg.stream.stream_id,
+      // Name points to some other stream, but the ID prevails.
+      stream_name: 'some stream',
+      topic: 'some topic',
+    };
+    const narrow = getNarrowFromNotificationData(notification, new Map(), streamsByName, ownUserId);
+    expect(narrow).toEqual(topicNarrow(eg.stream.stream_id, 'some topic'));
+  });
+
+  test('recognizes stream notification missing stream_id', () => {
+    // TODO(server-5.0): this test's data will become ill-typed; delete it
+    const stream = eg.makeStream({ name: 'some stream' });
+    const streamsByName = new Map([[stream.name, stream]]);
+    const notification = {
+      realm_uri,
+      recipient_type: 'stream',
       stream_name: 'some stream',
       topic: 'some topic',
     };

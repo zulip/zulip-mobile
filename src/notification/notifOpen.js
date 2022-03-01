@@ -137,9 +137,7 @@ export const getNarrowFromNotificationData = (
   //   created, and we haven't yet learned about it in the event queue; see
   //   e068771d7, which fixed this issue for group PMs.)
   //
-  //   This version just silently ignores the notification.
-  //
-  //   A nicer version would navigate to ChatScreen for that unknown
+  //   A nice version would navigate to ChatScreen for that unknown
   //   conversation, which would show InvalidNarrow (with its sensible error
   //   message) and whatever the notification did tell us about the
   //   stream/user: in particular, the stream name.
@@ -148,10 +146,18 @@ export const getNarrowFromNotificationData = (
   //   require some alternate plumbing to pass the stream name through.  For
   //   now, we skip dealing with that; this should be an uncommon case, so
   //   we settle for not crashing.
+  //
+  //   Specifically, if the notification comes with a stream ID or user IDs,
+  //   we navigate to a ChatScreen and it shows InvalidNarrow, but we don't
+  //   report the stream name etc.  If not, we ignore the notification.
 
   if (data.recipient_type === 'stream') {
     // TODO(server-5.0): Always use the stream ID (#3918).
-    // TODO(#3918): Use the notification's own stream_id, where present.
+    if (data.stream_id !== undefined) {
+      // Ideally we'd also record the stream name here, for a better error
+      // UX in case the stream is unknown.  See long TODO comment above.
+      return topicNarrow(data.stream_id, data.topic);
+    }
     const stream = streamsByName.get(data.stream_name);
     return (stream && topicNarrow(stream.stream_id, data.topic)) ?? null;
   }
