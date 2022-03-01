@@ -168,26 +168,11 @@ describe('extract iOS notification data', () => {
     });
 
     test('optional data is typechecked', () => {
-      expect(
-        make({
-          ...barebones.stream,
-          realm_uri: null,
-        }),
-      ).toThrow(/invalid/);
-
-      expect(
-        make({
-          ...barebones['group PM'],
-          realm_uri: ['array', 'of', 'string'],
-        }),
-      ).toThrow(/invalid/);
-
-      expect(
-        make({
-          ...barebones.stream,
-          user_id: 'abc',
-        }),
-      ).toThrow(/invalid/);
+      expect(make({ ...barebones.stream, realm_uri: null })).toThrow(/invalid/);
+      expect(make({ ...barebones['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
+        /invalid/,
+      );
+      expect(make({ ...barebones.stream, user_id: 'abc' })).toThrow(/invalid/);
     });
 
     test('hypothetical future: different event types', () => {
