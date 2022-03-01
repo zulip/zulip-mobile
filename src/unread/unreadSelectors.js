@@ -137,7 +137,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
 
       const total = {
-        key: `stream:${name}`, // TODO(#3918): should use stream ID
+        key: `stream:${streamId}`,
         streamId,
         streamName: name,
         isMuted: !in_home_view,

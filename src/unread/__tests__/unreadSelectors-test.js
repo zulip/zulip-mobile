@@ -233,7 +233,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         isPrivate: false,
         isWebPublic: false,
-        key: 'stream:stream 0',
+        key: 'stream:0',
         streamId: 0,
         streamName: 'stream 0',
         unread: 5,
@@ -253,7 +253,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         isPrivate: false,
         isWebPublic: false,
-        key: 'stream:stream 2',
+        key: 'stream:2',
         streamId: 2,
         streamName: 'stream 2',
         unread: 2,
@@ -293,7 +293,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         isPrivate: false,
         isWebPublic: false,
-        key: 'stream:stream 0',
+        key: 'stream:0',
         streamId: 0,
         streamName: 'stream 0',
         unread: 2,
@@ -313,7 +313,7 @@ describe('getUnreadStreamsAndTopics', () => {
         isPinned: false,
         isPrivate: false,
         isWebPublic: false,
-        key: 'stream:stream 2',
+        key: 'stream:2',
         streamId: 2,
         streamName: 'stream 2',
         unread: 2,
@@ -331,7 +331,7 @@ describe('getUnreadStreamsAndTopics', () => {
 
     expect(unreadCount).toEqual([
       {
-        key: 'stream:stream 0',
+        key: 'stream:0',
         streamId: 0,
         streamName: 'stream 0',
         color: 'red',
@@ -352,7 +352,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
       },
       {
-        key: 'stream:stream 2',
+        key: 'stream:2',
         streamId: 2,
         streamName: 'stream 2',
         color: 'blue',
@@ -406,7 +406,7 @@ describe('getUnreadStreamsAndTopics', () => {
 
     expect(unreadCount).toEqual([
       {
-        key: 'stream:xyz stream',
+        key: 'stream:1',
         streamId: 1,
         streamName: 'xyz stream',
         color: 'blue',
@@ -421,7 +421,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
       },
       {
-        key: 'stream:abc stream',
+        key: 'stream:0',
         streamId: 0,
         streamName: 'abc stream',
         color: 'red',
@@ -436,7 +436,7 @@ describe('getUnreadStreamsAndTopics', () => {
         ],
       },
       {
-        key: 'stream:def stream',
+        key: 'stream:2',
         streamId: 2,
         streamName: 'def stream',
         color: 'green',
@@ -491,7 +491,7 @@ describe('getUnreadStreamsAndTopicsSansMuted', () => {
         isPinned: false,
         isPrivate: false,
         isWebPublic: false,
-        key: 'stream:stream 0',
+        key: 'stream:0',
         streamId: 0,
         streamName: 'stream 0',
         unread: 2,
