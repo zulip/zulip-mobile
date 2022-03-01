@@ -2,8 +2,8 @@ package com.zulipmobile.sharing
 
 import com.facebook.react.bridge.*
 
-internal class SharingModule(reactContext: ReactApplicationContext)
-    : ReactContextBaseJavaModule(reactContext) {
+internal class SharingModule(reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext) {
 
     override fun getName(): String {
         return "Sharing"
