@@ -545,10 +545,7 @@ export const constructNonHeaderActionButtons = ({
 // Actually showing an action sheet.
 //
 
-function makeButtonCallback<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs>(
-  buttonList: Button<Args>[],
-  args: Args,
-) {
+function makeButtonCallback<Args: { _: GetText, ... }>(buttonList: Button<Args>[], args: Args) {
   return buttonIndex => {
     (async () => {
       const pressedButton: Button<Args> = buttonList[buttonIndex];
