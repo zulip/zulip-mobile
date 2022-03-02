@@ -42,19 +42,19 @@ export default function EmojiPickerScreen(props: Props): Node {
   }, []);
 
   const addReaction = useCallback(
-    (emojiName: string) => {
+    (name: string) => {
       let reactionType: ReactionType | void = undefined;
       let emojiCode: string | void = undefined;
-      const imageEmoji = activeImageEmojiByName[emojiName];
+      const imageEmoji = activeImageEmojiByName[name];
       if (imageEmoji) {
-        reactionType = zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji';
+        reactionType = zulipExtraEmojiMap[name] ? 'zulip_extra_emoji' : 'realm_emoji';
         emojiCode = imageEmoji.code;
       } else {
         reactionType = 'unicode_emoji';
-        emojiCode = unicodeCodeByName[emojiName];
+        emojiCode = unicodeCodeByName[name];
       }
 
-      api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
+      api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, name).catch(err => {
         logging.error('Error adding reaction emoji', err);
         showToast(_('Failed to add reaction'));
       });
