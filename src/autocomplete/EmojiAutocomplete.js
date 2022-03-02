@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
@@ -22,6 +22,13 @@ export default function EmojiAutocomplete(props: Props): Node {
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
 
+  const handlePress = useCallback(
+    ({ type, code, name }) => {
+      onAutocomplete(name);
+    },
+    [onAutocomplete],
+  );
+
   if (emojiNames.length === 0) {
     return null;
   }
@@ -38,7 +45,7 @@ export default function EmojiAutocomplete(props: Props): Node {
             type={item.emoji_type}
             code={item.code}
             name={item.name}
-            onPress={onAutocomplete}
+            onPress={handlePress}
           />
         )}
       />

@@ -42,7 +42,7 @@ export default function EmojiPickerScreen(props: Props): Node {
   }, []);
 
   const addReaction = useCallback(
-    (name: string) => {
+    ({ type, code, name }) => {
       let reactionType: ReactionType | void = undefined;
       let emojiCode: string | void = undefined;
       const imageEmoji = activeImageEmojiByName[name];

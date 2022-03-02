@@ -24,15 +24,15 @@ type Props = $ReadOnly<{|
   type: EmojiType,
   code: string,
   name: string,
-  onPress: (name: string) => void,
+  onPress: ({| +type: EmojiType, +code: string, +name: string |}) => void,
 |}>;
 
 export default function EmojiRow(props: Props): Node {
   const { code, name, type, onPress } = props;
 
   const handlePress = useCallback(() => {
-    onPress(name);
-  }, [onPress, name]);
+    onPress({ type, code, name });
+  }, [onPress, type, code, name]);
 
   return (
     <Touchable onPress={handlePress}>
