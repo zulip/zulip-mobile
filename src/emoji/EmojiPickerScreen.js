@@ -11,11 +11,10 @@ import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
-import { getFilteredEmojis } from './data';
+import { getFilteredEmojis, reactionTypeFromEmojiType } from './data';
 import { useSelector } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
-import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import * as logging from '../utils/logging';
 import { showToast } from '../utils/info';
 
@@ -41,17 +40,12 @@ export default function EmojiPickerScreen(props: Props): Node {
 
   const addReaction = useCallback(
     ({ type, code, name }) => {
-      const reactionType =
-        type === 'image'
-          ? zulipExtraEmojiMap[name]
-            ? 'zulip_extra_emoji'
-            : 'realm_emoji'
-          : 'unicode_emoji';
-
-      api.emojiReactionAdd(auth, messageId, reactionType, code, name).catch(err => {
-        logging.error('Error adding reaction emoji', err);
-        showToast(_('Failed to add reaction'));
-      });
+      api
+        .emojiReactionAdd(auth, messageId, reactionTypeFromEmojiType(type, name), code, name)
+        .catch(err => {
+          logging.error('Error adding reaction emoji', err);
+          showToast(_('Failed to add reaction'));
+        });
       NavigationService.dispatch(navigateBack());
     },
     [auth, messageId, _],

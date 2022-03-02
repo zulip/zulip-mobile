@@ -10,7 +10,7 @@ import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { connect } from '../react-redux';
-import type { Dispatch, EmojiType, Message, ReactionType, UserId } from '../types';
+import type { Dispatch, Message, UserId } from '../types';
 import Screen from '../common/Screen';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipText from '../common/ZulipText';
@@ -19,16 +19,10 @@ import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
+import { emojiTypeFromReactionType } from '../emoji/data';
 import { navigateBack } from '../nav/navActions';
 
 const Tab = createMaterialTopTabNavigator();
-
-const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
-  if (reactionType === 'unicode_emoji') {
-    return 'unicode';
-  }
-  return 'image';
-};
 
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation

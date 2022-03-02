@@ -1,7 +1,8 @@
 /* @flow strict-local */
-import type { ImageEmojiType, EmojiType } from '../types';
+import type { ImageEmojiType, EmojiType, ReactionType } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
+import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import objectEntries from '../utils/objectEntries';
 
 const unicodeEmojiNames = Object.keys(unicodeCodeByName);
@@ -19,6 +20,23 @@ export const codeToEmojiMap: {| [string]: string |} = objectFromEntries<string, 
     return [code, parseUnicodeEmojiCode(displayCode)];
   }),
 );
+
+// TODO(?): Stop having distinct `EmojiType` and `ReactionType`; confusing?
+//   https://github.com/zulip/zulip-mobile/pull/5269#discussion_r818320669
+export const reactionTypeFromEmojiType = (emojiType: EmojiType, name: string): ReactionType =>
+  emojiType === 'image'
+    ? zulipExtraEmojiMap[name]
+      ? 'zulip_extra_emoji'
+      : 'realm_emoji'
+    : 'unicode_emoji';
+
+// See comment on reactionTypeFromEmojiType, just above.
+export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
+  if (reactionType === 'unicode_emoji') {
+    return 'unicode';
+  }
+  return 'image';
+};
 
 /**
  * A list of emoji matching the query, in an order to offer to the user.
