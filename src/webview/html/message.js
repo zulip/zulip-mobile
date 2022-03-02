@@ -20,7 +20,7 @@ import type {
   UserId,
   WidgetData,
 } from '../../types';
-import type { BackgroundData } from '../MessageList';
+import type { BackgroundData } from '../backgroundData';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';

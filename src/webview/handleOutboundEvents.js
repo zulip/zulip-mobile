@@ -5,7 +5,7 @@ import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
 import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage, UserId } from '../types';
-import type { BackgroundData } from './MessageList';
+import type { BackgroundData } from './backgroundData';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';

@@ -50,7 +50,7 @@ import {
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
-import type { BackgroundData } from '../../webview/MessageList';
+import type { BackgroundData } from '../../webview/backgroundData';
 import { getSettings, getStreamsById, getSubscriptionsById } from '../../selectors';
 import { getGlobalSettings } from '../../directSelectors';
 import { messageMoved } from '../../api/misc';

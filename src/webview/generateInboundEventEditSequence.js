@@ -5,7 +5,7 @@ import invariant from 'invariant';
 
 import type { MessageListElement, GetText } from '../types';
 import { ensureUnreachable } from '../generics';
-import type { BackgroundData } from './MessageList';
+import type { BackgroundData } from './backgroundData';
 import messageListElementHtml from './html/messageListElementHtml';
 
 const NODE_ENV = process.env.NODE_ENV;

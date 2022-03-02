@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import template from './template';
 import { ensureUnreachable } from '../../types';
 import type { HeaderMessageListElement } from '../../types';
-import type { BackgroundData } from '../MessageList';
+import type { BackgroundData } from '../backgroundData';
 import {
   streamNarrow,
   topicNarrow,

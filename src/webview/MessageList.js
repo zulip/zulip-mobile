@@ -5,25 +5,13 @@ import { WebView } from 'react-native-webview';
 
 import { connectActionSheet } from '../react-native-action-sheet';
 import type {
-  AlertWordsState,
-  Auth,
-  Debug,
   Dispatch,
   Fetching,
-  FlagsState,
   GetText,
   Message,
-  MuteState,
-  MutedUsersState,
   Narrow,
   Outbox,
-  ImageEmojiType,
   MessageListElement,
-  Subscription,
-  Stream,
-  ThemeName,
-  UserId,
-  User,
   UserOrBot,
   EditMessage,
 } from '../types';
@@ -32,22 +20,11 @@ import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
-  getAuth,
-  getAllImageEmojiById,
   getCurrentTypingUsers,
   getDebug,
-  getFlags,
   getFetchingForNarrow,
-  getAllUsersById,
-  getMutedUsers,
-  getOwnUser,
-  getSettings,
   getGlobalSettings,
-  getSubscriptionsById,
-  getStreamsById,
-  getRealm,
 } from '../selectors';
-import { getMute } from '../mute/muteModel';
 import { withGetText } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getMessageListElementsMemoized } from '../message/messageSelectors';
@@ -60,41 +37,12 @@ import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
-import type { UnreadState } from '../unread/unreadModelTypes';
-import { getUnread } from '../unread/unreadModel';
 import { caseNarrow } from '../utils/narrow';
+import { type BackgroundData, getBackgroundData } from './backgroundData';
 
 // ESLint doesn't notice how `this.props` escapes, and complains about some
 // props not being used here.
 /* eslint-disable react/no-unused-prop-types */
-
-/**
- * Data about the user, the realm, and all known messages.
- *
- * This data is all independent of the specific narrow or specific messages
- * we're displaying; data about those goes elsewhere.
- *
- * We pass this object down to a variety of lower layers and helper
- * functions, where it saves us from individually wiring through all the
- * overlapping subsets of this data they respectively need.
- */
-export type BackgroundData = $ReadOnly<{|
-  alertWords: AlertWordsState,
-  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
-  auth: Auth,
-  debug: Debug,
-  flags: FlagsState,
-  mute: MuteState,
-  allUsersById: Map<UserId, UserOrBot>,
-  mutedUsers: MutedUsersState,
-  ownUser: User,
-  streams: Map<number, Stream>,
-  subscriptions: Map<number, Subscription>,
-  unread: UnreadState,
-  theme: ThemeName,
-  twentyFourHourTime: boolean,
-  userSettingStreamNotification: boolean,
-|}>;
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -347,30 +295,8 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
     const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
     const debug = getDebug(assumeSecretlyGlobalState(state));
 
-    // TODO Ideally this ought to be a caching selector that doesn't change
-    // when the inputs don't.  Doesn't matter in a practical way here, because
-    // we have a `shouldComponentUpdate` that doesn't look at this prop... but
-    // it'd be better to set an example of the right general pattern.
-    const backgroundData: BackgroundData = {
-      alertWords: state.alertWords,
-      allImageEmojiById: getAllImageEmojiById(state),
-      auth: getAuth(state),
-      debug,
-      flags: getFlags(state),
-      mute: getMute(state),
-      allUsersById: getAllUsersById(state),
-      mutedUsers: getMutedUsers(state),
-      ownUser: getOwnUser(state),
-      streams: getStreamsById(state),
-      subscriptions: getSubscriptionsById(state),
-      unread: getUnread(state),
-      theme: globalSettings.theme,
-      twentyFourHourTime: getRealm(state).twentyFourHourTime,
-      userSettingStreamNotification: getSettings(state).streamNotification,
-    };
-
     return {
-      backgroundData,
+      backgroundData: getBackgroundData(state, globalSettings, debug),
       fetching: getFetchingForNarrow(state, props.narrow),
       messageListElementsForShownMessages: getMessageListElementsMemoized(
         props.messages,

@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { GetText, MessageListElement } from '../../types';
 import { ensureUnreachable } from '../../generics';
-import type { BackgroundData } from '../MessageList';
+import type { BackgroundData } from '../backgroundData';
 
 import message from './message';
 import header from './header';
