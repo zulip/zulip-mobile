@@ -9,10 +9,13 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
 import Input from '../common/Input';
+import EmojiInput from './EmojiInput';
+import type { Value as EmojiInputValue } from './EmojiInput';
+import { emojiTypeFromReactionType, reactionTypeFromEmojiType } from '../emoji/data';
 import SelectableOptionRow from '../common/SelectableOptionRow';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
-import { getAuth, getOwnUserId } from '../selectors';
+import { getZulipFeatureLevel, getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
 import type { UserStatus } from '../api/modelTypes';
 import { IconCancel, IconDone } from '../common/Icons';
@@ -46,41 +49,82 @@ const statusTextFromInputValue = (v: string): $PropertyType<UserStatus, 'status_
 
 const inputValueFromStatusText = (t: $PropertyType<UserStatus, 'status_text'>): string => t ?? '';
 
+const statusEmojiFromInputValue = (v: EmojiInputValue): $PropertyType<UserStatus, 'status_emoji'> =>
+  v
+    ? {
+        emoji_name: v.name,
+        emoji_code: v.code,
+        reaction_type: reactionTypeFromEmojiType(v.type, v.name),
+      }
+    : null;
+
+const inputValueFromStatusEmoji = (e: $PropertyType<UserStatus, 'status_emoji'>): EmojiInputValue =>
+  e
+    ? {
+        type: emojiTypeFromReactionType(e.reaction_type),
+        code: e.emoji_code,
+        name: e.emoji_name,
+      }
+    : null;
+
 export default function UserStatusScreen(props: Props): Node {
   const { navigation } = props;
+
+  // TODO(server-5.0): Cut conditionals on emoji-status support (emoji
+  //   supported as of FL 86: https://zulip.com/api/changelog )
+  const serverSupportsEmojiStatus = useSelector(getZulipFeatureLevel) >= 86;
 
   const _ = useContext(TranslationContext);
   const auth = useSelector(getAuth);
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
+  const userStatusEmoji = useSelector(state => getUserStatus(state, ownUserId).status_emoji);
 
   const [textInputValue, setTextInputValue] = useState<string>(
     inputValueFromStatusText(userStatusText),
   );
+  const [emojiInputValue, setEmojiInputValue] = useState<EmojiInputValue>(
+    inputValueFromStatusEmoji(userStatusEmoji),
+  );
 
   const sendToServer = useCallback(
     partialUserStatus => {
-      api.updateUserStatus(auth, partialUserStatus);
+      const copy = { ...partialUserStatus };
+      // TODO: Put conditional inside `api.updateUserStatus` itself; see
+      //   https://github.com/zulip/zulip-mobile/issues/4659#issuecomment-914996061
+      if (!serverSupportsEmojiStatus) {
+        delete copy.status_emoji;
+      }
+      api.updateUserStatus(auth, copy);
       navigation.goBack();
     },
-    [navigation, auth],
+    [serverSupportsEmojiStatus, navigation, auth],
   );
 
   const handlePressUpdate = useCallback(() => {
-    sendToServer({ status_text: statusTextFromInputValue(textInputValue) });
-  }, [textInputValue, sendToServer]);
+    sendToServer({
+      status_text: statusTextFromInputValue(textInputValue),
+      status_emoji: statusEmojiFromInputValue(emojiInputValue),
+    });
+  }, [textInputValue, emojiInputValue, sendToServer]);
 
   const handlePressClear = useCallback(() => {
     setTextInputValue(inputValueFromStatusText(null));
-    sendToServer({ status_text: null });
+    setEmojiInputValue(inputValueFromStatusEmoji(null));
+    sendToServer({ status_text: null, status_emoji: null });
   }, [sendToServer]);
 
   return (
     <Screen title="User status">
       <View style={styles.inputRow}>
-        {
-          // TODO: Input for emoji status
-        }
+        {serverSupportsEmojiStatus && (
+          <EmojiInput
+            navigation={navigation}
+            value={emojiInputValue}
+            onChangeValue={setEmojiInputValue}
+            rightMargin
+          />
+        )}
         <Input
           autoFocus
           maxLength={60}
