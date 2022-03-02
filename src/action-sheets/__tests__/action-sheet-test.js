@@ -8,8 +8,7 @@ import {
   constructTopicActionButtons,
   constructStreamActionButtons,
 } from '../index';
-import { reducer } from '../../unread/unreadModel';
-import { initialState } from '../../unread/__tests__/unread-testlib';
+import { makeUnreadState } from '../../unread/__tests__/unread-testlib';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
@@ -56,15 +55,8 @@ describe('constructTopicActionButtons', () => {
   const streamId = streamMessage.stream_id;
   const streams = deepFreeze(new Map([[stream.stream_id, stream]]));
 
-  const baseState = (() => {
-    const r = (state, action) => reducer(state, action, eg.plusReduxState);
-    let state = initialState;
-    state = r(state, eg.mkActionEventNewMessage(streamMessage));
-    return state;
-  })();
-
   test('show mark as read if topic is unread', () => {
-    const unread = baseState;
+    const unread = makeUnreadState(eg.plusReduxState, [streamMessage]);
     const buttons = constructTopicActionButtons({
       backgroundData: { ...eg.baseBackgroundData, streams, unread },
       streamId,

@@ -2,7 +2,8 @@
 
 import { reducer } from '../unreadModel';
 import type { UnreadState } from '../unreadModelTypes';
-import type { Stream } from '../../api/apiTypes';
+import type { Message, Stream } from '../../api/apiTypes';
+import type { PerAccountState } from '../../reduxTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
 export const initialState: UnreadState = reducer(
@@ -18,6 +19,15 @@ const [user0, user1, user2, user3, user4, user5] = [0, 1, 2, 3, 4, 5].map(user_i
   eg.makeUser({ user_id }),
 );
 
+export const makeUnreadState = (
+  globalState: PerAccountState,
+  messages: $ReadOnlyArray<Message>,
+): UnreadState =>
+  messages.reduce(
+    (state, message) => reducer(state, eg.mkActionEventNewMessage(message), globalState),
+    initialState,
+  );
+
 export const selectorBaseState: UnreadState = (() => {
   // We take user1 to be self.
   // It might be convenient to convert this to the standard eg.selfUser,
@@ -29,8 +39,7 @@ export const selectorBaseState: UnreadState = (() => {
     streams: [stream0, stream2],
   });
 
-  let state = initialState;
-  for (const message of [
+  return makeUnreadState(globalState, [
     eg.streamMessage({ stream_id: 0, subject: 'a topic', id: 1, flags: ['mentioned'] }),
     eg.streamMessage({ stream_id: 0, subject: 'a topic', id: 2, flags: ['mentioned'] }),
     eg.streamMessage({ stream_id: 0, subject: 'a topic', id: 3, flags: ['mentioned'] }),
@@ -48,8 +57,5 @@ export const selectorBaseState: UnreadState = (() => {
     eg.pmMessageFromTo(user4, [user1, user5], { id: 23 }),
     eg.pmMessageFromTo(user4, [user1, user5], { id: 24 }),
     eg.pmMessageFromTo(user4, [user1, user5], { id: 25 }),
-  ]) {
-    state = reducer(state, eg.mkActionEventNewMessage(message), globalState);
-  }
-  return state;
+  ]);
 })();

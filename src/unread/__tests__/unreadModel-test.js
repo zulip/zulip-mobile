@@ -5,7 +5,7 @@ import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstant
 import { reducer } from '../unreadModel';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
-import { initialState } from './unread-testlib';
+import { initialState, makeUnreadState } from './unread-testlib';
 
 // These are the tests corresponding to unreadStreamsReducer-test.js.
 // Ultimately we'll want to flip this way of organizing the tests, and
@@ -20,11 +20,7 @@ describe('stream substate', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const state = reducer(
-        initialState,
-        eg.mkActionEventNewMessage(eg.streamMessage()),
-        eg.plusReduxState,
-      );
+      const state = makeUnreadState(eg.plusReduxState, [eg.streamMessage()]);
       expect(state).not.toEqual(initialState);
 
       const action = { type: ACCOUNT_SWITCH, index: 1 };
@@ -70,19 +66,15 @@ describe('stream substate', () => {
       });
     };
 
-    const baseState = (() => {
-      const streamAction = args => eg.mkActionEventNewMessage(eg.streamMessage(args));
-      const r = (state, action) => reducer(state, action, eg.plusReduxState);
-      let state = initialState;
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 4 }));
-      state = r(state, streamAction({ stream_id: 456, subject: 'zzz', id: 6 }));
-      state = r(state, streamAction({ stream_id: 456, subject: 'zzz', id: 7 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 15 }));
-      return state;
-    })();
+    const baseState = makeUnreadState(eg.plusReduxState, [
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 1 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 2 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 3 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 4 }),
+      eg.streamMessage({ stream_id: 456, subject: 'zzz', id: 6 }),
+      eg.streamMessage({ stream_id: 456, subject: 'zzz', id: 7 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 15 }),
+    ]);
 
     test('(base state, for comparison)', () => {
       // prettier-ignore
@@ -159,15 +151,9 @@ describe('stream substate', () => {
   describe('EVENT_NEW_MESSAGE', () => {
     const action = eg.mkActionEventNewMessage;
 
-    const baseState = (() => {
-      let state = initialState;
-      state = reducer(
-        state,
-        action(eg.streamMessage({ id: 1, subject: 'some topic' })),
-        eg.plusReduxState,
-      );
-      return state;
-    })();
+    const baseState = makeUnreadState(eg.plusReduxState, [
+      eg.streamMessage({ id: 1, subject: 'some topic' }),
+    ]);
 
     test('(base state, for comparison)', () => {
       // prettier-ignore
@@ -245,16 +231,13 @@ describe('stream substate', () => {
 
     const streamAction = args => eg.mkActionEventNewMessage(eg.streamMessage(args));
 
-    const baseState = (() => {
-      const r = (state, action) => reducer(state, action, eg.plusReduxState);
-      let state = initialState;
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 1 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 2 }));
-      state = r(state, streamAction({ stream_id: 123, subject: 'foo', id: 3 }));
-      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 4 }));
-      state = r(state, streamAction({ stream_id: 234, subject: 'bar', id: 5 }));
-      return state;
-    })();
+    const baseState = makeUnreadState(eg.plusReduxState, [
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 1 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 2 }),
+      eg.streamMessage({ stream_id: 123, subject: 'foo', id: 3 }),
+      eg.streamMessage({ stream_id: 234, subject: 'bar', id: 4 }),
+      eg.streamMessage({ stream_id: 234, subject: 'bar', id: 5 }),
+    ]);
 
     test('(base state, for comparison)', () => {
       // prettier-ignore

@@ -1,9 +1,9 @@
 /* @flow strict-local */
 import { getTopicsForNarrow, getTopicsForStream } from '../topicSelectors';
 import { HOME_NARROW, streamNarrow } from '../../utils/narrow';
-import { reducer as unreadReducer } from '../../unread/unreadModel';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
+import { makeUnreadState } from '../../unread/__tests__/unread-testlib';
 
 describe('getTopicsForNarrow', () => {
   test('when no topics return an empty list', () => {
@@ -67,16 +67,13 @@ describe('getTopicsForStream', () => {
         [eg.stream, 'topic 3'],
         [eg.otherStream, 'topic 2'],
       ]),
-      unread: [
+      unread: makeUnreadState(eg.plusReduxState, [
         eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 1 }),
         eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 5 }),
         eg.streamMessage({ stream: eg.stream, subject: 'topic 2', id: 6 }),
         eg.streamMessage({ stream: eg.stream, subject: 'topic 4', id: 7 }),
         eg.streamMessage({ stream: eg.stream, subject: 'topic 4', id: 8 }),
-      ].reduce(
-        (st, message) => unreadReducer(st, eg.mkActionEventNewMessage(message), eg.plusReduxState),
-        eg.plusReduxState.unread,
-      ),
+      ]),
     });
     const expected = [
       { name: 'topic 1', max_id: 5, isMuted: true, unreadCount: 0 },

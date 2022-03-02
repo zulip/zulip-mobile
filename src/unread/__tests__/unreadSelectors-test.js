@@ -1,6 +1,5 @@
 /* @flow strict-local */
 
-import { reducer } from '../unreadModel';
 import {
   getUnreadByStream,
   getUnreadStreamTotal,
@@ -15,7 +14,13 @@ import {
 } from '../unreadSelectors';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import { initialState, selectorBaseState as unreadState, stream0, stream2 } from './unread-testlib';
+import {
+  initialState,
+  makeUnreadState,
+  selectorBaseState as unreadState,
+  stream0,
+  stream2,
+} from './unread-testlib';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const subscription0 = eg.makeSubscription({ stream: stream0, color: 'red' });
@@ -382,7 +387,7 @@ describe('getUnreadStreamsAndTopics', () => {
         eg.makeSubscription({ stream: stream1, color: 'blue', pin_to_top: true }),
         { ...subscription0, name: 'abc stream' },
       ],
-      unread: [
+      unread: makeUnreadState(eg.plusReduxState, [
         eg.streamMessage({ stream_id: 0, subject: 'z topic', id: 1 }),
         eg.streamMessage({ stream_id: 0, subject: 'z topic', id: 2 }),
         eg.streamMessage({ stream_id: 0, subject: 'z topic', id: 3 }),
@@ -394,10 +399,7 @@ describe('getUnreadStreamsAndTopics', () => {
         eg.streamMessage({ stream_id: 2, subject: 'c topic', id: 8 }),
         eg.streamMessage({ stream_id: 1, subject: 'e topic', id: 10 }),
         eg.streamMessage({ stream_id: 1, subject: 'd topic', id: 9 }),
-      ].reduce(
-        (st, message) => reducer(st, eg.mkActionEventNewMessage(message), eg.plusReduxState),
-        eg.plusReduxState.unread,
-      ),
+      ]),
       // TODO yuck at constructing this modified stream as a throwaway, with magic string
       mute: makeMuteState([[{ ...stream2, name: 'def stream' }, 'c topic']]),
     });
