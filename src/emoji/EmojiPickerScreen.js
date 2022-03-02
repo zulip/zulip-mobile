@@ -12,7 +12,6 @@ import * as api from '../api';
 import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojis } from './data';
-import type { ReactionType } from '../types';
 import { useSelector } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
 import { navigateBack } from '../nav/navActions';
@@ -42,13 +41,11 @@ export default function EmojiPickerScreen(props: Props): Node {
 
   const addReaction = useCallback(
     ({ type, code, name }) => {
-      let reactionType: ReactionType | void = undefined;
-      const imageEmoji = activeImageEmojiByName[name];
-      if (imageEmoji) {
-        reactionType = zulipExtraEmojiMap[name] ? 'zulip_extra_emoji' : 'realm_emoji';
-      } else {
-        reactionType = 'unicode_emoji';
-      }
+      const reactionType = activeImageEmojiByName[name]
+        ? zulipExtraEmojiMap[name]
+          ? 'zulip_extra_emoji'
+          : 'realm_emoji'
+        : 'unicode_emoji';
 
       api.emojiReactionAdd(auth, messageId, reactionType, code, name).catch(err => {
         logging.error('Error adding reaction emoji', err);
