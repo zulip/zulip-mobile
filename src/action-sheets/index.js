@@ -348,20 +348,18 @@ const cancel: Button<{ ... }> = {
 // These are separate from their callers mainly for the sake of unit tests.
 //
 
-export const constructStreamActionButtons = ({
-  backgroundData: { ownUser, subscriptions, userSettingStreamNotification },
-  streamId,
-}: {|
+export const constructStreamActionButtons = (args: {|
   backgroundData: $ReadOnly<{
-    ownUser: User,
     subscriptions: Map<number, Subscription>,
     userSettingStreamNotification: boolean,
     ...
   }>,
   streamId: number,
 |}): Button<StreamArgs>[] => {
-  const buttons = [];
+  const { backgroundData, streamId } = args;
+  const { subscriptions, userSettingStreamNotification } = backgroundData;
 
+  const buttons = [];
   const sub = subscriptions.get(streamId);
   if (sub) {
     if (!sub.in_home_view) {
@@ -389,21 +387,20 @@ export const constructStreamActionButtons = ({
   return buttons;
 };
 
-export const constructTopicActionButtons = ({
-  backgroundData: { mute, ownUser, subscriptions, unread },
-  streamId,
-  topic,
-}: {|
+export const constructTopicActionButtons = (args: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
+    ownUser: User,
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
-    ownUser: User,
     ...
   }>,
   streamId: number,
   topic: string,
 |}): Button<TopicArgs>[] => {
+  const { backgroundData, streamId, topic } = args;
+  const { mute, ownUser, subscriptions, unread } = backgroundData;
+
   const buttons = [];
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
@@ -428,10 +425,7 @@ export const constructTopicActionButtons = ({
   return buttons;
 };
 
-export const constructPmConversationActionButtons = ({
-  backgroundData,
-  pmKeyRecipients,
-}: {|
+export const constructPmConversationActionButtons = (args: {|
   backgroundData: $ReadOnly<{ ownUser: User, ... }>,
   pmKeyRecipients: PmKeyRecipients,
 |}): Button<PmArgs>[] => {
@@ -458,19 +452,14 @@ export const constructOutboxActionButtons = (): Button<MessageArgs>[] => {
 const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
-export const constructMessageActionButtons = ({
-  backgroundData: { ownUser, flags },
-  message,
-  narrow,
-}: {|
-  backgroundData: $ReadOnly<{
-    ownUser: User,
-    flags: FlagsState,
-    ...
-  }>,
+export const constructMessageActionButtons = (args: {|
+  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, ... }>,
   message: Message,
   narrow: Narrow,
 |}): Button<MessageArgs>[] => {
+  const { backgroundData, message, narrow } = args;
+  const { ownUser, flags } = backgroundData;
+
   const buttons = [];
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
@@ -506,19 +495,12 @@ export const constructMessageActionButtons = ({
   return buttons;
 };
 
-export const constructNonHeaderActionButtons = ({
-  backgroundData,
-  message,
-  narrow,
-}: {|
-  backgroundData: $ReadOnly<{
-    ownUser: User,
-    flags: FlagsState,
-    ...
-  }>,
+export const constructNonHeaderActionButtons = (args: {|
+  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, ... }>,
   message: Message | Outbox,
   narrow: Narrow,
 |}): Button<MessageArgs>[] => {
+  const { backgroundData, message, narrow } = args;
   if (message.isOutbox) {
     return constructOutboxActionButtons();
   } else {
@@ -544,28 +526,18 @@ function makeButtonCallback<Args: { _: GetText, ... }>(buttonList: Button<Args>[
   };
 }
 
-export const showMessageActionSheet = ({
-  showActionSheetWithOptions,
-  callbacks,
-  backgroundData,
-  message,
-  narrow,
-}: {|
+export const showMessageActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
   |},
-  backgroundData: $ReadOnly<{
-    auth: Auth,
-    ownUser: User,
-    flags: FlagsState,
-    ...
-  }>,
+  backgroundData: $ReadOnly<{ auth: Auth, ownUser: User, flags: FlagsState, ... }>,
   message: Message | Outbox,
   narrow: Narrow,
 |}): void => {
+  const { showActionSheetWithOptions, callbacks, backgroundData, message, narrow } = args;
   const buttonList = constructNonHeaderActionButtons({ backgroundData, message, narrow });
   showActionSheetWithOptions(
     {
@@ -581,13 +553,7 @@ export const showMessageActionSheet = ({
   );
 };
 
-export const showTopicActionSheet = ({
-  showActionSheetWithOptions,
-  callbacks,
-  backgroundData,
-  topic,
-  streamId,
-}: {|
+export const showTopicActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
@@ -605,6 +571,7 @@ export const showTopicActionSheet = ({
   streamId: number,
   topic: string,
 |}): void => {
+  const { showActionSheetWithOptions, callbacks, backgroundData, topic, streamId } = args;
   const buttonList = constructTopicActionButtons({
     backgroundData,
     streamId,
@@ -627,12 +594,7 @@ export const showTopicActionSheet = ({
   );
 };
 
-export const showStreamActionSheet = ({
-  showActionSheetWithOptions,
-  callbacks,
-  backgroundData,
-  streamId,
-}: {|
+export const showStreamActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
@@ -640,7 +602,6 @@ export const showStreamActionSheet = ({
   |},
   backgroundData: $ReadOnly<{
     auth: Auth,
-    ownUser: User,
     streams: Map<number, Stream>,
     subscriptions: Map<number, Subscription>,
     userSettingStreamNotification: boolean,
@@ -648,6 +609,7 @@ export const showStreamActionSheet = ({
   }>,
   streamId: number,
 |}): void => {
+  const { showActionSheetWithOptions, callbacks, backgroundData, streamId } = args;
   const buttonList = constructStreamActionButtons({
     backgroundData,
     streamId,
@@ -668,23 +630,15 @@ export const showStreamActionSheet = ({
   );
 };
 
-export const showPmConversationActionSheet = ({
-  showActionSheetWithOptions,
-  callbacks,
-  backgroundData,
-  pmKeyRecipients,
-}: {|
+export const showPmConversationActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     _: GetText,
   |},
-  backgroundData: $ReadOnly<{
-    ownUser: User,
-    allUsersById: Map<UserId, UserOrBot>,
-    ...
-  }>,
+  backgroundData: $ReadOnly<{ ownUser: User, allUsersById: Map<UserId, UserOrBot>, ... }>,
   pmKeyRecipients: PmKeyRecipients,
 |}): void => {
+  const { showActionSheetWithOptions, callbacks, backgroundData, pmKeyRecipients } = args;
   const buttonList = constructPmConversationActionButtons({ backgroundData, pmKeyRecipients });
 
   showActionSheetWithOptions(
