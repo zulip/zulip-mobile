@@ -285,6 +285,7 @@ export const makeSubscription = (
     stream?: Stream,
     in_home_view?: boolean,
     pin_to_top?: boolean,
+    push_notifications?: boolean,
     color?: string,
   |} = Object.freeze({}),
 ): Subscription => {
@@ -298,7 +299,7 @@ export const makeSubscription = (
     desktop_notifications: false,
     email_address: '??? make this value representative before using in a test :)',
     is_old_stream: true,
-    push_notifications: null,
+    push_notifications: args.push_notifications ?? null,
     stream_weekly_traffic: 84,
   });
 };
