@@ -41,35 +41,26 @@ export default function EmojiPickerScreen(props: Props): Node {
     setFilter(text.toLowerCase());
   }, []);
 
-  const getReactionTypeAndCode = useCallback(
-    (
-      emojiName: string,
-    ): {|
-      reactionType: ReactionType,
-      emojiCode: string,
-    |} => {
-      const imageEmoji = activeImageEmojiByName[emojiName];
-      if (imageEmoji) {
-        return {
-          reactionType: zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji',
-          emojiCode: imageEmoji.code,
-        };
-      }
-      return { reactionType: 'unicode_emoji', emojiCode: unicodeCodeByName[emojiName] };
-    },
-    [activeImageEmojiByName],
-  );
-
   const addReaction = useCallback(
     (emojiName: string) => {
-      const { reactionType, emojiCode } = getReactionTypeAndCode(emojiName);
+      let reactionType: ReactionType | void = undefined;
+      let emojiCode: string | void = undefined;
+      const imageEmoji = activeImageEmojiByName[emojiName];
+      if (imageEmoji) {
+        reactionType = zulipExtraEmojiMap[emojiName] ? 'zulip_extra_emoji' : 'realm_emoji';
+        emojiCode = imageEmoji.code;
+      } else {
+        reactionType = 'unicode_emoji';
+        emojiCode = unicodeCodeByName[emojiName];
+      }
+
       api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, emojiName).catch(err => {
         logging.error('Error adding reaction emoji', err);
         showToast(_('Failed to add reaction'));
       });
       NavigationService.dispatch(navigateBack());
     },
-    [auth, messageId, getReactionTypeAndCode, _],
+    [activeImageEmojiByName, auth, messageId, _],
   );
 
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
