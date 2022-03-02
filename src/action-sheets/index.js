@@ -189,33 +189,19 @@ const muteTopic = {
 const deleteTopic = {
   title: 'Delete topic',
   errorMessage: 'Failed to delete topic',
-  action: async ({ auth, streamId, topic, dispatch, _ }) => {
-    const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
-    const AsyncAlert = async (): Promise<boolean> =>
-      new Promise((resolve, reject) => {
-        Alert.alert(
-          alertTitle,
-          _('This will also delete all messages in the topic.'),
-          [
-            {
-              text: _('Delete topic'),
-              onPress: () => {
-                resolve(true);
-              },
-              style: 'destructive',
-            },
-            {
-              text: _('Cancel'),
-              onPress: () => {
-                resolve(false);
-              },
-              style: 'cancel',
-            },
-          ],
-          { cancelable: true },
-        );
-      });
-    if (await AsyncAlert()) {
+  action: async ({ streamId, topic, dispatch, _ }) => {
+    const confirmed = await new Promise((resolve, reject) => {
+      Alert.alert(
+        _('Are you sure you want to delete the topic “{topic}”?', { topic }),
+        _('This will also delete all messages in the topic.'),
+        [
+          { text: _('Delete topic'), onPress: () => resolve(true), style: 'destructive' },
+          { text: _('Cancel'), onPress: () => resolve(false), style: 'cancel' },
+        ],
+        { cancelable: true },
+      );
+    });
+    if (confirmed) {
       await dispatch(deleteMessagesForTopic(streamId, topic));
     }
   },
