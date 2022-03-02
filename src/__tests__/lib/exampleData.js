@@ -929,7 +929,13 @@ export const mkActionEventUpdateMessage = (args: {|
  * Miscellaneous
  */
 
-export const backgroundData: BackgroundData = deepFreeze({
+/**
+ * A BackgroundData value corresponding mostly to baseReduxState.
+ *
+ * Includes a few elements of plusReduxState, where necessary for
+ * constructing a valid BackgroundData.
+ */
+export const baseBackgroundData: BackgroundData = deepFreeze({
   alertWords: baseReduxState.alertWords,
   allImageEmojiById: {}, // in reality would also have :zulip:
   auth: selfAuth,

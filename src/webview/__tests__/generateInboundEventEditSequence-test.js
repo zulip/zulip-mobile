@@ -185,7 +185,7 @@ const pmMessages6 = [
 ];
 
 const baseBackgroundData = {
-  ...eg.backgroundData,
+  ...eg.baseBackgroundData,
   streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
 };
 
@@ -418,7 +418,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       check({
         narrow: HOME_NARROW,
         backgroundData: {
-          ...eg.backgroundData,
+          ...eg.baseBackgroundData,
           ownUser: stableSelfUser,
           allUsersById: new Map([
             [singleMessageSender.user_id, singleMessageSender],
@@ -488,12 +488,12 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
 
     Object.keys(eg.baseReduxState.flags).forEach(flag => {
       test(`message with flag: ${flag}`, () => {
-        const flags: ReadWrite<FlagsState> = { ...eg.backgroundData.flags };
+        const flags: ReadWrite<FlagsState> = { ...eg.baseBackgroundData.flags };
         flags[flag] = { [baseSingleMessage.id]: true };
         check({
           narrow: HOME_NARROW,
           messages: [baseSingleMessage],
-          backgroundData: { ...eg.backgroundData, flags },
+          backgroundData: { ...eg.baseBackgroundData, flags },
         });
       });
     });
@@ -503,7 +503,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         narrow: HOME_NARROW,
         messages: [baseSingleMessage],
         backgroundData: {
-          ...eg.backgroundData,
+          ...eg.baseBackgroundData,
           mutedUsers: Immutable.Map([[baseSingleMessage.sender_id, 1644366787]]),
         },
       });
@@ -779,15 +779,15 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
-            flags: { ...eg.backgroundData.flags, starred: {} },
+            ...eg.baseBackgroundData,
+            flags: { ...eg.baseBackgroundData.flags, starred: {} },
           },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
-            flags: { ...eg.backgroundData.flags, starred: { [message.id]: true } },
+            ...eg.baseBackgroundData,
+            flags: { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } },
           },
         },
       );
@@ -799,15 +799,15 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
-            flags: { ...eg.backgroundData.flags, starred: { [message.id]: true } },
+            ...eg.baseBackgroundData,
+            flags: { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } },
           },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
-            flags: { ...eg.backgroundData.flags, starred: {} },
+            ...eg.baseBackgroundData,
+            flags: { ...eg.baseBackgroundData.flags, starred: {} },
           },
         },
       );
@@ -821,12 +821,12 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: { ...eg.backgroundData, mutedUsers: Immutable.Map() },
+          backgroundData: { ...eg.baseBackgroundData, mutedUsers: Immutable.Map() },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
+            ...eg.baseBackgroundData,
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
           },
         },
@@ -839,13 +839,13 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.backgroundData,
+            ...eg.baseBackgroundData,
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
           },
         },
         {
           messages: [message],
-          backgroundData: { ...eg.backgroundData, mutedUsers: Immutable.Map() },
+          backgroundData: { ...eg.baseBackgroundData, mutedUsers: Immutable.Map() },
         },
       );
     });

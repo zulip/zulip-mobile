@@ -19,9 +19,9 @@ describe('constructActionButtons', () => {
 
   test('show star message option if message is not starred', () => {
     const message = eg.streamMessage();
-    const flags = { ...eg.backgroundData.flags, starred: {} };
+    const flags = { ...eg.baseBackgroundData.flags, starred: {} };
     const buttons = constructMessageActionButtons({
-      backgroundData: { ...eg.backgroundData, flags },
+      backgroundData: { ...eg.baseBackgroundData, flags },
       message,
       narrow,
     });
@@ -30,9 +30,9 @@ describe('constructActionButtons', () => {
 
   test('show unstar message option if message is starred', () => {
     const message = eg.streamMessage();
-    const flags = { ...eg.backgroundData.flags, starred: { [message.id]: true } };
+    const flags = { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } };
     const buttons = constructMessageActionButtons({
-      backgroundData: { ...eg.backgroundData, flags },
+      backgroundData: { ...eg.baseBackgroundData, flags },
       message,
       narrow,
     });
@@ -41,7 +41,7 @@ describe('constructActionButtons', () => {
 
   test('show reactions option if message is has at least one reaction', () => {
     const buttons = constructMessageActionButtons({
-      backgroundData: eg.backgroundData,
+      backgroundData: eg.baseBackgroundData,
       message: eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] }),
       narrow,
     });
@@ -66,7 +66,7 @@ describe('constructTopicActionButtons', () => {
   test('show mark as read if topic is unread', () => {
     const unread = baseState;
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams, unread },
+      backgroundData: { ...eg.baseBackgroundData, streams, unread },
       streamId,
       topic,
     });
@@ -75,7 +75,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show mark as read if topic is read', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams },
+      backgroundData: { ...eg.baseBackgroundData, streams },
       streamId,
       topic,
     });
@@ -85,7 +85,7 @@ describe('constructTopicActionButtons', () => {
   test('show Unmute topic option if topic is muted', () => {
     const mute = makeMuteState([[stream, topic]]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams, mute },
+      backgroundData: { ...eg.baseBackgroundData, streams, mute },
       streamId,
       topic,
     });
@@ -94,7 +94,7 @@ describe('constructTopicActionButtons', () => {
 
   test('show mute topic option if topic is not muted', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams, mute: makeMuteState([]) },
+      backgroundData: { ...eg.baseBackgroundData, streams, mute: makeMuteState([]) },
       streamId,
       topic,
     });
@@ -106,7 +106,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, in_home_view: false, ...stream }]]),
     );
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions, streams },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions, streams },
       streamId,
       topic,
     });
@@ -118,7 +118,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, in_home_view: true, ...stream }]]),
     );
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions, streams },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions, streams },
       streamId,
       topic,
     });
@@ -127,7 +127,7 @@ describe('constructTopicActionButtons', () => {
 
   test('show "subscribe" option, if stream is not subscribed yet', () => {
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, streams },
+      backgroundData: { ...eg.baseBackgroundData, streams },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Subscribe');
@@ -136,7 +136,7 @@ describe('constructTopicActionButtons', () => {
   test('show "unsubscribe" option, if stream is subscribed', () => {
     const subscriptions = deepFreeze(new Map([[eg.subscription.stream_id, eg.subscription]]));
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions },
       streamId: eg.subscription.stream_id,
     });
     expect(buttonTitles(buttons)).toContain('Unsubscribe');
@@ -147,7 +147,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, push_notifications: false, ...stream }]]),
     );
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Enable notifications');
@@ -158,7 +158,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, push_notifications: true, ...stream }]]),
     );
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Disable notifications');
@@ -169,7 +169,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: false, ...stream }]]),
     );
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Pin to top');
@@ -180,7 +180,7 @@ describe('constructTopicActionButtons', () => {
       new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: true, ...stream }]]),
     );
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.backgroundData, subscriptions },
+      backgroundData: { ...eg.baseBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Unpin from top');
@@ -189,7 +189,7 @@ describe('constructTopicActionButtons', () => {
   test('show delete topic option if current user is an admin', () => {
     const ownUser = { ...eg.selfUser, is_admin: true };
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, ownUser, streams },
+      backgroundData: { ...eg.baseBackgroundData, ownUser, streams },
       streamId,
       topic,
     });
@@ -198,7 +198,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show delete topic option if current user is not an admin', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.backgroundData, streams },
+      backgroundData: { ...eg.baseBackgroundData, streams },
       streamId,
       topic,
     });

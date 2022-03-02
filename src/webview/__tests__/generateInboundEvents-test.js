@@ -9,7 +9,7 @@ import type { Props } from '../MessageList';
 
 describe('generateInboundEvents', () => {
   const baseSelectorProps = deepFreeze({
-    backgroundData: eg.backgroundData,
+    backgroundData: eg.baseBackgroundData,
     initialScrollMessageId: null,
     fetching: { older: false, newer: false },
     messages: [],
@@ -162,9 +162,9 @@ describe('generateInboundEvents', () => {
     const prevProps = {
       ...baseProps,
       backgroundData: {
-        ...eg.backgroundData,
+        ...eg.baseBackgroundData,
         flags: {
-          ...eg.backgroundData.flags,
+          ...eg.baseBackgroundData.flags,
           read: { [message2.id]: true },
         },
       },
@@ -172,9 +172,9 @@ describe('generateInboundEvents', () => {
     const nextProps = {
       ...baseProps,
       backgroundData: {
-        ...eg.backgroundData,
+        ...eg.baseBackgroundData,
         flags: {
-          ...eg.backgroundData.flags,
+          ...eg.baseBackgroundData.flags,
           read: { [message1.id]: true, [message2.id]: true, [message3.id]: true },
         },
       },
