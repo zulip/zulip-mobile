@@ -102,7 +102,8 @@ type Button<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs> = {|
 |};
 
 //
-// Options for the action sheet go below: ...
+//
+// The options for the action sheets.
 //
 
 const reply = ({ message, dispatch, ownUser }) => {
@@ -306,6 +307,13 @@ const cancel = params => {};
 cancel.title = 'Cancel';
 cancel.errorMessage = 'Failed to hide menu';
 
+//
+//
+// Assembling the list of options for an action sheet.
+//
+// These are separate from their callers mainly for the sake of unit tests.
+//
+
 export const constructStreamActionButtons = ({
   backgroundData: { ownUser, subscriptions, userSettingStreamNotification },
   streamId,
@@ -483,6 +491,11 @@ export const constructNonHeaderActionButtons = ({
     return constructMessageActionButtons({ backgroundData, message, narrow });
   }
 };
+
+//
+//
+// Actually showing an action sheet.
+//
 
 function makeButtonCallback<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs>(
   buttonList: Button<Args>[],
