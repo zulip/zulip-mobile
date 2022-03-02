@@ -934,7 +934,6 @@ export const backgroundData: BackgroundData = deepFreeze({
   allImageEmojiById: {}, // in reality would also have :zulip:
   auth: selfAuth,
   debug: baseReduxState.session.debug,
-  doNotMarkMessagesAsRead: baseReduxState.settings.doNotMarkMessagesAsRead,
   flags: baseReduxState.flags,
   allUsersById: new Map([[selfUser.user_id, selfUser]]),
   mute: baseReduxState.mute,

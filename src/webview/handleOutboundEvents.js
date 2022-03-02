@@ -166,6 +166,7 @@ type Props = $ReadOnly<{
   dispatch: Dispatch,
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
+  doNotMarkMessagesAsRead: boolean,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
   ...
@@ -183,8 +184,8 @@ const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
 };
 
 const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
-  const { doNotMarkMessagesAsRead, flags, auth } = props.backgroundData;
-  if (doNotMarkMessagesAsRead) {
+  const { flags, auth } = props.backgroundData;
+  if (props.doNotMarkMessagesAsRead) {
     return;
   }
   const unreadMessageIds = filterUnreadMessagesInRange(

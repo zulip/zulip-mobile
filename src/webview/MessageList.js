@@ -83,7 +83,6 @@ export type BackgroundData = $ReadOnly<{|
   allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
   auth: Auth,
   debug: Debug,
-  doNotMarkMessagesAsRead: boolean,
   flags: FlagsState,
   mute: MuteState,
   allUsersById: Map<UserId, UserOrBot>,
@@ -115,6 +114,7 @@ type SelectorProps = {|
   fetching: Fetching,
   messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
   typingUsers: $ReadOnlyArray<UserOrBot>,
+  doNotMarkMessagesAsRead: boolean,
 |};
 
 export type Props = $ReadOnly<{|
@@ -210,6 +210,7 @@ class MessageListInner extends Component<Props> {
       messageListElementsForShownMessages,
       initialScrollMessageId,
       showMessagePlaceholders,
+      doNotMarkMessagesAsRead,
       _,
     } = this.props;
     const contentHtml = messageListElementsForShownMessages
@@ -221,7 +222,7 @@ class MessageListInner extends Component<Props> {
         }),
       )
       .join('');
-    const { auth, theme, doNotMarkMessagesAsRead } = backgroundData;
+    const { auth, theme } = backgroundData;
     const html: string = getHtml(contentHtml, theme, {
       scrollMessageId: initialScrollMessageId,
       auth,
@@ -355,8 +356,6 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       allImageEmojiById: getAllImageEmojiById(state),
       auth: getAuth(state),
       debug,
-      doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow) || globalSettings.doNotMarkMessagesAsRead,
       flags: getFlags(state),
       mute: getMute(state),
       allUsersById: getAllUsersById(state),
@@ -378,6 +377,8 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
         props.narrow,
       ),
       typingUsers: getCurrentTypingUsers(state, props.narrow),
+      doNotMarkMessagesAsRead:
+        !marksMessagesAsRead(props.narrow) || globalSettings.doNotMarkMessagesAsRead,
     };
   },
 )(connectActionSheet(withGetText(MessageListInner)));
