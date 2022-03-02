@@ -84,12 +84,12 @@ type MessageArgs = {
   ...
 };
 
-type Button<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs> = {|
-  (Args): void | Promise<void>,
+type Button<-Args: { ... }> = {|
+  +action: Args => void | Promise<void>,
 
   /** The label for the button. */
   // This UI string should be represented in messages_en.json.
-  title: string,
+  +title: string,
 
   /** The title of the alert-box that will be displayed if the
    * callback throws. */
@@ -98,7 +98,7 @@ type Button<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs> = {|
   // has one.
   //
   // This UI string should be represented in messages_en.json.
-  errorMessage: string,
+  +errorMessage: string,
 |};
 
 //
@@ -106,206 +106,254 @@ type Button<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs> = {|
 // The options for the action sheets.
 //
 
-const reply = ({ message, dispatch, ownUser }) => {
-  dispatch(doNarrow(getNarrowForReply(message, ownUser.user_id), message.id));
+const reply = {
+  title: 'Reply',
+  errorMessage: 'Failed to reply',
+  action: ({ message, dispatch, ownUser }) => {
+    dispatch(doNarrow(getNarrowForReply(message, ownUser.user_id), message.id));
+  },
 };
-reply.title = 'Reply';
-reply.errorMessage = 'Failed to reply';
 
-const copyToClipboard = async ({ _, auth, message }) => {
-  const rawMessage = message.isOutbox
-    ? message.markdownContent
-    : (await api.getRawMessageContent(auth, message.id)).raw_content;
-  Clipboard.setString(rawMessage);
-  showToast(_('Message copied'));
+const copyToClipboard = {
+  title: 'Copy to clipboard',
+  errorMessage: 'Failed to copy message to clipboard',
+  action: async ({ _, auth, message }) => {
+    const rawMessage = message.isOutbox
+      ? message.markdownContent
+      : (await api.getRawMessageContent(auth, message.id)).raw_content;
+    Clipboard.setString(rawMessage);
+    showToast(_('Message copied'));
+  },
 };
-copyToClipboard.title = 'Copy to clipboard';
-copyToClipboard.errorMessage = 'Failed to copy message to clipboard';
 
-const editMessage = async ({ message, dispatch, startEditMessage, auth }) => {
-  if (message.isOutbox) {
-    logging.warn('Attempted "Edit message" for outbox message');
-    return;
-  }
+const editMessage = {
+  title: 'Edit message',
+  errorMessage: 'Failed to edit message',
+  action: async ({ message, dispatch, startEditMessage, auth }) => {
+    if (message.isOutbox) {
+      logging.warn('Attempted "Edit message" for outbox message');
+      return;
+    }
 
-  const { raw_content } = await api.getRawMessageContent(auth, message.id);
-  startEditMessage({
-    id: message.id,
-    content: raw_content,
-    topic: message.subject,
-  });
-};
-editMessage.title = 'Edit message';
-editMessage.errorMessage = 'Failed to edit message';
-
-const deleteMessage = async ({ auth, message, dispatch }) => {
-  if (message.isOutbox) {
-    dispatch(deleteOutboxMessage(message.timestamp));
-  } else {
-    await api.deleteMessage(auth, message.id);
-  }
-};
-deleteMessage.title = 'Delete message';
-deleteMessage.errorMessage = 'Failed to delete message';
-
-const markTopicAsRead = async ({ auth, streamId, topic }) => {
-  await api.markTopicAsRead(auth, streamId, topic);
-};
-markTopicAsRead.title = 'Mark topic as read';
-markTopicAsRead.errorMessage = 'Failed to mark topic as read';
-
-const unmuteTopic = async ({ auth, streamId, topic, streams }) => {
-  const stream = streams.get(streamId);
-  invariant(stream !== undefined, 'Stream with provided streamId must exist.');
-  // This still uses a stream name (#3918) because the API method does; see there.
-  await api.setTopicMute(auth, stream.name, topic, false);
-};
-unmuteTopic.title = 'Unmute topic';
-unmuteTopic.errorMessage = 'Failed to unmute topic';
-
-const muteTopic = async ({ auth, streamId, topic, streams }) => {
-  const stream = streams.get(streamId);
-  invariant(stream !== undefined, 'Stream with provided streamId must exist.');
-  // This still uses a stream name (#3918) because the API method does; see there.
-  await api.setTopicMute(auth, stream.name, topic, true);
-};
-muteTopic.title = 'Mute topic';
-muteTopic.errorMessage = 'Failed to mute topic';
-
-const deleteTopic = async ({ auth, streamId, topic, dispatch, _ }) => {
-  const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
-  const AsyncAlert = async (): Promise<boolean> =>
-    new Promise((resolve, reject) => {
-      Alert.alert(
-        alertTitle,
-        _('This will also delete all messages in the topic.'),
-        [
-          {
-            text: _('Delete topic'),
-            onPress: () => {
-              resolve(true);
-            },
-            style: 'destructive',
-          },
-          {
-            text: _('Cancel'),
-            onPress: () => {
-              resolve(false);
-            },
-            style: 'cancel',
-          },
-        ],
-        { cancelable: true },
-      );
+    const { raw_content } = await api.getRawMessageContent(auth, message.id);
+    startEditMessage({
+      id: message.id,
+      content: raw_content,
+      topic: message.subject,
     });
-  if (await AsyncAlert()) {
-    await dispatch(deleteMessagesForTopic(streamId, topic));
-  }
+  },
 };
-deleteTopic.title = 'Delete topic';
-deleteTopic.errorMessage = 'Failed to delete topic';
 
-const unmuteStream = async ({ auth, streamId, subscriptions }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'is_muted', false);
+const deleteMessage = {
+  title: 'Delete message',
+  errorMessage: 'Failed to delete message',
+  action: async ({ auth, message, dispatch }) => {
+    if (message.isOutbox) {
+      dispatch(deleteOutboxMessage(message.timestamp));
+    } else {
+      await api.deleteMessage(auth, message.id);
+    }
+  },
 };
-unmuteStream.title = 'Unmute stream';
-unmuteStream.errorMessage = 'Failed to unmute stream';
 
-const muteStream = async ({ auth, streamId, subscriptions }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'is_muted', true);
+const markTopicAsRead = {
+  title: 'Mark topic as read',
+  errorMessage: 'Failed to mark topic as read',
+  action: async ({ auth, streamId, topic }) => {
+    await api.markTopicAsRead(auth, streamId, topic);
+  },
 };
-muteStream.title = 'Mute stream';
-muteStream.errorMessage = 'Failed to mute stream';
 
-const showStreamSettings = ({ streamId, subscriptions }) => {
-  NavigationService.dispatch(navigateToStream(streamId));
+const unmuteTopic = {
+  title: 'Unmute topic',
+  errorMessage: 'Failed to unmute topic',
+  action: async ({ auth, streamId, topic, streams }) => {
+    const stream = streams.get(streamId);
+    invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+    // This still uses a stream name (#3918) because the API method does; see there.
+    await api.setTopicMute(auth, stream.name, topic, false);
+  },
 };
-showStreamSettings.title = 'Stream settings';
-showStreamSettings.errorMessage = 'Failed to show stream settings';
 
-const subscribe = async ({ auth, streamId, streams }) => {
-  const stream = streams.get(streamId);
-  invariant(stream !== undefined, 'Stream with provided streamId not found.');
-  // This still uses a stream name (#3918) because the API method does; see there.
-  await api.subscriptionAdd(auth, [{ name: stream.name }]);
+const muteTopic = {
+  title: 'Mute topic',
+  errorMessage: 'Failed to mute topic',
+  action: async ({ auth, streamId, topic, streams }) => {
+    const stream = streams.get(streamId);
+    invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+    // This still uses a stream name (#3918) because the API method does; see there.
+    await api.setTopicMute(auth, stream.name, topic, true);
+  },
 };
-subscribe.title = 'Subscribe';
-subscribe.errorMessage = 'Failed to subscribe';
 
-const unsubscribe = async ({ auth, streamId, subscriptions }) => {
-  const sub = subscriptions.get(streamId);
-  invariant(sub !== undefined, 'Subscription with provided streamId not found.');
-  // This still uses a stream name (#3918) because the API method does; see there.
-  await api.subscriptionRemove(auth, [sub.name]);
+const deleteTopic = {
+  title: 'Delete topic',
+  errorMessage: 'Failed to delete topic',
+  action: async ({ auth, streamId, topic, dispatch, _ }) => {
+    const alertTitle = _('Are you sure you want to delete the topic “{topic}”?', { topic });
+    const AsyncAlert = async (): Promise<boolean> =>
+      new Promise((resolve, reject) => {
+        Alert.alert(
+          alertTitle,
+          _('This will also delete all messages in the topic.'),
+          [
+            {
+              text: _('Delete topic'),
+              onPress: () => {
+                resolve(true);
+              },
+              style: 'destructive',
+            },
+            {
+              text: _('Cancel'),
+              onPress: () => {
+                resolve(false);
+              },
+              style: 'cancel',
+            },
+          ],
+          { cancelable: true },
+        );
+      });
+    if (await AsyncAlert()) {
+      await dispatch(deleteMessagesForTopic(streamId, topic));
+    }
+  },
 };
-unsubscribe.title = 'Unsubscribe';
-unsubscribe.errorMessage = 'Failed to unsubscribe';
 
-const pinToTop = async ({ auth, streamId }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', true);
+const unmuteStream = {
+  title: 'Unmute stream',
+  errorMessage: 'Failed to unmute stream',
+  action: async ({ auth, streamId, subscriptions }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'is_muted', false);
+  },
 };
-pinToTop.title = 'Pin to top';
-pinToTop.errorMessage = 'Failed to pin to top';
 
-const unpinFromTop = async ({ auth, streamId }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', false);
+const muteStream = {
+  title: 'Mute stream',
+  errorMessage: 'Failed to mute stream',
+  action: async ({ auth, streamId, subscriptions }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'is_muted', true);
+  },
 };
-unpinFromTop.title = 'Unpin from top';
-unpinFromTop.errorMessage = 'Failed to unpin from top';
 
-const enableNotifications = async ({ auth, streamId }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'push_notifications', true);
+const showStreamSettings = {
+  title: 'Stream settings',
+  errorMessage: 'Failed to show stream settings',
+  action: ({ streamId, subscriptions }) => {
+    NavigationService.dispatch(navigateToStream(streamId));
+  },
 };
-enableNotifications.title = 'Enable notifications';
-enableNotifications.errorMessage = 'Failed to enable notifications';
 
-const disableNotifications = async ({ auth, streamId }) => {
-  await api.setSubscriptionProperty(auth, streamId, 'push_notifications', false);
+const subscribe = {
+  title: 'Subscribe',
+  errorMessage: 'Failed to subscribe',
+  action: async ({ auth, streamId, streams }) => {
+    const stream = streams.get(streamId);
+    invariant(stream !== undefined, 'Stream with provided streamId not found.');
+    // This still uses a stream name (#3918) because the API method does; see there.
+    await api.subscriptionAdd(auth, [{ name: stream.name }]);
+  },
 };
-disableNotifications.title = 'Disable notifications';
-disableNotifications.errorMessage = 'Failed to disable notifications';
 
-const seePmConversationDetails = async ({ pmKeyRecipients }) => {
-  NavigationService.dispatch(navigateToPmConversationDetails(pmKeyRecipients));
+const unsubscribe = {
+  title: 'Unsubscribe',
+  errorMessage: 'Failed to unsubscribe',
+  action: async ({ auth, streamId, subscriptions }) => {
+    const sub = subscriptions.get(streamId);
+    invariant(sub !== undefined, 'Subscription with provided streamId not found.');
+    // This still uses a stream name (#3918) because the API method does; see there.
+    await api.subscriptionRemove(auth, [sub.name]);
+  },
 };
-seePmConversationDetails.title = 'See details';
-seePmConversationDetails.errorMessage = 'Failed to show details';
 
-const starMessage = async ({ auth, message }) => {
-  await api.toggleMessageStarred(auth, [message.id], true);
+const pinToTop = {
+  title: 'Pin to top',
+  errorMessage: 'Failed to pin to top',
+  action: async ({ auth, streamId }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', true);
+  },
 };
-starMessage.title = 'Star message';
-starMessage.errorMessage = 'Failed to star message';
 
-const unstarMessage = async ({ auth, message }) => {
-  await api.toggleMessageStarred(auth, [message.id], false);
+const unpinFromTop = {
+  title: 'Unpin from top',
+  errorMessage: 'Failed to unpin from top',
+  action: async ({ auth, streamId }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'pin_to_top', false);
+  },
 };
-unstarMessage.title = 'Unstar message';
-unstarMessage.errorMessage = 'Failed to unstar message';
 
-const shareMessage = ({ message }) => {
-  Share.share({
-    message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
-  });
+const enableNotifications = {
+  title: 'Enable notifications',
+  errorMessage: 'Failed to enable notifications',
+  action: async ({ auth, streamId }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'push_notifications', true);
+  },
 };
-shareMessage.title = 'Share';
-shareMessage.errorMessage = 'Failed to share message';
 
-const addReaction = ({ message, dispatch }) => {
-  NavigationService.dispatch(navigateToEmojiPicker(message.id));
+const disableNotifications = {
+  title: 'Disable notifications',
+  errorMessage: 'Failed to disable notifications',
+  action: async ({ auth, streamId }) => {
+    await api.setSubscriptionProperty(auth, streamId, 'push_notifications', false);
+  },
 };
-addReaction.title = 'Add a reaction';
-addReaction.errorMessage = 'Failed to add reaction';
 
-const showReactions = ({ message, dispatch }) => {
-  NavigationService.dispatch(navigateToMessageReactionScreen(message.id));
+const seePmConversationDetails = {
+  title: 'See details',
+  errorMessage: 'Failed to show details',
+  action: async ({ pmKeyRecipients }) => {
+    NavigationService.dispatch(navigateToPmConversationDetails(pmKeyRecipients));
+  },
 };
-showReactions.title = 'See who reacted';
-showReactions.errorMessage = 'Failed to show reactions';
 
-const cancel = params => {};
-cancel.title = 'Cancel';
-cancel.errorMessage = 'Failed to hide menu';
+const starMessage = {
+  title: 'Star message',
+  errorMessage: 'Failed to star message',
+  action: async ({ auth, message }) => {
+    await api.toggleMessageStarred(auth, [message.id], true);
+  },
+};
+
+const unstarMessage = {
+  title: 'Unstar message',
+  errorMessage: 'Failed to unstar message',
+  action: async ({ auth, message }) => {
+    await api.toggleMessageStarred(auth, [message.id], false);
+  },
+};
+
+const shareMessage = {
+  title: 'Share',
+  errorMessage: 'Failed to share message',
+  action: ({ message }) => {
+    Share.share({
+      message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
+    });
+  },
+};
+
+const addReaction = {
+  title: 'Add a reaction',
+  errorMessage: 'Failed to add reaction',
+  action: ({ message, dispatch }) => {
+    NavigationService.dispatch(navigateToEmojiPicker(message.id));
+  },
+};
+
+const showReactions = {
+  title: 'See who reacted',
+  errorMessage: 'Failed to show reactions',
+  action: ({ message, dispatch }) => {
+    NavigationService.dispatch(navigateToMessageReactionScreen(message.id));
+  },
+};
+
+const cancel: Button<{ ... }> = {
+  title: 'Cancel',
+  errorMessage: 'Failed to hide menu',
+  action: params => {},
+};
 
 //
 //
@@ -505,7 +553,7 @@ function makeButtonCallback<Args: StreamArgs | TopicArgs | PmArgs | MessageArgs>
     (async () => {
       const pressedButton: Button<Args> = buttonList[buttonIndex];
       try {
-        await pressedButton(args);
+        await pressedButton.action(args);
       } catch (err) {
         Alert.alert(args._(pressedButton.errorMessage), err.message);
       }
