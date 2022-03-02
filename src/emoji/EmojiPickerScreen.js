@@ -9,7 +9,6 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
-import { unicodeCodeByName } from './codePointMap';
 import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojis } from './data';
@@ -44,17 +43,14 @@ export default function EmojiPickerScreen(props: Props): Node {
   const addReaction = useCallback(
     ({ type, code, name }) => {
       let reactionType: ReactionType | void = undefined;
-      let emojiCode: string | void = undefined;
       const imageEmoji = activeImageEmojiByName[name];
       if (imageEmoji) {
         reactionType = zulipExtraEmojiMap[name] ? 'zulip_extra_emoji' : 'realm_emoji';
-        emojiCode = imageEmoji.code;
       } else {
         reactionType = 'unicode_emoji';
-        emojiCode = unicodeCodeByName[name];
       }
 
-      api.emojiReactionAdd(auth, messageId, reactionType, emojiCode, name).catch(err => {
+      api.emojiReactionAdd(auth, messageId, reactionType, code, name).catch(err => {
         logging.error('Error adding reaction emoji', err);
         showToast(_('Failed to add reaction'));
       });
