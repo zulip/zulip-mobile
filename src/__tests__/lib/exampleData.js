@@ -50,9 +50,8 @@ import {
 import rootReducer from '../../boot/reducers';
 import { authOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
-import type { BackgroundData } from '../../webview/backgroundData';
-import { getSettings, getStreamsById, getSubscriptionsById } from '../../selectors';
-import { getGlobalSettings } from '../../directSelectors';
+import { type BackgroundData, getBackgroundData } from '../../webview/backgroundData';
+import { getDebug, getGlobalSettings } from '../../directSelectors';
 import { messageMoved } from '../../api/misc';
 
 /* ========================================================================
@@ -935,20 +934,14 @@ export const mkActionEventUpdateMessage = (args: {|
  * Includes a few elements of plusReduxState, where necessary for
  * constructing a valid BackgroundData.
  */
-export const baseBackgroundData: BackgroundData = deepFreeze({
-  alertWords: baseReduxState.alertWords,
-  allImageEmojiById: {}, // in reality would also have :zulip:
-  auth: selfAuth,
-  debug: baseReduxState.session.debug,
-  flags: baseReduxState.flags,
-  allUsersById: new Map([[selfUser.user_id, selfUser]]),
-  mute: baseReduxState.mute,
-  mutedUsers: baseReduxState.mutedUsers,
-  ownUser: selfUser,
-  streams: getStreamsById(baseReduxState),
-  subscriptions: getSubscriptionsById(baseReduxState),
-  unread: baseReduxState.unread,
-  theme: getGlobalSettings(baseReduxState).theme,
-  twentyFourHourTime: baseReduxState.realm.twentyFourHourTime,
-  userSettingStreamNotification: getSettings(baseReduxState).streamNotification,
-});
+export const baseBackgroundData: BackgroundData = deepFreeze(
+  getBackgroundData(
+    reduxState({
+      accounts: plusReduxState.accounts,
+      realm: { ...baseReduxState.realm, user_id: plusReduxState.realm.user_id },
+      users: [selfUser],
+    }),
+    getGlobalSettings(baseReduxState),
+    getDebug(baseReduxState),
+  ),
+);
