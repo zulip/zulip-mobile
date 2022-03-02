@@ -7,7 +7,6 @@ import { createStyleSheet } from '../styles';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import Input from '../common/Input';
 import SelectableOptionRow from '../common/SelectableOptionRow';
@@ -17,7 +16,6 @@ import { getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
-import { navigateBack } from '../nav/navActions';
 import * as api from '../api';
 
 const styles = createStyleSheet({
@@ -39,6 +37,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function UserStatusScreen(props: Props): Node {
+  const { navigation } = props;
+
   const auth = useSelector(getAuth);
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
@@ -49,9 +49,9 @@ export default function UserStatusScreen(props: Props): Node {
   const sendToServer = useCallback(
     partialUserStatus => {
       api.updateUserStatus(auth, partialUserStatus);
-      NavigationService.dispatch(navigateBack());
+      navigation.goBack();
     },
-    [auth],
+    [navigation, auth],
   );
 
   const handlePressUpdate = useCallback(() => {
