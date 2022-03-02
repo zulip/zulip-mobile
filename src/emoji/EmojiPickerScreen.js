@@ -41,11 +41,12 @@ export default function EmojiPickerScreen(props: Props): Node {
 
   const addReaction = useCallback(
     ({ type, code, name }) => {
-      const reactionType = activeImageEmojiByName[name]
-        ? zulipExtraEmojiMap[name]
-          ? 'zulip_extra_emoji'
-          : 'realm_emoji'
-        : 'unicode_emoji';
+      const reactionType =
+        type === 'image'
+          ? zulipExtraEmojiMap[name]
+            ? 'zulip_extra_emoji'
+            : 'realm_emoji'
+          : 'unicode_emoji';
 
       api.emojiReactionAdd(auth, messageId, reactionType, code, name).catch(err => {
         logging.error('Error adding reaction emoji', err);
@@ -53,7 +54,7 @@ export default function EmojiPickerScreen(props: Props): Node {
       });
       NavigationService.dispatch(navigateBack());
     },
-    [activeImageEmojiByName, auth, messageId, _],
+    [auth, messageId, _],
   );
 
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
