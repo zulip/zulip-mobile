@@ -312,8 +312,8 @@ const unstarMessage = {
 const shareMessage = {
   title: 'Share',
   errorMessage: 'Failed to share message',
-  action: ({ message }) => {
-    Share.share({
+  action: async ({ message }) => {
+    await Share.share({
       message: message.content.replace(/<(?:.|\n)*?>/gm, ''),
     });
   },
