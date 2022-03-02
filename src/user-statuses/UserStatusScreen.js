@@ -47,20 +47,20 @@ export default function UserStatusScreen(props: Props): Node {
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
-    (_statusText: string | null) => {
-      api.updateUserStatus(auth, { status_text: _statusText });
+    partialUserStatus => {
+      api.updateUserStatus(auth, partialUserStatus);
       NavigationService.dispatch(navigateBack());
     },
     [auth],
   );
 
   const handlePressUpdate = useCallback(() => {
-    sendToServer(statusText);
+    sendToServer({ status_text: statusText });
   }, [statusText, sendToServer]);
 
   const handlePressClear = useCallback(() => {
     setStatusText(null);
-    sendToServer(null);
+    sendToServer({ status_text: null });
   }, [sendToServer]);
 
   return (
