@@ -945,3 +945,8 @@ export const baseBackgroundData: BackgroundData = deepFreeze(
     getDebug(baseReduxState),
   ),
 );
+
+/** A BackgroundData value corresponding to plusReduxState. */
+export const plusBackgroundData: BackgroundData = deepFreeze(
+  getBackgroundData(plusReduxState, getGlobalSettings(plusReduxState), getDebug(plusReduxState)),
+);
