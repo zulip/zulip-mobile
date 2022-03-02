@@ -440,27 +440,26 @@ export const constructPmConversationActionButtons = (args: {|
   return buttons;
 };
 
-export const constructOutboxActionButtons = (): Button<MessageArgs>[] => {
-  const buttons = [];
-  buttons.push(copyToClipboard);
-  buttons.push(shareMessage);
-  buttons.push(deleteMessage);
-  buttons.push(cancel);
-  return buttons;
-};
-
 const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = (args: {|
   backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, ... }>,
-  message: Message,
+  message: Message | Outbox,
   narrow: Narrow,
 |}): Button<MessageArgs>[] => {
   const { backgroundData, message, narrow } = args;
   const { ownUser, flags } = backgroundData;
-
   const buttons = [];
+
+  if (message.isOutbox) {
+    buttons.push(copyToClipboard);
+    buttons.push(shareMessage);
+    buttons.push(deleteMessage);
+    buttons.push(cancel);
+    return buttons;
+  }
+
   if (messageNotDeleted(message)) {
     buttons.push(addReaction);
   }
@@ -495,19 +494,6 @@ export const constructMessageActionButtons = (args: {|
   return buttons;
 };
 
-export const constructNonHeaderActionButtons = (args: {|
-  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, ... }>,
-  message: Message | Outbox,
-  narrow: Narrow,
-|}): Button<MessageArgs>[] => {
-  const { backgroundData, message, narrow } = args;
-  if (message.isOutbox) {
-    return constructOutboxActionButtons();
-  } else {
-    return constructMessageActionButtons({ backgroundData, message, narrow });
-  }
-};
-
 //
 //
 // Actually showing an action sheet.
@@ -538,7 +524,7 @@ export const showMessageActionSheet = (args: {|
   narrow: Narrow,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, message, narrow } = args;
-  const buttonList = constructNonHeaderActionButtons({ backgroundData, message, narrow });
+  const buttonList = constructMessageActionButtons({ backgroundData, message, narrow });
   showActionSheetWithOptions(
     {
       options: buttonList.map(button => callbacks._(button.title)),
