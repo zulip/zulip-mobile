@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import type { UserStatusUpdate } from '../api/modelTypes';
+import type { UserStatus, UserStatusUpdate } from '../api/modelTypes';
 import { makeUserId } from '../api/idTypes';
 import objectEntries from '../utils/objectEntries';
 import type { PerAccountState, PerAccountApplicableAction, UserId } from '../types';
-import type { UserStatus, UserStatusesState } from './userStatusesCore';
+import type { UserStatusesState } from './userStatusesCore';
 import {
   LOGOUT,
   LOGIN_SUCCESS,

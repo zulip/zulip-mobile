@@ -36,7 +36,7 @@ import type { UnreadState } from './unread/unreadModelTypes';
 import type { UserStatusesState } from './user-statuses/userStatusesCore';
 
 export type { MuteState } from './mute/muteModelTypes';
-export type { UserStatus, UserStatusesState } from './user-statuses/userStatusesCore';
+export type { UserStatusesState } from './user-statuses/userStatusesCore';
 export type * from './actionTypes';
 
 /**

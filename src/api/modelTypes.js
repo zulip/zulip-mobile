@@ -212,6 +212,27 @@ export type UserGroup = $ReadOnly<{|
 |}>;
 
 /**
+ * A user's chosen availability and text/emoji statuses.
+ */
+export type UserStatus = $ReadOnly<{|
+  // true/false: User unavailable/available.
+  away: boolean,
+
+  // "foo": User's status text is "foo".
+  // null: User's status text is unset.
+  status_text: string | null,
+
+  // null: User's status emoji is unset.
+  status_emoji: null | {|
+    // These three properties point to an emoji in the same way the same-named
+    // properties point to an emoji in the Reaction type; see there.
+    +emoji_name: string,
+    +reaction_type: ReactionType, // eslint-disable-line no-use-before-define
+    +emoji_code: string,
+  |},
+|}>;
+
+/**
  * The server's representation of the diff between two user-status records.
  *
  * A value is mentioned only when it's changed.

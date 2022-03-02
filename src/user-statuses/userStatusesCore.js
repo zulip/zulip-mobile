@@ -5,28 +5,8 @@
  */
 import Immutable from 'immutable';
 
-import type { ReactionType, UserId } from '../api/apiTypes';
-
-/**
- * A user's chosen availability and text/emoji statuses.
- */
-export type UserStatus = $ReadOnly<{|
-  // true/false: User unavailable/available.
-  away: boolean,
-
-  // "foo": User's status text is "foo".
-  // null: User's status text is unset.
-  status_text: string | null,
-
-  // null: User's status emoji is unset.
-  status_emoji: null | {|
-    // These three properties point to an emoji in the same way the same-named
-    // properties point to an emoji in the Reaction type; see there.
-    +emoji_name: string,
-    +reaction_type: ReactionType,
-    +emoji_code: string,
-  |},
-|}>;
+import type { UserId } from '../api/apiTypes';
+import type { UserStatus } from '../api/modelTypes';
 
 /**
  * The canonical default, "unset" user status.
