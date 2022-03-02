@@ -31,12 +31,8 @@ export const reactionTypeFromEmojiType = (emojiType: EmojiType, name: string): R
     : 'unicode_emoji';
 
 // See comment on reactionTypeFromEmojiType, just above.
-export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType => {
-  if (reactionType === 'unicode_emoji') {
-    return 'unicode';
-  }
-  return 'image';
-};
+export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType =>
+  reactionType === 'unicode_emoji' ? 'unicode' : 'image';
 
 /**
  * A list of emoji matching the query, in an order to offer to the user.
