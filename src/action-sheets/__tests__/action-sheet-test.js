@@ -13,7 +13,7 @@ import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
-describe('constructActionButtons', () => {
+describe('constructMessageActionButtons', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
   test('show star message option if message is not starred', () => {
@@ -117,6 +117,32 @@ describe('constructTopicActionButtons', () => {
     expect(buttonTitles(buttons)).toContain('Mute stream');
   });
 
+  test('show delete topic option if current user is an admin', () => {
+    const ownUser = { ...eg.selfUser, is_admin: true };
+    const buttons = constructTopicActionButtons({
+      backgroundData: { ...eg.baseBackgroundData, ownUser, streams },
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).toContain('Delete topic');
+  });
+
+  test('do not show delete topic option if current user is not an admin', () => {
+    const buttons = constructTopicActionButtons({
+      backgroundData: { ...eg.baseBackgroundData, streams },
+      streamId,
+      topic,
+    });
+    expect(buttonTitles(buttons)).not.toContain('Delete topic');
+  });
+});
+
+describe('constructStreamActionButtons', () => {
+  const stream = eg.makeStream();
+  const streamMessage = eg.streamMessage({ stream });
+  const streamId = streamMessage.stream_id;
+  const streams = deepFreeze(new Map([[stream.stream_id, stream]]));
+
   test('show "subscribe" option, if stream is not subscribed yet', () => {
     const buttons = constructStreamActionButtons({
       backgroundData: { ...eg.baseBackgroundData, streams },
@@ -176,24 +202,5 @@ describe('constructTopicActionButtons', () => {
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Unpin from top');
-  });
-
-  test('show delete topic option if current user is an admin', () => {
-    const ownUser = { ...eg.selfUser, is_admin: true };
-    const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, ownUser, streams },
-      streamId,
-      topic,
-    });
-    expect(buttonTitles(buttons)).toContain('Delete topic');
-  });
-
-  test('do not show delete topic option if current user is not an admin', () => {
-    const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams },
-      streamId,
-      topic,
-    });
-    expect(buttonTitles(buttons)).not.toContain('Delete topic');
   });
 });
