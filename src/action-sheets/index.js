@@ -129,7 +129,7 @@ const copyToClipboard = {
 const editMessage = {
   title: 'Edit message',
   errorMessage: 'Failed to edit message',
-  action: async ({ message, dispatch, startEditMessage, auth }) => {
+  action: async ({ message, startEditMessage, auth }) => {
     if (message.isOutbox) {
       logging.warn('Attempted "Edit message" for outbox message');
       return;
@@ -210,7 +210,7 @@ const deleteTopic = {
 const unmuteStream = {
   title: 'Unmute stream',
   errorMessage: 'Failed to unmute stream',
-  action: async ({ auth, streamId, subscriptions }) => {
+  action: async ({ auth, streamId }) => {
     await api.setSubscriptionProperty(auth, streamId, 'is_muted', false);
   },
 };
@@ -218,7 +218,7 @@ const unmuteStream = {
 const muteStream = {
   title: 'Mute stream',
   errorMessage: 'Failed to mute stream',
-  action: async ({ auth, streamId, subscriptions }) => {
+  action: async ({ auth, streamId }) => {
     await api.setSubscriptionProperty(auth, streamId, 'is_muted', true);
   },
 };
@@ -226,7 +226,7 @@ const muteStream = {
 const showStreamSettings = {
   title: 'Stream settings',
   errorMessage: 'Failed to show stream settings',
-  action: ({ streamId, subscriptions }) => {
+  action: ({ streamId }) => {
     NavigationService.dispatch(navigateToStream(streamId));
   },
 };
@@ -322,7 +322,7 @@ const shareMessage = {
 const addReaction = {
   title: 'Add a reaction',
   errorMessage: 'Failed to add reaction',
-  action: ({ message, dispatch }) => {
+  action: ({ message }) => {
     NavigationService.dispatch(navigateToEmojiPicker(message.id));
   },
 };
@@ -330,7 +330,7 @@ const addReaction = {
 const showReactions = {
   title: 'See who reacted',
   errorMessage: 'Failed to show reactions',
-  action: ({ message, dispatch }) => {
+  action: ({ message }) => {
     NavigationService.dispatch(navigateToMessageReactionScreen(message.id));
   },
 };
@@ -338,7 +338,7 @@ const showReactions = {
 const cancel: Button<{ ... }> = {
   title: 'Cancel',
   errorMessage: 'Failed to hide menu',
-  action: params => {},
+  action: () => {},
 };
 
 //
