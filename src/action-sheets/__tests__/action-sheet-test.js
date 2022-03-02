@@ -19,12 +19,20 @@ describe('constructStreamActionButtons', () => {
   const titles = backgroundData =>
     buttonTitles(constructStreamActionButtons({ backgroundData, streamId }));
 
-  test('show "subscribe" option, if stream is not subscribed yet', () => {
-    expect(titles({ ...eg.plusBackgroundData, subscriptions: new Map() })).toContain('Subscribe');
+  // TODO: test constructStreamActionButtons for mute/unmute
+
+  test('show "pin to top" if stream is not pinned to top', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Pin to top');
   });
 
-  test('show "unsubscribe" option, if stream is subscribed', () => {
-    expect(titles({ ...eg.plusBackgroundData })).toContain('Unsubscribe');
+  test('show "unpin from top" if stream is pinned to top', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: true })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Unpin from top');
   });
 
   test('show "enable notification" if push notifications are not enabled for stream', () => {
@@ -41,19 +49,15 @@ describe('constructStreamActionButtons', () => {
     expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Disable notifications');
   });
 
-  test('show "pin to top" if stream is not pinned to top', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Pin to top');
+  test('show "subscribe" option, if stream is not subscribed yet', () => {
+    expect(titles({ ...eg.plusBackgroundData, subscriptions: new Map() })).toContain('Subscribe');
   });
 
-  test('show "unpin from top" if stream is pinned to top', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: true })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Unpin from top');
+  test('show "unsubscribe" option, if stream is subscribed', () => {
+    expect(titles({ ...eg.plusBackgroundData })).toContain('Unsubscribe');
   });
+
+  // TODO: test constructStreamActionButtons for showStreamSettings
 });
 
 describe('constructTopicActionButtons', () => {
@@ -63,6 +67,15 @@ describe('constructTopicActionButtons', () => {
 
   const titles = backgroundData =>
     buttonTitles(constructTopicActionButtons({ backgroundData, streamId, topic }));
+
+  test('show delete topic option if current user is an admin', () => {
+    const ownUser = { ...eg.selfUser, is_admin: true };
+    expect(titles({ ...eg.plusBackgroundData, ownUser })).toContain('Delete topic');
+  });
+
+  test('do not show delete topic option if current user is not an admin', () => {
+    expect(titles({ ...eg.plusBackgroundData })).not.toContain('Delete topic');
+  });
 
   test('show mark as read if topic is unread', () => {
     const unread = makeUnreadState(eg.plusReduxState, [streamMessage]);
@@ -96,21 +109,35 @@ describe('constructTopicActionButtons', () => {
     expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Mute stream');
   });
 
-  test('show delete topic option if current user is an admin', () => {
-    const ownUser = { ...eg.selfUser, is_admin: true };
-    expect(titles({ ...eg.plusBackgroundData, ownUser })).toContain('Delete topic');
-  });
-
-  test('do not show delete topic option if current user is not an admin', () => {
-    expect(titles({ ...eg.plusBackgroundData })).not.toContain('Delete topic');
-  });
+  // TODO: test constructStreamActionButtons for showStreamSettings
 });
+
+// TODO: test constructPmConversationActionButtons
 
 describe('constructMessageActionButtons', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
   const titles = (backgroundData, message) =>
     buttonTitles(constructMessageActionButtons({ backgroundData, message, narrow }));
+
+  // TODO: test constructMessageActionButtons on Outbox
+
+  // TODO: test constructMessageActionButtons for addReaction
+
+  test('show reactions option if message is has at least one reaction', () => {
+    const message = eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] });
+    expect(titles(eg.plusBackgroundData, message)).toContain('See who reacted');
+  });
+
+  // TODO: test constructMessageActionButtons for hide showReactions
+
+  // TODO: test constructMessageActionButtons for reply
+
+  // TODO: test constructMessageActionButtons for copy and share
+
+  // TODO: test constructMessageActionButtons for edit
+
+  // TODO: test constructMessageActionButtons for delete
 
   test('show star message option if message is not starred', () => {
     const message = eg.streamMessage();
@@ -122,10 +149,5 @@ describe('constructMessageActionButtons', () => {
     const message = eg.streamMessage();
     const flags = { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } };
     expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Unstar message');
-  });
-
-  test('show reactions option if message is has at least one reaction', () => {
-    const message = eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] });
-    expect(titles(eg.plusBackgroundData, message)).toContain('See who reacted');
   });
 });
