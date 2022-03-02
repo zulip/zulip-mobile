@@ -18,9 +18,9 @@ describe('constructMessageActionButtons', () => {
 
   test('show star message option if message is not starred', () => {
     const message = eg.streamMessage();
-    const flags = { ...eg.baseBackgroundData.flags, starred: {} };
+    const flags = { ...eg.plusBackgroundData.flags, starred: {} };
     const buttons = constructMessageActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, flags },
+      backgroundData: { ...eg.plusBackgroundData, flags },
       message,
       narrow,
     });
@@ -29,9 +29,9 @@ describe('constructMessageActionButtons', () => {
 
   test('show unstar message option if message is starred', () => {
     const message = eg.streamMessage();
-    const flags = { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } };
+    const flags = { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } };
     const buttons = constructMessageActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, flags },
+      backgroundData: { ...eg.plusBackgroundData, flags },
       message,
       narrow,
     });
@@ -40,7 +40,7 @@ describe('constructMessageActionButtons', () => {
 
   test('show reactions option if message is has at least one reaction', () => {
     const buttons = constructMessageActionButtons({
-      backgroundData: eg.baseBackgroundData,
+      backgroundData: eg.plusBackgroundData,
       message: eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] }),
       narrow,
     });
@@ -49,16 +49,14 @@ describe('constructMessageActionButtons', () => {
 });
 
 describe('constructTopicActionButtons', () => {
-  const stream = eg.makeStream();
-  const streamMessage = eg.streamMessage({ stream });
+  const streamMessage = eg.streamMessage();
   const topic = streamMessage.subject;
-  const streamId = streamMessage.stream_id;
-  const streams = deepFreeze(new Map([[stream.stream_id, stream]]));
+  const streamId = eg.stream.stream_id;
 
   test('show mark as read if topic is unread', () => {
     const unread = makeUnreadState(eg.plusReduxState, [streamMessage]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams, unread },
+      backgroundData: { ...eg.plusBackgroundData, unread },
       streamId,
       topic,
     });
@@ -67,7 +65,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show mark as read if topic is read', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams },
+      backgroundData: { ...eg.plusBackgroundData },
       streamId,
       topic,
     });
@@ -75,9 +73,9 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute topic option if topic is muted', () => {
-    const mute = makeMuteState([[stream, topic]]);
+    const mute = makeMuteState([[eg.stream, topic]]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams, mute },
+      backgroundData: { ...eg.plusBackgroundData, mute },
       streamId,
       topic,
     });
@@ -86,7 +84,7 @@ describe('constructTopicActionButtons', () => {
 
   test('show mute topic option if topic is not muted', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams, mute: makeMuteState([]) },
+      backgroundData: { ...eg.plusBackgroundData, mute: makeMuteState([]) },
       streamId,
       topic,
     });
@@ -94,11 +92,11 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show Unmute stream option if stream is not in home view', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, in_home_view: false, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ in_home_view: false })],
+    ]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions, streams },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
       topic,
     });
@@ -106,11 +104,11 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show mute stream option if stream is in home view', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, in_home_view: true, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ in_home_view: true })],
+    ]);
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions, streams },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
       topic,
     });
@@ -120,7 +118,7 @@ describe('constructTopicActionButtons', () => {
   test('show delete topic option if current user is an admin', () => {
     const ownUser = { ...eg.selfUser, is_admin: true };
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, ownUser, streams },
+      backgroundData: { ...eg.plusBackgroundData, ownUser },
       streamId,
       topic,
     });
@@ -129,7 +127,7 @@ describe('constructTopicActionButtons', () => {
 
   test('do not show delete topic option if current user is not an admin', () => {
     const buttons = constructTopicActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams },
+      backgroundData: { ...eg.plusBackgroundData },
       streamId,
       topic,
     });
@@ -138,67 +136,63 @@ describe('constructTopicActionButtons', () => {
 });
 
 describe('constructStreamActionButtons', () => {
-  const stream = eg.makeStream();
-  const streamMessage = eg.streamMessage({ stream });
-  const streamId = streamMessage.stream_id;
-  const streams = deepFreeze(new Map([[stream.stream_id, stream]]));
+  const streamId = eg.stream.stream_id;
 
   test('show "subscribe" option, if stream is not subscribed yet', () => {
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, streams },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions: new Map() },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Subscribe');
   });
 
   test('show "unsubscribe" option, if stream is subscribed', () => {
-    const subscriptions = deepFreeze(new Map([[eg.subscription.stream_id, eg.subscription]]));
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions },
-      streamId: eg.subscription.stream_id,
+      backgroundData: { ...eg.plusBackgroundData },
+      streamId,
     });
     expect(buttonTitles(buttons)).toContain('Unsubscribe');
   });
 
   test('show "enable notification" if push notifications are not enabled for stream', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: false, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: false })],
+    ]);
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Enable notifications');
   });
 
   test('show "disable notification" if push notifications are enabled for stream', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, push_notifications: true, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: true })],
+    ]);
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Disable notifications');
   });
 
   test('show "pin to top" if stream is not pinned to top', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: false, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
+    ]);
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Pin to top');
   });
 
   test('show "unpin from top" if stream is pinned to top', () => {
-    const subscriptions = deepFreeze(
-      new Map([[stream.stream_id, { ...eg.subscription, pin_to_top: true, ...stream }]]),
-    );
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: true })],
+    ]);
     const buttons = constructStreamActionButtons({
-      backgroundData: { ...eg.baseBackgroundData, subscriptions },
+      backgroundData: { ...eg.plusBackgroundData, subscriptions },
       streamId,
     });
     expect(buttonTitles(buttons)).toContain('Unpin from top');
