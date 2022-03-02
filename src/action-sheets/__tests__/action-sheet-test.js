@@ -13,27 +13,46 @@ import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
-describe('constructMessageActionButtons', () => {
-  const narrow = deepFreeze(HOME_NARROW);
+describe('constructStreamActionButtons', () => {
+  const streamId = eg.stream.stream_id;
 
-  const titles = (backgroundData, message) =>
-    buttonTitles(constructMessageActionButtons({ backgroundData, message, narrow }));
+  const titles = backgroundData =>
+    buttonTitles(constructStreamActionButtons({ backgroundData, streamId }));
 
-  test('show star message option if message is not starred', () => {
-    const message = eg.streamMessage();
-    const flags = { ...eg.plusBackgroundData.flags, starred: {} };
-    expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Star message');
+  test('show "subscribe" option, if stream is not subscribed yet', () => {
+    expect(titles({ ...eg.plusBackgroundData, subscriptions: new Map() })).toContain('Subscribe');
   });
 
-  test('show unstar message option if message is starred', () => {
-    const message = eg.streamMessage();
-    const flags = { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } };
-    expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Unstar message');
+  test('show "unsubscribe" option, if stream is subscribed', () => {
+    expect(titles({ ...eg.plusBackgroundData })).toContain('Unsubscribe');
   });
 
-  test('show reactions option if message is has at least one reaction', () => {
-    const message = eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] });
-    expect(titles(eg.plusBackgroundData, message)).toContain('See who reacted');
+  test('show "enable notification" if push notifications are not enabled for stream', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: false })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Enable notifications');
+  });
+
+  test('show "disable notification" if push notifications are enabled for stream', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: true })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Disable notifications');
+  });
+
+  test('show "pin to top" if stream is not pinned to top', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Pin to top');
+  });
+
+  test('show "unpin from top" if stream is pinned to top', () => {
+    const subscriptions = new Map([
+      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: true })],
+    ]);
+    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Unpin from top');
   });
 });
 
@@ -87,45 +106,26 @@ describe('constructTopicActionButtons', () => {
   });
 });
 
-describe('constructStreamActionButtons', () => {
-  const streamId = eg.stream.stream_id;
+describe('constructMessageActionButtons', () => {
+  const narrow = deepFreeze(HOME_NARROW);
 
-  const titles = backgroundData =>
-    buttonTitles(constructStreamActionButtons({ backgroundData, streamId }));
+  const titles = (backgroundData, message) =>
+    buttonTitles(constructMessageActionButtons({ backgroundData, message, narrow }));
 
-  test('show "subscribe" option, if stream is not subscribed yet', () => {
-    expect(titles({ ...eg.plusBackgroundData, subscriptions: new Map() })).toContain('Subscribe');
+  test('show star message option if message is not starred', () => {
+    const message = eg.streamMessage();
+    const flags = { ...eg.plusBackgroundData.flags, starred: {} };
+    expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Star message');
   });
 
-  test('show "unsubscribe" option, if stream is subscribed', () => {
-    expect(titles({ ...eg.plusBackgroundData })).toContain('Unsubscribe');
+  test('show unstar message option if message is starred', () => {
+    const message = eg.streamMessage();
+    const flags = { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } };
+    expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Unstar message');
   });
 
-  test('show "enable notification" if push notifications are not enabled for stream', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: false })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Enable notifications');
-  });
-
-  test('show "disable notification" if push notifications are enabled for stream', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ push_notifications: true })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Disable notifications');
-  });
-
-  test('show "pin to top" if stream is not pinned to top', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Pin to top');
-  });
-
-  test('show "unpin from top" if stream is pinned to top', () => {
-    const subscriptions = new Map([
-      [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: true })],
-    ]);
-    expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Unpin from top');
+  test('show reactions option if message is has at least one reaction', () => {
+    const message = eg.streamMessage({ reactions: [eg.unicodeEmojiReaction] });
+    expect(titles(eg.plusBackgroundData, message)).toContain('See who reacted');
   });
 });
