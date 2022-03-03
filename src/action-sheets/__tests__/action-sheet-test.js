@@ -70,16 +70,6 @@ describe('constructTopicActionButtons', () => {
   const titles = backgroundData =>
     buttonTitles(constructTopicActionButtons({ backgroundData, streamId, topic }));
 
-  test('show deleteTopic', () => {
-    const ownUser = { ...eg.selfUser, is_admin: true };
-    expect(titles({ ...eg.plusBackgroundData, ownUser })).toContain('Delete topic');
-  });
-
-  test('hide deleteTopic', () => {
-    const ownUser = { ...eg.selfUser, is_admin: false };
-    expect(titles({ ...eg.plusBackgroundData, ownUser })).not.toContain('Delete topic');
-  });
-
   test('show markTopicAsRead', () => {
     const unread = makeUnreadState(eg.plusReduxState, [streamMessage]);
     expect(titles({ ...eg.plusBackgroundData, unread })).toContain('Mark topic as read');
@@ -98,6 +88,16 @@ describe('constructTopicActionButtons', () => {
   test('show muteTopic', () => {
     const mute = makeMuteState([]);
     expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Mute topic');
+  });
+
+  test('show deleteTopic', () => {
+    const ownUser = { ...eg.selfUser, is_admin: true };
+    expect(titles({ ...eg.plusBackgroundData, ownUser })).toContain('Delete topic');
+  });
+
+  test('hide deleteTopic', () => {
+    const ownUser = { ...eg.selfUser, is_admin: false };
+    expect(titles({ ...eg.plusBackgroundData, ownUser })).not.toContain('Delete topic');
   });
 
   test('show unmuteStream', () => {

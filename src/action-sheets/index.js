@@ -435,9 +435,6 @@ export const constructTopicActionButtons = (args: {|
   const { mute, ownUser, subscriptions, unread } = backgroundData;
 
   const buttons = [];
-  if (ownUser.is_admin) {
-    buttons.push(deleteTopic);
-  }
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
@@ -446,6 +443,9 @@ export const constructTopicActionButtons = (args: {|
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);
+  }
+  if (ownUser.is_admin) {
+    buttons.push(deleteTopic);
   }
   const sub = subscriptions.get(streamId);
   if (sub && !sub.in_home_view) {
