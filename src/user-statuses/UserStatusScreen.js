@@ -18,7 +18,7 @@ import ZulipButton from '../common/ZulipButton';
 import { getZulipFeatureLevel, getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
 import type { UserStatus } from '../api/modelTypes';
-import { Icon, IconDone } from '../common/Icons';
+import { Icon } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import * as api from '../api';
 
@@ -108,7 +108,7 @@ export default function UserStatusScreen(props: Props): Node {
     [serverSupportsEmojiStatus, navigation, auth],
   );
 
-  const handlePressUpdate = useCallback(() => {
+  const handlePressSave = useCallback(() => {
     sendToServer({
       status_text: statusTextFromInputValue(textInputValue),
       status_emoji: statusEmojiFromInputValue(emojiInputValue),
@@ -165,12 +165,7 @@ export default function UserStatusScreen(props: Props): Node {
           );
         }}
       />
-      <ZulipButton
-        style={styles.button}
-        text="Update"
-        onPress={handlePressUpdate}
-        Icon={IconDone}
-      />
+      <ZulipButton style={styles.button} text="Save" onPress={handlePressSave} />
     </Screen>
   );
 }
