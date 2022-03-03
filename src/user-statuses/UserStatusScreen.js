@@ -20,8 +20,12 @@ import statusSuggestions from './userStatusTextSuggestions';
 import * as api from '../api';
 
 const styles = createStyleSheet({
-  statusTextInput: {
+  inputRow: {
+    flexDirection: 'row',
     margin: 16,
+  },
+  statusTextInput: {
+    flex: 1,
   },
   buttonsWrapper: {
     flexDirection: 'row',
@@ -73,14 +77,19 @@ export default function UserStatusScreen(props: Props): Node {
 
   return (
     <Screen title="User status">
-      <Input
-        autoFocus
-        maxLength={60}
-        style={styles.statusTextInput}
-        placeholder="What’s your status?"
-        value={textInputValue}
-        onChangeText={setTextInputValue}
-      />
+      <View style={styles.inputRow}>
+        {
+          // TODO: Input for emoji status
+        }
+        <Input
+          autoFocus
+          maxLength={60}
+          style={styles.statusTextInput}
+          placeholder="What’s your status?"
+          value={textInputValue}
+          onChangeText={setTextInputValue}
+        />
+      </View>
       <FlatList
         data={statusSuggestions}
         keyboardShouldPersistTaps="always"
