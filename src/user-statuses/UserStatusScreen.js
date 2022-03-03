@@ -43,7 +43,7 @@ export default function UserStatusScreen(props: Props): Node {
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
 
-  const [statusText, setStatusText] = useState<string | null>(userStatusText);
+  const [statusText, setStatusText] = useState<string>(userStatusText ?? '');
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
@@ -59,7 +59,7 @@ export default function UserStatusScreen(props: Props): Node {
   }, [statusText, sendToServer]);
 
   const handlePressClear = useCallback(() => {
-    setStatusText(null);
+    setStatusText('');
     sendToServer({ status_text: null });
   }, [sendToServer]);
 
@@ -70,8 +70,8 @@ export default function UserStatusScreen(props: Props): Node {
         maxLength={60}
         style={styles.statusTextInput}
         placeholder="What’s your status?"
-        value={statusText ?? ''}
-        onChangeText={text => setStatusText(text || null)}
+        value={statusText}
+        onChangeText={setStatusText}
       />
       <FlatList
         data={statusSuggestions}
