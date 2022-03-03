@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Node } from 'react';
 import { Image } from 'react-native';
 import { createIconSet } from 'react-native-vector-icons';
@@ -18,19 +18,20 @@ const UnicodeEmoji = createIconSet(codeToEmojiMap);
 type Props = $ReadOnly<{|
   type: EmojiType,
   code: string,
+  size?: number,
 |}>;
 
-const componentStyles = createStyleSheet({
-  image: { width: 20, height: 20 },
-});
-
 export default function Emoji(props: Props): Node {
-  const { code } = props;
+  const { code, size = 20 } = props;
   const imageEmoji = useSelector(state =>
     props.type === 'image' ? getAllImageEmojiByCode(state)[props.code] : undefined,
+  );
+  const componentStyles = useMemo(
+    () => createStyleSheet({ image: { width: size, height: size } }),
+    [size],
   );
   if (imageEmoji) {
     return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
   }
-  return <UnicodeEmoji name={code} size={20} />;
+  return <UnicodeEmoji name={code} size={size} />;
 }
