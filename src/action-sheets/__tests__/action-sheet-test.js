@@ -1,7 +1,8 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
-import { HOME_NARROW } from '../../utils/narrow';
+import * as resolved_topic from '@zulip/shared/js/resolved_topic';
 
+import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import {
   constructMessageActionButtons,
@@ -67,8 +68,8 @@ describe('constructTopicActionButtons', () => {
   const topic = streamMessage.subject;
   const streamId = eg.stream.stream_id;
 
-  const titles = backgroundData =>
-    buttonTitles(constructTopicActionButtons({ backgroundData, streamId, topic }));
+  const titles = (backgroundData, topic_) =>
+    buttonTitles(constructTopicActionButtons({ backgroundData, streamId, topic: topic_ ?? topic }));
 
   test('show markTopicAsRead', () => {
     const unread = makeUnreadState(eg.plusReduxState, [streamMessage]);
@@ -88,6 +89,16 @@ describe('constructTopicActionButtons', () => {
   test('show muteTopic', () => {
     const mute = makeMuteState([]);
     expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Mute topic');
+  });
+
+  test('show resolveTopic', () => {
+    expect(titles({ ...eg.plusBackgroundData })).toContain('Resolve topic');
+  });
+
+  test('show unresolveTopic', () => {
+    expect(titles({ ...eg.plusBackgroundData }, resolved_topic.resolve_name(topic))).toContain(
+      'Unresolve topic',
+    );
   });
 
   test('show deleteTopic', () => {

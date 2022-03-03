@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
 import invariant from 'invariant';
+import * as resolved_topic from '@zulip/shared/js/resolved_topic';
 
 import * as NavigationService from '../nav/NavigationService';
 import type {
@@ -31,7 +32,13 @@ import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
 import { showToast } from '../utils/info';
-import { doNarrow, deleteOutboxMessage, navigateToEmojiPicker, navigateToStream } from '../actions';
+import {
+  doNarrow,
+  deleteOutboxMessage,
+  navigateToEmojiPicker,
+  navigateToStream,
+  fetchSomeMessageIdForConversation,
+} from '../actions';
 import {
   navigateToMessageReactionScreen,
   navigateToPmConversationDetails,
@@ -197,6 +204,54 @@ const copyLinkToTopic = {
     Clipboard.setString(topicUrl.toString());
     showToast(_('Link copied'));
   },
+};
+
+const toggleResolveTopic = async ({ auth, streamId, topic, _, streams, zulipFeatureLevel }) => {
+  // TODO: It'd be nice to use a message ID we know is in the conversation,
+  //   where possible, rather than do this extra fetch.  Just need to thread
+  //   such a message ID through to here.  (Like web, we'll still need this
+  //   for cases where we can show a topic without knowing of any message ID
+  //   definitely in it, e.g. in the list of topics for a stream.)
+  const messageId = await fetchSomeMessageIdForConversation(auth, streamId, topic, streams);
+  if (messageId == null) {
+    // The conversation is actually empty.  This can be perfectly normal,
+    // because by fetching information outside the events system we're
+    // exposed to a race: e.g., someone else could have resolved the topic
+    // already and we just hadn't heard yet.
+    //
+    // This exception will be caught at makeButtonCallback and the message
+    // shown to the user.
+    throw new Error(
+      _('No messages in topic: {streamAndTopic}', {
+        streamAndTopic: `#${streams.get(streamId)?.name ?? 'unknown'} > ${topic}`,
+      }),
+    );
+  }
+
+  const newTopic = resolved_topic.is_resolved(topic)
+    ? resolved_topic.unresolve_name(topic)
+    : resolved_topic.resolve_name(topic);
+
+  await api.updateMessage(auth, messageId, {
+    propagate_mode: 'change_all',
+    subject: newTopic,
+    ...(zulipFeatureLevel >= 9 && {
+      send_notification_to_old_thread: false,
+      send_notification_to_new_thread: true,
+    }),
+  });
+};
+
+const resolveTopic = {
+  title: 'Resolve topic',
+  errorMessage: 'Failed to resolve topic',
+  action: toggleResolveTopic,
+};
+
+const unresolveTopic = {
+  title: 'Unresolve topic',
+  errorMessage: 'Failed to unresolve topic',
+  action: toggleResolveTopic,
 };
 
 const deleteTopic = {
@@ -443,6 +498,11 @@ export const constructTopicActionButtons = (args: {|
     buttons.push(unmuteTopic);
   } else {
     buttons.push(muteTopic);
+  }
+  if (!resolved_topic.is_resolved(topic)) {
+    buttons.push(resolveTopic);
+  } else {
+    buttons.push(unresolveTopic);
   }
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
