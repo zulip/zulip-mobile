@@ -70,7 +70,7 @@ export default function UserStatusScreen(props: Props): Node {
         maxLength={60}
         style={styles.statusTextInput}
         placeholder="What’s your status?"
-        value={statusText || ''}
+        value={statusText ?? ''}
         onChangeText={setStatusText}
       />
       <FlatList
