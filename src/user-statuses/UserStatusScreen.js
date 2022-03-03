@@ -43,7 +43,7 @@ export default function UserStatusScreen(props: Props): Node {
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
 
-  const [statusText, setStatusText] = useState<string>(userStatusText ?? '');
+  const [textInputValue, setTextInputValue] = useState<string>(userStatusText ?? '');
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
@@ -55,11 +55,11 @@ export default function UserStatusScreen(props: Props): Node {
   );
 
   const handlePressUpdate = useCallback(() => {
-    sendToServer({ status_text: statusText });
-  }, [statusText, sendToServer]);
+    sendToServer({ status_text: textInputValue });
+  }, [textInputValue, sendToServer]);
 
   const handlePressClear = useCallback(() => {
-    setStatusText('');
+    setTextInputValue('');
     sendToServer({ status_text: null });
   }, [sendToServer]);
 
@@ -70,8 +70,8 @@ export default function UserStatusScreen(props: Props): Node {
         maxLength={60}
         style={styles.statusTextInput}
         placeholder="What’s your status?"
-        value={statusText}
-        onChangeText={setStatusText}
+        value={textInputValue}
+        onChangeText={setTextInputValue}
       />
       <FlatList
         data={statusSuggestions}
@@ -82,9 +82,9 @@ export default function UserStatusScreen(props: Props): Node {
             key={item}
             itemKey={item}
             title={item}
-            selected={item === statusText}
+            selected={item === textInputValue}
             onRequestSelectionChange={itemKey => {
-              setStatusText(_(itemKey));
+              setTextInputValue(_(itemKey));
             }}
           />
         )}
