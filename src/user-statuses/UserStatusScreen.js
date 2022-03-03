@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import React, { useState, useContext, useCallback } from 'react';
 import type { Node } from 'react';
-import { FlatList, View } from 'react-native';
-import { TranslationContext } from '../boot/TranslationProvider';
-import { createStyleSheet } from '../styles';
+import { FlatList, View, Pressable } from 'react-native';
 
+import { TranslationContext } from '../boot/TranslationProvider';
+import { createStyleSheet, BRAND_COLOR, HIGHLIGHT_COLOR } from '../styles';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector } from '../react-redux';
@@ -18,7 +18,7 @@ import ZulipButton from '../common/ZulipButton';
 import { getZulipFeatureLevel, getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
 import type { UserStatus } from '../api/modelTypes';
-import { IconCancel, IconDone } from '../common/Icons';
+import { Icon, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import * as api from '../api';
 
@@ -30,11 +30,18 @@ const styles = createStyleSheet({
   statusTextInput: {
     flex: 1,
   },
-  buttonsWrapper: {
-    flexDirection: 'row',
+  clearButton: {
+    // Min touch-target size
+    minWidth: 48,
+    minHeight: 48,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    // To match margin between the emoji and text inputs
+    marginLeft: 4,
   },
   button: {
-    flex: 1,
     margin: 8,
   },
 });
@@ -133,6 +140,13 @@ export default function UserStatusScreen(props: Props): Node {
           value={textInputValue}
           onChangeText={setTextInputValue}
         />
+        {(emojiInputValue !== null || textInputValue.length > 0) && (
+          <Pressable style={styles.clearButton} onPress={handlePressClear}>
+            {({ pressed }) => (
+              <Icon name="x" size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
+            )}
+          </Pressable>
+        )}
       </View>
       <FlatList
         data={statusSuggestions}
@@ -152,21 +166,12 @@ export default function UserStatusScreen(props: Props): Node {
           );
         }}
       />
-      <View style={styles.buttonsWrapper}>
-        <ZulipButton
-          style={styles.button}
-          secondary
-          text="Clear"
-          onPress={handlePressClear}
-          Icon={IconCancel}
-        />
-        <ZulipButton
-          style={styles.button}
-          text="Update"
-          onPress={handlePressUpdate}
-          Icon={IconDone}
-        />
-      </View>
+      <ZulipButton
+        style={styles.button}
+        text="Update"
+        onPress={handlePressUpdate}
+        Icon={IconDone}
+      />
     </Screen>
   );
 }
