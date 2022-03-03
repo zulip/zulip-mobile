@@ -7,14 +7,12 @@ import { FlatList } from 'react-native';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
 import { getFilteredEmojis, reactionTypeFromEmojiType } from './data';
 import { useSelector } from '../react-redux';
 import { getAuth, getActiveImageEmojiByName } from '../selectors';
-import { navigateBack } from '../nav/navActions';
 import * as logging from '../utils/logging';
 import { showToast } from '../utils/info';
 
@@ -24,7 +22,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function EmojiPickerScreen(props: Props): Node {
-  const { route } = props;
+  const { navigation, route } = props;
   const { messageId } = route.params;
 
   const _ = useContext(TranslationContext);
@@ -46,9 +44,9 @@ export default function EmojiPickerScreen(props: Props): Node {
           logging.error('Error adding reaction emoji', err);
           showToast(_('Failed to add reaction'));
         });
-      NavigationService.dispatch(navigateBack());
+      navigation.goBack();
     },
-    [auth, messageId, _],
+    [auth, messageId, _, navigation],
   );
 
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
