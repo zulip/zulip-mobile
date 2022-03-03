@@ -1,34 +1,50 @@
 /* @flow strict-local */
 
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, LogBox } from 'react-native';
 
-import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as api from '../api';
 import Screen from '../common/Screen';
 import EmojiRow from './EmojiRow';
-import { getFilteredEmojis, reactionTypeFromEmojiType } from './data';
+import { getFilteredEmojis } from './data';
+import { getActiveImageEmojiByName } from '../selectors';
+import type { EmojiType } from '../types';
 import { useSelector } from '../react-redux';
-import { getAuth, getActiveImageEmojiByName } from '../selectors';
-import * as logging from '../utils/logging';
-import { showToast } from '../utils/info';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
-  route: RouteProp<'emoji-picker', {| messageId: number |}>,
+  route: RouteProp<
+    'emoji-picker',
+    {|
+      // This param is a function, so React Nav is right to point out that
+      // it isn't serializable. But this is fine as long as we don't try to
+      // persist navigation state for this screen or set up deep linking to
+      // it, hence the LogBox suppression below.
+      //
+      // React Navigation doesn't offer a more sensible way to do have us
+      // pass the emoji data to the calling screen. …We could store the
+      // emoji data as a route param on the calling screen, or in Redux. But
+      // from this screen's perspective, that's basically just setting a
+      // global variable. Better to offer this explicit, side-effect-free
+      // way for the data to flow where it should, when it should.
+      onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,
+    |},
+  >,
 |}>;
+
+// React Navigation would give us a console warning about non-serializable
+// route params. For more about the warning, see
+//   https://reactnavigation.org/docs/5.x/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+// See comment on this param, above.
+LogBox.ignoreLogs([/emoji-picker > params\.onPressEmoji \(Function\)/]);
 
 export default function EmojiPickerScreen(props: Props): Node {
   const { navigation, route } = props;
-  const { messageId } = route.params;
-
-  const _ = useContext(TranslationContext);
+  const { onPressEmoji } = route.params;
 
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
-  const auth = useSelector(getAuth);
 
   const [filter, setFilter] = useState<string>('');
 
@@ -36,17 +52,12 @@ export default function EmojiPickerScreen(props: Props): Node {
     setFilter(text.toLowerCase());
   }, []);
 
-  const addReaction = useCallback(
-    ({ type, code, name }) => {
-      api
-        .emojiReactionAdd(auth, messageId, reactionTypeFromEmojiType(type, name), code, name)
-        .catch(err => {
-          logging.error('Error adding reaction emoji', err);
-          showToast(_('Failed to add reaction'));
-        });
+  const handlePressEmoji = useCallback(
+    (...args) => {
+      onPressEmoji(...args);
       navigation.goBack();
     },
-    [auth, messageId, _, navigation],
+    [onPressEmoji, navigation],
   );
 
   const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
@@ -63,7 +74,7 @@ export default function EmojiPickerScreen(props: Props): Node {
             type={item.emoji_type}
             code={item.code}
             name={item.name}
-            onPress={addReaction}
+            onPress={handlePressEmoji}
           />
         )}
       />

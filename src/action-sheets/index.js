@@ -41,6 +41,7 @@ import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
 import { getStreamTopicUrl, getStreamUrl } from '../utils/internalLinks';
+import { reactionTypeFromEmojiType } from '../emoji/data';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -343,8 +344,17 @@ const shareMessage = {
 const addReaction = {
   title: 'Add a reaction',
   errorMessage: 'Failed to add reaction',
-  action: ({ message }) => {
-    NavigationService.dispatch(navigateToEmojiPicker(message.id));
+  action: ({ auth, message, _ }) => {
+    NavigationService.dispatch(
+      navigateToEmojiPicker(({ code, name, type }) => {
+        api
+          .emojiReactionAdd(auth, message.id, reactionTypeFromEmojiType(type, name), code, name)
+          .catch(err => {
+            logging.error('Error adding reaction emoji', err);
+            showToast(_('Failed to add reaction'));
+          });
+      }),
+    );
   },
 };
 

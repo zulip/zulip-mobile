@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
-import type { Message, Narrow, UserId } from '../types';
+import type { Message, Narrow, UserId, EmojiType } from '../types';
 import type { PmKeyRecipients } from '../utils/recipient';
 import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -52,8 +52,9 @@ export const navigateToUsersScreen = (): GenericNavigationAction => StackActions
 
 export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search-messages');
 
-export const navigateToEmojiPicker = (messageId: number): GenericNavigationAction =>
-  StackActions.push('emoji-picker', { messageId });
+export const navigateToEmojiPicker = (
+  onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,
+): GenericNavigationAction => StackActions.push('emoji-picker', { onPressEmoji });
 
 export const navigateToAuth = (
   serverSettings: ApiResponseServerSettings,
