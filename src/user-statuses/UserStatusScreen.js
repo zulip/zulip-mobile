@@ -118,8 +118,7 @@ export default function UserStatusScreen(props: Props): Node {
   const handlePressClear = useCallback(() => {
     setTextInputValue(inputValueFromStatusText(null));
     setEmojiInputValue(inputValueFromStatusEmoji(null));
-    sendToServer({ status_text: null, status_emoji: null });
-  }, [sendToServer]);
+  }, []);
 
   return (
     <Screen title="User status">
