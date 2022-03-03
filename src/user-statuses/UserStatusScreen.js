@@ -14,6 +14,7 @@ import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
+import type { UserStatus } from '../api/modelTypes';
 import { IconCancel, IconDone } from '../common/Icons';
 import statusSuggestions from './userStatusTextSuggestions';
 import * as api from '../api';
@@ -36,6 +37,10 @@ type Props = $ReadOnly<{|
   route: RouteProp<'user-status', void>,
 |}>;
 
+const statusTextFromInputValue = (v: string): $PropertyType<UserStatus, 'status_text'> => v || null;
+
+const inputValueFromStatusText = (t: $PropertyType<UserStatus, 'status_text'>): string => t ?? '';
+
 export default function UserStatusScreen(props: Props): Node {
   const { navigation } = props;
 
@@ -43,7 +48,9 @@ export default function UserStatusScreen(props: Props): Node {
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
 
-  const [textInputValue, setTextInputValue] = useState<string>(userStatusText ?? '');
+  const [textInputValue, setTextInputValue] = useState<string>(
+    inputValueFromStatusText(userStatusText),
+  );
   const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
@@ -55,11 +62,11 @@ export default function UserStatusScreen(props: Props): Node {
   );
 
   const handlePressUpdate = useCallback(() => {
-    sendToServer({ status_text: textInputValue });
+    sendToServer({ status_text: statusTextFromInputValue(textInputValue) });
   }, [textInputValue, sendToServer]);
 
   const handlePressClear = useCallback(() => {
-    setTextInputValue('');
+    setTextInputValue(inputValueFromStatusText(null));
     sendToServer({ status_text: null });
   }, [sendToServer]);
 
@@ -82,7 +89,7 @@ export default function UserStatusScreen(props: Props): Node {
             key={item}
             itemKey={item}
             title={item}
-            selected={item === textInputValue}
+            selected={item === statusTextFromInputValue(textInputValue)}
             onRequestSelectionChange={itemKey => {
               setTextInputValue(_(itemKey));
             }}
