@@ -512,6 +512,20 @@ function makeButtonCallback<Args: { _: GetText, ... }>(buttonList: Button<Args>[
   };
 }
 
+function showActionSheet<Args: { _: GetText, ... }>(params: {
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+  options: Array<Button<Args>>,
+  args: Args,
+  ...
+}) {
+  const { showActionSheetWithOptions, options, args, ...rest } = params;
+  const titles = options.map(button => args._(button.title));
+  showActionSheetWithOptions(
+    { ...rest, options: titles, cancelButtonIndex: titles.length - 1 },
+    makeButtonCallback(options, args),
+  );
+}
+
 export const showMessageActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
@@ -524,19 +538,11 @@ export const showMessageActionSheet = (args: {|
   narrow: Narrow,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, message, narrow } = args;
-  const buttonList = constructMessageActionButtons({ backgroundData, message, narrow });
-  showActionSheetWithOptions(
-    {
-      options: buttonList.map(button => callbacks._(button.title)),
-      cancelButtonIndex: buttonList.length - 1,
-    },
-    makeButtonCallback(buttonList, {
-      ...backgroundData,
-      ...callbacks,
-      message,
-      narrow,
-    }),
-  );
+  showActionSheet({
+    showActionSheetWithOptions,
+    options: constructMessageActionButtons({ backgroundData, message, narrow }),
+    args: { ...backgroundData, ...callbacks, message, narrow },
+  });
 };
 
 export const showTopicActionSheet = (args: {|
@@ -558,26 +564,14 @@ export const showTopicActionSheet = (args: {|
   topic: string,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, topic, streamId } = args;
-  const buttonList = constructTopicActionButtons({
-    backgroundData,
-    streamId,
-    topic,
-  });
   const stream = backgroundData.streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId not found.');
-  showActionSheetWithOptions(
-    {
-      title: `#${stream.name} > ${topic}`,
-      options: buttonList.map(button => callbacks._(button.title)),
-      cancelButtonIndex: buttonList.length - 1,
-    },
-    makeButtonCallback(buttonList, {
-      ...backgroundData,
-      ...callbacks,
-      streamId,
-      topic,
-    }),
-  );
+  showActionSheet({
+    showActionSheetWithOptions,
+    title: `#${stream.name} > ${topic}`,
+    options: constructTopicActionButtons({ backgroundData, streamId, topic }),
+    args: { ...backgroundData, ...callbacks, streamId, topic },
+  });
 };
 
 export const showStreamActionSheet = (args: {|
@@ -596,24 +590,14 @@ export const showStreamActionSheet = (args: {|
   streamId: number,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, streamId } = args;
-  const buttonList = constructStreamActionButtons({
-    backgroundData,
-    streamId,
-  });
   const stream = backgroundData.streams.get(streamId);
   invariant(stream !== undefined, 'Stream with provided streamId not found.');
-  showActionSheetWithOptions(
-    {
-      title: `#${stream.name}`,
-      options: buttonList.map(button => callbacks._(button.title)),
-      cancelButtonIndex: buttonList.length - 1,
-    },
-    makeButtonCallback(buttonList, {
-      ...backgroundData,
-      ...callbacks,
-      streamId,
-    }),
-  );
+  showActionSheet({
+    showActionSheetWithOptions,
+    title: `#${stream.name}`,
+    options: constructStreamActionButtons({ backgroundData, streamId }),
+    args: { ...backgroundData, ...callbacks, streamId },
+  });
 };
 
 export const showPmConversationActionSheet = (args: {|
@@ -625,35 +609,31 @@ export const showPmConversationActionSheet = (args: {|
   pmKeyRecipients: PmKeyRecipients,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, pmKeyRecipients } = args;
-  const buttonList = constructPmConversationActionButtons({ backgroundData, pmKeyRecipients });
-
-  showActionSheetWithOptions(
-    {
-      // TODO(ios-14.5): Check for Intl.ListFormat support in all environments
-      // TODO(i18n): Localize this list (will be easiest when we don't have
-      //   to polyfill Intl.ListFormat); see https://formatjs.io/docs/react-intl/api/#formatlist
-      title: pmUiRecipientsFromKeyRecipients(pmKeyRecipients, backgroundData.ownUser.user_id)
-        .map(userId => {
-          const user = backgroundData.allUsersById.get(userId);
-          invariant(user, 'allUsersById incomplete; could not show PM action sheet');
-          return user.full_name;
-        })
-        .sort()
-        .join(', '),
-      titleTextStyle: {
-        // We hack with this Android-only option to keep extra-long lists of
-        // recipients from sabotaging the UI. Better would be to control the
-        // Text's `numberOfLines` prop, but the library doesn't offer that.
-        // See screenshots at
-        //   https://github.com/zulip/zulip-mobile/issues/5171#issuecomment-997089710.
-        //
-        // On iOS, the native action sheet solves this problem for us, and
-        // we're using that as of 2021-12.
-        maxHeight: 160,
-      },
-      options: buttonList.map(button => callbacks._(button.title)),
-      cancelButtonIndex: buttonList.length - 1,
+  showActionSheet({
+    showActionSheetWithOptions,
+    // TODO(ios-14.5): Check for Intl.ListFormat support in all environments
+    // TODO(i18n): Localize this list (will be easiest when we don't have
+    //   to polyfill Intl.ListFormat); see https://formatjs.io/docs/react-intl/api/#formatlist
+    title: pmUiRecipientsFromKeyRecipients(pmKeyRecipients, backgroundData.ownUser.user_id)
+      .map(userId => {
+        const user = backgroundData.allUsersById.get(userId);
+        invariant(user, 'allUsersById incomplete; could not show PM action sheet');
+        return user.full_name;
+      })
+      .sort()
+      .join(', '),
+    titleTextStyle: {
+      // We hack with this Android-only option to keep extra-long lists of
+      // recipients from sabotaging the UI. Better would be to control the
+      // Text's `numberOfLines` prop, but the library doesn't offer that.
+      // See screenshots at
+      //   https://github.com/zulip/zulip-mobile/issues/5171#issuecomment-997089710.
+      //
+      // On iOS, the native action sheet solves this problem for us, and
+      // we're using that as of 2021-12.
+      maxHeight: 160,
     },
-    makeButtonCallback(buttonList, { ...backgroundData, ...callbacks, pmKeyRecipients }),
-  );
+    options: constructPmConversationActionButtons({ backgroundData, pmKeyRecipients }),
+    args: { ...backgroundData, ...callbacks, pmKeyRecipients },
+  });
 };
