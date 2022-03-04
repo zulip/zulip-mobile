@@ -487,6 +487,7 @@ export type MessageEdit = $ReadOnly<{|
   prev_content?: string,
   prev_rendered_content?: string,
   prev_rendered_content_version?: number,
+  // TODO(server-5.0): Say "topic", not "subject"
   prev_subject?: string,
   timestamp: number,
   user_id: UserId,

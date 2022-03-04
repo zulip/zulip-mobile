@@ -6,6 +6,7 @@ import { apiPatch } from '../apiFetch';
 export default async (
   auth: Auth,
   params: $ReadOnly<{|
+    // TODO(server-2.0): Say "topic", not "subject"
     subject?: string,
     propagate_mode?: boolean,
     content?: string,

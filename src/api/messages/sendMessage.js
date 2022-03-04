@@ -9,6 +9,7 @@ export default async (
   params: {|
     type: 'private' | 'stream',
     to: string,
+    // TODO(server-2.0): Say "topic", not "subject"
     subject?: string,
     content: string,
     localId?: number,
