@@ -2,10 +2,12 @@
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
 import type {
+  Auth,
   Narrow,
   PerAccountState,
   Message,
   PerAccountAction,
+  Stream,
   ThunkAction,
   UserId,
 } from '../types';
@@ -38,7 +40,7 @@ import {
 } from '../actionConstants';
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { showErrorAlert } from '../utils/info';
-import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow } from '../utils/narrow';
+import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '../utils/narrow';
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { initNotifications } from '../notification/notifTokens';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
@@ -209,6 +211,31 @@ export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getS
     );
   }
 };
+
+/** Some message ID in the conversation; void if there are none. */
+// This corresponds to web's message_edit.with_first_message_id.  (Note
+// it's actually the latest, despite the name; really just needs to be
+// *some* message ID in the topic.)
+export async function fetchSomeMessageIdForConversation(
+  auth: Auth,
+  streamId: number,
+  topic: string,
+  streamsById: Map<number, Stream>,
+): Promise<number | void> {
+  const data = await api.getMessages(auth, {
+    anchor: LAST_MESSAGE_ANCHOR,
+    numBefore: 1,
+    numAfter: 0,
+    // TODO(server-2.1): These users and streams maps should go away;
+    //   cut the streamsById param from this function too.
+    // HACK: This fake, empty users map is OK because apiNarrowOfNarrow
+    //   doesn't consult the users map for topic narrows.
+    narrow: apiNarrowOfNarrow(topicNarrow(streamId, topic), new Map(), streamsById),
+  });
+  // FlowIssue: can be void because array can be empty
+  const message: Message | void = data.messages[0];
+  return message?.id;
+}
 
 const registerStart = (): PerAccountAction => ({
   type: REGISTER_START,
