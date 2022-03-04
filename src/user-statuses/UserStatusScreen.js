@@ -1,4 +1,6 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
+import isEqual from 'lodash.isequal';
 import React, { useState, useContext, useCallback } from 'react';
 import type { Node } from 'react';
 import { FlatList, View, Pressable } from 'react-native';
@@ -165,7 +167,15 @@ export default function UserStatusScreen(props: Props): Node {
           );
         }}
       />
-      <ZulipButton style={styles.button} text="Save" onPress={handlePressSave} />
+      <ZulipButton
+        disabled={
+          statusTextFromInputValue(textInputValue) === userStatusText
+          && isEqual(statusEmojiFromInputValue(emojiInputValue), userStatusEmoji)
+        }
+        style={styles.button}
+        text="Save"
+        onPress={handlePressSave}
+      />
     </Screen>
   );
 }
