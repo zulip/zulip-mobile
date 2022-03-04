@@ -37,7 +37,8 @@ type Props = $ReadOnly<{|
   route: RouteProp<'user-status', void>,
 |}>;
 
-const statusTextFromInputValue = (v: string): $PropertyType<UserStatus, 'status_text'> => v || null;
+const statusTextFromInputValue = (v: string): $PropertyType<UserStatus, 'status_text'> =>
+  v.trim() || null;
 
 const inputValueFromStatusText = (t: $PropertyType<UserStatus, 'status_text'>): string => t ?? '';
 
