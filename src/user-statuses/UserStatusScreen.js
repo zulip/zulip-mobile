@@ -13,7 +13,12 @@ import { useSelector } from '../react-redux';
 import Input from '../common/Input';
 import EmojiInput from './EmojiInput';
 import type { Value as EmojiInputValue } from './EmojiInput';
-import { emojiTypeFromReactionType, reactionTypeFromEmojiType } from '../emoji/data';
+import { unicodeCodeByName } from '../emoji/codePointMap';
+import {
+  emojiTypeFromReactionType,
+  reactionTypeFromEmojiType,
+  parseUnicodeEmojiCode,
+} from '../emoji/data';
 import SelectableOptionRow from '../common/SelectableOptionRow';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
@@ -21,8 +26,23 @@ import { getZulipFeatureLevel, getAuth, getOwnUserId } from '../selectors';
 import { getUserStatus } from './userStatusesModel';
 import type { UserStatus } from '../api/modelTypes';
 import { Icon } from '../common/Icons';
-import statusSuggestions from './userStatusTextSuggestions';
 import * as api from '../api';
+
+type StatusSuggestion = [
+  $ReadOnly<{| emoji_name: string, emoji_code: string, reaction_type: 'unicode_emoji' |}>,
+  string,
+];
+
+const statusSuggestions: $ReadOnlyArray<StatusSuggestion> = [
+  ['calendar', 'In a meeting'],
+  ['bus', 'Commuting'],
+  ['sick', 'Out sick'],
+  ['palm_tree', 'Vacationing'],
+  ['house', 'Working remotely'],
+].map(([emoji_name, status_text]) => [
+  { emoji_name, emoji_code: unicodeCodeByName[emoji_name], reaction_type: 'unicode_emoji' },
+  status_text,
+]);
 
 const styles = createStyleSheet({
   inputRow: {
@@ -152,16 +172,24 @@ export default function UserStatusScreen(props: Props): Node {
       <FlatList
         data={statusSuggestions}
         keyboardShouldPersistTaps="always"
-        keyExtractor={item => item}
-        renderItem={({ item: text, index }) => {
+        keyExtractor={(item, index) => index.toString() /* list is constant; index OK */}
+        renderItem={({ item: [emoji, text], index }) => {
           const translatedText = _(text);
           return (
             <SelectableOptionRow
-              itemKey={text}
-              title={translatedText}
-              selected={translatedText === statusTextFromInputValue(textInputValue)}
+              itemKey={index}
+              title={
+                serverSupportsEmojiStatus
+                  ? `${parseUnicodeEmojiCode(emoji.emoji_code)} ${translatedText}`
+                  : translatedText
+              }
+              selected={
+                translatedText === statusTextFromInputValue(textInputValue)
+                && isEqual(emoji, statusEmojiFromInputValue(emojiInputValue))
+              }
               onRequestSelectionChange={() => {
                 setTextInputValue(translatedText);
+                setEmojiInputValue(inputValueFromStatusEmoji(emoji));
               }}
             />
           );
