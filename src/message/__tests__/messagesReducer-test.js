@@ -321,7 +321,7 @@ describe('messagesReducer', () => {
     test('when event contains a new subject but no new content only subject is updated', () => {
       const message1Old = eg.streamMessage({
         content: 'Old content',
-        subject: 'Old subject',
+        subject: 'Old topic',
         last_edit_timestamp: 123,
         edit_history: [],
       });
@@ -344,11 +344,11 @@ describe('messagesReducer', () => {
     test('when event contains a new subject and a new content, update both', () => {
       const message1Old = eg.streamMessage({
         content: '<p>Old content</p>',
-        subject: 'Old subject',
+        subject: 'Old topic',
         last_edit_timestamp: 123,
         edit_history: [
           {
-            prev_subject: 'Old subject',
+            prev_subject: 'Old topic',
             timestamp: 123,
             user_id: eg.otherUser.user_id,
           },

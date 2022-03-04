@@ -152,17 +152,15 @@ export default function ChatScreen(props: Props): Node {
     (message: string, destinationNarrow: Narrow) => {
       if (editMessage) {
         const content = editMessage.content !== message ? message : undefined;
-        const subject = caseNarrowDefault(
+        const topic = caseNarrowDefault(
           destinationNarrow,
+          // eslint-disable-next-line no-shadow
           { topic: (streamId, topic) => (topic !== editMessage.topic ? topic : undefined) },
           () => undefined,
         );
 
-        if (
-          (content !== undefined && content !== '')
-          || (subject !== undefined && subject !== '')
-        ) {
-          api.updateMessage(auth, { content, subject }, editMessage.id).catch(error => {
+        if ((content !== undefined && content !== '') || (topic !== undefined && topic !== '')) {
+          api.updateMessage(auth, { content, subject: topic }, editMessage.id).catch(error => {
             showErrorAlert(_('Failed to edit message'), error.message);
           });
         }

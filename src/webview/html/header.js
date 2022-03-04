@@ -20,7 +20,7 @@ import {
 } from '../../utils/recipient';
 import { base64Utf8Encode } from '../../utils/encoding';
 
-const renderSubject = message =>
+const renderTopic = message =>
   // TODO: pin down if '' happens, and what its proper semantics are.
   message.match_subject !== undefined && message.match_subject !== ''
     ? message.match_subject
@@ -40,7 +40,7 @@ export default (
   if (message.type === 'stream') {
     const streamName = streamNameOfStreamMessage(message);
     const topicNarrowStr = keyFromNarrow(topicNarrow(message.stream_id, message.subject));
-    const topicHtml = renderSubject(message);
+    const topicHtml = renderTopic(message);
 
     if (headerStyle === 'topic+date') {
       return template`\
