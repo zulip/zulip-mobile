@@ -71,7 +71,7 @@ export default function UserStatusScreen(props: Props): Node {
         style={styles.statusTextInput}
         placeholder="What’s your status?"
         value={statusText ?? ''}
-        onChangeText={setStatusText}
+        onChangeText={text => setStatusText(text || null)}
       />
       <FlatList
         data={statusSuggestions}
