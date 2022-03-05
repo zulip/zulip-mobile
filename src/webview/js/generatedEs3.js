@@ -847,7 +847,7 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
 
-    if (target.matches('.avatar-img') || target.matches('.username')) {
+    if (target.matches('.avatar-img') || target.matches('.name-and-status-emoji')) {
       sendMessage({
         type: 'request-user-profile',
         fromUserId: makeUserId(requireNumericAttribute(target, 'data-sender-id'))

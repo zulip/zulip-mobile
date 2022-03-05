@@ -19,6 +19,7 @@ import type {
   ImageEmojiType,
   UserId,
   WidgetData,
+  UserStatus,
 } from '../../types';
 import type { BackgroundData } from '../backgroundData';
 import { shortTime } from '../../utils/date';
@@ -26,6 +27,7 @@ import aggregateReactions from '../../reactions/aggregateReactions';
 import { codeToEmojiMap } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
 import * as logging from '../../utils/logging';
+import { getUserStatusFromModel } from '../../user-statuses/userStatusesCore';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
@@ -180,6 +182,21 @@ $!${message.content}
 export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnlyArray<string> =>
   Object.keys(flags).filter(key => flags[key][id]);
 
+const senderEmojiStatus = (
+  emoji: $PropertyType<UserStatus, 'status_emoji'>,
+  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
+): string =>
+  emoji
+    ? allImageEmojiById[emoji.emoji_code]
+      ? template`\
+<img
+  class="status-emoji"
+  src="${allImageEmojiById[emoji.emoji_code].source_url}"
+/>`
+      : template`\
+<span class="status-emoji">$!${codeToEmojiMap[emoji.emoji_code]}</span>`
+    : '';
+
 /**
  * The HTML string for a message-list element of the "message" type.
  *
@@ -236,8 +253,11 @@ $!${divOpenHtml}
     .toString();
   const subheaderHtml = template`\
 <div class="subheader">
-  <div class="username" data-sender-id="${sender_id}">
-    ${sender_full_name}
+  <div class="name-and-status-emoji" data-sender-id="${sender_id}">
+    ${sender_full_name}$!${senderEmojiStatus(
+    getUserStatusFromModel(backgroundData.userStatuses, sender_id).status_emoji,
+    backgroundData.allImageEmojiById,
+  )}
   </div>
   <div class="static-timestamp">${messageTime}</div>
 </div>`;

@@ -338,18 +338,27 @@ body {
   border-radius: 3px;
 }
 
-/* The "subheader" showing sender and timestamp. */
+/* The "subheader" showing sender, emoji status, and timestamp. */
 .subheader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 6px;
 }
-.username {
+.name-and-status-emoji {
+  display: flex;
+  align-items: center;
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.status-emoji {
+  height: 1.4rem;
+
+  /* Different from web, which has 2px. More is mysteriously needed here to
+     get the same effective spacing. */
+  margin-left: 4px;
 }
 .static-timestamp {
   color: hsl(0, 0%, 60%);

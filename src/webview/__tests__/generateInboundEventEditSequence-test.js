@@ -849,5 +849,44 @@ describe('getEditSequence correct for interesting changes', () => {
         },
       );
     });
+
+    describe('add/remove/change emoji status', () => {
+      const message = eg.streamMessage();
+      const emojiStatuses = [
+        ['none', null],
+        ['unicode', eg.userStatusEmojiUnicode],
+        ['realm', eg.userStatusEmojiRealm],
+        ['zulip extra', eg.userStatusEmojiZulipExtra],
+      ];
+
+      emojiStatuses.forEach(([statusALabel, emojiStatusA]) => {
+        emojiStatuses.forEach(([statusBLabel, emojiStatusB]) => {
+          let description = `status emoji: ${statusALabel} -> ${statusBLabel}`;
+          if (emojiStatusA === emojiStatusB) {
+            description += ' (no change)';
+          }
+          test(description, () => {
+            check(
+              ...[emojiStatusA, emojiStatusB].map(emojiStatus => ({
+                messages: [message],
+                backgroundData: {
+                  ...eg.baseBackgroundData,
+                  userStatuses: Immutable.Map([
+                    [
+                      message.sender_id,
+                      {
+                        away: false,
+                        status_text: null,
+                        status_emoji: emojiStatus,
+                      },
+                    ],
+                  ]),
+                },
+              })),
+            );
+          });
+        });
+      });
+    });
   });
 });

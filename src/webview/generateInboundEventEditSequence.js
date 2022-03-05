@@ -7,6 +7,7 @@ import type { MessageListElement, GetText } from '../types';
 import { ensureUnreachable } from '../generics';
 import type { BackgroundData } from './backgroundData';
 import messageListElementHtml from './html/messageListElementHtml';
+import { getUserStatusFromModel } from '../user-statuses/userStatusesCore';
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -94,6 +95,10 @@ function doElementsDifferInterestingly(
         )
         || oldBackgroundData.mutedUsers.get(oldElement.message.sender_id)
           !== newBackgroundData.mutedUsers.get(newElement.message.sender_id)
+        || getUserStatusFromModel(oldBackgroundData.userStatuses, oldElement.message.sender_id)
+          .status_emoji
+          !== getUserStatusFromModel(newBackgroundData.userStatuses, newElement.message.sender_id)
+            .status_emoji
       );
     }
     default: {

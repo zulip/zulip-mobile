@@ -15,6 +15,7 @@ import type {
   User,
   UserGroup,
   UserId,
+  UserStatus,
 } from '../../api/modelTypes';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
@@ -183,6 +184,24 @@ export const makeCrossRealmBot = (
     ...userOrBotProperties(args),
     is_bot: true,
   });
+
+export const userStatusEmojiUnicode: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+  reaction_type: 'unicode_emoji',
+  emoji_code: '1f44d',
+  emoji_name: 'thumbs_up',
+});
+
+export const userStatusEmojiZulipExtra: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+  reaction_type: 'zulip_extra_emoji',
+  emoji_code: 'zulip',
+  emoji_name: 'zulip',
+});
+
+export const userStatusEmojiRealm: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+  reaction_type: 'realm_emoji',
+  emoji_code: '80',
+  emoji_name: 'github_parrot',
+});
 
 export const realm: URL = new URL('https://zulip.example.org');
 
