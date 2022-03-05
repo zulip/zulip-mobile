@@ -41,12 +41,85 @@ It's published to NPM as the package `@zulip/shared`.
   both PRs and using `yarn link` themselves.
 
 * Once your changes in zulip/zulip are merged, publish a new
-  `@zulip/shared` version to NPM.  See section below.
+  `@zulip/shared` version to NPM.  See [section below](#publish).
 
 * Once the new `@zulip/shared` version is on NPM, you can update our
   `package.json` in your zulip-mobile PR to point to that version, and
   mark the PR as ready (non-draft).
 
+  * Note that in case there have been other changes in the shared
+    code, we'll want to test that upgrade; see [section
+    below](#update).
+
+    You can also do that testing before your `@zulip/shared` changes
+    are complete, in order to catch early anything we need to fix from
+    the accumulated changes since the last `@zulip/shared` update.
+
+
+<div id="update" />
+
+## How to update our version of the shared code
+
+When updating the version of `@zulip/shared` we use, we check that the
+changes don't introduce bugs or incompatibilities.  This risk may be
+higher than it is with a random external dependency; after all, the
+code in the `@zulip/shared` package has a grand total of two
+consumers, namely the Zulip mobile app and webapp.
+
+To make and test an update:
+
+* Start using the new `@zulip/shared` version.
+
+  * If the new version has been published on NPM, just update
+    `package.json` as usual.
+
+  * Otherwise, use `yarn link` so that the shared code comes from your
+    local zulip/zulip worktree (just like the mobile app code comes
+    from your local zulip-mobile worktree) rather than from NPM.  See
+    our [yarn-link.md](yarn-link.md).
+
+* Run our test suite: `tools/test --all`.
+
+* Look at what's changed in the shared code since the version we're
+  currently using.  For example, if we've been using version 0.0.6 and
+  you're upgrading to 0.0.7, then run the following commands in your
+  zulip/zulip worktree:
+
+      $ git diff --stat -p shared-0.0.6 shared-0.0.7 -- static/shared/
+      $ git log --stat -p shared-0.0.6..shared-0.0.7 -- static/shared/
+
+  Look for changes that affect code we may already be using.  There
+  may be modules present which we aren't yet using.
+
+* If any code has changed, then manually test the app.
+
+  * Try to exercise each of the changed areas of code in particular:
+    for example, if `typing_status.js` changed, then go to a PM
+    conversation and check that sending and receiving typing-status
+    indicators still works.
+
+  * If the changes are trivial, this may be cursory.
+
+* If something does break, then debug the issue.  The fix may require
+  changes in either or both of zulip/zulip and zulip-mobile.
+
+* Once all's well, send a PR with the upgrade.
+
+  * The upgrade (editing `package.json` and `yarn.lock`) should be in
+    a commit by itself, or squashed together only with changes that
+    have to happen simultaneously.  Where possible, fixes should go in
+    separate commits before the upgrade.
+
+  * The upgrade may be in the same PR with other changes.  Typically,
+    if you're upgrading in order to use a new feature, the upgrade
+    will come in the same PR where you go on to use the new feature.
+
+  * If there wasn't already a `@zulip/shared` release on NPM with the
+    version you want (i.e. if you needed to use `yarn link`), we'll
+    need to publish one; see [section below](#publish).
+
+
+<div id="publish" />
 
 ## Publishing `@zulip/shared` to NPM
 
