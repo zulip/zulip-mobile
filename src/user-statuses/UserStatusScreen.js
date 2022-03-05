@@ -34,6 +34,7 @@ type StatusSuggestion = [
 ];
 
 const statusSuggestions: $ReadOnlyArray<StatusSuggestion> = [
+  ['working_on_it', 'Busy'],
   ['calendar', 'In a meeting'],
   ['bus', 'Commuting'],
   ['sick', 'Out sick'],
