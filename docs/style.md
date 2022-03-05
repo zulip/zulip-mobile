@@ -49,6 +49,8 @@
       `TODO(server-N.M)`.
   * [Using our Zulip API bindings](#zulip-api-bindings)
     * [[link](#import-api)] Use `import * as api` and `api.doThing(…)`.
+  * [The `@zulip/shared` package](#shared)
+    * [[link](#import-shared)] Use `import *` for shared code.
   * [Zulip data model](#zulip-data-model)
     * [[link](#avoid-display-recipient)] Avoid using
       `display_recipient` directly.
@@ -676,6 +678,25 @@ creators.  Moreover, the API bindings tend to be imported into scope
 in exactly the same places as we're defining those other values.  The
 `api.*` naming gives a convenient, regular way to tell the API binding
 apart from related functions at different layers.
+
+
+<div id="shared" />
+
+### The `@zulip/shared` package
+
+For background, see [`docs/howto/shared.md`](howto/shared.md).
+
+<div id="import-shared" />
+
+**Use `import *` for shared code**: When importing a shared module,
+write the import with `import *` and the module's name, like this:
+```js
+import * as typing_status from '@zulip/shared/js/typing_status';
+```
+
+We use this style because it matches how these modules are imported in
+the web app, and the names exported from the module are often chosen
+with this convention in mind.
 
 
 <div id="zulip-data-model" />
