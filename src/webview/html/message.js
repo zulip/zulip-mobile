@@ -3,7 +3,7 @@ import { PixelRatio } from 'react-native';
 import invariant from 'invariant';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 // $FlowFixMe[untyped-import]
-import { PollData } from '@zulip/shared/js/poll_data';
+import * as poll_data from '@zulip/shared/js/poll_data';
 
 import template from './template';
 import type {
@@ -136,7 +136,7 @@ $!${message.content}
     return template`$!${message.content}`;
   }
 
-  const pollData = new PollData({
+  const pollData = new poll_data.PollData({
     message_sender_id: message.sender_id,
     current_user_id: ownUserId,
     is_my_poll: message.sender_id === ownUserId,
