@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { ApiResponse, Auth } from '../transportTypes';
+import type { PropagateMode } from '../modelTypes';
 import { apiPatch } from '../apiFetch';
 
 /** See https://zulip.com/api/update-message */
@@ -8,7 +9,7 @@ export default async (
   params: $ReadOnly<{|
     // TODO(server-2.0): Say "topic", not "subject"
     subject?: string,
-    propagate_mode?: boolean,
+    propagate_mode?: PropagateMode,
     content?: string,
   |}>,
   id: number,

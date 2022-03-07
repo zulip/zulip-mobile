@@ -763,7 +763,9 @@ export type Message = PmMessage | StreamMessage;
 /**
  * Whether and how an edit moving a message applies to others in its conversation.
  *
- * See: https://zulip.com/api/get-events#update_message
+ * See:
+ *   https://zulip.com/api/get-events#update_message
+ *   https://zulip.com/api/update-message#parameter-propagate_mode
  */
 export type PropagateMode = 'change_one' | 'change_later' | 'change_all';
 
