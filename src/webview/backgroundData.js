@@ -29,6 +29,7 @@ import {
   getSubscriptionsById,
   getStreamsById,
   getRealm,
+  getZulipFeatureLevel,
 } from '../selectors';
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
@@ -59,6 +60,7 @@ export type BackgroundData = $ReadOnly<{|
   theme: ThemeName,
   twentyFourHourTime: boolean,
   userSettingStreamNotification: boolean,
+  zulipFeatureLevel: number,
 |}>;
 
 // TODO: Ideally this ought to be a caching selector that doesn't change
@@ -86,4 +88,5 @@ export const getBackgroundData = (
   theme: globalSettings.theme,
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   userSettingStreamNotification: getSettings(state).streamNotification,
+  zulipFeatureLevel: getZulipFeatureLevel(state),
 });

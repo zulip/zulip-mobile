@@ -20,6 +20,7 @@ import {
   getOwnUser,
   getStreamInNarrow,
   getSettings,
+  getZulipFeatureLevel,
 } from '../selectors';
 import { getMute } from '../mute/muteModel';
 import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
@@ -58,6 +59,7 @@ export default function TitleStream(props: Props): Node {
     ownUser: getOwnUser(state),
     flags: getFlags(state),
     userSettingStreamNotification: getSettings(state).streamNotification,
+    zulipFeatureLevel: getZulipFeatureLevel(state),
   }));
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()

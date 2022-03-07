@@ -13,7 +13,14 @@ import { showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useDispatch, useSelector } from '../react-redux';
-import { getAuth, getFlags, getSubscriptionsById, getStreamsById, getOwnUser } from '../selectors';
+import {
+  getAuth,
+  getFlags,
+  getSubscriptionsById,
+  getStreamsById,
+  getOwnUser,
+  getZulipFeatureLevel,
+} from '../selectors';
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 
@@ -56,6 +63,7 @@ export default function TopicItem(props: Props): Node {
     unread: getUnread(state),
     ownUser: getOwnUser(state),
     flags: getFlags(state),
+    zulipFeatureLevel: getZulipFeatureLevel(state),
   }));
 
   return (

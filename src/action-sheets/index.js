@@ -65,6 +65,7 @@ type TopicArgs = {
   topic: string,
   subscriptions: Map<number, Subscription>,
   streams: Map<number, Stream>,
+  zulipFeatureLevel: number,
   dispatch: Dispatch,
   _: GetText,
   ...
@@ -591,6 +592,7 @@ export const showTopicActionSheet = (args: {|
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
+    zulipFeatureLevel: number,
     ...
   }>,
   streamId: number,
