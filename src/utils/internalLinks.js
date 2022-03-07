@@ -230,3 +230,13 @@ export const getStreamTopicUrl = (
   const path = internal_url.by_stream_topic_url(streamId, topic, maybe_get_stream_name);
   return new URL(path, realm);
 };
+
+export const getStreamUrl = (
+  realm: URL,
+  streamId: number,
+  streamsById: Map<number, Stream>,
+): URL => {
+  const maybe_get_stream_name = id => streamsById.get(streamId)?.name;
+  const path = internal_url.by_stream_url(streamId, maybe_get_stream_name);
+  return new URL(path, realm);
+};

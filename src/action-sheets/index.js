@@ -40,7 +40,7 @@ import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
-import { getStreamTopicUrl } from '../utils/internalLinks';
+import { getStreamTopicUrl, getStreamUrl } from '../utils/internalLinks';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -234,6 +234,16 @@ const muteStream = {
   },
 };
 
+const copyLinkToStream = {
+  title: 'Copy link to stream',
+  errorMessage: 'Failed to copy stream link',
+  action: async ({ auth, streamId, streams, _ }) => {
+    const streamUrl = getStreamUrl(auth.realm, streamId, streams);
+    Clipboard.setString(streamUrl.toString());
+    showToast(_('Link copied'));
+  },
+};
+
 const showStreamSettings = {
   title: 'Stream settings',
   errorMessage: 'Failed to show stream settings',
@@ -378,6 +388,7 @@ export const constructStreamActionButtons = (args: {|
     } else {
       buttons.push(muteStream);
     }
+    buttons.push(copyLinkToStream);
     if (sub.pin_to_top) {
       buttons.push(unpinFromTop);
     } else {
