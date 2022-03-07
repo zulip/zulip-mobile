@@ -15,6 +15,7 @@ import { apiPatch } from '../apiFetch';
 // TODO(server-3.0): Simplify that away.
 export default async (
   auth: Auth,
+  messageId: number,
   params: $ReadOnly<{|
     // TODO(server-2.0): Say "topic", not "subject"
     subject?: string,
@@ -25,5 +26,4 @@ export default async (
     send_notification_to_old_thread?: boolean,
     send_notification_to_new_thread?: boolean,
   |}>,
-  id: number,
-): Promise<ApiResponse> => apiPatch(auth, `messages/${id}`, params);
+): Promise<ApiResponse> => apiPatch(auth, `messages/${messageId}`, params);
