@@ -94,17 +94,19 @@ export default function UserStatusScreen(props: Props): Node {
         data={statusSuggestions}
         keyboardShouldPersistTaps="always"
         keyExtractor={item => item}
-        renderItem={({ item, index }) => (
-          <SelectableOptionRow
-            key={item}
-            itemKey={item}
-            title={item}
-            selected={item === statusTextFromInputValue(textInputValue)}
-            onRequestSelectionChange={itemKey => {
-              setTextInputValue(_(itemKey));
-            }}
-          />
-        )}
+        renderItem={({ item: text, index }) => {
+          const translatedText = _(text);
+          return (
+            <SelectableOptionRow
+              itemKey={text}
+              title={translatedText}
+              selected={translatedText === statusTextFromInputValue(textInputValue)}
+              onRequestSelectionChange={() => {
+                setTextInputValue(translatedText);
+              }}
+            />
+          );
+        }}
       />
       <View style={styles.buttonsWrapper}>
         <ZulipButton
