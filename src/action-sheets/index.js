@@ -40,6 +40,7 @@ import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
+import { getStreamTopicUrl } from '../utils/internalLinks';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -183,6 +184,15 @@ const muteTopic = {
     invariant(stream !== undefined, 'Stream with provided streamId must exist.');
     // This still uses a stream name (#3918) because the API method does; see there.
     await api.setTopicMute(auth, stream.name, topic, true);
+  },
+};
+
+const copyLinkToTopic = {
+  title: 'Copy link to topic',
+  errorMessage: 'Failed to copy topic link',
+  action: async ({ auth, streamId, topic, streams }) => {
+    const topicUrl = getStreamTopicUrl(auth.realm, streamId, topic, streams);
+    Clipboard.setString(topicUrl.toString());
   },
 };
 
@@ -420,6 +430,7 @@ export const constructTopicActionButtons = (args: {|
   } else {
     buttons.push(muteStream);
   }
+  buttons.push(copyLinkToTopic);
   buttons.push(showStreamSettings);
   buttons.push(cancel);
   return buttons;

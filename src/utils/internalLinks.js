@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
+import * as internal_url from '@zulip/shared/js/internal_url';
 import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
@@ -217,4 +218,15 @@ export const getMessageIdFromLink = (url: string, realm: URL): number => {
   const paths = getPathsFromUrl(url, realm);
 
   return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
+};
+
+export const getStreamTopicUrl = (
+  realm: URL,
+  streamId: number,
+  topic: string,
+  streamsById: Map<number, Stream>,
+): URL => {
+  const maybe_get_stream_name = id => streamsById.get(id)?.name;
+  const path = internal_url.by_stream_topic_url(streamId, topic, maybe_get_stream_name);
+  return new URL(path, realm);
 };
