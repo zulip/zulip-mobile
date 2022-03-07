@@ -761,6 +761,13 @@ export type Message = PmMessage | StreamMessage;
 //
 
 /**
+ * Whether and how an edit moving a message applies to others in its conversation.
+ *
+ * See: https://zulip.com/api/get-events#update_message
+ */
+export type PropagateMode = 'change_one' | 'change_later' | 'change_all';
+
+/**
  * Describes a single recent PM conversation.
  *
  * See API documentation under `recent_private_conversations` at:

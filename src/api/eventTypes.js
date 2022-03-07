@@ -13,6 +13,7 @@
 import type {
   Message,
   MutedUser,
+  PropagateMode,
   Stream,
   UserId,
   UserPresence,
@@ -239,7 +240,7 @@ export type UpdateMessageEvent = $ReadOnly<{|
   stream_name?: string,
   stream_id?: number,
   new_stream_id?: number,
-  propagate_mode?: 'change_one' | 'change_later' | 'change_all',
+  propagate_mode?: PropagateMode,
   orig_subject?: string,
   subject?: string,
 
