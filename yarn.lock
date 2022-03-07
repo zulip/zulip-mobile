@@ -2586,10 +2586,10 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zulip/shared@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.6.tgz#024450692670b572b6eb095845a1203d3001890e"
-  integrity sha512-17Shi/YJMln4h/B1CE3I2JiEO99tZDClTDEEXEk/XI2SGYCi1Tdb4hB48QKnlV0cy9k93KAX3oC6cydZyZUwiQ==
+"@zulip/shared@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.7.tgz#46dd85bd32e9c0521f702c506a3c89622c7de629"
+  integrity sha512-Km4vubLuaIHKh/gxXpbJW+NpQM703uGA9GTYxCztFi6544vS2ChFL5vDWzVbhX64K4ucsc7JFzNJVZhj3t82mg==
   dependencies:
     katex "^0.12.0"
     lodash "^4.17.19"
