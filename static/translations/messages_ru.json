@@ -290,5 +290,7 @@
   "Attachment {num}": "Вложений {num}",
   "Failed to mark topic as read": "Не удалось отметить тему как прочитанную",
   "Remove account": "Удалить учетную запись",
-  "Search topics":"Поиск в темах"
+  "Search topics": "Поиск в темах",
+  "Copy link to topic": "Скопировать ссылку на тему",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

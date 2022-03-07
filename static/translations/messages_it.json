@@ -290,5 +290,7 @@
   "Attachment {num}": "Allegato {num}",
   "Failed to mark topic as read": "Impossibile contrassegnare l'argomento come letto",
   "Remove account": "Rimuovi l'account",
-  "Search topics":"Cerca argomenti"
+  "Search topics": "Cerca argomenti",
+  "Copy link to topic": "Copia il link all'argomento",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

@@ -290,5 +290,7 @@
   "Attachment {num}": "Ymlyniad {num}",
   "Failed to mark topic as read": "Wedi methu marcio'r pwnc fel y'i darllenwyd",
   "Remove account": "Dileu cyfrif",
-  "Search topics":"Chwilio pynciau"
+  "Search topics": "Chwilio pynciau",
+  "Copy link to topic": "Copi dolen i'r pwnc",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

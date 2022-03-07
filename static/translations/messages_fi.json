@@ -290,5 +290,7 @@
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Aiheen merkitseminen luetuksi epäonnistui",
   "Remove account": "Poista tili",
-  "Search topics":"Etsi aiheita"
+  "Search topics": "Etsi aiheita",
+  "Copy link to topic": "Copy link to topic",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

@@ -290,5 +290,7 @@
   "Attachment {num}": "Dateianhang {num}",
   "Failed to mark topic as read": "Konnte das Thema nicht als gelesen markieren",
   "Remove account": "Konto löschen",
-  "Search topics":"Themen suchen"
+  "Search topics": "Themen suchen",
+  "Copy link to topic": "Link zum Thema kopieren",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

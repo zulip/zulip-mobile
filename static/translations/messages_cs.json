@@ -290,5 +290,7 @@
   "Attachment {num}": "Příloha {num}",
   "Failed to mark topic as read": "Nepodařilo se označit téma jako přečtené",
   "Remove account": "Odstranit účet",
-  "Search topics":"Hledat témata"
+  "Search topics": "Hledat témata",
+  "Copy link to topic": "Kopírovat odkaz na téma",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

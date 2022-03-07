@@ -290,5 +290,7 @@
   "Attachment {num}": "Csatolmány {num}",
   "Failed to mark topic as read": "Nem sikerült olvasottnak jelölni a témát",
   "Remove account": "Fiók törlése",
-  "Search topics":"Témák keresése"
+  "Search topics": "Témák keresése",
+  "Copy link to topic": "Téma linkjének másolása",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

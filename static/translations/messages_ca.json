@@ -290,5 +290,7 @@
   "Attachment {num}": "Adjunt {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Remove account": "Elimina el compte",
-  "Search topics":"Cerca temes"
+  "Search topics": "Cerca temes",
+  "Copy link to topic": "Copy link to topic",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

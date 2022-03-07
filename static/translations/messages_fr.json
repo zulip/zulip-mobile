@@ -290,5 +290,7 @@
   "Attachment {num}": "Pièce jointe {num}",
   "Failed to mark topic as read": "Impossible de marquer le sujet comme lu",
   "Remove account": "Supprimer le compte",
-  "Search topics":"Effectuer une recherche dans les sujets "
+  "Search topics": "Effectuer une recherche dans les sujets ",
+  "Copy link to topic": "Copier le lien vers ce sujet",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

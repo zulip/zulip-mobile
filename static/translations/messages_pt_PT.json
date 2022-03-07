@@ -290,5 +290,7 @@
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Remove account": "Remove account",
-  "Search topics":"Search topics"
+  "Search topics": "Search topics",
+  "Copy link to topic": "Copiar link para o tema",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

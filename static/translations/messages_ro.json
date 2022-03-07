@@ -290,5 +290,7 @@
   "Attachment {num}": "Atașament {num}",
   "Failed to mark topic as read": "Nu s-a marcat subiectul ca citit",
   "Remove account": "Sterge contul",
-  "Search topics":"Caută subiecte"
+  "Search topics": "Caută subiecte",
+  "Copy link to topic": "Copiați linkul către subiect",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

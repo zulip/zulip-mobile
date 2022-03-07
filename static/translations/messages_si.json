@@ -290,5 +290,7 @@
   "Attachment {num}": "ඇමුණුම {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Remove account": "ගිණුම ඉවත් කරන්න",
-  "Search topics":"මාතෘකා සොයන්න"
+  "Search topics": "මාතෘකා සොයන්න",
+  "Copy link to topic": "සබැඳිය මාතෘකාවට පිටපත් කරන්න",
+  "Failed to copy topic link": "Failed to copy topic link"
 }

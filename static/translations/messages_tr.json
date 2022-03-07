@@ -290,5 +290,7 @@
   "Attachment {num}": "Ek {num}",
   "Failed to mark topic as read": "Konu okundu olarak işaretlenemedi",
   "Remove account": "Hesabı sil",
-  "Search topics":"Konu ara"
+  "Search topics": "Konu ara",
+  "Copy link to topic": "Konuya bağlantıyı kopyala",
+  "Failed to copy topic link": "Failed to copy topic link"
 }
