@@ -49,6 +49,7 @@ const inputValueFromStatusText = (t: $PropertyType<UserStatus, 'status_text'>): 
 export default function UserStatusScreen(props: Props): Node {
   const { navigation } = props;
 
+  const _ = useContext(TranslationContext);
   const auth = useSelector(getAuth);
   const ownUserId = useSelector(getOwnUserId);
   const userStatusText = useSelector(state => getUserStatus(state, ownUserId).status_text);
@@ -56,7 +57,6 @@ export default function UserStatusScreen(props: Props): Node {
   const [textInputValue, setTextInputValue] = useState<string>(
     inputValueFromStatusText(userStatusText),
   );
-  const _ = useContext(TranslationContext);
 
   const sendToServer = useCallback(
     partialUserStatus => {
