@@ -3,6 +3,8 @@ import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import Emoji from '../emoji/Emoji';
+import { emojiTypeFromReactionType } from '../emoji/data';
 import type { UserOrBot } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
@@ -21,6 +23,7 @@ const componentStyles = createStyleSheet({
   },
   statusWrapper: {
     justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
   },
   presenceStatusIndicator: {
@@ -42,6 +45,9 @@ export default function AccountDetails(props: Props): Node {
 
   const ownUser = useSelector(getOwnUser);
   const userStatusText = useSelector(state => getUserStatus(state, props.user.user_id).status_text);
+  const userStatusEmoji = useSelector(
+    state => getUserStatus(state, props.user.user_id).status_emoji,
+  );
 
   const isSelf = user.user_id === ownUser.user_id;
 
@@ -70,9 +76,22 @@ export default function AccountDetails(props: Props): Node {
         />
         <ZulipText style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
       </View>
-      {userStatusText !== null && (
-        <ZulipText style={[styles.largerText, componentStyles.statusText]} text={userStatusText} />
-      )}
+      <View style={componentStyles.statusWrapper}>
+        {userStatusEmoji && (
+          <Emoji
+            code={userStatusEmoji.emoji_code}
+            type={emojiTypeFromReactionType(userStatusEmoji.reaction_type)}
+            size={24}
+          />
+        )}
+        {userStatusEmoji && userStatusText !== null && <View style={{ width: 2 }} />}
+        {userStatusText !== null && (
+          <ZulipText
+            style={[styles.largerText, componentStyles.statusText]}
+            text={userStatusText}
+          />
+        )}
+      </View>
       {!isSelf && (
         <View>
           <ActivityText style={styles.largerText} user={user} />
