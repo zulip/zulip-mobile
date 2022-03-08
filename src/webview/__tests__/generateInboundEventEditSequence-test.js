@@ -508,6 +508,29 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         },
       });
     });
+
+    [
+      ['none', null],
+      ['unicode', eg.userStatusEmojiUnicode],
+      ['realm', eg.userStatusEmojiRealm],
+      ['zulip extra', eg.userStatusEmojiZulipExtra],
+    ].forEach(([description, statusEmoji]) => {
+      test(`sender status emoji: ${description}`, () => {
+        check({
+          narrow: HOME_NARROW,
+          messages: [baseSingleMessage],
+          backgroundData: {
+            ...eg.plusBackgroundData,
+            userStatuses: Immutable.Map([
+              [
+                baseSingleMessage.sender_id,
+                { away: false, status_text: null, status_emoji: statusEmoji },
+              ],
+            ]),
+          },
+        });
+      });
+    });
   });
 });
 
