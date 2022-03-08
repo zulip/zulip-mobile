@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { Node } from 'react';
 import {
   createMaterialTopTabNavigator,
@@ -21,6 +21,7 @@ import { getHasAuth } from '../selectors';
 import { navigateToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
+import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
 export type SharingNavigatorParamList = {|
   'share-to-stream': RouteParamsOf<typeof ShareToStream>,
@@ -53,19 +54,20 @@ export default function SharingScreen(props: Props): Node {
   const { params } = props.route;
   const hasAuth = useGlobalSelector(getHasAuth);
 
-  // If there is no active logged-in account, abandon the sharing attempt,
-  // and present the account picker screen to the user.
-  if (!hasAuth) {
-    NavigationService.dispatch(navigateToAccountPicker());
-    return null;
-  }
+  useEffect(() => {
+    if (!hasAuth) {
+      // If there is no active logged-in account, abandon the sharing attempt,
+      // and present the account picker screen to the user.
+      NavigationService.dispatch(navigateToAccountPicker());
+    }
+  }, [hasAuth]);
 
   return (
     <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
       <Tab.Navigator {...materialTopTabNavigatorConfig()} swipeEnabled>
         <Tab.Screen
           name="share-to-stream"
-          component={ShareToStream}
+          component={useHaveServerDataGate(ShareToStream)}
           initialParams={params}
           options={{
             tabBarLabel: ({ color }) => (
@@ -75,7 +77,7 @@ export default function SharingScreen(props: Props): Node {
         />
         <Tab.Screen
           name="share-to-pm"
-          component={ShareToPm}
+          component={useHaveServerDataGate(ShareToPm)}
           initialParams={params}
           options={{
             tabBarLabel: ({ color }) => (
