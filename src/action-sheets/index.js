@@ -190,9 +190,10 @@ const muteTopic = {
 const copyLinkToTopic = {
   title: 'Copy link to topic',
   errorMessage: 'Failed to copy topic link',
-  action: async ({ auth, streamId, topic, streams }) => {
+  action: async ({ auth, streamId, topic, streams, _ }) => {
     const topicUrl = getStreamTopicUrl(auth.realm, streamId, topic, streams);
     Clipboard.setString(topicUrl.toString());
+    showToast(_('Link copied'));
   },
 };
 
