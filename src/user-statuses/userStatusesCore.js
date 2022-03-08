@@ -35,3 +35,20 @@ export const kUserStatusZero: UserStatus = {
  * implicitly by having no record in this map.
  */
 export type UserStatusesState = Immutable.Map<UserId, UserStatus>;
+
+//
+//
+// Getters.
+//
+
+/**
+ *  The `UserStatus` object for the given UserId, from `UserStatusesState`.
+ *
+ *  Use this instead of reading `UserStatusesState` directly, because it
+ *  takes care of this fact about UserStatusesState (from jsdoc):
+ *
+ *    Users who have the "zero" status, `kUserStatusZero`, may be
+ *    represented implicitly by having no record in this map.
+ */
+export const getUserStatusFromModel = (state: UserStatusesState, userId: UserId): UserStatus =>
+  state.get(userId, kUserStatusZero);

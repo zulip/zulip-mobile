@@ -33,6 +33,8 @@ import {
 } from '../selectors';
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
+import { getUserStatuses } from '../user-statuses/userStatusesModel';
+import { type UserStatusesState } from '../user-statuses/userStatusesCore';
 
 /**
  * Data about the user, the realm, and all known messages.
@@ -60,6 +62,7 @@ export type BackgroundData = $ReadOnly<{|
   theme: ThemeName,
   twentyFourHourTime: boolean,
   userSettingStreamNotification: boolean,
+  userStatuses: UserStatusesState,
   zulipFeatureLevel: number,
 |}>;
 
@@ -88,5 +91,6 @@ export const getBackgroundData = (
   theme: globalSettings.theme,
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   userSettingStreamNotification: getSettings(state).streamNotification,
+  userStatuses: getUserStatuses(state),
   zulipFeatureLevel: getZulipFeatureLevel(state),
 });

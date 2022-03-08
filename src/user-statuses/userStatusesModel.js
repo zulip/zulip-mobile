@@ -21,10 +21,16 @@ import { kUserStatusZero } from './userStatusesCore';
 // Selectors.
 //
 
-const getUserStatuses = (state: PerAccountState): UserStatusesState => state.userStatuses;
+/**
+ *  The `UserStatusesState`.
+ *
+ *  Don't read from `UserStatusesState` directly; see `userStatusesCore` for
+ *  a getter that takes a `UserStatusesState`.
+ */
+export const getUserStatuses = (state: PerAccountState): UserStatusesState => state.userStatuses;
 
 /**
- * The `UserStatus` object for the given UserId.
+ * The `UserStatus` object for the given UserId, from `PerAccountState`.
  */
 export const getUserStatus = (state: PerAccountState, userId: UserId): UserStatus =>
   getUserStatuses(state).get(userId, kUserStatusZero);
