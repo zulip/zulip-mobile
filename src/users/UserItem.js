@@ -13,6 +13,9 @@ import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
+import { getUserStatus } from '../user-statuses/userStatusesModel';
+import { emojiTypeFromReactionType } from '../emoji/data';
+import Emoji from '../emoji/Emoji';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -27,9 +30,6 @@ const componentStyles = createStyleSheet({
   textEmail: {
     fontSize: 10,
     color: 'hsl(0, 0%, 60%)',
-  },
-  textWrapper: {
-    flex: 1,
   },
 });
 
@@ -57,6 +57,7 @@ export function UserItemRaw<
   const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
   const _ = useContext(TranslationContext);
   const isMuted = useSelector(getMutedUsers).has(user.user_id);
+  const userStatusEmoji = useSelector(state => getUserStatus(state, user.user_id)).status_emoji;
 
   const handlePress = useCallback(() => {
     if (onPress) {
@@ -73,7 +74,7 @@ export function UserItemRaw<
           isMuted={isMuted}
           onPress={onPress && handlePress}
         />
-        <View style={componentStyles.textWrapper}>
+        <View>
           <ZulipText
             style={[componentStyles.text, isSelected && componentStyles.selectedText]}
             text={isMuted ? _('Muted user') : user.full_name}
@@ -93,6 +94,15 @@ export function UserItemRaw<
             />
           )}
         </View>
+        {userStatusEmoji && (
+          <View style={{ marginLeft: 4 }}>
+            <Emoji
+              code={userStatusEmoji.emoji_code}
+              type={emojiTypeFromReactionType(userStatusEmoji.reaction_type)}
+              size={24}
+            />
+          </View>
+        )}
         <UnreadCount count={unreadCount} inverse={isSelected} />
       </View>
     </Touchable>
