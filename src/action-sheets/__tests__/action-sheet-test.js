@@ -21,6 +21,8 @@ describe('constructStreamActionButtons', () => {
 
   // TODO: test constructStreamActionButtons for mute/unmute
 
+  // TODO: test constructStreamActionButtons for copyLinkToStream
+
   test('show pinToTop', () => {
     const subscriptions = new Map([
       [eg.stream.stream_id, eg.makeSubscription({ pin_to_top: false })],
@@ -112,7 +114,9 @@ describe('constructTopicActionButtons', () => {
     expect(titles({ ...eg.plusBackgroundData, subscriptions })).toContain('Mute stream');
   });
 
-  // TODO: test constructStreamActionButtons for showStreamSettings
+  // TODO: test constructTopicActionButtons for copyLinkToTopic
+
+  // TODO: test constructTopicActionButtons for showStreamSettings
 });
 
 // TODO: test constructPmConversationActionButtons
