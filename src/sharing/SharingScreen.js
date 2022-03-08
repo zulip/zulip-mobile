@@ -18,7 +18,7 @@ import { useGlobalSelector } from '../react-redux';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
 import { getHasAuth } from '../selectors';
-import { navigateToAccountPicker } from '../nav/navActions';
+import { resetToAccountPicker } from '../nav/navActions';
 import ShareToStream from './ShareToStream';
 import ShareToPm from './ShareToPm';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
@@ -58,7 +58,7 @@ export default function SharingScreen(props: Props): Node {
     if (!hasAuth) {
       // If there is no active logged-in account, abandon the sharing attempt,
       // and present the account picker screen to the user.
-      NavigationService.dispatch(navigateToAccountPicker());
+      NavigationService.dispatch(resetToAccountPicker());
     }
   }, [hasAuth]);
 
