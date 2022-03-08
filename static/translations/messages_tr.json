@@ -292,5 +292,7 @@
   "Remove account": "Hesabı sil",
   "Search topics": "Konu ara",
   "Copy link to topic": "Konuya bağlantıyı kopyala",
-  "Failed to copy topic link": "Failed to copy topic link"
+  "Failed to copy topic link": "Failed to copy topic link",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }

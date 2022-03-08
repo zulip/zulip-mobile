@@ -292,5 +292,7 @@
   "Remove account": "Dileu cyfrif",
   "Search topics": "Chwilio pynciau",
   "Copy link to topic": "Copi dolen i'r pwnc",
-  "Failed to copy topic link": "Failed to copy topic link"
+  "Failed to copy topic link": "Failed to copy topic link",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }

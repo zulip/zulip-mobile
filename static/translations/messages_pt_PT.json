@@ -292,5 +292,7 @@
   "Remove account": "Remover conta",
   "Search topics": "Pesquisar tópicos",
   "Copy link to topic": "Copiar link para o tema",
-  "Failed to copy topic link": "Falha ao copiar o link do tópico"
+  "Failed to copy topic link": "Falha ao copiar o link do tópico",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }

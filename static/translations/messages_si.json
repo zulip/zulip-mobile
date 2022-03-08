@@ -292,5 +292,7 @@
   "Remove account": "ගිණුම ඉවත් කරන්න",
   "Search topics": "මාතෘකා සොයන්න",
   "Copy link to topic": "සබැඳිය මාතෘකාවට පිටපත් කරන්න",
-  "Failed to copy topic link": "Failed to copy topic link"
+  "Failed to copy topic link": "Failed to copy topic link",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }

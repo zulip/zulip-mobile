@@ -292,5 +292,7 @@
   "Remove account": "Fiók törlése",
   "Search topics": "Témák keresése",
   "Copy link to topic": "Téma linkjének másolása",
-  "Failed to copy topic link": "Failed to copy topic link"
+  "Failed to copy topic link": "Failed to copy topic link",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }

@@ -292,5 +292,7 @@
   "Remove account": "Remove account",
   "Search topics": "Search topics",
   "Copy link to topic": "주제로 가는 링크 복사",
-  "Failed to copy topic link": "Failed to copy topic link"
+  "Failed to copy topic link": "Failed to copy topic link",
+  "Copy link to stream": "Copy link to stream",
+  "Failed to copy stream link": "Failed to copy stream link"
 }
