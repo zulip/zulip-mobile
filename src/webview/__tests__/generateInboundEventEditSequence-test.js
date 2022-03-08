@@ -184,8 +184,8 @@ const pmMessages6 = [
   }),
 ];
 
-const baseBackgroundData = {
-  ...eg.baseBackgroundData,
+const plusBackgroundData = {
+  ...eg.plusBackgroundData,
   streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
 };
 
@@ -224,7 +224,7 @@ const baseBackgroundData = {
  * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
-  const check = ({ backgroundData = baseBackgroundData, narrow, messages }) => {
+  const check = ({ backgroundData = plusBackgroundData, narrow, messages }) => {
     invariant(
       messages.every((message, i, allMessages) => {
         const prevMessage: Message | void = allMessages[i - 1];
@@ -418,7 +418,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       check({
         narrow: HOME_NARROW,
         backgroundData: {
-          ...eg.baseBackgroundData,
+          ...eg.plusBackgroundData,
           ownUser: stableSelfUser,
           allUsersById: new Map([
             [singleMessageSender.user_id, singleMessageSender],
@@ -488,12 +488,12 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
 
     Object.keys(eg.baseReduxState.flags).forEach(flag => {
       test(`message with flag: ${flag}`, () => {
-        const flags: ReadWrite<FlagsState> = { ...eg.baseBackgroundData.flags };
+        const flags: ReadWrite<FlagsState> = { ...eg.plusBackgroundData.flags };
         flags[flag] = { [baseSingleMessage.id]: true };
         check({
           narrow: HOME_NARROW,
           messages: [baseSingleMessage],
-          backgroundData: { ...eg.baseBackgroundData, flags },
+          backgroundData: { ...eg.plusBackgroundData, flags },
         });
       });
     });
@@ -503,7 +503,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         narrow: HOME_NARROW,
         messages: [baseSingleMessage],
         backgroundData: {
-          ...eg.baseBackgroundData,
+          ...eg.plusBackgroundData,
           mutedUsers: Immutable.Map([[baseSingleMessage.sender_id, 1644366787]]),
         },
       });
@@ -527,12 +527,12 @@ describe('getEditSequence correct for interesting changes', () => {
   const check = (
     // TODO: Test with a variety of different things in background data
     {
-      backgroundData: oldBackgroundData = baseBackgroundData,
+      backgroundData: oldBackgroundData = plusBackgroundData,
       narrow: oldNarrow = HOME_NARROW,
       messages: oldMessages,
     },
     {
-      backgroundData: newBackgroundData = baseBackgroundData,
+      backgroundData: newBackgroundData = plusBackgroundData,
       narrow: newNarrow = HOME_NARROW,
       messages: newMessages,
     },
@@ -779,15 +779,15 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
-            flags: { ...eg.baseBackgroundData.flags, starred: {} },
+            ...eg.plusBackgroundData,
+            flags: { ...eg.plusBackgroundData.flags, starred: {} },
           },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
-            flags: { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } },
+            ...eg.plusBackgroundData,
+            flags: { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } },
           },
         },
       );
@@ -799,15 +799,15 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
-            flags: { ...eg.baseBackgroundData.flags, starred: { [message.id]: true } },
+            ...eg.plusBackgroundData,
+            flags: { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } },
           },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
-            flags: { ...eg.baseBackgroundData.flags, starred: {} },
+            ...eg.plusBackgroundData,
+            flags: { ...eg.plusBackgroundData.flags, starred: {} },
           },
         },
       );
@@ -821,12 +821,12 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: { ...eg.baseBackgroundData, mutedUsers: Immutable.Map() },
+          backgroundData: { ...eg.plusBackgroundData, mutedUsers: Immutable.Map() },
         },
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
+            ...eg.plusBackgroundData,
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
           },
         },
@@ -839,13 +839,13 @@ describe('getEditSequence correct for interesting changes', () => {
         {
           messages: [message],
           backgroundData: {
-            ...eg.baseBackgroundData,
+            ...eg.plusBackgroundData,
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
           },
         },
         {
           messages: [message],
-          backgroundData: { ...eg.baseBackgroundData, mutedUsers: Immutable.Map() },
+          backgroundData: { ...eg.plusBackgroundData, mutedUsers: Immutable.Map() },
         },
       );
     });
@@ -870,7 +870,7 @@ describe('getEditSequence correct for interesting changes', () => {
               ...[emojiStatusA, emojiStatusB].map(emojiStatus => ({
                 messages: [message],
                 backgroundData: {
-                  ...eg.baseBackgroundData,
+                  ...eg.plusBackgroundData,
                   userStatuses: Immutable.Map([
                     [
                       message.sender_id,

@@ -1978,7 +1978,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
     <p>This is an example stream message.</p>
 
 
-<div class=\\"reaction-list\\"><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"github_parrot\\" data-code=\\"80\\" data-type=\\"realm_emoji\\">&nbsp;2</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"thumbs_up\\" data-code=\\"1f44d\\" data-type=\\"unicode_emoji\\">👍&nbsp;1</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"zulip\\" data-code=\\"zulip\\" data-type=\\"zulip_extra_emoji\\"><img src=\\"https://zulip.example.org/static/generated/emoji/images/emoji/unicode/zulip.png\\">&nbsp;1</span></div>
+<div class=\\"reaction-list\\"><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"github_parrot\\" data-code=\\"80\\" data-type=\\"realm_emoji\\"><img src=\\"https://zulip.example.org/user_avatars/2/emoji/images/80.gif\\">&nbsp;2</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"thumbs_up\\" data-code=\\"1f44d\\" data-type=\\"unicode_emoji\\">👍&nbsp;1</span><span onclick=\\"\\" class=\\"reaction\\" data-name=\\"zulip\\" data-code=\\"zulip\\" data-type=\\"zulip_extra_emoji\\"><img src=\\"https://zulip.example.org/static/generated/emoji/images/emoji/unicode/zulip.png\\">&nbsp;1</span></div>
   </div>
   
 </div>"
