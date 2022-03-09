@@ -224,7 +224,7 @@ export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<
   getState,
 ) => {
   dispatch(registerAbortPlain(reason));
-  if (getHaveServerData(getState())) {
+  if (getHaveServerData(getState()) && reason !== 'unexpected') {
     // Try again, forever if necessary; the user has an interactable UI and
     // can look at stale data while waiting.
     //
