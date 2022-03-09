@@ -451,10 +451,9 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
   dispatch(registerStart());
   const auth = getAuth(getState());
 
-  let initData: InitialData;
-
   const haveServerData = getHaveServerData(getState());
 
+  let initData: InitialData;
   try {
     initData = await tryFetch(
       // Currently, no input we're giving `registerForEvents` is
