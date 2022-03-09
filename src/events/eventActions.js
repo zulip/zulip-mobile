@@ -74,10 +74,12 @@ export const startEventPolling = (
       const response = await api.pollForEvents(auth, queueId, lastEventId);
       events = response.events;
 
-      if (queueId !== getState().session.eventQueueId) {
-        // The user switched accounts or logged out.
-        // TODO(#5022): TODO(#5009): This doesn't seem like an adequate
-        //   check for that; it looks like it only detects a new REGISTER_COMPLETE.
+      if (getState().session.eventQueueId === null) {
+        // We don't want to keep polling, e.g., because we've logged out;
+        // see `PerAccountSessionState.eventQueueId` for other cases.
+        break;
+      } else if (queueId !== getState().session.eventQueueId) {
+        // TODO: Explain why we still want this (coming soon)
         break;
       }
     } catch (e) {

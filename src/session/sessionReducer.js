@@ -24,6 +24,15 @@ import { getHasAuth } from '../account/accountsSelectors';
  * See {@link SessionState} for discussion of what "non-persistent" means.
  */
 export type PerAccountSessionState = $ReadOnly<{
+  /**
+   * The event queue ID that we're currently polling on, if any.
+   *
+   * Null when we're not polling on any event queue:
+   * - Between startup and registering a queue
+   * - After the server tells us our old queue was invalid, and before we've
+   *   registered a new one
+   * - While this account is logged out
+   */
   eventQueueId: string | null,
 
   /**
@@ -162,12 +171,20 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         ...state,
         needsInitialFetch: true,
         loading: false,
+
+        // The server told us that the old queue ID is invalid. Forget it,
+        // so we don't try to use it.
+        eventQueueId: null,
       };
 
     case LOGIN_SUCCESS:
       return {
         ...state,
         needsInitialFetch: true,
+
+        // We're about to request a new event queue; no use hanging on to
+        // any old one we might have.
+        eventQueueId: null,
       };
 
     case LOGOUT:
@@ -175,6 +192,9 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         ...state,
         needsInitialFetch: false,
         loading: false,
+
+        // Stop polling this event queue.
+        eventQueueId: null,
       };
 
     case ACCOUNT_SWITCH:
@@ -182,6 +202,12 @@ export default (state: SessionState = initialState, action: Action): SessionStat
         ...state,
         needsInitialFetch: true,
         loading: false,
+
+        // Stop polling this event queue.  (We'll request a new one soon,
+        // for the new account.)
+        // TODO(#5005): Keep polling on accounts other than the active
+        //   account.
+        eventQueueId: null,
       };
 
     case REHYDRATE:
