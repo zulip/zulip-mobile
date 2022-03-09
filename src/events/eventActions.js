@@ -1,5 +1,7 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
+// $FlowFixMe[untyped-import]
+import isEqual from 'lodash.isequal';
 
 import type { GeneralEvent, ThunkAction } from '../types';
 import * as api from '../api';
@@ -7,7 +9,8 @@ import { logout } from '../account/accountActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { tryGetAuth } from '../selectors';
+import { tryGetAuth, getIdentity } from '../selectors';
+import { identityOfAuth } from '../account/accountMisc';
 import { BackoffMachine } from '../utils/async';
 import { ApiError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
@@ -78,8 +81,24 @@ export const startEventPolling = (
         // We don't want to keep polling, e.g., because we've logged out;
         // see `PerAccountSessionState.eventQueueId` for other cases.
         break;
+      } else if (!isEqual(getIdentity(getState()), identityOfAuth(auth))) {
+        // During the last poll, the active account changed. Stop polling
+        // for the previous one.
+        // TODO(#5005): Remove this conditional as unreachable, once `auth`
+        //   represents the current account (instead of secretly
+        //   representing the global "active account" which can change.)
+        break;
       } else if (queueId !== getState().session.eventQueueId) {
-        // TODO: Explain why we still want this (coming soon)
+        // While the most recent poll was happening, another queue was
+        // established for this account, and we've started polling on that
+        // one. Stop polling on this one.
+        //
+        // In theory this could happen if you logged out of this account and
+        // logged back in again.
+        //
+        // TODO(#5009): Instead of this conditional, abort the
+        //   `api.pollForEvents` immediately when `eventQueueId` becomes
+        //   `null`, then break at that time?
         break;
       }
     } catch (e) {
