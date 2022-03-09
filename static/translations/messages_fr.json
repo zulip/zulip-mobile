@@ -292,7 +292,7 @@
   "Remove account": "Supprimer le compte",
   "Search topics": "Effectuer une recherche dans les sujets ",
   "Copy link to topic": "Copier le lien vers ce sujet",
-  "Failed to copy topic link": "Failed to copy topic link",
-  "Copy link to stream": "Copy link to stream",
-  "Failed to copy stream link": "Failed to copy stream link"
+  "Failed to copy topic link": "Échec de la copie du lien du sujet",
+  "Copy link to stream": "Copier le lien vers le canal",
+  "Failed to copy stream link": "Échec de la copie du lien du canal"
 }
