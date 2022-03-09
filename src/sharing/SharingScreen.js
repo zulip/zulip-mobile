@@ -58,6 +58,7 @@ export default function SharingScreen(props: Props): Node {
     if (!hasAuth) {
       // If there is no active logged-in account, abandon the sharing attempt,
       // and present the account picker screen to the user.
+      // TODO(?): Offer to come back and finish the share after auth
       NavigationService.dispatch(resetToAccountPicker());
     }
   }, [hasAuth]);
