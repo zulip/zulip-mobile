@@ -131,6 +131,20 @@ describe('stream substate', () => {
       ]));
     });
 
+    test('if none left at old topic, prune', () => {
+      const action = mkAction({
+        message_ids: [1, 2, 3, 4, 15],
+        stream_id: 123,
+        new_stream_id: 456,
+        orig_subject: 'foo',
+      });
+      const state = reducer(baseState, action, eg.plusReduxState);
+      // prettier-ignore
+      expect(summary(state)).toEqual(Immutable.Map([
+        [456, Immutable.Map([['zzz', [6, 7]], ['foo', [1, 2, 3, 4, 15]]])],
+      ]));
+    });
+
     test('if moved to topic with existing unreads, ids stay sorted', () => {
       const action = mkAction({
         message_ids: [3, 4, 15],

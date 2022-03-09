@@ -91,6 +91,24 @@ export const getUnreadIdsForPmNarrow = (
 
 const initialStreamsState: UnreadStreamsState = Immutable.Map();
 
+// Like `Immutable.Map#update`, but prune returned values equal to `zero`.
+function updateAndPrune<K, V>(
+  map: Immutable.Map<K, V>,
+  zero: V,
+  key: K,
+  updater: (V | void) => V,
+): Immutable.Map<K, V> {
+  const value = map.get(key);
+  const newValue = updater(value);
+  if (newValue === zero) {
+    return map.delete(key);
+  }
+  if (newValue === value) {
+    return map;
+  }
+  return map.set(key, newValue);
+}
+
 // Like `Immutable.Map#map`, but with the update-only-if-different semantics
 // of `Immutable.Map#update`.  Kept for comparison to `updateAllAndPrune`.
 /* eslint-disable-next-line no-unused-vars */
@@ -124,6 +142,19 @@ function updateAllAndPrune<K, V>(
       mapMut.set(key, newValue);
     });
   });
+}
+
+function deleteMessagesIn(
+  state: UnreadStreamsState,
+  streamId: number,
+  topic: string,
+  ids: Set<number>,
+): UnreadStreamsState {
+  return updateAndPrune(state, Immutable.Map(), streamId, (perStream = Immutable.Map()) =>
+    updateAndPrune(perStream, Immutable.List(), topic, (perTopic = Immutable.List()) =>
+      perTopic.filter(id => !ids.has(id)),
+    ),
+  );
 }
 
 function deleteMessages(
@@ -237,13 +268,10 @@ function streamsReducer(
         return state;
       }
 
-      return state
-        .updateIn([move.orig_stream_id, move.orig_topic], (messages = Immutable.List()) =>
-          messages.filter(id => !eventIds.has(id)),
-        )
-        .updateIn([move.new_stream_id, move.new_topic], (messages = Immutable.List()) =>
-          messages.push(...matchingIds).sort(),
-        );
+      return deleteMessagesIn(state, move.orig_stream_id, move.orig_topic, eventIds).updateIn(
+        [move.new_stream_id, move.new_topic],
+        (messages = Immutable.List()) => messages.push(...matchingIds).sort(),
+      );
     }
 
     default:
