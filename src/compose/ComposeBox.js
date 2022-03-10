@@ -1,6 +1,6 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
-import type { ComponentType } from 'react';
+import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import type { ComponentType, Node } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
@@ -8,9 +8,9 @@ import { type EdgeInsets } from 'react-native-safe-area-context';
 import { compose } from 'redux';
 import invariant from 'invariant';
 
+import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
-import type { ThemeData } from '../styles';
 import { ThemeContext, BRAND_COLOR } from '../styles';
 import type {
   Auth,
@@ -62,6 +62,8 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import * as api from '../api';
 import { ensureUnreachable } from '../generics';
+
+/* eslint-disable no-shadow */
 
 type SelectorProps = {|
   auth: Auth,
@@ -153,45 +155,71 @@ const updateTextInput = (textInput, text) => {
   textInput.setNativeProps({ text });
 };
 
-class ComposeBoxInner extends PureComponent<Props, State> {
-  static contextType = ThemeContext;
-  context: ThemeData;
+// Like React$Component's `.setState`, but stripped of features we don't use.
+type LegacySetState<S: { ... }> = (partialState: ?$Shape<S> | (S => ?$Shape<S>)) => void;
+
+/**
+ * Gives setState that takes partial state to merge, like Component.setState.
+ *
+ * See https://reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables.
+ */
+// TODO: Remove; this is just useful to minimize the diff when we convert to
+//   a function component.
+const useLegacyState = <S: { ... }>(initialValue: S): [S, LegacySetState<S>] => {
+  const [state, setState] = useState<S>(initialValue);
+
+  const legacySetState = useCallback(
+    partialState =>
+      setState(state => ({
+        ...state,
+        ...(typeof partialState === 'function' ? partialState(state) : partialState),
+      })),
+    [],
+  );
+
+  return [state, legacySetState];
+};
+
+function ComposeBoxInner(props: Props): Node {
+  const context = useContext(ThemeContext);
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
   // this is probably down to bugs in Flow's special support for React.
-  messageInputRef = React.createRef<$FlowFixMe>();
-  topicInputRef = React.createRef<$FlowFixMe>();
+  const messageInputRef = React.useRef<$FlowFixMe | null>(null);
+  const topicInputRef = React.useRef<$FlowFixMe | null>(null);
 
-  mentionWarnings = React.createRef<React$ElementRef<typeof MentionWarnings>>();
+  const mentionWarnings = React.useRef<React$ElementRef<typeof MentionWarnings> | null>(null);
 
-  inputBlurTimeoutId: ?TimeoutID = null;
+  const inputBlurTimeoutId = useRef<?TimeoutID>(null);
 
-  state = {
+  const [state, setState] = useLegacyState<State>({
     isMessageFocused: false,
     isTopicFocused: false,
     isFocused: false,
     isMenuExpanded: false,
     height: 20,
-    topic:
-      this.props.initialTopic
-      ?? (isTopicNarrow(this.props.narrow) ? topicOfNarrow(this.props.narrow) : ''),
-    message: this.props.initialMessage ?? '',
+    topic: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
+    message: props.initialMessage ?? '',
     selection: { start: 0, end: 0 },
     numUploading: 0,
-  };
+  });
 
-  componentWillUnmount() {
-    clearTimeout(this.inputBlurTimeoutId);
-    this.inputBlurTimeoutId = null;
-  }
+  useEffect(
+    () => () => {
+      clearTimeout(inputBlurTimeoutId.current);
+      inputBlurTimeoutId.current = null;
+    },
+    [],
+  );
 
-  componentDidUpdate(prevProps, prevState) {
-    const { dispatch, isEditing, narrow } = this.props;
-    const { message } = this.state;
+  const prevMessage = usePrevious(state.message);
+  useEffect(() => {
+    const { dispatch, isEditing, narrow } = props;
+    const { message } = state;
 
-    if (prevState.message !== message) {
+    if (prevMessage !== message) {
       if (message.length === 0) {
         dispatch(sendTypingStop(narrow));
       } else {
@@ -201,229 +229,265 @@ class ComposeBoxInner extends PureComponent<Props, State> {
         dispatch(draftUpdate(narrow, message));
       }
     }
-  }
+  }, [props, state, prevMessage]);
 
-  updateIsFocused = () => {
-    this.setState(state => ({
+  const updateIsFocused = useCallback(() => {
+    setState(state => ({
       ...state,
       isFocused: state.isMessageFocused || state.isTopicFocused,
     }));
-  };
+  }, [setState]);
 
-  getCanSelectTopic = () => {
-    const { isEditing, narrow } = this.props;
+  const getCanSelectTopic = useCallback(() => {
+    const { isEditing, narrow } = props;
     if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
     if (!isStreamNarrow(narrow)) {
       return false;
     }
-    return this.state.isFocused;
-  };
+    return state.isFocused;
+  }, [props, state.isFocused]);
 
-  handleMessageChange = (message: string) => {
-    this.setState({ message, isMenuExpanded: false });
-  };
+  const handleMessageChange = useCallback(
+    (message: string) => {
+      setState({ message, isMenuExpanded: false });
+    },
+    [setState],
+  );
 
-  setMessageInputValue = (updater: State => string) => {
-    updateTextInput(this.messageInputRef.current, updater(this.state));
-    this.setState(state => ({ message: updater(state), isMenuExpanded: false }));
-  };
+  const setMessageInputValue = useCallback(
+    (updater: State => string) => {
+      setState(state => {
+        const newValue = updater(state);
 
-  handleTopicChange = (topic: string) => {
-    this.setState({ topic, isMenuExpanded: false });
-  };
+        // TODO: try to do something less dirty for this; see
+        //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
+        updateTextInput(messageInputRef.current, newValue);
 
-  setTopicInputValue = (topic: string) => {
-    updateTextInput(this.topicInputRef.current, topic);
-    this.handleTopicChange(topic);
-  };
+        return { message: newValue, isMenuExpanded: false };
+      });
+    },
+    [setState],
+  );
 
-  insertMessageTextAtCursorPosition = (text: string) => {
-    this.setMessageInputValue(
-      state =>
-        state.message.slice(0, state.selection.start)
-        + text
-        + state.message.slice(state.selection.end, state.message.length),
-    );
-  };
+  const handleTopicChange = useCallback(
+    (topic: string) => {
+      setState({ topic, isMenuExpanded: false });
+    },
+    [setState],
+  );
 
-  insertVideoCallLinkAtCursorPosition = (url: string) => {
-    const { _ } = this.props;
-    const linkMessage = _('Click to join video call');
-    const linkText = `[${linkMessage}](${url})`;
+  const setTopicInputValue = useCallback(
+    (topic: string) => {
+      updateTextInput(topicInputRef.current, topic);
+      handleTopicChange(topic);
+    },
+    [handleTopicChange],
+  );
 
-    this.insertMessageTextAtCursorPosition(linkText);
-  };
+  const insertMessageTextAtCursorPosition = useCallback(
+    (text: string) => {
+      setMessageInputValue(
+        state =>
+          state.message.slice(0, state.selection.start)
+          + text
+          + state.message.slice(state.selection.end, state.message.length),
+      );
+    },
+    [setMessageInputValue],
+  );
 
-  insertVideoCallLink = (videoChatProvider: VideoChatProvider) => {
-    if (videoChatProvider.name === 'jitsi_meet') {
-      // This is meant to align with the way the webapp generates jitsi video
-      // call IDs. That logic can be found in the ".video_link" click handler
-      // in static/js/compose.js.
-      const videoCallId = randomInt(100000000000000, 999999999999999);
-      const videoCallUrl = `${videoChatProvider.jitsiServerUrl}/${videoCallId}`;
-      this.insertVideoCallLinkAtCursorPosition(videoCallUrl);
-    }
-  };
+  const insertVideoCallLinkAtCursorPosition = useCallback(
+    (url: string) => {
+      const { _ } = props;
+      const linkMessage = _('Click to join video call');
+      const linkText = `[${linkMessage}](${url})`;
 
-  insertAttachment = async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
-    this.setState(({ numUploading }) => ({
-      numUploading: numUploading + 1,
-    }));
-    try {
-      const { _, auth } = this.props;
+      insertMessageTextAtCursorPosition(linkText);
+    },
+    [insertMessageTextAtCursorPosition, props],
+  );
 
-      const fileNames: string[] = [];
-      const placeholders: string[] = [];
-      for (let i = 0; i < attachments.length; i++) {
-        const fileName = attachments[i].name ?? _('Attachment {num}', { num: i + 1 });
-        fileNames.push(fileName);
-        const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
-        placeholders.push(placeholder);
+  const insertVideoCallLink = useCallback(
+    (videoChatProvider: VideoChatProvider) => {
+      if (videoChatProvider.name === 'jitsi_meet') {
+        // This is meant to align with the way the webapp generates jitsi video
+        // call IDs. That logic can be found in the ".video_link" click handler
+        // in static/js/compose.js.
+        const videoCallId = randomInt(100000000000000, 999999999999999);
+        const videoCallUrl = `${videoChatProvider.jitsiServerUrl}/${videoCallId}`;
+        insertVideoCallLinkAtCursorPosition(videoCallUrl);
       }
-      this.insertMessageTextAtCursorPosition(placeholders.join('\n\n'));
+    },
+    [insertVideoCallLinkAtCursorPosition],
+  );
 
-      for (let i = 0; i < attachments.length; i++) {
-        const fileName = fileNames[i];
-        const placeholder = placeholders[i];
-        let response = null;
-        try {
-          response = await api.uploadFile(auth, attachments[i].uri, fileName);
-        } catch {
-          showToast(_('Failed to upload file: {fileName}', { fileName }));
-          this.setMessageInputValue(state =>
-            state.message.replace(
-              placeholder,
-              `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
-            ),
-          );
-          continue;
-        }
-
-        const linkText = `[${fileName}](${response.uri})`;
-        this.setMessageInputValue(state =>
-          state.message.indexOf(placeholder) !== -1
-            ? state.message.replace(placeholder, linkText)
-            : `${state.message}\n${linkText}`,
-        );
-      }
-    } finally {
-      this.setState(({ numUploading }) => ({
-        numUploading: numUploading - 1,
+  const insertAttachment = useCallback(
+    async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
+      setState(state => ({
+        numUploading: state.numUploading + 1,
       }));
-    }
-  };
+      try {
+        const { _, auth } = props;
 
-  handleComposeMenuToggle = () => {
-    this.setState(({ isMenuExpanded }) => ({
-      isMenuExpanded: !isMenuExpanded,
+        const fileNames: string[] = [];
+        const placeholders: string[] = [];
+        for (let i = 0; i < attachments.length; i++) {
+          const fileName = attachments[i].name ?? _('Attachment {num}', { num: i + 1 });
+          fileNames.push(fileName);
+          const placeholder = `[${_('Uploading {fileName}...', { fileName })}]()`;
+          placeholders.push(placeholder);
+        }
+        insertMessageTextAtCursorPosition(placeholders.join('\n\n'));
+
+        for (let i = 0; i < attachments.length; i++) {
+          const fileName = fileNames[i];
+          const placeholder = placeholders[i];
+          let response = null;
+          try {
+            response = await api.uploadFile(auth, attachments[i].uri, fileName);
+          } catch {
+            showToast(_('Failed to upload file: {fileName}', { fileName }));
+            setMessageInputValue(state =>
+              state.message.replace(
+                placeholder,
+                `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
+              ),
+            );
+            continue;
+          }
+
+          const linkText = `[${fileName}](${response.uri})`;
+          setMessageInputValue(state =>
+            state.message.indexOf(placeholder) !== -1
+              ? state.message.replace(placeholder, linkText)
+              : `${state.message}\n${linkText}`,
+          );
+        }
+      } finally {
+        setState(state => ({
+          numUploading: state.numUploading - 1,
+        }));
+      }
+    },
+    [insertMessageTextAtCursorPosition, props, setMessageInputValue, setState],
+  );
+
+  const handleComposeMenuToggle = useCallback(() => {
+    setState(state => ({
+      isMenuExpanded: !state.isMenuExpanded,
     }));
-  };
+  }, [setState]);
 
-  handleLayoutChange = (event: LayoutEvent) => {
-    this.setState({
-      height: event.nativeEvent.layout.height,
-    });
-  };
+  const handleLayoutChange = useCallback(
+    (event: LayoutEvent) => {
+      setState({
+        height: event.nativeEvent.layout.height,
+      });
+    },
+    [setState],
+  );
 
-  handleTopicAutocomplete = (topic: string) => {
-    this.setTopicInputValue(topic);
-    this.messageInputRef.current?.focus();
-  };
+  const handleTopicAutocomplete = useCallback(
+    (topic: string) => {
+      setTopicInputValue(topic);
+      messageInputRef.current?.focus();
+    },
+    [setTopicInputValue],
+  );
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
-  handleMessageAutocomplete = (
-    completedText: string,
-    completion: string,
-    lastWordPrefix: string,
-  ) => {
-    this.setMessageInputValue(() => completedText);
+  const handleMessageAutocomplete = useCallback(
+    (completedText: string, completion: string, lastWordPrefix: string) => {
+      setMessageInputValue(() => completedText);
 
-    if (lastWordPrefix === '@') {
-      // https://github.com/eslint/eslint/issues/11045
-      // eslint-disable-next-line no-unused-expressions
-      this.mentionWarnings.current?.handleMentionSubscribedCheck(completion);
-    }
-  };
+      if (lastWordPrefix === '@') {
+        // https://github.com/eslint/eslint/issues/11045
+        // eslint-disable-next-line no-unused-expressions
+        mentionWarnings.current?.handleMentionSubscribedCheck(completion);
+      }
+    },
+    [setMessageInputValue],
+  );
 
-  handleMessageSelectionChange = (event: {
-    +nativeEvent: { +selection: InputSelection, ... },
-    ...
-  }) => {
-    const { selection } = event.nativeEvent;
-    this.setState({ selection });
-  };
+  const handleMessageSelectionChange = useCallback(
+    (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
+      const { selection } = event.nativeEvent;
+      setState({ selection });
+    },
+    [setState],
+  );
 
-  handleMessageFocus = () => {
+  const handleMessageFocus = useCallback(() => {
     if (
-      !this.props.isEditing
-      && isStreamNarrow(this.props.narrow)
-      && !this.state.isFocused
-      && this.state.topic === ''
+      !props.isEditing
+      && isStreamNarrow(props.narrow)
+      && !state.isFocused
+      && state.topic === ''
     ) {
       // We weren't showing the topic input when the user tapped on the input
       // to focus it, but we're about to show it.  Focus that, if the user
       // hasn't already selected a topic.
-      this.topicInputRef.current?.focus();
+      topicInputRef.current?.focus();
     } else {
-      this.setState({
+      setState({
         isMessageFocused: true,
         isFocused: true,
         isMenuExpanded: false,
       });
     }
-  };
+  }, [props.isEditing, props.narrow, state.isFocused, state.topic, setState]);
 
-  handleMessageBlur = () => {
-    this.setState({
+  const handleMessageBlur = useCallback(() => {
+    setState({
       isMessageFocused: false,
       isMenuExpanded: false,
     });
-    const { dispatch, narrow } = this.props;
+    const { dispatch, narrow } = props;
     dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
-    clearTimeout(this.inputBlurTimeoutId);
-    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
-  };
+    clearTimeout(inputBlurTimeoutId.current);
+    inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
+  }, [props, updateIsFocused, setState]);
 
-  handleTopicFocus = () => {
-    this.setState({
+  const handleTopicFocus = useCallback(() => {
+    setState({
       isTopicFocused: true,
       isFocused: true,
       isMenuExpanded: false,
     });
-  };
+  }, [setState]);
 
-  handleTopicBlur = () => {
-    this.setState({
+  const handleTopicBlur = useCallback(() => {
+    setState({
       isTopicFocused: false,
       isMenuExpanded: false,
     });
     // give a chance to the message input to get the focus
-    clearTimeout(this.inputBlurTimeoutId);
-    this.inputBlurTimeoutId = setTimeout(this.updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
-  };
+    clearTimeout(inputBlurTimeoutId.current);
+    inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
+  }, [updateIsFocused, setState]);
 
-  handleInputTouchStart = () => {
-    this.setState({ isMenuExpanded: false });
-  };
+  const handleInputTouchStart = useCallback(() => {
+    setState({ isMenuExpanded: false });
+  }, [setState]);
 
-  getDestinationNarrow = (): Narrow => {
-    const { narrow, isEditing } = this.props;
+  const getDestinationNarrow = useCallback((): Narrow => {
+    const { narrow, isEditing } = props;
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
-      const topic = this.state.topic.trim() || apiConstants.NO_TOPIC_TOPIC;
+      const topic = state.topic.trim() || apiConstants.NO_TOPIC_TOPIC;
       return topicNarrow(streamId, topic);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
-  };
+  }, [props, state.topic]);
 
-  getValidationErrors = (): $ReadOnlyArray<ValidationError> => {
-    const { mandatoryTopics } = this.props;
-    const destinationNarrow = this.getDestinationNarrow();
-    const { message } = this.state;
+  const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
+    const { mandatoryTopics } = props;
+    const destinationNarrow = getDestinationNarrow();
+    const { message } = state;
 
     const result = [];
 
@@ -439,18 +503,18 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       result.push('message-empty');
     }
 
-    if (this.state.numUploading > 0) {
+    if (state.numUploading > 0) {
       result.push('upload-in-progress');
     }
 
     return result;
-  };
+  }, [getDestinationNarrow, props, state]);
 
-  handleSubmit = () => {
-    const { dispatch, _, isEditing } = this.props;
-    const { message } = this.state;
-    const destinationNarrow = this.getDestinationNarrow();
-    const validationErrors = this.getValidationErrors();
+  const handleSubmit = useCallback(() => {
+    const { dispatch, _, isEditing } = props;
+    const { message } = state;
+    const destinationNarrow = getDestinationNarrow();
+    const validationErrors = getValidationErrors();
 
     if (validationErrors.length > 0) {
       const msg = validationErrors
@@ -476,207 +540,209 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       return;
     }
 
-    this.props.onSend(message, destinationNarrow);
+    props.onSend(message, destinationNarrow);
 
-    this.setMessageInputValue(() => '');
+    setMessageInputValue(() => '');
 
-    if (this.mentionWarnings.current) {
-      this.mentionWarnings.current.clearMentionWarnings();
+    if (mentionWarnings.current) {
+      mentionWarnings.current.clearMentionWarnings();
     }
 
     dispatch(sendTypingStop(destinationNarrow));
-  };
+  }, [getDestinationNarrow, getValidationErrors, props, setMessageInputValue, state]);
 
-  inputMarginPadding = {
-    paddingHorizontal: 8,
-    paddingVertical: Platform.select({
-      ios: 8,
-      android: 2,
+  const inputMarginPadding = useMemo(
+    () => ({
+      paddingHorizontal: 8,
+      paddingVertical: Platform.select({
+        ios: 8,
+        android: 2,
+      }),
     }),
+    [],
+  );
+
+  const styles = useMemo(
+    () => ({
+      wrapper: {
+        flexShrink: 1,
+        maxHeight: '60%',
+      },
+      autocompleteWrapper: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+      },
+      composeBox: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        flexShrink: 1,
+      },
+      composeText: {
+        flex: 1,
+        paddingVertical: 8,
+      },
+      submitButtonContainer: {
+        padding: 8,
+      },
+      submitButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: BRAND_COLOR,
+        borderRadius: 32,
+        padding: 8,
+      },
+      topicInput: {
+        borderWidth: 0,
+        borderRadius: 5,
+        marginBottom: 8,
+        ...inputMarginPadding,
+      },
+      composeTextInput: {
+        borderWidth: 0,
+        borderRadius: 5,
+        fontSize: 15,
+        flexShrink: 1,
+        ...inputMarginPadding,
+      },
+    }),
+    [inputMarginPadding],
+  );
+
+  const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
+
+  const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = state;
+
+  const {
+    ownUserId,
+    narrow,
+    allUsersById,
+    isEditing,
+    insets,
+    isAdmin,
+    isAnnouncementOnly,
+    isSubscribed,
+    stream,
+    streamsById,
+    videoChatProvider,
+    _,
+  } = props;
+
+  if (!isSubscribed) {
+    return <NotSubscribed narrow={narrow} />;
+  } else if (isAnnouncementOnly && !isAdmin) {
+    return <AnnouncementOnly />;
+  }
+
+  const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
+  const style = {
+    paddingBottom: insets.bottom,
+    backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
   };
 
-  styles = {
-    wrapper: {
-      flexShrink: 1,
-      maxHeight: '60%',
-    },
-    autocompleteWrapper: {
-      position: 'absolute',
-      bottom: 0,
-      width: '100%',
-    },
-    composeBox: {
-      flexDirection: 'row',
-      alignItems: 'flex-end',
-      flexShrink: 1,
-    },
-    composeText: {
-      flex: 1,
-      paddingVertical: 8,
-    },
-    submitButtonContainer: {
-      padding: 8,
-    },
-    submitButton: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: BRAND_COLOR,
-      borderRadius: 32,
-      padding: 8,
-    },
-    topicInput: {
-      borderWidth: 0,
-      borderRadius: 5,
-      marginBottom: 8,
-      ...this.inputMarginPadding,
-    },
-    composeTextInput: {
-      borderWidth: 0,
-      borderRadius: 5,
-      fontSize: 15,
-      flexShrink: 1,
-      ...this.inputMarginPadding,
-    },
-  };
+  const SubmitButtonIcon = isEditing ? IconDone : IconSend;
+  const submitButtonDisabled = getValidationErrors().length > 0;
 
-  submitButtonHitSlop = { top: 8, right: 8, bottom: 8, left: 8 };
-
-  render() {
-    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
-    const {
-      ownUserId,
-      narrow,
-      allUsersById,
-      isEditing,
-      insets,
-      isAdmin,
-      isAnnouncementOnly,
-      isSubscribed,
-      stream,
-      streamsById,
-      videoChatProvider,
-      _,
-    } = this.props;
-
-    if (!isSubscribed) {
-      return <NotSubscribed narrow={narrow} />;
-    } else if (isAnnouncementOnly && !isAdmin) {
-      return <AnnouncementOnly />;
-    }
-
-    const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
-    const style = {
-      paddingBottom: insets.bottom,
-      backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
-    };
-
-    const SubmitButtonIcon = isEditing ? IconDone : IconSend;
-    const submitButtonDisabled = this.getValidationErrors().length > 0;
-
-    return (
-      <View style={this.styles.wrapper}>
-        <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
-        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
-          <TopicAutocomplete
-            isFocused={isTopicFocused}
-            narrow={narrow}
-            text={topic}
-            onAutocomplete={this.handleTopicAutocomplete}
+  return (
+    <View style={styles.wrapper}>
+      <MentionWarnings narrow={narrow} stream={stream} ref={mentionWarnings} />
+      <View style={[styles.autocompleteWrapper, { marginBottom: height }]}>
+        <TopicAutocomplete
+          isFocused={isTopicFocused}
+          narrow={narrow}
+          text={topic}
+          onAutocomplete={handleTopicAutocomplete}
+        />
+        <AutocompleteView
+          isFocused={state.isMessageFocused}
+          selection={selection}
+          text={message}
+          onAutocomplete={handleMessageAutocomplete}
+        />
+      </View>
+      <View style={[styles.composeBox, style]} onLayout={handleLayoutChange}>
+        <ComposeMenu
+          destinationNarrow={getDestinationNarrow()}
+          expanded={isMenuExpanded}
+          insertAttachment={insertAttachment}
+          insertVideoCallLink={
+            videoChatProvider !== null ? () => insertVideoCallLink(videoChatProvider) : null
+          }
+          onExpandContract={handleComposeMenuToggle}
+        />
+        <View style={styles.composeText}>
+          <Input
+            style={[
+              styles.topicInput,
+              { backgroundColor: context.backgroundColor },
+              // This is a really dumb hack to work around
+              // https://github.com/facebook/react-native/issues/16405.
+              // Someone suggests in that thread that { position: absolute,
+              // zIndex: -1 } will work, which it does not (the border of the
+              // TextInput is still visible, even with very negative zIndex
+              // values). Someone else suggests { transform: [{scale: 0}] }
+              // (https://stackoverflow.com/a/49817873), which doesn't work
+              // either. However, a combinarion of the two of them seems to
+              // work.
+              !getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
+            ]}
+            autoCapitalize="none"
+            underlineColorAndroid="transparent"
+            placeholder="Topic"
+            defaultValue={topic}
+            autoFocus={props.autoFocusTopic}
+            selectTextOnFocus
+            textInputRef={topicInputRef}
+            onChangeText={handleTopicChange}
+            onFocus={handleTopicFocus}
+            onBlur={handleTopicBlur}
+            onTouchStart={handleInputTouchStart}
+            onSubmitEditing={() => messageInputRef.current?.focus()}
+            blurOnSubmit={false}
+            returnKeyType="next"
           />
-          <AutocompleteView
-            isFocused={this.state.isMessageFocused}
-            selection={selection}
-            text={message}
-            onAutocomplete={this.handleMessageAutocomplete}
+          <Input
+            // TODO(#5291): Don't switch between true/false for multiline
+            multiline={!isMenuExpanded}
+            style={[styles.composeTextInput, { backgroundColor: context.backgroundColor }]}
+            underlineColorAndroid="transparent"
+            placeholder={placeholder}
+            defaultValue={message}
+            autoFocus={props.autoFocusMessage}
+            textInputRef={messageInputRef}
+            onBlur={handleMessageBlur}
+            onChangeText={handleMessageChange}
+            onFocus={handleMessageFocus}
+            onSelectionChange={handleMessageSelectionChange}
+            onTouchStart={handleInputTouchStart}
           />
         </View>
-        <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
-          <ComposeMenu
-            destinationNarrow={this.getDestinationNarrow()}
-            expanded={isMenuExpanded}
-            insertAttachment={this.insertAttachment}
-            insertVideoCallLink={
-              videoChatProvider !== null ? () => this.insertVideoCallLink(videoChatProvider) : null
-            }
-            onExpandContract={this.handleComposeMenuToggle}
-          />
-          <View style={this.styles.composeText}>
-            <Input
-              style={[
-                this.styles.topicInput,
-                { backgroundColor: this.context.backgroundColor },
-                // This is a really dumb hack to work around
-                // https://github.com/facebook/react-native/issues/16405.
-                // Someone suggests in that thread that { position: absolute,
-                // zIndex: -1 } will work, which it does not (the border of the
-                // TextInput is still visible, even with very negative zIndex
-                // values). Someone else suggests { transform: [{scale: 0}] }
-                // (https://stackoverflow.com/a/49817873), which doesn't work
-                // either. However, a combinarion of the two of them seems to
-                // work.
-                !this.getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
-              ]}
-              autoCapitalize="none"
-              underlineColorAndroid="transparent"
-              placeholder="Topic"
-              defaultValue={topic}
-              autoFocus={this.props.autoFocusTopic}
-              selectTextOnFocus
-              textInputRef={this.topicInputRef}
-              onChangeText={this.handleTopicChange}
-              onFocus={this.handleTopicFocus}
-              onBlur={this.handleTopicBlur}
-              onTouchStart={this.handleInputTouchStart}
-              onSubmitEditing={() => this.messageInputRef.current?.focus()}
-              blurOnSubmit={false}
-              returnKeyType="next"
-            />
-            <Input
-              // TODO(#5291): Don't switch between true/false for multiline
-              multiline={!isMenuExpanded}
-              style={[
-                this.styles.composeTextInput,
-                { backgroundColor: this.context.backgroundColor },
-              ]}
-              underlineColorAndroid="transparent"
-              placeholder={placeholder}
-              defaultValue={message}
-              autoFocus={this.props.autoFocusMessage}
-              textInputRef={this.messageInputRef}
-              onBlur={this.handleMessageBlur}
-              onChangeText={this.handleMessageChange}
-              onFocus={this.handleMessageFocus}
-              onSelectionChange={this.handleMessageSelectionChange}
-              onTouchStart={this.handleInputTouchStart}
-            />
-          </View>
-          <View style={this.styles.submitButtonContainer}>
-            <View
-              // Mask the Android ripple-on-touch so it doesn't extend
-              //   outside the circle…
-              // TODO: `Touchable` should do this, and the `hitSlop`
-              //   workaround below.
-              style={{
-                borderRadius: this.styles.submitButton.borderRadius,
-                overflow: 'hidden',
-              }}
-              // …and don't defeat the `Touchable`'s `hitSlop`.
-              hitSlop={this.submitButtonHitSlop}
+        <View style={styles.submitButtonContainer}>
+          <View
+            // Mask the Android ripple-on-touch so it doesn't extend
+            //   outside the circle…
+            // TODO: `Touchable` should do this, and the `hitSlop`
+            //   workaround below.
+            style={{
+              borderRadius: styles.submitButton.borderRadius,
+              overflow: 'hidden',
+            }}
+            // …and don't defeat the `Touchable`'s `hitSlop`.
+            hitSlop={submitButtonHitSlop}
+          >
+            <Touchable
+              style={[styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
+              onPress={handleSubmit}
+              accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
+              hitSlop={submitButtonHitSlop}
             >
-              <Touchable
-                style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
-                onPress={this.handleSubmit}
-                accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
-                hitSlop={this.submitButtonHitSlop}
-              >
-                <SubmitButtonIcon size={16} color="white" />
-              </Touchable>
-            </View>
+              <SubmitButtonIcon size={16} color="white" />
+            </Touchable>
           </View>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const ComposeBox: ComponentType<OuterProps> = compose(
