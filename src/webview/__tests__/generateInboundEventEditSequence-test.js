@@ -14,11 +14,21 @@ import {
   keyFromNarrow,
   ALL_PRIVATE_NARROW,
 } from '../../utils/narrow';
-import type { Message, Outbox, FlagsState } from '../../types';
+import type {
+  PerAccountState,
+  GlobalSettingsState,
+  Debug,
+  Narrow,
+  Message,
+  Outbox,
+  FlagsState,
+} from '../../types';
 import type { ReadWrite } from '../../generics';
 import { getEditSequence } from '../generateInboundEventEditSequence';
 import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
+import { getGlobalSettings, getDebug } from '../../selectors';
+import { getBackgroundData } from '../backgroundData';
 
 // Tell ESLint to recognize `check` as a helper function that runs
 // assertions.
@@ -184,10 +194,9 @@ const pmMessages6 = [
   }),
 ];
 
-const plusBackgroundData = {
-  ...eg.plusBackgroundData,
-  streams: new Map([stream1, stream2].map(s => [s.stream_id, s])),
-};
+const baseState = eg.reduxStatePlus({
+  streams: [stream1, stream2],
+});
 
 /**
  * Highlight changes in content-HTML generation.
@@ -224,7 +233,19 @@ const plusBackgroundData = {
  * and `messageListElementHtml`.
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
-  const check = ({ backgroundData = plusBackgroundData, narrow, messages }) => {
+  const check = ({
+    state = eg.plusReduxState,
+    globalSettings = getGlobalSettings(eg.plusReduxState),
+    debug = getDebug(eg.plusReduxState),
+    narrow,
+    messages,
+  }: {|
+    state?: PerAccountState,
+    globalSettings?: GlobalSettingsState,
+    debug?: Debug,
+    narrow: Narrow,
+    messages: $ReadOnlyArray<Message>,
+  |}) => {
     invariant(
       messages.every((message, i, allMessages) => {
         const prevMessage: Message | void = allMessages[i - 1];
@@ -245,8 +266,16 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     // Simulate applying an edit-sequence event to the DOM.
     applyEditSequence(
       getEditSequence(
-        { backgroundData, elements: [], _: mock_ },
-        { backgroundData, elements: getMessageListElements(messages, narrow), _: mock_ },
+        {
+          backgroundData: getBackgroundData(state, globalSettings, debug),
+          elements: [],
+          _: mock_,
+        },
+        {
+          backgroundData: getBackgroundData(state, globalSettings, debug),
+          elements: getMessageListElements(messages, narrow),
+          _: mock_,
+        },
       ),
     );
 
@@ -417,15 +446,10 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
 
       check({
         narrow: HOME_NARROW,
-        backgroundData: {
-          ...eg.plusBackgroundData,
-          ownUser: stableSelfUser,
-          allUsersById: new Map([
-            [singleMessageSender.user_id, singleMessageSender],
-            [stableSelfUser.user_id, stableSelfUser],
-            [stableOtherUser.user_id, stableOtherUser],
-          ]),
-        },
+        state: eg.reduxStatePlus({
+          realm: { ...eg.plusReduxState.realm, user_id: stableSelfUser.user_id },
+          users: [singleMessageSender, stableSelfUser, stableOtherUser],
+        }),
         messages: [
           {
             ...baseSingleMessage,
@@ -486,14 +510,14 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       });
     });
 
-    Object.keys(eg.baseReduxState.flags).forEach(flag => {
+    Object.keys(eg.plusReduxState.flags).forEach(flag => {
       test(`message with flag: ${flag}`, () => {
         const flags: ReadWrite<FlagsState> = { ...eg.plusBackgroundData.flags };
         flags[flag] = { [baseSingleMessage.id]: true };
         check({
           narrow: HOME_NARROW,
           messages: [baseSingleMessage],
-          backgroundData: { ...eg.plusBackgroundData, flags },
+          state: eg.reduxStatePlus({ flags }),
         });
       });
     });
@@ -502,10 +526,9 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       check({
         narrow: HOME_NARROW,
         messages: [baseSingleMessage],
-        backgroundData: {
-          ...eg.plusBackgroundData,
+        state: eg.reduxStatePlus({
           mutedUsers: Immutable.Map([[baseSingleMessage.sender_id, 1644366787]]),
-        },
+        }),
       });
     });
 
@@ -519,15 +542,14 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         check({
           narrow: HOME_NARROW,
           messages: [baseSingleMessage],
-          backgroundData: {
-            ...eg.plusBackgroundData,
+          state: eg.reduxStatePlus({
             userStatuses: Immutable.Map([
               [
                 baseSingleMessage.sender_id,
                 { away: false, status_text: null, status_emoji: statusEmoji },
               ],
             ]),
-          },
+          }),
         });
       });
     });
@@ -547,19 +569,34 @@ describe('getEditSequence correct for interesting changes', () => {
     return msglistElementsDiv.cloneNode(true);
   };
 
+  type CheckArg = {|
+    state?: PerAccountState,
+    globalSettings?: GlobalSettingsState,
+    debug?: Debug,
+    narrow?: Narrow,
+    messages: $ReadOnlyArray<Message>,
+  |};
+
   const check = (
-    // TODO: Test with a variety of different things in background data
+    // TODO: Test with a variety of different things in state/globalState
     {
-      backgroundData: oldBackgroundData = plusBackgroundData,
+      state: oldState = baseState,
+      globalSettings: oldGlobalSettings = getGlobalSettings(eg.plusReduxState),
+      debug: oldDebug = getDebug(eg.plusReduxState),
       narrow: oldNarrow = HOME_NARROW,
       messages: oldMessages,
-    },
+    }: CheckArg,
     {
-      backgroundData: newBackgroundData = plusBackgroundData,
+      state: newState = baseState,
+      globalSettings: newGlobalSettings = getGlobalSettings(eg.plusReduxState),
+      debug: newDebug = getDebug(eg.plusReduxState),
       narrow: newNarrow = HOME_NARROW,
       messages: newMessages,
-    },
+    }: CheckArg,
   ) => {
+    const oldBackgroundData = getBackgroundData(oldState, oldGlobalSettings, oldDebug);
+    const newBackgroundData = getBackgroundData(newState, newGlobalSettings, newDebug);
+
     const oldElements = getMessageListElements(oldMessages, oldNarrow);
     const newElements = getMessageListElements(newMessages, newNarrow);
 
@@ -801,17 +838,15 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
-            flags: { ...eg.plusBackgroundData.flags, starred: {} },
-          },
+          state: eg.reduxStatePlus({
+            flags: { ...eg.plusReduxState.flags, starred: {} },
+          }),
         },
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
-            flags: { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } },
-          },
+          state: eg.reduxStatePlus({
+            flags: { ...eg.plusReduxState.flags, starred: { [message.id]: true } },
+          }),
         },
       );
     });
@@ -821,17 +856,15 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
-            flags: { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } },
-          },
+          state: eg.reduxStatePlus({
+            flags: { ...eg.plusReduxState.flags, starred: { [message.id]: true } },
+          }),
         },
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
-            flags: { ...eg.plusBackgroundData.flags, starred: {} },
-          },
+          state: eg.reduxStatePlus({
+            flags: { ...eg.plusReduxState.flags, starred: {} },
+          }),
         },
       );
     });
@@ -844,14 +877,13 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: { ...eg.plusBackgroundData, mutedUsers: Immutable.Map() },
+          state: eg.reduxStatePlus({ mutedUsers: Immutable.Map() }),
         },
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
+          state: eg.reduxStatePlus({
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
-          },
+          }),
         },
       );
     });
@@ -861,14 +893,13 @@ describe('getEditSequence correct for interesting changes', () => {
       check(
         {
           messages: [message],
-          backgroundData: {
-            ...eg.plusBackgroundData,
+          state: eg.reduxStatePlus({
             mutedUsers: Immutable.Map([[message.sender_id, 1644366787]]),
-          },
+          }),
         },
         {
           messages: [message],
-          backgroundData: { ...eg.plusBackgroundData, mutedUsers: Immutable.Map() },
+          state: eg.reduxStatePlus({ mutedUsers: Immutable.Map() }),
         },
       );
     });
@@ -892,8 +923,7 @@ describe('getEditSequence correct for interesting changes', () => {
             check(
               ...[emojiStatusA, emojiStatusB].map(emojiStatus => ({
                 messages: [message],
-                backgroundData: {
-                  ...eg.plusBackgroundData,
+                state: eg.reduxStatePlus({
                   userStatuses: Immutable.Map([
                     [
                       message.sender_id,
@@ -904,7 +934,7 @@ describe('getEditSequence correct for interesting changes', () => {
                       },
                     ],
                   ]),
-                },
+                }),
               })),
             );
           });
