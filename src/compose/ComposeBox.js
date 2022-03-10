@@ -225,9 +225,9 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     this.setState({ message, isMenuExpanded: false });
   };
 
-  setMessageInputValue = (message: string) => {
-    updateTextInput(this.messageInputRef.current, message);
-    this.setState({ message, isMenuExpanded: false });
+  setMessageInputValue = (updater: State => string) => {
+    updateTextInput(this.messageInputRef.current, updater(this.state));
+    this.setState(state => ({ message: updater(state), isMenuExpanded: false }));
   };
 
   handleTopicChange = (topic: string) => {
@@ -240,10 +240,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   insertMessageTextAtCursorPosition = (text: string) => {
-    const { message, selection } = this.state;
-
     this.setMessageInputValue(
-      message.slice(0, selection.start) + text + message.slice(selection.end, message.length),
+      state =>
+        state.message.slice(0, state.selection.start)
+        + text
+        + state.message.slice(state.selection.end, state.message.length),
     );
   };
 
@@ -291,8 +292,8 @@ class ComposeBoxInner extends PureComponent<Props, State> {
           response = await api.uploadFile(auth, attachments[i].uri, fileName);
         } catch {
           showToast(_('Failed to upload file: {fileName}', { fileName }));
-          this.setMessageInputValue(
-            this.state.message.replace(
+          this.setMessageInputValue(state =>
+            state.message.replace(
               placeholder,
               `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
             ),
@@ -301,11 +302,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
         }
 
         const linkText = `[${fileName}](${response.uri})`;
-        if (this.state.message.indexOf(placeholder) !== -1) {
-          this.setMessageInputValue(this.state.message.replace(placeholder, linkText));
-        } else {
-          this.setMessageInputValue(`${this.state.message}\n${linkText}`);
-        }
+        this.setMessageInputValue(state =>
+          state.message.indexOf(placeholder) !== -1
+            ? state.message.replace(placeholder, linkText)
+            : `${state.message}\n${linkText}`,
+        );
       }
     } finally {
       this.setState(({ numUploading }) => ({
@@ -337,7 +338,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     completion: string,
     lastWordPrefix: string,
   ) => {
-    this.setMessageInputValue(completedText);
+    this.setMessageInputValue(() => completedText);
 
     if (lastWordPrefix === '@') {
       // https://github.com/eslint/eslint/issues/11045
@@ -477,7 +478,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
     this.props.onSend(message, destinationNarrow);
 
-    this.setMessageInputValue('');
+    this.setMessageInputValue(() => '');
 
     if (this.mentionWarnings.current) {
       this.mentionWarnings.current.clearMentionWarnings();
