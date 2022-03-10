@@ -227,7 +227,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
 
   setMessageInputValue = (message: string) => {
     updateTextInput(this.messageInputRef.current, message);
-    this.handleMessageChange(message);
+    this.setState({ message, isMenuExpanded: false });
   };
 
   handleTopicChange = (topic: string) => {
