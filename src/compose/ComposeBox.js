@@ -625,6 +625,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
               returnKeyType="next"
             />
             <Input
+              // TODO(#5291): Don't switch between true/false for multiline
               multiline={!isMenuExpanded}
               style={[
                 this.styles.composeTextInput,
