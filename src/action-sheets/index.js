@@ -600,6 +600,18 @@ function makeButtonCallback<Args: { _: GetText, ... }>(buttonList: Button<Args>[
       try {
         await pressedButton.action(args);
       } catch (err) {
+        // TODO: Log any unexpected errors.  `RequestError` is expected, as
+        //   are any errors specifically thrown in the action's code.
+        //   (Those should probably get their own Error subclass so we can
+        //   distinguish them here.)  Anything else is a bug.
+        //
+        //   In fact, probably even `ApiError` (a subclass of
+        //   `RequestError`) should be logged.  Those can be a bug -- e.g.,
+        //   some subtle permission which we'd ideally take into account by
+        //   disabling the option in the UI -- though they can also just be
+        //   due to the inherent race condition of making a request while
+        //   some other client may have concurrently changed things.
+
         Alert.alert(args._(pressedButton.errorMessage), err.message);
       }
     })();
