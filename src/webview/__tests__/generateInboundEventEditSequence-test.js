@@ -196,6 +196,10 @@ const pmMessages6 = [
 
 const baseState = eg.reduxStatePlus({
   streams: [stream1, stream2],
+  subscriptions: [
+    eg.makeSubscription({ stream: stream1 }),
+    eg.makeSubscription({ stream: stream2 }),
+  ],
 });
 
 /**
@@ -234,7 +238,7 @@ const baseState = eg.reduxStatePlus({
  */
 describe('messages -> piece descriptors -> content HTML is stable/sensible', () => {
   const check = ({
-    state = eg.plusReduxState,
+    state = baseState,
     globalSettings = getGlobalSettings(eg.plusReduxState),
     debug = getDebug(eg.plusReduxState),
     narrow,

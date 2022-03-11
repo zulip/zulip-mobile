@@ -88,8 +88,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1024\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -132,8 +132,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7938\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -181,8 +181,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"4948\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -205,8 +205,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   </div>
   
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"5083\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 2</div>
@@ -237,8 +237,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"6789\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -261,8 +261,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   </div>
   
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7727\\" data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjI=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjI=\\">
     # stream 2
   </div>
   <div class=\\"topic-text\\">topic 2</div>
@@ -293,8 +293,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"9181\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -608,8 +608,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Feb 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1024\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -688,8 +688,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Feb 19, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"4948\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -712,8 +712,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   </div>
   
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"5083\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAy\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 2</div>
@@ -876,8 +876,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   Mar 5, 1995
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"6789\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -900,8 +900,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   </div>
   
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7727\\" data-narrow=\\"dG9waWM6Mjp0b3BpYyAy\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjI=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjI=\\">
     # stream 2
   </div>
   <div class=\\"topic-text\\">topic 2</div>
@@ -924,8 +924,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
   </div>
   
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"7938\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -996,8 +996,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible HOME_N
 
   </div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"9181\\" data-narrow=\\"dG9waWM6MTp0b3BpYyAx\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">topic 1</div>
@@ -1958,8 +1958,8 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
-  <div class=\\"header stream-text\\" style=\\"color: black;
-              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+  <div class=\\"header stream-text\\" style=\\"color: white;
+              background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # nonrandom stream
   </div>
   <div class=\\"topic-text\\">example topic</div>
