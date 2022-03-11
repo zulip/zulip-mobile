@@ -426,6 +426,21 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       sender: singleMessageSender,
     });
 
+    test('message in unsubscribed stream', () => {
+      check({
+        narrow: HOME_NARROW,
+        messages: [baseSingleMessage],
+        state: eg.reduxStatePlus({
+          streams: [...eg.plusReduxState.streams, stream1, stream2],
+          subscriptions: [
+            ...eg.plusReduxState.subscriptions,
+            // no subscription for stream1
+            eg.makeSubscription({ stream: stream2 }),
+          ],
+        }),
+      });
+    });
+
     test('message with reactions', () => {
       check({
         narrow: HOME_NARROW,

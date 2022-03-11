@@ -1526,6 +1526,38 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 </div>"
 `;
 
+exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message in unsubscribed stream 1`] = `
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+  <div class=\\"timerow-left\\"></div>
+  Dec 31, 1969
+  <div class=\\"timerow-right\\"></div>
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+  <div class=\\"header stream-text\\" style=\\"color: black;
+              background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
+    # stream 1
+  </div>
+  <div class=\\"topic-text\\">example topic</div>
+  <div class=\\"topic-date\\">Dec 31, 1969</div>
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+  <div class=\\"avatar\\">
+    <img src=\\"https://zulip.example.org/yo/avatar-nonrandom%20name%20sender.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
+  </div>
+  <div class=\\"content\\">
+    <div class=\\"subheader\\">
+  <div class=\\"name-and-status-emoji\\" data-sender-id=\\"10\\">
+    Nonrandom name sender User
+  </div>
+  <div class=\\"static-timestamp\\">11:59 PM</div>
+</div>
+    <p>This is an example stream message.</p>
+
+
+
+  </div>
+  
+</div>"
+`;
+
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with a poll 1`] = `
 "<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
   <div class=\\"timerow-left\\"></div>
