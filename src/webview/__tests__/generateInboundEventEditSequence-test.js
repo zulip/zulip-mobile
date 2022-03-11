@@ -422,7 +422,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     const baseSingleMessage = eg.streamMessage({
       id: -1,
       timestamp: -1,
-      stream: eg.makeStream({ stream_id: 1, name: 'nonrandom stream' }),
+      stream: stream1,
       sender: singleMessageSender,
     });
 

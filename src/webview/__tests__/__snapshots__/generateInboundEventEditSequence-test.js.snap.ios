@@ -1534,7 +1534,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1576,7 +1576,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1608,7 +1608,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1640,7 +1640,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1672,7 +1672,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1704,7 +1704,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1736,7 +1736,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1768,7 +1768,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1800,7 +1800,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1832,7 +1832,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1864,7 +1864,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1896,7 +1896,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1928,7 +1928,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1960,7 +1960,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: white;
               background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -1992,7 +1992,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -2026,7 +2026,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -2058,7 +2058,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -2090,7 +2090,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
@@ -2122,7 +2122,7 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 </div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
-    # nonrandom stream
+    # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
