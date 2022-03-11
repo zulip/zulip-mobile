@@ -257,6 +257,32 @@ describe('filterUserStartWith', () => {
     const expectedUsers = [user1, user3];
     expect(filterUserStartWith(users, 'app', selfUser.user_id)).toEqual(expectedUsers);
   });
+
+  test('returns users whose name contains diacritics but otherwise starts with filter', () => {
+    const withDiacritics = eg.makeUser({ name: 'Frödö', email: 'bagginsf@example.com' });
+    const withoutDiacritics = eg.makeUser({ name: 'Frodo', email: 'bagginz@example.com' });
+    const nonMatchingUser = eg.makeUser({ name: 'Zalix', email: 'zalix@example.com' });
+    const users = deepFreeze([withDiacritics, withoutDiacritics, nonMatchingUser]);
+    const expectedUsers = [withDiacritics, withoutDiacritics];
+    expect(filterUserStartWith(users, 'Fro', eg.makeUser().user_id)).toEqual(expectedUsers);
+  });
+
+  test('returns users whose name contains diacritics and filter uses diacritics', () => {
+    const withDiacritics = eg.makeUser({ name: 'Frödö', email: 'bagginsf@example.com' });
+    const withoutDiacritics = eg.makeUser({ name: 'Frodo', email: 'bagginz@example.com' });
+    const wrongDiacritics = eg.makeUser({ name: 'Frōdō', email: 'baggins@example.com' });
+    const notIncludedDiactritic = eg.makeUser({ name: 'Fřödo', email: 'baggins@example.com' });
+    const nonMatchingUser = eg.makeUser({ name: 'Zalix', email: 'zalix@example.com' });
+    const users = deepFreeze([
+      withDiacritics,
+      withoutDiacritics,
+      wrongDiacritics,
+      notIncludedDiactritic,
+      nonMatchingUser,
+    ]);
+    const expectedUsers = [withDiacritics];
+    expect(filterUserStartWith(users, 'Frö', eg.makeUser().user_id)).toEqual(expectedUsers);
+  });
 });
 
 describe('groupUsersByStatus', () => {
@@ -311,6 +337,32 @@ describe('filterUserThatContains', () => {
 
     const expectedUsers = [user2, user5];
     expect(filterUserThatContains(users, 'ma', selfUser.user_id)).toEqual(expectedUsers);
+  });
+
+  test('returns users whose full_name has diacritics but otherwise contains filter', () => {
+    const withDiacritics = eg.makeUser({ name: 'Aärdvärk', email: 'aardvark@example.com' });
+    const withoutDiacritics = eg.makeUser({ name: 'Aardvark', email: 'ard@example.com' });
+    const nonMatchingUser = eg.makeUser({ name: 'Turtle', email: 'turtle@example.com' });
+    const users = deepFreeze([withDiacritics, withoutDiacritics, nonMatchingUser]);
+    const expectedUsers = [withDiacritics, withoutDiacritics];
+    expect(filterUserThatContains(users, 'vark', eg.makeUser().user_id)).toEqual(expectedUsers);
+  });
+
+  test('returns users whose full_name has diacritics and filter uses diacritics', () => {
+    const withDiacritics = eg.makeUser({ name: 'Aärdvärk', email: 'aardvark@example.com' });
+    const withoutDiacritics = eg.makeUser({ name: 'Aardvark', email: 'aardvark@example.com' });
+    const wrongDiacritics = eg.makeUser({ name: 'Aärdvãrk', email: 'aadvark@example.com' });
+    const notIncludedDiactritic = eg.makeUser({ name: 'Aärdväŕk', email: 'aadvark@example.com' });
+    const nonMatchingUser = eg.makeUser({ name: 'Turtle', email: 'turtle@example.com' });
+    const users = deepFreeze([
+      withDiacritics,
+      withoutDiacritics,
+      wrongDiacritics,
+      notIncludedDiactritic,
+      nonMatchingUser,
+    ]);
+    const expectedUsers = [withDiacritics];
+    expect(filterUserThatContains(users, 'värk', eg.makeUser().user_id)).toEqual(expectedUsers);
   });
 });
 

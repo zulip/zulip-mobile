@@ -1,6 +1,7 @@
 /* @flow strict-local */
 // $FlowFixMe[untyped-import]
 import uniqby from 'lodash.uniqby';
+import * as typeahead from '@zulip/shared/js/typeahead';
 
 import type {
   MutedUsersState,
@@ -86,21 +87,27 @@ export const filterUserStartWith = (
   users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> =>
-  users.filter(
-    user =>
-      user.user_id !== ownUserId && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
-  );
+): $ReadOnlyArray<AutocompleteOption> => {
+  const loweredFilter = filter.toLowerCase();
+  const isAscii = /^[a-z]+$/.test(loweredFilter);
+  return users.filter(user => {
+    const full_name = isAscii ? typeahead.remove_diacritics(user.full_name) : user.full_name;
+    return user.user_id !== ownUserId && full_name.toLowerCase().startsWith(loweredFilter);
+  });
+};
 
 export const filterUserThatContains = (
   users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
   ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> =>
-  users.filter(
-    user =>
-      user.user_id !== ownUserId && user.full_name.toLowerCase().includes(filter.toLowerCase()),
-  );
+): $ReadOnlyArray<AutocompleteOption> => {
+  const loweredFilter = filter.toLowerCase();
+  const isAscii = /^[a-z]+$/.test(loweredFilter);
+  return users.filter(user => {
+    const full_name = isAscii ? typeahead.remove_diacritics(user.full_name) : user.full_name;
+    return user.user_id !== ownUserId && full_name.toLowerCase().includes(filter.toLowerCase());
+  });
+};
 
 export const filterUserMatchesEmail = (
   users: $ReadOnlyArray<AutocompleteOption>,
