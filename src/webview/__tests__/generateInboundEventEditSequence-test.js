@@ -195,8 +195,9 @@ const pmMessages6 = [
 ];
 
 const baseState = eg.reduxStatePlus({
-  streams: [stream1, stream2],
+  streams: [...eg.plusReduxState.streams, stream1, stream2],
   subscriptions: [
+    ...eg.plusReduxState.subscriptions,
     eg.makeSubscription({ stream: stream1 }),
     eg.makeSubscription({ stream: stream2 }),
   ],
