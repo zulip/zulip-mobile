@@ -92,20 +92,6 @@ export const filterUserStartWith = (
       user.user_id !== ownUserId && user.full_name.toLowerCase().startsWith(filter.toLowerCase()),
   );
 
-export const filterUserByInitials = (
-  users: $ReadOnlyArray<AutocompleteOption>,
-  filter: string = '',
-  ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> =>
-  users.filter(
-    user =>
-      user.user_id !== ownUserId
-      && user.full_name
-        .replace(/(\s|[a-z])/g, '')
-        .toLowerCase()
-        .startsWith(filter.toLowerCase()),
-  );
-
 export const filterUserThatContains = (
   users: $ReadOnlyArray<AutocompleteOption>,
   filter: string = '',
@@ -150,10 +136,9 @@ export const getAutocompleteSuggestion = (
   }
   const allAutocompleteOptions = getUsersAndWildcards(users);
   const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownUserId);
-  const initials = filterUserByInitials(allAutocompleteOptions, filter, ownUserId);
   const contains = filterUserThatContains(allAutocompleteOptions, filter, ownUserId);
   const matchesEmail = filterUserMatchesEmail(users, filter, ownUserId);
-  const candidates = getUniqueUsers([...startWith, ...initials, ...contains, ...matchesEmail]);
+  const candidates = getUniqueUsers([...startWith, ...contains, ...matchesEmail]);
   return candidates.filter(user => !mutedUsers.has(user.user_id));
 };
 

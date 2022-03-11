@@ -9,7 +9,6 @@ import {
   getAutocompleteUserGroupSuggestions,
   sortAlphabetically,
   filterUserStartWith,
-  filterUserByInitials,
   filterUserThatContains,
   filterUserMatchesEmail,
   getUniqueUsers,
@@ -115,8 +114,8 @@ describe('getAutocompleteSuggestion', () => {
     expect(filteredUsers).toEqual(shouldMatch);
   });
 
-  test('result should be in priority of startsWith, initials, contains in name, matches in email', () => {
-    const user1 = eg.makeUser({ name: 'M Apple', email: 'any1@example.com' }); // satisfy initials condition
+  test('result should be in priority of startsWith, contains in name, matches in email', () => {
+    const user1 = eg.makeUser({ name: 'M Apple', email: 'any1@example.com' }); // does not match
     const user2 = eg.makeUser({ name: 'Normal boy', email: 'any2@example.com' }); // satisfy full_name contains condition
     const user3 = eg.makeUser({ name: 'example', email: 'example@example.com' }); // random entry
     const user4 = eg.makeUser({ name: 'Example', email: 'match@example.com' }); // satisfy email match condition
@@ -125,7 +124,7 @@ describe('getAutocompleteSuggestion', () => {
     const user7 = eg.makeUser({ name: 'Match App Normal', email: 'any3@example.com' }); // satisfy all conditions
     const user8 = eg.makeUser({ name: 'match', email: 'any@example.com' }); // duplicate
     const user9 = eg.makeUser({ name: 'Laptop', email: 'laptop@example.com' }); // random entry
-    const user10 = eg.makeUser({ name: 'Mobile App', email: 'any@match.com' }); // satisfy initials and email condition
+    const user10 = eg.makeUser({ name: 'Mobile App', email: 'any@match.com' }); // satisfy email condition
     const user11 = eg.makeUser({ name: 'Normal', email: 'match2@example.com' }); // satisfy contains in name and matches in email condition
     const allUsers = deepFreeze([
       user1,
@@ -145,11 +144,10 @@ describe('getAutocompleteSuggestion', () => {
       user5, // name starts with 'ma'
       user6, // have priority as starts with 'ma'
       user7, // have priority as starts with 'ma'
-      user1, // initials 'MA'
-      user10, // have priority because of initials condition
       user2, // name contains in 'ma'
       user11, // have priority because of 'ma' contains in name
       user4, // email contains 'ma'
+      user10, // email contains 'ma'
     ];
     const filteredUsers = getAutocompleteSuggestion(
       allUsers,
@@ -258,23 +256,6 @@ describe('filterUserStartWith', () => {
 
     const expectedUsers = [user1, user3];
     expect(filterUserStartWith(users, 'app', selfUser.user_id)).toEqual(expectedUsers);
-  });
-});
-
-describe('filterUserByInitials', () => {
-  test('returns users whose full_name initials matches filter excluding self', () => {
-    const user1 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user2 = eg.makeUser({ name: 'mam', email: 'f@app.com' });
-    const user3 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user4 = eg.makeUser({ name: 'Mobile Application', email: 'p3@p.com' });
-    const user5 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const user6 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const selfUser = eg.makeUser({ name: 'app', email: 'own@example.com' });
-
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
-
-    const expectedUsers = [user4, user5];
-    expect(filterUserByInitials(users, 'ma', selfUser.user_id)).toEqual(expectedUsers);
   });
 });
 
