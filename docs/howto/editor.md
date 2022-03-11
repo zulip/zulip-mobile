@@ -32,6 +32,12 @@ The following are the recommended extensions for reference.
     Support](https://marketplace.visualstudio.com/items?itemName=flowtype.flow-for-vscode)
 * [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 * [prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+  * For this one, use `code --install-extension esbenp.prettier-vscode@4.7.0`
+    to install an older version of the extension.  A later version
+    [removed important functionality][] that affects the resulting formatting.
+
+[removed important functionality]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/SOLVED.3A.20Prettier.20auto-formatting/near/893211
+
 
 If something doesn't seem right, see the items under "Troubleshooting" below.
 
