@@ -16,6 +16,8 @@ flow-typed/npm/*/*_vx.x.x.js -diff
 src/webview/js/generatedEs3.js -diff
 
 # Snapshots for tests:
+src/webview/__tests__/__snapshots__/** -diff
+# and an old location of those:
 src/webview/html/__tests__/__snapshots__/** -diff
 # or quite possibly it should be more general, like this:
 #**/__snapshots__/** -diff
