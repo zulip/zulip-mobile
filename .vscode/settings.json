@@ -11,7 +11,5 @@
     "[javascript]": {
         // Format JS code with prettier-eslint.
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-
-        "editor.formatOnSave": true,
     },
 }

@@ -62,11 +62,13 @@ Take a look through some of VS Code's docs.  In particular:
   for your platform, and print it out.  It's a one-page PDF which is
   extremely helpful to refer to.
 
-* Open any JS file in our codebase, and try messing up some formatting by
-  adding random whitespace -- then hit Ctrl+S (or Cmd+S) to save.  You
-  should see the formatting get magically fixed!  Our workspace settings
-  enable this feature, and configure it to use our standard formatting
-  rules.
+* Consider enabling the setting "Editor: Format On Save".  (Go to the
+  settings UI, and type "format on save" into the search box to find
+  the setting.  Then check the box for the setting.)
+
+  After doing so, open any JS file in our codebase, and try messing up
+  some formatting by adding random whitespace -- then hit Ctrl+S (or
+  Cmd+S) to save.  You should see the formatting get magically fixed!
 
 
 ### Troubleshooting
