@@ -3,14 +3,19 @@
  */
 
 html {
-  -webkit-user-select: none; /* Safari 3.1+ */
-  -moz-user-select: none; /* Firefox 2+ */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari 3.1+ */
+  -moz-user-select: none;
+  /* Firefox 2+ */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
+  /* Standard syntax */
   -khtml-user-select: none;
   -webkit-touch-callout: none;
   font: -apple-system-body;
 }
+
 body {
   font-family: sans-serif;
   line-height: 1.4;
@@ -34,7 +39,9 @@ body {
   color: white;
   font-size: 0.7rem;
 }
-#js-error-plain, #js-error-plain-dummy {
+
+#js-error-plain,
+#js-error-plain-dummy {
   z-index: 1000;
   width: 100%;
   background: red;
@@ -42,9 +49,11 @@ body {
   padding: 4px;
   text-align: center;
 }
+
 #js-error-plain {
   position: fixed;
 }
+
 #js-error-plain-dummy {
   visibility: hidden;
 }
@@ -61,15 +70,18 @@ body {
   align-items: center;
   padding: 8px 0;
 }
+
 .timerow-left,
 .timerow-right {
   flex: 1;
   height: 1px;
   margin: 8px;
 }
+
 .timerow-left {
   background: -webkit-linear-gradient(left, transparent 10%, hsl(0, 0%, 60%) 100%);
 }
+
 .timerow-right {
   background: -webkit-linear-gradient(left, hsl(0, 0%, 60%) 0%, transparent 90%);
 }
@@ -83,36 +95,44 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
 .avatar,
 .header-wrapper,
 .message-brief {
   cursor: pointer;
 }
+
 .stream-header {
   padding: 0;
   display: flex;
   flex-direction: row;
 }
+
 .stream-text,
 .topic-header,
 .private-header {
   line-height: 2;
   white-space: nowrap;
 }
+
 .private-header {
   padding: 0 8px;
 }
+
 .private-header {
   background: hsl(0, 0%, 27%);
   color: white;
 }
+
 .topic-header {
   background: hsl(0, 0%, 80%);
   min-width: 30%;
 }
+
 .stream-text {
   padding: 0 8px;
 }
+
 .topic-text {
   flex: 1;
   padding: 0 8px;
@@ -120,6 +140,7 @@ body {
   text-overflow: ellipsis;
   pointer-events: none;
 }
+
 .topic-date {
   opacity: 0.5;
   padding: 0 8px;
@@ -136,6 +157,7 @@ body {
   padding: 16px;
   -webkit-tap-highlight-color: transparent;
 }
+
 .message-brief {
   /* This value is used for messageReadSlop in src/webview/js/js.js, if
    * updating one, please update the other */
@@ -146,12 +168,12 @@ body {
   display: none;
 }
 
-.message[data-mute-state="hidden"] > .avatar,
-.message[data-mute-state="hidden"] > .content {
+.message[data-mute-state="hidden"]>.avatar,
+.message[data-mute-state="hidden"]>.content {
   display: none;
 }
 
-.message[data-mute-state="shown"] > .muted-message-explanation {
+.message[data-mute-state="shown"]>.muted-message-explanation {
   display: none;
 }
 
@@ -162,7 +184,8 @@ body {
 }
 
 /* Spinners. */
-.loading-spinner, .outbox-spinner {
+.loading-spinner,
+.outbox-spinner {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -172,6 +195,7 @@ body {
   border-left: 3px solid hsla(222, 99%, 69%, 0.75);
   animation: spin 1s linear infinite;
 }
+
 .outbox-spinner {
   margin: -16px 0 0 0;
   border-width: 2px;
@@ -185,10 +209,12 @@ body {
   display: flex;
   padding-left: 16px;
 }
+
 #typing .content {
   padding-top: 8px;
   padding-bottom: 16px;
 }
+
 #typing span {
   display: inline-block;
   background-color: hsl(253, 3%, 72%);
@@ -198,18 +224,22 @@ body {
   margin-right: 5px;
   animation: bob 2s infinite;
 }
+
 #typing span:nth-child(2) {
   animation-delay: 0.15s;
 }
+
 #typing span:nth-child(3) {
   animation-delay: 0.3s;
   margin-right: 0;
 }
+
 @keyframes bob {
   10% {
     transform: translateY(-10px);
     background-color: hsl(253, 3%, 63%);
   }
+
   50% {
     transform: translateY(0);
     background-color: hsl(253, 3%, 72%);
@@ -226,6 +256,7 @@ body {
   transition: opacity 0.25s ease-in-out;
   -webkit-transition: opacity 0.25s ease-in-out;
 }
+
 #scroll-bottom a {
   display: block;
   width: 32px;
@@ -234,6 +265,7 @@ body {
   background: hsla(222, 99%, 69%, 0.5);
   -webkit-tap-highlight-color: transparent;
 }
+
 #scroll-bottom .text {
   clip: rect(0 0 0 0);
   overflow: hidden;
@@ -241,16 +273,20 @@ body {
   height: 1px;
   width: 1px;
 }
-#scroll-bottom:active{
+
+#scroll-bottom:active {
   background-color: hsl(170, 48%, 54%);
 }
+
 #scroll-bottom svg {
   width: 32px;
   height: 32px;
   fill: hsla(0, 0%, 100%, 0.75);
 }
+
 #scroll-bottom.hidden {
-  display: block; /* Remove this when the generic .hidden rule is removed */
+  display: block;
+  /* Remove this when the generic .hidden rule is removed */
   opacity: 0;
 }
 
@@ -262,22 +298,23 @@ body {
   border-radius: 3px;
   background: hsla(0, 0%, 50%, 0.9);
 }
+
 .loading-content {
   width: 100%;
 }
+
 .loading-subheader {
   display: flex;
   justify-content: space-between;
 }
+
 .loading-content .block {
-  background: linear-gradient(
-    to right,
-    hsla(0, 0%, 50%, 0.5) 0%,
-    hsla(0, 0%, 50%, 0.5) 40%,
-    hsla(0, 0%, 50%, 0.25) 51%,
-    hsla(0, 0%, 50%, 0.5) 60%,
-    hsla(0, 0%, 50%, 0.5) 100%
-  );
+  background: linear-gradient(to right,
+      hsla(0, 0%, 50%, 0.5) 0%,
+      hsla(0, 0%, 50%, 0.5) 40%,
+      hsla(0, 0%, 50%, 0.25) 51%,
+      hsla(0, 0%, 50%, 0.5) 60%,
+      hsla(0, 0%, 50%, 0.5) 100%);
   background-size: 200% 200%;
   animation: gradient-scroll 1s linear infinite;
 
@@ -285,20 +322,34 @@ body {
   height: 8px;
   margin-bottom: 10px;
 }
+
 @keyframes gradient-scroll {
-  0% { background-position: 100% 50% }
-  100% { background-position: 0 50% }
+  0% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0 50%
+  }
 }
+
 .loading-subheader .name {
   width: 10rem;
   background-color: hsla(0, 0%, 50%, 0.9);
 }
+
 .loading-subheader .msg-timestamp {
   width: 5rem;
 }
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*
@@ -309,9 +360,11 @@ body {
 [data-wildcard_mentioned="true"][data-mute-state="shown"] {
   background: hsla(0, 100%, 50%, 0.05);
 }
+
 .message:not([data-read="true"]) {
   box-shadow: inset 4px 0 hsl(222, 99%, 69%);
 }
+
 .message[data-read="true"] {
   box-shadow: inset 4px 0 transparent;
   transition-property: box-shadow;
@@ -333,6 +386,7 @@ body {
   height: 48px;
   margin-right: 16px;
 }
+
 .avatar img {
   width: 100%;
   border-radius: 3px;
@@ -345,12 +399,14 @@ body {
   justify-content: space-between;
   margin-bottom: 6px;
 }
+
 .username {
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
+
 .static-timestamp {
   color: hsl(0, 0%, 60%);
   font-size: 0.9rem;
@@ -366,6 +422,7 @@ body {
   overflow: hidden;
   pointer-events: none;
 }
+
 .msg-timestamp {
   position: absolute;
   right: 4px;
@@ -379,10 +436,11 @@ body {
   background: hsl(0, 0%, 97%);
   border-radius: 3px;
   box-shadow:
-      0px 3px 1px -2px hsla(0, 0%, 0%, 0.2),
-      0px 2px 2px  0px hsla(0, 0%, 0%, 0.14),
-      0px 1px 5px  0px hsla(0, 0%, 0%, 0.12);
+    0px 3px 1px -2px hsla(0, 0%, 0%, 0.2),
+    0px 2px 2px 0px hsla(0, 0%, 0%, 0.14),
+    0px 1px 5px 0px hsla(0, 0%, 0%, 0.12);
 }
+
 .msg-timestamp.show {
   right: 8px;
   transform: none;
@@ -401,6 +459,7 @@ body {
   margin: 4px 0;
   font-size: 0.7rem;
 }
+
 .message-tag {
   padding: 4px 4px;
   margin-left: 4px;
@@ -413,6 +472,7 @@ body {
 .reaction-list {
   margin: 8px 0;
 }
+
 .reaction {
   color: hsl(0, 0%, 50%);
   display: inline-block;
@@ -423,6 +483,7 @@ body {
   height: 1rem;
   margin: 4px 8px 4px 0;
 }
+
 .reaction img {
   pointer-events: none;
   cursor: default;
@@ -430,6 +491,7 @@ body {
   max-width: 1rem;
   vertical-align: top;
 }
+
 .self-voted {
   color: hsl(222, 99%, 69%);
   border: 1px solid hsl(222, 99%, 69%);
@@ -447,14 +509,17 @@ body {
 p {
   margin: 0;
 }
-.message p + p {
+
+.message p+p {
   margin-top: 16px;
 }
+
 .message ul {
   padding-left: 20px;
   margin: 4px 0 0 0;
 }
-.message ul + p {
+
+.message ul+p {
   margin-top: 16px;
 }
 
@@ -470,13 +535,19 @@ table {
   display: block;
   overflow-x: auto;
 }
-table, th, td {
+
+table,
+th,
+td {
   border: 1px solid hsla(0, 0%, 50%, 0.25);
 }
+
 thead {
   background: hsla(0, 0%, 50%, 0.1);
 }
-th, td {
+
+th,
+td {
   align: center;
   padding: 4px 8px;
 }
@@ -489,6 +560,7 @@ th, td {
   color: transparent;
   vertical-align: text-top;
 }
+
 .emoji:before {
   color: white;
 }
@@ -517,6 +589,7 @@ time {
 .message_inline_image {
   text-align: center;
 }
+
 .message_inline_image img,
 .message_inline_ref img,
 .twitter-image img {
@@ -532,6 +605,7 @@ time {
   padding: 8px 16px;
   margin: 8px 0;
 }
+
 .twitter-avatar {
   border-radius: 3px;
   margin: 8px 8px 4px 0;
@@ -539,6 +613,7 @@ time {
   width: 2.2rem;
   height: 2.2rem;
 }
+
 .twitter-image {
   text-align: center;
   margin: 8px auto;
@@ -549,6 +624,7 @@ code {
   white-space: pre-wrap;
   padding: 0 4px;
 }
+
 pre {
   padding: 8px;
   margin: 8px 0;
@@ -557,12 +633,15 @@ pre {
   overflow-x: auto;
   word-wrap: normal;
 }
-code, pre {
+
+code,
+pre {
   border-radius: 3px;
   border: 1px solid hsla(0, 0%, 50%, 0.25);
   background-color: hsla(0, 0%, 50%, 0.125);
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 }
+
 pre code {
   /* Starting with Zulip Server 3.0, code blocks have `pre > code`.
      Undo the stuff we have for `code` that isn't meant to apply there.
@@ -590,15 +669,40 @@ hr {
   border-top: 1px solid hsla(0, 0%, 50%, 0.5);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-size: 100%;
-  font-weight: 600;
-  /* line-height doesn't seem to be needed on mobile, but it's here just for
-   * the sake of being consistent with the webapp */
-  line-height: 1.4;
+/* Headings: Ensure that messages that starting with a heading have no weird spaces at the top. */
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
   margin-top: 0;
-  margin-bottom: 5px;
-  text-decoration: underline;
+}
+
+/* Using a modest progression of heading sizes to make them stand out
+       from normal next but avoid taking up too much space. */
+h1 {
+  font-size: 1.4em;
+}
+
+h2 {
+  font-size: 1.3em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+h4 {
+  font-size: 1.1em;
+}
+
+h5 {
+  font-size: 1.05em;
+}
+
+h6 {
+  font-size: 1em;
 }
 
 /* Our own "sorry, unsupported" message for widgets.
@@ -616,7 +720,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* LaTeX styling */
 .katex-display {
-   /* KaTeX sometimes overdraws its bounding box by a little, so we
+  /* KaTeX sometimes overdraws its bounding box by a little, so we
       enlarge its scrolling area by stealing 3px from the margin
       of the enclosing <p>. */
   margin: -3px 0;
@@ -635,31 +739,38 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   margin: 5px 0 15px 0;
 }
+
 .spoiler-block .spoiler-header {
   padding: 5px;
   font-weight: bold;
 }
+
 .spoiler-block .spoiler-content {
   overflow: hidden;
-  border-top: hsla(0, 0%, 50%,1) 0px solid;
+  border-top: hsla(0, 0%, 50%, 1) 0px solid;
   transition: height 0.4s ease-in-out, border-top 0.4s step-end, padding 0.4s step-end;
   padding: 0px;
   height: 0px;
 }
+
 .spoiler-block .spoiler-content.spoiler-content-open {
-  border-top: hsla(0, 0%, 50%,1) 1px solid;
+  border-top: hsla(0, 0%, 50%, 1) 1px solid;
   transition: height 0.4s ease-in-out, border-top 0.4s step-start, padding 0.4s step-start;
   padding: 5px;
   height: auto;
 }
+
 .spoiler-block .spoiler-button {
   float: right;
   width: 25px;
   height: 25px;
 }
-.spoiler-block .spoiler-button:hover .spoiler-arrow::before, .spoiler-block .spoiler-button:hover .spoiler-arrow::after {
+
+.spoiler-block .spoiler-button:hover .spoiler-arrow::before,
+.spoiler-block .spoiler-button:hover .spoiler-arrow::after {
   background-color: hsl(0, 0%, 50%);
 }
+
 .spoiler-block .spoiler-arrow {
   float: right;
   width: 13px;
@@ -673,7 +784,9 @@ h1, h2, h3, h4, h5, h6 {
   text-align: left;
   transform: rotate(45deg);
 }
-.spoiler-block .spoiler-arrow::before, .spoiler-block .spoiler-arrow::after {
+
+.spoiler-block .spoiler-arrow::before,
+.spoiler-block .spoiler-arrow::after {
   position: absolute;
   content: '';
   display: inline-block;
@@ -682,18 +795,22 @@ h1, h2, h3, h4, h5, h6 {
   background-color: hsl(0, 0%, 83%);
   transition: 0.4s ease;
 }
+
 .spoiler-block .spoiler-arrow::after {
   position: absolute;
   transform: rotate(90deg);
   top: -5px;
   left: 5px;
 }
+
 .spoiler-block .spoiler-arrow.spoiler-button-open {
   transform: rotate(45deg) translate(-5px, -5px);
 }
+
 .spoiler-block .spoiler-arrow.spoiler-button-open::before {
   transform: translate(10px, 0);
 }
+
 .spoiler-block .spoiler-arrow.spoiler-button-open::after {
   transform: rotate(90deg) translate(10px, 0);
 }
@@ -712,11 +829,11 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid hsla(0, 0%, 60%, 0.2);
 }
 
-.poll-widget > ul {
+.poll-widget>ul {
   padding: 0px;
 }
 
-.poll-widget > ul > li {
+.poll-widget>ul>li {
   list-style: none;
   margin-bottom: 4px;
   display: flex;
