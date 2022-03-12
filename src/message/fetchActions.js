@@ -271,10 +271,7 @@ export const registerAbort =
       // `registerAbortPlain()`, so that AppDataFetcher sees
       // `needsInitialFetch` go from `false` to `true`. We don't call
       // `doInitialFetch` directly here because that would go against
-      // `AppDataFetcher`'s implicit interface. (Also, `needsInitialFetch` is
-      // dubiously being read outside `AppDataFetcher`, in
-      // `fetchOlder`/`fetchNewer`, and we don't want to break something
-      // there.)
+      // `AppDataFetcher`'s implicit interface.
       //
       // TODO: Clean up all this brittle logic.
       // TODO: Instead, let the retry be on-demand, with a banner.
