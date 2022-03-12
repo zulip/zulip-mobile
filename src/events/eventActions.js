@@ -5,7 +5,7 @@ import isEqual from 'lodash.isequal';
 
 import type { GeneralEvent, ThunkAction } from '../types';
 import * as api from '../api';
-import { logout } from '../account/accountActions';
+import { logout } from '../account/logoutActions';
 import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';

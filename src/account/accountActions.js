@@ -5,10 +5,9 @@ import {
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
-  LOGOUT,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
 } from '../actionConstants';
-import { resetToAccountPicker, resetToMainTabs } from '../nav/navActions';
+import { resetToMainTabs } from '../nav/navActions';
 
 export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   type: DISMISS_SERVER_PUSH_SETUP_NOTICE,
@@ -49,12 +48,3 @@ export const loginSuccess =
     NavigationService.dispatch(resetToMainTabs());
     dispatch(loginSuccessPlain(realm, email, apiKey));
   };
-
-const logoutPlain = (): AllAccountsAction => ({
-  type: LOGOUT,
-});
-
-export const logout = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  NavigationService.dispatch(resetToAccountPicker());
-  dispatch(logoutPlain());
-};

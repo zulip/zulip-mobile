@@ -45,7 +45,7 @@ import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { initNotifications } from '../notification/notifTokens';
 import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
-import { logout } from '../account/accountActions';
+import { logout } from '../account/logoutActions';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { getHaveServerData } from '../haveServerDataSelectors';
