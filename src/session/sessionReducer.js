@@ -201,7 +201,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case ACCOUNT_SWITCH:
       return {
         ...state,
-        needsInitialFetch: true,
         loading: false,
 
         // Stop polling this event queue.  (We'll request a new one soon,

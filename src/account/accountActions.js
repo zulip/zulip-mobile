@@ -1,6 +1,12 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { PerAccountAction, AllAccountsAction, ThunkAction, GlobalThunkAction } from '../types';
+import type {
+  Dispatch,
+  PerAccountAction,
+  AllAccountsAction,
+  ThunkAction,
+  GlobalThunkAction,
+} from '../types';
 import {
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
@@ -27,10 +33,38 @@ const accountSwitchPlain = (index: number): AllAccountsAction => ({
 });
 
 export const accountSwitch =
-  (index: number): GlobalThunkAction<void> =>
-  (dispatch, getState) => {
+  (index: number): GlobalThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
     NavigationService.dispatch(resetToMainTabs());
     dispatch(accountSwitchPlain(index));
+
+    /* $FlowFixMe[incompatible-type]
+
+     This is really a GlobalDispatch, because we're in a GlobalThunkAction.
+     (It's global because it needs to know about all the accounts to set the
+     pointer to the active one). But here, we pretend it's a Dispatch.
+     That's OK, for now, because:
+
+     - Our Dispatch function is secretly the same value as our
+       GlobalDispatch.
+     - The PerAccountState that Dispatch currently acts on is the one
+       belonging to the active account.
+     - We want this dispatch to act on the active account -- the new,
+       post-switch active account.
+     - It will act on that account, because at this point we've already
+       dispatched `accountSwitchPlain`.
+
+     TODO(#5006): perhaps have an `activeAccountDispatch: Dispatch` in
+       a new GlobalThunkExtras, modeled on ThunkExtras?
+  */
+    const activeAccountDispatch: Dispatch = dispatch;
+
+    await activeAccountDispatch(registerAndStartPolling());
+
+    // TODO(#3881): Lots of issues with outbox sending
+    activeAccountDispatch(sendOutbox());
+
+    activeAccountDispatch(initNotifications());
   };
 
 export const removeAccount = (index: number): AllAccountsAction => ({

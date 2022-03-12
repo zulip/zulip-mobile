@@ -26,11 +26,7 @@ describe('sessionReducer', () => {
       loading: true,
     });
     const newState = sessionReducer(state, eg.action.account_switch);
-    expect(newState).toEqual({
-      ...baseState,
-      needsInitialFetch: true,
-      loading: false,
-    });
+    expect(newState).toEqual({ ...baseState, loading: false });
   });
 
   test('LOGIN_SUCCESS', () => {
