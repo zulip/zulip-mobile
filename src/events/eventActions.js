@@ -38,7 +38,7 @@ const registerAbortPlain = (reason: RegisterAbortReason): PerAccountAction => ({
   reason,
 });
 
-export const registerAbort =
+const registerAbort =
   (reason: RegisterAbortReason): ThunkAction<Promise<void>> =>
   async (dispatch, getState) => {
     dispatch(registerAbortPlain(reason));
