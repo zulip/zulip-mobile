@@ -1,7 +1,7 @@
 # Release guide
 
 This doc explains how to make a release of Zulip Mobile to the
-iOS App Store, to the Google Play Store, and as an APK on the web.
+iOS App Store, to the Google Play Store, and as APKs on the web.
 
 
 ## Terminology
@@ -109,19 +109,19 @@ simple terminology for the process we follow with both.
   git rebase @ release-secrets
   ```
 
-* Build the app, as both a good old-fashioned APK and a fancy new AAB:
+* Build the app, as both good old-fashioned APKs and a fancy new AAB:
 
   ```
   tools/android aab && tools/android apk
   ```
 
 * This produces an AAB at `android/app/build/outputs/bundle/release/app-release.aab`
-  and an APK at `android/app/build/outputs/apk/release/app-release.apk`.
+  and a set of APKs at `android/app/build/outputs/apk/release/app-*-release.apk`.
 
 * Upload the AAB to Google Play via the "Create new release" button at
   the top of the
   [Release > Testing > Internal testing][play-internal-testing] page.
-  (We'll use the APK when posting the release on GitHub, at beta stage.)
+  (We'll use the APKs when posting the release on GitHub, at beta stage.)
 
   * For the release notes, use `tools/changelog user` and edit as
     needed.  (E.g., fix paragraph wrapping, and delete iOS-only items.)
@@ -297,13 +297,13 @@ simple terminology for the process we follow with both.
       the usual build-output locations mentioned [above](#alpha-android).
       Those should be the same files you upload.
 
-  * Upload both the AAB and the APK.
+  * Upload both the AAB and the APKs.
 
     (The AAB is more flexible and is the only version we use with
-    Google Play, but the APK is simpler and may be a bit easier for
+    Google Play, but the APKs are simpler and may be a bit easier for
     people to work with.  As of 2020 it seems likely that some people
-    consuming these builds will prefer the APK, and it's not much
-    burden to build it at the same time, so we keep posting it
+    consuming these builds will prefer the APKs, and it's not much
+    burden to build them at the same time, so we keep posting them
     alongside the AAB.)
 
   * Check the box "This is a pre-release".
@@ -474,7 +474,7 @@ vulnerable.
 
 * Push the tagged commit, and also push the corresponding changes to main.
 
-* Upload the APK to GitHub as usual.
+* Upload the APKs to GitHub as usual.
 
 * Discuss freely.
 

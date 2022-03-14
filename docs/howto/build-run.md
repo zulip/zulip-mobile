@@ -109,14 +109,14 @@ might look through the other tools and try some more of them out.
 * Commands once you've set up:
   * `tools/run-android` - build, then run on an active emulator
     or USB-connected device.  This won't start the emulator automatically.
-  * `yarn build:android-nokeys` - build an APK in release mode, just
+  * `yarn build:android-nokeys` - build APKs in release mode, just
     skipping Sentry setup (which requires an authentication token), and
-    using your debug keystore for signing.  The output APK will be at
-    `android/app/build/outputs/apk/release/app-release.apk`.
-  * `yarn build:android-nokeys -Psigned` - build an APK in release
+    using your debug keystore for signing.  The output APKs will be in
+    `android/app/build/outputs/apk/release/`.
+  * `yarn build:android-nokeys -Psigned` - build APKs in release
     mode, just skipping Sentry setup (which requires an authentication
-    token).  The output APK will be at
-    `android/app/build/outputs/apk/release/app-release.apk`.
+    token).  The output APKs will be in
+    `android/app/build/outputs/apk/release/`.
 
 [android-emu-cmd-line]: https://developer.android.com/studio/run/emulator-commandline.html
 

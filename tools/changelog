@@ -47,7 +47,7 @@ cmd_user() {
 show_hash() {
     local artifacts filename output hash basename
     artifacts=(
-        "${root}"/android/app/build/outputs/apk/release/app-release.apk
+        "${root}"/android/app/build/outputs/apk/release/app-*-release.apk
         "${root}"/android/app/build/outputs/bundle/release/app-release.aab
     )
     echo "sha256sum -c <<EOF"
