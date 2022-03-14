@@ -5,7 +5,7 @@ import type { Node } from 'react';
 
 import { useSelector, useDispatch } from '../react-redux';
 import { getSession } from '../directSelectors';
-import { registerAndStartPolling } from '../message/fetchActions';
+import { registerAndStartPolling } from '../events/eventActions';
 import { sendOutbox } from '../outbox/outboxActions';
 import { initNotifications } from '../notification/notifTokens';
 

@@ -384,7 +384,7 @@ In the current Zulip mobile app, the structure looks like
   creator which takes the events finger as parameters.
 * That action creator is in turn invoked within the thunk action
   created by the nullary action creator `registerAndStartPolling`
-  (in `fetchActions.js`), which invokes `registerForEvents`, which is
+  (in `eventActions.js`), which invokes `registerForEvents`, which is
   `/register` in the API binding.
 * Which is invoked by `AppDataFetcher`.  This is a Redux-`connect`ed
   component that appears near the very top of the hierarchy in
