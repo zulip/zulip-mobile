@@ -37,7 +37,7 @@ describe('sessionReducer', () => {
   test('DEAD_QUEUE', () => {
     const state = deepFreeze({ ...baseState, needsInitialFetch: false, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: DEAD_QUEUE }));
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: true, loading: false });
+    expect(newState).toEqual({ ...baseState, loading: false });
   });
 
   test('LOGOUT', () => {

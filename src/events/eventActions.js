@@ -26,6 +26,8 @@ import { showErrorAlert } from '../utils/info';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { tryFetch, fetchPrivateMessages } from '../message/fetchActions';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
+import { sendOutbox } from '../outbox/outboxActions';
+import { initNotifications } from '../notification/notifTokens';
 import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
 
 const registerStart = (): PerAccountAction => ({
@@ -312,6 +314,17 @@ export const startEventPolling =
     }
   };
 
-const deadQueue = (): PerAccountAction => ({
+const deadQueuePlain = (): PerAccountAction => ({
   type: DEAD_QUEUE,
 });
+
+const deadQueue = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+  dispatch(deadQueuePlain());
+
+  await dispatch(registerAndStartPolling());
+
+  // TODO(#3881): Lots of issues with outbox sending
+  dispatch(sendOutbox());
+
+  dispatch(initNotifications());
+};

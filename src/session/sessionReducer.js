@@ -171,7 +171,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case DEAD_QUEUE:
       return {
         ...state,
-        needsInitialFetch: true,
         loading: false,
 
         // The server told us that the old queue ID is invalid. Forget it,
