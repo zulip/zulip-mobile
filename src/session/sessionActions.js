@@ -3,7 +3,6 @@ import type { PerAccountAction, AccountIndependentAction, Orientation } from '..
 import {
   APP_ONLINE,
   APP_ORIENTATION,
-  DEAD_QUEUE,
   DEBUG_FLAG_TOGGLE,
   DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
@@ -11,10 +10,6 @@ import {
 export const appOnline = (isOnline: boolean | null): AccountIndependentAction => ({
   type: APP_ONLINE,
   isOnline,
-});
-
-export const deadQueue = (): PerAccountAction => ({
-  type: DEAD_QUEUE,
 });
 
 export const appOrientation = (orientation: Orientation): AccountIndependentAction => ({

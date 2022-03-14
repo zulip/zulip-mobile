@@ -10,9 +10,8 @@ import type { InitialData } from '../api/initialDataTypes';
 import type { GeneralEvent, ThunkAction, PerAccountAction } from '../types';
 import type { RegisterAbortReason } from '../actionTypes';
 import * as api from '../api';
-import { REGISTER_START, REGISTER_ABORT, REGISTER_COMPLETE } from '../actionConstants';
+import { REGISTER_START, REGISTER_ABORT, REGISTER_COMPLETE, DEAD_QUEUE } from '../actionConstants';
 import { logout } from '../account/logoutActions';
-import { deadQueue } from '../session/sessionActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
 import { getAuth, tryGetAuth, getIdentity } from '../selectors';
@@ -55,7 +54,7 @@ const registerAbort =
       //
       // TODO: Clean up all this brittle logic.
       // TODO: Instead, let the retry be on-demand, with a banner.
-      dispatch(deadQueue());
+      dispatch(deadQueue()); // eslint-disable-line no-use-before-define
     } else {
       // Tell the user we've given up and let them try the same account or a
       // different account from the account picker.
@@ -298,7 +297,7 @@ export const startEventPolling =
 
         if (e instanceof ApiError && e.code === 'BAD_EVENT_QUEUE_ID') {
           // The event queue is too old or has been garbage collected.
-          dispatch(deadQueue());
+          dispatch(deadQueue()); // eslint-disable-line no-use-before-define
           break;
         }
 
@@ -312,3 +311,7 @@ export const startEventPolling =
       lastEventId = Math.max(lastEventId, ...events.map(x => x.id));
     }
   };
+
+const deadQueue = (): PerAccountAction => ({
+  type: DEAD_QUEUE,
+});
