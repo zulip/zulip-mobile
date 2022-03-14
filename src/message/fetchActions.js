@@ -565,7 +565,9 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
     dispatch(fetchPrivateMessages());
   }
 
+  // TODO(#3881): Lots of issues with outbox sending
   dispatch(sendOutbox());
+
   dispatch(initNotifications());
 };
 
