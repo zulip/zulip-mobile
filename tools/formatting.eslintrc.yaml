@@ -9,6 +9,7 @@ plugins:
   - import
   - jest
   - react
+  - react-hooks
 
 rules:
   # Disallow tucking a condition or loop body in at the end of a line, like

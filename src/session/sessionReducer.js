@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { GlobalState, Debug, Orientation, Action } from '../types';
+import type { Debug, Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -16,7 +16,6 @@ import {
   LOGOUT,
   DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
-import { getHasAuth } from '../account/accountsSelectors';
 
 /**
  * Miscellaneous non-persistent state specific to a particular account.
@@ -138,33 +137,6 @@ const initialState: SessionState = {
   hasDismissedServerCompatNotice: false,
 };
 
-const rehydrate = (state, action) => {
-  const { payload } = action;
-
-  /* $FlowIgnore[incompatible-cast]: The actual type allows any property to
-       be missing; narrow that to just the one that `getHasAuth` will care
-       about.  (What we really want here is what the value of `getHasAuth`
-       will be after the rehydrate is complete.  So even if some other
-       property is missing in the payload, we still do want to ask
-       `getHasAuth` what it thinks.)
-
-       (Also pretend that the property would be void, rather than missing,
-       because Flow doesn't seem to do refinements on whether an optional
-       property is present.) */
-  const payloadForGetHasAuth = (payload: GlobalState | { accounts: void, ... });
-  const haveApiKey = !!payloadForGetHasAuth.accounts && getHasAuth(payloadForGetHasAuth);
-
-  return {
-    ...state,
-    isHydrated: true,
-    // On rehydration, do an initial fetch if we have access to an account
-    // (indicated by the presence of an api key). Otherwise, the initial fetch
-    // will be initiated on loginSuccess.
-    // NB `getInitialRouteInfo` depends intimately on this behavior.
-    needsInitialFetch: haveApiKey,
-  };
-};
-
 // eslint-disable-next-line default-param-last
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
@@ -210,7 +182,10 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       };
 
     case REHYDRATE:
-      return rehydrate(state, action);
+      return {
+        ...state,
+        isHydrated: true,
+      };
 
     case REGISTER_COMPLETE:
       return {
