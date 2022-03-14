@@ -18,7 +18,7 @@ import * as logging from '../utils/logging';
 /**
  * Handle a single Zulip event from the server.
  *
- * This is part of our use of the Zulip events system; see `doInitialFetch`
+ * This is part of our use of the Zulip events system; see `registerAndStartPolling`
  * for discussion.
  */
 const handleEvent = (event: GeneralEvent, dispatch, getState) => {
@@ -50,7 +50,7 @@ const handleEvent = (event: GeneralEvent, dispatch, getState) => {
 /**
  * Poll an event queue on the Zulip server for updates, in a loop.
  *
- * This is part of our use of the Zulip events system; see `doInitialFetch`
+ * This is part of our use of the Zulip events system; see `registerAndStartPolling`
  * for discussion.
  */
 export const startEventPolling =

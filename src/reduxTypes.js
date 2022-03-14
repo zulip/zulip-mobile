@@ -148,7 +148,7 @@ export type FlagName = $Keys<FlagsState>;
  *
  * For almost all types of data we need from the server, we use the Zulip
  * event system to get a complete snapshot and to maintain it incrementally.
- * See `doInitialFetch` for discussion, and see our docs from the
+ * See `registerAndStartPolling` for discussion, and see our docs from the
  * client-side perspective:
  *   https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/realtime.md
  * and a mainly server-side perspective:
@@ -161,7 +161,8 @@ export type FlagName = $Keys<FlagsState>;
  * online, and updates to existing messages, we learn them in real time
  * through the event system; but because the full history of messages can be
  * very large, it's left out of the snapshot obtained through `/register` by
- * `doInitialFetch`.  Instead, we fetch specific message history as needed.
+ * `registerAndStartPolling`.  Instead, we fetch specific message history as
+ * needed.
  *
  * This subtree of our state stores all the messages we've fetched, prompted
  * by any of a variety of reasons.

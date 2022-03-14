@@ -42,8 +42,7 @@ import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { showErrorAlert } from '../utils/info';
 import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '../utils/narrow';
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
-import { initNotifications } from '../notification/notifTokens';
-import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
+import { addToOutbox } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/logoutActions';
 import { ZulipVersion } from '../utils/zulipVersion';
@@ -270,7 +269,7 @@ export const registerAbort =
       // we need a new one. Note that this must fire *after*
       // `registerAbortPlain()`, so that AppDataFetcher sees
       // `needsInitialFetch` go from `false` to `true`. We don't call
-      // `doInitialFetch` directly here because that would go against
+      // `registerAndStartPolling` directly here because that would go against
       // `AppDataFetcher`'s implicit interface.
       //
       // TODO: Clean up all this brittle logic.
@@ -333,7 +332,7 @@ export const isFetchNeededAtAnchor = (
  * For almost all types of data we need from the server, the magic of the
  * Zulip event system provides us a complete, updating view of all the data
  * we could want.  For background and links to docs, see `MessagesState` and
- * `doInitialFetch`.
+ * `registerAndStartPolling`.
  *
  * Message data is the one major exception, where as a result we have to go
  * fetch more data from the server as the user navigates around.
@@ -369,7 +368,7 @@ export const fetchMessagesInNarrow =
 /**
  * Fetch the few most recent PMs.
  *
- * For old servers, we do this eagerly in `doInitialFetch`, in order to
+ * For old servers, we do this eagerly in `registerAndStartPolling`, in order to
  * let us show something useful in the PM conversations screen.
  * Zulip Server 2.1 added a custom-made API to help us do this better;
  * see #3133.
@@ -377,35 +376,36 @@ export const fetchMessagesInNarrow =
  * See `fetchMessagesInNarrow` for further background.
  */
 // TODO(server-2.1): Delete this.
-const fetchPrivateMessages = () => async (dispatch, getState) => {
-  const auth = getAuth(getState());
-  const { messages, found_newest, found_oldest } = await api.getMessages(
-    auth,
-    {
-      narrow: apiNarrowOfNarrow(
-        ALL_PRIVATE_NARROW,
-        getAllUsersById(getState()),
-        getStreamsById(getState()),
-      ),
-      anchor: LAST_MESSAGE_ANCHOR,
-      numBefore: 100,
-      numAfter: 0,
-    },
-    getZulipFeatureLevel(getState()),
-  );
-  dispatch(
-    messageFetchComplete({
-      messages,
-      narrow: ALL_PRIVATE_NARROW,
-      anchor: LAST_MESSAGE_ANCHOR,
-      numBefore: 100,
-      numAfter: 0,
-      foundNewest: found_newest,
-      foundOldest: found_oldest,
-      ownUserId: getOwnUserId(getState()),
-    }),
-  );
-};
+export const fetchPrivateMessages =
+  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+    const auth = getAuth(getState());
+    const { messages, found_newest, found_oldest } = await api.getMessages(
+      auth,
+      {
+        narrow: apiNarrowOfNarrow(
+          ALL_PRIVATE_NARROW,
+          getAllUsersById(getState()),
+          getStreamsById(getState()),
+        ),
+        anchor: LAST_MESSAGE_ANCHOR,
+        numBefore: 100,
+        numAfter: 0,
+      },
+      getZulipFeatureLevel(getState()),
+    );
+    dispatch(
+      messageFetchComplete({
+        messages,
+        narrow: ALL_PRIVATE_NARROW,
+        anchor: LAST_MESSAGE_ANCHOR,
+        numBefore: 100,
+        numAfter: 0,
+        foundNewest: found_newest,
+        foundOldest: found_oldest,
+        ownUserId: getOwnUserId(getState()),
+      }),
+    );
+  };
 
 /**
  * Makes a request with a timeout. If asked, retries on
@@ -470,106 +470,107 @@ export async function tryFetch<T>(
 }
 
 /**
- * Fetch lots of state from the server, and start an event queue.
+ * Connect to the Zulip event system for real-time updates.
  *
- * This is where we set up our use of the Zulip event system for real-time
- * updates, calling its `/register` endpoint and starting an async loop to
- * poll for events.  For background on the Zulip event system and how we use
- * it, see docs from the client-side perspective:
+ * For background on the Zulip event system and how we use it, see docs from
+ * the client-side perspective:
  *   https://github.com/zulip/zulip-mobile/blob/main/docs/architecture/realtime.md
  * and a mainly server-side perspective:
  *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html
  *
- * Also do some miscellaneous other work we want to do when starting
- * up, or regaining a network connection. We fetch private messages
- * here so that we can show something useful in the PM conversations
- * screen, but we hope to stop doing this soon (see note at
- * `fetchPrivateMessages`). We fetch messages in a few other places:
+ * First does POST /register, which is sometimes called the "initial fetch".
+ * because the response comes with a large payload of current-state data
+ * that we fetch as part of initializing the event queue:
+ *   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html#the-initial-data-fetch
+ *
+ * Then immediately starts an async loop to poll for events.
+ *
+ * We fetch private messages here so that we can show something useful in
+ * the PM conversations screen, but we hope to stop doing this soon (see
+ * note at `fetchPrivateMessages`). We fetch messages in a few other places:
  * to initially populate a message list (`ChatScreen`), to grab more
  * messages on scrolling to the top or bottom of the message list
  * (`fetchOlder` and `fetchNewer`), and to grab search results
  * (`SearchMessagesScreen`).
  */
-export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const auth = getAuth(getState());
+export const registerAndStartPolling =
+  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+    const auth = getAuth(getState());
 
-  const haveServerData = getHaveServerData(getState());
+    const haveServerData = getHaveServerData(getState());
 
-  dispatch(registerStart());
-  let initData: InitialData;
-  try {
-    initData = await tryFetch(
-      // Currently, no input we're giving `registerForEvents` is
-      // conditional on the server version / feature level. If we
-      // need to do that, make sure that data is up-to-date -- we've
-      // been using this `registerForEvents` call to update the
-      // feature level in Redux, which means the value in Redux will
-      // be from the *last* time it was run. That could be a long
-      // time ago, like from the previous app startup.
-      () => api.registerForEvents(auth),
-      // We might have (potentially stale) server data already. If
-      // we do, we'll be showing some UI that lets the user see that
-      // data. If we don't, we'll be showing a full-screen loading
-      // indicator that prevents the user from doing anything useful
-      // -- if that's the case, don't bother retrying on 5xx errors,
-      // to save the user's time and patience. They can retry
-      // manually if they want.
-      haveServerData,
-    );
-  } catch (errorIllTyped) {
-    const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-    if (e instanceof ApiError) {
-      // This should only happen when `auth` is no longer valid. No
-      // use retrying; just log out.
-      dispatch(logout());
-    } else if (e instanceof Server5xxError) {
-      dispatch(registerAbort('server'));
-    } else if (e instanceof NetworkError) {
-      dispatch(registerAbort('network'));
-    } else if (e instanceof TimeoutError) {
-      // We always want to abort if we've kept the user waiting an
-      // unreasonably long time.
-      dispatch(registerAbort('timeout'));
-    } else {
-      dispatch(registerAbort('unexpected'));
-      // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
-      logging.warn((e: Error), {
-        message: 'Unexpected error during /register.',
-      });
+    dispatch(registerStart());
+    let initData: InitialData;
+    try {
+      initData = await tryFetch(
+        // Currently, no input we're giving `registerForEvents` is
+        // conditional on the server version / feature level. If we
+        // need to do that, make sure that data is up-to-date -- we've
+        // been using this `registerForEvents` call to update the
+        // feature level in Redux, which means the value in Redux will
+        // be from the *last* time it was run. That could be a long
+        // time ago, like from the previous app startup.
+        () => api.registerForEvents(auth),
+        // We might have (potentially stale) server data already. If
+        // we do, we'll be showing some UI that lets the user see that
+        // data. If we don't, we'll be showing a full-screen loading
+        // indicator that prevents the user from doing anything useful
+        // -- if that's the case, don't bother retrying on 5xx errors,
+        // to save the user's time and patience. They can retry
+        // manually if they want.
+        haveServerData,
+      );
+    } catch (errorIllTyped) {
+      const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+      if (e instanceof ApiError) {
+        // This should only happen when `auth` is no longer valid. No
+        // use retrying; just log out.
+        dispatch(logout());
+      } else if (e instanceof Server5xxError) {
+        dispatch(registerAbort('server'));
+      } else if (e instanceof NetworkError) {
+        dispatch(registerAbort('network'));
+      } else if (e instanceof TimeoutError) {
+        // We always want to abort if we've kept the user waiting an
+        // unreasonably long time.
+        dispatch(registerAbort('timeout'));
+      } else {
+        dispatch(registerAbort('unexpected'));
+        // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
+        logging.warn((e: Error), {
+          message: 'Unexpected error during /register.',
+        });
+      }
+      return;
     }
-    return;
-  }
 
-  const serverVersion = new ZulipVersion(initData.zulip_version);
+    const serverVersion = new ZulipVersion(initData.zulip_version);
 
-  // Set Sentry tags for the server version immediately, so they're accurate
-  // in case we hit an exception in reducers on `registerComplete` below.
-  logging.setTagsFromServerVersion(serverVersion);
+    // Set Sentry tags for the server version immediately, so they're accurate
+    // in case we hit an exception in reducers on `registerComplete` below.
+    logging.setTagsFromServerVersion(serverVersion);
 
-  if (!serverVersion.isAtLeast(kNextMinSupportedVersion)) {
-    // The server version is either one we already don't support, or one
-    // we'll stop supporting the next time we increase our minimum supported
-    // version.  Warn so that we have an idea of how widespread this is.
-    // (Include the coarse version in the warning message, so that it splits
-    // into separate Sentry "issues" by coarse version.  The Sentry events
-    // will also have the detailed version, from the call above to
-    // `logging.setTagsFromServerVersion`.)
-    logging.warn(`Old server version: ${serverVersion.classify().coarse}`);
-  }
+    if (!serverVersion.isAtLeast(kNextMinSupportedVersion)) {
+      // The server version is either one we already don't support, or one
+      // we'll stop supporting the next time we increase our minimum supported
+      // version.  Warn so that we have an idea of how widespread this is.
+      // (Include the coarse version in the warning message, so that it splits
+      // into separate Sentry "issues" by coarse version.  The Sentry events
+      // will also have the detailed version, from the call above to
+      // `logging.setTagsFromServerVersion`.)
+      logging.warn(`Old server version: ${serverVersion.classify().coarse}`);
+    }
 
-  dispatch(registerComplete(initData));
+    dispatch(registerComplete(initData));
 
-  dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
+    dispatch(startEventPolling(initData.queue_id, initData.last_event_id));
 
-  if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
-    dispatch(fetchPrivateMessages());
-  }
-
-  // TODO(#3881): Lots of issues with outbox sending
-  dispatch(sendOutbox());
-
-  dispatch(initNotifications());
-};
+    // This is part of "register" in that it fills in some missing /register
+    // functionality for older servers; see fetchPrivateMessages for detail.
+    if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
+      dispatch(fetchPrivateMessages());
+    }
+  };
 
 export const uploadFile =
   (destinationNarrow: Narrow, uri: string, name: string): ThunkAction<Promise<void>> =>
