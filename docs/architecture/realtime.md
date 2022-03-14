@@ -386,6 +386,7 @@ In the current Zulip mobile app, the structure looks like
   created by the nullary action creator `registerAndStartPolling`
   (in `eventActions.js`), which invokes `registerForEvents`, which is
   `/register` in the API binding.
+* (TODO: We'll rework the rest of this section soon.)
 * Which is invoked by `AppDataFetcher`.  This is a Redux-`connect`ed
   component that appears near the very top of the hierarchy in
   `ZulipMobile.js`.  The component's one job is to listen for changes

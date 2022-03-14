@@ -43,6 +43,7 @@ export type PerAccountSessionState = $ReadOnly<{
    */
   loading: boolean,
 
+  // TODO: We'll finish getting rid of this soon.
   needsInitialFetch: boolean,
 
   outboxSending: boolean,
@@ -181,7 +182,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case LOGIN_SUCCESS:
       return {
         ...state,
-        needsInitialFetch: true,
 
         // We're about to request a new event queue; no use hanging on to
         // any old one we might have.

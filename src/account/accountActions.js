@@ -7,7 +7,10 @@ import {
   LOGIN_SUCCESS,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
 } from '../actionConstants';
+import { registerAndStartPolling } from '../events/eventActions';
 import { resetToMainTabs } from '../nav/navActions';
+import { sendOutbox } from '../outbox/outboxActions';
+import { initNotifications } from '../notification/notifTokens';
 
 export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   type: DISMISS_SERVER_PUSH_SETUP_NOTICE,
@@ -43,8 +46,15 @@ const loginSuccessPlain = (realm: URL, email: string, apiKey: string): AllAccoun
 });
 
 export const loginSuccess =
-  (realm: URL, email: string, apiKey: string): ThunkAction<void> =>
-  (dispatch, getState) => {
+  (realm: URL, email: string, apiKey: string): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
     NavigationService.dispatch(resetToMainTabs());
     dispatch(loginSuccessPlain(realm, email, apiKey));
+
+    await dispatch(registerAndStartPolling());
+
+    // TODO(#3881): Lots of issues with outbox sending
+    dispatch(sendOutbox());
+
+    dispatch(initNotifications());
   };

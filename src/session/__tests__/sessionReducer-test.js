@@ -35,7 +35,7 @@ describe('sessionReducer', () => {
 
   test('LOGIN_SUCCESS', () => {
     const newState = sessionReducer(baseState, eg.action.login_success);
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: true });
+    expect(newState).toEqual(baseState);
   });
 
   test('DEAD_QUEUE', () => {
