@@ -271,11 +271,11 @@ describe('unreadPmsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when operation is "remove" do nothing', () => {
+    test('when operation is "remove", add to unreads', () => {
       const initialState = deepFreeze([
         {
-          sender_id: makeUserId(1),
-          unread_message_ids: [1, 2, 3, 4, 5],
+          sender_id: eg.otherUser.user_id,
+          unread_message_ids: [1, 3],
         },
       ]);
 
@@ -284,14 +284,30 @@ describe('unreadPmsReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         all: false,
         allMessages: eg.makeMessagesState([]),
-        messages: [1, 2],
+        messages: [6, 5, 7],
         flag: 'read',
         op: 'remove',
+        message_details: new Map([
+          [5, { type: 'private', user_ids: [eg.otherUser.user_id] }],
+          [6, { type: 'private', user_ids: [eg.otherUser.user_id] }],
+          [7, { type: 'private', user_ids: [eg.selfUser.user_id] }],
+        ]),
       });
+
+      const expectedState = deepFreeze([
+        {
+          sender_id: eg.otherUser.user_id,
+          unread_message_ids: [1, 3, 5, 6],
+        },
+        {
+          sender_id: eg.selfUser.user_id,
+          unread_message_ids: [7],
+        },
+      ]);
 
       const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
-      expect(actualState).toBe(initialState);
+      expect(actualState).toStrictEqual(expectedState);
     });
 
     test('when "all" is true reset state', () => {

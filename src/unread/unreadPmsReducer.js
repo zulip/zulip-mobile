@@ -14,6 +14,8 @@ import {
 import { addItemsToPmArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
 import { recipientsOfPrivateMessage } from '../utils/recipient';
+import * as logging from '../utils/logging';
+import { getOwnUserId } from '../users/userSelectors';
 
 const initialState: UnreadPmsState = NULL_ARRAY;
 
@@ -34,7 +36,7 @@ const eventNewMessage = (state, action) => {
   return addItemsToPmArray(state, [action.message.id], action.message.sender_id);
 };
 
-const eventUpdateMessageFlags = (state, action) => {
+const eventUpdateMessageFlags = (state, action, ownUserId) => {
   if (action.flag !== 'read') {
     return state;
   }
@@ -46,7 +48,32 @@ const eventUpdateMessageFlags = (state, action) => {
   if (action.op === 'add') {
     return removeItemsDeeply(state, action.messages);
   } else if (action.op === 'remove') {
-    // we do not support that operation
+    const { message_details } = action;
+    if (message_details === undefined) {
+      logging.warn('Got update_message_flags/remove/read event without message_details.');
+      return state;
+    }
+
+    let newState = [...state];
+
+    for (const id of action.messages) {
+      const message = message_details.get(id);
+
+      if (message && message.type === 'private' && message.user_ids != null) {
+        if (message.user_ids.length === 1) {
+          newState = addItemsToPmArray(newState, [id], message.user_ids[0]);
+        } else if (message.user_ids.length === 0) {
+          newState = addItemsToPmArray(newState, [id], ownUserId);
+        }
+      }
+    }
+
+    return [
+      ...newState.map(({ sender_id, unread_message_ids }) => ({
+        sender_id,
+        unread_message_ids: [...unread_message_ids].sort(),
+      })),
+    ];
   }
 
   return state;
@@ -72,7 +99,7 @@ export default (
       return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
-      return eventUpdateMessageFlags(state, action);
+      return eventUpdateMessageFlags(state, action, getOwnUserId(globalState));
 
     default:
       return state;
