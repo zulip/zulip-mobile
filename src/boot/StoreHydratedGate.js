@@ -14,13 +14,9 @@ type Props = $ReadOnly<{|
  * Where we prevent everything from rendering while waiting for rehydration.
  */
 export default function StoreHydratedGate(props: Props): Node {
-  const isHydrated = useGlobalSelector(getIsHydrated);
-
   const { children } = props;
 
-  if (!isHydrated) {
-    return <FullScreenLoading />;
-  }
+  const isHydrated = useGlobalSelector(getIsHydrated);
 
-  return children;
+  return isHydrated ? children : <FullScreenLoading />;
 }
