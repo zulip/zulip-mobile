@@ -4,20 +4,22 @@ import type { Node } from 'react';
 
 import { useGlobalSelector } from '../react-redux';
 import { getIsHydrated } from '../selectors';
+import FullScreenLoading from '../common/FullScreenLoading';
 
 type Props = $ReadOnly<{|
   children: Node,
-
-  PlaceholderComponent?: React$ComponentType<{||}>,
 |}>;
 
-export default function HideIfNotHydrated(props: Props): Node {
+/**
+ * Where we prevent everything from rendering while waiting for rehydration.
+ */
+export default function StoreHydratedGate(props: Props): Node {
   const isHydrated = useGlobalSelector(getIsHydrated);
 
-  const { children, PlaceholderComponent } = props;
+  const { children } = props;
 
   if (!isHydrated) {
-    return PlaceholderComponent ? <PlaceholderComponent /> : null;
+    return <FullScreenLoading />;
   }
 
   return children;

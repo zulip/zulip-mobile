@@ -11,14 +11,13 @@ import RootErrorBoundary from './RootErrorBoundary';
 import { BRAND_COLOR } from './styles';
 import ZulipNavigationContainer from './nav/ZulipNavigationContainer';
 import StoreProvider from './boot/StoreProvider';
-import HideIfNotHydrated from './boot/HideIfNotHydrated';
+import StoreHydratedGate from './boot/StoreHydratedGate';
 import TranslationProvider from './boot/TranslationProvider';
 import ThemeProvider from './boot/ThemeProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import { initializeSentry } from './sentry';
-import FullScreenLoading from './common/FullScreenLoading';
 
 initializeSentry();
 
@@ -60,7 +59,7 @@ export default function ZulipMobile(): Node {
               backgroundColor: BRAND_COLOR,
             }}
           >
-            <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
+            <StoreHydratedGate>
               <AppEventHandlers>
                 <AppDataFetcher>
                   <TranslationProvider>
@@ -72,7 +71,7 @@ export default function ZulipMobile(): Node {
                   </TranslationProvider>
                 </AppDataFetcher>
               </AppEventHandlers>
-            </HideIfNotHydrated>
+            </StoreHydratedGate>
           </SafeAreaProvider>
         </StoreProvider>
       </CompatibilityChecker>

@@ -37,7 +37,7 @@ export default function AppDataFetcher(props: Props): Node {
     },
 
     // This effect does its work only if `hasAuth` is true at first startup
-    // (after rehydrate; this component is under HideIfNotHydrated, so it
+    // (after rehydrate; this component is under StoreHydratedGate, so it
     // only exists then) -- not if `hasAuth` later becomes true.
     //
     // This breaks the normal rules of Hooks.  We make it OK because if
