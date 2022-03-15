@@ -31,6 +31,9 @@ const componentStyles = createStyleSheet({
     fontSize: 10,
     color: 'hsl(0, 0%, 60%)',
   },
+  spacer: {
+    flex: 1,
+  },
 });
 
 type Props<UserT> = $ReadOnly<{|
@@ -103,6 +106,7 @@ export function UserItemRaw<
             />
           </View>
         )}
+        <View style={componentStyles.spacer} />
         <UnreadCount count={unreadCount} inverse={isSelected} />
       </View>
     </Touchable>
