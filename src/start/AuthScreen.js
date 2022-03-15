@@ -333,7 +333,7 @@ class AuthScreenInner extends PureComponent<Props> {
       <Screen title="Log in" centerContent padding shouldShowLoadingBanner={false}>
         <Centerer>
           <RealmInfo
-            name={serverSettings.realm_name}
+            name={serverSettings.realm_name ?? serverSettings.realm_uri}
             iconUrl={new URL(serverSettings.realm_icon, this.props.realm).toString()}
           />
           {activeAuthentications(
