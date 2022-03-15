@@ -383,14 +383,12 @@ export type InitialDataUpdateDisplaySettings = $ReadOnly<{|
   emojiset_choices: $ReadOnly<{| [string]: string |}>,
   high_contrast_mode: boolean,
   left_side_userlist: boolean,
-  night_mode: boolean,
   timezone: string,
   translate_emoticons: boolean,
   twenty_four_hour_time: boolean,
 |}>;
 
 export type InitialDataUpdateGlobalNotifications = $ReadOnly<{|
-  default_desktop_notifications: boolean,
   enable_desktop_notifications: boolean,
   enable_digest_emails: boolean,
   enable_offline_email_notifications: boolean,
@@ -400,7 +398,6 @@ export type InitialDataUpdateGlobalNotifications = $ReadOnly<{|
   enable_stream_desktop_notifications: boolean,
   enable_stream_email_notifications: boolean,
   enable_stream_push_notifications: boolean,
-  enable_stream_sounds: boolean,
   message_content_in_email_notifications: boolean,
   pm_content_in_desktop_notifications: boolean,
   realm_name_in_notifications: boolean,
