@@ -48,13 +48,9 @@ const registerAbort =
       // can look at stale data while waiting.
       //
       // Do so by lying that the server has told us our queue is invalid and
-      // we need a new one. Note that this must fire *after*
-      // `registerAbortPlain()`, so that AppDataFetcher sees
-      // `needsInitialFetch` go from `false` to `true`. We don't call
-      // `registerAndStartPolling` directly here because that would go against
-      // `AppDataFetcher`'s implicit interface.
+      // we need a new one.
       //
-      // TODO: Clean up all this brittle logic.
+      // TODO: Stop lying. ;)
       // TODO: Instead, let the retry be on-demand, with a banner.
       dispatch(deadQueue()); // eslint-disable-line no-use-before-define
     } else {

@@ -386,31 +386,14 @@ In the current Zulip mobile app, the structure looks like
   created by the nullary action creator `registerAndStartPolling`
   (in `eventActions.js`), which invokes `registerForEvents`, which is
   `/register` in the API binding.
-* (TODO: We'll rework the rest of this section soon.)
-* Which is invoked by `AppDataFetcher`.  This is a Redux-`connect`ed
-  component that appears near the very top of the hierarchy in
-  `ZulipMobile.js`.  The component's one job is to listen for changes
-  to a boolean field `needsInitialFetch` in the Redux state, and
-  dispatch this action when it becomes true.
-* That field, in turn, belongs to a state machine with several
-  transitions:
-  * On startup, it's set to true just if the persisted data contains
-    authentication credentials for an account.  (It's false in
-    `initialState`, and then set on a `REHYDRATE` action.)
-  * It's set to true when the user logs into a server, or switches
-    accounts (action types `LOGIN_SUCCESS` and `ACCOUNT_SWITCH`.)
-  * It's set to true on an `DEAD_QUEUE` action -- which is dispatched
+* In turn `registerAndStartPolling` is invoked in several situations:
+  * On startup, by `AppDataFetcher`, just if there's an active, logged-in
+    account.
+  * When the user logs into a server, or switches accounts (along with
+    action types `LOGIN_SUCCESS` and `ACCOUNT_SWITCH`.)
+  * Along with the `DEAD_QUEUE` action -- which is dispatched
     exclusively by the long-poll loop in `startEventPolling`, when it
     finds the event queue has expired.
-  * It's set to false on a `REGISTER_COMPLETE` action -- which is dispatched
-    exclusively by `registerAndStartPolling`, just before it dispatches a
-    `startEventPolling` action.
-
-Essentially, the `AppDataFetcher` React component is used as a way of
-listening for certain Redux actions (notably `REHYDRATE` and
-`LOGIN_SUCCESS`) and firing off another one (from `registerAndStartPolling`)
-when any of those happen.  And the latter action is a thunk action
-which kicks off a complex series of further thunk actions.
 
 ## TODO
 

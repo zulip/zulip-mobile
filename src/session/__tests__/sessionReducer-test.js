@@ -22,7 +22,6 @@ describe('sessionReducer', () => {
   test('ACCOUNT_SWITCH', () => {
     const state = deepFreeze({
       ...baseState,
-      needsInitialFetch: false,
       loading: true,
     });
     const newState = sessionReducer(state, eg.action.account_switch);
@@ -35,7 +34,7 @@ describe('sessionReducer', () => {
   });
 
   test('DEAD_QUEUE', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: false, loading: true });
+    const state = deepFreeze({ ...baseState, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: DEAD_QUEUE }));
     expect(newState).toEqual({ ...baseState, loading: false });
   });
@@ -43,24 +42,21 @@ describe('sessionReducer', () => {
   test('LOGOUT', () => {
     const state = deepFreeze({
       ...baseState,
-      needsInitialFetch: true,
       loading: true,
     });
     const newState = sessionReducer(state, deepFreeze({ type: LOGOUT }));
     expect(newState).toEqual({
       ...baseState,
-      needsInitialFetch: false,
       loading: false,
     });
   });
 
   test('REGISTER_COMPLETE', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
+    const state = deepFreeze({ ...baseState, loading: true });
     const action = eg.mkActionRegisterComplete({ queue_id: '100' });
     const newState = sessionReducer(state, action);
     expect(newState).toEqual({
       ...baseState,
-      needsInitialFetch: false,
       loading: false,
       eventQueueId: '100',
     });
@@ -74,9 +70,9 @@ describe('sessionReducer', () => {
   });
 
   test('REGISTER_ABORT', () => {
-    const state = deepFreeze({ ...baseState, needsInitialFetch: true, loading: true });
+    const state = deepFreeze({ ...baseState, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: REGISTER_ABORT, reason: 'server' }));
-    expect(newState).toEqual({ ...baseState, needsInitialFetch: false, loading: false });
+    expect(newState).toEqual({ ...baseState, loading: false });
   });
 
   test('REGISTER_START', () => {

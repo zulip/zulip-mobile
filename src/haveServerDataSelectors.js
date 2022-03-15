@@ -69,9 +69,9 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   //    fetch.  Specifically:
   //    * If at startup (upon rehydrate) we show the main UI, we do so.
   //      This is controlled by `getInitialRouteInfo`, together with
-  //      `sessionReducer` as it sets `needsInitialFetch`.
+  //      AppDataFetcher.
   //    * When we navigate to the main UI (via `resetToMainTabs`), we always
-  //      also dispatch an action that causes `needsInitialFetch` to be set.
+  //      also dispatch an action that causes an initial fetch.
   //    * Plus, that initial fetch has a timeout, so it will always take us
   //      away from a loading screen regardless of server/network behavior.
   //
@@ -80,7 +80,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   //    Specifically:
   //    * Between this function and the reducers, we should only stop having
   //      server data upon certain actions in `accountActions`.
-  //    * Some of those actions cause `needsInitialFetch` to be set, as above.
+  //    * Some of those actions cause an initial fetch, as above.
   //    * Those that don't should always be accompanied by navigating away
   //      from the main UI, with `resetToAccountPicker`.
   //
@@ -89,8 +89,8 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   // be possible to confirm they align without so much nonlocal reasoning.
 
   // Specific facts used in the reasoning below (within the strategy above):
-  //  * The actions LOGIN_SUCCESS and ACCOUNT_SWITCH cause
-  //    `needsInitialFetch` to be set.
+  //  * The actions LOGIN_SUCCESS and ACCOUNT_SWITCH are dispatched along
+  //    with an initial fetch.
   //  * The action LOGOUT is always accompanied by navigating away from the
   //    main UI.
   //  * A successful initial fetch causes a REGISTER_COMPLETE action.  A failed one

@@ -42,9 +42,6 @@ export type PerAccountSessionState = $ReadOnly<{
    */
   loading: boolean,
 
-  // TODO: We'll finish getting rid of this soon.
-  needsInitialFetch: boolean,
-
   outboxSending: boolean,
 
   /**
@@ -129,7 +126,6 @@ const initialState: SessionState = {
 
   isHydrated: false,
   loading: false,
-  needsInitialFetch: false,
   orientation: 'PORTRAIT',
   outboxSending: false,
   pushToken: null,
@@ -162,7 +158,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case LOGOUT:
       return {
         ...state,
-        needsInitialFetch: false,
         loading: false,
 
         // Stop polling this event queue.
@@ -191,7 +186,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         loading: false,
-        needsInitialFetch: false,
         eventQueueId: action.data.queue_id,
       };
 
@@ -211,7 +205,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         loading: false,
-        needsInitialFetch: false,
       };
 
     case APP_ORIENTATION:
