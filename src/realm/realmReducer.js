@@ -91,7 +91,10 @@ export default (
 
         email: action.data.email,
         user_id: action.data.user_id,
+
+        // TODO(#4933): Use modern `user_settings` object for this
         twentyFourHourTime: action.data.twenty_four_hour_time,
+
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
       };

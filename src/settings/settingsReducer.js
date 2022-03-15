@@ -23,6 +23,8 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
     case REGISTER_COMPLETE:
       return {
         ...state,
+
+        // TODO(#4933): Use modern `user_settings` object for these
         offlineNotification: action.data.enable_offline_push_notifications,
         onlineNotification: action.data.enable_online_push_notifications,
         streamNotification: action.data.enable_stream_push_notifications,

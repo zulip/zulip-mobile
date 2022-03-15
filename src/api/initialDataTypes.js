@@ -318,7 +318,7 @@ export type RawInitialDataRealmUser = $ReadOnly<{|
   can_create_streams: boolean,
   cross_realm_bots: $ReadOnlyArray<{| ...CrossRealmBot, +avatar_url?: string | null |}>,
   email: string,
-  enter_sends: boolean,
+  -enter_sends: boolean, // TODO(#4933): Deprecated; don't use
   full_name: string,
   is_admin: boolean,
   realm_users: $ReadOnlyArray<{| ...User, avatar_url?: string | null |}>,
@@ -377,30 +377,32 @@ export type InitialDataSubscription = $ReadOnly<{|
   unsubscribed: $ReadOnlyArray<Subscription>,
 |}>;
 
+// TODO(#4933): Deprecated; remove current uses and don't add more
 export type InitialDataUpdateDisplaySettings = $ReadOnly<{|
-  default_language: string,
-  emojiset: string,
-  emojiset_choices: $ReadOnly<{| [string]: string |}>,
-  high_contrast_mode: boolean,
-  left_side_userlist: boolean,
-  timezone: string,
-  translate_emoticons: boolean,
+  -default_language: string,
+  -emojiset: string,
+  -emojiset_choices: $ReadOnly<{| [string]: string |}>,
+  -high_contrast_mode: boolean,
+  -left_side_userlist: boolean,
+  -timezone: string,
+  -translate_emoticons: boolean,
   twenty_four_hour_time: boolean,
 |}>;
 
+// TODO(#4933): Deprecated; remove current uses and don't add more
 export type InitialDataUpdateGlobalNotifications = $ReadOnly<{|
-  enable_desktop_notifications: boolean,
-  enable_digest_emails: boolean,
-  enable_offline_email_notifications: boolean,
+  -enable_desktop_notifications: boolean,
+  -enable_digest_emails: boolean,
+  -enable_offline_email_notifications: boolean,
   enable_offline_push_notifications: boolean,
   enable_online_push_notifications: boolean,
-  enable_sounds: boolean,
-  enable_stream_desktop_notifications: boolean,
-  enable_stream_email_notifications: boolean,
+  -enable_sounds: boolean,
+  -enable_stream_desktop_notifications: boolean,
+  -enable_stream_email_notifications: boolean,
   enable_stream_push_notifications: boolean,
-  message_content_in_email_notifications: boolean,
-  pm_content_in_desktop_notifications: boolean,
-  realm_name_in_notifications: boolean,
+  -message_content_in_email_notifications: boolean,
+  -pm_content_in_desktop_notifications: boolean,
+  -realm_name_in_notifications: boolean,
 |}>;
 
 export type StreamUnreadItem = $ReadOnly<{|
