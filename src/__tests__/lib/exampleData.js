@@ -150,9 +150,8 @@ const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
   makeUniqueRandInt('user IDs', 10000),
 );
 const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
-  const name = randString();
-  const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   const user_id = args.user_id != null ? makeUserId(args.user_id) : randUserId();
+  const randName = randString();
   return deepFreeze({
     avatar_url: args.avatar_url ?? makeAvatarUrl(user_id.toString()),
 
@@ -160,8 +159,8 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
       .toString()
       .padStart(2, '0')}`,
 
-    email: args.email ?? `${name}@example.org`,
-    full_name: args.full_name ?? `${capsName} User`,
+    email: args.email ?? `${randName}@example.org`,
+    full_name: args.full_name ?? `${randName} User`,
     is_admin: false,
     timezone: 'UTC',
     user_id,
