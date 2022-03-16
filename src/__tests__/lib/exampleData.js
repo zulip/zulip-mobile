@@ -136,6 +136,17 @@ type UserOrBotPropertiesArgs = {|
   avatar_url?: AvatarURL,
 |};
 
+/**
+ * An avatar URL, containing the given tag to make it recognizable in debugging.
+ *
+ * Beware!  This value may not be representative.
+ */
+const makeAvatarUrl = (tag: string) =>
+  // Internally the UploadedAvatarURL mutates itself for memoization.
+  // That conflicts with the deepFreeze we do for tests; so construct it
+  // here with a full-blown URL object in the first place to prevent that.
+  new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${tag}.png`));
+
 const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
   makeUniqueRandInt('user IDs', 10000),
 );
@@ -143,12 +154,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
   const name = args.name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   return deepFreeze({
-    // Internally the UploadedAvatarURL mutates itself for memoization.
-    // That conflicts with the deepFreeze we do for tests; so construct it
-    // here with a full-blown URL object in the first place to prevent that.
-    avatar_url:
-      args.avatar_url
-      ?? new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${name}.png`)),
+    avatar_url: args.avatar_url ?? makeAvatarUrl(name),
 
     date_joined: `2014-04-${randInt(30)
       .toString()
