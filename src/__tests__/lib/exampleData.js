@@ -263,17 +263,30 @@ export const makeUserGroup = (extra?: $Rest<UserGroup, { ... }>): UserGroup => {
   return deepFreeze({ ...baseUserGroup, ...extra });
 };
 
-export const selfUser: User = makeUser({ name: 'self' });
-export const selfAccount: Account = makeAccount({
-  user: selfUser,
-  realm,
+export const selfUser: User = makeUser({
+  full_name: 'Self User',
+  email: 'self@example.org',
+  avatar_url: makeAvatarUrl('self'),
 });
+export const selfAccount: Account = makeAccount({ user: selfUser, realm });
 export const selfAuth: Auth = deepFreeze(authOfAccount(selfAccount));
 
-export const otherUser: User = makeUser({ name: 'other' });
-export const thirdUser: User = makeUser({ name: 'third' });
+export const otherUser: User = makeUser({
+  full_name: 'Other User',
+  email: 'other@example.org',
+  avatar_url: makeAvatarUrl('other'),
+});
+export const thirdUser: User = makeUser({
+  full_name: 'Third User',
+  email: 'third@example.org',
+  avatar_url: makeAvatarUrl('third'),
+});
 
-export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({ name: 'bot' });
+export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({
+  full_name: 'Bot User',
+  email: 'bot@example.org',
+  avatar_url: makeAvatarUrl('bot'),
+});
 
 /* ========================================================================
  * Streams and subscriptions
