@@ -334,159 +334,54 @@ describe('getStreamInNarrow', () => {
 
 describe('isNarrowValid', () => {
   test('narrowing to a special narrow is always valid', () => {
-    const state = eg.reduxState();
     const narrow = STARRED_NARROW;
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to an existing stream is valid', () => {
-    const stream = eg.makeStream({ name: 'some stream' });
-
-    const state = eg.reduxState({
-      streams: [stream],
-    });
-    const narrow = streamNarrow(stream.stream_id);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    const narrow = streamNarrow(eg.stream.stream_id);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to a non-existing stream is invalid', () => {
-    const state = eg.reduxState({
-      streams: [],
-    });
-    const narrow = streamNarrow(eg.stream.stream_id);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(false);
+    const narrow = streamNarrow(eg.makeStream().stream_id);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(false);
   });
 
   test('narrowing to an existing stream is valid regardless of topic', () => {
-    const stream = eg.makeStream({ name: 'some stream' });
-
-    const state = eg.reduxState({
-      streams: [stream],
-    });
-    const narrow = topicNarrow(stream.stream_id, 'topic does not matter');
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    const narrow = topicNarrow(eg.stream.stream_id, 'topic does not matter');
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to a PM with existing user is valid', () => {
-    const user = eg.makeUser({ name: 'bob' });
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [],
-        nonActiveUsers: [],
-      },
-      streams: [],
-      users: [user],
-    });
-    const narrow = pm1to1NarrowFromUser(user);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    const narrow = pm1to1NarrowFromUser(eg.otherUser);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to a PM with non-existing user is not valid', () => {
-    const user = eg.makeUser({ name: 'bob' });
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [],
-        nonActiveUsers: [],
-      },
-      streams: [],
-      users: [],
-    });
-    const narrow = pm1to1NarrowFromUser(user);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(false);
+    const narrow = pm1to1NarrowFromUser(eg.makeUser());
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(false);
   });
 
   test('narrowing to a group chat with existing users is valid', () => {
-    const john = eg.makeUser({ name: 'john' });
-    const mark = eg.makeUser({ name: 'mark' });
-
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [],
-        nonActiveUsers: [],
-      },
-      streams: [],
-      users: [john, mark],
-    });
-    const narrow = pmNarrowFromUsersUnsafe([john, mark]);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    const narrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.thirdUser]);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to a group chat with non-existing users is not valid', () => {
-    const john = eg.makeUser({ name: 'john' });
-    const mark = eg.makeUser({ name: 'mark' });
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [],
-        nonActiveUsers: [],
-      },
-      streams: [],
-      users: [john],
-    });
-    const narrow = pmNarrowFromUsersUnsafe([john, mark]);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(false);
+    const narrow = pmNarrowFromUsersUnsafe([eg.otherUser, eg.makeUser()]);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(false);
   });
 
   test('narrowing to a PM with bots is valid', () => {
-    const bot = eg.makeCrossRealmBot({ name: 'some-bot' });
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [bot],
-        nonActiveUsers: [],
-      },
-      streams: [],
-      users: [],
-    });
-    const narrow = pm1to1NarrowFromUser(bot);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    const narrow = pm1to1NarrowFromUser(eg.crossRealmBot);
+    expect(isNarrowValid(eg.plusReduxState, narrow)).toBe(true);
   });
 
   test('narrowing to non active users is valid', () => {
-    const notActiveUser = eg.makeUser({ name: 'not active' });
-    const state = eg.reduxState({
-      realm: {
-        ...eg.realmState(),
-        crossRealmBots: [],
-        nonActiveUsers: [notActiveUser],
-      },
-      streams: [],
-      users: [],
-    });
+    const notActiveUser = eg.makeUser();
+    const state = eg.reduxState({ realm: { ...eg.realmState(), nonActiveUsers: [notActiveUser] } });
     const narrow = pm1to1NarrowFromUser(notActiveUser);
-
-    const result = isNarrowValid(state, narrow);
-
-    expect(result).toBe(true);
+    expect(isNarrowValid(state, narrow)).toBe(true);
   });
 });
