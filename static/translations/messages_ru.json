@@ -274,7 +274,7 @@
   "Couldn’t load information about {fullName}": "Не удалось загрузить информацию о {fullName}",
   "What’s your status?": "Какой ваш статус?",
   "Click to join video call": "Нажмите здесь, чтобы присоединиться к видеозвонку",
-  "Busy": "Busy",
+  "Busy": "Занят",
   "In a meeting": "На встрече",
   "Commuting": "В дороге",
   "Out sick": "Болею",
@@ -293,7 +293,7 @@
   "Remove account": "Удалить учетную запись",
   "Search topics": "Поиск в темах",
   "Copy link to topic": "Скопировать ссылку на тему",
-  "Failed to copy topic link": "Failed to copy topic link",
-  "Copy link to stream": "Copy link to stream",
-  "Failed to copy stream link": "Failed to copy stream link"
+  "Failed to copy topic link": "Не удалось скопировать ссылку на тему",
+  "Copy link to stream": "Скопировать ссылку на канал",
+  "Failed to copy stream link": "Не удалось скопировать ссылку на канал"
 }

@@ -274,10 +274,10 @@
   "Couldn’t load information about {fullName}": "Nu am putut încărca informaţii despre {fullName}",
   "What’s your status?": "Care este starea ta?",
   "Click to join video call": "Apasă pentru a te alătura conferinţei video. ",
-  "Busy": "Busy",
-  "In a meeting": "Într-o întâlnire",
+  "Busy": "Ocupat",
+  "In a meeting": "În ședință",
   "Commuting": "Naveta",
-  "Out sick": "Afară, bolnav",
+  "Out sick": "Afară bolnav",
   "Vacationing": "În vacanță",
   "Working remotely": "Lucrul de la distanță",
   "This message was hidden because it is from a user you have muted. Long-press to view.": "Acest mesaj a fost ascuns deoarece este de la un utilizator pe care l-ați suprimat. Apăsați lung pentru a vizualiza.",
@@ -293,7 +293,7 @@
   "Remove account": "Sterge contul",
   "Search topics": "Caută subiecte",
   "Copy link to topic": "Copiați linkul către subiect",
-  "Failed to copy topic link": "Failed to copy topic link",
-  "Copy link to stream": "Copy link to stream",
-  "Failed to copy stream link": "Failed to copy stream link"
+  "Failed to copy topic link": "Nu s-a putut copia linkul subiectului",
+  "Copy link to stream": "Copiați linkul către flux",
+  "Failed to copy stream link": "Nu s-a copiat linkul fluxului"
 }
