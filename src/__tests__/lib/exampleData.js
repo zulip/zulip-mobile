@@ -624,6 +624,7 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
     ...baseReduxState.realm,
     user_id: selfUser.user_id,
     email: selfUser.email,
+    crossRealmBots: [crossRealmBot],
     emoji: {
       [realmEmojiReaction.emoji_code]: {
         deactivated: false,
@@ -633,7 +634,6 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
       },
     },
   },
-  // TODO add crossRealmBot
   users: [selfUser, otherUser, thirdUser],
   streams: [stream, otherStream],
   subscriptions: [subscription, otherSubscription],
