@@ -12,6 +12,10 @@ const styles = createStyleSheet({
   button: {
     flex: 1,
   },
+  overlayStyle: {
+    right: -10,
+    top: 10,
+  },
 });
 
 type Props = $ReadOnly<{|
@@ -27,10 +31,13 @@ export default class CountOverlay extends PureComponent<Props> {
       <View>
         <ComponentWithOverlay
           style={styles.button}
-          overlaySize={15}
+          // It looks like what we want to match is 25 * 0.75, which is 18.75,
+          // https://github.com/react-navigation/react-navigation/blob/%40react-navigation/bottom-tabs%405.11.15/packages/bottom-tabs/src/views/TabBarIcon.tsx#L69
+          overlaySize={18.75}
           overlayColor={BRAND_COLOR}
           overlayPosition="top-right"
           showOverlay={unreadCount > 0}
+          customOverlayStyle={styles.overlayStyle}
           overlay={<UnreadCount count={unreadCount} />}
         >
           {children}

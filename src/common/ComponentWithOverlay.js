@@ -41,6 +41,7 @@ type Props = $ReadOnly<{|
   overlayColor: string,
   overlayPosition: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left',
   style?: ViewStyleProp,
+  customOverlayStyle?: ViewStyleProp,
 |}>;
 
 /**
@@ -53,6 +54,7 @@ type Props = $ReadOnly<{|
  * @prop overlayColor - Background color for overlay.
  * @prop overlayPosition - What corner to align the overlay to.
  * @prop [style] - Applied to a wrapper View.
+ * @prop [customOverlayStyle] - Apply custom style to overlay.
  */
 export default function ComponentWithOverlay(props: Props): Node {
   const {
@@ -63,6 +65,7 @@ export default function ComponentWithOverlay(props: Props): Node {
     overlayPosition,
     overlaySize,
     overlayColor,
+    customOverlayStyle,
   } = props;
 
   const wrapperStyle = [styles.wrapper, style];
@@ -76,6 +79,7 @@ export default function ComponentWithOverlay(props: Props): Node {
       borderRadius: overlaySize,
       backgroundColor: overlayColor,
     },
+    customOverlayStyle,
   ];
 
   return (
