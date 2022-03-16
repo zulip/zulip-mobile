@@ -24,25 +24,6 @@ describe('filterUserList', () => {
     expect(filteredUsers).toEqual(users);
   });
 
-  test('returns same list if no filter', () => {
-    const user1 = eg.makeUser({ name: 'user1' });
-    const user2 = eg.makeUser({ name: 'user2' });
-    const users = deepFreeze([user1, user2]);
-
-    const filteredUsers = filterUserList(users);
-    expect(filteredUsers).toEqual(users);
-  });
-
-  test("filters out user's own entry", () => {
-    const user1 = eg.makeUser({ name: 'user1' });
-    const user2 = eg.makeUser({ name: 'user2' });
-    const users = deepFreeze([user1, user2]);
-
-    const shouldMatch = [user1];
-    const filteredUsers = filterUserList(users, '', user2.user_id);
-    expect(filteredUsers).toEqual(shouldMatch);
-  });
-
   test('searches in name, email and is case insensitive', () => {
     const user1 = eg.makeUser({ name: 'match', email: 'any@example.com' });
     const user2 = eg.makeUser({ name: 'partial match', email: 'any@example.com' });

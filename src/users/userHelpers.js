@@ -69,15 +69,13 @@ export type AutocompleteOption = $ReadOnly<{
 
 export const filterUserList = (
   users: $ReadOnlyArray<UserOrBot>,
-  filter: string = '',
-  ownUserId: ?UserId,
+  filter: string,
 ): $ReadOnlyArray<UserOrBot> =>
   users.filter(
     user =>
-      user.user_id !== ownUserId
-      && (filter === ''
-        || user.full_name.toLowerCase().includes(filter.toLowerCase())
-        || user.email.toLowerCase().includes(filter.toLowerCase())),
+      filter === ''
+      || user.full_name.toLowerCase().includes(filter.toLowerCase())
+      || user.email.toLowerCase().includes(filter.toLowerCase()),
   );
 
 export const sortAlphabetically = (users: $ReadOnlyArray<User>): $ReadOnlyArray<User> =>
