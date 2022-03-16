@@ -223,7 +223,7 @@ export const makeAccount = (
   |} = Object.freeze({}),
 ): Account => {
   const {
-    user = makeUser({ name: randString() }),
+    user = makeUser(),
     userId = user.user_id,
     email = user.email,
     realm: realmInner = realm,
