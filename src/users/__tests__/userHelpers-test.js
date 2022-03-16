@@ -25,11 +25,11 @@ describe('filterUserList', () => {
   });
 
   test('searches in name, email and is case insensitive', () => {
-    const user1 = eg.makeUser({ name: 'match', email: 'any@example.com' });
-    const user2 = eg.makeUser({ name: 'partial match', email: 'any@example.com' });
-    const user3 = eg.makeUser({ name: 'Case Insensitive MaTcH', email: 'any@example.com' });
-    const user4 = eg.makeUser({ name: 'Any Name', email: 'match@example.com' });
-    const user5 = eg.makeUser({ name: 'some name', email: 'another@example.com' });
+    const user1 = eg.makeUser({ full_name: 'match', email: 'any@example.com' });
+    const user2 = eg.makeUser({ full_name: 'partial match', email: 'any@example.com' });
+    const user3 = eg.makeUser({ full_name: 'Case Insensitive MaTcH', email: 'any@example.com' });
+    const user4 = eg.makeUser({ full_name: 'Any Name', email: 'match@example.com' });
+    const user5 = eg.makeUser({ full_name: 'some name', email: 'another@example.com' });
     const allUsers = deepFreeze([user1, user2, user3, user4, user5]);
 
     const shouldMatch = [user1, user2, user3, user4];
@@ -52,8 +52,8 @@ describe('getAutocompleteSuggestion', () => {
   });
 
   test("filters out user's own entry", () => {
-    const someGuyUser = eg.makeUser({ name: 'Some Guy' });
-    const meUser = eg.makeUser({ name: 'Me' });
+    const someGuyUser = eg.makeUser({ full_name: 'Some Guy' });
+    const meUser = eg.makeUser({ full_name: 'Me' });
     const users = deepFreeze([someGuyUser, meUser]);
 
     const shouldMatch = [
@@ -65,8 +65,8 @@ describe('getAutocompleteSuggestion', () => {
   });
 
   test('filters out muted user', () => {
-    const mutedUser = eg.makeUser({ name: 'Muted User' });
-    const meUser = eg.makeUser({ name: 'Me' });
+    const mutedUser = eg.makeUser({ full_name: 'Muted User' });
+    const meUser = eg.makeUser({ full_name: 'Me' });
     const users = deepFreeze([mutedUser, meUser]);
 
     const mutedUsers = Immutable.Map([[mutedUser.user_id, 0]]);
@@ -78,11 +78,11 @@ describe('getAutocompleteSuggestion', () => {
   });
 
   test('searches in name, email and is case insensitive', () => {
-    const user1 = eg.makeUser({ name: 'match', email: 'any1@example.com' });
-    const user2 = eg.makeUser({ name: 'match this', email: 'any2@example.com' });
-    const user3 = eg.makeUser({ name: 'MaTcH Case Insensitive', email: 'any3@example.com' });
-    const user4 = eg.makeUser({ name: 'some name', email: 'another@example.com' });
-    const user5 = eg.makeUser({ name: 'Example', email: 'match@example.com' });
+    const user1 = eg.makeUser({ full_name: 'match', email: 'any1@example.com' });
+    const user2 = eg.makeUser({ full_name: 'match this', email: 'any2@example.com' });
+    const user3 = eg.makeUser({ full_name: 'MaTcH Case Insensitive', email: 'any3@example.com' });
+    const user4 = eg.makeUser({ full_name: 'some name', email: 'another@example.com' });
+    const user5 = eg.makeUser({ full_name: 'Example', email: 'match@example.com' });
     const allUsers = deepFreeze([user1, user2, user3, user4, user5]);
 
     const shouldMatch = [user1, user2, user3, user5];
@@ -96,17 +96,17 @@ describe('getAutocompleteSuggestion', () => {
   });
 
   test('result should be in priority of startsWith, contains in name, matches in email', () => {
-    const user1 = eg.makeUser({ name: 'M Apple', email: 'any1@example.com' }); // does not match
-    const user2 = eg.makeUser({ name: 'Normal boy', email: 'any2@example.com' }); // satisfy full_name contains condition
-    const user3 = eg.makeUser({ name: 'example', email: 'example@example.com' }); // random entry
-    const user4 = eg.makeUser({ name: 'Example', email: 'match@example.com' }); // satisfy email match condition
-    const user5 = eg.makeUser({ name: 'match', email: 'any@example.com' }); // satisfy full_name starts with condition
-    const user6 = eg.makeUser({ name: 'match', email: 'normal@example.com' }); // satisfy starts with and email condition
-    const user7 = eg.makeUser({ name: 'Match App Normal', email: 'any3@example.com' }); // satisfy all conditions
-    const user8 = eg.makeUser({ name: 'match', email: 'any@example.com' }); // duplicate
-    const user9 = eg.makeUser({ name: 'Laptop', email: 'laptop@example.com' }); // random entry
-    const user10 = eg.makeUser({ name: 'Mobile App', email: 'any@match.com' }); // satisfy email condition
-    const user11 = eg.makeUser({ name: 'Normal', email: 'match2@example.com' }); // satisfy contains in name and matches in email condition
+    const user1 = eg.makeUser({ full_name: 'M Apple', email: 'any1@example.com' }); // does not match
+    const user2 = eg.makeUser({ full_name: 'Normal boy', email: 'any2@example.com' }); // satisfy full_name contains condition
+    const user3 = eg.makeUser({ full_name: 'example', email: 'example@example.com' }); // random entry
+    const user4 = eg.makeUser({ full_name: 'Example', email: 'match@example.com' }); // satisfy email match condition
+    const user5 = eg.makeUser({ full_name: 'match', email: 'any@example.com' }); // satisfy full_name starts with condition
+    const user6 = eg.makeUser({ full_name: 'match', email: 'normal@example.com' }); // satisfy starts with and email condition
+    const user7 = eg.makeUser({ full_name: 'Match App Normal', email: 'any3@example.com' }); // satisfy all conditions
+    const user8 = eg.makeUser({ full_name: 'match', email: 'any@example.com' }); // duplicate
+    const user9 = eg.makeUser({ full_name: 'Laptop', email: 'laptop@example.com' }); // random entry
+    const user10 = eg.makeUser({ full_name: 'Mobile App', email: 'any@match.com' }); // satisfy email condition
+    const user11 = eg.makeUser({ full_name: 'Normal', email: 'match2@example.com' }); // satisfy contains in name and matches in email condition
     const allUsers = deepFreeze([
       user1,
       user2,
@@ -165,9 +165,9 @@ describe('getAutocompleteUserGroupSuggestions', () => {
 
 describe('sortUserList', () => {
   test('sorts list by name', () => {
-    const user1 = eg.makeUser({ name: 'abc' });
-    const user2 = eg.makeUser({ name: 'xyz' });
-    const user3 = eg.makeUser({ name: 'jkl' });
+    const user1 = eg.makeUser({ full_name: 'abc' });
+    const user2 = eg.makeUser({ full_name: 'xyz' });
+    const user3 = eg.makeUser({ full_name: 'jkl' });
     const users = deepFreeze([user1, user2, user3]);
     const presences = {};
     const shouldMatch = [user1, user3, user2];
@@ -178,10 +178,10 @@ describe('sortUserList', () => {
   });
 
   test('prioritizes status', () => {
-    const user1 = eg.makeUser({ name: 'Mark', email: 'mark@example.com' });
-    const user2 = eg.makeUser({ name: 'John', email: 'john@example.com' });
-    const user3 = eg.makeUser({ name: 'Bob', email: 'bob@example.com' });
-    const user4 = eg.makeUser({ name: 'Rick', email: 'rick@example.com' });
+    const user1 = eg.makeUser({ full_name: 'Mark', email: 'mark@example.com' });
+    const user2 = eg.makeUser({ full_name: 'John', email: 'john@example.com' });
+    const user3 = eg.makeUser({ full_name: 'Bob', email: 'bob@example.com' });
+    const user4 = eg.makeUser({ full_name: 'Rick', email: 'rick@example.com' });
     const users = deepFreeze([user1, user2, user3, user4]);
     const presences = {
       [user1.email]: {
@@ -211,13 +211,13 @@ describe('sortUserList', () => {
 
 describe('sortAlphabetically', () => {
   test('alphabetically sort user list by full_name', () => {
-    const user1 = eg.makeUser({ name: 'zoe', email: 'allen@example.com' });
-    const user2 = eg.makeUser({ name: 'Ring', email: 'got@example.com' });
-    const user3 = eg.makeUser({ name: 'watch', email: 'see@example.com' });
-    const user4 = eg.makeUser({ name: 'mobile', email: 'phone@example.com' });
-    const user5 = eg.makeUser({ name: 'Ring', email: 'got@example.com' });
-    const user6 = eg.makeUser({ name: 'hardware', email: 'software@example.com' });
-    const user7 = eg.makeUser({ name: 'Bob', email: 'tester@example.com' });
+    const user1 = eg.makeUser({ full_name: 'zoe', email: 'allen@example.com' });
+    const user2 = eg.makeUser({ full_name: 'Ring', email: 'got@example.com' });
+    const user3 = eg.makeUser({ full_name: 'watch', email: 'see@example.com' });
+    const user4 = eg.makeUser({ full_name: 'mobile', email: 'phone@example.com' });
+    const user5 = eg.makeUser({ full_name: 'Ring', email: 'got@example.com' });
+    const user6 = eg.makeUser({ full_name: 'hardware', email: 'software@example.com' });
+    const user7 = eg.makeUser({ full_name: 'Bob', email: 'tester@example.com' });
     const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7]);
 
     const expectedUsers = [user7, user6, user4, user2, user5, user3, user1];
@@ -227,12 +227,12 @@ describe('sortAlphabetically', () => {
 
 describe('filterUserStartWith', () => {
   test('returns users whose name starts with filter excluding self', () => {
-    const user1 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user2 = eg.makeUser({ name: 'bob', email: 'f@app.com' });
-    const user3 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user4 = eg.makeUser({ name: 'Mobile app', email: 'p3@p.com' });
-    const user5 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const selfUser = eg.makeUser({ name: 'app', email: 'own@example.com' });
+    const user1 = eg.makeUser({ full_name: 'Apple', email: 'a@example.com' });
+    const user2 = eg.makeUser({ full_name: 'bob', email: 'f@app.com' });
+    const user3 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const user4 = eg.makeUser({ full_name: 'Mobile app', email: 'p3@p.com' });
+    const user5 = eg.makeUser({ full_name: 'Mac App', email: 'p@p2.com' });
+    const selfUser = eg.makeUser({ full_name: 'app', email: 'own@example.com' });
     const users = deepFreeze([user1, user2, user3, user4, user5, selfUser]);
 
     const expectedUsers = [user1, user3];
@@ -240,20 +240,20 @@ describe('filterUserStartWith', () => {
   });
 
   test('returns users whose name contains diacritics but otherwise starts with filter', () => {
-    const withDiacritics = eg.makeUser({ name: 'Frödö', email: 'bagginsf@example.com' });
-    const withoutDiacritics = eg.makeUser({ name: 'Frodo', email: 'bagginz@example.com' });
-    const nonMatchingUser = eg.makeUser({ name: 'Zalix', email: 'zalix@example.com' });
+    const withDiacritics = eg.makeUser({ full_name: 'Frödö', email: 'bagginsf@example.com' });
+    const withoutDiacritics = eg.makeUser({ full_name: 'Frodo', email: 'bagginz@example.com' });
+    const nonMatchingUser = eg.makeUser({ full_name: 'Zalix', email: 'zalix@example.com' });
     const users = deepFreeze([withDiacritics, withoutDiacritics, nonMatchingUser]);
     const expectedUsers = [withDiacritics, withoutDiacritics];
     expect(filterUserStartWith(users, 'Fro', eg.makeUser().user_id)).toEqual(expectedUsers);
   });
 
   test('returns users whose name contains diacritics and filter uses diacritics', () => {
-    const withDiacritics = eg.makeUser({ name: 'Frödö', email: 'bagginsf@example.com' });
-    const withoutDiacritics = eg.makeUser({ name: 'Frodo', email: 'bagginz@example.com' });
-    const wrongDiacritics = eg.makeUser({ name: 'Frōdō', email: 'baggins@example.com' });
-    const notIncludedDiactritic = eg.makeUser({ name: 'Fřödo', email: 'baggins@example.com' });
-    const nonMatchingUser = eg.makeUser({ name: 'Zalix', email: 'zalix@example.com' });
+    const withDiacritics = eg.makeUser({ full_name: 'Frödö', email: 'bagginsf@example.com' });
+    const withoutDiacritics = eg.makeUser({ full_name: 'Frodo', email: 'bagginz@example.com' });
+    const wrongDiacritics = eg.makeUser({ full_name: 'Frōdō', email: 'baggins@example.com' });
+    const notIncludedDiactritic = eg.makeUser({ full_name: 'Fřödo', email: 'baggins@example.com' });
+    const nonMatchingUser = eg.makeUser({ full_name: 'Zalix', email: 'zalix@example.com' });
     const users = deepFreeze([
       withDiacritics,
       withoutDiacritics,
@@ -306,13 +306,13 @@ describe('groupUsersByStatus', () => {
 
 describe('filterUserThatContains', () => {
   test('returns users whose full_name contains filter excluding self', () => {
-    const user1 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user2 = eg.makeUser({ name: 'mam', email: 'f@app.com' });
-    const user3 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user4 = eg.makeUser({ name: 'Mobile app', email: 'p3@p.com' });
-    const user5 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const user6 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const selfUser = eg.makeUser({ name: 'app', email: 'own@example.com' });
+    const user1 = eg.makeUser({ full_name: 'Apple', email: 'a@example.com' });
+    const user2 = eg.makeUser({ full_name: 'mam', email: 'f@app.com' });
+    const user3 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const user4 = eg.makeUser({ full_name: 'Mobile app', email: 'p3@p.com' });
+    const user5 = eg.makeUser({ full_name: 'Mac App', email: 'p@p2.com' });
+    const user6 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const selfUser = eg.makeUser({ full_name: 'app', email: 'own@example.com' });
 
     const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
 
@@ -321,20 +321,23 @@ describe('filterUserThatContains', () => {
   });
 
   test('returns users whose full_name has diacritics but otherwise contains filter', () => {
-    const withDiacritics = eg.makeUser({ name: 'Aärdvärk', email: 'aardvark@example.com' });
-    const withoutDiacritics = eg.makeUser({ name: 'Aardvark', email: 'ard@example.com' });
-    const nonMatchingUser = eg.makeUser({ name: 'Turtle', email: 'turtle@example.com' });
+    const withDiacritics = eg.makeUser({ full_name: 'Aärdvärk', email: 'aardvark@example.com' });
+    const withoutDiacritics = eg.makeUser({ full_name: 'Aardvark', email: 'ard@example.com' });
+    const nonMatchingUser = eg.makeUser({ full_name: 'Turtle', email: 'turtle@example.com' });
     const users = deepFreeze([withDiacritics, withoutDiacritics, nonMatchingUser]);
     const expectedUsers = [withDiacritics, withoutDiacritics];
     expect(filterUserThatContains(users, 'vark', eg.makeUser().user_id)).toEqual(expectedUsers);
   });
 
   test('returns users whose full_name has diacritics and filter uses diacritics', () => {
-    const withDiacritics = eg.makeUser({ name: 'Aärdvärk', email: 'aardvark@example.com' });
-    const withoutDiacritics = eg.makeUser({ name: 'Aardvark', email: 'aardvark@example.com' });
-    const wrongDiacritics = eg.makeUser({ name: 'Aärdvãrk', email: 'aadvark@example.com' });
-    const notIncludedDiactritic = eg.makeUser({ name: 'Aärdväŕk', email: 'aadvark@example.com' });
-    const nonMatchingUser = eg.makeUser({ name: 'Turtle', email: 'turtle@example.com' });
+    const withDiacritics = eg.makeUser({ full_name: 'Aärdvärk', email: 'aardvark@example.com' });
+    const withoutDiacritics = eg.makeUser({ full_name: 'Aardvark', email: 'aardvark@example.com' });
+    const wrongDiacritics = eg.makeUser({ full_name: 'Aärdvãrk', email: 'aadvark@example.com' });
+    const notIncludedDiactritic = eg.makeUser({
+      full_name: 'Aärdväŕk',
+      email: 'aadvark@example.com',
+    });
+    const nonMatchingUser = eg.makeUser({ full_name: 'Turtle', email: 'turtle@example.com' });
     const users = deepFreeze([
       withDiacritics,
       withoutDiacritics,
@@ -349,13 +352,13 @@ describe('filterUserThatContains', () => {
 
 describe('filterUserMatchesEmail', () => {
   test('returns users whose email matches filter excluding self', () => {
-    const user1 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user2 = eg.makeUser({ name: 'mam', email: 'f@app.com' });
-    const user3 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user4 = eg.makeUser({ name: 'Mobile app', email: 'p3@p.com' });
-    const user5 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const user6 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const selfUser = eg.makeUser({ name: 'app', email: 'own@example.com' });
+    const user1 = eg.makeUser({ full_name: 'Apple', email: 'a@example.com' });
+    const user2 = eg.makeUser({ full_name: 'mam', email: 'f@app.com' });
+    const user3 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const user4 = eg.makeUser({ full_name: 'Mobile app', email: 'p3@p.com' });
+    const user5 = eg.makeUser({ full_name: 'Mac App', email: 'p@p2.com' });
+    const user6 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const selfUser = eg.makeUser({ full_name: 'app', email: 'own@example.com' });
 
     const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
     const expectedUsers = [user1];
@@ -365,14 +368,14 @@ describe('filterUserMatchesEmail', () => {
 
 describe('getUniqueUsers', () => {
   test('returns unique users check by email', () => {
-    const user1 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user2 = eg.makeUser({ name: 'Apple', email: 'a@example.com' });
-    const user3 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user4 = eg.makeUser({ name: 'app', email: 'p@p.com' });
-    const user5 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const user6 = eg.makeUser({ name: 'Mac App', email: 'p@p2.com' });
-    const user7 = eg.makeUser({ name: 'Mac App 2', email: 'p@p2.com' });
-    const user8 = eg.makeUser({ name: 'app', email: 'own@example.com' });
+    const user1 = eg.makeUser({ full_name: 'Apple', email: 'a@example.com' });
+    const user2 = eg.makeUser({ full_name: 'Apple', email: 'a@example.com' });
+    const user3 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const user4 = eg.makeUser({ full_name: 'app', email: 'p@p.com' });
+    const user5 = eg.makeUser({ full_name: 'Mac App', email: 'p@p2.com' });
+    const user6 = eg.makeUser({ full_name: 'Mac App', email: 'p@p2.com' });
+    const user7 = eg.makeUser({ full_name: 'Mac App 2', email: 'p@p2.com' });
+    const user8 = eg.makeUser({ full_name: 'app', email: 'own@example.com' });
 
     const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7, user8]);
 
