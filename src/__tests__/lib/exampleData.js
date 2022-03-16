@@ -153,8 +153,9 @@ const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
 const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
   const name = args.name ?? randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
+  const user_id = args.user_id != null ? makeUserId(args.user_id) : randUserId();
   return deepFreeze({
-    avatar_url: args.avatar_url ?? makeAvatarUrl(name),
+    avatar_url: args.avatar_url ?? makeAvatarUrl(user_id.toString()),
 
     date_joined: `2014-04-${randInt(30)
       .toString()
@@ -164,7 +165,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     full_name: args.full_name ?? `${capsName} User`,
     is_admin: false,
     timezone: 'UTC',
-    user_id: args.user_id != null ? makeUserId(args.user_id) : randUserId(),
+    user_id,
   });
 };
 
