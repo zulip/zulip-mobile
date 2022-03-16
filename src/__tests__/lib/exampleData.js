@@ -129,7 +129,6 @@ export const diverseCharacters: string =
  */
 
 type UserOrBotPropertiesArgs = {|
-  name?: string,
   user_id?: number, // accept a plain number, for convenience in tests
   email?: string,
   full_name?: string,
@@ -151,7 +150,7 @@ const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
   makeUniqueRandInt('user IDs', 10000),
 );
 const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
-  const name = args.name ?? randString();
+  const name = randString();
   const capsName = name.substring(0, 1).toUpperCase() + name.substring(1);
   const user_id = args.user_id != null ? makeUserId(args.user_id) : randUserId();
   return deepFreeze({
