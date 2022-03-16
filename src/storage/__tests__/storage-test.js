@@ -82,6 +82,8 @@ test('`eg.plusReduxState` round-trips through storage', async () => {
   // states by "waking up" their `AvatarURL`s.
   [stateBefore, stateAfter].forEach(s => {
     s.users.forEach(u => u.avatar_url.get(100));
+    s.realm.nonActiveUsers.forEach(u => u.avatar_url.get(100));
+    s.realm.crossRealmBots.forEach(u => u.avatar_url.get(100));
     s.messages.forEach(m => m.avatar_url.get(100));
   });
 
