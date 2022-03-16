@@ -46,31 +46,34 @@ It doesn't include
 
 * Support for new Zulip Server 5.0 features:
   * You can now set your status with an emoji. (#4925)
-  * You can now mark a topic as resolved:
-    https://zulip.com/help/resolve-a-topic. (#5202)
-* New "Copy link to topic" button in topic-header long-press menu. (#4863)
-* New "Copy link to stream" button in stream-header long-press menu. (#5154)
+  * You can now mark a topic as resolved. (#5202)
+* New options "Copy link to topic" and "Copy link to stream" when you
+  long-press on a topic or stream. (#4863, #5154)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
 
 
 ### Highlights for developers
 
-* Updated to v0.0.9 of @zulip/shared. (#5292)
 * (Android) Our GitHub release now has a separate APK for each ABI, instead
   of one bigger APK. (#5295)
+
+* Server-version logging tags are now set before reducers handle
+  REGISTER_COMPLETE. (PR #5261)
+* Sentry will now split "Unhandled Zulip API event type" into separate
+  issues per event type. (PR #5243)
+* Breadcrumbs are now sent to Sentry with the `type` and `op` of Zulip
+  events: https://zulip.com/api/get-events (PR #5239)
+
 * For VS Code users, we now properly specify what auto-formatter the project
   uses. (PR #5285)
 * We've finished switching from stream names to stable IDs for identifying
   streams, as far as server support allows. (#3918)
 * No more runtime import cycles, enforced with linting. (PR #5266)
-* Server-version logging tags are now set before reducers handle
-  REGISTER_COMPLETE. (PR #5261)
-* Resumed taking updates from react-native-vector-icons. (PR #5258)
-* Sentry will now split "Unhandled Zulip API event type" into separate
-  issues per event type. (PR #5243)
-* Breadcrumbs are now sent to Sentry with the `type` and `op` of Zulip
-  events: https://zulip.com/api/get-events. (PR #5239)
+* Updated to v0.0.9 of @zulip/shared. (#5292)
 
-* Resolved issues: #3710, #5296, PR #5285, #5022, #4925, #5202, #5255,
+* Resolved issues: #3710, #5295, PR #5285, #5022, #4925, #5202, #5255,
   #5154, #4863, #3918, #5251, #2688, PR #5266, PR #5261, PR #5258, PR #5253,
   #3767, #5014, PR #5243, PR #5239
 
