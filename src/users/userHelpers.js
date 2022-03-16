@@ -6,7 +6,6 @@ import * as typeahead from '@zulip/shared/js/typeahead';
 import type {
   MutedUsersState,
   UserPresence,
-  User,
   UserId,
   UserGroup,
   PresenceState,
@@ -77,9 +76,6 @@ export const filterUserList = (
       || user.full_name.toLowerCase().includes(filter.toLowerCase())
       || user.email.toLowerCase().includes(filter.toLowerCase()),
   );
-
-export const sortAlphabetically = (users: $ReadOnlyArray<User>): $ReadOnlyArray<User> =>
-  [...users].sort((x1, x2) => x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()));
 
 export const filterUserStartWith = (
   users: $ReadOnlyArray<AutocompleteOption>,

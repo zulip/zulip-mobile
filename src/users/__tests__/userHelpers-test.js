@@ -7,7 +7,6 @@ import {
   filterUserList,
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
-  sortAlphabetically,
   filterUserStartWith,
   filterUserThatContains,
   filterUserMatchesEmail,
@@ -206,22 +205,6 @@ describe('sortUserList', () => {
     const sortedUsers = sortUserList(users, presences);
 
     expect(sortedUsers).toEqual(shouldMatch);
-  });
-});
-
-describe('sortAlphabetically', () => {
-  test('alphabetically sort user list by full_name', () => {
-    const user1 = eg.makeUser({ full_name: 'zoe' });
-    const user2 = eg.makeUser({ full_name: 'Ring' });
-    const user3 = eg.makeUser({ full_name: 'watch' });
-    const user4 = eg.makeUser({ full_name: 'mobile' });
-    const user5 = eg.makeUser({ full_name: 'Ring' });
-    const user6 = eg.makeUser({ full_name: 'hardware' });
-    const user7 = eg.makeUser({ full_name: 'Bob' });
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7]);
-
-    const expectedUsers = [user7, user6, user4, user2, user5, user3, user1];
-    expect(sortAlphabetically(users)).toEqual(expectedUsers);
   });
 });
 
