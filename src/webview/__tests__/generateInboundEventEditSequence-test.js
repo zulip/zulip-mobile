@@ -37,9 +37,9 @@ import { getBackgroundData } from '../backgroundData';
 // Our translation function, usually given the name _.
 const mock_ = m => m; // eslint-disable-line no-underscore-dangle
 
-const user1 = eg.makeUser({ user_id: 1, name: 'nonrandom name one' });
-const user2 = eg.makeUser({ user_id: 2, name: 'nonrandom name two' });
-const user3 = eg.makeUser({ user_id: 3, name: 'nonrandom name three' });
+const user1 = eg.makeUser({ user_id: 1, full_name: 'Nonrandom name one User' });
+const user2 = eg.makeUser({ user_id: 2, full_name: 'Nonrandom name two User' });
+const user3 = eg.makeUser({ user_id: 3, full_name: 'Nonrandom name three User' });
 
 const stream1 = eg.makeStream({ stream_id: 1, name: 'stream 1' });
 const stream2 = eg.makeStream({ stream_id: 2, name: 'stream 2' });
@@ -414,11 +414,14 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
   });
 
   describe('other interesting cases (single messages)', () => {
-    const stableSelfUser = eg.makeUser({ user_id: 1, name: 'nonrandom name self' });
-    const stableOtherUser = eg.makeUser({ user_id: 2, name: 'nonrandom name other' });
-    const stableThirdUser = eg.makeUser({ user_id: 3, name: 'nonrandom name third' });
+    const stableSelfUser = eg.makeUser({ user_id: 1, full_name: 'Nonrandom name self User' });
+    const stableOtherUser = eg.makeUser({ user_id: 2, full_name: 'Nonrandom name other User' });
+    const stableThirdUser = eg.makeUser({ user_id: 3, full_name: 'Nonrandom name third User' });
 
-    const singleMessageSender = eg.makeUser({ user_id: 10, name: 'nonrandom name sender' });
+    const singleMessageSender = eg.makeUser({
+      user_id: 10,
+      full_name: 'Nonrandom name sender User',
+    });
     const baseSingleMessage = eg.streamMessage({
       id: -1,
       timestamp: -1,
