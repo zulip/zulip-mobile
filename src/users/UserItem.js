@@ -24,6 +24,9 @@ const componentStyles = createStyleSheet({
   text: {
     marginLeft: 16,
   },
+  textWrapper: {
+    flexShrink: 1,
+  },
   selectedText: {
     color: 'white',
   },
@@ -33,6 +36,7 @@ const componentStyles = createStyleSheet({
   },
   spacer: {
     flex: 1,
+    minWidth: 4,
   },
 });
 
@@ -77,7 +81,7 @@ export function UserItemRaw<
           isMuted={isMuted}
           onPress={onPress && handlePress}
         />
-        <View>
+        <View style={componentStyles.textWrapper}>
           <ZulipText
             style={[componentStyles.text, isSelected && componentStyles.selectedText]}
             text={isMuted ? _('Muted user') : user.full_name}
