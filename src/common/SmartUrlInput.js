@@ -86,6 +86,14 @@ export default function SmartUrlInput(props: Props): Node {
   useFocusEffect(
     useCallback(() => {
       if (textInputRef.current) {
+        // Sometimes the effect of this `.focus()` is immediately undone
+        // (the keyboard is closed) by a Keyboard.dismiss() from React
+        // Navigation's internals. Seems like a complex bug, but the symptom
+        // isn't terrible, it just means that on back-navigating to this
+        // screen, sometimes the keyboard flicks open then closed, instead
+        // of just opening. Shrug. See
+        //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/realm-input/near/1346690
+        //
         // `.current` is not type-checked; see definition.
         textInputRef.current.focus();
       }
