@@ -17,5 +17,9 @@ export default (
     description?: string,
     new_name?: string,
     is_private?: boolean,
+    is_web_public?: boolean,
+    stream_post_policy?: number,
+    history_public_to_subscribers?: boolean,
+    message_retention_days?: number,
   |}>,
 ): Promise<ApiResponse> => apiPatch(auth, `streams/${id}`, params);
