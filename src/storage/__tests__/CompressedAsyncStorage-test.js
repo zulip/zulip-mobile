@@ -5,6 +5,28 @@ import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import * as logging from '../../utils/logging';
 import * as eg from '../../__tests__/lib/exampleData';
 
+test('smoke-test all methods, end to end', async () => {
+  await CompressedAsyncStorage.clear();
+  expect(await CompressedAsyncStorage.getAllKeys()).toEqual([]);
+
+  await CompressedAsyncStorage.setItem('a', JSON.stringify('aa'));
+  await CompressedAsyncStorage.multiSet([
+    ['b', JSON.stringify('bb')],
+    ['c', JSON.stringify('cc')],
+  ]);
+  expect([...(await CompressedAsyncStorage.getAllKeys())].sort()).toEqual(['a', 'b', 'c']);
+  expect(await CompressedAsyncStorage.getItem('a')).toEqual(JSON.stringify('aa'));
+  expect(await CompressedAsyncStorage.getItem('b')).toEqual(JSON.stringify('bb'));
+  expect(await CompressedAsyncStorage.getItem('d')).toEqual(null);
+
+  await CompressedAsyncStorage.removeItem('b');
+  expect([...(await CompressedAsyncStorage.getAllKeys())].sort()).toEqual(['a', 'c']);
+  expect(await CompressedAsyncStorage.getItem('b')).toEqual(null);
+
+  await CompressedAsyncStorage.clear();
+  expect(await CompressedAsyncStorage.getAllKeys()).toEqual([]);
+});
+
 describe('setItem', () => {
   const key = 'foo!';
   const value = '123!';
