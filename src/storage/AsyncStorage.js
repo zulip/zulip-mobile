@@ -22,7 +22,7 @@ import { SQLDatabase } from './sqlite';
 //   too, and not have to follow the old names.
 
 // A better name for this class might be simply AsyncStorage.
-// But for now we reserve that name for the thing that's a drop-in
+// But for now we reserve that name for the thing that's a (nearly) drop-in
 // replacement for the upstream AsyncStorage, which isn't this class itself
 // but rather an instance of it.
 export class AsyncStorageImpl {
@@ -108,5 +108,28 @@ export class AsyncStorageImpl {
   }
 }
 
-// Drop-in replacement for (certain methods of) RN's AsyncStorage.
+/**
+ * A sound, nearly-drop-in replacement for RN's AsyncStorage.
+ *
+ * The methods should be invoked as methods, like `AsyncStorage.foo()`.
+ *
+ * Under that convention, and for the methods it has, this is a perfectly
+ * drop-in replacement for the upstream AsyncStorage, meaning that it will
+ * always satisfy the spec for how the upstream AsyncStorage behaves.
+ *
+ * The difference is that it also satisfies a tighter spec: each operation
+ * either happens completely or not at all.  No operation corrupts the
+ * database or has only partial effect, even if the process is killed or
+ * encounters I/O errors.
+ *
+ * This is accomplished by using SQLite, and doing each operation in a
+ * transaction.  The upstream AsyncStorage does the same thing on Android;
+ * but on iOS, it uses an ad-hoc database which is susceptible to complete
+ * corruption if interrupted.
+ *
+ * (If one pokes around other than by invoking the methods as methods, this
+ * implementation has incidental other differences: these are real methods
+ * that come from a prototype and use `this`, while the upstream
+ * AsyncStorage is a plain object with functions as its own properties.)
+ */
 export const AsyncStorage: AsyncStorageImpl = new AsyncStorageImpl();
