@@ -83,6 +83,7 @@ export const IconTerminal: SpecificIconType = makeIcon(Feather, 'terminal');
 export const IconMoreHorizontal: SpecificIconType = makeIcon(Feather, 'more-horizontal');
 export const IconEdit: SpecificIconType = makeIcon(Feather, 'edit');
 export const IconPlusSquare: SpecificIconType = makeIcon(Feather, 'plus-square');
+export const IconList: SpecificIconType = makeIcon(Feather, 'align-left');
 export const IconVideo: SpecificIconType = makeIcon(Feather, 'video');
 export const IconUserMuted: SpecificIconType = makeIcon(FontAwesome, 'user');
 export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
