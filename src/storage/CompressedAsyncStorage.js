@@ -105,9 +105,9 @@ export default class CompressedAsyncStorage {
     );
   }
 
-  static removeItem: typeof AsyncStorage.removeItem = AsyncStorage.removeItem;
+  static removeItem: typeof AsyncStorage.removeItem = key => AsyncStorage.removeItem(key);
 
-  static getAllKeys: typeof AsyncStorage.getAllKeys = AsyncStorage.getAllKeys;
+  static getAllKeys: typeof AsyncStorage.getAllKeys = () => AsyncStorage.getAllKeys();
 
-  static clear: typeof AsyncStorage.clear = AsyncStorage.clear;
+  static clear: typeof AsyncStorage.clear = () => AsyncStorage.clear();
 }
