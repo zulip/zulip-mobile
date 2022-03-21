@@ -29,7 +29,7 @@ import { getAuth, getCaughtUpForNarrow } from '../selectors';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
-import { useEdgeTriggeredEffect } from '../reactUtils';
+import { useConditionalEffect } from '../reactUtils';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -71,9 +71,9 @@ const useMessagesWithFetch = args => {
   // like using instance variables in class components:
   //   https://reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
   const shouldFetchWhenNextFocused = React.useRef<boolean>(false);
-  const scheduleFetch = () => {
+  const scheduleFetch = useCallback(() => {
     shouldFetchWhenNextFocused.current = true;
-  };
+  }, []);
 
   const [fetchError, setFetchError] = React.useState<mixed>(null);
 
@@ -92,7 +92,7 @@ const useMessagesWithFetch = args => {
     if (eventQueueId !== null) {
       scheduleFetch();
     }
-  }, [eventQueueId]);
+  }, [eventQueueId, scheduleFetch]);
 
   // If we stop having any data at all about the messages in this narrow --
   // we don't know any, and nor do we know if there are some -- then
@@ -104,7 +104,7 @@ const useMessagesWithFetch = args => {
   //   isFetching false, even though the fetch effect will cause a rerender
   //   with isFetching true.  It'd be nice to avoid that.
   const nothingKnown = messages.length === 0 && !caughtUp.older && !caughtUp.newer;
-  useEdgeTriggeredEffect(scheduleFetch, nothingKnown, true);
+  useConditionalEffect(scheduleFetch, nothingKnown);
 
   // On first mount, fetch.  (This also makes a fetch no longer scheduled,
   // so the if-scheduled fetch below doesn't also fire.)
