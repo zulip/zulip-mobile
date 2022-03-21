@@ -115,3 +115,24 @@ export const useEdgeTriggeredEffect = (
     // No dependencies list -- the effect itself decides whether to act.
   });
 };
+
+/**
+ * Like `useEffect`, but the callback only runs when `value` is true.
+ *
+ * Callers should wrap the callback in `useCallback` with an appropriate
+ * array of dependencies.
+ *
+ * The callback will run once at the beginning of every period of `value`
+ * being true, and again throughout such a period whenever the value of the
+ * callback changes.
+ *
+ * As with `useEffect`, the cleanup function, if provided, will run once for
+ * every time the callback is called. If `value` goes from true to false,
+ * the cleanup function will be called at that time.
+ */
+// The claims about when `cb` runs assume that useEffect doesn't run its
+// callback on non-initial renders where its dependencies are unchanged. The
+// docs could be clearer about that:
+//   https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
+export const useConditionalEffect = (cb: () => void | (() => void), value: boolean): void =>
+  useEffect(() => (value ? cb() : undefined), [value, cb]);
