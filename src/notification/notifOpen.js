@@ -234,7 +234,8 @@ export const narrowToNotification =
       // the active account, and want to dispatch a per-account action there.
       // For the present, we just use the fact that our GlobalDispatch value
       // is the same function as we use for Dispatch.
-      // TODO(#5006): perhaps have an extra `activeAccountDispatch: Dispatch`?
+      // TODO(#5006): perhaps have an `activeAccountDispatch: Dispatch` in a
+      //   new GlobalThunkExtras, modeled on ThunkExtras?
       (dispatch: $FlowFixMe)(doNarrow(narrow));
     }
   };
