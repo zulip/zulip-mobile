@@ -413,7 +413,9 @@ declare module 'react-intl' {
     formatList(values: Array<string>, opts?: FormatListOptions): string;
     formatList(values: Array<string | React$Node>, opts?: FormatListOptions): React$Node;
     formatDisplayName(
-      value: $ElementType<Parameters<$PropertyType<DisplayNames, 'of'>>, 0>,
+      // First param of our DisplayNames.prototype.of()
+      value: string | number | {| [key: string]: any |},
+
       opts?: FormatDisplayNameOptions,
     ): string | void;
   }
