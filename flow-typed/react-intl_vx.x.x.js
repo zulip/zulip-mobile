@@ -289,6 +289,12 @@ declare module 'react-intl' {
     formatDisplayName: FormatDisplayNameOptions,
     ...
   };
+
+  // FlowIssue: Looks like we really want something like
+  //     getDateTimeFormat: ConstructorOf<Intl.DateTimeFormat>
+  //   but Flow doesn't have something like ConstructorOf; see
+  //     https://github.com/facebook/flow/issues/1409#issuecomment-184443566
+  declare type ConstructorParameters<C> = $FlowIssue[];
   declare export interface Formatters {
     getDateTimeFormat(
       ...args: ConstructorParameters<typeof Intl.DateTimeFormat>
@@ -309,6 +315,7 @@ declare module 'react-intl' {
     ): Intl$DateTimeFormat;
     getPluralRules(...args: ConstructorParameters<typeof Intl.PluralRules>): Intl$PluralRules;
   }
+
   declare type FormatXMLElementFn<T, R = string | Array<string | T>> = (
     parts: Array<string | T>,
   ) => R;
