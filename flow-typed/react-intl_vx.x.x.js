@@ -210,7 +210,7 @@ declare module 'react-intl' {
   declare export var FormattedDateParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-      children(val: Intl.DateTimeFormatPart[]): React$Element | null,
+      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element | null,
       ...
     }, >;
   declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
@@ -278,7 +278,7 @@ declare module 'react-intl' {
   declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-      children(val: Intl.DateTimeFormatPart[]): React$Element | null,
+      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element | null,
       ...
     }, >;
   declare type Formatter = {
@@ -386,11 +386,11 @@ declare module 'react-intl' {
     formatDateToParts(
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
-    ): Intl.DateTimeFormatPart[];
+    ): $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>;
     formatTimeToParts(
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
-    ): Intl.DateTimeFormatPart[];
+    ): $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>;
     formatRelativeTime(
       value: number, // First param of our RelativeTimeFormat.prototype.format()
       unit?: FormattableUnit, // Second param of our RelativeTimeFormat.prototype.format()
