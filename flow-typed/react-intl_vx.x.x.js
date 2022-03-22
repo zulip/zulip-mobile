@@ -387,11 +387,11 @@ declare module 'react-intl' {
       opts?: FormatRelativeTimeOptions,
     ): string;
     formatNumber(
-      value: $ElementType<Parameters<$PropertyType<Intl.NumberFormat, 'format'>>, 0>,
+      value: number, // Param of Intl.NumberFormat.prototype.format()
       opts?: FormatNumberOptions,
     ): string;
     formatNumberToParts(
-      value: $ElementType<Parameters<$PropertyType<Intl.NumberFormat, 'format'>>, 0>,
+      value: number, // Param of Intl.NumberFormat.prototype.format()
       opts?: FormatNumberOptions,
     ): Intl.NumberFormatPart[];
     formatPlural(
