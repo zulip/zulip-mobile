@@ -395,7 +395,7 @@ declare module 'react-intl' {
       opts?: FormatNumberOptions,
     ): Intl.NumberFormatPart[];
     formatPlural(
-      value: $ElementType<Parameters<$PropertyType<Intl.PluralRules, 'select'>>, 0>,
+      value: number, // Param of Intl.PluralRules.prototype.select()
       opts?: FormatPluralOptions,
     ): $Call<<R>((...args: any[]) => R) => R, $PropertyType<Intl.PluralRules, 'select'>>;
     formatMessage(
