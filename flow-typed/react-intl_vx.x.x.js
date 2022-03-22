@@ -210,7 +210,7 @@ declare module 'react-intl' {
   declare export var FormattedDateParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element | null,
+      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
       ...
     }, >;
   declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
@@ -227,7 +227,7 @@ declare module 'react-intl' {
     V: {| +[key: string]: any |} = {|
       +[key: string]:
         | PrimitiveType
-        | React$Element
+        | React$Element<React$ElementType>
         | FormatXMLElementFn<React$Node, React$Node>,
     |},
     // Changed `mixins` to `extends` in TS to Flow translation
@@ -251,7 +251,7 @@ declare module 'react-intl' {
       // Callers will get a Flow error until Flow adds a built-in
       // definition for Intl.NumberFormat.prototype.formatToParts():
       //   https://github.com/facebook/flow/issues/8859
-      children(val: $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>): React$Element | null,
+      children(val: $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
       ...
     }, >;
   declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlProps<Props_2>> & {
@@ -281,7 +281,7 @@ declare module 'react-intl' {
   declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
       value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element | null,
+      children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
       ...
     }, >;
   declare type Formatter = {
@@ -847,7 +847,7 @@ declare module 'react-intl' {
     value?: number,
     unit?: Unit,
     updateIntervalInSeconds?: number,
-    children?: (value: string) => React$Element | string | number,
+    children?: (value: string) => React$Element<React$ElementType> | string | number,
     ...
   } & FormatRelativeTimeOptions;
   declare type Props_2 = {
@@ -859,7 +859,7 @@ declare module 'react-intl' {
     two?: React$Node,
     few?: React$Node,
     many?: React$Node,
-    children?: (value: React$Node) => React$Element | null,
+    children?: (value: React$Node) => React$Element<React$ElementType> | null,
     ...
   } & FormatPluralOptions;
   declare type Props_3<V: {| +[key: string]: any |} = {| +[key: string]: React$Node |}> = {
