@@ -189,7 +189,7 @@ declare module 'react-intl' {
   declare export type FormatListOptions = Exclude<IntlListFormatOptions, 'localeMatcher'>;
   declare export type FormatNumberOptions = Exclude<NumberFormatOptions, 'localeMatcher'> &
     CustomFormatConfig;
-  declare export type FormatPluralOptions = Exclude<Intl.PluralRulesOptions, 'localeMatcher'> &
+  declare export type FormatPluralOptions = Exclude<Intl$PluralRulesOptions, 'localeMatcher'> &
     CustomFormatConfig;
   declare export type FormatRelativeTimeOptions = Exclude<
     IntlRelativeTimeFormatOptions,
@@ -812,7 +812,7 @@ declare module 'react-intl' {
   declare type PluralElement = {
     options: {| [key: ValidPluralRule]: PluralOrSelectOption |},
     offset: number,
-    pluralType: $PropertyType<Intl.PluralRulesOptions, 'type'>,
+    pluralType: $PropertyType<Intl$PluralRulesOptions, 'type'>,
     ...
   } & BaseElement<typeof TYPE.plural>;
   declare interface PluralOrSelectOption {
