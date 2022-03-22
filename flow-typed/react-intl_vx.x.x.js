@@ -382,8 +382,8 @@ declare module 'react-intl' {
       opts?: FormatDateOptions,
     ): Intl.DateTimeFormatPart[];
     formatRelativeTime(
-      value: $ElementType<Parameters<$PropertyType<RelativeTimeFormat, 'format'>>, 0>,
-      unit?: $ElementType<Parameters<$PropertyType<RelativeTimeFormat, 'format'>>, 1>,
+      value: number, // First param of our RelativeTimeFormat.prototype.format()
+      unit?: FormattableUnit, // Second param of our RelativeTimeFormat.prototype.format()
       opts?: FormatRelativeTimeOptions,
     ): string;
     formatNumber(
