@@ -55,7 +55,7 @@ declare module 'react-intl' {
       | 'roc',
     numberingSystem?: string,
     ...
-  } & Intl.DateTimeFormatOptions;
+  } & Intl$DateTimeFormatOptions;
   declare interface DateTimeSkeleton {
     type: typeof SKELETON_TYPE.dateTime;
     pattern: string;
@@ -197,8 +197,8 @@ declare module 'react-intl' {
     CustomFormatConfig;
   declare interface Formats {
     number: {| [key: string]: Intl.NumberFormatOptions |};
-    date: {| [key: string]: Intl.DateTimeFormatOptions |};
-    time: {| [key: string]: Intl.DateTimeFormatOptions |};
+    date: {| [key: string]: Intl$DateTimeFormatOptions |};
+    time: {| [key: string]: Intl$DateTimeFormatOptions |};
   }
   declare type FormattableUnit = Unit | Units;
   declare export var FormattedDate: React$StatelessFunctionalComponent<
