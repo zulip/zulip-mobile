@@ -209,7 +209,7 @@ declare module 'react-intl' {
       }, >;
   declare export var FormattedDateParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       children(val: Intl.DateTimeFormatPart[]): React$Element | null,
       ...
     }, >;
@@ -274,7 +274,7 @@ declare module 'react-intl' {
       }, >;
   declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
     FormatDateOptions & {
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       children(val: Intl.DateTimeFormatPart[]): React$Element | null,
       ...
     }, >;
@@ -366,19 +366,19 @@ declare module 'react-intl' {
   declare export var IntlContext: React$Context<IntlShape>;
   declare export interface IntlFormatters<T = React$Node, R = T> {
     formatDate(
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
     ): string;
     formatTime(
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
     ): string;
     formatDateToParts(
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
     ): Intl.DateTimeFormatPart[];
     formatTimeToParts(
-      value: $ElementType<Parameters<$PropertyType<Intl.DateTimeFormat, 'format'>>, 0> | string,
+      value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
       opts?: FormatDateOptions,
     ): Intl.DateTimeFormatPart[];
     formatRelativeTime(
