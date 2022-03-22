@@ -232,7 +232,6 @@ declare module 'react-intl' {
     |},
     // Changed `mixins` to `extends` in TS to Flow translation
   > extends React$Component<Props_3<V>> {
-    static displayName: string;
     shouldComponentUpdate(nextProps: Props_3<V>): boolean;
     render(): React$Node;
   }
@@ -261,7 +260,6 @@ declare module 'react-intl' {
   // Changed `mixins` to `extends` in TS to Flow translation
   declare export class FormattedRelativeTime extends React$PureComponent<Props, State_2> {
     _updateTimer: any;
-    static displayName: string;
     static defaultProps: Pick<Props, 'unit' | 'value'>;
     state: State_2;
     constructor(props: Props): this;
@@ -580,7 +578,6 @@ declare module 'react-intl' {
     |},
     State,
   > {
-    static displayName: string;
     static defaultProps: Pick<
       IntlConfig,
       | 'formats'
