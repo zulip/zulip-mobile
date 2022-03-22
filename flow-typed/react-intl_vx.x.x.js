@@ -248,7 +248,10 @@ declare module 'react-intl' {
        // IntlFormatters.formatNumber
       value: number,
 
-      children(val: Intl.NumberFormatPart[]): React$Element | null,
+      // Callers will get a Flow error until Flow adds a built-in
+      // definition for Intl.NumberFormat.prototype.formatToParts():
+      //   https://github.com/facebook/flow/issues/8859
+      children(val: $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>): React$Element | null,
       ...
     }, >;
   declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlProps<Props_2>> & {
@@ -403,7 +406,11 @@ declare module 'react-intl' {
     formatNumberToParts(
       value: number, // Param of Intl.NumberFormat.prototype.format()
       opts?: FormatNumberOptions,
-    ): Intl.NumberFormatPart[];
+
+      // Callers will get a Flow error until Flow adds a built-in
+      // definition for Intl.NumberFormat.prototype.formatToParts():
+      //   https://github.com/facebook/flow/issues/8859
+    ): $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>;
     formatPlural(
       value: number, // Param of Intl.PluralRules.prototype.select()
       opts?: FormatPluralOptions,
@@ -923,7 +930,11 @@ declare module 'react-intl' {
   declare type RelativeTimeFormatNumberPart = {
     unit: Unit,
     ...
-  } & Intl.NumberFormatPart;
+
+    // Callers will get a Flow error until Flow adds a built-in
+    // definition for Intl.NumberFormat.prototype.formatToParts():
+    //   https://github.com/facebook/flow/issues/8859
+  } & $ElementType<$Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>, number>;
   declare type RelativeTimeLocaleData = LocaleData<LocaleFieldsData>;
   declare interface ResolvedIntlListFormatOptions {
     /**
