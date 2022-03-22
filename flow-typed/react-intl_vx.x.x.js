@@ -244,7 +244,10 @@ declare module 'react-intl' {
       }, >;
   declare export var FormattedNumberParts: React$StatelessFunctionalComponent<
     $PropertyType<Formatter, 'formatNumber'> & {
-      value: $ElementType<Parameters<$PropertyType<IntlShape, 'formatNumber'>>, 0>,
+       // Param type of our IntlShape.formatNumber, alias of our
+       // IntlFormatters.formatNumber
+      value: number,
+
       children(val: Intl.NumberFormatPart[]): React$Element | null,
       ...
     }, >;
