@@ -196,7 +196,7 @@ declare module 'react-intl' {
     'localeMatcher', > &
     CustomFormatConfig;
   declare interface Formats {
-    number: {| [key: string]: Intl.NumberFormatOptions |};
+    number: {| [key: string]: Intl$NumberFormatOptions |};
     date: {| [key: string]: Intl$DateTimeFormatOptions |};
     time: {| [key: string]: Intl$DateTimeFormatOptions |};
   }
@@ -726,7 +726,7 @@ declare module 'react-intl' {
     maximumFractionDigits?: number;
   }
   declare type NumberFormatNotation = 'standard' | 'scientific' | 'engineering' | 'compact';
-  declare type NumberFormatOptions = Intl.NumberFormatOptions &
+  declare type NumberFormatOptions = Intl$NumberFormatOptions &
     NumberFormatDigitOptions & {
       localeMatcher?: NumberFormatOptionsLocaleMatcher,
       style?: NumberFormatOptionsStyle,
