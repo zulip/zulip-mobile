@@ -292,22 +292,22 @@ declare module 'react-intl' {
   declare export interface Formatters {
     getDateTimeFormat(
       ...args: ConstructorParameters<typeof Intl.DateTimeFormat>
-    ): Intl.DateTimeFormat;
-    getNumberFormat(...args: ConstructorParameters<typeof Intl.NumberFormat>): Intl.NumberFormat;
+    ): Intl$DateTimeFormat;
+    getNumberFormat(...args: ConstructorParameters<typeof Intl.NumberFormat>): Intl$NumberFormat;
     getMessageFormat(...args: ConstructorParameters<typeof IntlMessageFormat>): IntlMessageFormat;
     getRelativeTimeFormat(
       ...args: ConstructorParameters<typeof RelativeTimeFormat>
     ): RelativeTimeFormat;
-    getPluralRules(...args: ConstructorParameters<typeof Intl.PluralRules>): Intl.PluralRules;
+    getPluralRules(...args: ConstructorParameters<typeof Intl.PluralRules>): Intl$PluralRules;
     getListFormat(...args: ConstructorParameters<typeof ListFormat>): ListFormat;
     getDisplayNames(...args: ConstructorParameters<typeof DisplayNames>): DisplayNames;
   }
   declare interface Formatters_2 {
-    getNumberFormat(...args: ConstructorParameters<typeof Intl.NumberFormat>): Intl.NumberFormat;
+    getNumberFormat(...args: ConstructorParameters<typeof Intl.NumberFormat>): Intl$NumberFormat;
     getDateTimeFormat(
       ...args: ConstructorParameters<typeof Intl.DateTimeFormat>
-    ): Intl.DateTimeFormat;
-    getPluralRules(...args: ConstructorParameters<typeof Intl.PluralRules>): Intl.PluralRules;
+    ): Intl$DateTimeFormat;
+    getPluralRules(...args: ConstructorParameters<typeof Intl.PluralRules>): Intl$PluralRules;
   }
   declare type FormatXMLElementFn<T, R = string | Array<string | T>> = (
     parts: Array<string | T>,
