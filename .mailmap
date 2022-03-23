@@ -12,6 +12,7 @@
 #     # shows raw names/emails, filtered by mapped name:
 #   $ git log --format='%an %ae' --author=$NAME | uniq -c
 
+Akash Dhiman <akash.d0407@gmail.com>
 Alicja Raszkowska <malavarena@gmail.com>
 Alicja Raszkowska <malavarena@gmail.com> <trueskawka@users.noreply.github.com>
 Anirudh Jain <anirudh.jain@outlook.com>
