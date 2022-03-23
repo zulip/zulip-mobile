@@ -36,7 +36,6 @@ declare module 'react-native-safe-area-context/SafeArea.types' {
 declare module 'react-native-safe-area-context/SafeAreaContext' {
   import type {
     Rect,
-    NativeSafeAreaViewProps,
     EdgeInsets,
     Metrics,
   } from 'react-native-safe-area-context/SafeArea.types';
