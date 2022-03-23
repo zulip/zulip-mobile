@@ -350,7 +350,7 @@ declare module 'react-intl' {
     number: {| [key: string]: Intl.NumberFormat |};
     message: {| [key: string]: IntlMessageFormat |};
     relativeTime: {| [key: string]: RelativeTimeFormat |};
-    pluralRules: {| [key: string]: Intl.PluralRules |};
+    pluralRules: {| [key: string]: typeof Intl.PluralRules |};
     list: {| [key: string]: ListFormat |};
     displayNames: {| [key: string]: DisplayNames |};
   }
@@ -412,7 +412,7 @@ declare module 'react-intl' {
     formatPlural(
       value: number, // Param of Intl.PluralRules.prototype.select()
       opts?: FormatPluralOptions,
-    ): $Call<<R>((...args: any[]) => R) => R, $PropertyType<Intl.PluralRules, 'select'>>;
+    ): $Call<<R>((...args: any[]) => R) => R, $PropertyType<typeof Intl.PluralRules, 'select'>>;
     formatMessage(
       descriptor: MessageDescriptor,
       // The `+` was added to make the properties covariant rather
