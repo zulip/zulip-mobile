@@ -337,10 +337,48 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         type: opToActionUserGroup[event.op],
       };
 
+    case 'user_settings':
+      // TODO(#4933): Start handling these `user_settings` events.
+      return null;
+
+    case 'hotspots':
+      // Ignore these `hotspots` events.  They're about the tutorial
+      // experience which is specific to the Zulip web app:
+      //   https://zulip.com/api/get-events#hotspots
+      return null;
+
     case 'attachment':
-      // We ignore these events.  We'd want them in a future where we add a
-      // UI that lists the attachments you've uploaded:
+      // Ignore these `attachment` events.  We'd want them in a future
+      // where we add a UI that lists the attachments you've uploaded:
       //   https://zulip.com/api/get-events#attachment-add
+      return null;
+
+    case 'has_zoom_token':
+      // Ignore these `has_zoom_token` events.  We'd want them if
+      // supporting creating a Zoom call:
+      //   https://zulip.com/api/get-events#has_zoom_token
+      return null;
+
+    case 'drafts':
+      // Ignore these `drafts` events.  We'll need them as part of #4932,
+      // syncing drafts with the server.
+      return null;
+
+    case 'default_streams':
+    case 'default_stream_groups':
+    case 'invites_changed':
+    case 'realm_domains':
+      // Ignore these event types.  We'll need them as part of #3962 or
+      // followup tasks to that, supporting inviting other users to Zulip.
+      // We'd also need them as part of a full org-settings UI.
+      return null;
+
+    case 'custom_profile_fields':
+    case 'realm_export':
+    case 'realm_playgrounds':
+    case 'realm_user_settings_defaults':
+      // Ignore these event types.  We'll need them eventually as part of a
+      // full org-settings UI.
       return null;
 
     default:
