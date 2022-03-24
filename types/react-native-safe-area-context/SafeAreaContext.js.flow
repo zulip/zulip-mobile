@@ -1,0 +1,46 @@
+/**
+ * Types for the NPM package `react-native-safe-area-context`.
+ *
+ * Translated from
+ *   node_modules/react-native-safe-area-context/lib/typescript/src/SafeAreaContext.d.ts
+ *
+ * @flow strict-local
+ */
+
+import type { Node, Context } from 'react';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+
+import type { Rect, EdgeInsets, Metrics } from './SafeArea.types';
+
+declare export var SafeAreaInsetsContext: Context<EdgeInsets | null>;
+declare export var SafeAreaFrameContext: Context<Rect | null>;
+export type SafeAreaViewProps = {|
+  children?: Node;
+  initialMetrics?: Metrics | null;
+
+  /**
+   * @deprecated
+   */
+  initialSafeAreaInsets?: EdgeInsets | null;
+  style?: ViewStyleProp;
+|}
+declare export function SafeAreaProvider(x: SafeAreaViewProps): React$Node;
+declare export function useSafeAreaInsets(): EdgeInsets;
+declare export function useSafeAreaFrame(): Rect;
+declare export function withSafeAreaInsets<P: { ... }>(
+  WrappedComponent: React$ComponentType<$Exact<P>>,
+): React$ComponentType<{| ...$Exact<P>, +ref?: React$Ref<$Exact<P>> |}>;
+
+/**
+ * @deprecated
+ */
+declare export function useSafeArea(): EdgeInsets;
+
+/**
+ * @deprecated
+ */
+declare export var SafeAreaConsumer: typeof SafeAreaInsetsContext.Consumer;
+/**
+ * @deprecated
+ */
+declare export var SafeAreaContext: Context<EdgeInsets | null>;

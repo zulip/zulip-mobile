@@ -1,0 +1,18 @@
+/**
+ * Types for the NPM package `react-native-safe-area-context`.
+ *
+ * Translated from
+ *   node_modules/react-native-safe-area-context/lib/typescript/src/InitialWindow.d.ts
+ *
+ * @flow strict-local
+ */
+
+// Not sure why Prettier wants to remove this.
+// prettier-ignore
+import type { Metrics, EdgeInsets } from './SafeArea.types';
+
+declare export var initialWindowMetrics: Metrics | null;
+/**
+ * @deprecated
+ */
+declare export var initialWindowSafeAreaInsets: EdgeInsets | null;

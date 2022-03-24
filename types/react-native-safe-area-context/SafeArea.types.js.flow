@@ -1,0 +1,45 @@
+/**
+ * Types for the NPM package `react-native-safe-area-context`.
+ *
+ * Translated from
+ *   node_modules/react-native-safe-area-context/lib/typescript/src/SafeArea.types.d.ts
+ *
+ * @flow strict-local
+ */
+
+import type { Node } from 'react';
+import type { SyntheticEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+
+export type Edge = 'top' | 'right' | 'bottom' | 'left';
+export interface EdgeInsets {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+export interface Rect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+export interface Metrics {
+  insets: EdgeInsets;
+  frame: Rect;
+}
+export type InsetChangedEvent = SyntheticEvent<Metrics>;
+export type InsetChangeNativeCallback = (event: InsetChangedEvent) => void;
+export interface NativeSafeAreaProviderProps {
+  children?: Node;
+  style?: ViewStyleProp;
+  onInsetsChange: InsetChangeNativeCallback;
+}
+export type NativeSafeAreaViewProps = {
+  ...ViewProps,
+  children?: Node,
+  mode?: 'padding' | 'margin',
+  edges?: $ReadOnlyArray<Edge>,
+  ...
+};

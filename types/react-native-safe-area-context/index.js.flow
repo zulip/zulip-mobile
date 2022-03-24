@@ -1,0 +1,13 @@
+/**
+ * Types for the NPM package `react-native-safe-area-context`.
+ *
+ * Translated from
+ *   node_modules/react-native-safe-area-context/lib/typescript/src/index.d.ts
+ *
+ * @flow strict-local
+ */
+
+declare export * from './SafeAreaContext'
+declare export * from './SafeAreaView'
+declare export * from './InitialWindow'
+declare export * from './SafeArea.types'

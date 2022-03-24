@@ -120,7 +120,7 @@ module.name_mapper='^react-native/\(.*\)$' -> '<PROJECT_ROOT>/node_modules/react
 module.name_mapper='^@?[./a-zA-Z0-9$_-]+\.\(bmp\|gif\|jpg\|jpeg\|png\|psd\|svg\|webp\|m4v\|mov\|mp4\|mpeg\|mpg\|webm\|aac\|aiff\|caf\|m4a\|mp3\|wav\|html\|pdf\)$' -> '<PROJECT_ROOT>/node_modules/react-native/Libraries/Image/RelativeImageStub'
 # This lets us write .js.flow files instead of libdefs.
 # Add more libraries as needed to this pattern with `\|`: `foo\|bar\|…`.
-module.name_mapper='^\(sqlite3\|@react-native-community/netinfo\|react-intl\|@react-navigation/bottom-tabs\|@react-navigation/drawer\|@react-navigation/material-top-tabs\|@react-navigation/native\|@react-navigation/stack\)$' -> '<PROJECT_ROOT>/types/\0'
+module.name_mapper='^\(sqlite3\|@react-native-community/netinfo\|react-native-safe-area-context\|react-intl\|@react-navigation/bottom-tabs\|@react-navigation/drawer\|@react-navigation/material-top-tabs\|@react-navigation/native\|@react-navigation/stack\)$' -> '<PROJECT_ROOT>/types/\0'
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
