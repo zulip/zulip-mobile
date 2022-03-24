@@ -49,6 +49,8 @@ export const EventTypes = keyMirror({
   user_status: null,
 });
 
+export type EventType = $Keys<typeof EventTypes>;
+
 type EventCommon = $ReadOnly<{|
   id: number,
 |}>;

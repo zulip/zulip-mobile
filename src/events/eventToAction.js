@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { EventTypes } from '../api/eventTypes';
+import { EventTypes, type EventType } from '../api/eventTypes';
 
 import * as logging from '../utils/logging';
 import type { PerAccountState, EventAction } from '../types';
@@ -37,6 +37,7 @@ import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
 import { getRealmUrl } from '../account/accountsSelectors';
 import { messageMoved } from '../api/misc';
+import { ensureUnreachable } from '../generics';
 
 const opToActionUserGroup = {
   add: EVENT_USER_GROUP_ADD,
@@ -91,7 +92,8 @@ const actionTypeOfEventType = {
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: PerAccountState, event: $FlowFixMe): EventAction | null => {
-  switch (event.type) {
+  const type = (event.type: EventType);
+  switch (type) {
     // For reference on each type of event, see:
     // https://zulip.com/api/get-events#events
 
@@ -132,7 +134,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         messageIds: event.message_ids ?? [event.message_id],
       };
 
-    case EventTypes.realm:
+    case 'realm':
       return {
         type: EVENT,
         event:
@@ -154,14 +156,14 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
             : event,
       };
 
-    case EventTypes.restart:
-    case EventTypes.stream:
+    case 'restart':
+    case 'stream':
       return {
         type: EVENT,
         event,
       };
 
-    case EventTypes.update_message:
+    case 'update_message':
       return {
         type: EVENT_UPDATE_MESSAGE,
         event: { ...event, message_ids: event.message_ids.sort((a, b) => a - b) },
@@ -345,6 +347,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       // Note there are also some event types that are mentioned above
       // (so don't reach this default case), but that at some later stage
       // we don't fully handle: #3408.
+      ensureUnreachable(type);
       logging.error(`Unhandled Zulip API event type: ${event.type}`);
       return null;
   }
