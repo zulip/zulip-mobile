@@ -33,3 +33,31 @@ Vishwesh Jainkuniya <jainkuniya@gmail.com> <15ucs161@lnmiit.ac.in>
 Vishwesh Jainkuniya <jainkuniya@gmail.com> <catchvishwesh@gmail.com>
 Vishwesh Jainkuniya <jainkuniya@gmail.com> <gitvishwesh@gmail.com>
 Vishwesh Jainkuniya <jainkuniya@gmail.com> <vishwesh03071998@gmail.com>
+
+# The goal when editing this file is to group all of a given person's
+# contributions together, and under their preferred name and email
+# address.
+#
+# Where possible, to find out what name and email address to use for a
+# person, we ask them.
+#
+# In cases where we have several names or email addresses for one
+# person and we don't directly know their preferences, we make a guess
+# based on public information, with the following principles:
+#
+#  * When making a guess, we always choose from among the names and
+#    email addresses the person has used in the Git history.
+#
+#  * If the contributions come from the same GitHub account, they're
+#    the same person.
+#
+#  * Prefer the name or email found in the contributor's GitHub profile
+#    or their chat.zulip.org profile.
+#
+#  * If one name looks like a full name and another a GitHub username,
+#    prefer the full name.
+#
+#  * If one email is at users.noreply.github.com, prefer any other.
+#
+#  * Prefer the name or email the contributor has used more often
+#    most recently.
