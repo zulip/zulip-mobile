@@ -37,6 +37,8 @@ export const EventTypes = keyMirror({
   message: null,
   muted_topics: null,
   muted_users: null,
+  // TODO(server-3.0): remove `pointer` event type, which server no longer sends
+  pointer: null,
   presence: null,
   reaction: null,
   realm: null,

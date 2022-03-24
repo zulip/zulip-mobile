@@ -341,6 +341,11 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       // TODO(#4933): Start handling these `user_settings` events.
       return null;
 
+    case 'pointer':
+      // Ignore these `pointer` events.  We've never used this information.
+      // TODO(server-3.0): The server stopped sending these; drop the case.
+      return null;
+
     case 'hotspots':
       // Ignore these `hotspots` events.  They're about the tutorial
       // experience which is specific to the Zulip web app:
