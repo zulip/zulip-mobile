@@ -10,6 +10,7 @@
  * @flow strict-local
  */
 
+import { keyMirror } from '../utils/keyMirror';
 import type {
   Message,
   MutedUser,
@@ -21,32 +22,32 @@ import type {
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
 
-export class EventTypes {
-  static alert_words: 'alert_words' = 'alert_words';
-  static delete_message: 'delete_message' = 'delete_message';
-  static heartbeat: 'heartbeat' = 'heartbeat';
-  static message: 'message' = 'message';
-  static muted_topics: 'muted_topics' = 'muted_topics';
-  static muted_users: 'muted_users' = 'muted_users';
-  static presence: 'presence' = 'presence';
-  static reaction: 'reaction' = 'reaction';
-  static realm: 'realm' = 'realm';
-  static realm_bot: 'realm_bot' = 'realm_bot';
-  static realm_emoji: 'realm_emoji' = 'realm_emoji';
-  static realm_filters: 'realm_filters' = 'realm_filters';
-  static realm_user: 'realm_user' = 'realm_user';
-  static restart: 'restart' = 'restart';
-  static stream: 'stream' = 'stream';
-  static submessage: 'submessage' = 'submessage';
-  static subscription: 'subscription' = 'subscription';
-  static typing: 'typing' = 'typing';
-  static update_display_settings: 'update_display_settings' = 'update_display_settings';
-  static update_global_notifications: 'update_global_notifications' = 'update_global_notifications';
-  static update_message: 'update_message' = 'update_message';
-  static update_message_flags: 'update_message_flags' = 'update_message_flags';
-  static user_group: 'user_group' = 'user_group';
-  static user_status: 'user_status' = 'user_status';
-}
+export const EventTypes = keyMirror({
+  alert_words: null,
+  delete_message: null,
+  heartbeat: null,
+  message: null,
+  muted_topics: null,
+  muted_users: null,
+  presence: null,
+  reaction: null,
+  realm: null,
+  realm_bot: null,
+  realm_emoji: null,
+  realm_filters: null,
+  realm_user: null,
+  restart: null,
+  stream: null,
+  submessage: null,
+  subscription: null,
+  typing: null,
+  update_display_settings: null,
+  update_global_notifications: null,
+  update_message: null,
+  update_message_flags: null,
+  user_group: null,
+  user_status: null,
+});
 
 type EventCommon = $ReadOnly<{|
   id: number,
