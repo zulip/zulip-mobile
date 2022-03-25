@@ -208,9 +208,9 @@ declare module 'react-intl' {
     future: RelativeTimeData;
     past: RelativeTimeData;
   }
-  declare export type FormatDateOptions = Omit<DateTimeFormatOptions, 'localeMatcher'> &
+  declare export type FormatDateOptions = $Rest<DateTimeFormatOptions, { localeMatcher: mixed }> &
     CustomFormatConfig;
-  declare export type FormatDisplayNameOptions = Omit<DisplayNamesOptions, 'localeMatcher'>;
+  declare export type FormatDisplayNameOptions = $Rest<DateTimeFormatOptions, { localeMatcher: mixed }>;
   declare class FormatError mixins Error {
     +code: $Values<typeof ErrorCode>;
 
@@ -224,14 +224,15 @@ declare module 'react-intl' {
     constructor(msg: string, code: $Values<typeof ErrorCode>, originalMessage?: string): this;
     toString(): string;
   }
-  declare export type FormatListOptions = Omit<IntlListFormatOptions, 'localeMatcher'>;
-  declare export type FormatNumberOptions = Omit<NumberFormatOptions, 'localeMatcher'> &
+  declare export type FormatListOptions = $Rest<IntlListFormatOptions, { localeMatcher: mixed }>;
+  declare export type FormatNumberOptions = $Rest<NumberFormatOptions, { localeMatcher: mixed }> &
     CustomFormatConfig;
-  declare export type FormatPluralOptions = Omit<Intl$PluralRulesOptions, 'localeMatcher'> &
+  declare export type FormatPluralOptions = $Rest<Intl$PluralRulesOptions, { localeMatcher: mixed }> &
     CustomFormatConfig;
-  declare export type FormatRelativeTimeOptions = Omit<
+  declare export type FormatRelativeTimeOptions = $Rest<
     IntlRelativeTimeFormatOptions,
-    'localeMatcher', > &
+    { localeMatcher: mixed },
+  > &
     CustomFormatConfig;
   declare interface Formats {
     number: {| [key: string]: Intl$NumberFormatOptions |};
@@ -1089,7 +1090,7 @@ declare module 'react-intl' {
   }
   declare export function useIntl(): IntlShape;
   declare type ValidPluralRule = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other' | string;
-  declare export type WithIntlProps<P> = Omit<P, $Keys<WrappedComponentProps<>>> & {
+  declare export type WithIntlProps<P> = $Rest<P, WrappedComponentProps<>> & {
     forwardedRef?: React$Ref<any>,
     ...
   };
