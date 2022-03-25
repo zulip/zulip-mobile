@@ -15,40 +15,7 @@
  * Flowgen v1.11.0
  */
 
-/**
- * An object type with a subset of T's properties, namely those in U.
- *
- * Gives an error unless all properties of U also appear in T.  Each
- * property's type in the result is the type of the same property in T.
- *
- * Handy when T is something like an options object and you want a type
- * representing a subset of the options in T.  Write e.g.
- * `SubsetProperties<T, {| frobMode?: mixed |}>` for an object type that
- * permits only the `frobMode` option, with the exact same type T allows,
- * but without having to repeat the details of that type.
- *
- * A limitation: this implementation can't tell which properties are
- * *optional* in T, i.e. spelled with `?:`, as in `foo?: number`.  Instead,
- * properties in the result will be optional or required based on how they
- * are in U.  To avoid confusion, be sure to make the same properties
- * optional in U as are optional in T.  (In the "options object" use case,
- * typically all the properties are optional.)
- */
-// Implementation note: You might think to write this as something like
-// $Diff<T, $Diff<T, U>>.  Or $Diff<T, $ObjMap<$Diff<T, U>, () => mixed>>.
-// In particular you might hope for this to avoid the limitation mentioned
-// above.
-//
-// Sadly that doesn't work (as of Flow v0.130) when T has any optional
-// properties not found in U: the first diff type will still have them
-// optional, this will still be true after the $ObjMap, and so the second
-// diff won't remove them and they'll all wind up in the resulting type.
-//
-// Possibly this will get better after a project to fix the handling of
-// $Diff and other "type destructors", which as of 2020-08 the Flow team is
-// taking up as a priority:
-//   https://github.com/facebook/flow/issues/7886#issuecomment-669977952
-type SubsetProperties<T, U> = $ObjMapi<U, <K, V>(K) => $ElementType<T, K>>;
+import type { SubsetProperties } from '../src/generics';
 
 type ArgumentElement = BaseElement<typeof TYPE.argument>;
 interface BaseElement<T: $Values<typeof TYPE>> {
