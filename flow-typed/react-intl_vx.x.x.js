@@ -354,7 +354,7 @@ declare module 'react-intl' {
     list: {| [key: string]: ListFormat |};
     displayNames: {| [key: string]: DisplayNames |};
   }
-  declare export interface IntlConfig {
+  declare export type IntlConfig = {
     locale: string;
     timeZone?: string;
     formats: CustomFormats;
