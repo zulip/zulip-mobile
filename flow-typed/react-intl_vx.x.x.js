@@ -170,9 +170,9 @@ declare module 'react-intl' {
     future: RelativeTimeData;
     past: RelativeTimeData;
   }
-  declare export type FormatDateOptions = Exclude<DateTimeFormatOptions, 'localeMatcher'> &
+  declare export type FormatDateOptions = Omit<DateTimeFormatOptions, 'localeMatcher'> &
     CustomFormatConfig;
-  declare export type FormatDisplayNameOptions = Exclude<DisplayNamesOptions, 'localeMatcher'>;
+  declare export type FormatDisplayNameOptions = Omit<DisplayNamesOptions, 'localeMatcher'>;
   declare class FormatError mixins Error {
     +code: $Values<typeof ErrorCode>;
 
@@ -186,12 +186,12 @@ declare module 'react-intl' {
     constructor(msg: string, code: $Values<typeof ErrorCode>, originalMessage?: string): this;
     toString(): string;
   }
-  declare export type FormatListOptions = Exclude<IntlListFormatOptions, 'localeMatcher'>;
-  declare export type FormatNumberOptions = Exclude<NumberFormatOptions, 'localeMatcher'> &
+  declare export type FormatListOptions = Omit<IntlListFormatOptions, 'localeMatcher'>;
+  declare export type FormatNumberOptions = Omit<NumberFormatOptions, 'localeMatcher'> &
     CustomFormatConfig;
-  declare export type FormatPluralOptions = Exclude<Intl$PluralRulesOptions, 'localeMatcher'> &
+  declare export type FormatPluralOptions = Omit<Intl$PluralRulesOptions, 'localeMatcher'> &
     CustomFormatConfig;
-  declare export type FormatRelativeTimeOptions = Exclude<
+  declare export type FormatRelativeTimeOptions = Omit<
     IntlRelativeTimeFormatOptions,
     'localeMatcher', > &
     CustomFormatConfig;
