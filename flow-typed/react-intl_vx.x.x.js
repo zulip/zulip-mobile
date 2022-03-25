@@ -13,6 +13,41 @@ declare module 'react-intl' {
    * Flowgen v1.11.0
    */
 
+  /**
+   * An object type with a subset of T's properties, namely those in U.
+   *
+   * Gives an error unless all properties of U also appear in T.  Each
+   * property's type in the result is the type of the same property in T.
+   *
+   * Handy when T is something like an options object and you want a type
+   * representing a subset of the options in T.  Write e.g.
+   * `SubsetProperties<T, {| frobMode?: mixed |}>` for an object type that
+   * permits only the `frobMode` option, with the exact same type T allows,
+   * but without having to repeat the details of that type.
+   *
+   * A limitation: this implementation can't tell which properties are
+   * *optional* in T, i.e. spelled with `?:`, as in `foo?: number`.  Instead,
+   * properties in the result will be optional or required based on how they
+   * are in U.  To avoid confusion, be sure to make the same properties
+   * optional in U as are optional in T.  (In the "options object" use case,
+   * typically all the properties are optional.)
+   */
+  // Implementation note: You might think to write this as something like
+  // $Diff<T, $Diff<T, U>>.  Or $Diff<T, $ObjMap<$Diff<T, U>, () => mixed>>.
+  // In particular you might hope for this to avoid the limitation mentioned
+  // above.
+  //
+  // Sadly that doesn't work (as of Flow v0.130) when T has any optional
+  // properties not found in U: the first diff type will still have them
+  // optional, this will still be true after the $ObjMap, and so the second
+  // diff won't remove them and they'll all wind up in the resulting type.
+  //
+  // Possibly this will get better after a project to fix the handling of
+  // $Diff and other "type destructors", which as of 2020-08 the Flow team is
+  // taking up as a priority:
+  //   https://github.com/facebook/flow/issues/7886#issuecomment-669977952
+  declare type SubsetProperties<T, U> = $ObjMapi<U, <K, V>(K) => $ElementType<T, K>>;
+
   declare type ArgumentElement = BaseElement<typeof TYPE.argument>;
   declare interface BaseElement<T: $Values<typeof TYPE>> {
     type: T;
@@ -61,22 +96,25 @@ declare module 'react-intl' {
     pattern: string;
     location?: Location_2;
   }
-  declare var DEFAULT_INTL_CONFIG: Pick<
+  declare var DEFAULT_INTL_CONFIG: SubsetProperties<
     IntlConfig,
-    | 'formats'
-    | 'messages'
-    | 'timeZone'
-    | 'textComponent'
-    | 'defaultLocale'
-    | 'defaultFormats'
-    | 'onError', >;
+    {|
+      formats: mixed,
+      messages: mixed,
+      timeZone?: mixed,
+      textComponent?: mixed,
+      defaultLocale: mixed,
+      defaultFormats: mixed,
+      onError: mixed,
+    |},
+  >;
   declare export function defineMessage<T>(msg: T): T;
   declare export function defineMessages<K: $Keys<any>, T, U: {| [key: K]: T |}>(msgs: U): U;
   declare class DisplayNames {
     constructor(locales?: string | string[], options?: DisplayNamesOptions): this;
     static supportedLocalesOf(
       locales?: string | string[],
-      options?: Pick<DisplayNamesOptions, 'localeMatcher'>,
+      options?: SubsetProperties<DisplayNamesOptions, {| localeMatcher?: mixed |}>,
     ): string[];
     static __addLocaleData(...data: DisplayNamesLocaleData[]): void;
     of(code: string | number | {| [key: string]: any |}): string | void;
@@ -260,7 +298,7 @@ declare module 'react-intl' {
   // Changed `mixins` to `extends` in TS to Flow translation
   declare export class FormattedRelativeTime extends React$PureComponent<Props, State_2> {
     _updateTimer: any;
-    static defaultProps: Pick<Props, 'unit' | 'value'>;
+    static defaultProps: SubsetProperties<Props, {| unit?: mixed, value?: mixed |}>;
     state: State_2;
     constructor(props: Props): this;
     scheduleNextUpdate(x: Props, x: State_2): void;
@@ -576,15 +614,18 @@ declare module 'react-intl' {
     |},
     State,
   > {
-    static defaultProps: Pick<
+    static defaultProps: SubsetProperties<
       IntlConfig,
-      | 'formats'
-      | 'timeZone'
-      | 'onError'
-      | 'messages'
-      | 'textComponent'
-      | 'defaultLocale'
-      | 'defaultFormats', >;
+      {
+        formats: mixed,
+        timeZone?: mixed,
+        onError: mixed,
+        messages: mixed,
+        textComponent?: mixed,
+        defaultLocale: mixed,
+        defaultFormats: mixed,
+      }
+    >;
     state: State;
     static getDerivedStateFromProps(
       props: OptionalIntlConfig,
@@ -643,7 +684,7 @@ declare module 'react-intl' {
     resolvedOptions(): ResolvedIntlListFormatOptions;
     static supportedLocalesOf(
       locales: string | string[],
-      options?: Pick<IntlListFormatOptions, 'localeMatcher'>,
+      options?: SubsetProperties<IntlListFormatOptions, {| localeMatcher?: mixed |}>,
     ): string[];
     static __addLocaleData(...data: ListPatternLocaleData[]): void;
     static localeData: {| [key: string]: ListPatternFieldsData |};
@@ -915,7 +956,7 @@ declare module 'react-intl' {
     resolvedOptions(): ResolvedIntlRelativeTimeFormatOptions;
     static supportedLocalesOf(
       locales: string | string[],
-      options?: Pick<IntlRelativeTimeFormatOptions, 'localeMatcher'>,
+      options?: SubsetProperties<IntlRelativeTimeFormatOptions, {| localeMatcher?: mixed |}>,
     ): string[];
     static __addLocaleData(...data: RelativeTimeLocaleData[]): void;
     static localeData: {| [key: string]: LocaleFieldsData |};
