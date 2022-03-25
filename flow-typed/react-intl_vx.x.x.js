@@ -777,8 +777,7 @@ declare module 'react-intl' {
     type: typeof PART_TYPE.object;
     value: T;
   }
-  declare type OptionalIntlConfig = Omit<IntlConfig, $Keys<typeof DEFAULT_INTL_CONFIG>> &
-    $Rest<typeof DEFAULT_INTL_CONFIG, { ... }>;
+  declare type OptionalIntlConfig = { ...IntlConfig, ...$Rest<typeof DEFAULT_INTL_CONFIG, { ... }> };
   declare interface Options {
     formatters?: Formatters_2;
 
