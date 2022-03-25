@@ -358,9 +358,7 @@ declare module 'react-intl' {
     locale: string;
     timeZone?: string;
     formats: CustomFormats;
-    textComponent?: | React$ComponentType<>
-      // "a", "div", "h1", etc.
-      | string,
+    textComponent?: React$ElementType,
     messages: {| [key: string]: string |} | {| [key: string]: MessageFormatElement[] |};
     defaultLocale: string;
     defaultFormats: CustomFormats;
