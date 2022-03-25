@@ -109,7 +109,7 @@ declare var DEFAULT_INTL_CONFIG: SubsetProperties<
   |},
 >;
 declare export function defineMessage<T>(msg: T): T;
-declare export function defineMessages<K: $Keys<any>, T, U: {| [key: K]: T |}>(msgs: U): U;
+declare export function defineMessages<K: $Keys<$FlowFixMe>, T, U: {| [key: K]: T |}>(msgs: U): U;
 declare class DisplayNames {
   constructor(locales?: string | string[], options?: DisplayNamesOptions): this;
   static supportedLocalesOf(
@@ -117,10 +117,10 @@ declare class DisplayNames {
     options?: SubsetProperties<DisplayNamesOptions, {| localeMatcher?: mixed |}>,
   ): string[];
   static __addLocaleData(...data: DisplayNamesLocaleData[]): void;
-  of(code: string | number | {| [key: string]: any |}): string | void;
+  of(code: string | number | {| [key: string]: $FlowFixMe |}): string | void;
   resolvedOptions(): DisplayNamesResolvedOptions;
   static localeData: {| [key: string]: DisplayNamesData |};
-  static +polyfilled: any; // true
+  static +polyfilled: $FlowFixMe; // true
 }
 declare interface DisplayNamesData {
   /**
@@ -254,7 +254,7 @@ declare export var FormattedDateParts: React$StatelessFunctionalComponent<
   }, >;
 declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
   DisplayNamesOptions & {
-    value: string | number | {| [key: string]: any |},
+    value: string | number | {| [key: string]: $FlowFixMe |},
     ...
   }, >;
 declare export var FormattedList: React$StatelessFunctionalComponent<
@@ -263,7 +263,7 @@ declare export var FormattedList: React$StatelessFunctionalComponent<
     ...
   }, >;
 declare export class FormattedMessage<
-  V: {| +[key: string]: any |} = {|
+  V: {| +[key: string]: $FlowFixMe |} = {|
     +[key: string]:
       | PrimitiveType
       | React$Element<React$ElementType>
@@ -298,7 +298,7 @@ declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlP
 };
 // Changed `mixins` to `extends` in TS to Flow translation
 declare export class FormattedRelativeTime extends React$PureComponent<Props, State_2> {
-  _updateTimer: any;
+  _updateTimer: $FlowFixMe;
   static defaultProps: SubsetProperties<Props, {| unit?: mixed, value?: mixed |}>;
   state: State_2;
   constructor(props: Props): this;
@@ -449,7 +449,7 @@ declare export interface IntlFormatters<T = React$Node, R = T> {
   formatPlural(
     value: number, // Param of Intl.PluralRules.prototype.select()
     opts?: FormatPluralOptions,
-  ): $Call<<R>((...args: any[]) => R) => R, $PropertyType<typeof Intl.PluralRules, 'select'>>;
+  ): $Call<<R>((...args: $FlowFixMe[]) => R) => R, $PropertyType<typeof Intl.PluralRules, 'select'>>;
   formatMessage(
     descriptor: MessageDescriptor,
     // The `+` was added to make the properties covariant rather
@@ -466,7 +466,7 @@ declare export interface IntlFormatters<T = React$Node, R = T> {
   formatList(values: Array<string | React$Node>, opts?: FormatListOptions): React$Node;
   formatDisplayName(
     // First param of our DisplayNames.prototype.of()
-    value: string | number | {| [key: string]: any |},
+    value: string | number | {| [key: string]: $FlowFixMe |},
 
     opts?: FormatDisplayNameOptions,
   ): string | void;
@@ -673,8 +673,8 @@ declare export class InvalidConfigError
 declare interface IParseOptions {
   filename?: string;
   startRule?: string;
-  tracer?: any;
-  [key: string]: any;
+  tracer?: $FlowFixMe;
+  [key: string]: $FlowFixMe;
 }
 declare type LanguageTag = string;
 declare type LDMLPluralRule = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other';
@@ -723,7 +723,7 @@ declare interface LocaleData<T> {
   availableLocales: string[];
 }
 declare type LocaleFieldsData = $ObjMapi<
-  {| [k: RelativeTimeField]: any |},
+  {| [k: RelativeTimeField]: $FlowFixMe |},
   <f>(f) => FieldData, > & {
   nu?: Array<string | null>,
   ...
@@ -740,7 +740,7 @@ declare interface LocationDetails {
 // Changed from interface to type in TS to Flow translation
 declare export type MessageDescriptor = {|
   id?: string | number,
-  description?: string | {| [key: string]: any |},
+  description?: string | {| [key: string]: $FlowFixMe |},
   defaultMessage?: string,
 |};
 declare type MessageFormatElement =
@@ -813,7 +813,7 @@ declare interface NumberSkeletonToken {
   stem: string;
   options: string[];
 }
-declare interface ObjectPart<T = any> {
+declare interface ObjectPart<T = $FlowFixMe> {
   type: typeof PART_TYPE.object;
   value: T;
 }
@@ -898,7 +898,7 @@ declare type Props_2 = {
   children?: (value: React$Node) => React$Element<React$ElementType> | null,
   ...
 } & FormatPluralOptions;
-declare type Props_3<V: {| +[key: string]: any |} = {| +[key: string]: React$Node |}> = {
+declare type Props_3<V: {| +[key: string]: $FlowFixMe |} = {| +[key: string]: React$Node |}> = {
   ...MessageDescriptor,
   values?: V,
   tagName?: React$ElementType,
@@ -924,7 +924,7 @@ declare export var ReactIntlErrorCode: {|
   +MISSING_TRANSLATION: 'MISSING_TRANSLATION', // "MISSING_TRANSLATION"
 |};
 declare type RegionCode = string;
-declare type RelativeTimeData = $ObjMapi<{| [k: LDMLPluralRule]: any |}, <u>(u) => string>;
+declare type RelativeTimeData = $ObjMapi<{| [k: LDMLPluralRule]: $FlowFixMe |}, <u>(u) => string>;
 declare type RelativeTimeField =
   | 'second'
   | 'second-short'
@@ -1091,11 +1091,11 @@ declare export class UnsupportedFormatterError
 declare export function useIntl(): IntlShape;
 declare type ValidPluralRule = 'zero' | 'one' | 'two' | 'few' | 'many' | 'other' | string;
 declare export type WithIntlProps<P> = $Rest<P, WrappedComponentProps<>> & {
-  forwardedRef?: React$Ref<any>,
+  forwardedRef?: React$Ref<$FlowFixMe>,
   ...
 };
 declare export type WrappedComponentProps<IntlPropName: string = 'intl'> = $ObjMapi<
-  {| [k: IntlPropName]: any |},
+  {| [k: IntlPropName]: $FlowFixMe |},
   <k>(k) => IntlShape, >;
 declare export {};
 }
