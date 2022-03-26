@@ -118,13 +118,6 @@ type Props = $ReadOnly<{|
   ...SelectorProps,
 |}>;
 
-type State = {|
-  numUploading: number,
-  isMenuExpanded: boolean,
-  topic: string,
-  height: number,
-|};
-
 // TODO(?): Could deduplicate with this type in ShareWrapper.
 export type ValidationError = 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty';
 
@@ -145,31 +138,6 @@ const updateTextInput = (textInput, text) => {
   textInput.setNativeProps({ text });
 };
 
-// Like React$Component's `.setState`, but stripped of features we don't use.
-type LegacySetState<S: { ... }> = (partialState: ?$Shape<S> | (S => ?$Shape<S>)) => void;
-
-/**
- * Gives setState that takes partial state to merge, like Component.setState.
- *
- * See https://reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables.
- */
-// TODO: Remove; this is just useful to minimize the diff when we convert to
-//   a function component.
-const useLegacyState = <S: { ... }>(initialValue: S): [S, LegacySetState<S>] => {
-  const [state, setState] = useState<S>(initialValue);
-
-  const legacySetState = useCallback(
-    partialState =>
-      setState(state => ({
-        ...state,
-        ...(typeof partialState === 'function' ? partialState(state) : partialState),
-      })),
-    [],
-  );
-
-  return [state, legacySetState];
-};
-
 function ComposeBoxInner(props: Props): Node {
   const context = useContext(ThemeContext);
 
@@ -184,12 +152,9 @@ function ComposeBoxInner(props: Props): Node {
 
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
 
-  const [state, setState] = useLegacyState<State>({
-    isMenuExpanded: false,
-    height: 20,
-    topic: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
-    numUploading: 0,
-  });
+  const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
+  const [height, setHeight] = useState<number>(20);
+  const [numUploading, setNumUploading] = useState<number>(0);
 
   const [focusState, setFocusState] = useState<{|
     message: boolean,
@@ -202,6 +167,17 @@ function ComposeBoxInner(props: Props): Node {
     message: false,
     topic: false,
     either: false,
+  });
+
+  // The topic input is currently uncontrolled, for performance concerns;
+  // see #2738. That means if you change this state, it won't cause the
+  // input value to change; callers should call updateTextInput for that.
+  // But if callers do that, they should *also* update this state, because
+  // it's our best read of what the actual value is, so it needs to be
+  // up-to-date. That's what setTopicInputValue (far below) is for; it does
+  // both.
+  const [topicInputState, setTopicInputState] = useState<{| value: string |}>({
+    value: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
   });
 
   // The message input is currently uncontrolled, for performance concerns;
@@ -260,13 +236,10 @@ function ComposeBoxInner(props: Props): Node {
     return focusState.either;
   }, [props, focusState.either]);
 
-  const handleMessageChange = useCallback(
-    (value: string) => {
-      setMessageInputState(state => ({ ...state, value }));
-      setState({ isMenuExpanded: false });
-    },
-    [setState],
-  );
+  const handleMessageChange = useCallback((value: string) => {
+    setMessageInputState(state => ({ ...state, value }));
+    setIsMenuExpanded(false);
+  }, []);
 
   const setMessageInputValue = useCallback(
     (updater: (typeof messageInputState) => string) => {
@@ -279,17 +252,15 @@ function ComposeBoxInner(props: Props): Node {
 
         return { ...state, value: newValue };
       });
-      setState({ isMenuExpanded: false });
+      setIsMenuExpanded(false);
     },
-    [messageInputState, setState],
+    [messageInputState],
   );
 
-  const handleTopicChange = useCallback(
-    (topic: string) => {
-      setState({ topic, isMenuExpanded: false });
-    },
-    [setState],
-  );
+  const handleTopicChange = useCallback((value: string) => {
+    setTopicInputState({ value });
+    setIsMenuExpanded(false);
+  }, []);
 
   const setTopicInputValue = useCallback(
     (topic: string) => {
@@ -338,9 +309,7 @@ function ComposeBoxInner(props: Props): Node {
 
   const insertAttachment = useCallback(
     async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
-      setState(state => ({
-        numUploading: state.numUploading + 1,
-      }));
+      setNumUploading(n => n + 1);
       try {
         const { _, auth } = props;
 
@@ -379,28 +348,19 @@ function ComposeBoxInner(props: Props): Node {
           );
         }
       } finally {
-        setState(state => ({
-          numUploading: state.numUploading - 1,
-        }));
+        setNumUploading(n => n - 1);
       }
     },
-    [insertMessageTextAtCursorPosition, props, setMessageInputValue, setState],
+    [insertMessageTextAtCursorPosition, props, setMessageInputValue],
   );
 
   const handleComposeMenuToggle = useCallback(() => {
-    setState(state => ({
-      isMenuExpanded: !state.isMenuExpanded,
-    }));
-  }, [setState]);
+    setIsMenuExpanded(x => !x);
+  }, []);
 
-  const handleLayoutChange = useCallback(
-    (event: LayoutEvent) => {
-      setState({
-        height: event.nativeEvent.layout.height,
-      });
-    },
-    [setState],
-  );
+  const handleLayoutChange = useCallback((event: LayoutEvent) => {
+    setHeight(event.nativeEvent.layout.height);
+  }, []);
 
   const handleTopicAutocomplete = useCallback(
     (topic: string) => {
@@ -437,7 +397,7 @@ function ComposeBoxInner(props: Props): Node {
       !props.isEditing
       && isStreamNarrow(props.narrow)
       && !focusState.either
-      && state.topic === ''
+      && topicInputState.value === ''
     ) {
       // We weren't showing the topic input when the user tapped on the input
       // to focus it, but we're about to show it.  Focus that, if the user
@@ -445,47 +405,47 @@ function ComposeBoxInner(props: Props): Node {
       topicInputRef.current?.focus();
     } else {
       setFocusState(state => ({ ...state, message: true, either: true }));
-      setState({ isMenuExpanded: false });
+      setIsMenuExpanded(false);
     }
-  }, [props.isEditing, props.narrow, focusState.either, state.topic, setState]);
+  }, [props.isEditing, props.narrow, focusState.either, topicInputState.value]);
 
   const handleMessageBlur = useCallback(() => {
     setFocusState(state => ({ ...state, message: false }));
-    setState({ isMenuExpanded: false });
+    setIsMenuExpanded(false);
     const { dispatch, narrow } = props;
     dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
     inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
-  }, [props, updateIsFocused, setState]);
+  }, [props, updateIsFocused]);
 
   const handleTopicFocus = useCallback(() => {
     setFocusState(state => ({ ...state, topic: true, either: true }));
-    setState({ isMenuExpanded: false });
-  }, [setState]);
+    setIsMenuExpanded(false);
+  }, []);
 
   const handleTopicBlur = useCallback(() => {
     setFocusState(state => ({ ...state, topic: false }));
-    setState({ isMenuExpanded: false });
+    setIsMenuExpanded(false);
     // give a chance to the message input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
     inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
-  }, [updateIsFocused, setState]);
+  }, [updateIsFocused]);
 
   const handleInputTouchStart = useCallback(() => {
-    setState({ isMenuExpanded: false });
-  }, [setState]);
+    setIsMenuExpanded(false);
+  }, []);
 
   const getDestinationNarrow = useCallback((): Narrow => {
     const { narrow, isEditing } = props;
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
-      const topic = state.topic.trim() || apiConstants.NO_TOPIC_TOPIC;
+      const topic = topicInputState.value.trim() || apiConstants.NO_TOPIC_TOPIC;
       return topicNarrow(streamId, topic);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
-  }, [props, state.topic]);
+  }, [props, topicInputState.value]);
 
   const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
     const { mandatoryTopics } = props;
@@ -506,12 +466,12 @@ function ComposeBoxInner(props: Props): Node {
       result.push('message-empty');
     }
 
-    if (state.numUploading > 0) {
+    if (numUploading > 0) {
       result.push('upload-in-progress');
     }
 
     return result;
-  }, [getDestinationNarrow, props, state, messageInputState]);
+  }, [getDestinationNarrow, props, numUploading, messageInputState]);
 
   const handleSubmit = useCallback(() => {
     const { dispatch, _, isEditing } = props;
@@ -614,7 +574,6 @@ function ComposeBoxInner(props: Props): Node {
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
 
-  const { isMenuExpanded, height, topic } = state;
   const { value: messageInputValue, selection: messageInputSelection } = messageInputState;
 
   const {
@@ -654,7 +613,7 @@ function ComposeBoxInner(props: Props): Node {
         <TopicAutocomplete
           isFocused={focusState.topic}
           narrow={narrow}
-          text={topic}
+          text={topicInputState.value}
           onAutocomplete={handleTopicAutocomplete}
         />
         <AutocompleteView
@@ -693,7 +652,7 @@ function ComposeBoxInner(props: Props): Node {
             autoCapitalize="none"
             underlineColorAndroid="transparent"
             placeholder="Topic"
-            defaultValue={topic}
+            defaultValue={topicInputState.value}
             autoFocus={props.autoFocusTopic}
             selectTextOnFocus
             textInputRef={topicInputRef}
