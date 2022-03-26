@@ -119,15 +119,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 type State = {|
-  isMessageFocused: boolean,
-  isTopicFocused: boolean,
   numUploading: number,
-
-  /** Almost the same as isMessageFocused || isTopicFocused ... except
-   * debounced, to stay true while those flip from false/true to true/false
-   * and back. */
-  isFocused: boolean,
-
   isMenuExpanded: boolean,
   topic: string,
   height: number,
@@ -193,13 +185,23 @@ function ComposeBoxInner(props: Props): Node {
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
 
   const [state, setState] = useLegacyState<State>({
-    isMessageFocused: false,
-    isTopicFocused: false,
-    isFocused: false,
     isMenuExpanded: false,
     height: 20,
     topic: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
     numUploading: 0,
+  });
+
+  const [focusState, setFocusState] = useState<{|
+    message: boolean,
+    topic: boolean,
+
+    /** Almost the same as message || topic ... except debounced, to stay
+     * true while those flip from false/true to true/false and back. */
+    either: boolean,
+  |}>({
+    message: false,
+    topic: false,
+    either: false,
   });
 
   // The message input is currently uncontrolled, for performance concerns;
@@ -244,11 +246,8 @@ function ComposeBoxInner(props: Props): Node {
   }, [props, messageInputState, prevMessageInputState]);
 
   const updateIsFocused = useCallback(() => {
-    setState(state => ({
-      ...state,
-      isFocused: state.isMessageFocused || state.isTopicFocused,
-    }));
-  }, [setState]);
+    setFocusState(state => ({ ...state, either: state.message || state.topic }));
+  }, []);
 
   const getCanSelectTopic = useCallback(() => {
     const { isEditing, narrow } = props;
@@ -258,8 +257,8 @@ function ComposeBoxInner(props: Props): Node {
     if (!isStreamNarrow(narrow)) {
       return false;
     }
-    return state.isFocused;
-  }, [props, state.isFocused]);
+    return focusState.either;
+  }, [props, focusState.either]);
 
   const handleMessageChange = useCallback(
     (value: string) => {
@@ -437,7 +436,7 @@ function ComposeBoxInner(props: Props): Node {
     if (
       !props.isEditing
       && isStreamNarrow(props.narrow)
-      && !state.isFocused
+      && !focusState.either
       && state.topic === ''
     ) {
       // We weren't showing the topic input when the user tapped on the input
@@ -445,19 +444,14 @@ function ComposeBoxInner(props: Props): Node {
       // hasn't already selected a topic.
       topicInputRef.current?.focus();
     } else {
-      setState({
-        isMessageFocused: true,
-        isFocused: true,
-        isMenuExpanded: false,
-      });
+      setFocusState(state => ({ ...state, message: true, either: true }));
+      setState({ isMenuExpanded: false });
     }
-  }, [props.isEditing, props.narrow, state.isFocused, state.topic, setState]);
+  }, [props.isEditing, props.narrow, focusState.either, state.topic, setState]);
 
   const handleMessageBlur = useCallback(() => {
-    setState({
-      isMessageFocused: false,
-      isMenuExpanded: false,
-    });
+    setFocusState(state => ({ ...state, message: false }));
+    setState({ isMenuExpanded: false });
     const { dispatch, narrow } = props;
     dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
@@ -466,18 +460,13 @@ function ComposeBoxInner(props: Props): Node {
   }, [props, updateIsFocused, setState]);
 
   const handleTopicFocus = useCallback(() => {
-    setState({
-      isTopicFocused: true,
-      isFocused: true,
-      isMenuExpanded: false,
-    });
+    setFocusState(state => ({ ...state, topic: true, either: true }));
+    setState({ isMenuExpanded: false });
   }, [setState]);
 
   const handleTopicBlur = useCallback(() => {
-    setState({
-      isTopicFocused: false,
-      isMenuExpanded: false,
-    });
+    setFocusState(state => ({ ...state, topic: false }));
+    setState({ isMenuExpanded: false });
     // give a chance to the message input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
     inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
@@ -625,7 +614,7 @@ function ComposeBoxInner(props: Props): Node {
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
 
-  const { isTopicFocused, isMenuExpanded, height, topic } = state;
+  const { isMenuExpanded, height, topic } = state;
   const { value: messageInputValue, selection: messageInputSelection } = messageInputState;
 
   const {
@@ -663,13 +652,13 @@ function ComposeBoxInner(props: Props): Node {
       <MentionWarnings narrow={narrow} stream={stream} ref={mentionWarnings} />
       <View style={[styles.autocompleteWrapper, { marginBottom: height }]}>
         <TopicAutocomplete
-          isFocused={isTopicFocused}
+          isFocused={focusState.topic}
           narrow={narrow}
           text={topic}
           onAutocomplete={handleTopicAutocomplete}
         />
         <AutocompleteView
-          isFocused={state.isMessageFocused}
+          isFocused={focusState.message}
           selection={messageInputSelection}
           text={messageInputValue}
           onAutocomplete={handleMessageAutocomplete}
