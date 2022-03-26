@@ -130,9 +130,7 @@ type State = {|
 
   isMenuExpanded: boolean,
   topic: string,
-  message: string,
   height: number,
-  selection: InputSelection,
 |};
 
 // TODO(?): Could deduplicate with this type in ShareWrapper.
@@ -201,9 +199,22 @@ function ComposeBoxInner(props: Props): Node {
     isMenuExpanded: false,
     height: 20,
     topic: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
-    message: props.initialMessage ?? '',
-    selection: { start: 0, end: 0 },
     numUploading: 0,
+  });
+
+  // The message input is currently uncontrolled, for performance concerns;
+  // see #2738. That means if you change this state, it won't cause the
+  // input value to change; callers should call updateTextInput for that.
+  // But if callers do that, they should *also* update this state, because
+  // it's our best read of what the actual value is, so it needs to be
+  // up-to-date. That's what setMessageInputValue (far below) is for; it does
+  // both.
+  const [messageInputState, setMessageInputState] = useState<{|
+    value: string,
+    selection: InputSelection,
+  |}>({
+    value: props.initialMessage ?? '',
+    selection: { start: 0, end: 0 },
   });
 
   useEffect(
@@ -214,22 +225,23 @@ function ComposeBoxInner(props: Props): Node {
     [],
   );
 
-  const prevMessage = usePrevious(state.message);
+  const prevMessageInputState = usePrevious(messageInputState);
   useEffect(() => {
     const { dispatch, isEditing, narrow } = props;
-    const { message } = state;
+    const messageInputValue = messageInputState.value;
+    const prevMessageInputValue = prevMessageInputState?.value;
 
-    if (prevMessage !== message) {
-      if (message.length === 0) {
+    if (prevMessageInputValue !== messageInputValue) {
+      if (messageInputValue.length === 0) {
         dispatch(sendTypingStop(narrow));
       } else {
         dispatch(sendTypingStart(narrow));
       }
       if (!isEditing) {
-        dispatch(draftUpdate(narrow, message));
+        dispatch(draftUpdate(narrow, messageInputValue));
       }
     }
-  }, [props, state, prevMessage]);
+  }, [props, messageInputState, prevMessageInputState]);
 
   const updateIsFocused = useCallback(() => {
     setState(state => ({
@@ -250,25 +262,27 @@ function ComposeBoxInner(props: Props): Node {
   }, [props, state.isFocused]);
 
   const handleMessageChange = useCallback(
-    (message: string) => {
-      setState({ message, isMenuExpanded: false });
+    (value: string) => {
+      setMessageInputState(state => ({ ...state, value }));
+      setState({ isMenuExpanded: false });
     },
     [setState],
   );
 
   const setMessageInputValue = useCallback(
-    (updater: State => string) => {
-      setState(state => {
+    (updater: (typeof messageInputState) => string) => {
+      setMessageInputState(state => {
         const newValue = updater(state);
 
         // TODO: try to do something less dirty for this; see
         //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
         updateTextInput(messageInputRef.current, newValue);
 
-        return { message: newValue, isMenuExpanded: false };
+        return { ...state, value: newValue };
       });
+      setState({ isMenuExpanded: false });
     },
-    [setState],
+    [messageInputState, setState],
   );
 
   const handleTopicChange = useCallback(
@@ -290,9 +304,9 @@ function ComposeBoxInner(props: Props): Node {
     (text: string) => {
       setMessageInputValue(
         state =>
-          state.message.slice(0, state.selection.start)
+          state.value.slice(0, state.selection.start)
           + text
-          + state.message.slice(state.selection.end, state.message.length),
+          + state.value.slice(state.selection.end, state.value.length),
       );
     },
     [setMessageInputValue],
@@ -350,7 +364,7 @@ function ComposeBoxInner(props: Props): Node {
           } catch {
             showToast(_('Failed to upload file: {fileName}', { fileName }));
             setMessageInputValue(state =>
-              state.message.replace(
+              state.value.replace(
                 placeholder,
                 `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
               ),
@@ -360,9 +374,9 @@ function ComposeBoxInner(props: Props): Node {
 
           const linkText = `[${fileName}](${response.uri})`;
           setMessageInputValue(state =>
-            state.message.indexOf(placeholder) !== -1
-              ? state.message.replace(placeholder, linkText)
-              : `${state.message}\n${linkText}`,
+            state.value.indexOf(placeholder) !== -1
+              ? state.value.replace(placeholder, linkText)
+              : `${state.value}\n${linkText}`,
           );
         }
       } finally {
@@ -414,9 +428,9 @@ function ComposeBoxInner(props: Props): Node {
   const handleMessageSelectionChange = useCallback(
     (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
       const { selection } = event.nativeEvent;
-      setState({ selection });
+      setMessageInputState(state => ({ ...state, selection }));
     },
-    [setState],
+    [],
   );
 
   const handleMessageFocus = useCallback(() => {
@@ -487,7 +501,7 @@ function ComposeBoxInner(props: Props): Node {
   const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
     const { mandatoryTopics } = props;
     const destinationNarrow = getDestinationNarrow();
-    const { message } = state;
+    const { value: messageInputValue } = messageInputState;
 
     const result = [];
 
@@ -499,7 +513,7 @@ function ComposeBoxInner(props: Props): Node {
       result.push('mandatory-topic-empty');
     }
 
-    if (message.trim().length === 0) {
+    if (messageInputValue.trim().length === 0) {
       result.push('message-empty');
     }
 
@@ -508,11 +522,11 @@ function ComposeBoxInner(props: Props): Node {
     }
 
     return result;
-  }, [getDestinationNarrow, props, state]);
+  }, [getDestinationNarrow, props, state, messageInputState]);
 
   const handleSubmit = useCallback(() => {
     const { dispatch, _, isEditing } = props;
-    const { message } = state;
+    const { value: messageInputValue } = messageInputState;
     const destinationNarrow = getDestinationNarrow();
     const validationErrors = getValidationErrors();
 
@@ -540,7 +554,7 @@ function ComposeBoxInner(props: Props): Node {
       return;
     }
 
-    props.onSend(message, destinationNarrow);
+    props.onSend(messageInputValue, destinationNarrow);
 
     setMessageInputValue(() => '');
 
@@ -549,7 +563,7 @@ function ComposeBoxInner(props: Props): Node {
     }
 
     dispatch(sendTypingStop(destinationNarrow));
-  }, [getDestinationNarrow, getValidationErrors, props, setMessageInputValue, state]);
+  }, [getDestinationNarrow, getValidationErrors, props, setMessageInputValue, messageInputState]);
 
   const inputMarginPadding = useMemo(
     () => ({
@@ -611,7 +625,8 @@ function ComposeBoxInner(props: Props): Node {
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
 
-  const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = state;
+  const { isTopicFocused, isMenuExpanded, height, topic } = state;
+  const { value: messageInputValue, selection: messageInputSelection } = messageInputState;
 
   const {
     ownUserId,
@@ -655,8 +670,8 @@ function ComposeBoxInner(props: Props): Node {
         />
         <AutocompleteView
           isFocused={state.isMessageFocused}
-          selection={selection}
-          text={message}
+          selection={messageInputSelection}
+          text={messageInputValue}
           onAutocomplete={handleMessageAutocomplete}
         />
       </View>
@@ -707,7 +722,7 @@ function ComposeBoxInner(props: Props): Node {
             style={[styles.composeTextInput, { backgroundColor: context.backgroundColor }]}
             underlineColorAndroid="transparent"
             placeholder={placeholder}
-            defaultValue={message}
+            defaultValue={messageInputValue}
             autoFocus={props.autoFocusMessage}
             textInputRef={messageInputRef}
             onBlur={handleMessageBlur}
