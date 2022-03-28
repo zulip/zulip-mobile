@@ -308,5 +308,59 @@ describe('streamsReducer', () => {
 
       expect(actualState).toEqual(expectedState);
     });
+    test('Change the invite_only property', () => {
+      const initialState = deepFreeze([
+        {
+          stream_id: 123,
+          name: 'web public stream',
+          invite_only: false,
+          is_web_public: true,
+          history_public_to_subscribers: true,
+        },
+        {
+          stream_id: 67,
+          name: 'invite only stream',
+          invite_only: true,
+          is_web_public: false,
+          history_public_to_subscribers: true,
+        },
+      ]);
+
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          type: EventTypes.stream,
+          stream_id: 123,
+          op: 'update',
+          eventId: 2,
+          id: 2,
+          name: 'web public stream',
+          property: 'invite_only',
+          value: true,
+          is_web_public: false,
+          history_public_to_subscribers: false,
+        },
+      });
+
+      const expectedState = [
+        {
+          stream_id: 123,
+          name: 'web public stream',
+          invite_only: true,
+          is_web_public: false,
+          history_public_to_subscribers: false,
+        },
+        {
+          stream_id: 67,
+          name: 'invite only stream',
+          invite_only: true,
+          is_web_public: false,
+          history_public_to_subscribers: true,
+        },
+      ];
+      const actualState = streamsReducer(initialState, action);
+
+      expect(actualState).toEqual(expectedState);
+    });
   });
 });

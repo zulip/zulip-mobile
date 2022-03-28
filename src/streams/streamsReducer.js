@@ -18,8 +18,19 @@ export function updateStreamProperties<S: Stream | Subscription>(
       return { ...stream, [event.property]: event.value };
     case ('name': 'name'):
       return { ...stream, [event.property]: event.value };
-    case ('invite_only': 'invite_only'):
+    case ('is_web_public': 'is_web_public'):
       return { ...stream, [event.property]: event.value };
+    case ('history_public_to_subscribers': 'history_public_to_subscribers'):
+      return { ...stream, [event.property]: event.value };
+    case ('invite_only': 'invite_only'):
+      // A special case where multiple properties can change at once
+      // See: https://zulip.com/api/get-events#stream-update
+      return {
+        ...stream,
+        invite_only: event.value,
+        is_web_public: event.is_web_public,
+        history_public_to_subscribers: event.history_public_to_subscribers,
+      };
     default:
       ensureUnreachable(event.property);
       return stream;
