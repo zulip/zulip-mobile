@@ -332,6 +332,8 @@ export type MutedUser = $ReadOnly<{|
 export type Stream = {|
   +stream_id: number,
   +description: string,
+  // If adding rendered_description, be sure to handle its quirk in StreamUpdateEvent
+  // +rendered_description: string,
   +name: string,
   +invite_only: boolean,
   +is_announcement_only: boolean,

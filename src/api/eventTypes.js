@@ -160,7 +160,12 @@ type StreamUpdateEventBase = $ReadOnly<{|
 // https://zulip.com/api/get-events#stream-update
 export type StreamUpdateEvent =
   | {| ...StreamUpdateEventBase, +property: 'name', +value: string |}
-  | {| ...StreamUpdateEventBase, +property: 'description', +value: string |}
+  | {|
+      ...StreamUpdateEventBase,
+      +property: 'description',
+      +value: string,
+      +rendered_description: string,
+    |}
   | {| ...StreamUpdateEventBase, +property: 'is_web_public', +value: boolean |}
   | {| ...StreamUpdateEventBase, +property: 'history_public_to_subscribers', +value: boolean |}
   | {| ...StreamUpdateEventBase, +property: 'is_announcement_only', +value: boolean |}
