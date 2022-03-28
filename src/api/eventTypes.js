@@ -149,21 +149,27 @@ type StreamListEvent = $ReadOnly<{|
   streams: $ReadOnlyArray<Stream>,
 |}>;
 
+type StreamUpdateEventBase = $ReadOnly<{|
+  ...EventCommon,
+  type: typeof EventTypes.stream,
+  op: 'update',
+  stream_id: number,
+  name: string,
+|}>;
+
+// https://zulip.com/api/get-events#stream-update
+export type StreamUpdateEvent =
+  | {| ...StreamUpdateEventBase, +property: 'name', +value: string |}
+  | {| ...StreamUpdateEventBase, +property: 'description', +value: string |}
+  | {| ...StreamUpdateEventBase, +property: 'invite_only', +value: boolean |};
+
 // prettier-ignore
 export type StreamEvent =
   | {| ...StreamListEvent, +op: 'create', |}
   | {| ...StreamListEvent, +op: 'delete', |}
   | {| ...StreamListEvent, +op: 'occupy', |}
   | {| ...StreamListEvent, +op: 'vacate', |}
-  | $ReadOnly<{|
-      ...EventCommon,
-      type: typeof EventTypes.stream,
-      op: 'update',
-      stream_id: number,
-      name: string,
-      property: string,
-      value: string,
-    |}>;
+  | StreamUpdateEvent;
 
 export type UpdateMessageFlagsEvent = $ReadOnly<{|
   ...EventCommon,

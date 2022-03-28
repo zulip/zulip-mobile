@@ -1,12 +1,30 @@
 /* @flow strict-local */
 import { EventTypes } from '../api/eventTypes';
-import type { PerAccountApplicableAction, StreamsState } from '../types';
+import type { PerAccountApplicableAction, StreamsState, StreamUpdateEvent } from '../types';
+import type { Stream, Subscription } from '../api/modelTypes';
 import { ensureUnreachable } from '../types';
 import { LOGOUT, ACCOUNT_SWITCH, EVENT, REGISTER_COMPLETE } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
 const initialState: StreamsState = NULL_ARRAY;
+
+export function updateStreamProperties<S: Stream | Subscription>(
+  stream: S,
+  event: StreamUpdateEvent,
+): S {
+  switch (event.property) {
+    case ('description': 'description'):
+      return { ...stream, [event.property]: event.value };
+    case ('name': 'name'):
+      return { ...stream, [event.property]: event.value };
+    case ('invite_only': 'invite_only'):
+      return { ...stream, [event.property]: event.value };
+    default:
+      ensureUnreachable(event.property);
+      return stream;
+  }
+}
 
 export default (
   state: StreamsState = initialState,
@@ -37,14 +55,12 @@ export default (
               );
 
             case 'update':
-              return state.map(stream =>
-                stream.stream_id === event.stream_id
-                  ? {
-                      ...stream,
-                      [event.property]: event.value,
-                    }
-                  : stream,
-              );
+              return state.map(stream => {
+                if (stream.stream_id !== event.stream_id) {
+                  return stream;
+                }
+                return updateStreamProperties(stream, event);
+              });
 
             case 'occupy':
             case 'vacate':
