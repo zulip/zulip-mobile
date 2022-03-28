@@ -33,7 +33,13 @@ export default function CreateStreamScreen(props: Props): Node {
     <Screen title="Create new stream" padding>
       <EditStreamCard
         isNewStream
-        initialValues={{ name: '', description: '', invite_only: false }}
+        initialValues={{
+          name: '',
+          description: '',
+          invite_only: false,
+          is_web_public: false,
+          history_public_to_subscribers: false,
+        }}
         onComplete={handleComplete}
       />
     </Screen>

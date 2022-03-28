@@ -6,7 +6,13 @@ import { getAuth, getZulipFeatureLevel } from '../selectors';
 export const updateExistingStream = (
   id: number,
   initialValues: Stream,
-  newValues: {| name: string, description: string, invite_only: boolean |},
+  newValues: {|
+    name: string,
+    description: string,
+    invite_only: boolean,
+    is_web_public: boolean,
+    history_public_to_subscribers: boolean,
+  |},
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
 
@@ -26,8 +32,18 @@ export const updateExistingStream = (
   if (initialValues.description !== newValues.description) {
     updates.description = maybeEncode(newValues.description);
   }
-  if (initialValues.invite_only !== newValues.invite_only) {
+
+  // The values of invite_only, is_web_public, and history_public_to_subscribers are
+  // not independent. The API will enforce that certain combinations are not
+  // set. Because of this, if any of these values have changed we set all of them.
+  const policyHasChanged =
+    initialValues.invite_only !== newValues.invite_only
+    || initialValues.is_web_public !== newValues.is_web_public
+    || initialValues.history_public_to_subscribers !== newValues.history_public_to_subscribers;
+  if (policyHasChanged) {
     updates.is_private = newValues.invite_only;
+    updates.is_web_public = newValues.is_web_public;
+    updates.history_public_to_subscribers = newValues.history_public_to_subscribers;
   }
 
   if (Object.keys(updates).length > 0) {

@@ -36,6 +36,8 @@ export default function EditStreamScreen(props: Props): Node {
           name: stream.name,
           description: stream.description,
           invite_only: stream.invite_only,
+          history_public_to_subscribers: stream.history_public_to_subscribers,
+          is_web_public: stream.is_web_public ?? false,
         }}
         onComplete={handleComplete}
       />
