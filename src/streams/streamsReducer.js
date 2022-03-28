@@ -22,6 +22,8 @@ export function updateStreamProperties<S: Stream | Subscription>(
       return { ...stream, [event.property]: event.value };
     case ('history_public_to_subscribers': 'history_public_to_subscribers'):
       return { ...stream, [event.property]: event.value };
+    case ('is_announcement_only': 'is_announcement_only'):
+      return { ...stream, [event.property]: event.value };
     case ('invite_only': 'invite_only'):
       // A special case where multiple properties can change at once
       // See: https://zulip.com/api/get-events#stream-update
