@@ -43,7 +43,7 @@ declare module 'react-native-safe-area-context/SafeAreaContext' {
 
   declare export var SafeAreaInsetsContext: React.Context<EdgeInsets | null>;
   declare export var SafeAreaFrameContext: React.Context<Rect | null>;
-  declare export interface SafeAreaViewProps {
+  declare export type SafeAreaViewProps = {|
     children?: React.Node;
     initialMetrics?: Metrics | null;
 
@@ -52,7 +52,7 @@ declare module 'react-native-safe-area-context/SafeAreaContext' {
      */
     initialSafeAreaInsets?: EdgeInsets | null;
     style?: StyleProp<ViewStyle>;
-  }
+  |}
   declare export function SafeAreaProvider(x: SafeAreaViewProps): React$Node;
   declare export function useSafeAreaInsets(): EdgeInsets;
   declare export function useSafeAreaFrame(): Rect;
