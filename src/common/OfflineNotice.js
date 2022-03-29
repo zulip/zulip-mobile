@@ -60,6 +60,10 @@ export default function OfflineNotice(props: Props): Node {
   useEffect(() => {
     if (shouldShowUncertaintyNotice) {
       NetInfo.fetch().then(state => {
+        // When we upgrade Flow, we may get an error about `state` possibly
+        // having non-JSONable contents. Probably just ignore; I'd hope
+        // Sentry would just drop specific problematic parts without
+        // panicking or dropping everything.
         logging.warn('Failed to determine Internet reachability in a reasonable time', state);
       });
     }

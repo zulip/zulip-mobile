@@ -33,15 +33,11 @@ declare module '@react-native-community/netinfo/types' {
     +'3g': '3g', // "3g"
     +'4g': '4g', // "4g"
   |};
-  declare export type NetInfoConnectedDetails = {
-    isConnectionExpensive: boolean,
-    ...
-  };
   declare type NetInfoConnectedState<T: $Values<typeof NetInfoStateType>, D: { ... } = { ... }> = {|
     type: T,
     isConnected: true,
     isInternetReachable: boolean | null,
-    details: {| ...D, ...NetInfoConnectedDetails |},
+    details: { ...D, isConnectionExpensive: boolean, ... },
     isWifiEnabled?: boolean,
   |};
   declare type NetInfoDisconnectedState<T: $Values<typeof NetInfoStateType>> = {|
