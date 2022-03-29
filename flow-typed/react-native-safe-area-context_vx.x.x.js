@@ -56,9 +56,9 @@ declare module 'react-native-safe-area-context/SafeAreaContext' {
   declare export function SafeAreaProvider(x: SafeAreaViewProps): React$Node;
   declare export function useSafeAreaInsets(): EdgeInsets;
   declare export function useSafeAreaFrame(): Rect;
-  declare export function withSafeAreaInsets<T>(
-    WrappedComponent: React$ComponentType<T>,
-  ): React.ForwardRefExoticComponent<React.PropsWithoutRef<T> & React.RefAttributes<T>>;
+  declare export function withSafeAreaInsets<P: { ... }>(
+    WrappedComponent: React$ComponentType<$Exact<P>>,
+  ): React$ComponentType<{| ...$Exact<P>, +ref?: React$Ref<$Exact<P>> |}>;
 
   /**
    * @deprecated
