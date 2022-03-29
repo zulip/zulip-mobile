@@ -160,7 +160,7 @@ declare module '@react-native-community/netinfo' {
   declare export function useNetInfo(
     configuration?: $Rest<NetInfoConfiguration, { ... }>,
   ): NetInfoState;
-  declare export * from './internal/types'
+  declare export * from '@react-native-community/netinfo/types'
   declare var _default: {
     configure: typeof configure,
     fetch: typeof fetch,
