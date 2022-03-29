@@ -24,7 +24,8 @@ declare module 'react-native-safe-area-context/SafeArea.types' {
     style?: StyleProp<ViewStyle>;
     onInsetsChange: InsetChangeNativeCallback;
   }
-  declare export type NativeSafeAreaViewProps = ViewProps & {
+  declare export type NativeSafeAreaViewProps = {
+    ...ViewProps,
     children?: React.Node,
     mode?: 'padding' | 'margin',
     edges?: $ReadOnlyArray<Edge>,
