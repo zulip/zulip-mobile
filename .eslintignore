@@ -6,6 +6,7 @@
 **/flow-typed/**
 types/@react-navigation
 types/react-intl.js.flow
+types/@react-native-community/netinfo/**
 
 # These are type-tests, made up of code that gets type-checked but
 # never actually run.  They're naturally full of dead code which

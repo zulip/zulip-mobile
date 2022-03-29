@@ -6,6 +6,7 @@ src/emoji/__tests__/data-test.js
 **/flow-typed/**
 types/@react-navigation
 types/react-intl.js.flow
+types/@react-native-community/netinfo/**
 
 # Third-party code: react-native. We leave this code in the style we
 # received it in.
