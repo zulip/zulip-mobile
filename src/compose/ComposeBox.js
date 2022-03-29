@@ -176,6 +176,7 @@ function ComposeBoxInner(props: Props): Node {
   // it's our best read of what the actual value is, so it needs to be
   // up-to-date. That's what setTopicInputValue (far below) is for; it does
   // both.
+  // TODO(?): Make custom Hook to encapsulate this uncontrolled-input logic.
   const [topicInputState, setTopicInputState] = useState<{| value: string |}>({
     value: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
   });
@@ -187,6 +188,7 @@ function ComposeBoxInner(props: Props): Node {
   // it's our best read of what the actual value is, so it needs to be
   // up-to-date. That's what setMessageInputValue (far below) is for; it does
   // both.
+  // TODO(?): Make custom Hook to encapsulate this uncontrolled-input logic.
   const [messageInputState, setMessageInputState] = useState<{|
     value: string,
     selection: InputSelection,
@@ -436,6 +438,7 @@ function ComposeBoxInner(props: Props): Node {
     setIsMenuExpanded(false);
   }, []);
 
+  // TODO: This can just be `const destinationNarrow: Narrow`
   const getDestinationNarrow = useCallback((): Narrow => {
     const { narrow, isEditing } = props;
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
@@ -447,6 +450,7 @@ function ComposeBoxInner(props: Props): Node {
     return narrow;
   }, [props, topicInputState.value]);
 
+  // TODO: This can just be `const validationErrors: $ReadOnlyArray<ValidationError>`
   const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
     const { mandatoryTopics } = props;
     const destinationNarrow = getDestinationNarrow();
@@ -708,6 +712,7 @@ function ComposeBoxInner(props: Props): Node {
   );
 }
 
+// TODO: Use Hooks, not HOCs.
 const ComposeBox: ComponentType<OuterProps> = compose(
   connect<SelectorProps, _, _>((state, props) => ({
     auth: getAuth(state),
