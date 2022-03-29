@@ -29,7 +29,7 @@ declare module 'react-native-webview/@@react-native' {
     focus(): void,
     blur(): void,
     refs: {|
-      [key: string]: React$React$ComponentType<any, any>,
+      [key: string]: React$ComponentType<any, any>,
     |},
   |};
 
@@ -73,7 +73,7 @@ declare module 'react-native-webview/@@react-native' {
      * @platform ios
      */
     takeSnapshot: (
-      view?: 'window' | React$React$Element<> | number,
+      view?: 'window' | React$Element<> | number,
       options?: {|
         width?: number,
         height?: number,
