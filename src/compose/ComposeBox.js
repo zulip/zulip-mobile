@@ -162,8 +162,6 @@ function ComposeBoxInner(props: Props): Node {
     dispatch,
   } = props;
 
-  const { backgroundColor } = useContext(ThemeContext);
-
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
   // would make `.current` be `any(implicit)`, which we don't want;
@@ -552,6 +550,7 @@ function ComposeBoxInner(props: Props): Node {
     [],
   );
 
+  const { backgroundColor } = useContext(ThemeContext);
   const styles = useMemo(
     () => ({
       wrapper: {
@@ -594,9 +593,10 @@ function ComposeBoxInner(props: Props): Node {
         fontSize: 15,
         flexShrink: 1,
         ...inputMarginPadding,
+        backgroundColor,
       },
     }),
-    [inputMarginPadding],
+    [inputMarginPadding, backgroundColor],
   );
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
@@ -679,7 +679,7 @@ function ComposeBoxInner(props: Props): Node {
           <Input
             // TODO(#5291): Don't switch between true/false for multiline
             multiline={!isMenuExpanded}
-            style={[styles.composeTextInput, { backgroundColor }]}
+            style={styles.composeTextInput}
             underlineColorAndroid="transparent"
             placeholder={placeholder}
             defaultValue={messageInputValue}
