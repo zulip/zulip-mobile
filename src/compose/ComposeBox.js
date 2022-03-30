@@ -139,6 +139,29 @@ const updateTextInput = (textInput, text) => {
 };
 
 function ComposeBoxInner(props: Props): Node {
+  const {
+    narrow,
+    onSend,
+    isEditing,
+    initialMessage,
+    initialTopic,
+    autoFocusTopic,
+    autoFocusMessage,
+    auth,
+    ownUserId,
+    allUsersById,
+    isAdmin,
+    isAnnouncementOnly,
+    isSubscribed,
+    videoChatProvider,
+    mandatoryTopics,
+    stream,
+    streamsById,
+    _,
+    insets,
+    dispatch,
+  } = props;
+
   const context = useContext(ThemeContext);
 
   // We should replace the fixme with
@@ -178,7 +201,7 @@ function ComposeBoxInner(props: Props): Node {
   // both.
   // TODO(?): Make custom Hook to encapsulate this uncontrolled-input logic.
   const [topicInputState, setTopicInputState] = useState<{| value: string |}>({
-    value: props.initialTopic ?? (isTopicNarrow(props.narrow) ? topicOfNarrow(props.narrow) : ''),
+    value: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
   });
 
   // The message input is currently uncontrolled, for performance concerns;
@@ -193,7 +216,7 @@ function ComposeBoxInner(props: Props): Node {
     value: string,
     selection: InputSelection,
   |}>({
-    value: props.initialMessage ?? '',
+    value: initialMessage ?? '',
     selection: { start: 0, end: 0 },
   });
 
@@ -207,7 +230,6 @@ function ComposeBoxInner(props: Props): Node {
 
   const prevMessageInputState = usePrevious(messageInputState);
   useEffect(() => {
-    const { dispatch, isEditing, narrow } = props;
     const messageInputValue = messageInputState.value;
     const prevMessageInputValue = prevMessageInputState?.value;
 
@@ -221,14 +243,13 @@ function ComposeBoxInner(props: Props): Node {
         dispatch(draftUpdate(narrow, messageInputValue));
       }
     }
-  }, [props, messageInputState, prevMessageInputState]);
+  }, [dispatch, isEditing, narrow, messageInputState, prevMessageInputState]);
 
   const updateIsFocused = useCallback(() => {
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
 
   const getCanSelectTopic = useCallback(() => {
-    const { isEditing, narrow } = props;
     if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
@@ -236,7 +257,7 @@ function ComposeBoxInner(props: Props): Node {
       return false;
     }
     return focusState.either;
-  }, [props, focusState.either]);
+  }, [isEditing, narrow, focusState.either]);
 
   const handleMessageChange = useCallback((value: string) => {
     setMessageInputState(state => ({ ...state, value }));
@@ -286,13 +307,12 @@ function ComposeBoxInner(props: Props): Node {
 
   const insertVideoCallLinkAtCursorPosition = useCallback(
     (url: string) => {
-      const { _ } = props;
       const linkMessage = _('Click to join video call');
       const linkText = `[${linkMessage}](${url})`;
 
       insertMessageTextAtCursorPosition(linkText);
     },
-    [insertMessageTextAtCursorPosition, props],
+    [insertMessageTextAtCursorPosition, _],
   );
 
   const insertVideoCallLink = useCallback(
@@ -313,8 +333,6 @@ function ComposeBoxInner(props: Props): Node {
     async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
       setNumUploading(n => n + 1);
       try {
-        const { _, auth } = props;
-
         const fileNames: string[] = [];
         const placeholders: string[] = [];
         for (let i = 0; i < attachments.length; i++) {
@@ -353,7 +371,7 @@ function ComposeBoxInner(props: Props): Node {
         setNumUploading(n => n - 1);
       }
     },
-    [insertMessageTextAtCursorPosition, props, setMessageInputValue],
+    [insertMessageTextAtCursorPosition, _, auth, setMessageInputValue],
   );
 
   const handleComposeMenuToggle = useCallback(() => {
@@ -396,8 +414,8 @@ function ComposeBoxInner(props: Props): Node {
 
   const handleMessageFocus = useCallback(() => {
     if (
-      !props.isEditing
-      && isStreamNarrow(props.narrow)
+      !isEditing
+      && isStreamNarrow(narrow)
       && !focusState.either
       && topicInputState.value === ''
     ) {
@@ -409,17 +427,16 @@ function ComposeBoxInner(props: Props): Node {
       setFocusState(state => ({ ...state, message: true, either: true }));
       setIsMenuExpanded(false);
     }
-  }, [props.isEditing, props.narrow, focusState.either, topicInputState.value]);
+  }, [isEditing, narrow, focusState.either, topicInputState.value]);
 
   const handleMessageBlur = useCallback(() => {
     setFocusState(state => ({ ...state, message: false }));
     setIsMenuExpanded(false);
-    const { dispatch, narrow } = props;
     dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
     inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
-  }, [props, updateIsFocused]);
+  }, [dispatch, narrow, updateIsFocused]);
 
   const handleTopicFocus = useCallback(() => {
     setFocusState(state => ({ ...state, topic: true, either: true }));
@@ -440,7 +457,6 @@ function ComposeBoxInner(props: Props): Node {
 
   // TODO: This can just be `const destinationNarrow: Narrow`
   const getDestinationNarrow = useCallback((): Narrow => {
-    const { narrow, isEditing } = props;
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
       const topic = topicInputState.value.trim() || apiConstants.NO_TOPIC_TOPIC;
@@ -448,11 +464,10 @@ function ComposeBoxInner(props: Props): Node {
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
     return narrow;
-  }, [props, topicInputState.value]);
+  }, [isEditing, narrow, topicInputState.value]);
 
   // TODO: This can just be `const validationErrors: $ReadOnlyArray<ValidationError>`
   const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
-    const { mandatoryTopics } = props;
     const destinationNarrow = getDestinationNarrow();
     const { value: messageInputValue } = messageInputState;
 
@@ -475,10 +490,9 @@ function ComposeBoxInner(props: Props): Node {
     }
 
     return result;
-  }, [getDestinationNarrow, props, numUploading, messageInputState]);
+  }, [getDestinationNarrow, mandatoryTopics, numUploading, messageInputState]);
 
   const handleSubmit = useCallback(() => {
-    const { dispatch, _, isEditing } = props;
     const { value: messageInputValue } = messageInputState;
     const destinationNarrow = getDestinationNarrow();
     const validationErrors = getValidationErrors();
@@ -507,7 +521,7 @@ function ComposeBoxInner(props: Props): Node {
       return;
     }
 
-    props.onSend(messageInputValue, destinationNarrow);
+    onSend(messageInputValue, destinationNarrow);
 
     setMessageInputValue(() => '');
 
@@ -516,7 +530,16 @@ function ComposeBoxInner(props: Props): Node {
     }
 
     dispatch(sendTypingStop(destinationNarrow));
-  }, [getDestinationNarrow, getValidationErrors, props, setMessageInputValue, messageInputState]);
+  }, [
+    getDestinationNarrow,
+    getValidationErrors,
+    _,
+    dispatch,
+    isEditing,
+    onSend,
+    setMessageInputValue,
+    messageInputState,
+  ]);
 
   const inputMarginPadding = useMemo(
     () => ({
@@ -580,21 +603,6 @@ function ComposeBoxInner(props: Props): Node {
 
   const { value: messageInputValue, selection: messageInputSelection } = messageInputState;
 
-  const {
-    ownUserId,
-    narrow,
-    allUsersById,
-    isEditing,
-    insets,
-    isAdmin,
-    isAnnouncementOnly,
-    isSubscribed,
-    stream,
-    streamsById,
-    videoChatProvider,
-    _,
-  } = props;
-
   if (!isSubscribed) {
     return <NotSubscribed narrow={narrow} />;
   } else if (isAnnouncementOnly && !isAdmin) {
@@ -657,7 +665,7 @@ function ComposeBoxInner(props: Props): Node {
             underlineColorAndroid="transparent"
             placeholder="Topic"
             defaultValue={topicInputState.value}
-            autoFocus={props.autoFocusTopic}
+            autoFocus={autoFocusTopic}
             selectTextOnFocus
             textInputRef={topicInputRef}
             onChangeText={handleTopicChange}
@@ -675,7 +683,7 @@ function ComposeBoxInner(props: Props): Node {
             underlineColorAndroid="transparent"
             placeholder={placeholder}
             defaultValue={messageInputValue}
-            autoFocus={props.autoFocusMessage}
+            autoFocus={autoFocusMessage}
             textInputRef={messageInputRef}
             onBlur={handleMessageBlur}
             onChangeText={handleMessageChange}
