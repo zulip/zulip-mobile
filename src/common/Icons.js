@@ -2,7 +2,7 @@
 import React from 'react';
 import type { ComponentType } from 'react';
 import { Text } from 'react-native';
-import type { Color, IconProps as IconPropsBusted } from 'react-native-vector-icons';
+import type { IconProps as IconPropsBusted } from 'react-native-vector-icons';
 import Feather from 'react-native-vector-icons/Feather';
 import type { FeatherGlyphs } from 'react-native-vector-icons/Feather';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
@@ -28,7 +28,7 @@ type IconProps<Glyphs: string> = {|
   ...$Exact<React$ElementConfig<typeof Text>>,
   size?: number,
   name: Glyphs,
-  color?: Color,
+  color?: string,
 |};
 
 const fixIconType = <Glyphs: string>(
