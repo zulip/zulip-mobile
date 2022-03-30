@@ -1,15 +1,14 @@
 /* @flow strict-local */
 import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
-import type { ComponentType, Node } from 'react';
+import type { Node } from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
-import { type EdgeInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import invariant from 'invariant';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
-import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import { ThemeContext, BRAND_COLOR } from '../styles';
 import type { Narrow, InputSelection, VideoChatProvider } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
@@ -53,7 +52,7 @@ import { ensureUnreachable } from '../generics';
 
 /* eslint-disable no-shadow */
 
-type OuterProps = $ReadOnly<{|
+type Props = $ReadOnly<{|
   /** The narrow shown in the message list.  Must be a conversation or stream. */
   // In particular `getDestinationNarrow` makes assumptions about the narrow
   // (and other code might too.)
@@ -78,13 +77,6 @@ type OuterProps = $ReadOnly<{|
   autoFocusMessage?: boolean,
 |}>;
 
-type Props = $ReadOnly<{|
-  ...OuterProps,
-
-  // from withSafeAreaInsets
-  insets: EdgeInsets,
-|}>;
-
 // TODO(?): Could deduplicate with this type in ShareWrapper.
 export type ValidationError = 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty';
 
@@ -105,7 +97,7 @@ const updateTextInput = (textInput, text) => {
   textInput.setNativeProps({ text });
 };
 
-function ComposeBoxInner(props: Props): Node {
+export default function ComposeBox(props: Props): Node {
   const {
     narrow,
     onSend,
@@ -114,7 +106,6 @@ function ComposeBoxInner(props: Props): Node {
     initialTopic,
     autoFocusTopic,
     autoFocusMessage,
-    insets,
   } = props;
 
   const _ = useContext(TranslationContext);
@@ -582,7 +573,6 @@ function ComposeBoxInner(props: Props): Node {
 
   const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
   const style = {
-    paddingBottom: insets.bottom,
     backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
   };
 
@@ -606,7 +596,12 @@ function ComposeBoxInner(props: Props): Node {
           onAutocomplete={handleMessageAutocomplete}
         />
       </View>
-      <View style={[styles.composeBox, style]} onLayout={handleLayoutChange}>
+      <SafeAreaView
+        mode="padding"
+        edges={['bottom']}
+        style={[styles.composeBox, style]}
+        onLayout={handleLayoutChange}
+      >
         <ComposeMenu
           destinationNarrow={getDestinationNarrow()}
           expanded={isMenuExpanded}
@@ -686,12 +681,7 @@ function ComposeBoxInner(props: Props): Node {
             </Touchable>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </View>
   );
 }
-
-// TODO: Use Hooks, not HOCs.
-const ComposeBox: ComponentType<OuterProps> = withSafeAreaInsets(ComposeBoxInner);
-
-export default ComposeBox;
