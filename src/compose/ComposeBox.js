@@ -11,9 +11,9 @@ import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import { ThemeContext, BRAND_COLOR } from '../styles';
-import type { Narrow, InputSelection, GetText, VideoChatProvider } from '../types';
+import type { Narrow, InputSelection, VideoChatProvider } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
-import { withGetText } from '../boot/TranslationProvider';
+import { TranslationContext } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import Touchable from '../common/Touchable';
 import Input from '../common/Input';
@@ -81,9 +81,6 @@ type OuterProps = $ReadOnly<{|
 type Props = $ReadOnly<{|
   ...OuterProps,
 
-  // From 'withGetText'
-  _: GetText,
-
   // from withSafeAreaInsets
   insets: EdgeInsets,
 |}>;
@@ -117,9 +114,10 @@ function ComposeBoxInner(props: Props): Node {
     initialTopic,
     autoFocusTopic,
     autoFocusMessage,
-    _,
     insets,
   } = props;
+
+  const _ = useContext(TranslationContext);
 
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
@@ -694,6 +692,6 @@ function ComposeBoxInner(props: Props): Node {
 }
 
 // TODO: Use Hooks, not HOCs.
-const ComposeBox: ComponentType<OuterProps> = withSafeAreaInsets(withGetText(ComposeBoxInner));
+const ComposeBox: ComponentType<OuterProps> = withSafeAreaInsets(ComposeBoxInner);
 
 export default ComposeBox;
