@@ -162,7 +162,7 @@ function ComposeBoxInner(props: Props): Node {
     dispatch,
   } = props;
 
-  const context = useContext(ThemeContext);
+  const { backgroundColor } = useContext(ThemeContext);
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
@@ -649,7 +649,7 @@ function ComposeBoxInner(props: Props): Node {
           <Input
             style={[
               styles.topicInput,
-              { backgroundColor: context.backgroundColor },
+              { backgroundColor },
               // This is a really dumb hack to work around
               // https://github.com/facebook/react-native/issues/16405.
               // Someone suggests in that thread that { position: absolute,
@@ -679,7 +679,7 @@ function ComposeBoxInner(props: Props): Node {
           <Input
             // TODO(#5291): Don't switch between true/false for multiline
             multiline={!isMenuExpanded}
-            style={[styles.composeTextInput, { backgroundColor: context.backgroundColor }]}
+            style={[styles.composeTextInput, { backgroundColor }]}
             underlineColorAndroid="transparent"
             placeholder={placeholder}
             defaultValue={messageInputValue}
