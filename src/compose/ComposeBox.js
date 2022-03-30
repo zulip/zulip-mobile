@@ -5,26 +5,14 @@ import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { type EdgeInsets } from 'react-native-safe-area-context';
-import { compose } from 'redux';
 import invariant from 'invariant';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
 import { withSafeAreaInsets } from '../react-native-safe-area-context';
 import { ThemeContext, BRAND_COLOR } from '../styles';
-import type {
-  Auth,
-  Narrow,
-  InputSelection,
-  UserOrBot,
-  Dispatch,
-  GetText,
-  Subscription,
-  Stream,
-  UserId,
-  VideoChatProvider,
-} from '../types';
-import { connect } from '../react-redux';
+import type { Narrow, InputSelection, GetText, VideoChatProvider } from '../types';
+import { useSelector, useDispatch } from '../react-redux';
 import { withGetText } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import Touchable from '../common/Touchable';
@@ -65,19 +53,6 @@ import { ensureUnreachable } from '../generics';
 
 /* eslint-disable no-shadow */
 
-type SelectorProps = {|
-  auth: Auth,
-  ownUserId: UserId,
-  allUsersById: Map<UserId, UserOrBot>,
-  isAdmin: boolean,
-  isAnnouncementOnly: boolean,
-  isSubscribed: boolean,
-  videoChatProvider: VideoChatProvider | null,
-  mandatoryTopics: boolean,
-  stream: Subscription | {| ...Stream, in_home_view: boolean |},
-  streamsById: Map<number, Stream>,
-|};
-
 type OuterProps = $ReadOnly<{|
   /** The narrow shown in the message list.  Must be a conversation or stream. */
   // In particular `getDestinationNarrow` makes assumptions about the narrow
@@ -105,17 +80,12 @@ type OuterProps = $ReadOnly<{|
 
 type Props = $ReadOnly<{|
   ...OuterProps,
-  ...SelectorProps,
 
   // From 'withGetText'
   _: GetText,
 
   // from withSafeAreaInsets
   insets: EdgeInsets,
-
-  // from `connect`
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 // TODO(?): Could deduplicate with this type in ShareWrapper.
@@ -147,20 +117,23 @@ function ComposeBoxInner(props: Props): Node {
     initialTopic,
     autoFocusTopic,
     autoFocusMessage,
-    auth,
-    ownUserId,
-    allUsersById,
-    isAdmin,
-    isAnnouncementOnly,
-    isSubscribed,
-    videoChatProvider,
-    mandatoryTopics,
-    stream,
-    streamsById,
     _,
     insets,
-    dispatch,
   } = props;
+
+  const dispatch = useDispatch();
+  const auth = useSelector(getAuth);
+  const ownUserId = useSelector(getOwnUserId);
+  const allUsersById = useSelector(getAllUsersById);
+  const isAdmin = useSelector(getIsAdmin);
+  const isAnnouncementOnly = useSelector(state =>
+    getIsActiveStreamAnnouncementOnly(state, props.narrow),
+  );
+  const isSubscribed = useSelector(state => getIsActiveStreamSubscribed(state, props.narrow));
+  const stream = useSelector(state => getStreamInNarrow(state, props.narrow));
+  const streamsById = useSelector(getStreamsById);
+  const videoChatProvider = useSelector(getVideoChatProvider);
+  const mandatoryTopics = useSelector(state => getRealm(state).mandatoryTopics);
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
@@ -721,20 +694,6 @@ function ComposeBoxInner(props: Props): Node {
 }
 
 // TODO: Use Hooks, not HOCs.
-const ComposeBox: ComponentType<OuterProps> = compose(
-  connect<SelectorProps, _, _>((state, props) => ({
-    auth: getAuth(state),
-    ownUserId: getOwnUserId(state),
-    allUsersById: getAllUsersById(state),
-    isAdmin: getIsAdmin(state),
-    isAnnouncementOnly: getIsActiveStreamAnnouncementOnly(state, props.narrow),
-    isSubscribed: getIsActiveStreamSubscribed(state, props.narrow),
-    stream: getStreamInNarrow(state, props.narrow),
-    streamsById: getStreamsById(state),
-    videoChatProvider: getVideoChatProvider(state),
-    mandatoryTopics: getRealm(state).mandatoryTopics,
-  })),
-  withSafeAreaInsets,
-)(withGetText(ComposeBoxInner));
+const ComposeBox: ComponentType<OuterProps> = withSafeAreaInsets(withGetText(ComposeBoxInner));
 
 export default ComposeBox;
