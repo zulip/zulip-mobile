@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import { get_emoji_matcher, sort_emojis } from '@zulip/shared/js/typeahead';
 import type { ImageEmojiType, EmojiType, ReactionType } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
@@ -49,51 +50,27 @@ export const getFilteredEmojis = (
   query: string,
   activeImageEmojiByName: $ReadOnly<{| [string]: ImageEmojiType |}>,
 ): $ReadOnlyArray<{| emoji_type: EmojiType, name: string, code: string |}> => {
-  // We start by making a map from matching emoji names to a number
-  // representing how good a match it is: 0 for a prefix match, 1 for a
-  // match anywhere else in the string.
+  const emojiMatcher = get_emoji_matcher(query);
 
-  const matchingUnicodeEmoji = objectEntries(unicodeCodeByName)
-    .map(([name, code]) => {
-      // This logic does not do any special handling for things like
-      // skin-tone modifiers or gender modifiers, since Zulip does not
-      // currently support those: https://github.com/zulip/zulip/issues/992.
-      // Once support is added for that, we may want to come back here and
-      // modify this logic, if for instance, there is a default skin-tone
-      // setting in the webapp that we want to also surface here. (or
-      // perhaps it will be best to leave it as is - that's a product
-      // decision that's yet to be made.) For the time being, it seems
-      // better to not show the user anything if they've searched for an
-      // emoji with a modifier than it is to show them the non-modified
-      // emoji, hence the very simple matching.
-      const matchesEmojiLiteral = parseUnicodeEmojiCode(code) === query;
-      const matchesEmojiName = Math.min(1, name.indexOf(query));
-      return [name, matchesEmojiLiteral ? 0 : matchesEmojiName];
-    })
-    .filter(([_, i]) => i !== -1);
+  const matchingUnicodeEmojis = objectEntries(unicodeCodeByName)
+    .map(([emoji_name, emoji_code]) => ({ emoji_name, emoji_code }))
+    .filter(emoji => emojiMatcher(emoji) || parseUnicodeEmojiCode(emoji.emoji_code) === query);
+  const matchingImageEmojis = objectEntries(activeImageEmojiByName)
+    .map(([_, emoji]) => ({ emoji_name: emoji.name, emoji_code: emoji.code }))
+    .filter(emoji => emojiMatcher(emoji));
+  const allEmojis = [...matchingImageEmojis, ...matchingUnicodeEmojis];
 
-  const matchingImageEmoji = Object.keys(activeImageEmojiByName)
-    .map(x => [x, Math.min(1, x.indexOf(query))])
-    .filter(([_, i]) => i !== -1);
+  const uniqueEmojis = allEmojis.filter(
+    (value, index, self) => index === self.findIndex(e => e.emoji_name === value.emoji_name),
+  );
+  const sortedEmojis = sort_emojis(uniqueEmojis, query);
 
-  const allMatchingEmoji: Map<string, number> = new Map([
-    ...matchingUnicodeEmoji,
-    ...matchingImageEmoji,
-  ]);
-
-  const emoji = Array.from(allMatchingEmoji.keys()).sort((a, b) => {
-    // `.get` will never return `undefined` here, but Flow doesn't know that
-    const n = +allMatchingEmoji.get(a) - +allMatchingEmoji.get(b);
-    // Prefix matches first, then non-prefix, each in lexicographic order.
-    return n !== 0 ? n : a < b ? -1 : 1;
-  });
-
-  return emoji.map(emojiName => {
-    const isImageEmoji = activeImageEmojiByName[emojiName] !== undefined;
+  return sortedEmojis.map(emoji => {
+    const isImageEmoji = activeImageEmojiByName[emoji.emoji_name] !== undefined;
     return {
-      name: emojiName,
+      name: emoji.emoji_name,
       emoji_type: isImageEmoji ? 'image' : 'unicode',
-      code: isImageEmoji ? activeImageEmojiByName[emojiName].code : unicodeCodeByName[emojiName],
+      code: emoji.emoji_code,
     };
   });
 };
