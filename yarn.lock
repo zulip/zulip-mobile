@@ -2586,12 +2586,12 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zulip/shared@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.9.tgz#a7bb13eb22097e0c0f9e1c96008a007860b495e3"
-  integrity sha512-DYQ2pEUcDgLkMvoltnO4EHI1G/tKuuHpKk11gual6Nwih5ZRfcHLOzb40wBfkwwrj3tgEDdniWcggmQnyEseNw==
+"@zulip/shared@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.10.tgz#87bbbb30834df219af08c51efa1d2cc74cbb93c9"
+  integrity sha512-UXR3D8J89MmFwniJmv6HkbwVRd1og/zJadC9lHo/5UE8diFyK0EETFdrfrWD6Q9B2f4zCYQInFI8Z/PgQTEQQw==
   dependencies:
-    katex "^0.12.0"
+    katex "^0.15.3"
     lodash "^4.17.19"
 
 abab@^2.0.3, abab@^2.0.5:
@@ -3806,6 +3806,11 @@ commander@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+
+commander@^8.0.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
 commander@~2.13.0:
   version "2.13.0"
@@ -7318,12 +7323,12 @@ katex@^0.11.1:
   dependencies:
     commander "^2.19.0"
 
-katex@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.12.0.tgz#2fb1c665dbd2b043edcf8a1f5c555f46beaa0cb9"
-  integrity sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==
+katex@^0.15.3:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.15.3.tgz#08781a7ed26800b20380d959d1ffcd62bca0ec14"
+  integrity sha512-Al6V7RJsmjklT9QItyHWGaQCt+NYTle1bZwB1e9MR/tLoIT1MXaHy9UpfGSB7eaqDgjjqqRxQOaQGrALCrEyBQ==
   dependencies:
-    commander "^2.19.0"
+    commander "^8.0.0"
 
 katex@^0.7.1:
   version "0.7.1"
