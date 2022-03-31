@@ -120,21 +120,25 @@ const useUncontrolledInput = (args: {|
     selection: initialSelection,
   });
 
+  const setValueWasCalled = useRef<boolean>(false);
   const setValue = useCallback(
     // TODO: accept partial state, not just updater function
     (updater: (typeof state) => string) => {
-      setState(state => {
-        const newValue = updater(state);
-
-        // TODO: try to do something less dirty for this; see
-        //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
-        ref.current?.setNativeProps({ text: newValue });
-
-        return { ...state, value: newValue };
-      });
+      setValueWasCalled.current = true;
+      setState(state => ({ ...state, value: updater(state) }));
     },
-    [state, ref],
+    [state],
   );
+  const prevValue = usePrevious(state.value);
+  useEffect(() => {
+    if (prevValue !== state.value && setValueWasCalled.current) {
+      // If the state change was requested from the JavaScript side, i.e.,
+      // not in response to a native-props change caused by the user's input
+      // device, update the native props.
+      ref.current?.setNativeProps({ text: state.value });
+      setValueWasCalled.current = false;
+    }
+  });
 
   const setSelection = useCallback(() => {
     // TODO: Implement
