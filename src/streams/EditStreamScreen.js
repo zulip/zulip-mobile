@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
 import Screen from '../common/Screen';
-import EditStreamCard from './EditStreamCard';
+import EditStreamCard, { type StreamSettings } from './EditStreamCard';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'edit-stream'>,
@@ -21,8 +21,8 @@ export default function EditStreamScreen(props: Props): Node {
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
   const handleComplete = useCallback(
-    (name: string, description: string, invite_only: boolean) => {
-      dispatch(updateExistingStream(stream.stream_id, stream, { name, description, invite_only }));
+    (settings: StreamSettings) => {
+      dispatch(updateExistingStream(stream.stream_id, stream, settings));
       NavigationService.dispatch(navigateBack());
     },
     [stream, dispatch],

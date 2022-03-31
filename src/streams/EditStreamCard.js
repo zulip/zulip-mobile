@@ -17,14 +17,16 @@ const componentStyles = createStyleSheet({
   },
 });
 
+export type StreamSettings = {|
+  name: string,
+  description: string,
+  invite_only: boolean,
+|};
+
 type Props = $ReadOnly<{|
   isNewStream: boolean,
-  initialValues: {|
-    name: string,
-    description: string,
-    invite_only: boolean,
-  |},
-  onComplete: (name: string, description: string, invite_only: boolean) => void,
+  initialValues: StreamSettings,
+  onComplete: (settings: StreamSettings) => void,
 |}>;
 
 type State = {|
@@ -43,7 +45,7 @@ export default class EditStreamCard extends PureComponent<Props, State> {
   handlePerformAction: () => void = () => {
     const { onComplete } = this.props;
     const { name, description, invite_only } = this.state;
-    onComplete(name, description, invite_only);
+    onComplete({ name, description, invite_only });
   };
 
   handleNameChange: string => void = name => {

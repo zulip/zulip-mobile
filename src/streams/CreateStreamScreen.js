@@ -9,7 +9,7 @@ import { useSelector } from '../react-redux';
 import { navigateBack } from '../actions';
 import { getAuth, getOwnEmail } from '../selectors';
 import Screen from '../common/Screen';
-import EditStreamCard from './EditStreamCard';
+import EditStreamCard, { type StreamSettings } from './EditStreamCard';
 import * as api from '../api';
 
 type Props = $ReadOnly<{|
@@ -22,8 +22,8 @@ export default function CreateStreamScreen(props: Props): Node {
   const ownEmail = useSelector(getOwnEmail);
 
   const handleComplete = useCallback(
-    (name: string, description: string, invite_only: boolean) => {
-      api.createStream(auth, name, description, [ownEmail], invite_only);
+    (settings: StreamSettings) => {
+      api.createStream(auth, settings.name, settings.description, [ownEmail], settings.invite_only);
       NavigationService.dispatch(navigateBack());
     },
     [auth, ownEmail],
