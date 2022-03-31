@@ -286,13 +286,11 @@ export default function ComposeBox(props: Props): Node {
     setIsMenuExpanded(false);
   }, []);
 
-  const setTopicInputValue = useCallback(
-    (topic: string) => {
-      topicInputRef.current?.setNativeProps({ text: topic });
-      handleTopicChange(topic);
-    },
-    [handleTopicChange],
-  );
+  const setTopicInputValue = useCallback((topic: string) => {
+    topicInputRef.current?.setNativeProps({ text: topic });
+    setTopicInputState({ value: topic });
+    setIsMenuExpanded(false);
+  }, []);
 
   const insertMessageTextAtCursorPosition = useCallback(
     (text: string) => {
