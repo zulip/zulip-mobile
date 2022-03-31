@@ -86,17 +86,6 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const updateTextInput = (textInput, text) => {
-  if (textInput === null) {
-    // Depending on the lifecycle events this function is called from,
-    // this might not be set yet.
-    return;
-  }
-
-  // `textInput` is untyped; see definition.
-  textInput.setNativeProps({ text });
-};
-
 export default function ComposeBox(props: Props): Node {
   const {
     narrow,
@@ -157,7 +146,7 @@ export default function ComposeBox(props: Props): Node {
 
   // The topic input is currently uncontrolled, for performance concerns;
   // see #2738. That means if you change this state, it won't cause the
-  // input value to change; callers should call updateTextInput for that.
+  // input value to change; callers should call setNativeProps({ text }) for that.
   // But if callers do that, they should *also* update this state, because
   // it's our best read of what the actual value is, so it needs to be
   // up-to-date. That's what setTopicInputValue (far below) is for; it does
@@ -169,7 +158,7 @@ export default function ComposeBox(props: Props): Node {
 
   // The message input is currently uncontrolled, for performance concerns;
   // see #2738. That means if you change this state, it won't cause the
-  // input value to change; callers should call updateTextInput for that.
+  // input value to change; callers should call setNativeProps({ text }) for that.
   // But if callers do that, they should *also* update this state, because
   // it's our best read of what the actual value is, so it needs to be
   // up-to-date. That's what setMessageInputValue (far below) is for; it does
@@ -234,7 +223,7 @@ export default function ComposeBox(props: Props): Node {
 
         // TODO: try to do something less dirty for this; see
         //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
-        updateTextInput(messageInputRef.current, newValue);
+        messageInputRef.current?.setNativeProps({ text: newValue });
 
         return { ...state, value: newValue };
       });
@@ -249,7 +238,7 @@ export default function ComposeBox(props: Props): Node {
 
   const setTopicInputValue = useCallback(
     (topic: string) => {
-      updateTextInput(topicInputRef.current, topic);
+      topicInputRef.current?.setNativeProps({ text: topic });
       handleTopicChange(topic);
     },
     [handleTopicChange],
