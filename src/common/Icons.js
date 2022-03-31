@@ -10,6 +10,8 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import ZulipIcon from './ZulipIcon';
+
 /**
  * The props actually accepted by icon components in r-n-vector-icons.
  *
@@ -96,4 +98,4 @@ export const IconUserMuted: SpecificIconType = makeIcon(FontAwesome, 'user');
 export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
-export const IconWebPublic: SpecificIconType = makeIcon(FontAwesome, 'globe');
+export const IconWebPublic: SpecificIconType = props => <ZulipIcon name="globe" {...props} />;
