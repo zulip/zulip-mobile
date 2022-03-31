@@ -122,10 +122,12 @@ const useUncontrolledInput = (args: {|
 
   const setValueWasCalled = useRef<boolean>(false);
   const setValue = useCallback(
-    // TODO: accept partial state, not just updater function
-    (updater: (typeof state) => string) => {
+    (updater: string | ((typeof state) => string)) => {
       setValueWasCalled.current = true;
-      setState(state => ({ ...state, value: updater(state) }));
+      setState(state => ({
+        ...state,
+        value: typeof updater === 'function' ? updater(state) : updater,
+      }));
     },
     [state],
   );
@@ -400,7 +402,7 @@ export default function ComposeBox(props: Props): Node {
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
   const handleMessageAutocomplete = useCallback(
     (completedText: string, completion: string, lastWordPrefix: string) => {
-      setMessageInputValue(() => completedText);
+      setMessageInputValue(completedText);
 
       if (lastWordPrefix === '@') {
         // https://github.com/eslint/eslint/issues/11045
@@ -522,7 +524,7 @@ export default function ComposeBox(props: Props): Node {
 
     onSend(messageInputValue, destinationNarrow);
 
-    setMessageInputValue(() => '');
+    setMessageInputValue('');
 
     if (mentionWarnings.current) {
       mentionWarnings.current.clearMentionWarnings();
