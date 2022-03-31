@@ -23,7 +23,13 @@ export default function CreateStreamScreen(props: Props): Node {
 
   const handleComplete = useCallback(
     (settings: StreamSettings) => {
-      api.createStream(auth, settings.name, settings.description, [ownEmail], settings.invite_only);
+      const params = {
+        name: settings.name,
+        description: settings.description,
+        principals: [ownEmail],
+        invite_only: settings.invite_only,
+      };
+      api.createStream(auth, params);
       NavigationService.dispatch(navigateBack());
     },
     [auth, ownEmail],
