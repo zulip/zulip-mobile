@@ -205,6 +205,7 @@ export default function ComposeBox(props: Props): Node {
       if (!isEditing) {
         dispatch(draftUpdate(narrow, messageInputValue));
       }
+      setIsMenuExpanded(false);
     }
   }, [dispatch, isEditing, narrow, messageInputState, prevMessageInputState]);
 
@@ -224,7 +225,6 @@ export default function ComposeBox(props: Props): Node {
 
   const handleMessageChange = useCallback((value: string) => {
     setMessageInputState(state => ({ ...state, value }));
-    setIsMenuExpanded(false);
   }, []);
 
   const setMessageInputValue = useCallback(
@@ -238,7 +238,6 @@ export default function ComposeBox(props: Props): Node {
 
         return { ...state, value: newValue };
       });
-      setIsMenuExpanded(false);
     },
     [messageInputState],
   );
