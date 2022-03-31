@@ -6,7 +6,7 @@ import { getAuth, getZulipFeatureLevel } from '../selectors';
 export const updateExistingStream = (
   id: number,
   initialValues: Stream,
-  newValues: {| name: string, description: string, isPrivate: boolean |},
+  newValues: {| name: string, description: string, invite_only: boolean |},
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
 
@@ -26,8 +26,8 @@ export const updateExistingStream = (
   if (initialValues.description !== newValues.description) {
     updates.description = maybeEncode(newValues.description);
   }
-  if (initialValues.invite_only !== newValues.isPrivate) {
-    updates.is_private = newValues.isPrivate;
+  if (initialValues.invite_only !== newValues.invite_only) {
+    updates.is_private = newValues.invite_only;
   }
 
   if (Object.keys(updates).length > 0) {

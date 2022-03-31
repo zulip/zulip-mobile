@@ -24,26 +24,26 @@ type Props = $ReadOnly<{|
     description: string,
     invite_only: boolean,
   |},
-  onComplete: (name: string, description: string, isPrivate: boolean) => void,
+  onComplete: (name: string, description: string, invite_only: boolean) => void,
 |}>;
 
 type State = {|
   name: string,
   description: string,
-  isPrivate: boolean,
+  invite_only: boolean,
 |};
 
 export default class EditStreamCard extends PureComponent<Props, State> {
   state: State = {
     name: this.props.initialValues.name,
     description: this.props.initialValues.description,
-    isPrivate: this.props.initialValues.invite_only,
+    invite_only: this.props.initialValues.invite_only,
   };
 
   handlePerformAction: () => void = () => {
     const { onComplete } = this.props;
-    const { name, description, isPrivate } = this.state;
-    onComplete(name, description, isPrivate);
+    const { name, description, invite_only } = this.state;
+    onComplete(name, description, invite_only);
   };
 
   handleNameChange: string => void = name => {
@@ -54,8 +54,8 @@ export default class EditStreamCard extends PureComponent<Props, State> {
     this.setState({ description });
   };
 
-  handleIsPrivateChange: boolean => void = isPrivate => {
-    this.setState({ isPrivate });
+  handleInviteOnlyChange: boolean => void = invite_only => {
+    this.setState({ invite_only });
   };
 
   render(): Node {
@@ -83,8 +83,8 @@ export default class EditStreamCard extends PureComponent<Props, State> {
           style={componentStyles.switchRow}
           Icon={IconPrivate}
           label="Private"
-          value={this.state.isPrivate}
-          onValueChange={this.handleIsPrivateChange}
+          value={this.state.invite_only}
+          onValueChange={this.handleInviteOnlyChange}
         />
         <ZulipButton
           style={styles.marginTop}
