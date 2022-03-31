@@ -267,6 +267,16 @@ export default function ComposeBox(props: Props): Node {
     }
   }, [dispatch, isEditing, narrow, messageInputState, prevMessageInputState]);
 
+  const prevTopicInputState = usePrevious(topicInputState);
+  useEffect(() => {
+    const topicInputValue = topicInputState.value;
+    const prevTopicInputValue = prevTopicInputState?.value;
+
+    if (prevTopicInputValue !== topicInputValue) {
+      setIsMenuExpanded(false);
+    }
+  }, [topicInputState, prevTopicInputState]);
+
   const updateIsFocused = useCallback(() => {
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
@@ -283,13 +293,11 @@ export default function ComposeBox(props: Props): Node {
 
   const handleTopicChange = useCallback((value: string) => {
     setTopicInputState({ value });
-    setIsMenuExpanded(false);
   }, []);
 
   const setTopicInputValue = useCallback((topic: string) => {
     topicInputRef.current?.setNativeProps({ text: topic });
     setTopicInputState({ value: topic });
-    setIsMenuExpanded(false);
   }, []);
 
   const insertMessageTextAtCursorPosition = useCallback(
