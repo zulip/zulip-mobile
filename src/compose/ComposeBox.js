@@ -135,7 +135,10 @@ export default function ComposeBox(props: Props): Node {
 
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
 
+  // TODO(#5141): Encapsulate this in a nice, plain action-sheet pattern
+  //   instead of setting it all over the place
   const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
+
   const [height, setHeight] = useState<number>(20);
   const [numUploading, setNumUploading] = useState<number>(0);
 
