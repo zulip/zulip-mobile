@@ -83,6 +83,7 @@
     "@octokit/core": "^3.4.0",
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
+    "@vusion/webfonts-generator": "^0.8.0",
     "babel-eslint": "^10.0.3",
     "core-js": "^3.1.4",
     "deep-freeze": "^0.0.1",

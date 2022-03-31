@@ -58,6 +58,7 @@
 	<string>Upload photos to a Zulip realm</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>zulip-icons.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>FontAwesome.ttf</string>

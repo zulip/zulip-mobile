@@ -1,0 +1,96 @@
+#!/usr/bin/env node
+/**
+ * Rebuild our custom icon font, zulip-icons.ttf.
+ *
+ * To use these icons, just use our component `ZulipIcon`.
+ *
+ * To add a new icon:
+ *
+ *  * Update the shared package to a version that has the icon.
+ *    (The icons are `shared/icons/*.svg`.)  See:
+ *      https://github.com/zulip/zulip-mobile/blob/main/docs/howto/shared.md
+ *
+ *  * Rerun this script.  It will update two files:
+ *      static/assets/fonts/zulip-icons.ttf
+ *      static/assets/fonts/zulip-icons.map.js
+ *
+ *    * If you have a debug build of the app, hot reload will not work
+ *      across this change.  You must rebuild the app (with
+ *      `tools/run-android`, `react-native run-ios`, or the equivalents
+ *      inside Android Studio or Xcode), just like if you'd edited native
+ *      code.
+ *
+ *  * Now the new icon will be available for use.
+ *
+ *  * Commit the changes, and include them in a PR.
+ *
+ * (An alternate way we could have this work would be for the script to run
+ * automatically at build time, instead of having the generated font live in
+ * the Git tree.  That would have a small downside in that Flow would no
+ * longer see the actual set of available icon names for type-checking uses
+ * of `ZulipIcon`.)
+ */
+
+/* eslint-env node */
+
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const webfontsGenerator = require('@vusion/webfonts-generator');
+
+/** Absolute path to the directory at the root of the given package. */
+const packagePath = packageName => path.dirname(require.resolve(`${packageName}/package.json`));
+
+const fontName = 'zulip-icons';
+
+// The root of our tree.
+const rootDir = path.dirname(__dirname);
+
+async function main() {
+  const srcDir = path.join(packagePath('@zulip/shared'), 'icons');
+  const iconFiles = fs
+    .readdirSync(srcDir)
+    .filter(name => name.endsWith('.svg'))
+    .map(name => path.join(srcDir, name));
+
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-icon-font-'));
+
+  // This gets mutated by `webfonts-generator` to tell us the generated mapping.
+  const codepoints = {};
+
+  await new Promise((resolve, reject) =>
+    webfontsGenerator(
+      {
+        dest: tmpDir,
+        codepoints,
+        fontName,
+        files: iconFiles,
+
+        types: ['ttf'],
+        css: false,
+        // Useful for debugging:
+        //   html: true,
+      },
+      err => (err ? reject(err) : resolve()),
+    ),
+  );
+
+  const destDir = path.join(rootDir, 'static', 'assets', 'fonts');
+  fs.copyFileSync(path.join(tmpDir, `${fontName}.ttf`), path.join(destDir, `${fontName}.ttf`));
+  fs.writeFileSync(
+    path.join(destDir, `${fontName}.map.js`),
+    `\
+/*
+ * This file is @${'generated'} -- do not edit.
+ * To make changes, see tools/build-icon-font.
+ *
+ * @flow strict
+ */
+export default ${JSON.stringify(codepoints, undefined, 2)};
+`,
+  );
+
+  fs.rmSync(tmpDir, { recursive: true });
+}
+
+main();

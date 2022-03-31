@@ -187,6 +187,9 @@ android {
             }
         }
     }
+    sourceSets.main {
+        assets.srcDirs += file("../../static/assets")
+    }
 }
 
 repositories {
