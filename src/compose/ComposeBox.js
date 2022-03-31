@@ -224,9 +224,17 @@ export default function ComposeBox(props: Props): Node {
     either: false,
   });
 
-  // TODO: Use useUncontrolledInput for this
-  const [topicInputState, setTopicInputState] = useState<{| value: string |}>({
-    value: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
+  const [
+    topicInputState,
+    setTopicInputValue,
+    setTopicInputSelection /* eslint-disable-line no-unused-vars */,
+    {
+      _handleValueChange: _handleTopicValueChange,
+      _handleSelectionChange: _handleTopicSelectionChange,
+    },
+  ] = useUncontrolledInput({
+    ref: topicInputRef,
+    initialValue: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
   });
 
   const [
@@ -292,15 +300,6 @@ export default function ComposeBox(props: Props): Node {
     }
     return focusState.either;
   }, [isEditing, narrow, focusState.either]);
-
-  const handleTopicChange = useCallback((value: string) => {
-    setTopicInputState({ value });
-  }, []);
-
-  const setTopicInputValue = useCallback((topic: string) => {
-    topicInputRef.current?.setNativeProps({ text: topic });
-    setTopicInputState({ value: topic });
-  }, []);
 
   const insertMessageTextAtCursorPosition = useCallback(
     (text: string) => {
@@ -675,7 +674,8 @@ export default function ComposeBox(props: Props): Node {
             autoFocus={autoFocusTopic}
             selectTextOnFocus
             textInputRef={topicInputRef}
-            onChangeText={handleTopicChange}
+            onChangeText={_handleTopicValueChange}
+            onSelectionChange={_handleTopicSelectionChange}
             onFocus={handleTopicFocus}
             onBlur={handleTopicBlur}
             onTouchStart={handleInputTouchStart}
