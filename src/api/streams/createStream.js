@@ -9,7 +9,7 @@ export default (
   description?: string = '',
   // TODO(server-3.0): Send numeric user IDs (#3764), not emails.
   principals?: $ReadOnlyArray<string> = [],
-  inviteOnly?: boolean = false,
+  invite_only?: boolean = false,
   is_web_public?: boolean = false,
   history_public_to_subscribers?: boolean = false,
   announce?: boolean = false,
@@ -17,7 +17,7 @@ export default (
   apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify([{ name, description }]),
     principals: JSON.stringify(principals),
-    invite_only: inviteOnly,
+    invite_only,
     is_web_public,
     history_public_to_subscribers,
     announce,
