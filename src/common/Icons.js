@@ -26,8 +26,16 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
  */
 type IconProps<Glyphs: string> = {|
   ...$Exact<React$ElementConfig<typeof Text>>,
-  size?: number,
   name: Glyphs,
+
+  /**
+   * The size, as a font size.
+   *
+   * Upstream accepts a missing size.  But really a default size doesn't
+   * make sense, so we make it required.
+   */
+  size: number,
+
   color?: string,
 |};
 
