@@ -89,3 +89,5 @@ export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
 export const IconPublic: SpecificIconType = makeIcon(FontAwesome, 'globe');
+export const IconExpand: SpecificIconType = makeIcon(FontAwesome, 'expand');
+export const IconCompress: SpecificIconType = makeIcon(FontAwesome, 'compress');

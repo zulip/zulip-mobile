@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { ComponentType } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Modal, Text } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { type EdgeInsets } from 'react-native-safe-area-context';
@@ -30,7 +30,7 @@ import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import Touchable from '../common/Touchable';
 import Input from '../common/Input';
 import { showToast, showErrorAlert } from '../utils/info';
-import { IconDone, IconSend } from '../common/Icons';
+import { IconDone, IconSend, IconExpand, IconCompress } from '../common/Icons';
 import {
   isConversationNarrow,
   isStreamNarrow,
@@ -131,6 +131,7 @@ type State = {|
   message: string,
   height: number,
   selection: InputSelection,
+  isExpanded: boolean,
 |};
 
 // TODO(?): Could deduplicate with this type in ShareWrapper.
@@ -180,6 +181,7 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     message: this.props.initialMessage ?? '',
     selection: { start: 0, end: 0 },
     numUploading: 0,
+    isExpanded: false,
   };
 
   componentWillUnmount() {
@@ -466,10 +468,16 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       flexShrink: 1,
       maxHeight: '60%',
     },
+    expandedWrapper: {
+      flex: 1,
+    },
     autocompleteWrapper: {
       position: 'absolute',
       bottom: 0,
       width: '100%',
+    },
+    messageTitle: {
+      flexDirection: 'column',
     },
     composeBox: {
       flexDirection: 'row',
@@ -490,6 +498,11 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       borderRadius: 32,
       padding: 8,
     },
+    expandedSendButton: {
+      position: 'absolute',
+      right: 15,
+      top: 8,
+    },
     topicInput: {
       borderWidth: 0,
       borderRadius: 5,
@@ -497,11 +510,47 @@ class ComposeBoxInner extends PureComponent<Props, State> {
       ...this.inputMarginPadding,
     },
     composeTextInput: {
+      paddingRight: 10,
       borderWidth: 0,
       borderRadius: 5,
       fontSize: 15,
       flexShrink: 1,
       ...this.inputMarginPadding,
+    },
+    expandedTextInput: {
+      paddingVertical: 8,
+    },
+    expandComposeBox: {
+      position: 'absolute',
+      right: 10,
+      top: 8,
+      color: this.context.backgroundColor === 'white' ? 'rgb(201, 201, 201)' : 'gray',
+    },
+    shrinkComposeBox: {
+      color: this.context.backgroundColor === 'white' ? 'rgb(201, 201, 201)' : 'gray',
+    },
+    botomMenubar: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 50,
+      backgroundColor: this.context.backgroundColor,
+    },
+    expandedTopicInput: {
+      position: 'relative',
+      bottom: -1,
+    },
+    expandedComposeContainer: {
+      backgroundColor: this.context.backgroundColor,
+      flexDirection: 'column',
+      flex: 1,
+    },
+    modalTitle: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height: 50,
+      paddingHorizontal: 10,
     },
   };
 
@@ -534,7 +583,15 @@ class ComposeBoxInner extends PureComponent<Props, State> {
   };
 
   render() {
-    const { isTopicFocused, isMenuExpanded, height, message, topic, selection } = this.state;
+    const {
+      isTopicFocused,
+      isMenuExpanded,
+      height,
+      message,
+      topic,
+      selection,
+      isExpanded,
+    } = this.state;
     const {
       ownUserId,
       narrow,
@@ -569,104 +626,245 @@ class ComposeBoxInner extends PureComponent<Props, State> {
     const submitButtonDisabled = this.getValidationErrors().length > 0;
 
     return (
-      <View style={this.styles.wrapper}>
-        <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
-        <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
-          <TopicAutocomplete
-            isFocused={isTopicFocused}
-            narrow={narrow}
-            text={topic}
-            onAutocomplete={this.handleTopicAutocomplete}
-          />
-          <AutocompleteView
-            isFocused={this.state.isMessageFocused}
-            selection={selection}
-            text={message}
-            onAutocomplete={this.handleMessageAutocomplete}
-          />
-        </View>
-        <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
-          <ComposeMenu
-            destinationNarrow={this.getDestinationNarrow()}
-            expanded={isMenuExpanded}
-            insertAttachment={this.insertAttachment}
-            insertVideoCallLink={insertVideoCallLink}
-            onExpandContract={this.handleComposeMenuToggle}
-          />
-          <View style={this.styles.composeText}>
-            <Input
-              style={[
-                this.styles.topicInput,
-                { backgroundColor: this.context.backgroundColor },
-                // This is a really dumb hack to work around
-                // https://github.com/facebook/react-native/issues/16405.
-                // Someone suggests in that thread that { position: absolute,
-                // zIndex: -1 } will work, which it does not (the border of the
-                // TextInput is still visible, even with very negative zIndex
-                // values). Someone else suggests { transform: [{scale: 0}] }
-                // (https://stackoverflow.com/a/49817873), which doesn't work
-                // either. However, a combinarion of the two of them seems to
-                // work.
-                !this.getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
-              ]}
-              autoCapitalize="none"
-              underlineColorAndroid="transparent"
-              placeholder="Topic"
-              defaultValue={topic}
-              autoFocus={this.props.autoFocusTopic}
-              selectTextOnFocus
-              textInputRef={this.topicInputRef}
-              onChangeText={this.handleTopicChange}
-              onFocus={this.handleTopicFocus}
-              onBlur={this.handleTopicBlur}
-              onTouchStart={this.handleInputTouchStart}
-              onSubmitEditing={() => this.messageInputRef.current?.focus()}
-              blurOnSubmit={false}
-              returnKeyType="next"
-            />
-            <Input
-              multiline={!isMenuExpanded}
-              style={[
-                this.styles.composeTextInput,
-                { backgroundColor: this.context.backgroundColor },
-              ]}
-              underlineColorAndroid="transparent"
-              placeholder={placeholder}
-              defaultValue={message}
-              autoFocus={this.props.autoFocusMessage}
-              textInputRef={this.messageInputRef}
-              onBlur={this.handleMessageBlur}
-              onChangeText={this.handleMessageChange}
-              onFocus={this.handleMessageFocus}
-              onSelectionChange={this.handleMessageSelectionChange}
-              onTouchStart={this.handleInputTouchStart}
-            />
-          </View>
-          <View style={this.styles.submitButtonContainer}>
-            <View
-              // Mask the Android ripple-on-touch so it doesn't extend
-              //   outside the circle…
-              // TODO: `Touchable` should do this, and the `hitSlop`
-              //   workaround below.
-              style={{
-                borderRadius: this.styles.submitButton.borderRadius,
-                overflow: 'hidden',
-              }}
-              // …and don't defeat the `Touchable`'s `hitSlop`.
-              hitSlop={this.submitButtonHitSlop}
-            >
-              <Touchable
-                style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
-                onPress={this.handleSubmit}
-                accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
-                hitSlop={this.submitButtonHitSlop}
-              >
-                <SubmitButtonIcon size={16} color="white" />
-              </Touchable>
+      <>
+        {isExpanded ? (
+          <Modal animationType="slide">
+            <View style={this.styles.expandedComposeContainer}>
+              <View style={this.styles.expandedWrapper}>
+                <View style={this.styles.modalTitle}>
+                  <View style={this.styles.messageTitle}>
+                    <Text style={{ fontSize: 18 }}>New Message</Text>
+                    {/* Hiding the stream name topic name if it is opened in private messages */}
+                    {stream.name !== '' ? (
+                      <Text style={{ fontSize: 12 }}>{`${stream.name} > ${topic}`}</Text>
+                    ) : (
+                      <></>
+                    )}
+                  </View>
+
+                  <IconCompress
+                    style={this.styles.shrinkComposeBox}
+                    size={20}
+                    onPress={() =>
+                      this.setState({
+                        isExpanded: false,
+                      })
+                    }
+                  />
+                </View>
+
+                <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
+                {/* Hiding the topic input if it is opened in private messages */}
+                {stream.name !== '' ? (
+                  <View style={this.styles.expandedTopicInput}>
+                    <TopicAutocomplete
+                      isFocused={isTopicFocused}
+                      narrow={narrow}
+                      text={topic}
+                      onAutocomplete={this.handleTopicAutocomplete}
+                    />
+                    <Text style={{ fontSize: 12, paddingLeft: 5, marginTop: 10 }}> Topic: </Text>
+                    <Input
+                      style={[
+                        this.styles.topicInput,
+                        { backgroundColor: this.context.backgroundColor },
+                      ]}
+                      underlineColorAndroid="transparent"
+                      placeholder="Enter topic"
+                      defaultValue={topic}
+                      autoFocus={this.props.autoFocusTopic}
+                      selectTextOnFocus
+                      textInputRef={this.topicInputRef}
+                      onChangeText={this.handleTopicChange}
+                      onFocus={this.handleTopicFocus}
+                      onBlur={this.handleTopicBlur}
+                      onTouchStart={this.handleInputTouchStart}
+                      onSubmitEditing={() => this.messageInputRef.current?.focus()}
+                      blurOnSubmit={false}
+                      multiline
+                      returnKeyType="next"
+                    />
+                  </View>
+                ) : (
+                  <></>
+                )}
+
+                <View onLayout={this.handleLayoutChange}>
+                  <View style={this.styles.expandedTextInput}>
+                    <AutocompleteView
+                      isFocused={this.state.isMessageFocused}
+                      selection={selection}
+                      text={message}
+                      onAutocomplete={this.handleMessageAutocomplete}
+                    />
+                    <Input
+                      multiline={!isMenuExpanded}
+                      style={[this.styles.composeTextInput]}
+                      underlineColorAndroid="transparent"
+                      placeholder={placeholder}
+                      defaultValue={message}
+                      textInputRef={this.messageInputRef}
+                      onBlur={this.handleMessageBlur}
+                      onChangeText={this.handleMessageChange}
+                      onSelectionChange={this.handleMessageSelectionChange}
+                      onTouchStart={this.handleInputTouchStart}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={this.styles.botomMenubar}>
+                <ComposeMenu
+                  iscomposeExpanded
+                  destinationNarrow={this.getDestinationNarrow()}
+                  expanded
+                  insertAttachment={this.insertAttachment}
+                  insertVideoCallLink={insertVideoCallLink}
+                  onExpandContract={this.handleComposeMenuToggle}
+                />
+                <View style={this.styles.submitButtonContainer}>
+                  <View
+                    // Mask the Android ripple-on-touch so it doesn't extend
+                    //   outside the circle…
+                    // TODO: `Touchable` should do this, and the `hitSlop`
+                    //   workaround below.
+                    style={{
+                      borderRadius: this.styles.submitButton.borderRadius,
+                      overflow: 'hidden',
+                    }}
+                    // …and don't defeat the `Touchable`'s `hitSlop`.
+                    hitSlop={this.submitButtonHitSlop}
+                  >
+                    <Touchable
+                      style={[
+                        this.styles.submitButton,
+                        { opacity: submitButtonDisabled ? 0.25 : 1 },
+                      ]}
+                      onPress={this.handleSubmit}
+                      accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
+                      hitSlop={this.submitButtonHitSlop}
+                    >
+                      <SubmitButtonIcon size={16} color="white" />
+                    </Touchable>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        ) : (
+          <View style={this.styles.wrapper}>
+            <MentionWarnings narrow={narrow} stream={stream} ref={this.mentionWarnings} />
+            <View style={[this.styles.autocompleteWrapper, { marginBottom: height }]}>
+              <TopicAutocomplete
+                isFocused={isTopicFocused}
+                narrow={narrow}
+                text={topic}
+                onAutocomplete={this.handleTopicAutocomplete}
+              />
+              <AutocompleteView
+                isFocused={this.state.isMessageFocused}
+                selection={selection}
+                text={message}
+                onAutocomplete={this.handleMessageAutocomplete}
+              />
+            </View>
+            <View style={[this.styles.composeBox, style]} onLayout={this.handleLayoutChange}>
+              <ComposeMenu
+                iscomposeExpanded={false}
+                destinationNarrow={this.getDestinationNarrow()}
+                expanded={isMenuExpanded}
+                insertAttachment={this.insertAttachment}
+                insertVideoCallLink={insertVideoCallLink}
+                onExpandContract={this.handleComposeMenuToggle}
+              />
+              <View style={this.styles.composeText}>
+                <Input
+                  style={[
+                    this.styles.topicInput,
+                    { backgroundColor: this.context.backgroundColor },
+                    // This is a really dumb hack to work around
+                    // https://github.com/facebook/react-native/issues/16405.
+                    // Someone suggests in that thread that { position: absolute,
+                    // zIndex: -1 } will work, which it does not (the border of the
+                    // TextInput is still visible, even with very negative zIndex
+                    // values). Someone else suggests { transform: [{scale: 0}] }
+                    // (https://stackoverflow.com/a/49817873), which doesn't work
+                    // either. However, a combinarion of the two of them seems to
+                    // work.
+                    !this.getCanSelectTopic() && {
+                      position: 'absolute',
+                      transform: [{ scale: 0 }],
+                    },
+                  ]}
+                  underlineColorAndroid="transparent"
+                  placeholder="Topic"
+                  defaultValue={topic}
+                  autoFocus={this.props.autoFocusTopic}
+                  selectTextOnFocus
+                  textInputRef={this.topicInputRef}
+                  onChangeText={this.handleTopicChange}
+                  onFocus={this.handleTopicFocus}
+                  onBlur={this.handleTopicBlur}
+                  onTouchStart={this.handleInputTouchStart}
+                  onSubmitEditing={() => this.messageInputRef.current?.focus()}
+                  blurOnSubmit={false}
+                  returnKeyType="next"
+                />
+                <View>
+                  <Input
+                    multiline={!isMenuExpanded}
+                    style={[
+                      this.styles.composeTextInput,
+                      { backgroundColor: this.context.backgroundColor },
+                    ]}
+                    underlineColorAndroid="transparent"
+                    placeholder={placeholder}
+                    defaultValue={message}
+                    autoFocus={this.props.autoFocusMessage}
+                    textInputRef={this.messageInputRef}
+                    onBlur={this.handleMessageBlur}
+                    onChangeText={this.handleMessageChange}
+                    onFocus={this.handleMessageFocus}
+                    onSelectionChange={this.handleMessageSelectionChange}
+                    onTouchStart={this.handleInputTouchStart}
+                  />
+                  <IconExpand
+                    style={this.styles.expandComposeBox}
+                    size={15}
+                    onPress={() =>
+                      this.setState({
+                        isExpanded: true,
+                      })
+                    }
+                  />
+                </View>
+              </View>
+              <View style={this.styles.submitButtonContainer}>
+                <View
+                  // Mask the Android ripple-on-touch so it doesn't extend
+                  //   outside the circle…
+                  // TODO: `Touchable` should do this, and the `hitSlop`
+                  //   workaround below.
+                  style={{
+                    borderRadius: this.styles.submitButton.borderRadius,
+                    overflow: 'hidden',
+                  }}
+                  // …and don't defeat the `Touchable`'s `hitSlop`.
+                  hitSlop={this.submitButtonHitSlop}
+                >
+                  <Touchable
+                    style={[this.styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
+                    onPress={this.handleSubmit}
+                    accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
+                    hitSlop={this.submitButtonHitSlop}
+                  >
+                    <SubmitButtonIcon size={16} color="white" />
+                  </Touchable>
+                </View>
+              </View>
             </View>
           </View>
-        </View>
-      </View>
+        )}
+      </>
     );
   }
 }

@@ -25,6 +25,7 @@ import { androidEnsureStoragePermission } from '../lightbox/download';
 
 type OuterProps = $ReadOnly<{|
   expanded: boolean,
+  iscomposeExpanded: boolean,
   destinationNarrow: Narrow,
   insertAttachment: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
@@ -236,7 +237,7 @@ class ComposeMenuInner extends PureComponent<Props> {
   });
 
   render() {
-    const { expanded, insertVideoCallLink, onExpandContract } = this.props;
+    const { expanded, insertVideoCallLink, onExpandContract, iscomposeExpanded } = this.props;
     const numIcons =
       2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
@@ -278,8 +279,13 @@ class ComposeMenuInner extends PureComponent<Props> {
         {!expanded && (
           <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
         )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+        {/* Hiding the left icon if it is opened by the expanded compose box */}
+        {!iscomposeExpanded ? (
+          expanded && (
+            <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
+          )
+        ) : (
+          <></>
         )}
       </View>
     );
