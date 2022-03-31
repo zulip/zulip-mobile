@@ -51,6 +51,7 @@ import * as api from '../api';
 import { ensureUnreachable } from '../generics';
 
 /* eslint-disable no-shadow */
+/* eslint-disable no-underscore-dangle */
 
 type Props = $ReadOnly<{|
   /** The narrow shown in the message list.  Must be a conversation or stream. */
@@ -85,6 +86,79 @@ const FOCUS_DEBOUNCE_TIME_MS = 16;
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * State management for an Input component that doesn't get passed `value`
+ *   or `selection`, i.e., an uncontrolled Input.
+ *
+ * For background on the concept, see
+ *   https://reactjs.org/docs/uncontrolled-components.html
+ * and our #2738 for the performance concerns that led us to use this in the
+ * compose box.
+ *
+ * Takes a ref that exposes the underlying TextInput's `setNativeProps`, and
+ * returns:
+ *
+ * - The value and selection state
+ * - Functions to set the value and selection
+ * - Private functions that should be passed directly to the Input as props:
+ *     _handleValueChange as onChangeText
+ *     _handleSelectionChange as onSelectionChange
+ */
+const useUncontrolledInput = (args: {|
+  ref: {| current: $FlowFixMe | null |},
+  initialValue?: string,
+  initialSelection?: InputSelection,
+|}) => {
+  const { ref, initialValue = '', initialSelection = { start: 0, end: 0 } } = args;
+
+  const [state, setState] = useState<{|
+    value: string,
+    selection: InputSelection,
+  |}>({
+    value: initialValue,
+    selection: initialSelection,
+  });
+
+  const setValue = useCallback(
+    // TODO: accept partial state, not just updater function
+    (updater: (typeof state) => string) => {
+      setState(state => {
+        const newValue = updater(state);
+
+        // TODO: try to do something less dirty for this; see
+        //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
+        ref.current?.setNativeProps({ text: newValue });
+
+        return { ...state, value: newValue };
+      });
+    },
+    [state, ref],
+  );
+
+  const setSelection = useCallback(() => {
+    // TODO: Implement
+    throw new Error('unimplemented!');
+  }, []);
+
+  return [
+    state,
+    setValue,
+    setSelection,
+    {
+      _handleValueChange: useCallback((value: string) => {
+        setState(state => ({ ...state, value }));
+      }, []),
+      _handleSelectionChange: useCallback(
+        (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
+          const { selection } = event.nativeEvent;
+          setState(state => ({ ...state, selection }));
+        },
+        [],
+      ),
+    },
+  ];
+};
 
 export default function ComposeBox(props: Props): Node {
   const {
@@ -144,32 +218,23 @@ export default function ComposeBox(props: Props): Node {
     either: false,
   });
 
-  // The topic input is currently uncontrolled, for performance concerns;
-  // see #2738. That means if you change this state, it won't cause the
-  // input value to change; callers should call setNativeProps({ text }) for that.
-  // But if callers do that, they should *also* update this state, because
-  // it's our best read of what the actual value is, so it needs to be
-  // up-to-date. That's what setTopicInputValue (far below) is for; it does
-  // both.
-  // TODO(?): Make custom Hook to encapsulate this uncontrolled-input logic.
+  // TODO: Use useUncontrolledInput for this
   const [topicInputState, setTopicInputState] = useState<{| value: string |}>({
     value: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
   });
 
-  // The message input is currently uncontrolled, for performance concerns;
-  // see #2738. That means if you change this state, it won't cause the
-  // input value to change; callers should call setNativeProps({ text }) for that.
-  // But if callers do that, they should *also* update this state, because
-  // it's our best read of what the actual value is, so it needs to be
-  // up-to-date. That's what setMessageInputValue (far below) is for; it does
-  // both.
-  // TODO(?): Make custom Hook to encapsulate this uncontrolled-input logic.
-  const [messageInputState, setMessageInputState] = useState<{|
-    value: string,
-    selection: InputSelection,
-  |}>({
-    value: initialMessage ?? '',
-    selection: { start: 0, end: 0 },
+  const [
+    messageInputState,
+    setMessageInputValue,
+    setMessageInputSelection /* eslint-disable-line no-unused-vars */,
+    {
+      _handleValueChange: _handleMessageValueChange,
+      _handleSelectionChange: _handleMessageSelectionChange,
+    },
+  ] = useUncontrolledInput({
+    ref: messageInputRef,
+    initialValue: initialMessage ?? '',
+    initialSelection: { start: 0, end: 0 },
   });
 
   useEffect(
@@ -211,25 +276,6 @@ export default function ComposeBox(props: Props): Node {
     }
     return focusState.either;
   }, [isEditing, narrow, focusState.either]);
-
-  const handleMessageChange = useCallback((value: string) => {
-    setMessageInputState(state => ({ ...state, value }));
-  }, []);
-
-  const setMessageInputValue = useCallback(
-    (updater: (typeof messageInputState) => string) => {
-      setMessageInputState(state => {
-        const newValue = updater(state);
-
-        // TODO: try to do something less dirty for this; see
-        //   https://github.com/zulip/zulip-mobile/pull/5312#discussion_r838866807
-        messageInputRef.current?.setNativeProps({ text: newValue });
-
-        return { ...state, value: newValue };
-      });
-    },
-    [messageInputState],
-  );
 
   const handleTopicChange = useCallback((value: string) => {
     setTopicInputState({ value });
@@ -353,14 +399,6 @@ export default function ComposeBox(props: Props): Node {
       }
     },
     [setMessageInputValue],
-  );
-
-  const handleMessageSelectionChange = useCallback(
-    (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
-      const { selection } = event.nativeEvent;
-      setMessageInputState(state => ({ ...state, selection }));
-    },
-    [],
   );
 
   const handleMessageFocus = useCallback(() => {
@@ -643,9 +681,9 @@ export default function ComposeBox(props: Props): Node {
             autoFocus={autoFocusMessage}
             textInputRef={messageInputRef}
             onBlur={handleMessageBlur}
-            onChangeText={handleMessageChange}
+            onChangeText={_handleMessageValueChange}
             onFocus={handleMessageFocus}
-            onSelectionChange={handleMessageSelectionChange}
+            onSelectionChange={_handleMessageSelectionChange}
             onTouchStart={handleInputTouchStart}
           />
         </View>
