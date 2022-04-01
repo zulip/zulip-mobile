@@ -1319,5 +1319,5 @@ declare module 'react-native-webview' {
 
   declare export type WebViewProps = $ReadOnly<{| ...IOSWebViewProps, ...AndroidWebViewProps |}>;
   declare export var WebView: React$ComponentType<WebViewProps>;
-  declare export default WebView;
+  declare export default typeof WebView;
 }
