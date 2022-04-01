@@ -144,6 +144,20 @@ declare module '@sentry/react-native' {
     ...
   };
 
+  // Really an exact object type with the commented-out properties present.
+  // (We omit them to be lazy.) Taken from
+  //   https://github.com/getsentry/sentry-javascript/blob/6.12.0/packages/types/src/scope.ts#L16-L24
+  declare export type ScopeContext = {
+    // user: User,
+    level: typeof Severity,
+    // extra: Extras,
+    // contexts: Contexts,
+    tags: { [key: string]: Primitive },
+    fingerprint: string[],
+    // requestSession: RequestSession,
+    ...
+  }
+
   // Taken from @sentry/{minimal,types}/src/scope.ts.
   // More methods are available.
   declare export class Scope {
