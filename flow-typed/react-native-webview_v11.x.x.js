@@ -279,21 +279,19 @@ declare module 'react-native-webview' {
     lastErrorEvent: WebViewError,
   |};
   declare export type State = NormalState | ErrorState;
-  declare class NativeWebViewIOSComponent mixins React$ComponentType<IOSNativeWebViewProps> {}
+  declare var NativeWebViewIOSComponent: React$ComponentType<IOSNativeWebViewProps>;
   declare var NativeWebViewIOSBase: Constructor<NativeMethodsMixin> &
     typeof NativeWebViewIOSComponent;
   declare export class NativeWebViewIOS mixins NativeWebViewIOSBase {}
-  declare class NativeWebViewMacOSComponent mixins React$ComponentType<MacOSNativeWebViewProps> {}
+  declare var NativeWebViewMacOSComponent: React$ComponentType<MacOSNativeWebViewProps>;
   declare var NativeWebViewMacOSBase: Constructor<NativeMethodsMixin> &
     typeof NativeWebViewMacOSComponent;
   declare export class NativeWebViewMacOS mixins NativeWebViewMacOSBase {}
-  declare class NativeWebViewAndroidComponent
-    mixins React$ComponentType<AndroidNativeWebViewProps> {}
+  declare var NativeWebViewAndroidComponent: React$ComponentType<AndroidNativeWebViewProps>;
   declare var NativeWebViewAndroidBase: Constructor<NativeMethodsMixin> &
     typeof NativeWebViewAndroidComponent;
   declare export class NativeWebViewAndroid mixins NativeWebViewAndroidBase {}
-  declare class NativeWebViewWindowsComponent
-    mixins React$ComponentType<WindowsNativeWebViewProps> {}
+  declare var NativeWebViewWindowsComponent: React$ComponentType<WindowsNativeWebViewProps>;
   declare var NativeWebViewWindowsBase: Constructor<NativeMethodsMixin> &
     typeof NativeWebViewWindowsComponent;
   declare export class NativeWebViewWindows mixins NativeWebViewWindowsBase {}
