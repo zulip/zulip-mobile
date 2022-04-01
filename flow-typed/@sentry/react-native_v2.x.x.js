@@ -193,7 +193,7 @@ declare module '@sentry/react-native' {
     setExtras(extras: {| +[key: string]: any |}): this;
   }
 
-  declare export type CaptureContext = Scope | Partial<ScopeContext> | ((scope: Scope) => Scope);
+  declare export type CaptureContext = Scope | $Rest<ScopeContext, { ... }> | ((scope: Scope) => Scope);
 
   // Adapted from @sentry/types/src/client.ts, with some specialization.
   declare export type Client = {
