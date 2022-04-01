@@ -193,7 +193,7 @@ declare module 'react-native-webview/@@react-native' {
   |};
 
   declare type Falsy = void | null | false;
-  declare type RecursiveArray<T> = $Array<T | RecursiveArray<T> | $ReadOnlyArray<T>>;
+  declare type RecursiveArray<T> = Array<T | RecursiveArray<T> | $ReadOnlyArray<T>>;
   /**
    * Keep a brand of 'T' so that calls to `StyleSheet.flatten` can take `RegisteredStyle<T>` and return `T`.
    */
