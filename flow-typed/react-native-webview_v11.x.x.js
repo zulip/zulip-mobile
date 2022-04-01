@@ -73,7 +73,7 @@ declare module 'react-native-webview/@@react-native' {
      * @platform ios
      */
     takeSnapshot: (
-      view?: 'window' | React$Element<> | number,
+      view?: 'window' | React$Element<React$ElementType> | number,
       options?: {|
         width?: number,
         height?: number,
@@ -1175,12 +1175,12 @@ declare module 'react-native-webview' {
       errorDomain: string | void,
       errorCode: number,
       errorDesc: string,
-    ) => React$Element,
+    ) => React$Element<React$ElementType>,
 
     /**
      * Function that returns a loading indicator.
      */
-    renderLoading?: () => React$Element,
+    renderLoading?: () => React$Element<React$ElementType>,
 
     /**
      * Function that is invoked when the `WebView` scrolls.
