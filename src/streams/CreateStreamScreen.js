@@ -28,6 +28,8 @@ export default function CreateStreamScreen(props: Props): Node {
         description: settings.description,
         principals: [ownEmail],
         invite_only: settings.invite_only,
+        is_web_public: settings.is_web_public,
+        history_public_to_subscribers: settings.history_public_to_subscribers,
       };
       api.createStream(auth, params);
       NavigationService.dispatch(navigateBack());
