@@ -13,7 +13,6 @@ declare module 'expo-web-browser' {
     WebBrowserOpenOptions,
     WebBrowserRedirectResult,
     WebBrowserResult,
-    WebBrowserResultType,
     WebBrowserWarmUpResult,
     WebBrowserWindowFeatures,
   } from 'expo-web-browser/build/WebBrowser.types';
