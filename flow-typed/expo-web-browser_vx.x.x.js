@@ -17,7 +17,7 @@ declare module 'expo-web-browser' {
     WebBrowserWindowFeatures,
   } from 'expo-web-browser/build/WebBrowser.types';
 
-  declare export * from './WebBrowser.types'
+  declare export * from 'expo-web-browser/build/WebBrowser.types'
   declare export function getCustomTabsSupportingBrowsersAsync(): Promise<WebBrowserCustomTabsResults>;
   declare export function warmUpAsync(browserPackage?: string): Promise<WebBrowserWarmUpResult>;
   declare export function mayInitWithUrlAsync(
