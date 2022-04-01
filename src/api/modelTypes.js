@@ -623,7 +623,8 @@ type MessageBase = $ReadOnly<{|
   sender_realm_str: string,
   sender_short_name: string,
 
-  /** Older servers omit this; when omitted, equivalent to empty array. */
+  /** Servers <1.9.0 omit this; when omitted, equivalent to empty array. */
+  // TODO(server-1.9): Make required.
   submessages?: $ReadOnlyArray<Submessage>,
 
   timestamp: number,
