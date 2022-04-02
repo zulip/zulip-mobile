@@ -9,6 +9,7 @@ types/react-intl.js.flow
 types/@react-native-community/netinfo/**
 types/react-native-safe-area-context/**
 types/@sentry/react-native.js.flow
+types/expo-web-browser/**
 
 # Third-party code: react-native. We leave this code in the style we
 # received it in.

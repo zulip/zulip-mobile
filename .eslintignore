@@ -9,6 +9,7 @@ types/react-intl.js.flow
 types/@react-native-community/netinfo/**
 types/react-native-safe-area-context/**
 types/@sentry/react-native.js.flow
+types/expo-web-browser/**
 
 # These are type-tests, made up of code that gets type-checked but
 # never actually run.  They're naturally full of dead code which
