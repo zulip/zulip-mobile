@@ -1,5 +1,10 @@
-declare module '@sentry/react-native' {
-declare type Primitive =
+/**
+ * Types for the NPM package `@sentry/react-native`.
+ *
+ * @flow strict-local
+ */
+
+type Primitive =
   | number
   | string
   | boolean
@@ -17,7 +22,7 @@ declare type Primitive =
 // * https://github.com/getsentry/sentry-javascript/blob/f4e59bcdd/packages/types/src/options.ts
 //
 // Please add them to this declaration as (and if) they're needed.
-declare export type Options = {|
+export type Options = {|
   /* Do not use this in Sentry.init(). As of 1.0.9, Sentry will only be
       partially initialized if it's set to `false`, and anyway there's no good
       way to toggle it. */
@@ -74,12 +79,12 @@ declare export var Severity: $ReadOnly<{|
   Debug: 'debug',
   Critical: 'critical',
 |}>;
-declare export type SeverityType = $Values<typeof Severity>;
+export type SeverityType = $Values<typeof Severity>;
 
 // Taken from @sentry/types/src/event.ts.
 //
 // Commented-out members have types not (yet?) present in this file.
-declare export type Event = {|
+export type Event = {|
   event_id?: string,
   message?: string,
   timestamp?: number,
@@ -101,16 +106,16 @@ declare export type Event = {|
   breadcrumbs?: Breadcrumb[],
   // contexts?: {| [key: string]: object |},
   tags?: {| [key: string]: Primitive |},
-  extra?: {| [key: string]: any |},
+  extra?: {| [key: string]: $FlowFixMe |},
   // user?: User,
   type?: EventType,
 |};
 
 // Taken from @sentry/types/src/event.ts.
-declare export type EventType = 'transaction';
+export type EventType = 'transaction';
 
 // Taken from @sentry/types/src/event.ts.
-declare export type EventHint = {|
+export type EventHint = {|
   event_id?: string,
   captureContext?: CaptureContext,
   syntheticException?: Error | null,
@@ -120,7 +125,7 @@ declare export type EventHint = {|
 
 // Taken from @sentry/types/src/breadcrumb.ts.
 // See doc at https://develop.sentry.dev/sdk/event-payloads/breadcrumbs/
-declare export type Breadcrumb = {|
+export type Breadcrumb = {|
   type?: string,
   level?: SeverityType,
   event_id?: string,
@@ -133,10 +138,10 @@ declare export type Breadcrumb = {|
 |};
 
 // Taken from @sentry/types/src/breadcrumb.ts.
-declare export type BreadcrumbHint = {| [key: string]: mixed |};
+export type BreadcrumbHint = {| [key: string]: mixed |};
 
 // Taken from @sentry/types/src/hub.ts. More methods are available.
-declare export type Hub = {
+export type Hub = {
   getClient(): Client | typeof undefined,
 
   captureException(exception: mixed, hint?: EventHint): string,
@@ -147,7 +152,7 @@ declare export type Hub = {
 // Really an exact object type with the commented-out properties present.
 // (We omit them to be lazy.) Taken from
 //   https://github.com/getsentry/sentry-javascript/blob/6.12.0/packages/types/src/scope.ts#L16-L24
-declare export type ScopeContext = {
+export type ScopeContext = {
   // user: User,
   level: typeof Severity,
   // extra: Extras,
@@ -184,19 +189,19 @@ declare export class Scope {
    * @param key String of extra
    * @param extra Any kind of data. This data will be normalized.
    */
-  setExtra(key: string, extra: any): this;
+  setExtra(key: string, extra: $FlowFixMe): this;
 
   /**
    * Set an object that will be merged sent as extra data with the event.
    * @param extras Extras object to merge into current context.
    */
-  setExtras(extras: {| +[key: string]: any |}): this;
+  setExtras(extras: {| +[key: string]: $FlowFixMe |}): this;
 }
 
-declare export type CaptureContext = Scope | $Rest<ScopeContext, { ... }> | ((scope: Scope) => Scope);
+export type CaptureContext = Scope | $Rest<ScopeContext, { ... }> | ((scope: Scope) => Scope);
 
 // Adapted from @sentry/types/src/client.ts, with some specialization.
-declare export type Client = {
+export type Client = {
   getOptions(): Options,
   ...
 };
@@ -233,4 +238,3 @@ declare export function configureScope(callback: (scope: Scope) => void): void;
  * consulted when the event is finally captured for logging.
  */
 declare export function withScope(callback: (scope: Scope) => void): void;
-}
