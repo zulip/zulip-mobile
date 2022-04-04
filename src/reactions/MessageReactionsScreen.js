@@ -96,6 +96,7 @@ class MessageReactionsScreenInner extends PureComponent<Props> {
               }
               {...materialTopTabNavigatorConfig()}
               swipeEnabled
+              tabBarOptions={{ scrollEnabled: true }}
             >
               {
                 // Generate tabs for the reaction list. The tabs depend
