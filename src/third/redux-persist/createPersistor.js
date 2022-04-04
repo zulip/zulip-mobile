@@ -46,7 +46,7 @@ export default function createPersistor<S: { ... }, A, D>(
       // … and immediately enter a try/finally to release it.
 
       // Then yield so the `subscribe` callback can promptly return.
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise<void>(r => setTimeout(r, 0));
 
       let state = undefined;
       // eslint-disable-next-line no-cond-assign
@@ -95,7 +95,7 @@ export default function createPersistor<S: { ... }, A, D>(
     for (const key of outstandingKeys) {
       const substate: mixed = state[key]; // TODO(flow): Weirdly Flow infers `any` here.
       writes.push([createStorageKey(key), serializer(substate)]);
-      await new Promise(r => setTimeout(r, 0));
+      await new Promise<void>(r => setTimeout(r, 0));
     }
 
     // Write them all out, in one `storage.multiSet` operation.
