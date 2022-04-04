@@ -87,7 +87,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base37,
-    migrations: { version: 41 },
+    migrations: { version: 42 },
   };
 
   for (const [desc, before, after] of [

@@ -412,6 +412,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add is_web_public to Stream and Subscription.
   '41': dropCache,
 
+  // Add web_public_access_enabled to RealmState
+  '42': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };
