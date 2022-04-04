@@ -2,7 +2,6 @@
 import { PixelRatio } from 'react-native';
 import invariant from 'invariant';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-// $FlowFixMe[untyped-import]
 import * as poll_data from '@zulip/shared/js/poll_data';
 
 import template from './template';
@@ -168,7 +167,7 @@ $!${message.content}
         <li>
           <button
             class="poll-vote"
-            data-voted="${option.current_user_vote}"
+            data-voted="${option.current_user_vote ? 'true' : 'false'}"
             data-key="${option.key}"
           >${option.count}</button>
           <span class="poll-option">${option.option}</span>
