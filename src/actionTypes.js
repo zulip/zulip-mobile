@@ -216,7 +216,7 @@ type MessageFetchErrorAction = $ReadOnly<{|
   // Before storing this in state, be sure to replace/revive Error
   // instances so they aren't coerced into plain objects; see
   // bfe794955 for an example.
-  error: Error,
+  error: mixed,
 |}>;
 
 export type MessageFetchCompleteAction = $ReadOnly<{|

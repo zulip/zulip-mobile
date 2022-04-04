@@ -75,13 +75,14 @@ const useMessagesWithFetch = args => {
     shouldFetchWhenNextFocused.current = true;
   };
 
-  const [fetchError, setFetchError] = React.useState<Error | null>(null);
+  const [fetchError, setFetchError] = React.useState<mixed>(null);
 
   const fetch = React.useCallback(async () => {
     shouldFetchWhenNextFocused.current = false;
     try {
       await dispatch(fetchMessagesInNarrow(narrow));
-    } catch (e) {
+    } catch (errorIllTyped) {
+      const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
       setFetchError(e);
     }
   }, [dispatch, narrow]);

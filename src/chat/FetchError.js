@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
-  error: Error,
+  error: mixed,
 |}>;
 
 export default class FetchError extends PureComponent<Props> {

@@ -158,8 +158,11 @@ export const initializeSentry = () => {
       beforeBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb | null {
         try {
           return scrubBreadcrumb(breadcrumb, hint);
-        } catch (_e) {
-          const e: Error = _e; // For Flow's sake (we know it's an Error)
+        } catch (errorIllTyped) {
+          const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+          // $FlowFixMe[incompatible-type]: assume what was thrown is an Error
+          const e: Error = error;
 
           // We don't expect any errors here. But:
           // - We can't just drop breadcrumbs on the floor, which is what

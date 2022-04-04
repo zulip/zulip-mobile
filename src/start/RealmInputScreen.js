@@ -55,11 +55,13 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
       NavigationService.dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
-    } catch (err) {
+    } catch (errorIllTyped) {
+      const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
       this.setState({ error: 'Cannot connect to server' });
       /* eslint-disable no-console */
       console.warn('RealmInputScreen: failed to connect to server:', err);
-      console.warn(err.stack);
+      // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
+      console.warn((err: Error).stack);
     } finally {
       this.setState({ progress: false });
     }

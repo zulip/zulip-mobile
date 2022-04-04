@@ -62,7 +62,7 @@ const messageFetchStart = (
   numAfter,
 });
 
-const messageFetchError = (args: {| narrow: Narrow, error: Error |}): PerAccountAction => {
+const messageFetchError = (args: {| narrow: Narrow, error: mixed |}): PerAccountAction => {
   const { narrow, error } = args;
   return {
     type: MESSAGE_FETCH_ERROR,
@@ -144,14 +144,16 @@ export const fetchMessages = (fetchArgs: {|
       }),
     );
     return messages;
-  } catch (e) {
+  } catch (errorIllTyped) {
+    const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
     dispatch(
       messageFetchError({
         narrow: fetchArgs.narrow,
         error: e,
       }),
     );
-    logging.warn(e, {
+    // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
+    logging.warn((e: Error), {
       message: 'Message-fetch error',
 
       // Describe the narrow without sending sensitive data to Sentry.
@@ -429,7 +431,8 @@ export async function tryFetch<T>(
           }
           try {
             return await func();
-          } catch (e) {
+          } catch (errorIllTyped) {
+            const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
             if (!(shouldRetry && (e instanceof Server5xxError || e instanceof NetworkError))) {
               throw e;
             }
@@ -445,7 +448,8 @@ export async function tryFetch<T>(
       })(),
       config.requestLongTimeoutMs,
     );
-  } catch (e) {
+  } catch (errorIllTyped) {
+    const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
     if (e instanceof TimeoutError) {
       timerHasExpired = true;
     }
@@ -500,7 +504,8 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
       // manually if they want.
       haveServerData,
     );
-  } catch (e) {
+  } catch (errorIllTyped) {
+    const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
     if (e instanceof ApiError) {
       // This should only happen when `auth` is no longer valid. No
       // use retrying; just log out.
@@ -515,7 +520,8 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
       dispatch(registerAbort('timeout'));
     } else {
       dispatch(registerAbort('unexpected'));
-      logging.warn(e, {
+      // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
+      logging.warn((e: Error), {
         message: 'Unexpected error during /register.',
       });
     }

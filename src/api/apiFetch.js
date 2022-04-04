@@ -61,7 +61,8 @@ export const apiCall = async (
     try {
       response = await apiFetch(auth, route, params);
       json = await response.json().catch(() => undefined);
-    } catch (error) {
+    } catch (errorIllTyped) {
+      const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
       if (error instanceof TypeError) {
         // This really is how `fetch` is supposed to signal a network error:
         //   https://fetch.spec.whatwg.org/#ref-for-concept-network-error⑥⓪
