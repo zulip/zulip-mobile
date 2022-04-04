@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import * as Sentry from '@sentry/react-native';
+
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
 import type { FixmeUntypedFetchResult } from './apiTypes';
@@ -13,6 +14,7 @@ import {
   NetworkError,
   RequestError,
 } from './apiErrors';
+import { type JSONable } from '../utils/jsonable';
 import * as logging from '../utils/logging';
 
 const apiVersion = 'api/v1';
@@ -41,7 +43,8 @@ const apiFetch = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
-) => fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
+): Promise<FixmeUntypedFetchResult> =>
+  fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
 
 /** (Caller beware! Return type is the magic `empty`.) */
 export const apiCall = async (
@@ -53,8 +56,8 @@ export const apiCall = async (
   try {
     networkActivityStart(isSilent);
 
-    let response = undefined;
-    let json = undefined;
+    let response: void | FixmeUntypedFetchResult = undefined;
+    let json: void | JSONable = undefined;
     try {
       response = await apiFetch(auth, route, params);
       json = await response.json().catch(() => undefined);
