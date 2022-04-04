@@ -6,7 +6,8 @@ import { View } from 'react-native';
 import Color from 'color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { Narrow, EditMessage } from '../types';
+import type { Narrow, EditMessage, UserId } from '../types';
+import type { PmKeyRecipients } from '../utils/recipient';
 import LoadingBanner from '../common/LoadingBanner';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useSelector, useDispatch } from '../react-redux';
@@ -27,7 +28,7 @@ import * as NavigationService from './NavigationService';
 import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 
-function ExtraNavButtonStream(props): Node {
+function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
@@ -46,7 +47,7 @@ function ExtraNavButtonStream(props): Node {
   );
 }
 
-function ExtraNavButtonTopic(props): Node {
+function ExtraNavButtonTopic(props: {| +color: string, +narrow: Narrow |}): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
 
@@ -57,7 +58,7 @@ function ExtraNavButtonTopic(props): Node {
   return <NavButton name="arrow-up" color={color} onPress={handlePress} />;
 }
 
-function InfoNavButtonStream(props): Node {
+function InfoNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
@@ -76,7 +77,7 @@ function InfoNavButtonStream(props): Node {
   );
 }
 
-function InfoNavButtonPrivate(props): Node {
+function InfoNavButtonPrivate(props: {| +color: string, +userId: UserId |}): Node {
   const { color, userId } = props;
   return (
     <NavButton
@@ -89,7 +90,7 @@ function InfoNavButtonPrivate(props): Node {
   );
 }
 
-function InfoNavButtonGroup(props): Node {
+function InfoNavButtonGroup(props: {| +color: string, +userIds: PmKeyRecipients |}): Node {
   const { color, userIds } = props;
   return (
     <NavButton
