@@ -73,8 +73,10 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
           directUsers: response.direct_users,
           progress: false,
         });
-      } catch (err) {
-        this.setState({ error: err.data && err.data.msg });
+      } catch (errorIllTyped) {
+        const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+        const message = err instanceof Error ? err.message : undefined;
+        this.setState({ error: message });
       } finally {
         this.setState({ progress: false });
       }
@@ -90,8 +92,10 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
       const { api_key } = await api.devFetchApiKey({ realm, apiKey: '', email }, email);
       this.props.dispatch(loginSuccess(realm, email, api_key));
       this.setState({ progress: false });
-    } catch (err) {
-      this.setState({ progress: false, error: err.data && err.data.msg });
+    } catch (errorIllTyped) {
+      const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+      const message = err instanceof Error ? err.message : undefined;
+      this.setState({ progress: false, error: message });
     }
   };
 
