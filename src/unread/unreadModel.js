@@ -163,9 +163,9 @@ function deleteMessages(
 ): UnreadStreamsState {
   const idSet = new Set(ids);
   const toDelete = id => idSet.has(id);
-  const emptyList = Immutable.List();
+  const emptyList: Immutable.List<number> = Immutable.List();
   return updateAllAndPrune(state, Immutable.Map(), perStream =>
-    updateAllAndPrune(perStream, emptyList, perTopic =>
+    updateAllAndPrune(perStream, emptyList, (perTopic: Immutable.List<number>) =>
       perTopic.find(toDelete) ? perTopic.filterNot(toDelete) : perTopic,
     ),
   );
