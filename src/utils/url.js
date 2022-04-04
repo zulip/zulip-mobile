@@ -86,7 +86,7 @@ export const isUrlPathAbsolute = (url: string): boolean =>
 export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   try {
     return new URL(url, base);
-  } catch (e) {
+  } catch {
     return undefined;
   }
 };

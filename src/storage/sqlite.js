@@ -136,7 +136,7 @@ async function keepQueueLiveWhile(tx: WebSQLTransaction, f: () => void | Promise
 
   try {
     await f();
-  } catch (e) {
+  } catch {
     error = true;
   } finally {
     done = true;

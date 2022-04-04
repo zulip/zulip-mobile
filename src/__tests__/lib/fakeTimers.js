@@ -26,7 +26,7 @@ export const assertUsingModernFakeTimers = () => {
 export const fakeSleep = async (ms: number): Promise<void> => {
   try {
     assertUsingModernFakeTimers();
-  } catch (e) {
+  } catch {
     throw new Error(
       'Tried to call `fakeSleep` without "modern" fake-timer implementation enabled.',
     );

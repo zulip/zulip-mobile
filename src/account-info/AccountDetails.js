@@ -56,7 +56,7 @@ export default function AccountDetails(props: Props): Node {
   if (user.timezone !== '' && user.timezone !== undefined) {
     try {
       localTime = `${nowInTimeZone(user.timezone)} Local time`;
-    } catch (err) {
+    } catch {
       // The set of timezone names in the tz database is subject to change over
       // time. Handle unrecognized timezones by quietly discarding them.
     }

@@ -199,7 +199,7 @@ export const getNarrowFromLink = (
     case 'special':
       try {
         return specialNarrow(paths[1]);
-      } catch (e) {
+      } catch {
         return null;
       }
     default:

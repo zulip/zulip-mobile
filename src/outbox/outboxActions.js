@@ -166,7 +166,7 @@ const getContentPreview = (content: string, state: PerAccountState): string => {
       state.realm.filters,
       state.realm.emoji,
     );
-  } catch (e) {
+  } catch {
     return content;
   }
 };

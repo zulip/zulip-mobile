@@ -110,7 +110,7 @@ function MentionWarningsInner(props: Props, ref): Node {
           isSubscribed = (
             await api.getSubscriptionToStream(auth, mentionedUser.user_id, stream.stream_id)
           ).is_subscribed;
-        } catch (err) {
+        } catch {
           showSubscriptionStatusLoadError(mentionedUser);
           return;
         }

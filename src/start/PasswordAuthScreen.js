@@ -71,7 +71,8 @@ class PasswordAuthScreenInner extends PureComponent<Props, State> {
       const fetchedKey = await api.fetchApiKey({ realm, apiKey: '', email }, email, password);
       this.setState({ progress: false });
       dispatch(loginSuccess(realm, fetchedKey.email, fetchedKey.api_key));
-    } catch (err) {
+    } catch {
+      // TODO: show message for *actual* error, from server; e.g. #4571
       this.setState({
         progress: false,
         error: requireEmailFormat

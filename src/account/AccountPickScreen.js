@@ -48,7 +48,8 @@ export default function AccountPickScreen(props: Props): Node {
         try {
           const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
           NavigationService.dispatch(navigateToAuth(serverSettings));
-        } catch (e) {
+        } catch {
+          // TODO: show specific error message from error object
           showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
         }
       }

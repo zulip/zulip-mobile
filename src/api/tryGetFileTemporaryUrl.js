@@ -14,7 +14,7 @@ import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 export default async (href: string, auth: Auth): Promise<string | null> => {
   try {
     return new URL((await getFileTemporaryUrl(auth, href)).url, auth.realm).toString();
-  } catch (err) {
+  } catch {
     return null;
   }
 };
