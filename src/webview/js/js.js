@@ -398,7 +398,7 @@ function visibleReadMessageIds(): {| first: number, last: number |} {
 
   // Walk through visible-and-read elements, observing message IDs.
   function walkElements(start: ?Element, step: 'nextElementSibling' | 'previousElementSibling') {
-    let element = start;
+    let element: ?Element = start;
     while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
       if (element.classList.contains('message')) {
         const id = idFromMessage(element);
