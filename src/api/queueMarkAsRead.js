@@ -5,7 +5,7 @@ import messagesFlags from './messages/messagesFlags';
 /** We batch up requests to avoid sending them twice in this much time. */
 const debouncePeriodMs = 500;
 
-let unackedMessageIds = [];
+let unackedMessageIds: number[] = [];
 let lastSentTime = -Infinity;
 let timeout = null;
 
