@@ -137,10 +137,6 @@ android {
         versionCode 182
         versionName "27.182"
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     signingConfigs {
         // The RN v0.60 template app suggests configuring a debug
         // keystore here. We don't; it's unnecessary (Android Studio
