@@ -44,6 +44,7 @@ export default async (url: string, auth: Auth) => {
       await Share.share({ url: uri, message: url });
     } catch (error) {
       showToast('Share failed');
+      logging.error(error);
     }
   }
 };
