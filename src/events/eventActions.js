@@ -12,7 +12,7 @@ import doEventActionSideEffects from './doEventActionSideEffects';
 import { tryGetAuth, getIdentity } from '../selectors';
 import { identityOfAuth } from '../account/accountMisc';
 import { BackoffMachine } from '../utils/async';
-import { ApiError } from '../api/apiErrors';
+import { ApiError, RequestError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
 
 /**
@@ -101,10 +101,11 @@ export const startEventPolling = (
         //   `null`, then break at that time?
         break;
       }
-    } catch (e) {
+    } catch (errorIllTyped) {
+      const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
       // We had an error polling the server for events.
 
-      if (e.httpStatus === 401) {
+      if (e instanceof RequestError && e.httpStatus === 401) {
         // 401 Unauthorized -> our `auth` is invalid.  No use retrying.
         dispatch(logout());
         break;
