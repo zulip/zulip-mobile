@@ -3,7 +3,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
 import { makeUserId } from '../api/idTypes';
-import type { JSONable, JSONableDict, JSONableInput, JSONableInputDict } from '../utils/jsonable';
+import type { JSONableDict, JSONableInput, JSONableInputDict } from '../utils/jsonable';
 import * as logging from '../utils/logging';
 
 /** Confirm (or disprove) that a JSONableInput object is a dictionary. */
@@ -19,8 +19,8 @@ const asDict = (obj: JSONableInput | void): JSONableInputDict | void => {
 
 /** Local error type. */
 class ApnsMsgValidationError extends logging.ExtendableError {
-  extras: JSONable;
-  constructor(message, extras: JSONable) {
+  extras: logging.Extras;
+  constructor(message, extras: logging.Extras) {
     super(message);
     this.extras = extras;
   }
@@ -163,7 +163,8 @@ export const fromAPNsImpl = (data: ?JSONableDict): Notification | void => {
 const fromAPNs = (data: ?JSONableDict): Notification | void => {
   try {
     return fromAPNsImpl(data);
-  } catch (err) {
+  } catch (errorIllTyped) {
+    const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
     if (err instanceof ApnsMsgValidationError) {
       logging.warn(err.message, err.extras);
       return undefined;

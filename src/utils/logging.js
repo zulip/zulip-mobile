@@ -14,7 +14,7 @@ import objectEntries from './objectEntries';
 import config from '../config';
 
 /** Type of "extras" intended for Sentry. */
-type Extras = {| +[key: string]: JSONable |};
+export type Extras = {| +[key: string]: JSONable |};
 
 /**
  * `Error`, but subclass instances have the name of the subclass at `.name`
