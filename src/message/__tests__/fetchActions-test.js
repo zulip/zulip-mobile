@@ -38,6 +38,7 @@ const BORING_RESPONSE = JSON.stringify({
 
 describe('fetchActions', () => {
   afterEach(() => {
+    // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
     fetch.reset();
   });
 
@@ -259,6 +260,7 @@ describe('fetchActions', () => {
           messages: [serverMessage1],
           result: 'success',
         };
+        // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseSuccess(JSON.stringify(response));
       });
 
@@ -323,6 +325,7 @@ describe('fetchActions', () => {
           messages: [message1, eg.streamMessage({ id: 2 }), eg.streamMessage({ id: 3 })],
           result: 'success',
         };
+        // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseSuccess(JSON.stringify(response));
 
         await expect(
@@ -376,6 +379,7 @@ describe('fetchActions', () => {
           messages: [{ ...serverMessage1, reactions: [faultyReaction] }],
           result: 'success',
         };
+        // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseSuccess(JSON.stringify(response));
 
         await expect(
@@ -401,6 +405,7 @@ describe('fetchActions', () => {
 
         const fetchError = new Error('Network request failed (or something)');
 
+        // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseFailure(fetchError);
         // $FlowFixMe[prop-missing]: Jest mock
         logging.info.mockReturnValue();
@@ -427,6 +432,7 @@ describe('fetchActions', () => {
         }),
       );
 
+      // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
       await store.dispatch(
@@ -451,6 +457,7 @@ describe('fetchActions', () => {
         }),
       );
 
+      // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
       await store.dispatch(
@@ -474,6 +481,7 @@ describe('fetchActions', () => {
         }),
       );
 
+      // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
       fetch.mockResponseSuccess(BORING_RESPONSE);
 
       await store.dispatch(
@@ -504,6 +512,7 @@ describe('fetchActions', () => {
     });
 
     beforeEach(() => {
+      // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
       fetch.mockResponseSuccess(BORING_RESPONSE);
     });
 
@@ -596,6 +605,7 @@ describe('fetchActions', () => {
     });
 
     beforeEach(() => {
+      // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
       fetch.mockResponseSuccess(BORING_RESPONSE);
     });
 

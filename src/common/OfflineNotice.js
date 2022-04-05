@@ -5,6 +5,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 
+import type { JSONableDict } from '../utils/jsonable';
 import * as logging from '../utils/logging';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { useHasStayedTrueForMs } from '../reactUtils';
@@ -60,11 +61,14 @@ export default function OfflineNotice(props: Props): Node {
   useEffect(() => {
     if (shouldShowUncertaintyNotice) {
       NetInfo.fetch().then(state => {
-        // When we upgrade Flow, we may get an error about `state` possibly
-        // having non-JSONable contents. Probably just ignore; I'd hope
-        // Sentry would just drop specific problematic parts without
-        // panicking or dropping everything.
-        logging.warn('Failed to determine Internet reachability in a reasonable time', state);
+        logging.warn(
+          'Failed to determine Internet reachability in a reasonable time',
+          // `state`, being inexact, might have unknown properties that
+          // aren't JSONable. Hopefully Sentry would just drop parts that
+          // aren't JSONable instead of panicking or dropping everything.
+          // $FlowFixMe[incompatible-cast]
+          (state: JSONableDict),
+        );
       });
     }
   }, [shouldShowUncertaintyNotice]);

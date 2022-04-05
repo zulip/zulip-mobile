@@ -842,11 +842,12 @@ describe('getEditSequence correct for interesting changes', () => {
       const msgWithVote = {
         ...baseMessage,
         submessages: [
-          // Flow v0.149 will invalidate a refinement that `.submessages` is
-          // present. We can assert it's present with `invariant` in an
-          // IIFE, or use a $FlowFixMe
-          // TODO(server-1.9): No special treatment needed.
-          ...msgWithChoice.submessages,
+          // TODO(server-1.9): No invariant needed when `.submessages` is
+          //   required.
+          ...(() => {
+            invariant(msgWithChoice.submessages, 'msgWithChoice has submessages');
+            return msgWithChoice.submessages;
+          })(),
           {
             ...baseSubmessage,
             content: `{"type":"vote","key":"${baseMessage.sender_id},1","vote":1}`,

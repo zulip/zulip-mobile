@@ -108,9 +108,6 @@ implicit-inexact-object=error
 [options]
 emoji=true
 
-esproposal.optional_chaining=enable
-esproposal.nullish_coalescing=enable
-
 # The main warning is "Unused suppression comment".
 include_warnings=true
 
@@ -140,4 +137,4 @@ module.file_ext=.ios.js
 exact_by_default=true
 
 [version]
-^0.141.0
+^0.149.0

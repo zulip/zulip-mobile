@@ -104,7 +104,6 @@ export type NetInfoChangeHandler = (state: NetInfoState) => void;
 export type NetInfoSubscription = () => void;
 export type NetInfoConfiguration = {|
   reachabilityUrl: string,
-  // $FlowFixMe[value-as-type] - Fixed in RN v0.65 (facebook/react-native@6651b7c59)
   reachabilityTest: (response: Response) => Promise<boolean>,
   reachabilityLongTimeout: number,
   reachabilityShortTimeout: number,

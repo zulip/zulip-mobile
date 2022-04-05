@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/react-native';
 
 import type { UrlParams } from '../utils/url';
 import type { Auth } from './transportTypes';
-import type { FixmeUntypedFetchResult } from './apiTypes';
 import { getAuthHeaders } from './transport';
 import { encodeParamsForUrl } from '../utils/url';
 import userAgent from '../utils/userAgent';
@@ -43,7 +42,7 @@ const apiFetch = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<Response> =>
   fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
 
 /**
@@ -59,7 +58,7 @@ export const apiCall = async (
   try {
     networkActivityStart(isSilent);
 
-    let response: void | FixmeUntypedFetchResult = undefined;
+    let response: void | Response = undefined;
     let json: void | JSONable = undefined;
     try {
       response = await apiFetch(auth, route, params);
