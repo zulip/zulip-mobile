@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import type { Node } from 'react';
 
 import { observeStore } from '../redux';
@@ -13,16 +13,14 @@ type Props = $ReadOnly<{|
   children: Node,
 |}>;
 
-export default class StoreProvider extends PureComponent<Props> {
-  unsubscribeStoreObserver: () => void;
-
-  componentDidMount() {
+export default function StoreProvider(props: Props): Node {
+  useEffect(() => {
     timing.start('Store hydration');
     restore(() => {
       timing.end('Store hydration');
     });
 
-    this.unsubscribeStoreObserver = observeStore(
+    const unsubscribeStoreObserver = observeStore(
       store,
       // onChange will fire when this value changes
       state => {
@@ -42,15 +40,9 @@ export default class StoreProvider extends PureComponent<Props> {
         logging.setTagsFromServerVersion(zulipVersion);
       },
     );
-  }
 
-  componentWillUnmount() {
-    if (this.unsubscribeStoreObserver) {
-      this.unsubscribeStoreObserver();
-    }
-  }
+    return () => unsubscribeStoreObserver();
+  }, []);
 
-  render(): Node {
-    return <Provider store={store}>{this.props.children}</Provider>;
-  }
+  return <Provider store={store}>{props.children}</Provider>;
 }
