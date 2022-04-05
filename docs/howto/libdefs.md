@@ -39,11 +39,9 @@ Bar { … }` and so on.
 
 In order to be able to write a `.js.flow` file for the library in our
 tree (rather than under `node_modules/`) and have Flow find it, we
-added the following line to `.flowconfig`:
-
-    module.name_mapper='^\(sqlite3\)$' -> '<PROJECT_ROOT>/types/\0'
-
-Then the file goes at `types/sqlite3.js.flow`.
+added a `module.name_mapper` line to `.flowconfig` causing Flow to
+look under our `types/` subtree.  Then the file for `sqlite3` goes at
+`types/sqlite3.js.flow`.
 
 The actual contents of the `.js.flow` file were based on the library's
 API documentation, and consulting its implementation for points where
