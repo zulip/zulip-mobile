@@ -123,4 +123,13 @@ describe('getFilteredEmojis', () => {
       { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },
     ]);
   });
+
+  test('prioritizes popular emoji', () => {
+    expect(getFilteredEmojis('oct', {})).toEqual([
+      // Octopus is prioritized, despite octagonal_sign coming first in
+      // alphabetical order.
+      { emoji_type: 'unicode', emoji_code: '1f419', emoji_name: 'octopus' },
+      { emoji_type: 'unicode', emoji_code: '1f6d1', emoji_name: 'octagonal_sign' },
+    ]);
+  });
 });

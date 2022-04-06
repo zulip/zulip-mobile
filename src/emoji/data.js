@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import * as typeahead from '@zulip/shared/js/typeahead';
+
 import type { ImageEmojiType, EmojiType, ReactionType, EmojiForShared } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
@@ -57,10 +59,7 @@ export const getFilteredEmojis = (
   query: string,
   activeImageEmojiByName: $ReadOnly<{| [string]: ImageEmojiType |}>,
 ): $ReadOnlyArray<EmojiForShared> => {
-  // We start by making a map from matching emoji names to a number
-  // representing how good a match it is: 0 for a prefix match, 1 for a
-  // match anywhere else in the string.
-  const allMatchingEmoji: Map<string, number> = new Map();
+  const allMatchingEmoji: Map<string, EmojiForShared> = new Map();
   for (const emoji of unicodeEmojiObjects) {
     // This logic does not do any special handling for things like
     // skin-tone modifiers or gender modifiers, since Zulip does not
@@ -77,32 +76,31 @@ export const getFilteredEmojis = (
     const matchesEmojiName = Math.min(1, emoji.emoji_name.indexOf(query));
     const priority = matchesEmojiLiteral ? 0 : matchesEmojiName;
     if (priority !== -1) {
-      allMatchingEmoji.set(emoji.emoji_name, priority);
+      allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
 
   for (const emoji_name of Object.keys(activeImageEmojiByName)) {
     const priority = Math.min(1, emoji_name.indexOf(query));
     if (priority !== -1) {
-      allMatchingEmoji.set(emoji_name, priority);
+      allMatchingEmoji.set(emoji_name, {
+        emoji_type: 'image',
+        emoji_name,
+        emoji_code: activeImageEmojiByName[emoji_name].name,
+      });
     }
   }
 
-  const emoji = Array.from(allMatchingEmoji.keys()).sort((a, b) => {
-    // `.get` will never return `undefined` here, but Flow doesn't know that
-    const n = +allMatchingEmoji.get(a) - +allMatchingEmoji.get(b);
-    // Prefix matches first, then non-prefix, each in lexicographic order.
-    return n !== 0 ? n : a < b ? -1 : 1;
-  });
+  const sortedEmoji = typeahead.sort_emojis(Array.from(allMatchingEmoji.values()), query);
 
-  return emoji.map(emojiName => {
-    const isImageEmoji = activeImageEmojiByName[emojiName] !== undefined;
+  return sortedEmoji.map(emoji => {
+    const isImageEmoji = activeImageEmojiByName[emoji.emoji_name] !== undefined;
     return {
-      emoji_name: emojiName,
+      emoji_name: emoji.emoji_name,
       emoji_type: isImageEmoji ? 'image' : 'unicode',
       emoji_code: isImageEmoji
-        ? activeImageEmojiByName[emojiName].code
-        : unicodeCodeByName[emojiName],
+        ? activeImageEmojiByName[emoji.emoji_name].code
+        : unicodeCodeByName[emoji.emoji_name],
     };
   });
 };
