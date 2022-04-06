@@ -52,7 +52,7 @@ export const getFilteredEmojis = (
   // We start by making a map from matching emoji names to a number
   // representing how good a match it is: 0 for a prefix match, 1 for a
   // match anywhere else in the string.
-  const matchingUnicodeEmoji: Array<[string, number]> = [];
+  const allMatchingEmoji: Map<string, number> = new Map();
   for (const [emoji_name, emoji_code] of objectEntries(unicodeCodeByName)) {
     // This logic does not do any special handling for things like
     // skin-tone modifiers or gender modifiers, since Zulip does not
@@ -69,22 +69,16 @@ export const getFilteredEmojis = (
     const matchesEmojiName = Math.min(1, emoji_name.indexOf(query));
     const priority = matchesEmojiLiteral ? 0 : matchesEmojiName;
     if (priority !== -1) {
-      matchingUnicodeEmoji.push([emoji_name, priority]);
+      allMatchingEmoji.set(emoji_name, priority);
     }
   }
 
-  const matchingImageEmoji: Array<[string, number]> = [];
   for (const emoji_name of Object.keys(activeImageEmojiByName)) {
     const priority = Math.min(1, emoji_name.indexOf(query));
     if (priority !== -1) {
-      matchingImageEmoji.push([emoji_name, priority]);
+      allMatchingEmoji.set(emoji_name, priority);
     }
   }
-
-  const allMatchingEmoji: Map<string, number> = new Map([
-    ...matchingUnicodeEmoji,
-    ...matchingImageEmoji,
-  ]);
 
   const emoji = Array.from(allMatchingEmoji.keys()).sort((a, b) => {
     // `.get` will never return `undefined` here, but Flow doesn't know that
