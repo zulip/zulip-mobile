@@ -4,7 +4,13 @@ import type { Node } from 'react';
 import { TextInput, Platform } from 'react-native';
 
 import type { LocalizableText } from '../types';
-import { createStyleSheet, ThemeContext, HALF_COLOR, BORDER_COLOR } from '../styles';
+import {
+  createStyleSheet,
+  ThemeContext,
+  HALF_COLOR,
+  BORDER_COLOR,
+  THREE_QUARTERS_COLOR,
+} from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 
 export type Props = $ReadOnly<{|
@@ -71,7 +77,7 @@ export default function Input(props: Props): Node {
     <TextInput
       style={[componentStyles.input, { color: themeContext.color }, style]}
       placeholder={_(fullPlaceholder.text, fullPlaceholder.values)}
-      placeholderTextColor={HALF_COLOR}
+      placeholderTextColor={THREE_QUARTERS_COLOR}
       underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
       onFocus={handleFocus}
       onBlur={handleBlur}
