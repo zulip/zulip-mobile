@@ -68,12 +68,12 @@ export default function EmojiPickerScreen(props: Props): Node {
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
         data={emojiNames}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.emoji_name}
         renderItem={({ item }) => (
           <EmojiRow
             type={item.emoji_type}
-            code={item.code}
-            name={item.name}
+            code={item.emoji_code}
+            name={item.emoji_name}
             onPress={handlePressEmoji}
           />
         )}

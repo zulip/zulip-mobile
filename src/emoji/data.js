@@ -48,7 +48,7 @@ export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType
 export const getFilteredEmojis = (
   query: string,
   activeImageEmojiByName: $ReadOnly<{| [string]: ImageEmojiType |}>,
-): $ReadOnlyArray<{| emoji_type: EmojiType, name: string, code: string |}> => {
+): $ReadOnlyArray<{| emoji_type: EmojiType, emoji_name: string, emoji_code: string |}> => {
   // We start by making a map from matching emoji names to a number
   // representing how good a match it is: 0 for a prefix match, 1 for a
   // match anywhere else in the string.
@@ -90,9 +90,11 @@ export const getFilteredEmojis = (
   return emoji.map(emojiName => {
     const isImageEmoji = activeImageEmojiByName[emojiName] !== undefined;
     return {
-      name: emojiName,
+      emoji_name: emojiName,
       emoji_type: isImageEmoji ? 'image' : 'unicode',
-      code: isImageEmoji ? activeImageEmojiByName[emojiName].code : unicodeCodeByName[emojiName],
+      emoji_code: isImageEmoji
+        ? activeImageEmojiByName[emojiName].code
+        : unicodeCodeByName[emojiName],
     };
   });
 };
