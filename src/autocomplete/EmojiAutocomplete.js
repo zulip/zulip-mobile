@@ -8,7 +8,7 @@ import Popup from '../common/Popup';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojis } from '../emoji/data';
 import { useSelector } from '../react-redux';
-import { getActiveImageEmojiByName } from '../selectors';
+import { getActiveImageEmoji } from '../selectors';
 
 type Props = $ReadOnly<{|
   filter: string,
@@ -19,8 +19,8 @@ const MAX_CHOICES = 30;
 
 export default function EmojiAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
-  const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
-  const filteredEmojis = getFilteredEmojis(filter, activeImageEmojiByName);
+  const activeImageEmoji = useSelector(getActiveImageEmoji);
+  const filteredEmojis = getFilteredEmojis(filter, activeImageEmoji);
 
   const handlePress = useCallback(
     ({ type, code, name }) => {

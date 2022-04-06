@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as typeahead from '@zulip/shared/js/typeahead';
 
-import type { ImageEmojiType, EmojiType, ReactionType, EmojiForShared } from '../types';
+import type { EmojiType, ReactionType, EmojiForShared } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
@@ -57,7 +57,7 @@ export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType
  */
 export const getFilteredEmojis = (
   query: string,
-  activeImageEmojiByName: $ReadOnly<{| [string]: ImageEmojiType |}>,
+  activeImageEmoji: $ReadOnlyArray<EmojiForShared>,
 ): $ReadOnlyArray<EmojiForShared> => {
   const allMatchingEmoji: Map<string, EmojiForShared> = new Map();
   for (const emoji of unicodeEmojiObjects) {
@@ -80,27 +80,14 @@ export const getFilteredEmojis = (
     }
   }
 
-  for (const emoji_name of Object.keys(activeImageEmojiByName)) {
-    const priority = Math.min(1, emoji_name.indexOf(query));
+  for (const emoji of activeImageEmoji) {
+    const priority = Math.min(1, emoji.emoji_name.indexOf(query));
     if (priority !== -1) {
-      allMatchingEmoji.set(emoji_name, {
-        emoji_type: 'image',
-        emoji_name,
-        emoji_code: activeImageEmojiByName[emoji_name].name,
-      });
+      allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
 
   const sortedEmoji = typeahead.sort_emojis(Array.from(allMatchingEmoji.values()), query);
 
-  return sortedEmoji.map(emoji => {
-    const isImageEmoji = activeImageEmojiByName[emoji.emoji_name] !== undefined;
-    return {
-      emoji_name: emoji.emoji_name,
-      emoji_type: isImageEmoji ? 'image' : 'unicode',
-      emoji_code: isImageEmoji
-        ? activeImageEmojiByName[emoji.emoji_name].code
-        : unicodeCodeByName[emoji.emoji_name],
-    };
-  });
+  return sortedEmoji;
 };

@@ -33,7 +33,7 @@ describe('codeToEmojiMap', () => {
 
 describe('getFilteredEmojis', () => {
   test('empty query returns many emojis', () => {
-    const list = getFilteredEmojis('', {});
+    const list = getFilteredEmojis('', []);
     // 1400 so that we don't have to change the test every time we change the
     // emoji map, while still ensuring that enough emoji are there that we can
     // be reasonably confident it's all of them.
@@ -41,12 +41,12 @@ describe('getFilteredEmojis', () => {
   });
 
   test('non existing query returns empty list', () => {
-    const list = getFilteredEmojis('qwerty', {});
+    const list = getFilteredEmojis('qwerty', []);
     expect(list).toHaveLength(0);
   });
 
   test('returns a sorted list of emojis starting with query', () => {
-    const list = getFilteredEmojis('go', {});
+    const list = getFilteredEmojis('go', []);
     expect(list).toEqual([
       { emoji_type: 'unicode', emoji_code: '1f3c1',  emoji_name: 'go' },
       { emoji_type: 'unicode', emoji_code: '1f945',  emoji_name: 'goal' },
@@ -75,14 +75,14 @@ describe('getFilteredEmojis', () => {
   });
 
   test('returns literal emoji', () => {
-    const list = getFilteredEmojis('🖤', {});
+    const list = getFilteredEmojis('🖤', []);
     expect(list).toEqual([
       { emoji_type: 'unicode', emoji_code: '1f5a4',  emoji_name: 'black_heart' },
     ]);
   });
 
   test('returns multiple literal emoji', () => {
-    const list = getFilteredEmojis('👍', {});
+    const list = getFilteredEmojis('👍', []);
     expect(list).toEqual([
       { emoji_type: 'unicode', emoji_code: '1f44d',  emoji_name: '+1' },
       { emoji_type: 'unicode', emoji_code: '1f44d',  emoji_name: 'thumbs_up' },
@@ -91,32 +91,29 @@ describe('getFilteredEmojis', () => {
 
   test('search in realm emojis as well', () => {
     expect(
-      getFilteredEmojis('qwerty', {
-        qwerty: {
-          code: '654',
-          deactivated: false,
-          name: 'qwerty',
-          source_url: 'url',
+      getFilteredEmojis('qwerty', [
+         {
+          emoji_type: 'image',
+          emoji_code: '654',
+          emoji_name: 'qwerty',
         },
-      }),
+      ]),
     ).toEqual([{ emoji_name: 'qwerty', emoji_type: 'image', emoji_code: '654' }]);
   });
 
   test('remove duplicates', () => {
-    expect(getFilteredEmojis('dog', {})).toEqual([
+    expect(getFilteredEmojis('dog', [])).toEqual([
       { emoji_type: 'unicode', emoji_code: '1f415', emoji_name: 'dog' },
       { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi' },
       { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },
     ]);
     expect(
-      getFilteredEmojis('dog', {
-        dog: {
-          code: '345',
-          deactivated: false,
-          name: 'dog',
-          source_url: 'url',
+      getFilteredEmojis('dog', [{
+          emoji_type: 'image',
+          emoji_code: '345',
+          emoji_name: 'dog',
         },
-      }),
+      ]),
     ).toEqual([
       { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog', },
       { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi', },
@@ -125,7 +122,7 @@ describe('getFilteredEmojis', () => {
   });
 
   test('prioritizes popular emoji', () => {
-    expect(getFilteredEmojis('oct', {})).toEqual([
+    expect(getFilteredEmojis('oct', [])).toEqual([
       // Octopus is prioritized, despite octagonal_sign coming first in
       // alphabetical order.
       { emoji_type: 'unicode', emoji_code: '1f419', emoji_name: 'octopus' },

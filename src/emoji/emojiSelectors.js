@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
-import type { Selector, RealmEmojiById, ImageEmojiType } from '../types';
+import type { Selector, RealmEmojiById, ImageEmojiType, EmojiForShared } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
@@ -46,4 +46,14 @@ export const getActiveImageEmojiByName: Selector<{|
   [string]: ImageEmojiType,
 |}> = createSelector(getActiveImageEmojiById, emojis =>
   objectFromEntries(Object.keys(emojis).map(id => [emojis[id].name, emojis[id]])),
+);
+
+export const getActiveImageEmoji: Selector<$ReadOnlyArray<EmojiForShared>> = createSelector(
+  getActiveImageEmojiById,
+  emojis =>
+    Object.keys(emojis).map(id => ({
+      emoji_type: 'image',
+      emoji_name: emojis[id].name,
+      emoji_code: emojis[id].code,
+    })),
 );
