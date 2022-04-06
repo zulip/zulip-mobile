@@ -7,6 +7,14 @@ import objectEntries from '../utils/objectEntries';
 
 const unicodeEmojiNames = Object.keys(unicodeCodeByName);
 
+const unicodeEmojiObjects: $ReadOnlyArray<EmojiForShared> = objectEntries(unicodeCodeByName).map(
+  ([name, code]) => ({
+    emoji_type: 'unicode',
+    emoji_name: name,
+    emoji_code: code,
+  }),
+);
+
 export const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
   code
     .split('-')
@@ -53,7 +61,7 @@ export const getFilteredEmojis = (
   // representing how good a match it is: 0 for a prefix match, 1 for a
   // match anywhere else in the string.
   const allMatchingEmoji: Map<string, number> = new Map();
-  for (const [emoji_name, emoji_code] of objectEntries(unicodeCodeByName)) {
+  for (const emoji of unicodeEmojiObjects) {
     // This logic does not do any special handling for things like
     // skin-tone modifiers or gender modifiers, since Zulip does not
     // currently support those: https://github.com/zulip/zulip/issues/992.
@@ -65,11 +73,11 @@ export const getFilteredEmojis = (
     // better to not show the user anything if they've searched for an
     // emoji with a modifier than it is to show them the non-modified
     // emoji, hence the very simple matching.
-    const matchesEmojiLiteral = parseUnicodeEmojiCode(emoji_code) === query;
-    const matchesEmojiName = Math.min(1, emoji_name.indexOf(query));
+    const matchesEmojiLiteral = parseUnicodeEmojiCode(emoji.emoji_code) === query;
+    const matchesEmojiName = Math.min(1, emoji.emoji_name.indexOf(query));
     const priority = matchesEmojiLiteral ? 0 : matchesEmojiName;
     if (priority !== -1) {
-      allMatchingEmoji.set(emoji_name, priority);
+      allMatchingEmoji.set(emoji.emoji_name, priority);
     }
   }
 
