@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { ImageEmojiType, EmojiType, ReactionType } from '../types';
+import type { ImageEmojiType, EmojiType, ReactionType, EmojiForShared } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
@@ -48,7 +48,7 @@ export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType
 export const getFilteredEmojis = (
   query: string,
   activeImageEmojiByName: $ReadOnly<{| [string]: ImageEmojiType |}>,
-): $ReadOnlyArray<{| emoji_type: EmojiType, emoji_name: string, emoji_code: string |}> => {
+): $ReadOnlyArray<EmojiForShared> => {
   // We start by making a map from matching emoji names to a number
   // representing how good a match it is: 0 for a prefix match, 1 for a
   // match anywhere else in the string.
