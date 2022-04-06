@@ -77,7 +77,10 @@ open class MainActivity : ReactActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // Discard savedInstanceState.  This is required by react-native-screens:
+        //   https://github.com/software-mansion/react-native-screens/tree/2.18.1#android
+        super.onCreate(null)
+
         WebView.setWebContentsDebuggingEnabled(true)
 
         // Intent is reused after quitting, skip it.

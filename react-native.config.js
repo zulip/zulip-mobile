@@ -22,14 +22,6 @@ module.exports = {
         ios: null,
       },
     },
-    'react-native-screens': {
-      platforms: {
-        // We haven't enabled `react-native-screens` yet, that's
-        // #4111. See 250cde501.
-        android: null,
-        ios: null,
-      },
-    },
     'react-native-vector-icons': {
       platforms: {
         // We're using a setup that doesn't involve linking
