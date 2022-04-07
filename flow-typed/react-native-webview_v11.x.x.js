@@ -5,39 +5,6 @@
  * Done with `--interface-records` and `--no-inexact`, and edited lightly.
  */
 declare module 'react-native-webview/@@react-native' {
-  declare type Constructor<T> = (...args: any[]) => T;
-
-  /**
-   * NativeMethods provides methods to access the underlying native component directly.
-   * This can be useful in cases when you want to focus a view or measure its on-screen dimensions,
-   * for example.
-   * The methods described here are available on most of the default components provided by React Native.
-   * Note, however, that they are not available on composite components that aren't directly backed by a
-   * native view. This will generally include most components that you define in your own app.
-   * For more information, see [Direct Manipulation](http://facebook.github.io/react-native/docs/direct-manipulation.html).
-   * @see https://github.com/facebook/react-native/blob/master/Libraries/ReactIOS/NativeMethodsMixin.js
-   */
-  declare export type NativeMethods = {|
-    measure(callback: MeasureOnSuccessCallback): void,
-    measureInWindow(callback: MeasureInWindowOnSuccessCallback): void,
-    measureLayout(
-      relativeToNativeNode: number,
-      onSuccess: MeasureLayoutOnSuccessCallback,
-      onFail: () => void,
-    ): void,
-    setNativeProps(nativeProps: Object): void,
-    focus(): void,
-    blur(): void,
-    refs: {|
-      [key: string]: React$ComponentType<any, any>,
-    |},
-  |};
-
-  /**
-   * @deprecated Use NativeMethods instead.
-   */
-  declare export type NativeMethodsMixin = NativeMethods;
-
   declare type NodeHandle = number;
 
   // Similar to React.SyntheticEvent except for nativeEvent
@@ -232,8 +199,6 @@ declare module 'react-native-webview' {
     ViewProps,
     StyleProp,
     ViewStyle,
-    NativeMethodsMixin,
-    Constructor,
     UIManagerStatic,
     NativeScrollEvent,
   } from 'react-native-webview/@@react-native';
@@ -279,22 +244,13 @@ declare module 'react-native-webview' {
     lastErrorEvent: WebViewError,
   |};
   declare export type State = NormalState | ErrorState;
-  declare var NativeWebViewIOSComponent: React$ComponentType<IOSNativeWebViewProps>;
-  declare var NativeWebViewIOSBase: Constructor<NativeMethodsMixin> &
-    typeof NativeWebViewIOSComponent;
-  declare export class NativeWebViewIOS mixins NativeWebViewIOSBase {}
-  declare var NativeWebViewMacOSComponent: React$ComponentType<MacOSNativeWebViewProps>;
-  declare var NativeWebViewMacOSBase: Constructor<NativeMethodsMixin> &
-    typeof NativeWebViewMacOSComponent;
-  declare export class NativeWebViewMacOS mixins NativeWebViewMacOSBase {}
-  declare var NativeWebViewAndroidComponent: React$ComponentType<AndroidNativeWebViewProps>;
-  declare var NativeWebViewAndroidBase: Constructor<NativeMethodsMixin> &
-    typeof NativeWebViewAndroidComponent;
-  declare export class NativeWebViewAndroid mixins NativeWebViewAndroidBase {}
-  declare var NativeWebViewWindowsComponent: React$ComponentType<WindowsNativeWebViewProps>;
-  declare var NativeWebViewWindowsBase: Constructor<NativeMethodsMixin> &
-    typeof NativeWebViewWindowsComponent;
-  declare export class NativeWebViewWindows mixins NativeWebViewWindowsBase {}
+
+  // Exports not represented:
+  //   NativeWebViewIOS
+  //   NativeWebViewMacOS
+  //   NativeWebViewAndroid
+  //   NativeWebViewWindows
+
   declare export type ContentInsetProp = {|
     top?: number,
     left?: number,
