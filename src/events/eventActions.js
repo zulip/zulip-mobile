@@ -60,9 +60,8 @@ const registerAbort =
       showErrorAlert(
         // TODO: Set up these user-facing strings for translation once
         // `initialFetchAbort`'s callers all have access to a `GetText`
-        // function. As of adding the strings, the initial fetch is dispatched
-        // from `AppDataFetcher` which isn't a descendant of
-        // `TranslationProvider`.
+        // function. One place we dispatch the register is in StoreProvider,
+        // which isn't a descendant of `TranslationProvider`.
         'Connection failed',
         (() => {
           const realmStr = getIdentity(getState()).realm.toString();

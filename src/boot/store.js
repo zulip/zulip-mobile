@@ -130,6 +130,7 @@ function listMiddleware() {
  *  * docs/architecture/realtime.md
  *  * docs/background/recommended-reading.md
  */
+// TODO: Represent thunk actions, etc.
 const store: Store<GlobalState, Action> = createStore(
   rootReducer,
   undefined,

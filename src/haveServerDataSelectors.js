@@ -69,7 +69,7 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
   //    fetch.  Specifically:
   //    * If at startup (upon rehydrate) we show the main UI, we do so.
   //      This is controlled by `getInitialRouteInfo`, together with
-  //      AppDataFetcher.
+  //      an effect in StoreProvider.
   //    * When we navigate to the main UI (via `resetToMainTabs`), we always
   //      also dispatch an action that causes an initial fetch.
   //    * Plus, that initial fetch has a timeout, so it will always take us

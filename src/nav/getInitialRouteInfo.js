@@ -30,7 +30,7 @@ export default (args: {|
   // Show the main UI screen.
   //
   // If we don't have server data yet, that screen will show a loading
-  // indicator until the data is loaded. Crucially, AppDataFetcher will make
-  // sure we really will be loading.
+  // indicator until the data is loaded. Crucially, an effect in
+  // StoreProvider will make sure we really will be loading.
   return { initialRouteName: 'main-tabs' };
 };

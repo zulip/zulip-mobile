@@ -14,7 +14,6 @@ import TranslationProvider from './boot/TranslationProvider';
 import ThemeProvider from './boot/ThemeProvider';
 import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
-import AppDataFetcher from './boot/AppDataFetcher';
 import { initializeSentry } from './sentry';
 import ZulipSafeAreaProvider from './boot/ZulipSafeAreaProvider';
 
@@ -54,15 +53,13 @@ export default function ZulipMobile(): Node {
           <ZulipSafeAreaProvider>
             <StoreHydratedGate>
               <AppEventHandlers>
-                <AppDataFetcher>
-                  <TranslationProvider>
-                    <ThemeProvider>
-                      <ActionSheetProvider>
-                        <ZulipNavigationContainer />
-                      </ActionSheetProvider>
-                    </ThemeProvider>
-                  </TranslationProvider>
-                </AppDataFetcher>
+                <TranslationProvider>
+                  <ThemeProvider>
+                    <ActionSheetProvider>
+                      <ZulipNavigationContainer />
+                    </ActionSheetProvider>
+                  </ThemeProvider>
+                </TranslationProvider>
               </AppEventHandlers>
             </StoreHydratedGate>
           </ZulipSafeAreaProvider>

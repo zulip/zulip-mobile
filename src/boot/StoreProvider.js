@@ -2,12 +2,16 @@
 import React, { useEffect } from 'react';
 import type { Node } from 'react';
 
+import type { Dispatch } from '../reduxTypes';
 import { observeStore } from '../redux';
 import { Provider } from '../react-redux';
 import * as logging from '../utils/logging';
-import { getAccount, tryGetActiveAccountState } from '../selectors';
+import { getHasAuth, getAccount, tryGetActiveAccountState } from '../selectors';
 import store, { restore } from './store';
 import timing from '../utils/timing';
+import { registerAndStartPolling } from '../events/eventActions';
+import { sendOutbox } from '../outbox/outboxActions';
+import { initNotifications } from '../notification/notifTokens';
 
 type Props = $ReadOnly<{|
   children: Node,
@@ -43,6 +47,25 @@ export default function StoreProvider(props: Props): Node {
     timing.start('Store hydration');
     restore(() => {
       timing.end('Store hydration');
+
+      (async () => {
+        const hasAuth = getHasAuth(store.getState());
+
+        // The `store` type isn't complete: it ignores thunk actions, etc.
+        // $FlowFixMe[incompatible-type]
+        const dispatch: Dispatch = store.dispatch;
+
+        // Init right away if there's an active, logged-in account.
+        // NB `getInitialRouteInfo` depends intimately on this behavior.
+        if (hasAuth) {
+          await dispatch(registerAndStartPolling());
+
+          // TODO(#3881): Lots of issues with outbox sending
+          dispatch(sendOutbox());
+
+          dispatch(initNotifications());
+        }
+      })();
     });
   }, []);
 

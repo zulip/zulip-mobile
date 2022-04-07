@@ -387,8 +387,8 @@ In the current Zulip mobile app, the structure looks like
   (in `eventActions.js`), which invokes `registerForEvents`, which is
   `/register` in the API binding.
 * In turn `registerAndStartPolling` is invoked in several situations:
-  * On startup, by `AppDataFetcher`, just if there's an active, logged-in
-    account.
+  * On startup, by an effect in StoreProvider, just if there's an active,
+    logged-in account.
   * When the user logs into a server, or switches accounts (along with
     action types `LOGIN_SUCCESS` and `ACCOUNT_SWITCH`.)
   * Along with the `DEAD_QUEUE` action -- which is dispatched
