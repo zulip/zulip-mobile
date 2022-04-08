@@ -46,13 +46,16 @@ const apiFetch = async (
 ): Promise<FixmeUntypedFetchResult> =>
   fetch(new URL(`/${apiVersion}/${route}`, auth.realm).toString(), getFetchParams(auth, params));
 
-/** (Caller beware! Return type is the magic `empty`.) */
+/**
+ * (Caller beware! Return type has `$FlowFixMe`/`any`. The shape of the
+ *   return value is highly specific to the caller.)
+ */
 export const apiCall = async (
   auth: Auth,
   route: string,
   params: $Diff<$Exact<RequestOptions>, {| headers: mixed |}>,
   isSilent: boolean = false,
-): Promise<FixmeUntypedFetchResult> => {
+): Promise<$FlowFixMe> => {
   try {
     networkActivityStart(isSilent);
 
@@ -72,8 +75,6 @@ export const apiCall = async (
     }
 
     const result = interpretApiResponse(response.status, json);
-    /* $FlowFixMe[incompatible-return] We let the caller pretend this data
-         is whatever it wants it to be. */
     return result;
   } catch (errorIllTyped) {
     const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
@@ -114,7 +115,7 @@ export const apiGet = async (
   route: string,
   params: UrlParams = {},
   isSilent: boolean = false,
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(
     auth,
     `${route}?${encodeParamsForUrl(params)}`,
@@ -128,17 +129,13 @@ export const apiPost = async (
   auth: Auth,
   route: string,
   params: UrlParams = {},
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(auth, route, {
     method: 'post',
     body: encodeParamsForUrl(params),
   });
 
-export const apiFile = async (
-  auth: Auth,
-  route: string,
-  body: FormData,
-): Promise<FixmeUntypedFetchResult> =>
+export const apiFile = async (auth: Auth, route: string, body: FormData): Promise<$FlowFixMe> =>
   apiCall(auth, route, {
     method: 'post',
     body,
@@ -148,7 +145,7 @@ export const apiPut = async (
   auth: Auth,
   route: string,
   params: UrlParams = {},
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(auth, route, {
     method: 'put',
     body: encodeParamsForUrl(params),
@@ -158,7 +155,7 @@ export const apiDelete = async (
   auth: Auth,
   route: string,
   params: UrlParams = {},
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(auth, route, {
     method: 'delete',
     body: encodeParamsForUrl(params),
@@ -168,7 +165,7 @@ export const apiPatch = async (
   auth: Auth,
   route: string,
   params: UrlParams = {},
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(auth, route, {
     method: 'patch',
     body: encodeParamsForUrl(params),
@@ -178,7 +175,7 @@ export const apiHead = async (
   auth: Auth,
   route: string,
   params: UrlParams = {},
-): Promise<FixmeUntypedFetchResult> =>
+): Promise<$FlowFixMe> =>
   apiCall(auth, `${route}?${encodeParamsForUrl(params)}`, {
     method: 'head',
   });
