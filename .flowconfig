@@ -61,20 +61,6 @@ flow-typed/expo-screen-orientation_vx.x.x.js
 ; counterparts in node_modules/react-native:
 flow-typed/jest_v26.x.x.js
 
-[declarations]
-; We should be able to remove this once we're on RN v0.65, which has
-; facebook/react-native@bac2c2c80. RN v0.64.2 was released without adding
-; error codes to several `$FlowFixMe`s, so we'd otherwise get 12 warnings in
-; this file, like
-;
-;   Suppression is missing a code. Please update this suppression to use an
-;     error code: $FlowFixMe[invalid-export]
-;
-; We still want the module's types to be used, so `declarations` seemed like
-; the best place to handle something like this:
-;   https://flow.org/en/docs/config/declarations/
-.*/node_modules/react-native/index.js
-
 [strict]
 ; These apply only to files where `@flow strict` is enabled.
 ; See https://flow.org/en/docs/strict/ .
