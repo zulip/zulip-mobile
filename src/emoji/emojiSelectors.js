@@ -42,12 +42,6 @@ export const getAllImageEmojiByCode: Selector<{|
   objectFromEntries(Object.keys(emojis).map(id => [emojis[id].code, emojis[id]])),
 );
 
-export const getActiveImageEmojiByName: Selector<{|
-  [string]: ImageEmojiType,
-|}> = createSelector(getActiveImageEmojiById, emojis =>
-  objectFromEntries(Object.keys(emojis).map(id => [emojis[id].name, emojis[id]])),
-);
-
 export const getActiveImageEmoji: Selector<$ReadOnlyArray<EmojiForShared>> = createSelector(
   getActiveImageEmojiById,
   emojis =>

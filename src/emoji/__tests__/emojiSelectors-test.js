@@ -2,7 +2,6 @@ import deepFreeze from 'deep-freeze';
 import {
   getActiveImageEmojiById,
   getAllImageEmojiById,
-  getActiveImageEmojiByName,
   getAllImageEmojiByCode,
 } from '../emojiSelectors';
 
@@ -123,43 +122,5 @@ describe('getAllImageEmojiByCode', () => {
       },
     };
     expect(getAllImageEmojiByCode(deepFreeze(state))).toEqual(expectedResult);
-  });
-});
-
-describe('getActiveImageEmojiByName', () => {
-  test('get realm emoji object with emoji names as the keys', () => {
-    const state = {
-      accounts: [{ realm: new URL('https://example.com') }],
-      realm: {
-        emoji: {
-          1: {
-            name: 'smile',
-            source_url: 'https://example.com/static/user_upload/smile.png',
-          },
-          2: {
-            name: 'laugh',
-            source_url: 'https://example.com/static/user_upload/laugh.png',
-          },
-        },
-      },
-    };
-
-    const expectedResult = {
-      smile: {
-        name: 'smile',
-        source_url: 'https://example.com/static/user_upload/smile.png',
-      },
-      laugh: {
-        name: 'laugh',
-        source_url: 'https://example.com/static/user_upload/laugh.png',
-      },
-      zulip: {
-        deactivated: false,
-        name: 'zulip',
-        code: 'zulip',
-        source_url: 'https://example.com/static/generated/emoji/images/emoji/unicode/zulip.png',
-      },
-    };
-    expect(getActiveImageEmojiByName(deepFreeze(state))).toEqual(expectedResult);
   });
 });
