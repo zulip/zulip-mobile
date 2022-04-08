@@ -1317,6 +1317,9 @@ declare module 'react-native-webview' {
   // node_modules/react-native-webview/lib/WebView.d.ts
   //
 
+  // A fudge: iOS will have IOSWebViewProps; Android will have
+  // AndroidWebViewProps. Hard to get Flow to check platform-specific
+  // codepaths separately.
   declare export type WebViewProps = $ReadOnly<{| ...IOSWebViewProps, ...AndroidWebViewProps |}>;
 
   // Incomplete; see methods at
