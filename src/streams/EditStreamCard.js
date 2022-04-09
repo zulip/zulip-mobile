@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
     description: string,
     invite_only: boolean,
   |},
-  onComplete: (name: string, description: string, invite_only: boolean) => void,
+  onComplete: (name: string, description: string, invite_only: boolean) => void | Promise<void>,
 |}>;
 
 type State = {|
