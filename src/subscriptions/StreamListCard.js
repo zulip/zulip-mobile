@@ -51,9 +51,9 @@ export default function StreamListCard(props: Props): Node {
     [streams],
   );
 
-  const handleSwitchChange = useCallback(
-    (stream, switchValue: boolean) => {
-      if (switchValue) {
+  const handleSubscribeButtonPressed = useCallback(
+    (stream, value: boolean) => {
+      if (value) {
         // This still uses a stream name (#3918) because the API method does; see there.
         api.subscriptionAdd(auth, [{ name: stream.name }]);
       } else {
@@ -110,10 +110,10 @@ export default function StreamListCard(props: Props): Node {
                    But in this UI, we don't show that distinction. */
                 false
               }
-              showSwitch
+              offersSubscribeButton
               isSubscribed={subscriptions.has(item.stream_id)}
               onPress={handleNarrow}
-              onSwitch={handleSwitchChange}
+              onSubscribeButtonPressed={handleSubscribeButtonPressed}
             />
           )}
         />

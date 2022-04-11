@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
@@ -17,12 +17,18 @@ import {
   getOwnUser,
   getSettings,
 } from '../selectors';
-import styles, { createStyleSheet, ThemeContext } from '../styles';
+import styles, {
+  createStyleSheet,
+  ThemeContext,
+  BRAND_COLOR,
+  HIGHLIGHT_COLOR,
+  HALF_COLOR,
+} from '../styles';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
-import ZulipSwitch from '../common/ZulipSwitch';
 import { foregroundColorFromBackground } from '../utils/color';
+import { IconPlus, IconDone } from '../common/Icons';
 import StreamIcon from './StreamIcon';
 
 const componentStyles = createStyleSheet({
@@ -53,11 +59,11 @@ type Props = $ReadOnly<{|
 
   unreadCount?: number,
   iconSize: number,
-  showSwitch?: boolean,
+  offersSubscribeButton?: boolean,
   // These stream names are here for a mix of good reasons and (#3918) bad ones.
   // To audit all uses, change `name` to write-only (`-name:`), and run Flow.
   onPress: ({ stream_id: number, name: string, ... }) => void,
-  onSwitch?: ({ stream_id: number, name: string, ... }, newValue: boolean) => void,
+  onSubscribeButtonPressed?: ({ stream_id: number, name: string, ... }, newValue: boolean) => void,
 |}>;
 
 /**
@@ -71,15 +77,15 @@ type Props = $ReadOnly<{|
  * @prop isMuted - false for a Stream; !sub.in_home_view for Subscription
  * @prop isPrivate - .invite_only for a Stream or a Subscription
  * @prop isSubscribed - whether the user is subscribed to the stream;
- *   ignored (and can be any value) unless showSwitch is true
+ *   ignored (and can be any value) unless offersSubscribeButton is true
  * @prop color - if provided, MUST be .color on a Subscription
  * @prop backgroundColor - if provided, MUST be .color on a Subscription
  *
  * @prop unreadCount - number of unread messages
  * @prop iconSize
- * @prop showSwitch - whether to show a toggle switch (ZulipSwitch)
+ * @prop offersSubscribeButton - whether to offer a subscribe/unsubscribe button
  * @prop onPress - press handler for the item
- * @prop onSwitch - if switch exists
+ * @prop onSubscribeButtonPressed
  */
 export default function StreamItem(props: Props): Node {
   const {
@@ -93,10 +99,10 @@ export default function StreamItem(props: Props): Node {
     isWebPublic,
     isSubscribed = false,
     iconSize,
-    showSwitch = false,
+    offersSubscribeButton = false,
     unreadCount,
     onPress,
-    onSwitch,
+    onSubscribeButtonPressed,
   } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
@@ -163,16 +169,25 @@ export default function StreamItem(props: Props): Node {
           )}
         </View>
         <UnreadCount color={iconColor} count={unreadCount} />
-        {showSwitch && (
-          <ZulipSwitch
-            value={!!isSubscribed}
-            onValueChange={(newValue: boolean) => {
-              if (onSwitch) {
-                onSwitch({ stream_id: streamId, name }, newValue);
+        {offersSubscribeButton && (
+          <Pressable
+            onPress={() => {
+              if (onSubscribeButtonPressed) {
+                onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
               }
             }}
+            hitSlop={12}
             disabled={!isSubscribed && isPrivate}
-          />
+            style={{ opacity: !isSubscribed && isPrivate ? 0.1 : 1 }}
+          >
+            {({ pressed }) =>
+              isSubscribed ? (
+                <IconDone size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
+              ) : (
+                <IconPlus size={24} color={pressed ? HALF_COLOR : iconColor} />
+              )
+            }
+          </Pressable>
         )}
       </View>
     </Touchable>
