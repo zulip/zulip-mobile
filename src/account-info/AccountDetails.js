@@ -74,7 +74,11 @@ export default function AccountDetails(props: Props): Node {
           hideIfOffline={false}
           useOpaqueBackground={false}
         />
-        <ZulipText style={[styles.largerText, styles.halfMarginRight]} text={user.full_name} />
+        <ZulipText
+          selectable
+          style={[styles.largerText, styles.halfMarginRight]}
+          text={user.full_name}
+        />
       </View>
       <View style={componentStyles.statusWrapper}>
         {userStatusEmoji && (
