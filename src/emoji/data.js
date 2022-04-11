@@ -73,9 +73,13 @@ export const getFilteredEmojis = (
     }
   }
 
-  const matchingImageEmoji = Object.keys(activeImageEmojiByName)
-    .map(x => [x, Math.min(1, x.indexOf(query))])
-    .filter(([_, i]) => i !== -1);
+  const matchingImageEmoji: Array<[string, number]> = [];
+  for (const emoji_name of Object.keys(activeImageEmojiByName)) {
+    const priority = Math.min(1, emoji_name.indexOf(query));
+    if (priority !== -1) {
+      matchingImageEmoji.push([emoji_name, priority]);
+    }
+  }
 
   const allMatchingEmoji: Map<string, number> = new Map([
     ...matchingUnicodeEmoji,
