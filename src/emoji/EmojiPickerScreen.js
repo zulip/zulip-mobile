@@ -60,14 +60,14 @@ export default function EmojiPickerScreen(props: Props): Node {
     [onPressEmoji, navigation],
   );
 
-  const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
+  const filteredEmojis = getFilteredEmojis(filter, activeImageEmojiByName);
 
   return (
     <Screen search autoFocus scrollEnabled={false} searchBarOnChange={handleInputChange}>
       <FlatList
         keyboardShouldPersistTaps="always"
         initialNumToRender={20}
-        data={emojiNames}
+        data={filteredEmojis}
         keyExtractor={item => item.emoji_name}
         renderItem={({ item }) => (
           <EmojiRow

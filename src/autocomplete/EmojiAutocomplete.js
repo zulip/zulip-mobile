@@ -20,7 +20,7 @@ const MAX_CHOICES = 30;
 export default function EmojiAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
   const activeImageEmojiByName = useSelector(getActiveImageEmojiByName);
-  const emojiNames = getFilteredEmojis(filter, activeImageEmojiByName);
+  const filteredEmojis = getFilteredEmojis(filter, activeImageEmojiByName);
 
   const handlePress = useCallback(
     ({ type, code, name }) => {
@@ -29,7 +29,7 @@ export default function EmojiAutocomplete(props: Props): Node {
     [onAutocomplete],
   );
 
-  if (emojiNames.length === 0) {
+  if (filteredEmojis.length === 0) {
     return null;
   }
 
@@ -38,7 +38,7 @@ export default function EmojiAutocomplete(props: Props): Node {
       <FlatList
         keyboardShouldPersistTaps="always"
         initialNumToRender={12}
-        data={emojiNames.slice(0, MAX_CHOICES)}
+        data={filteredEmojis.slice(0, MAX_CHOICES)}
         keyExtractor={item => item.emoji_name}
         renderItem={({ item }) => (
           <EmojiRow
