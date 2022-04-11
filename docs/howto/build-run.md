@@ -598,6 +598,31 @@ separately, using `react-native start`. Once the server starts up, run
 `tools/run-android` again, and the app should not crash.
 
 
+### App hangs at Zulip loading screen, while debugging, on iOS
+
+After starting a debug version of the app, on iOS, while [debugging in the
+Chrome DevTools](debugging.md#chrome-devtools), you may find the app stays
+on the loading screen (with the Zulip-purple background, and a progress
+spinner around the Zulip logo) indefinitely.
+
+If you weren't making use of the Chrome debugging features, you can avoid
+this issue by simply turning that back off.
+
+Alternatively, you can get past the issue by tapping on the screen about
+five or ten times over the course of a second or two.
+
+See chat discussion: [start][devtools-hang-discussion], and
+[workaround][devtools-hang-workaround].  This [may go
+away][devtools-hang-hermes] when we switch to Hermes ([#5313][]), where the
+debugger's architecture is simpler and less likely to affect the running of
+the app.
+
+[devtools-hang-discussion]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M5309.20sound.20storage/near/1352459
+[devtools-hang-workaround]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M5309.20sound.20storage/near/1354570
+[devtools-hang-hermes]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M5309.20sound.20storage/near/1354571
+[#5313]: https://github.com/zulip/zulip-mobile/issues/5313
+
+
 ### Red error banner about method `-[RCTAppState getCurrentAppState:error:]`
 
 This should only happen when building old versions of the app, from
