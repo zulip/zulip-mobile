@@ -39,6 +39,32 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed a bug where you couldn't paste an org URL from the clipboard when
+  logging in. (#5228)
+* When choosing an emoji, popular ones now appear at the top of the list,
+  including :tada:, :smile:, and :heart:. (#4636)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We now store persistent data in a sound way! (#4841)
+
+* We now use `typeahead.sort_emojis` from `@zulip/shared`, for sorting
+  emojis in the picker and autocomplete. (PR #5326, toward #4636)
+
+* New setup for using custom icons in @zulip/shared. (#5307)
+
+* Type coverage has increased to 98%. (#5323)
+
+* ComposeBox is now a function component using React Hooks. (#5312)
+
+* Resolved issues: #4841, #5228, PR #5312, #5307, PR #5310
+
 
 ## 27.182 (2022-03-16)
 
