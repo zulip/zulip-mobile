@@ -204,6 +204,10 @@ declare module '../../static/translations/messages_uk.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_ur.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_uz.json' {
   declare export default {| [string]: string |};
 }

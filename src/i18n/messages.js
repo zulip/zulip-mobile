@@ -60,6 +60,7 @@ export default {
   tl: require('../../static/translations/messages_tl.json'),
   tr: require('../../static/translations/messages_tr.json'),
   uk: require('../../static/translations/messages_uk.json'),
+  ur: require('../../static/translations/messages_ur.json'),
   uz: require('../../static/translations/messages_uz.json'),
   vi: require('../../static/translations/messages_vi.json'),
   'zh-Hans': require('../../static/translations/messages_zh-Hans.json'),
