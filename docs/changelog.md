@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.183 (2022-04-12)
+
 ### Highlights for users
 
 * Fixed a bug where you couldn't paste an org URL from the clipboard when
