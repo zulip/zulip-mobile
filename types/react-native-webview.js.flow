@@ -1,68 +1,15 @@
-/*
- * Types (complete or incomplete) translated from @types/react-native at the
- * version react-native-webview uses. Translation done with Flowgen v1.14.1.
- *
- * Done with `--interface-records` and `--no-inexact`, and edited lightly.
- */
-declare module 'react-native-webview/@@react-native' {
-  declare type NodeHandle = number;
-
-  // Similar to React.SyntheticEvent except for nativeEvent
-  declare export type NativeSyntheticEvent<T> = {|
-    ...$Exact<React$BaseSyntheticEvent<T, NodeHandle, NodeHandle>>,
-  |};
-
-  declare export type NativeScrollEvent = {|
-    contentInset: NativeScrollRectangle,
-    contentOffset: NativeScrollPoint,
-    contentSize: NativeScrollSize,
-    layoutMeasurement: NativeScrollSize,
-    velocity?: NativeScrollVelocity,
-    zoomScale: number,
-  |};
-
-  declare type Falsy = void | null | false;
-  declare type RecursiveArray<T> = Array<T | RecursiveArray<T> | $ReadOnlyArray<T>>;
-  /**
-   * Keep a brand of 'T' so that calls to `StyleSheet.flatten` can take `RegisteredStyle<T>` and return `T`.
-   */
-  declare type RegisteredStyle<T> = {|
-    ...number,
-    ...{|
-      __registeredStyleBrand: T,
-    |},
-  |};
-  declare export type StyleProp<T> =
-    | T
-    | RegisteredStyle<T>
-    | RecursiveArray<T | RegisteredStyle<T> | Falsy>
-    | Falsy;
-
-  // not the actual definition; that's verbose
-  declare export type ViewStyle = { ... };
-
-  // not the actual definition; that's verbose
-  declare export type ViewProps = {| style: StyleProp<ViewStyle> |};
-}
 
 /*
- * Types translated from lib/WebViewTypes.d.ts and lib/WebView.d.ts, with
- * Flowgen v1.14.1.
+ * Types translated from react-native-webview/lib/WebViewTypes.d.ts and
+ * lib/WebView.d.ts, with Flowgen v1.14.1.
  *
  * Done with `--interface-records` and `--no-inexact`, and edited lightly.
+ *
+ * @flow strict-local
  */
-declare module 'react-native-webview' {
-//
-// node_modules/react-native-webview/lib/WebViewTypes.d.ts
-//
-
-import type {
-  NativeSyntheticEvent,
-  ViewProps,
-  StyleProp,
-  ViewStyle,
-  NativeScrollEvent,
-} from 'react-native-webview/@@react-native';
+import type { SyntheticEvent, ScrollEvent } from 'react-native/Libraries/Types/CoreEventTypes';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 // Not represented:
 //   RNCWebViewUIManagerAndroid
@@ -70,23 +17,23 @@ import type {
 //   RNCWebViewUIManagerMacOS
 //   RNCWebViewUIManagerWindows
 
-declare type WebViewState = 'IDLE' | 'LOADING' | 'ERROR';
-declare type BaseState = {|
+type WebViewState = 'IDLE' | 'LOADING' | 'ERROR';
+type BaseState = {|
   viewState: WebViewState,
 |};
-declare type NormalState = {|
+type NormalState = {|
   ...$Exact<BaseState>,
 
   viewState: 'IDLE' | 'LOADING',
   lastErrorEvent: WebViewError | null,
 |};
-declare type ErrorState = {|
+type ErrorState = {|
   ...$Exact<BaseState>,
 
   viewState: 'ERROR',
   lastErrorEvent: WebViewError,
 |};
-declare export type State = NormalState | ErrorState;
+export type State = NormalState | ErrorState;
 
 // Exports not represented:
 //   NativeWebViewIOS
@@ -94,13 +41,13 @@ declare export type State = NormalState | ErrorState;
 //   NativeWebViewAndroid
 //   NativeWebViewWindows
 
-declare export type ContentInsetProp = {|
+export type ContentInsetProp = {|
   top?: number,
   left?: number,
   bottom?: number,
   right?: number,
 |};
-declare export type WebViewNativeEvent = {|
+export type WebViewNativeEvent = {|
   url: string,
   loading: boolean,
   title: string,
@@ -108,32 +55,32 @@ declare export type WebViewNativeEvent = {|
   canGoForward: boolean,
   lockIdentifier: number,
 |};
-declare export type WebViewNativeProgressEvent = {|
+export type WebViewNativeProgressEvent = {|
   ...$Exact<WebViewNativeEvent>,
 
   progress: number,
 |};
-declare export type WebViewNavigation = {|
+export type WebViewNavigation = {|
   ...$Exact<WebViewNativeEvent>,
 
   navigationType: 'click' | 'formsubmit' | 'backforward' | 'reload' | 'formresubmit' | 'other',
   mainDocumentURL?: string,
 |};
-declare export type ShouldStartLoadRequest = {|
+export type ShouldStartLoadRequest = {|
   ...$Exact<WebViewNavigation>,
 
   isTopFrame: boolean,
 |};
-declare export type FileDownload = {|
+export type FileDownload = {|
   downloadUrl: string,
 |};
-declare export type DecelerationRateConstant = 'normal' | 'fast';
-declare export type WebViewMessage = {|
+export type DecelerationRateConstant = 'normal' | 'fast';
+export type WebViewMessage = {|
   ...$Exact<WebViewNativeEvent>,
 
   data: string,
 |};
-declare export type WebViewError = {|
+export type WebViewError = {|
   ...$Exact<WebViewNativeEvent>,
 
   /**
@@ -143,27 +90,27 @@ declare export type WebViewError = {|
   code: number,
   description: string,
 |};
-declare export type WebViewHttpError = {|
+export type WebViewHttpError = {|
   ...$Exact<WebViewNativeEvent>,
 
   description: string,
   statusCode: number,
 |};
-declare export type WebViewRenderProcessGoneDetail = {|
+export type WebViewRenderProcessGoneDetail = {|
   didCrash: boolean,
 |};
-declare export type WebViewEvent = NativeSyntheticEvent<WebViewNativeEvent>;
-declare export type WebViewProgressEvent = NativeSyntheticEvent<WebViewNativeProgressEvent>;
-declare export type WebViewNavigationEvent = NativeSyntheticEvent<WebViewNavigation>;
-declare export type ShouldStartLoadRequestEvent = NativeSyntheticEvent<ShouldStartLoadRequest>;
-declare export type FileDownloadEvent = NativeSyntheticEvent<FileDownload>;
-declare export type WebViewMessageEvent = NativeSyntheticEvent<WebViewMessage>;
-declare export type WebViewErrorEvent = NativeSyntheticEvent<WebViewError>;
-declare export type WebViewTerminatedEvent = NativeSyntheticEvent<WebViewNativeEvent>;
-declare export type WebViewHttpErrorEvent = NativeSyntheticEvent<WebViewHttpError>;
-declare export type WebViewRenderProcessGoneEvent = NativeSyntheticEvent<WebViewRenderProcessGoneDetail>;
-declare export type WebViewScrollEvent = NativeSyntheticEvent<NativeScrollEvent>;
-declare export type DataDetectorTypes =
+export type WebViewEvent = SyntheticEvent<WebViewNativeEvent>;
+export type WebViewProgressEvent = SyntheticEvent<WebViewNativeProgressEvent>;
+export type WebViewNavigationEvent = SyntheticEvent<WebViewNavigation>;
+export type ShouldStartLoadRequestEvent = SyntheticEvent<ShouldStartLoadRequest>;
+export type FileDownloadEvent = SyntheticEvent<FileDownload>;
+export type WebViewMessageEvent = SyntheticEvent<WebViewMessage>;
+export type WebViewErrorEvent = SyntheticEvent<WebViewError>;
+export type WebViewTerminatedEvent = SyntheticEvent<WebViewNativeEvent>;
+export type WebViewHttpErrorEvent = SyntheticEvent<WebViewHttpError>;
+export type WebViewRenderProcessGoneEvent = SyntheticEvent<WebViewRenderProcessGoneDetail>;
+export type WebViewScrollEvent = SyntheticEvent<ScrollEvent>;
+export type DataDetectorTypes =
   | 'phoneNumber'
   | 'link'
   | 'address'
@@ -173,14 +120,14 @@ declare export type DataDetectorTypes =
   | 'lookupSuggestion'
   | 'none'
   | 'all';
-declare export type OverScrollModeType = 'always' | 'content' | 'never';
-declare export type CacheMode =
+export type OverScrollModeType = 'always' | 'content' | 'never';
+export type CacheMode =
   | 'LOAD_DEFAULT'
   | 'LOAD_CACHE_ONLY'
   | 'LOAD_CACHE_ELSE_NETWORK'
   | 'LOAD_NO_CACHE';
-declare export type AndroidLayerType = 'none' | 'software' | 'hardware';
-declare export type WebViewSourceUri = {|
+export type AndroidLayerType = 'none' | 'software' | 'hardware';
+export type WebViewSourceUri = {|
   /**
    * The URI to load in the `WebView`. Can be a local or remote file.
    */
@@ -206,7 +153,7 @@ declare export type WebViewSourceUri = {|
    */
   body?: string,
 |};
-declare export type WebViewSourceHtml = {|
+export type WebViewSourceHtml = {|
   /**
    * A static HTML page to display in the WebView.
    */
@@ -217,11 +164,11 @@ declare export type WebViewSourceHtml = {|
    */
   baseUrl?: string,
 |};
-declare export type WebViewSource = WebViewSourceUri | WebViewSourceHtml;
-declare export type ViewManager = {|
+export type WebViewSource = WebViewSourceUri | WebViewSourceHtml;
+export type ViewManager = {|
   startLoadWithResult: $FlowFixMe,
 |};
-declare export type WebViewNativeConfig = {|
+export type WebViewNativeConfig = {|
   /**
    * The native component used to render the WebView.
    */
@@ -239,8 +186,8 @@ declare export type WebViewNativeConfig = {|
    */
   viewManager?: ViewManager,
 |};
-declare export type OnShouldStartLoadWithRequest = (event: ShouldStartLoadRequest) => boolean;
-declare export type CommonNativeWebViewProps = {|
+export type OnShouldStartLoadWithRequest = (event: ShouldStartLoadRequest) => boolean;
+export type CommonNativeWebViewProps = {|
   ...$Exact<ViewProps>,
 
   cacheEnabled?: boolean,
@@ -270,7 +217,7 @@ declare export type CommonNativeWebViewProps = {|
    */
   applicationNameForUserAgent?: string,
 |};
-declare export type AndroidNativeWebViewProps = {|
+export type AndroidNativeWebViewProps = {|
   ...$Exact<CommonNativeWebViewProps>,
 
   cacheMode?: CacheMode,
@@ -294,13 +241,13 @@ declare export type AndroidNativeWebViewProps = {|
   messagingModuleName?: string,
   +urlPrefixesForDefaultIntent?: string[],
 |};
-declare export type ContentInsetAdjustmentBehavior =
+export type ContentInsetAdjustmentBehavior =
   | 'automatic'
   | 'scrollableAxes'
   | 'never'
   | 'always';
-declare export type ContentMode = 'recommended' | 'mobile' | 'desktop';
-declare export type IOSNativeWebViewProps = {|
+export type ContentMode = 'recommended' | 'mobile' | 'desktop';
+export type IOSNativeWebViewProps = {|
   ...$Exact<CommonNativeWebViewProps>,
 
   allowingReadAccessToURL?: string,
@@ -328,7 +275,7 @@ declare export type IOSNativeWebViewProps = {|
   onFileDownload?: (event: FileDownloadEvent) => void,
   limitsNavigationsToAppBoundDomains?: boolean,
 |};
-declare export type MacOSNativeWebViewProps = {|
+export type MacOSNativeWebViewProps = {|
   ...$Exact<CommonNativeWebViewProps>,
 
   allowingReadAccessToURL?: string,
@@ -348,12 +295,12 @@ declare export type MacOSNativeWebViewProps = {|
   useSharedProcessPool?: boolean,
   onContentProcessDidTerminate?: (event: WebViewTerminatedEvent) => void,
 |};
-declare export type WindowsNativeWebViewProps = {|
+export type WindowsNativeWebViewProps = {|
   ...$Exact<CommonNativeWebViewProps>,
 
   testID?: string,
 |};
-declare export type IOSWebViewProps = {|
+export type IOSWebViewProps = {|
   ...$Exact<WebViewSharedProps>,
 
   /**
@@ -633,7 +580,7 @@ declare export type IOSWebViewProps = {|
    */
   enableApplePay?: boolean,
 |};
-declare export type MacOSWebViewProps = {|
+export type MacOSWebViewProps = {|
   ...$Exact<WebViewSharedProps>,
 
   /**
@@ -790,7 +737,7 @@ declare export type MacOSWebViewProps = {|
    */
   onContentProcessDidTerminate?: (event: WebViewTerminatedEvent) => void,
 |};
-declare export type AndroidWebViewProps = {|
+export type AndroidWebViewProps = {|
   ...$Exact<WebViewSharedProps>,
 
   onNavigationStateChange?: (event: WebViewNavigation) => void,
@@ -941,7 +888,7 @@ declare export type AndroidWebViewProps = {|
    */
   allowsFullscreenVideo?: boolean,
 |};
-declare export type WebViewSharedProps = {|
+export type WebViewSharedProps = {|
   ...$Exact<ViewProps>,
 
   /**
@@ -965,7 +912,7 @@ declare export type WebViewSharedProps = {|
   /**
    * Stylesheet object to set the style of the container view.
    */
-  containerStyle?: StyleProp<ViewStyle>,
+  containerStyle?: ViewStyleProp,
 
   /**
    * Function that returns a view to show if there's an error.
@@ -1119,7 +1066,7 @@ declare export type WebViewSharedProps = {|
 // A fudge: iOS will have IOSWebViewProps; Android will have
 // AndroidWebViewProps. Hard to get Flow to check platform-specific
 // codepaths separately.
-declare export type WebViewProps = $ReadOnly<{| ...IOSWebViewProps, ...AndroidWebViewProps |}>;
+export type WebViewProps = $ReadOnly<{| ...IOSWebViewProps, ...AndroidWebViewProps |}>;
 
 // Incomplete; see methods at
 //   https://github.com/react-native-webview/react-native-webview/blob/5e73b2089/docs/Reference.md#methods-index
@@ -1127,4 +1074,3 @@ declare export type WebViewProps = $ReadOnly<{| ...IOSWebViewProps, ...AndroidWe
 declare export var WebView: React$ComponentType<WebViewProps>;
 
 declare export default typeof WebView;
-}
