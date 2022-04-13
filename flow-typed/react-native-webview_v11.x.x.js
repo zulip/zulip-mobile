@@ -196,7 +196,7 @@ declare export type WebViewSourceUri = {|
    * Additional HTTP headers to send with the request.
    * NOTE: On Android, this can only be used with GET requests.
    */
-  headers?: Object,
+  headers?: $FlowFixMe,
 
   /**
    * The HTTP body to send with the request. This must be a valid
@@ -219,7 +219,7 @@ declare export type WebViewSourceHtml = {|
 |};
 declare export type WebViewSource = WebViewSourceUri | WebViewSourceHtml;
 declare export type ViewManager = {|
-  startLoadWithResult: Function,
+  startLoadWithResult: $FlowFixMe,
 |};
 declare export type WebViewNativeConfig = {|
   /**
@@ -231,7 +231,7 @@ declare export type WebViewNativeConfig = {|
    * Set props directly on the native component WebView. Enables custom props which the
    * original WebView doesn't pass through.
    */
-  props?: Object,
+  props?: { ... },
 
   /**
    * Set the ViewManager to use for communication with the native side.
@@ -262,7 +262,7 @@ declare export type CommonNativeWebViewProps = {|
   onShouldStartLoadWithRequest: (event: ShouldStartLoadRequestEvent) => void,
   showsHorizontalScrollIndicator?: boolean,
   showsVerticalScrollIndicator?: boolean,
-  source: any,
+  source: $FlowFixMe,
   userAgent?: string,
 
   /**
