@@ -225,7 +225,7 @@ declare module 'react-native-webview' {
     /**
      * The native component used to render the WebView.
      */
-    component?: typeof NativeWebViewIOS | typeof NativeWebViewMacOS | typeof NativeWebViewAndroid,
+    component?: $FlowFixMe, // See 684498afd.
 
     /**
      * Set props directly on the native component WebView. Enables custom props which the
