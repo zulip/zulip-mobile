@@ -11,9 +11,25 @@ import { dismissCompatNotice } from '../session/sessionActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-// The oldest version we currently support. Should match what we say at
-//   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading.
-export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('2.1.0');
+/**
+ * The oldest version we currently support.
+ *
+ * Should match what we say at:
+ *   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading
+ */
+// "2.2.0" is a funny way of saying "3.0", differing in that it accepts
+// versions like 2.2-dev-1234-g08192a3b4c.  Some servers running versions
+// from Git describe their versions that way: specifically those installed
+// from commits in the range 2.2-dev..3.0-dev (2019-12 to 2020-06), before
+// we decided to rename the then-upcoming release from 2.2 to 3.0; and
+// potentially upgraded since then, but not past the upgrader bugfix commit
+// 5.0~960 (2022-01).
+//
+// By the time we want to desupport 3.x circa 2022-11, it should make sense
+// to simply say 4.0 here.  By that point the affected versions from Git
+// will be nearly a year old, and it's pretty OK to just say those servers
+// should upgrade too.
+export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('2.2.0');
 // Notes on known breakage at older versions:
 //  * Before 1.8, the server doesn't send found_newest / found_oldest on
 //    fetching messages, and so `state.caughtUp` will never have truthy
@@ -25,7 +41,7 @@ export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('2.1.0');
  *
  * This should be the next major Zulip Server version after kMinSupportedVersion.
  */
-export const kNextMinSupportedVersion: ZulipVersion = new ZulipVersion('3.0');
+export const kNextMinSupportedVersion: ZulipVersion = new ZulipVersion('4.0');
 
 type Props = $ReadOnly<{||}>;
 
