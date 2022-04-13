@@ -123,6 +123,7 @@
   },
   "resolutions": {
     "jest-expo/react-test-renderer": "17.0.2",
+    "react-native/use-subscription": ">=1.0.0 <1.6.0",
     "sqlite3/**/node-gyp": "^8"
   }
 }

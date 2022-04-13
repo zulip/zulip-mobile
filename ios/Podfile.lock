@@ -307,7 +307,7 @@ PODS:
   - react-native-simple-toast (1.1.3):
     - React-Core
     - Toast (~> 4.0.0)
-  - react-native-webview (11.17.2):
+  - react-native-webview (11.18.1):
     - React-Core
   - React-perflogger (0.65.2)
   - React-RCTActionSheet (0.65.2):
@@ -375,13 +375,13 @@ PODS:
     - React-perflogger (= 0.65.2)
   - rn-fetch-blob (0.11.2):
     - React-Core
-  - RNCAsyncStorage (1.16.1):
+  - RNCAsyncStorage (1.17.3):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNCPushNotificationIOS (1.10.1):
     - React-Core
-  - RNDeviceInfo (8.4.9):
+  - RNDeviceInfo (8.7.0):
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
@@ -690,7 +690,7 @@ SPEC CHECKSUMS:
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
-  react-native-webview: 380c1a03ec94b7ed764dac8db1e7c9952d08c93a
+  react-native-webview: 0b7bd2bffced115aefd393e1841babd9b9a557b1
   React-perflogger: 939564c838f8b6ec099b4f858559f0f406c99745
   React-RCTActionSheet: b5135d36ee35ebd883c4fe043db7bd8cbba7516e
   React-RCTAnimation: 93aeefce33bb73f8d82132d7a362819676e1d1e4
@@ -704,10 +704,10 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 5bedf6e704373fe9f0cc54aa35a112e5b0051b94
   ReactCommon: bf5dc45e9ec73a75f00de565f2519d6f8594ddf5
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
-  RNCAsyncStorage: b49b4e38a1548d03b74b30e558a1d18465b94be7
+  RNCAsyncStorage: 005c0e2f09575360f142d0d1f1f15e4ec575b1af
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
-  RNDeviceInfo: 4944cf8787b9c5bffaf301fda68cc1a2ec003341
+  RNDeviceInfo: 36286df381fcaf1933ff9d2d3c34ba2abeb2d8d8
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: f58d4f027fcea2197b63588138decdf5f8ac5e89
   RNSentry: fbbdcd7213058e3de5fbaa452b25a06a16b4b382
