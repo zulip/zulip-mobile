@@ -19,13 +19,18 @@ export const updateExistingStream = (
     getZulipFeatureLevel(state) >= 64 ? value : JSON.stringify(value);
 
   const auth = getAuth(state);
+  const updates = {};
   if (initialValues.name !== newValues.name) {
-    await api.updateStream(auth, id, { new_name: maybeEncode(newValues.name) });
+    updates.new_name = maybeEncode(newValues.name);
   }
   if (initialValues.description !== newValues.description) {
-    await api.updateStream(auth, id, { description: maybeEncode(newValues.description) });
+    updates.description = maybeEncode(newValues.description);
   }
   if (initialValues.invite_only !== newValues.isPrivate) {
-    await api.updateStream(auth, id, { is_private: newValues.isPrivate });
+    updates.is_private = newValues.isPrivate;
+  }
+
+  if (Object.keys(updates).length > 0) {
+    await api.updateStream(auth, id, updates);
   }
 };
