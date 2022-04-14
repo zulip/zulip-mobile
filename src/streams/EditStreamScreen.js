@@ -8,6 +8,7 @@ import * as NavigationService from '../nav/NavigationService';
 import { useSelector, useDispatch } from '../react-redux';
 import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
+import { showToast } from '../utils/info';
 import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
 
@@ -21,8 +22,14 @@ export default function EditStreamScreen(props: Props): Node {
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
   const handleComplete = useCallback(
-    (name: string, description: string, isPrivate: boolean) => {
-      dispatch(updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }));
+    async (name: string, description: string, isPrivate: boolean) => {
+      try {
+        await dispatch(
+          updateExistingStream(stream.stream_id, stream, { name, description, isPrivate }),
+        );
+      } catch (error) {
+        showToast(error.message);
+      }
       NavigationService.dispatch(navigateBack());
     },
     [stream, dispatch],

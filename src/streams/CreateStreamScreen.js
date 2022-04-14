@@ -22,8 +22,8 @@ export default function CreateStreamScreen(props: Props): Node {
   const ownEmail = useSelector(getOwnEmail);
 
   const handleComplete = useCallback(
-    (name: string, description: string, isPrivate: boolean) => {
-      api.createStream(auth, name, description, [ownEmail], isPrivate);
+    async (name: string, description: string, isPrivate: boolean) => {
+      await api.createStream(auth, name, description, [ownEmail], isPrivate);
       NavigationService.dispatch(navigateBack());
     },
     [auth, ownEmail],
