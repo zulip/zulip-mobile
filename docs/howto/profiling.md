@@ -38,9 +38,8 @@ different JS engine from the one RN uses for the actual app.
 For either benchmarking, or coarse-grained profiling, a simple
 approach by manually adding some timing code can work well.
 
-You can add `Date.now()` to measure times (or better,
-`performance.now()` once we're on RN v0.63+; see our #4245), and
-`console.log()` to print the results.
+You can add `performance.now()` to measure times, and `console.log()` to
+print the results.
 
 See our [debugging guide](debugging.md#native) for how to view the
 output of `console.log`.  (As discussed above, you don't want to be
@@ -59,10 +58,9 @@ fine-grained exploration of the call graph: trying to run
 down and altering the results, and adding logging too voluminously
 would also just be a lot of manual work.
 
-Another limitation is that `Date.now()` provides times only to the
-nearest millisecond, so this can only measure relatively large chunks
-of time.  This one will go away when we upgrade to RN v0.63 (#4245)
-and can use `performance.now()` for finer resolution.
+Note: `Date.now()` provides times only to the nearest millisecond, so this
+can only measure relatively large chunks of time. Use `performance.now()`
+for finer resolution.
 
 
 ## Chrome DevTools
