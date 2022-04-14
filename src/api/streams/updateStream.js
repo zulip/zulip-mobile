@@ -13,9 +13,5 @@ import { apiPatch } from '../apiFetch';
 export default (
   auth: Auth,
   id: number,
-  property: string,
-  value: string | boolean,
-): Promise<ApiResponse> =>
-  apiPatch(auth, `streams/${id}`, {
-    [property]: value,
-  });
+  params: $ReadOnly<{| description?: string, new_name?: string, is_private?: boolean |}>,
+): Promise<ApiResponse> => apiPatch(auth, `streams/${id}`, params);

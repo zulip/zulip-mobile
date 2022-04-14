@@ -20,12 +20,12 @@ export const updateExistingStream = (
 
   const auth = getAuth(state);
   if (initialValues.name !== newValues.name) {
-    await api.updateStream(auth, id, 'new_name', maybeEncode(newValues.name));
+    await api.updateStream(auth, id, { new_name: maybeEncode(newValues.name) });
   }
   if (initialValues.description !== newValues.description) {
-    await api.updateStream(auth, id, 'description', maybeEncode(newValues.description));
+    await api.updateStream(auth, id, { description: maybeEncode(newValues.description) });
   }
   if (initialValues.invite_only !== newValues.isPrivate) {
-    await api.updateStream(auth, id, 'is_private', newValues.isPrivate);
+    await api.updateStream(auth, id, { is_private: newValues.isPrivate });
   }
 };
