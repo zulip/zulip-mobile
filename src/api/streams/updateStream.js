@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import type { ApiResponse, Auth } from '../transportTypes';
+import type { Stream } from '../modelTypes';
 import { apiPatch } from '../apiFetch';
 
 /**
@@ -13,5 +14,11 @@ import { apiPatch } from '../apiFetch';
 export default (
   auth: Auth,
   id: number,
-  params: $ReadOnly<{| description?: string, new_name?: string, is_private?: boolean |}>,
+  params: $ReadOnly<{|
+    description?: $PropertyType<Stream, 'description'>,
+    new_name?: $PropertyType<Stream, 'name'>,
+
+    // controls the invite_only property
+    is_private?: $PropertyType<Stream, 'invite_only'>,
+  |}>,
 ): Promise<ApiResponse> => apiPatch(auth, `streams/${id}`, params);
