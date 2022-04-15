@@ -330,18 +330,41 @@ export type MutedUser = $ReadOnly<{|
 //
 
 export type Stream = {|
-  // Property ordering follows https://zulip.com/api/register-queue .
+  // Based on `streams` in the /register response, current to FL 121:
+  //   https://zulip.com/api/register-queue
+  // Property ordering follows that doc.
 
   +stream_id: number,
   +name: string,
   +description: string,
+
+  // TODO(server-4.0): New in FL 30.
+  +date_created?: number,
+
+  // Note: updateStream controls this with its `is_private` param.
   +invite_only: boolean,
+
+  +rendered_description: string,
 
   // TODO(server-2.1): is_web_public was added in Zulip version 2.1;
   //   absence implies the stream is not web-public.
   +is_web_public?: boolean,
 
+  // TODO(server-3.0): Added in FL 1; if absent, use is_announcement_only.
+  +stream_post_policy?: 1 | 2 | 3 | 4,
+
+  // Special values are:
+  //   *  null: default; inherits from org-level setting
+  //   * -1: unlimited retention
+  // These special values differ from updateStream's and createStream's params; see
+  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
+  // TODO(server-3.0): New in FL 17.
+  +message_retention_days?: number | null,
+
   +history_public_to_subscribers: boolean,
+  +first_message_id: number | null,
+
+  // TODO(server-3.0): Deprecated at FL 1; use stream_post_policy instead
   +is_announcement_only: boolean,
 |};
 

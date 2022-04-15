@@ -300,10 +300,12 @@ export const makeStream = (
     stream_id: args.stream_id ?? randStreamId(),
     name,
     description: args.description ?? `On the ${randString()} of ${name}`,
+    rendered_description: args.description ?? `<p>On the ${randString()} of ${name}</p>`,
     invite_only: false,
     is_announcement_only: false,
     is_web_public: false,
     history_public_to_subscribers: true,
+    first_message_id: null,
   });
 };
 

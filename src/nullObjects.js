@@ -34,6 +34,7 @@ export const NULL_SUBSCRIPTION: Subscription = {
   audible_notifications: false,
   color: 'gray',
   description: '',
+  rendered_description: '',
   desktop_notifications: false,
   email_address: '',
   in_home_view: false,
@@ -47,4 +48,5 @@ export const NULL_SUBSCRIPTION: Subscription = {
   is_announcement_only: false,
   is_web_public: false,
   history_public_to_subscribers: false,
+  first_message_id: null,
 };
