@@ -330,15 +330,19 @@ export type MutedUser = $ReadOnly<{|
 //
 
 export type Stream = {|
+  // Property ordering follows https://zulip.com/api/register-queue .
+
   +stream_id: number,
-  +description: string,
   +name: string,
+  +description: string,
   +invite_only: boolean,
-  +is_announcement_only: boolean,
+
   // TODO(server-2.1): is_web_public was added in Zulip version 2.1;
   //   absence implies the stream is not web-public.
   +is_web_public?: boolean,
+
   +history_public_to_subscribers: boolean,
+  +is_announcement_only: boolean,
 |};
 
 export type Subscription = {|
