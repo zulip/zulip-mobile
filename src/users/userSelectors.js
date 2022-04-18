@@ -78,31 +78,14 @@ export const getSortedUsers: Selector<$ReadOnlyArray<User>> = createSelector(get
  *
  * Throws if we have no data from the server.
  *
- * See also `getOwnEmail` and `getOwnUser`.
+ * See also `getOwnUser`.
  */
-// Should replace uses of `getOwnEmail` (e.g. inside `getOwnUser`).  See
-// #3764.
 export const getOwnUserId = (state: PerAccountState): UserId => {
   const { user_id } = state.realm;
   if (user_id === undefined) {
     throw new Error('No server data found');
   }
   return user_id;
-};
-
-/**
- * The user's own email in the active account.
- *
- * Throws if we have no data from the server.
- *
- * Prefer using `getOwnUserId` or `getOwnUser`; see #3764.
- */
-export const getOwnEmail = (state: PerAccountState): string => {
-  const { email } = state.realm;
-  if (email === undefined) {
-    throw new Error('No server data found');
-  }
-  return email;
 };
 
 /**
@@ -114,7 +97,7 @@ export const getOwnEmail = (state: PerAccountState): string => {
  *
  * Throws if we have no such information.
  *
- * See also `getOwnUserId` and `getOwnEmail`.
+ * See also `getOwnUserId`.
  */
 export const getOwnUser = (state: PerAccountState): User => {
   const ownUser = getUsersById(state).get(getOwnUserId(state));
