@@ -7,7 +7,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import { navigateBack } from '../actions';
-import { getAuth, getOwnEmail } from '../selectors';
+import { getAuth } from '../selectors';
 import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
 import * as api from '../api';
@@ -19,14 +19,13 @@ type Props = $ReadOnly<{|
 
 export default function CreateStreamScreen(props: Props): Node {
   const auth = useSelector(getAuth);
-  const ownEmail = useSelector(getOwnEmail);
 
   const handleComplete = useCallback(
     (name: string, description: string, invite_only: boolean) => {
-      api.createStream(auth, { name, description, invite_only }, { principals: [ownEmail] });
+      api.createStream(auth, { name, description, invite_only });
       NavigationService.dispatch(navigateBack());
     },
-    [auth, ownEmail],
+    [auth],
   );
 
   return (
