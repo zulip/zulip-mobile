@@ -56,7 +56,8 @@ export default class ErrorBoundary extends React.Component<Props, State> {
           // fix `errorInfo`'s type to match. If possible/useful, include any
           // additional data in the `logging.error` below.
           actualErrorInfoKeys: Object.keys(errorInfo),
-          error,
+          error: error.toString(),
+          errorStack: error.stack,
         },
       );
     }
