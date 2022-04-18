@@ -20,13 +20,13 @@ export default (
     announce?: boolean,
   |}>,
 ): Promise<ApiResponse> => {
-  const { name, description, invite_only } = streamAttributes;
-  const { principals, announce } = options ?? {};
+  const { name, description, ...restAttributes } = streamAttributes;
+  const { principals, ...restOptions } = options ?? {};
   return apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify([{ name, description }]),
-    invite_only,
+    ...restAttributes,
 
     principals: JSON.stringify(principals),
-    announce,
+    ...restOptions,
   });
 };
