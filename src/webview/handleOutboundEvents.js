@@ -344,9 +344,11 @@ export const handleWebViewOutboundEvent = (
       logging.warn('WebView warning', event.details);
       break;
 
-    case 'error':
-      logging.error('WebView error', event.details);
+    case 'error': {
+      const { error, ...rest } = event.details;
+      logging.error(error, rest);
       break;
+    }
 
     default:
       ensureUnreachable(event);
