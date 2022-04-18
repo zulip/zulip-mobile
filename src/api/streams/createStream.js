@@ -19,7 +19,7 @@ export default (
     announce?: boolean,
   |}>,
 ): Promise<ApiResponse> => {
-  const { name, description = '', invite_only = false } = streamAttributes;
+  const { name, description, invite_only } = streamAttributes;
   const { principals = [], announce = false } = options ?? {};
   return apiPost(auth, 'users/me/subscriptions', {
     subscriptions: JSON.stringify([{ name, description }]),
