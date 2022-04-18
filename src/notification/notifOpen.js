@@ -63,7 +63,7 @@ export const getAccountFromNotificationData = (
     const knownUrls = accounts.map(({ realm }) => realm.href);
     logging.warn('notification realm_uri not found in accounts', {
       realm_uri,
-      parsed_url: realmUrl,
+      parsed_url: realmUrl.toString(),
       known_urls: knownUrls,
     });
     return null;
@@ -76,7 +76,7 @@ export const getAccountFromNotificationData = (
         'notification realm_uri ambiguous; multiple matches found; user_id missing (old server)',
         {
           realm_uri,
-          parsed_url: realmUrl,
+          parsed_url: realmUrl.toString(),
           match_count: urlMatches.length,
           unique_identities_count: new Set(urlMatches.map(matchIndex => accounts[matchIndex].email))
             .size,
