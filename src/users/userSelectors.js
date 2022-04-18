@@ -80,8 +80,8 @@ export const getSortedUsers: Selector<$ReadOnlyArray<User>> = createSelector(get
  *
  * See also `getOwnEmail` and `getOwnUser`.
  */
-// Not currently used, but should replace uses of `getOwnEmail` (e.g. inside
-// `getOwnUser`).  See #3764.
+// Should replace uses of `getOwnEmail` (e.g. inside `getOwnUser`).  See
+// #3764.
 export const getOwnUserId = (state: PerAccountState): UserId => {
   const { user_id } = state.realm;
   if (user_id === undefined) {
