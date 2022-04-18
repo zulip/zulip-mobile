@@ -39,6 +39,28 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* The badge for unread @-mentions at the top of the Home tab now looks
+  better. (#5278)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Upgraded to React Native v0.65! See commit 72583b13c for how to resolve an
+  expected error from CocoaPods when you run `yarn`. (#5230)
+
+* Bumped to server-3.0 (a.k.a. server-2.2) the threshold for warning users
+  of unsupported old servers. (PR #5334)
+
+* Bumped @sentry/react-native to ^3.3.3 to fix an issue in the release
+  process. (#5335)
+
+* Resolved issues: #5185, #5230, #5278, PR #5334
+
 
 ## 27.183 (2022-04-12)
 
