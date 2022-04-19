@@ -73,16 +73,13 @@ export const getFilteredEmojis = (
     // emoji with a modifier than it is to show them the non-modified
     // emoji, hence the very simple matching.
     const matchesEmojiLiteral = parseUnicodeEmojiCode(emoji.emoji_code) === query;
-    const matchesEmojiName = Math.min(1, emoji.emoji_name.indexOf(query));
-    const priority = matchesEmojiLiteral ? 0 : matchesEmojiName;
-    if (priority !== -1) {
+    if (matchesEmojiLiteral || emoji.emoji_name.includes(query)) {
       allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
 
   for (const emoji of activeImageEmoji) {
-    const priority = Math.min(1, emoji.emoji_name.indexOf(query));
-    if (priority !== -1) {
+    if (emoji.emoji_name.includes(query)) {
       allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
