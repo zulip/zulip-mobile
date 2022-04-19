@@ -168,10 +168,60 @@ describe('streamsReducer', () => {
               name: 'mobile',
               property: 'description',
               value: 'iOS + android',
+              rendered_description: '<p>iOS + android</p>',
             },
           }),
         ),
-      ).toEqual([stream123, stream67, { ...stream53, description: 'iOS + android' }]);
+      ).toEqual([
+        stream123,
+        stream67,
+        { ...stream53, description: 'iOS + android', rendered_description: '<p>iOS + android</p>' },
+      ]);
+    });
+
+    test('Change the invite_only property', () => {
+      const stream1 = eg.makeStream({
+        stream_id: 1,
+        name: 'web public stream',
+        invite_only: false,
+        is_web_public: true,
+        history_public_to_subscribers: true,
+      });
+      const stream2 = eg.makeStream({
+        stream_id: 2,
+        name: 'invite only stream',
+        invite_only: true,
+        is_web_public: false,
+        history_public_to_subscribers: true,
+      });
+
+      expect(
+        streamsReducer(
+          [stream1, stream2],
+          deepFreeze({
+            type: EVENT,
+            event: {
+              id: 0,
+              type: EventTypes.stream,
+              op: 'update',
+              stream_id: stream1.stream_id,
+              name: stream1.name,
+              property: 'invite_only',
+              value: true,
+              is_web_public: false,
+              history_public_to_subscribers: false,
+            },
+          }),
+        ),
+      ).toEqual([
+        {
+          ...stream1,
+          invite_only: true,
+          is_web_public: false,
+          history_public_to_subscribers: false,
+        },
+        stream2,
+      ]);
     });
   });
 });

@@ -2,6 +2,7 @@
 import { EventTypes } from '../api/eventTypes';
 import type { SubscriptionsState, PerAccountApplicableAction } from '../types';
 import { ensureUnreachable } from '../types';
+import { updateStreamProperties } from '../streams/streamsReducer';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -62,7 +63,10 @@ export default (
           switch (event.op) {
             case 'update':
               return state.map(sub =>
-                sub.stream_id === event.stream_id ? { ...sub, [event.property]: event.value } : sub,
+                // If inlining `updateStreamProperties` with plans to change
+                // its logic, note that it has test coverage at its other
+                // callsite, but not here, as of 2022-04-19.
+                sub.stream_id === event.stream_id ? updateStreamProperties(sub, event) : sub,
               );
 
             case 'delete':
