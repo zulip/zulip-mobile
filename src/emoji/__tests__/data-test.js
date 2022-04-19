@@ -69,6 +69,21 @@ describe('getFilteredEmojis', () => {
     ]);
   });
 
+  test('matches starting at non-first word, too', () => {
+    expect(names('ice_cream')).toEqual(['ice_cream', 'soft_ice_cream']);
+    expect(names('blue_dia')).toEqual(['large_blue_diamond', 'small_blue_diamond']);
+    // And the prefix match comes first, even when it'd be later alphabetically:
+    expect(names('police_')).toEqual(['police_car', 'oncoming_police_car']);
+  });
+
+  // TODO: This would be nice!  Especially in the emoji search screen for
+  //   adding a reaction.
+  describe.skip('matches query with spaces instead of underscores', () => {
+    for (const query of ['big smile', 'ice cream', 'blue dia', 'police ', 'police c']) {
+      test(query, () => expect(names(query)).toEqual(names(query.replace(' ', '_'))));
+    }
+  });
+
   test('returns literal emoji', () => {
     expect(names('🖤')).toEqual(['black_heart']);
   });
