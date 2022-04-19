@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
+import { IconMention } from '../common/Icons';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
@@ -28,6 +29,10 @@ const componentStyles = createStyleSheet({
   selectedRow: {
     backgroundColor: BRAND_COLOR,
   },
+  mentionedLabel: {
+    paddingRight: 4,
+    color: 'gray',
+  },
   label: {
     flex: 1,
   },
@@ -44,12 +49,21 @@ type Props = $ReadOnly<{|
   name: string,
   isMuted?: boolean,
   isSelected?: boolean,
+  isMentioned?: boolean,
   unreadCount?: number,
   onPress: (streamId: number, topic: string) => void,
 |}>;
 
 export default function TopicItem(props: Props): Node {
-  const { streamId, name, isMuted = false, isSelected = false, unreadCount = 0, onPress } = props;
+  const {
+    streamId,
+    name,
+    isMuted = false,
+    isSelected = false,
+    isMentioned = false,
+    unreadCount = 0,
+    onPress,
+  } = props;
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
@@ -92,6 +106,7 @@ export default function TopicItem(props: Props): Node {
           numberOfLines={1}
           ellipsizeMode="tail"
         />
+        {isMentioned ? <IconMention size={14} style={componentStyles.mentionedLabel} /> : <></>}
         <UnreadCount count={unreadCount} inverse={isSelected} />
       </View>
     </Touchable>

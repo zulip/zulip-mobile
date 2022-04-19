@@ -130,8 +130,10 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
   getSubscriptionsById,
   getUnreadStreams,
   getMute,
-  (subscriptionsById, unreadStreams, mute) => {
+  getUnreadMentions,
+  (subscriptionsById, unreadStreams, mute, unreadMentions) => {
     const totals = new Map();
+    const unreadMsgIds = new Set(unreadMentions);
     for (const [streamId, streamData] of unreadStreams.entries()) {
       const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } =
         subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
@@ -155,11 +157,12 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         if (!isMuted) {
           total.unread += msgIds.size;
         }
-
+        const isMentioned = msgIds.some(id => unreadMsgIds.has(id));
         total.data.push({
           key: topic,
           topic,
           unread: msgIds.size,
+          isMentioned,
           lastUnreadMsgId: msgIds.last(),
           isMuted,
         });

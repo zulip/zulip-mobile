@@ -35,6 +35,7 @@ export type UnreadStreamItem = {|
   data: $ReadOnlyArray<{|
     key: string,
     topic: string,
+    isMentioned: boolean,
     unread: number,
     isMuted: boolean,
     lastUnreadMsgId: number,
@@ -97,6 +98,7 @@ export default function UnreadCards(props: Props): Node {
             isMuted={section.isMuted || item.isMuted}
             isSelected={false}
             unreadCount={item.unread}
+            isMentioned={item.isMentioned}
             onPress={(streamId: number, topic: string) => {
               setTimeout(() => dispatch(doNarrow(topicNarrow(streamId, topic))));
             }}
