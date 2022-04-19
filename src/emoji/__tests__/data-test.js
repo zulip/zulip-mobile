@@ -1,10 +1,6 @@
 /* @flow strict-local */
 import { codeToEmojiMap, getFilteredEmojis } from '../data';
 
-// Prettier disabled in .prettierignore ; it misparses this file, apparently
-// because of the emoji.  (Even if they're tucked away in comments, it still
-// gets it wrong.)
-
 /* eslint-disable no-multi-spaces */
 describe('codeToEmojiMap', () => {
   // Tell ESLint to recognize `check` as a helper function that runs
@@ -48,19 +44,19 @@ describe('getFilteredEmojis', () => {
   test('returns a sorted list of emojis starting with query', () => {
     const list = getFilteredEmojis('go', []);
     expect(list).toEqual([
-      { emoji_type: 'unicode', emoji_code: '1f3c1',  emoji_name: 'go' },
-      { emoji_type: 'unicode', emoji_code: '1f945',  emoji_name: 'goal' },
-      { emoji_type: 'unicode', emoji_code: '1f410',  emoji_name: 'goat' },
-      { emoji_type: 'unicode', emoji_code: '1f47a',  emoji_name: 'goblin' },
-      { emoji_type: 'unicode', emoji_code: '1f947',  emoji_name: 'gold' },
-      { emoji_type: 'unicode', emoji_code: '1f4bd',  emoji_name: 'gold_record' },
-      { emoji_type: 'unicode', emoji_code: '1f3cc',  emoji_name: 'golf' },
-      { emoji_type: 'unicode', emoji_code: '1f6a0',  emoji_name: 'gondola' },
-      { emoji_type: 'unicode', emoji_code: '1f31b',  emoji_name: 'goodnight' },
-      { emoji_type: 'unicode', emoji_code: '1f945',  emoji_name: 'gooooooooal' },
-      { emoji_type: 'unicode', emoji_code: '1f98d',  emoji_name: 'gorilla' },
-      { emoji_type: 'unicode', emoji_code: '1f44c',  emoji_name: 'got_it' },
-      { emoji_type: 'unicode', emoji_code: '1f616',  emoji_name: 'agony' },
+      { emoji_type: 'unicode', emoji_code: '1f3c1', emoji_name: 'go' },
+      { emoji_type: 'unicode', emoji_code: '1f945', emoji_name: 'goal' },
+      { emoji_type: 'unicode', emoji_code: '1f410', emoji_name: 'goat' },
+      { emoji_type: 'unicode', emoji_code: '1f47a', emoji_name: 'goblin' },
+      { emoji_type: 'unicode', emoji_code: '1f947', emoji_name: 'gold' },
+      { emoji_type: 'unicode', emoji_code: '1f4bd', emoji_name: 'gold_record' },
+      { emoji_type: 'unicode', emoji_code: '1f3cc', emoji_name: 'golf' },
+      { emoji_type: 'unicode', emoji_code: '1f6a0', emoji_name: 'gondola' },
+      { emoji_type: 'unicode', emoji_code: '1f31b', emoji_name: 'goodnight' },
+      { emoji_type: 'unicode', emoji_code: '1f945', emoji_name: 'gooooooooal' },
+      { emoji_type: 'unicode', emoji_code: '1f98d', emoji_name: 'gorilla' },
+      { emoji_type: 'unicode', emoji_code: '1f44c', emoji_name: 'got_it' },
+      { emoji_type: 'unicode', emoji_code: '1f616', emoji_name: 'agony' },
       { emoji_type: 'unicode', emoji_code: '2705', emoji_name: 'all_good' },
       { emoji_type: 'unicode', emoji_code: '1f361', emoji_name: 'dango' },
       { emoji_type: 'unicode', emoji_code: '1f409', emoji_name: 'dragon' },
@@ -77,22 +73,22 @@ describe('getFilteredEmojis', () => {
   test('returns literal emoji', () => {
     const list = getFilteredEmojis('🖤', []);
     expect(list).toEqual([
-      { emoji_type: 'unicode', emoji_code: '1f5a4',  emoji_name: 'black_heart' },
+      { emoji_type: 'unicode', emoji_code: '1f5a4', emoji_name: 'black_heart' },
     ]);
   });
 
   test('returns multiple literal emoji', () => {
     const list = getFilteredEmojis('👍', []);
     expect(list).toEqual([
-      { emoji_type: 'unicode', emoji_code: '1f44d',  emoji_name: '+1' },
-      { emoji_type: 'unicode', emoji_code: '1f44d',  emoji_name: 'thumbs_up' },
+      { emoji_type: 'unicode', emoji_code: '1f44d', emoji_name: '+1' },
+      { emoji_type: 'unicode', emoji_code: '1f44d', emoji_name: 'thumbs_up' },
     ]);
   });
 
   test('search in realm emojis as well', () => {
     expect(
       getFilteredEmojis('qwerty', [
-         {
+        {
           emoji_type: 'image',
           emoji_code: '654',
           emoji_name: 'qwerty',
@@ -108,15 +104,16 @@ describe('getFilteredEmojis', () => {
       { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },
     ]);
     expect(
-      getFilteredEmojis('dog', [{
+      getFilteredEmojis('dog', [
+        {
           emoji_type: 'image',
           emoji_code: '345',
           emoji_name: 'dog',
         },
       ]),
     ).toEqual([
-      { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog', },
-      { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi', },
+      { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' },
+      { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi' },
       { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },
     ]);
   });
