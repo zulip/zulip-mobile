@@ -59,8 +59,13 @@ export const getFilteredEmojis = (
   query: string,
   activeImageEmoji: $ReadOnlyArray<EmojiForShared>,
 ): $ReadOnlyArray<EmojiForShared> => {
+  const matcher = typeahead.get_emoji_matcher(query);
   const allMatchingEmoji: Map<string, EmojiForShared> = new Map();
+
   for (const emoji of unicodeEmojiObjects) {
+    // TODO(shared): Use shared version of this feature too, once it exists.
+    //   See PR: https://github.com/zulip/zulip/pull/21778
+    //   and issue: https://github.com/zulip/zulip/issues/21714
     // This logic does not do any special handling for things like
     // skin-tone modifiers or gender modifiers, since Zulip does not
     // currently support those: https://github.com/zulip/zulip/issues/992.
@@ -73,18 +78,17 @@ export const getFilteredEmojis = (
     // emoji with a modifier than it is to show them the non-modified
     // emoji, hence the very simple matching.
     const matchesEmojiLiteral = parseUnicodeEmojiCode(emoji.emoji_code) === query;
-    if (matchesEmojiLiteral || emoji.emoji_name.includes(query)) {
+
+    if (matchesEmojiLiteral || matcher(emoji)) {
       allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
 
   for (const emoji of activeImageEmoji) {
-    if (emoji.emoji_name.includes(query)) {
+    if (matcher(emoji)) {
       allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
 
-  const sortedEmoji = typeahead.sort_emojis(Array.from(allMatchingEmoji.values()), query);
-
-  return sortedEmoji;
+  return typeahead.sort_emojis(Array.from(allMatchingEmoji.values()), query);
 };

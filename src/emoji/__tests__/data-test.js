@@ -76,9 +76,7 @@ describe('getFilteredEmojis', () => {
     expect(names('police_')).toEqual(['police_car', 'oncoming_police_car']);
   });
 
-  // TODO: This would be nice!  Especially in the emoji search screen for
-  //   adding a reaction.
-  describe.skip('matches query with spaces instead of underscores', () => {
+  describe('matches query with spaces instead of underscores', () => {
     for (const query of ['big smile', 'ice cream', 'blue dia', 'police ', 'police c']) {
       test(query, () => expect(names(query)).toEqual(names(query.replace(' ', '_'))));
     }
