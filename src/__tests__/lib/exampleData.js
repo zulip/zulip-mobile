@@ -293,7 +293,14 @@ export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({
 
 const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
 export const makeStream = (
-  args: {| stream_id?: number, name?: string, description?: string |} = Object.freeze({}),
+  args: {|
+    stream_id?: number,
+    name?: string,
+    description?: string,
+    invite_only?: boolean,
+    is_web_public?: boolean,
+    history_public_to_subscribers?: boolean,
+  |} = Object.freeze({}),
 ): Stream => {
   const name = args.name ?? randString();
   return deepFreeze({
@@ -301,10 +308,10 @@ export const makeStream = (
     name,
     description: args.description ?? `On the ${randString()} of ${name}`,
     rendered_description: args.description ?? `<p>On the ${randString()} of ${name}</p>`,
-    invite_only: false,
+    invite_only: args.invite_only ?? false,
     is_announcement_only: false,
-    is_web_public: false,
-    history_public_to_subscribers: true,
+    is_web_public: args.is_web_public ?? false,
+    history_public_to_subscribers: args.history_public_to_subscribers ?? true,
     first_message_id: null,
   });
 };
