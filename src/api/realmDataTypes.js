@@ -12,6 +12,7 @@ import type { InitialDataRealm } from './initialDataTypes';
  * start with "realm_"). But we expect the values to be typed the same.
  */
 /* prettier-ignore */
+// Current to FL 121.
 export type RealmDataForUpdate = $ReadOnly<{
   //
   // Keep alphabetical by the InitialDataRealm property. So by
@@ -60,6 +61,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     $PropertyType<InitialDataRealm, 'realm_email_address_visibility'>,
   emails_restricted_to_domains:
     $PropertyType<InitialDataRealm, 'realm_emails_restricted_to_domains'>,
+  enable_spectator_access:
+    $PropertyType<InitialDataRealm, 'realm_enable_spectator_access'>,
   giphy_rating:
     $PropertyType<InitialDataRealm, 'realm_giphy_rating'>,
   icon_source:
