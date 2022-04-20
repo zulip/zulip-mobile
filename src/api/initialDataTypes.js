@@ -84,7 +84,7 @@ export type AvailableVideoChatProviders = $ReadOnly<{|
   [providerName: string]: $ReadOnly<{| name: string, id: number |}>,
 |}>;
 
-// This is current to feature level 107.
+// This is current to feature level 121.
 export type InitialDataRealm = $ReadOnly<{|
   //
   // Keep alphabetical order. When changing this, also change our type for
@@ -198,6 +198,9 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_email_changes_disabled: boolean,
   realm_emails_restricted_to_domains: boolean,
 
+  // TODO(server-5.0): Added in feat. 109
+  realm_enable_spectator_access?: boolean,
+
   // TODO(server-4.0): Added in feat. 55.
   realm_giphy_rating?: number,
 
@@ -269,6 +272,9 @@ export type InitialDataRealm = $ReadOnly<{|
 
   // TODO(server-5.0): Added in feat. 74
   server_needs_upgrade?: boolean,
+
+  // TODO(server-5.0): Added in feat. 110
+  server_web_public_streams_enabled?: boolean,
 
   settings_send_digest_emails: boolean,
   upgrade_text_for_wide_organization_logo: string,
