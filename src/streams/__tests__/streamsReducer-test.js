@@ -21,20 +21,11 @@ describe('streamsReducer', () => {
       const stream1 = eg.makeStream({ name: 'some stream', stream_id: 1 });
       const stream2 = eg.makeStream({ name: 'some other stream', stream_id: 2 });
 
-      expect(
-        streamsReducer(
-          [],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 0,
-              type: EventTypes.stream,
-              op: 'create',
-              streams: [stream1, stream2],
-            },
-          }),
-        ),
-      ).toEqual([stream1, stream2]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: { id: 0, type: EventTypes.stream, op: 'create', streams: [stream1, stream2] },
+      });
+      expect(streamsReducer([], action)).toEqual([stream1, stream2]);
     });
 
     test('if stream already exist, do not add it', () => {
@@ -45,20 +36,11 @@ describe('streamsReducer', () => {
       });
       const stream2 = eg.makeStream({ name: 'some other stream', stream_id: 2 });
 
-      expect(
-        streamsReducer(
-          [stream1],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 0,
-              type: EventTypes.stream,
-              op: 'create',
-              streams: [stream1, stream2],
-            },
-          }),
-        ),
-      ).toEqual([stream1, stream2]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: { id: 0, type: EventTypes.stream, op: 'create', streams: [stream1, stream2] },
+      });
+      expect(streamsReducer([stream1], action)).toEqual([stream1, stream2]);
     });
   });
 
@@ -80,18 +62,11 @@ describe('streamsReducer', () => {
         name: 'third stream',
       });
 
-      const newState = streamsReducer(
-        [stream1, stream2, stream3],
-        deepFreeze({
-          type: EVENT,
-          event: {
-            id: 0,
-            type: EventTypes.stream,
-            op: 'delete',
-            streams: [stream1, stream2],
-          },
-        }),
-      );
+      const action = deepFreeze({
+        type: EVENT,
+        event: { id: 0, type: EventTypes.stream, op: 'delete', streams: [stream1, stream2] },
+      });
+      const newState = streamsReducer([stream1, stream2, stream3], action);
 
       expect(newState).toEqual([stream3]);
     });
@@ -100,20 +75,11 @@ describe('streamsReducer', () => {
       const stream1 = eg.makeStream({ name: 'some stream', stream_id: 1 });
       const stream2 = eg.makeStream({ name: 'some other stream', stream_id: 2 });
 
-      expect(
-        streamsReducer(
-          [stream1],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 0,
-              type: EventTypes.stream,
-              op: 'delete',
-              streams: [stream1, stream2],
-            },
-          }),
-        ),
-      ).toEqual([]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: { id: 0, type: EventTypes.stream, op: 'delete', streams: [stream1, stream2] },
+      });
+      expect(streamsReducer([stream1], action)).toEqual([]);
     });
   });
 
@@ -123,23 +89,23 @@ describe('streamsReducer', () => {
       const stream67 = eg.makeStream({ stream_id: 67, name: 'design' });
       const stream53 = eg.makeStream({ stream_id: 53, name: 'mobile' });
 
-      expect(
-        streamsReducer(
-          [stream123, stream67, stream53],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 2,
-              type: EventTypes.stream,
-              op: 'update',
-              stream_id: 123,
-              name: 'competition',
-              property: 'name',
-              value: 'real competition',
-            },
-          }),
-        ),
-      ).toEqual([{ ...stream123, name: 'real competition' }, stream67, stream53]);
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          id: 2,
+          type: EventTypes.stream,
+          op: 'update',
+          stream_id: 123,
+          name: 'competition',
+          property: 'name',
+          value: 'real competition',
+        },
+      });
+      expect(streamsReducer([stream123, stream67, stream53], action)).toEqual([
+        { ...stream123, name: 'real competition' },
+        stream67,
+        stream53,
+      ]);
     });
 
     test('Change the description property', () => {
@@ -155,24 +121,20 @@ describe('streamsReducer', () => {
       });
       const stream53 = eg.makeStream({ stream_id: 53, name: 'mobile', description: 'android' });
 
-      expect(
-        streamsReducer(
-          [stream123, stream67, stream53],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 2,
-              type: EventTypes.stream,
-              op: 'update',
-              stream_id: 53,
-              name: 'mobile',
-              property: 'description',
-              value: 'iOS + android',
-              rendered_description: '<p>iOS + android</p>',
-            },
-          }),
-        ),
-      ).toEqual([
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          id: 2,
+          type: EventTypes.stream,
+          op: 'update',
+          stream_id: 53,
+          name: 'mobile',
+          property: 'description',
+          value: 'iOS + android',
+          rendered_description: '<p>iOS + android</p>',
+        },
+      });
+      expect(streamsReducer([stream123, stream67, stream53], action)).toEqual([
         stream123,
         stream67,
         { ...stream53, description: 'iOS + android', rendered_description: '<p>iOS + android</p>' },
@@ -195,25 +157,21 @@ describe('streamsReducer', () => {
         history_public_to_subscribers: true,
       });
 
-      expect(
-        streamsReducer(
-          [stream1, stream2],
-          deepFreeze({
-            type: EVENT,
-            event: {
-              id: 0,
-              type: EventTypes.stream,
-              op: 'update',
-              stream_id: stream1.stream_id,
-              name: stream1.name,
-              property: 'invite_only',
-              value: true,
-              is_web_public: false,
-              history_public_to_subscribers: false,
-            },
-          }),
-        ),
-      ).toEqual([
+      const action = deepFreeze({
+        type: EVENT,
+        event: {
+          id: 0,
+          type: EventTypes.stream,
+          op: 'update',
+          stream_id: stream1.stream_id,
+          name: stream1.name,
+          property: 'invite_only',
+          value: true,
+          is_web_public: false,
+          history_public_to_subscribers: false,
+        },
+      });
+      expect(streamsReducer([stream1, stream2], action)).toEqual([
         {
           ...stream1,
           invite_only: true,
