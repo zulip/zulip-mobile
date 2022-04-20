@@ -332,6 +332,7 @@ export type RawInitialDataRealmUser = $ReadOnly<{|
   user_id: UserId,
 |}>;
 
+// TODO(#5250): Sync with the doc.
 export type InitialDataRealmUser = $ReadOnly<{|
   ...RawInitialDataRealmUser,
   cross_realm_bots: $ReadOnlyArray<CrossRealmBot>,
