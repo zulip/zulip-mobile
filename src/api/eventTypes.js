@@ -149,83 +149,49 @@ type StreamListEvent = $ReadOnly<{|
   streams: $ReadOnlyArray<Stream>,
 |}>;
 
-type StreamUpdateEventBase = $ReadOnly<{|
+type StreamUpdateEventBase<K: $Keys<Stream>> = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.stream,
   op: 'update',
   stream_id: number,
   name: string,
+  property: K,
+  value: $ElementType<Stream, K>,
 |}>;
 
 // https://zulip.com/api/get-events#stream-update
 export type StreamUpdateEvent =
-  | {| ...StreamUpdateEventBase, +property: 'name', +value: $PropertyType<Stream, 'name'> |}
+  | {| ...StreamUpdateEventBase<'name'> |}
   | {|
-      ...StreamUpdateEventBase,
-      +property: 'description',
-      +value: $PropertyType<Stream, 'description'>,
+      ...StreamUpdateEventBase<'description'>,
       +rendered_description: $PropertyType<Stream, 'rendered_description'>,
     |}
   // TODO(server-4.0): New in FL 30.
+  | {| ...StreamUpdateEventBase<'date_created'> |}
   | {|
-      ...StreamUpdateEventBase,
-      +property: 'date_created',
-      +value: $PropertyType<Stream, 'date_created'>,
-    |}
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'invite_only',
-      +value: $PropertyType<Stream, 'invite_only'>,
+      ...StreamUpdateEventBase<'invite_only'>,
       +history_public_to_subscribers: $PropertyType<Stream, 'history_public_to_subscribers'>,
 
       // TODO(server-5.0): New in FL 71.
       +is_web_public?: $PropertyType<Stream, 'is_web_public'>,
     |}
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'rendered_description',
-      +value: $PropertyType<Stream, 'rendered_description'>,
-    |}
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'is_web_public',
-      +value: $PropertyType<Stream, 'is_web_public'>,
-    |}
+  | {| ...StreamUpdateEventBase<'rendered_description'> |}
+  | {| ...StreamUpdateEventBase<'is_web_public'> |}
   // TODO(server-3.0): New in FL 1; expect is_announcement_only from older
   //   servers.
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'stream_post_policy',
-      +value: $PropertyType<Stream, 'stream_post_policy'>,
-    |}
+  | {| ...StreamUpdateEventBase<'stream_post_policy'> |}
   // Special values are:
   //   *  null: default; inherits from org-level setting
   //   * -1: unlimited retention
   // These special values differ from updateStream's and createStream's params; see
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
   // TODO(server-3.0): New in FL 17.
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'message_retention_days',
-      +value: $PropertyType<Stream, 'message_retention_days'>,
-    |}
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'history_public_to_subscribers',
-      +value: $PropertyType<Stream, 'history_public_to_subscribers'>,
-    |}
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'first_message_id',
-      +value: $PropertyType<Stream, 'first_message_id'>,
-    |}
+  | {| ...StreamUpdateEventBase<'message_retention_days'> |}
+  | {| ...StreamUpdateEventBase<'history_public_to_subscribers'> |}
+  | {| ...StreamUpdateEventBase<'first_message_id'> |}
   // TODO(server-3.0): Deprecated at FL 1; expect stream_post_policy from
   //   newer servers.
-  | {|
-      ...StreamUpdateEventBase,
-      +property: 'is_announcement_only',
-      +value: $PropertyType<Stream, 'is_announcement_only'>,
-    |};
+  | {| ...StreamUpdateEventBase<'is_announcement_only'> |};
 
 // prettier-ignore
 export type StreamEvent =
