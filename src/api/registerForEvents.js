@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import type { RawInitialData, InitialData } from './initialDataTypes';
 import type { Auth } from './transportTypes';
 import type { CrossRealmBot, User } from './modelTypes';
@@ -71,6 +73,27 @@ const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => (
   cross_realm_bots: rawInitialData.cross_realm_bots.map(rawCrossRealmBot =>
     transformCrossRealmBot(rawCrossRealmBot, auth.realm),
   ),
+
+  // The doc says the field will be removed in a future release. So, while
+  // we're still consuming it, fill it in if missing, with instructions from
+  // the doc:
+  //
+  // > Its value will always equal
+  // >   `can_create_public_streams || can_create_private_streams`.
+  //
+  // TODO(server-5.0): Only use `can_create_public_streams` and
+  //   `can_create_private_streams`, and simplify this away.
+  can_create_streams:
+    rawInitialData.can_create_streams
+    ?? (() => {
+      const canCreatePublicStreams = rawInitialData.can_create_public_streams;
+      const canCreatePrivateStreams = rawInitialData.can_create_private_streams;
+      invariant(
+        canCreatePublicStreams != null && canCreatePrivateStreams != null,
+        'these are both present if can_create_streams is missing; see doc',
+      );
+      return canCreatePublicStreams || canCreatePrivateStreams;
+    })(),
 });
 
 /** See https://zulip.com/api/register-queue */

@@ -822,10 +822,20 @@ export const action = Object.freeze({
       avatar_url_medium: 'url',
       avatar_url: null, // ideally would agree with selfUser.avatar_url
       can_create_streams: false,
+      can_create_public_streams: false,
+      can_create_private_streams: false,
+      can_create_web_public_streams: false,
+      can_subscribe_other_users: false,
+      can_invite_others_to_realm: false,
       is_admin: selfUser.is_admin,
+      is_owner: false,
+      is_billing_admin: selfUser.is_billing_admin,
+      is_moderator: false,
+      is_guest: false,
       enter_sends: true,
       user_id: selfUser.user_id,
       email: selfAccount.email, // aka selfUser.email
+      delivery_email: selfUser.email,
       full_name: selfUser.full_name,
       cross_realm_bots: [],
 

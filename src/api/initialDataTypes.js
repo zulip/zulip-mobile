@@ -325,11 +325,39 @@ export type RawInitialDataRealmUser = $ReadOnly<{|
   avatar_source: 'G',
   avatar_url_medium: string,
   avatar_url: string | null,
-  can_create_streams: boolean,
+
+  // TODO(server-5.0): Replaced in FL 102 by can_create_public_streams and
+  //   can_create_private_streams.
+  can_create_streams?: boolean,
+
+  // TODO(server-5.0): New in FL 102, replacing can_create_streams.
+  can_create_public_streams?: boolean,
+
+  // TODO(server-5.0): New in FL 102, replacing can_create_streams.
+  can_create_private_streams?: boolean,
+
+  // TODO(server-5.0): New in FL 103.
+  can_create_web_public_streams?: boolean,
+
+  can_subscribe_other_users: boolean,
+
+  // TODO(server-4.0): New in FL 51.
+  can_invite_others_to_realm?: boolean,
+
   is_admin: boolean,
+  is_owner: boolean,
+
+  // TODO(server-5.0): New in FL 73.
+  is_billing_admin?: boolean,
+
+  // TODO(server-4.0): New in FL 60.
+  is_moderator?: boolean,
+
+  is_guest: boolean,
   -enter_sends: boolean, // TODO(#4933): Deprecated; don't use
   user_id: UserId,
   email: string,
+  delivery_email: string,
   full_name: string,
   cross_realm_bots: $ReadOnlyArray<{| ...CrossRealmBot, +avatar_url?: string | null |}>,
 |}>;
@@ -339,6 +367,7 @@ export type InitialDataRealmUser = $ReadOnly<{|
   ...RawInitialDataRealmUser,
   realm_users: $ReadOnlyArray<User>,
   realm_non_active_users: $ReadOnlyArray<User>,
+  can_create_streams: boolean,
   cross_realm_bots: $ReadOnlyArray<CrossRealmBot>,
 |}>;
 
