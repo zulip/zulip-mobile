@@ -88,8 +88,10 @@ export type DevUser = $ReadOnly<{|
  */
 export type User = {|
   // Property ordering follows the doc.
+  // Current to feature level (FL) 121.
 
   +user_id: UserId,
+  +delivery_email?: string,
   +email: string,
   +full_name: string,
   +date_joined: string,
@@ -98,10 +100,16 @@ export type User = {|
   // FL 121. The doc wrongly says it always appears. See
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
+  // TODO(server-3.0): New in FL 8
+  +is_owner?: boolean,
+
   +is_admin: boolean,
 
   // TODO(server-1.9): New in commit d5df0377c; if absent, treat as false.
   +is_guest?: boolean,
+
+  // TODO(server-5.0): New in FL 73
+  +is_billing_admin?: boolean,
 
   // For background on the "*bot*" fields, see user docs on bots:
   //   https://zulip.com/help/add-a-bot-or-integration
@@ -109,7 +117,15 @@ export type User = {|
   // namely `CrossRealmBot`.
   +is_bot: boolean,
   +bot_type: number | null,
+
+  // TODO(server-3.0): New in FL 1, replacing bot_owner
+  +bot_owner_id?: number | null,
+
+  // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
   +bot_owner?: string,
+
+  // TODO(server-4.0): New in FL 59
+  +role?: number,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
   // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
@@ -130,7 +146,10 @@ export type User = {|
   // If we use this, avoid `avatar_url` falling out of sync with it.
   -avatar_version: number,
 
-  +profile_data: {|
+  // Empirically, this might be missing when the user has no custom profile
+  // fields:
+  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60profile_data.60.20in.20.60.2Fregister.60.20response/near/1374170
+  +profile_data?: {|
     +[id: string]: {|
       +value: string,
       // New in server 2.0, server commit e3aed0f7b.
