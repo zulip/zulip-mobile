@@ -177,7 +177,7 @@ export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): Use
     profile_data: {},
 
     is_bot: false,
-    // bot_type omitted
+    bot_type: null,
     // bot_owner omitted
 
     is_guest: false,

@@ -109,7 +109,7 @@ export type User = {|
   // Note that certain bots are represented by a different type entirely,
   // namely `CrossRealmBot`.
   +is_bot: boolean,
-  +bot_type?: number,
+  +bot_type: number | null,
   +bot_owner?: string,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
