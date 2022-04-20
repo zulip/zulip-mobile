@@ -98,7 +98,6 @@ export type User = $ReadOnly<{|
   // users where is_active is true go in `realm_users`, and where false
   // go in `realm_non_active_users`.  Shrug.
 
-  // is_admin corresponds to is_realm_admin in server code.
   is_admin: boolean,
 
   // is_guest included since commit d5df0377c (in 1.9.0); before that,
