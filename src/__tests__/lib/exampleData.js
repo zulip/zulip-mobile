@@ -814,18 +814,21 @@ export const action = Object.freeze({
       zulip_version: zulipVersion.raw(),
       realm_emoji: {},
       realm_filters: [],
-      avatar_source: 'G',
-      avatar_url: null, // ideally would agree with selfUser.avatar_url
-      avatar_url_medium: 'url',
-      can_create_streams: false,
-      cross_realm_bots: [],
-      email: selfAccount.email, // aka selfUser.email
-      enter_sends: true,
-      full_name: selfUser.full_name,
-      is_admin: selfUser.is_admin,
-      realm_non_active_users: [],
+
+      // RawInitialDataRealmUser
       realm_users: [],
+      realm_non_active_users: [],
+      avatar_source: 'G',
+      avatar_url_medium: 'url',
+      avatar_url: null, // ideally would agree with selfUser.avatar_url
+      can_create_streams: false,
+      is_admin: selfUser.is_admin,
+      enter_sends: true,
       user_id: selfUser.user_id,
+      email: selfAccount.email, // aka selfUser.email
+      full_name: selfUser.full_name,
+      cross_realm_bots: [],
+
       realm_user_groups: [],
       recent_private_conversations: [],
       streams: [],

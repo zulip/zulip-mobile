@@ -318,26 +318,28 @@ export type InitialDataRealmLinkifiers = $ReadOnly<{|
 |}>;
 
 export type RawInitialDataRealmUser = $ReadOnly<{|
-  avatar_source: 'G',
-  avatar_url: string | null,
-  avatar_url_medium: string,
-  can_create_streams: boolean,
-  cross_realm_bots: $ReadOnlyArray<{| ...CrossRealmBot, +avatar_url?: string | null |}>,
-  email: string,
-  -enter_sends: boolean, // TODO(#4933): Deprecated; don't use
-  full_name: string,
-  is_admin: boolean,
+  // Property ordering follows the doc.
+
   realm_users: $ReadOnlyArray<{| ...User, avatar_url?: string | null |}>,
   realm_non_active_users: $ReadOnlyArray<{| ...User, avatar_url?: string | null |}>,
+  avatar_source: 'G',
+  avatar_url_medium: string,
+  avatar_url: string | null,
+  can_create_streams: boolean,
+  is_admin: boolean,
+  -enter_sends: boolean, // TODO(#4933): Deprecated; don't use
   user_id: UserId,
+  email: string,
+  full_name: string,
+  cross_realm_bots: $ReadOnlyArray<{| ...CrossRealmBot, +avatar_url?: string | null |}>,
 |}>;
 
 // TODO(#5250): Sync with the doc.
 export type InitialDataRealmUser = $ReadOnly<{|
   ...RawInitialDataRealmUser,
-  cross_realm_bots: $ReadOnlyArray<CrossRealmBot>,
-  realm_non_active_users: $ReadOnlyArray<User>,
   realm_users: $ReadOnlyArray<User>,
+  realm_non_active_users: $ReadOnlyArray<User>,
+  cross_realm_bots: $ReadOnlyArray<CrossRealmBot>,
 |}>;
 
 export type InitialDataRealmUserGroups = $ReadOnly<{|
