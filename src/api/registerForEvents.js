@@ -103,7 +103,7 @@ export default async (
     queue_lifespan_secs?: number,
   |},
 ): Promise<InitialData> => {
-  const rawInitialData = await apiPost(auth, 'register', {
+  const rawInitialData: RawInitialData = await apiPost(auth, 'register', {
     ...params,
 
     // These parameters affect the types of what we receive from the
