@@ -94,9 +94,9 @@ export type User = {|
   +full_name: string,
   +date_joined: string,
 
-  // is_active doesn't appear in `/register` responses -- instead,
-  // users where is_active is true go in `realm_users`, and where false
-  // go in `realm_non_active_users`.  Shrug.
+  // is_active never appears in `/register` responses, at least up through
+  // FL 121. The doc wrongly says it always appears. See
+  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
   +is_admin: boolean,
 
