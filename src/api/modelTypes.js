@@ -128,12 +128,8 @@ export type User = {|
    */
   +avatar_url: AvatarURL,
 
-  // These properties appear in data from the server, but we ignore
-  // them. If we add these, we should try to avoid `avatar_url`
-  // falling out of sync with them.
-  // avatar_source: mixed,
-  // avatar_url_medium: mixed,
-  // avatar_version: mixed,
+  // If we use this, avoid `avatar_url` falling out of sync with it.
+  -avatar_version: number,
 
   // profile_data added in commit 02b845336 (in 1.8.0);
   // see also e3aed0f7b (in 2.0.0)

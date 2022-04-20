@@ -172,6 +172,9 @@ export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): Use
   deepFreeze({
     ...userOrBotProperties(args),
 
+    // TODO: move to userOrBotProperties after syncing CrossRealmBot w/ doc.
+    avatar_version: 0,
+
     is_bot: false,
     // bot_type omitted
     // bot_owner omitted
