@@ -22,25 +22,34 @@ export type ExternalAuthenticationMethod = {|
   signup_url: string,
 |};
 
+/** https://zulip.com/api/get-server-settings */
+// Current to FL 121.
 export type ApiResponseServerSettings = {|
   ...$Exact<ApiResponseSuccess>,
   authentication_methods: AuthenticationMethods,
-  // external_authentication_methods added for server v2.1
+
   // TODO(server-2.1): Mark this as required; simplify downstream.
   external_authentication_methods?: $ReadOnlyArray<ExternalAuthenticationMethod>,
-  email_auth_enabled: boolean,
-  push_notifications_enabled: boolean,
-  realm_description: string,
-  realm_icon: string,
-  realm_name: string,
-  realm_uri: string,
-  require_email_format_usernames: boolean,
+
+  // TODO(server-3.0): New in FL 1. When absent, equivalent to 0.
+  zulip_feature_level?: number,
+
   zulip_version: string,
 
-  // zulip_feature_level added for server v3.0, feature level 1
-  // See https://zulip.com/api/get-server-settings
-  // When absent, equivalent to 0.
-  zulip_feature_level?: number,
+  // TODO(server-5.0): New in FL 88.
+  zulip_merge_base?: string,
+
+  push_notifications_enabled: boolean,
+  is_incompatible: boolean,
+  email_auth_enabled: boolean,
+  require_email_format_usernames: boolean,
+  realm_uri: string,
+  realm_name: string,
+  realm_icon: string,
+  realm_description: string,
+
+  // TODO(server-5.0): New in FL 116.
+  realm_web_public_access_enabled: boolean,
 |};
 
 /** See https://zulip.com/api/get-server-settings */
