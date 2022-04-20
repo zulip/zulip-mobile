@@ -100,8 +100,7 @@ export type User = {|
 
   +is_admin: boolean,
 
-  // is_guest included since commit d5df0377c (in 1.9.0); before that,
-  // there's no such concept, so effectively it's implicitly false.
+  // TODO(server-1.9): New in commit d5df0377c; if absent, treat as false.
   +is_guest?: boolean,
 
   // For background on the "*bot*" fields, see user docs on bots:
