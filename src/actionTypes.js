@@ -421,7 +421,7 @@ type EventUserUpdateAction = $ReadOnly<{|
   type: typeof EVENT_USER_UPDATE,
   userId: UserId,
   // Include only the fields that should be overwritten.
-  person: $Shape<User>,
+  person: $Rest<User, { ... }>,
 |}>;
 
 type EventMutedTopicsAction = $ReadOnly<{|

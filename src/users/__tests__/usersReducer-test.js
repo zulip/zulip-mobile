@@ -56,7 +56,7 @@ describe('usersReducer', () => {
     // Tell ESLint to recognize `check` as a helper function that runs
     // assertions.
     /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
-    const check = (personMaybeWithoutId: $Shape<User>) => {
+    const check = (personMaybeWithoutId: $Rest<User, { ... }>) => {
       const person = {
         user_id: theUser.user_id,
         ...personMaybeWithoutId,
@@ -103,25 +103,37 @@ describe('usersReducer', () => {
     // doesn't include cross-realm bots.
 
     test('When the role of a user changes.', () => {
-      check({
-        // role: user1.role + 1,
-      });
+      check(
+        // The `Object.freeze` is to work around a Flow issue:
+        //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+        Object.freeze({
+          // role: user1.role + 1,
+        }),
+      );
     });
 
     test('When the delivery email of a user changes.', () => {
-      check({
-        // delivery_email: eg.randString(),
-      });
+      check(
+        // The `Object.freeze` is to work around a Flow issue:
+        //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+        Object.freeze({
+          // delivery_email: eg.randString(),
+        }),
+      );
     });
 
     test('When the user updates one of their custom profile fields.', () => {
-      check({
-        // custom_profile_field: {
-        //   id: 4,
-        //   value: eg.randString(),
-        //   rendered_value: eg.randString(),
-        // },
-      });
+      check(
+        // The `Object.freeze` is to work around a Flow issue:
+        //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
+        Object.freeze({
+          // custom_profile_field: {
+          //   id: 4,
+          //   value: eg.randString(),
+          //   rendered_value: eg.randString(),
+          // },
+        }),
+      );
     });
   });
 
