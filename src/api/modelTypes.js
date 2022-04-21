@@ -86,37 +86,37 @@ export type DevUser = $ReadOnly<{|
  *    different part of a `/register` response
  *  * `UserOrBot` for a convenience union of the two
  */
-export type User = $ReadOnly<{|
+export type User = {|
   // Property ordering follows the doc.
 
-  user_id: UserId,
-  email: string,
-  full_name: string,
-  date_joined: string,
+  +user_id: UserId,
+  +email: string,
+  +full_name: string,
+  +date_joined: string,
 
   // is_active doesn't appear in `/register` responses -- instead,
   // users where is_active is true go in `realm_users`, and where false
   // go in `realm_non_active_users`.  Shrug.
 
-  is_admin: boolean,
+  +is_admin: boolean,
 
   // is_guest included since commit d5df0377c (in 1.9.0); before that,
   // there's no such concept, so effectively it's implicitly false.
-  is_guest?: boolean,
+  +is_guest?: boolean,
 
   // For background on the "*bot*" fields, see user docs on bots:
   //   https://zulip.com/help/add-a-bot-or-integration
   // Note that certain bots are represented by a different type entirely,
   // namely `CrossRealmBot`.
-  is_bot: boolean,
-  bot_type?: number,
-  bot_owner?: string,
+  +is_bot: boolean,
+  +bot_type?: number,
+  +bot_owner?: string,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
   // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
   // that both human and bot Users will likely end up having a missing
   // timezone instead of an empty string.
-  timezone?: string,
+  +timezone?: string,
 
   /**
    * Present under EVENT_USER_ADD, EVENT_USER_UPDATE (if change
@@ -126,7 +126,7 @@ export type User = $ReadOnly<{|
    * For how it appears at the edge (and how we translate) see
    * AvatarURL.fromUserOrBotData.
    */
-  avatar_url: AvatarURL,
+  +avatar_url: AvatarURL,
 
   // These properties appear in data from the server, but we ignore
   // them. If we add these, we should try to avoid `avatar_url`
@@ -138,8 +138,8 @@ export type User = $ReadOnly<{|
   // profile_data added in commit 02b845336 (in 1.8.0);
   // see also e3aed0f7b (in 2.0.0)
   // (This one doesn't appear in `/users` responses.)
-  profile_data?: empty, // When we need this, describe its actual type.
-|}>;
+  +profile_data?: empty, // When we need this, describe its actual type.
+|};
 
 /**
  * A "cross-realm bot", a bot user shared across the realms on a Zulip server.
