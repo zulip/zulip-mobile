@@ -50,7 +50,7 @@ export type ApiResponseServerSettings = {|
   realm_description: string,
 
   // TODO(server-5.0): New in FL 116.
-  realm_web_public_access_enabled: boolean,
+  realm_web_public_access_enabled?: boolean,
 |};
 
 type ServerApiResponseServerSettings = {|
