@@ -95,20 +95,24 @@ function randomInt(min, max) {
  * and our #2738 for the performance concerns that led us to use this in the
  * compose box.
  *
- * Takes a ref that exposes the underlying TextInput's `setNativeProps`, and
- * returns:
- *
+ * Returns:
+ * - A ref to use for the TextInput
  * - The value and selection state
  * - Functions to set the value and selection
  * - Two callbacks that should be passed directly to the TextInput as props:
  *   onChangeText, onSelectionChange.
  */
 const useUncontrolledInput = (args: {|
-  ref: {| current: $FlowFixMe | null |},
   initialValue?: string,
   initialSelection?: InputSelection,
 |}) => {
-  const { ref, initialValue = '', initialSelection = { start: 0, end: 0 } } = args;
+  const { initialValue = '', initialSelection = { start: 0, end: 0 } } = args;
+
+  // We should replace the fixme with
+  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
+  // would make `.current` be `any(implicit)`, which we don't want;
+  // this is probably down to bugs in Flow's special support for React.
+  const ref = React.useRef<$FlowFixMe | null>(null);
 
   const [state, setState] = useState<{|
     value: string,
@@ -146,6 +150,7 @@ const useUncontrolledInput = (args: {|
   }, []);
 
   return [
+    ref,
     state,
     setValue,
     setSelection,
@@ -191,13 +196,6 @@ export default function ComposeBox(props: Props): Node {
   const videoChatProvider = useSelector(getVideoChatProvider);
   const mandatoryTopics = useSelector(state => getRealm(state).mandatoryTopics);
 
-  // We should replace the fixme with
-  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
-  // would make `.current` be `any(implicit)`, which we don't want;
-  // this is probably down to bugs in Flow's special support for React.
-  const messageInputRef = React.useRef<$FlowFixMe | null>(null);
-  const topicInputRef = React.useRef<$FlowFixMe | null>(null);
-
   const mentionWarnings = React.useRef<React$ElementRef<typeof MentionWarnings> | null>(null);
 
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
@@ -223,22 +221,22 @@ export default function ComposeBox(props: Props): Node {
   });
 
   const [
+    topicInputRef,
     topicInputState,
     setTopicInputValue,
     setTopicInputSelection /* eslint-disable-line no-unused-vars */,
     topicInputCallbacks,
   ] = useUncontrolledInput({
-    ref: topicInputRef,
     initialValue: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
   });
 
   const [
+    messageInputRef,
     messageInputState,
     setMessageInputValue,
     setMessageInputSelection /* eslint-disable-line no-unused-vars */,
     messageInputCallbacks,
   ] = useUncontrolledInput({
-    ref: messageInputRef,
     initialValue: initialMessage ?? '',
     initialSelection: { start: 0, end: 0 },
   });
@@ -387,7 +385,7 @@ export default function ComposeBox(props: Props): Node {
       setTopicInputValue(topic);
       messageInputRef.current?.focus();
     },
-    [setTopicInputValue],
+    [setTopicInputValue, messageInputRef],
   );
 
   // See JSDoc on 'onAutocomplete' in 'AutocompleteView.js'.
@@ -419,7 +417,7 @@ export default function ComposeBox(props: Props): Node {
       setFocusState(state => ({ ...state, message: true, either: true }));
       setIsMenuExpanded(false);
     }
-  }, [isEditing, narrow, focusState.either, topicInputState.value]);
+  }, [isEditing, narrow, focusState.either, topicInputState.value, topicInputRef]);
 
   const handleMessageBlur = useCallback(() => {
     setFocusState(state => ({ ...state, message: false }));
