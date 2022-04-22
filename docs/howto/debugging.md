@@ -311,20 +311,26 @@ We use Sentry to get alerts about things going wrong in the app.
 
 <div id="testing-sentry" />
 
-## Testing-only Sentry project
+## Testing Sentry itself, with testing-only project
 
-It's best to avoid polluting our production Sentry data with events from
-development environments. This is easily done by telling the Sentry client
-to send events to a non-production Sentry project. For core developers, we
-have a project called "testing" in our Sentry team, but any project will
-work.
+Normally, debug builds of the app (and others that aren't meant to
+become published release builds) don't send any data to Sentry.  In
+development one sees errors in a more direct way anyway, and we don't
+want to get confusing noise into our production Sentry data.  (For
+full discussion, see `src/sentryConfig.js`.)
+
+For testing our Sentry reporting itself, though, one wants to send
+events to Sentry after all.  To avoid polluting our production Sentry
+data, do this by sending them to a Sentry project that's specifically
+for testing.  For core developers, we have a project called "testing"
+in our Sentry team, but any project will work.
 
 The "DSN" or "client key" is how we tell the Sentry client where to send
 events. For Zulip's "testing" project, members of the team can find the DSN
 at https://sentry.io/settings/zulip/projects/testing/keys/ .
 
 To send events from the JavaScript layer, paste the DSN into
-src/sentryConfig.js as the value of `sentryKey`.
+`src/sentryConfig.js` as the value of `sentryKey`.
 
 To send events from the native Android layer, edit
 `android/app/src/main/AndroidManifest.xml` similarly, following the comment
