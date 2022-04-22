@@ -51,7 +51,6 @@ import * as api from '../api';
 import { ensureUnreachable } from '../generics';
 
 /* eslint-disable no-shadow */
-/* eslint-disable no-underscore-dangle */
 
 type Props = $ReadOnly<{|
   /** The narrow shown in the message list.  Must be a conversation or stream. */
@@ -101,9 +100,8 @@ function randomInt(min, max) {
  *
  * - The value and selection state
  * - Functions to set the value and selection
- * - Private functions that should be passed directly to the Input as props:
- *     _handleValueChange as onChangeText
- *     _handleSelectionChange as onSelectionChange
+ * - Two callbacks that should be passed directly to the TextInput as props:
+ *   onChangeText, onSelectionChange.
  */
 const useUncontrolledInput = (args: {|
   ref: {| current: $FlowFixMe | null |},
@@ -152,10 +150,10 @@ const useUncontrolledInput = (args: {|
     setValue,
     setSelection,
     {
-      _handleValueChange: useCallback((value: string) => {
+      onChangeText: useCallback((value: string) => {
         setState(state => ({ ...state, value }));
       }, []),
-      _handleSelectionChange: useCallback(
+      onSelectionChange: useCallback(
         (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
           const { selection } = event.nativeEvent;
           setState(state => ({ ...state, selection }));
@@ -228,10 +226,7 @@ export default function ComposeBox(props: Props): Node {
     topicInputState,
     setTopicInputValue,
     setTopicInputSelection /* eslint-disable-line no-unused-vars */,
-    {
-      _handleValueChange: _handleTopicValueChange,
-      _handleSelectionChange: _handleTopicSelectionChange,
-    },
+    topicInputCallbacks,
   ] = useUncontrolledInput({
     ref: topicInputRef,
     initialValue: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
@@ -241,10 +236,7 @@ export default function ComposeBox(props: Props): Node {
     messageInputState,
     setMessageInputValue,
     setMessageInputSelection /* eslint-disable-line no-unused-vars */,
-    {
-      _handleValueChange: _handleMessageValueChange,
-      _handleSelectionChange: _handleMessageSelectionChange,
-    },
+    messageInputCallbacks,
   ] = useUncontrolledInput({
     ref: messageInputRef,
     initialValue: initialMessage ?? '',
@@ -674,8 +666,7 @@ export default function ComposeBox(props: Props): Node {
             autoFocus={autoFocusTopic}
             selectTextOnFocus
             textInputRef={topicInputRef}
-            onChangeText={_handleTopicValueChange}
-            onSelectionChange={_handleTopicSelectionChange}
+            {...topicInputCallbacks}
             onFocus={handleTopicFocus}
             onBlur={handleTopicBlur}
             onTouchStart={handleInputTouchStart}
@@ -692,10 +683,9 @@ export default function ComposeBox(props: Props): Node {
             defaultValue={messageInputValue}
             autoFocus={autoFocusMessage}
             textInputRef={messageInputRef}
+            {...messageInputCallbacks}
             onBlur={handleMessageBlur}
-            onChangeText={_handleMessageValueChange}
             onFocus={handleMessageFocus}
-            onSelectionChange={_handleMessageSelectionChange}
             onTouchStart={handleInputTouchStart}
           />
         </View>
