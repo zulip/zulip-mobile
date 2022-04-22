@@ -3,10 +3,9 @@ import React from 'react';
 import type { Node } from 'react';
 import { View, Text, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
 import Toast from 'react-native-simple-toast';
-// $FlowFixMe[untyped-import]
-import isEqual from 'lodash.isequal';
 
 import * as logging from './utils/logging';
+import { type JSONableDict } from './utils/jsonable';
 
 type Props = $ReadOnly<{|
   children: Node,
@@ -40,28 +39,7 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     return { error };
   }
 
-  componentDidCatch(
-    error: Error,
-    errorInfo: {
-      // The only property we've seen in logging.
-      componentStack: string,
-      ...
-    },
-  ) {
-    if (!isEqual(Object.keys(errorInfo), ['componentStack'])) {
-      logging.warn(
-        "RootErrorBoundary: Object.keys(errorInfo) suggests we should change `errorInfo`'s Flow type",
-        {
-          // If we get this, find how it's happening in the implementation and
-          // fix `errorInfo`'s type to match. If possible/useful, include any
-          // additional data in the `logging.error` below.
-          actualErrorInfoKeys: Object.keys(errorInfo),
-          error: error.toString(),
-          errorStack: error.stack,
-        },
-      );
-    }
-
+  componentDidCatch(error: Error, errorInfo: mixed) {
     // The error was caught [1], so Sentry wouldn't hear about it
     // unless we intervene.
     //
@@ -73,8 +51,19 @@ export default class ErrorBoundary extends React.Component<Props, State> {
     //     won’t occur in your production build."
     logging.error(
       error,
-      // Add any other JSONable data as appropriate
-      { componentStack: errorInfo.componentStack },
+      // Pretend errorInfo is a JSONableDict.
+      //
+      // Empirically, Sentry will still be notified even if the value at
+      // some key in errorInfo is non-JSONable. It seems like Sentry calls
+      // JSON.stringify(value) first, and if that fails it calls
+      // value.toString(). If *that* fails (either because value.toString
+      // isn't a function, or if it's a function that throws an error)…then
+      // the "Additional Data" section in Sentry's UI will have an error box
+      // that says "There was a problem rendering this component". But in
+      // all cases, the Sentry event successfully makes it to Sentry.
+      //
+      // $FlowIgnore[incompatible-cast]
+      (errorInfo: JSONableDict),
     );
   }
 
