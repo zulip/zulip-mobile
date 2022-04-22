@@ -123,16 +123,13 @@ const useUncontrolledInput = (args: {|
   });
 
   const setValueWasCalled = useRef<boolean>(false);
-  const setValue = useCallback(
-    (updater: string | ((typeof state) => string)) => {
-      setValueWasCalled.current = true;
-      setState(state => ({
-        ...state,
-        value: typeof updater === 'function' ? updater(state) : updater,
-      }));
-    },
-    [state],
-  );
+  const setValue = useCallback(updater => {
+    setValueWasCalled.current = true;
+    setState(state => ({
+      ...state,
+      value: typeof updater === 'function' ? updater(state) : updater,
+    }));
+  }, []);
   const prevValue = usePrevious(state.value);
   useEffect(() => {
     if (prevValue !== state.value && setValueWasCalled.current) {
