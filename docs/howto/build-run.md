@@ -51,7 +51,7 @@ details to worry about.
 Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/): use the
-  **latest 12.x** version, not 14.x or later
+  **latest 16.x** version, or a later LTS version
 * [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
 
 Then, run the commands below in your terminal:
@@ -148,37 +148,6 @@ Apart from the steps mentioned below, you may find the
 [React Native troubleshooting docs][] to be helpful.
 
 [React Native troubleshooting docs]: https://reactnative.dev/docs/troubleshooting
-
-
-### `yarn install` failure, at `fsevents`
-
-When running `yarn install` on initial setup, if you see an error like
-this:
-```
-warning Error running install script for optional dependency: "[...]/zulip-mobile/node_modules/fsevents: Command failed.
-Exit code: 1
-Command: node install
-Arguments:
-Directory: [...]/zulip-mobile/node_modules/fsevents
-Output:
-[... lots of output ...]
-
-../../nan/nan_maybe_43_inl.h:112:15: error: no member named 'ForceSet' in 'v8::Object'
- return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
-        ~~~  ^  return obj->ForceSet(isolate->GetCurrentContext(), key, value, attribs);
-
-[... lots more output ...]
-node-pre-gyp ERR! not ok
-Failed to execute [...]
-```
-then this is a known error caused by using Node 11, which one of our
-dependencies (`fsevents`) isn't yet compatible with.
-
-To fix the problem, use Node 10.x instead.
-
-The same problem has also been observed when using Node 10 on commits that were
-made when we were using Node 8, prior to Greg's recommendation to switch to Node
-10 in 4e5e31ac2. To fix the problem in that case, use Node 8.
 
 
 ### `yarn install` failure about "Detox"
@@ -680,8 +649,10 @@ This can happen if you're using an older version of Node, such as
 Node 8.  (Probably this means our Jest config doesn't have Babel set up
 quite right.  Discussion [here][jest-babel-discussion].)
 
-To fix this, use Node 10.x instead.  You can check what version is
-installed by running the command `node --version`.
+To fix this, use a current version of Node instead (the one
+recommended in our setup instructions at the top of this page.)  You
+can check what version is installed by running the command
+`node --version`.
 
 [jest-babel-discussion]: https://github.com/zulip/zulip-mobile/pull/3619#issuecomment-533349362
 

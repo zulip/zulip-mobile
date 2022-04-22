@@ -17,6 +17,9 @@
     "test:flow-todo": "eslint --no-eslintrc -c tools/flow-todo.eslintrc.yaml src/",
     "update-libdefs": "yarn install && rm -rf flow-typed/npm/ && flow-typed update"
   },
+  "engines": {
+    "node": ">=10"
+  },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.8.0",
     "@react-native-async-storage/async-storage": "^1.13.0",
