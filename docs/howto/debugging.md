@@ -20,6 +20,8 @@ A variety of tools are available to help us do that.
     (different from using it for RN!)
 * [Debugging platform-native code](#native) (i.e. not JS)
   * ... on Android, [with `adb logcat`](#adb-logcat)
+* [Debugging with Sentry](#sentry)
+  * ... [with a testing-only Sentry project](#testing-sentry)
 * [Troubleshooting](#troubleshooting)
   * [Remote JS Debugging opens a webpage that never loads.](#debug-remotely-never-loads)
 
@@ -298,6 +300,35 @@ Example useful command lines with `adb logcat`:
   it's a version whose UI hasn't changed since the '80s.  You want
   GNU `date`.  `brew install coreutils` will install it, with the name
   `gdate`.)
+
+
+<div id="sentry" />
+
+# Debugging with Sentry
+
+We use Sentry to get alerts about things going wrong in the app.
+
+
+<div id="testing-sentry" />
+
+## Testing-only Sentry project
+
+It's best to avoid polluting our production Sentry data with events from
+development environments. This is easily done by telling the Sentry client
+to send events to a non-production Sentry project. For core developers, we
+have a project called "testing" in our Sentry team, but any project will
+work.
+
+The "DSN" or "client key" is how we tell the Sentry client where to send
+events. For Zulip's "testing" project, members of the team can find the DSN
+at https://sentry.io/settings/zulip/projects/testing/keys/ .
+
+To send events from the JavaScript layer, paste the DSN into
+src/sentryConfig.js as the value of `sentryKey`.
+
+To send events from the native Android layer, edit
+`android/app/src/main/AndroidManifest.xml` similarly, following the comment
+around `io.sentry.dsn`.
 
 
 # Troubleshooting
