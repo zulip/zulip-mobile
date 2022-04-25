@@ -28,6 +28,10 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   onRequestSelectionChange: (itemKey: TItemKey, requestedValue: boolean) => void,
 |}>;
 
+// The desired height of the checkmark icon, which we'll pass for its `size`
+// prop. It'll also be its width, since it's a square.
+const kCheckmarkSize = 16;
+
 /**
  * A labeled row for an item among related items; shows a checkmark
  *   when selected.
@@ -51,6 +55,17 @@ export default function SelectableOptionRow<TItemKey: string | number>(
           flex: 1,
           flexDirection: 'column',
         },
+
+        // Reserve a space for the checkmark so the layout (e.g., word
+        // wrapping of the subtitle) doesn't change when `selected` changes.
+        checkmarkWrapper: {
+          height: kCheckmarkSize,
+
+          // The checkmark icon is a square, so width equals height and this
+          // is the right amount of width to reserve.
+          width: kCheckmarkSize,
+        },
+
         subtitle: {
           fontWeight: '300',
           fontSize: 13,
@@ -74,7 +89,9 @@ export default function SelectableOptionRow<TItemKey: string | number>(
           <ZulipText text={title} />
           {subtitle !== undefined && <ZulipText text={subtitle} style={styles.subtitle} />}
         </View>
-        <View>{selected && <IconDone size={16} color={BRAND_COLOR} />}</View>
+        <View style={styles.checkmarkWrapper}>
+          {selected && <IconDone size={kCheckmarkSize} color={BRAND_COLOR} />}
+        </View>
       </View>
     </Touchable>
   );

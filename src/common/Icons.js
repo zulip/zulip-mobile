@@ -65,7 +65,10 @@ const makeIcon = <Glyphs: string>(
 export const IconInbox: SpecificIconType = makeIcon(Feather, 'inbox');
 export const IconMention: SpecificIconType = makeIcon(Feather, 'at-sign');
 export const IconSearch: SpecificIconType = makeIcon(Feather, 'search');
+
+// SelectableOptionRow depends on this being square.
 export const IconDone: SpecificIconType = makeIcon(Feather, 'check');
+
 export const IconCancel: SpecificIconType = makeIcon(Feather, 'slash');
 export const IconTrash: SpecificIconType = makeIcon(Feather, 'trash-2');
 export const IconSend: SpecificIconType = makeIcon(MaterialIcon, 'send');
