@@ -134,23 +134,10 @@ $ cd static/shared  # the root of the @zulip/shared package's source
 $ git checkout main
 $ git pull --ff-only
 
-   # (These steps can probably become a `version` NPM script.)
-$ npm version patch --no-git-tag-version
-   # Suppose the new version is 0.0.3.  Then:
-$ git commit -am 'shared: Bump version to 0.0.3.'
-$ git tag shared-0.0.3
-
-$ git log --stat -p upstream/main..  # check your work!
-$ git push upstream main shared-0.0.3
-
-$ npm publish --dry-run  # check your work!
-$ npm publish  # should prompt for an OTP, from your 2FA setup
+   # This bumps the version in package.json, commits that, and tags it:
+$ npm version patch
+   # Then follow the instructions it prints, which include `npm publish`.
 ```
-
-Note the convention for the name of the Git tag.  Because we don't
-organize our version control around NPM and this package isn't the
-only thing in its Git repo, we use tags like `shared-0.0.3` instead of
-NPM's built-in behavior of `v0.0.3`.
 
 
 ### Initial setup
