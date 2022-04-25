@@ -30,7 +30,7 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
 
 // The desired height of the checkmark icon, which we'll pass for its `size`
 // prop. It'll also be its width, since it's a square.
-const kCheckmarkSize = 16;
+const kCheckmarkSize = 24;
 
 /**
  * A labeled row for an item among related items; shows a checkmark
