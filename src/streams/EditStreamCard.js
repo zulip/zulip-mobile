@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -9,6 +9,8 @@ import SwitchRow from '../common/SwitchRow';
 import ZulipButton from '../common/ZulipButton';
 import styles, { createStyleSheet } from '../styles';
 import { IconPrivate } from '../common/Icons';
+
+/* eslint-disable no-shadow */
 
 const componentStyles = createStyleSheet({
   switchRow: {
@@ -27,72 +29,59 @@ type Props = $ReadOnly<{|
   onComplete: (name: string, description: string, invite_only: boolean) => void | Promise<void>,
 |}>;
 
-type State = {|
-  name: string,
-  description: string,
-  invite_only: boolean,
-|};
+export default function EditStreamCard(props: Props): Node {
+  const { onComplete, initialValues, isNewStream } = props;
 
-export default class EditStreamCard extends PureComponent<Props, State> {
-  state: State = {
-    name: this.props.initialValues.name,
-    description: this.props.initialValues.description,
-    invite_only: this.props.initialValues.invite_only,
-  };
+  const [name, setName] = useState<string>(props.initialValues.name);
+  const [description, setDescription] = useState<string>(props.initialValues.description);
+  const [inviteOnly, setInviteOnly] = useState<boolean>(props.initialValues.invite_only);
 
-  handlePerformAction: () => void = () => {
-    const { onComplete } = this.props;
-    const { name, description, invite_only } = this.state;
-    onComplete(name, description, invite_only);
-  };
+  const handlePerformAction = useCallback(() => {
+    onComplete(name, description, inviteOnly);
+  }, [onComplete, name, description, inviteOnly]);
 
-  handleNameChange: string => void = name => {
-    this.setState({ name });
-  };
+  const handleNameChange = useCallback(name => {
+    setName(name);
+  }, []);
 
-  handleDescriptionChange: string => void = description => {
-    this.setState({ description });
-  };
+  const handleDescriptionChange = useCallback(description => {
+    setDescription(description);
+  }, []);
 
-  handleInviteOnlyChange: boolean => void = invite_only => {
-    this.setState({ invite_only });
-  };
+  const handleInviteOnlyChange = useCallback(invite_only => {
+    setInviteOnly(invite_only);
+  }, []);
 
-  render(): Node {
-    const { initialValues, isNewStream } = this.props;
-    const { name } = this.state;
-
-    return (
-      <View>
-        <ZulipTextIntl text="Name" />
-        <Input
-          style={styles.marginBottom}
-          placeholder="Name"
-          autoFocus
-          defaultValue={initialValues.name}
-          onChangeText={this.handleNameChange}
-        />
-        <ZulipTextIntl text="Description" />
-        <Input
-          style={styles.marginBottom}
-          placeholder="Description"
-          defaultValue={initialValues.description}
-          onChangeText={this.handleDescriptionChange}
-        />
-        <SwitchRow
-          style={componentStyles.switchRow}
-          Icon={IconPrivate}
-          label="Private"
-          value={this.state.invite_only}
-          onValueChange={this.handleInviteOnlyChange}
-        />
-        <ZulipButton
-          style={styles.marginTop}
-          text={isNewStream ? 'Create' : 'Update'}
-          disabled={name.length === 0}
-          onPress={this.handlePerformAction}
-        />
-      </View>
-    );
-  }
+  return (
+    <View>
+      <ZulipTextIntl text="Name" />
+      <Input
+        style={styles.marginBottom}
+        placeholder="Name"
+        autoFocus
+        defaultValue={initialValues.name}
+        onChangeText={handleNameChange}
+      />
+      <ZulipTextIntl text="Description" />
+      <Input
+        style={styles.marginBottom}
+        placeholder="Description"
+        defaultValue={initialValues.description}
+        onChangeText={handleDescriptionChange}
+      />
+      <SwitchRow
+        style={componentStyles.switchRow}
+        Icon={IconPrivate}
+        label="Private"
+        value={inviteOnly}
+        onValueChange={handleInviteOnlyChange}
+      />
+      <ZulipButton
+        style={styles.marginTop}
+        text={isNewStream ? 'Create' : 'Update'}
+        disabled={name.length === 0}
+        onPress={handlePerformAction}
+      />
+    </View>
+  );
 }
