@@ -23,7 +23,7 @@ type Props = $ReadOnly<{|
       // persist navigation state for this screen or set up deep linking to
       // it, hence the LogBox suppression below.
       //
-      // React Navigation doesn't offer a more sensible way to do have us
+      // React Navigation doesn't offer a more sensible way to have us
       // pass the emoji data to the calling screen. …We could store the
       // emoji data as a route param on the calling screen, or in Redux. But
       // from this screen's perspective, that's basically just setting a
