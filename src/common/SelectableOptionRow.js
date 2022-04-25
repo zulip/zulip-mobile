@@ -51,7 +51,7 @@ export default function SelectableOptionRow<TItemKey: string | number>(
   const styles = useMemo(
     () =>
       createStyleSheet({
-        wrapper: {
+        textWrapper: {
           flex: 1,
           flexDirection: 'column',
         },
@@ -70,7 +70,7 @@ export default function SelectableOptionRow<TItemKey: string | number>(
           fontWeight: '300',
           fontSize: 13,
         },
-        listItem: {
+        wrapper: {
           flexDirection: 'row',
           alignItems: 'center',
           paddingTop: 12,
@@ -84,8 +84,8 @@ export default function SelectableOptionRow<TItemKey: string | number>(
 
   return (
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
-      <View style={styles.listItem}>
-        <View style={styles.wrapper}>
+      <View style={styles.wrapper}>
+        <View style={styles.textWrapper}>
           <ZulipText text={title} />
           {subtitle !== undefined && <ZulipText text={subtitle} style={styles.subtitle} />}
         </View>
