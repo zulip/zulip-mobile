@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -7,25 +7,6 @@ import ZulipText from './ZulipText';
 import Touchable from './Touchable';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from './Icons';
-
-const styles = createStyleSheet({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  subtitle: {
-    fontWeight: '300',
-    fontSize: 13,
-  },
-  listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 12,
-    paddingBottom: 12,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-});
 
 type Props<TItemKey: string | number> = $ReadOnly<{|
   // A key to uniquely identify the item. The function passed as
@@ -62,6 +43,29 @@ export default function SelectableOptionRow<TItemKey: string | number>(
   props: Props<TItemKey>,
 ): Node {
   const { itemKey, title, subtitle, selected, onRequestSelectionChange } = props;
+
+  const styles = useMemo(
+    () =>
+      createStyleSheet({
+        wrapper: {
+          flex: 1,
+          flexDirection: 'column',
+        },
+        subtitle: {
+          fontWeight: '300',
+          fontSize: 13,
+        },
+        listItem: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingTop: 12,
+          paddingBottom: 12,
+          paddingLeft: 16,
+          paddingRight: 16,
+        },
+      }),
+    [],
+  );
 
   return (
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
