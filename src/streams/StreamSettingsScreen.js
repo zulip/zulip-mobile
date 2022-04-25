@@ -99,10 +99,18 @@ export default function StreamSettingsScreen(props: Props): Node {
       )}
       <View style={styles.padding}>
         {isAdmin && (
+          // TODO: Group all the stream's attributes together (name,
+          //   description, policies, etc.), with an associated "Edit"
+          //   button that gives a UI for changing those attributes. For the
+          //   grouping, try react-native-paper's `Card`, with a
+          //   ZulipTextButton in its `Card.Actions`. See
+          //     https://callstack.github.io/react-native-paper/card-actions.html
+          //   Or their `Surface`:
+          //     https://callstack.github.io/react-native-paper/surface.html
           <ZulipButton
             style={styles.marginTop}
             Icon={IconEdit}
-            text="Edit"
+            text="Edit stream"
             secondary
             onPress={() => delay(handlePressEdit)}
           />
