@@ -19,14 +19,16 @@ const componentStyles = createStyleSheet({
   },
 });
 
+type Privacy = 'public' | 'private';
+
 type Props = $ReadOnly<{|
   isNewStream: boolean,
   initialValues: {|
     name: string,
     description: string,
-    invite_only: boolean,
+    privacy: Privacy,
   |},
-  onComplete: (name: string, description: string, invite_only: boolean) => void | Promise<void>,
+  onComplete: (name: string, description: string, privacy: Privacy) => void | Promise<void>,
 |}>;
 
 export default function EditStreamCard(props: Props): Node {
@@ -34,11 +36,11 @@ export default function EditStreamCard(props: Props): Node {
 
   const [name, setName] = useState<string>(props.initialValues.name);
   const [description, setDescription] = useState<string>(props.initialValues.description);
-  const [inviteOnly, setInviteOnly] = useState<boolean>(props.initialValues.invite_only);
+  const [privacy, setPrivacy] = useState<Privacy>(props.initialValues.privacy);
 
   const handlePerformAction = useCallback(() => {
-    onComplete(name, description, inviteOnly);
-  }, [onComplete, name, description, inviteOnly]);
+    onComplete(name, description, privacy);
+  }, [onComplete, name, description, privacy]);
 
   const handleNameChange = useCallback(name => {
     setName(name);
@@ -48,8 +50,8 @@ export default function EditStreamCard(props: Props): Node {
     setDescription(description);
   }, []);
 
-  const handleInviteOnlyChange = useCallback(invite_only => {
-    setInviteOnly(invite_only);
+  const handlePrivacyChange = useCallback(isPrivate => {
+    setPrivacy(isPrivate ? 'private' : 'public');
   }, []);
 
   return (
@@ -73,8 +75,8 @@ export default function EditStreamCard(props: Props): Node {
         style={componentStyles.switchRow}
         Icon={IconPrivate}
         label="Private"
-        value={inviteOnly}
-        onValueChange={handleInviteOnlyChange}
+        value={privacy === 'private'}
+        onValueChange={handlePrivacyChange}
       />
       <ZulipButton
         style={styles.marginTop}

@@ -21,8 +21,14 @@ export default function EditStreamScreen(props: Props): Node {
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
   const handleComplete = useCallback(
-    (name, description, invite_only) => {
-      dispatch(updateExistingStream(stream.stream_id, stream, { name, description, invite_only }));
+    (name, description, privacy) => {
+      dispatch(
+        updateExistingStream(stream.stream_id, stream, {
+          name,
+          description,
+          invite_only: privacy === 'private',
+        }),
+      );
       NavigationService.dispatch(navigateBack());
     },
     [stream, dispatch],
@@ -35,7 +41,7 @@ export default function EditStreamScreen(props: Props): Node {
         initialValues={{
           name: stream.name,
           description: stream.description,
-          invite_only: stream.invite_only,
+          privacy: stream.invite_only ? 'private' : 'public',
         }}
         onComplete={handleComplete}
       />

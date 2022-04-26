@@ -28,7 +28,7 @@ export default function CreateStreamScreen(props: Props): Node {
   const streamsByName = useSelector(getStreamsByName);
 
   const handleComplete = useCallback(
-    async (name, description, invite_only) => {
+    async (name, description, privacy) => {
       // This will miss existing streams that the client can't know about;
       // for example, a private stream the user can't access. See comment
       // where we catch an `ApiError`, below.
@@ -38,7 +38,7 @@ export default function CreateStreamScreen(props: Props): Node {
       }
 
       try {
-        await api.createStream(auth, { name, description, invite_only });
+        await api.createStream(auth, { name, description, invite_only: privacy === 'private' });
         NavigationService.dispatch(navigateBack());
       } catch (error) {
         // If the stream already exists but you can't access it (e.g., it's
@@ -63,7 +63,7 @@ export default function CreateStreamScreen(props: Props): Node {
     <Screen title="Create new stream" padding>
       <EditStreamCard
         isNewStream
-        initialValues={{ name: '', description: '', invite_only: false }}
+        initialValues={{ name: '', description: '', privacy: 'public' }}
         onComplete={handleComplete}
       />
     </Screen>
