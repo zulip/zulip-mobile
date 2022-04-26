@@ -85,7 +85,10 @@ export const IconDiagnostics: SpecificIconType = makeIcon(Feather, 'activity');
 export const IconNotifications: SpecificIconType = makeIcon(Feather, 'bell');
 export const IconLanguage: SpecificIconType = makeIcon(Feather, 'globe');
 export const IconSettings: SpecificIconType = makeIcon(Feather, 'settings');
+
+// InputRowRadioButtons depends on this being square.
 export const IconRight: SpecificIconType = makeIcon(Feather, 'chevron-right');
+
 export const IconPlusCircle: SpecificIconType = makeIcon(Feather, 'plus-circle');
 export const IconLeft: SpecificIconType = makeIcon(Feather, 'chevron-left');
 export const IconPeople: SpecificIconType = makeIcon(Feather, 'users');

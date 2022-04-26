@@ -44,6 +44,7 @@ import LegalScreen from '../settings/LegalScreen';
 import SettingsScreen from '../settings/SettingsScreen';
 import UserStatusScreen from '../user-statuses/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
+import SelectableOptionsScreen from '../common/SelectableOptionsScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
 export type AppNavigatorParamList = {|
@@ -78,6 +79,7 @@ export type AppNavigatorParamList = {|
   'user-status': RouteParamsOf<typeof UserStatusScreen>,
   sharing: RouteParamsOf<typeof SharingScreen>,
   settings: RouteParamsOf<typeof SettingsScreen>,
+  'selectable-options': RouteParamsOf<typeof SelectableOptionsScreen>,
 |};
 
 export type AppNavigationProp<
@@ -162,6 +164,7 @@ export default function AppNavigator(props: Props): Node {
         initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
       />
       <Stack.Screen name="sharing" component={SharingScreen} />
+      <Stack.Screen name="selectable-options" component={SelectableOptionsScreen} />
     </Stack.Navigator>
   );
 }

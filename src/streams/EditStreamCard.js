@@ -1,27 +1,22 @@
 /* @flow strict-local */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import Input from '../common/Input';
+import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import ZulipTextIntl from '../common/ZulipTextIntl';
-import SwitchRow from '../common/SwitchRow';
 import ZulipButton from '../common/ZulipButton';
-import styles, { createStyleSheet } from '../styles';
-import { IconPrivate } from '../common/Icons';
+import styles from '../styles';
 
 /* eslint-disable no-shadow */
-
-const componentStyles = createStyleSheet({
-  switchRow: {
-    paddingLeft: 8,
-    paddingRight: 8,
-  },
-});
 
 type Privacy = 'public' | 'private';
 
 type Props = $ReadOnly<{|
+  navigation: AppNavigationProp<'edit-stream' | 'create-stream'>,
+
   isNewStream: boolean,
   initialValues: {|
     name: string,
@@ -32,7 +27,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function EditStreamCard(props: Props): Node {
-  const { onComplete, initialValues, isNewStream } = props;
+  const { navigation, onComplete, initialValues, isNewStream } = props;
 
   const [name, setName] = useState<string>(props.initialValues.name);
   const [description, setDescription] = useState<string>(props.initialValues.description);
@@ -50,9 +45,17 @@ export default function EditStreamCard(props: Props): Node {
     setDescription(description);
   }, []);
 
-  const handlePrivacyChange = useCallback(isPrivate => {
-    setPrivacy(isPrivate ? 'private' : 'public');
+  const handlePrivacyChange = useCallback(privacy => {
+    setPrivacy(privacy);
   }, []);
+
+  const privacyOptions = useMemo(
+    () => [
+      { key: 'public', title: 'Public' },
+      { key: 'private', title: 'Private' },
+    ],
+    [],
+  );
 
   return (
     <View>
@@ -71,11 +74,11 @@ export default function EditStreamCard(props: Props): Node {
         defaultValue={initialValues.description}
         onChangeText={handleDescriptionChange}
       />
-      <SwitchRow
-        style={componentStyles.switchRow}
-        Icon={IconPrivate}
-        label="Private"
-        value={privacy === 'private'}
+      <InputRowRadioButtons
+        navigation={navigation}
+        label="Privacy"
+        items={privacyOptions}
+        valueKey={privacy}
         onValueChange={handlePrivacyChange}
       />
       <ZulipButton

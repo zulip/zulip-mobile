@@ -17,6 +17,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function EditStreamScreen(props: Props): Node {
+  const { navigation } = props;
   const dispatch = useDispatch();
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
@@ -37,6 +38,7 @@ export default function EditStreamScreen(props: Props): Node {
   return (
     <Screen title="Edit stream" padding>
       <EditStreamCard
+        navigation={navigation}
         isNewStream={false}
         initialValues={{
           name: stream.name,

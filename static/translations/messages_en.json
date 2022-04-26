@@ -233,6 +233,7 @@
   "Name": "Name",
   "Description": "Description",
   "Create": "Create",
+  "Privacy": "Privacy",
   "Public": "Public",
   "Private": "Private",
   "Notifications": "Notifications",

@@ -23,6 +23,7 @@ type Props = $ReadOnly<{|
 
 export default function CreateStreamScreen(props: Props): Node {
   const _ = useContext(TranslationContext);
+  const { navigation } = props;
 
   const auth = useSelector(getAuth);
   const streamsByName = useSelector(getStreamsByName);
@@ -62,6 +63,7 @@ export default function CreateStreamScreen(props: Props): Node {
   return (
     <Screen title="Create new stream" padding>
       <EditStreamCard
+        navigation={navigation}
         isNewStream
         initialValues={{ name: '', description: '', privacy: 'public' }}
         onComplete={handleComplete}
