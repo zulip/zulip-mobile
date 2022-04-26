@@ -173,27 +173,27 @@ export type User = {|
  *    realm are, like human users, represented by a `User` value.
  *  * `UserOrBot`, a convenience union
  */
-export type CrossRealmBot = $ReadOnly<{|
+export type CrossRealmBot = {|
   // Property ordering follows the doc.
 
-  user_id: UserId,
-  email: string,
-  full_name: string,
-  date_joined: string,
-  is_admin: boolean,
-  is_bot: true,
+  +user_id: UserId,
+  +email: string,
+  +full_name: string,
+  +date_joined: string,
+  +is_admin: boolean,
+  +is_bot: true,
 
   // The ? is for future-proofing.  For bots it's always '':
   //   https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576
   // so a future version may omit it to reduce payload sizes.  See comment
   // on the same field in User.
-  timezone?: string,
+  +timezone?: string,
 
   /**
    * See note for this property on User.
    */
-  avatar_url: AvatarURL,
-|}>;
+  +avatar_url: AvatarURL,
+|};
 
 /**
  * A Zulip user/account, which might be a cross-realm bot.
