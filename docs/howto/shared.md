@@ -165,14 +165,15 @@ before your account is given write access.
 
 [npm-docs-2fa]: https://docs.npmjs.com/configuring-two-factor-authentication
 
-To add you as a new maintainer on NPM, an existing maintainer will add
-you [here][npm-zulip-team] for access to everything in `@zulip`, and
-[here][npm-zulip-md-p-access] for access to the legacy
-`zulip-markdown-parser` package (until we eliminate it; see
-#4242.)
+To add you as a new maintainer on NPM, an existing maintainer will
+invite you to the [NPM `zulip` organization][npm-zulip-org].  In that
+organization, the [`mobile-shared` team][npm-zulip-mobile-shared] has
+access to `@zulip/shared`, and the [`developers`
+team][npm-zulip-developers] has access to all our packages.
 
-[npm-zulip-team]: https://www.npmjs.com/settings/zulip/teams/team/developers/users
-[npm-zulip-md-p-access]: https://www.npmjs.com/package/zulip-markdown-parser/access
+[npm-zulip-org]: https://www.npmjs.com/settings/zulip/members
+[npm-zulip-mobile-shared]: https://www.npmjs.com/settings/zulip/teams/team/mobile-shared/users
+[npm-zulip-developers]: https://www.npmjs.com/settings/zulip/teams/team/developers/users
 
 You'll also need to run `npm adduser` on your development machine and
 follow the prompts to authenticate.  This will create a `~/.npmrc`
