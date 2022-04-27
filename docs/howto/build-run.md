@@ -52,7 +52,8 @@ Before starting, install these dependencies if you don't have them:
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/en/download/package-manager/): use the
   **latest 16.x** version, or a later LTS version
-* [Yarn](https://yarnpkg.com/en/docs/install), latest stable version
+* [Yarn](https://yarnpkg.com/en/docs/install), latest "classic" (1.x)
+  version
 
 Then, run the commands below in your terminal:
 ```
