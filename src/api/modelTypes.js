@@ -78,24 +78,8 @@ export type DevUser = $ReadOnly<{|
  * A Zulip user, which might be a human or a bot, as found in one realm.
  *
  * This is a user object as found in properties `realm_users` and
- * `realm_non_active_users` of a `/register` response.
- *
- * For details on the properties, see the Zulip API docs on `/users`:
- *   https://zulip.com/api/get-users#response
- * which returns almost the same set of properties.
- *
- * See also the comments on `UserProfile` in the server (lineno is approx.):
- *   https://github.com/zulip/zulip/blob/main/zerver/models.py#L734
- * Most properties correspond to fields on `UserProfile`, and many are
- * described most usefully there.
- *
- * For authoritative results, consult how `raw_users`, and then
- * `realm_users` and `realm_non_active_users`, are computed in
- * `zulip/zulip:zerver/lib/events.py` .
- *
- * Properties are listed below in the order they appear on `UserProfile`,
- * because that's the most logically-organized and also the most helpful
- * of the references above.
+ * `realm_non_active_users` of a `/register` response. See the API doc:
+ *   https://zulip.com/api/register-queue
  *
  * See also:
  *  * `CrossRealmBot` for another type of bot user, found in a
@@ -103,11 +87,11 @@ export type DevUser = $ReadOnly<{|
  *  * `UserOrBot` for a convenience union of the two
  */
 export type User = $ReadOnly<{|
+  // Property ordering follows the doc.
+
   user_id: UserId,
   email: string,
-
   full_name: string,
-
   date_joined: string,
 
   // is_active doesn't appear in `/register` responses -- instead,
