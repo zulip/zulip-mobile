@@ -198,14 +198,21 @@ export type CrossRealmBot = {|
   // TODO(server-5.0): New in FL 73
   +is_billing_admin?: boolean,
 
-  +is_bot: boolean,
-  +bot_type: number | null,
+  // We assume this is `true`.
+  +is_bot: true,
 
+  // We assume this can't be `null`.
+  +bot_type: number,
+
+  // We assume this is `null` when present. (Cross-realm bots don't have
+  //   owners.)
   // TODO(server-3.0): New in FL 1, replacing bot_owner
-  +bot_owner_id?: number | null,
+  +bot_owner_id?: null,
 
+  // We assume bot_owner is never present, even on old servers. (Cross-realm
+  //   bots don't have owners.)
   // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
-  +bot_owner?: string,
+  // +bot_owner?: string,
 
   // TODO(server-4.0): New in FL 59
   +role?: number,
@@ -237,11 +244,13 @@ export type CrossRealmBot = {|
     |},
   |},
 
+  // We assume this is `true` when present.
   // TODO(server-5.0): New in FL 83, replacing is_cross_realm_bot
-  +is_system_bot?: boolean,
+  +is_system_bot?: true,
 
+  // We assume this is `true` when present.
   // TODO(server-5.0): Replaced in FL 83 by is_system_bot
-  +is_cross_realm_bot?: boolean,
+  +is_cross_realm_bot?: true,
 |};
 
 /**
