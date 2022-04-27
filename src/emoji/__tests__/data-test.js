@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import { codeToEmojiMap, getFilteredEmojis } from '../data';
 
-/* eslint-disable no-multi-spaces */
 describe('codeToEmojiMap', () => {
   // Tell ESLint to recognize `check` as a helper function that runs
   // assertions.
