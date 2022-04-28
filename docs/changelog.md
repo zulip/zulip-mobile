@@ -39,8 +39,51 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs. v27.183 (last prod release)
+
+* In the Home tab, topics with unread @-mentions are now highlighted with
+  "@". (#4857)
+* When searching for an emoji, you can now separate words with spaces,
+  rather than having to type underscores. (#4636)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs v27.184 (last beta)
+
+* In the Home tab, topics with unread @-mentions are now highlighted with
+  "@". (#4857)
+* When searching for an emoji, you can now separate words with spaces,
+  rather than having to type underscores. (#4636)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers, vs. v27.184
+
+* Fixed an incompatibility between React Navigation 5 and React Native
+  v0.65. We'd taken the RN 65 upgrade in v27.184, the previous release,
+  which was beta-only. (#5368)
+
+* Our development environment, and CI, now use Node v16. (#4263)
+
+* Synced API types with the API doc at FL 121: `api.createStream` and
+  `api.updateStream` (#5341); `ApiResponseServerSettings`,
+  `InitialDataRealm`, `RealmDataForUpdate` (#5349, #5354);
+  `StreamUpdateEvent` (#5346); `User` and `CrossRealmBot` (#5351).
+
+* `RootErrorBoundary` will now send all of `errorInfo` to Sentry. (#5357)
+
+* Resolved issues: #5368, #4636, #5166, #4263, #4857, #5347
+
 
 ## 27.184 (2022-04-19)
+
+This was a beta-only release because we found an incompatibility between
+React Navigation 5 and React Native v0.65; we fixed it in #5368.
+
 
 ### Highlights for users
 
