@@ -2,12 +2,11 @@
 
 import { REHYDRATE } from './constants';
 
-export type Storage = {
-  +multiSet: (keyValuePairs: Array<Array<string>>) => Promise<mixed>,
-  +getItem: (key: string) => Promise<string | null>,
-  +removeItem: string => Promise<mixed>,
-  +getAllKeys: () => Promise<$ReadOnlyArray<string>>,
-  ...
+export type Storage = interface {
+  multiSet(keyValuePairs: Array<Array<string>>): Promise<mixed>,
+  getItem(key: string): Promise<string | null>,
+  removeItem(string): Promise<mixed>,
+  getAllKeys(): Promise<$ReadOnlyArray<string>>,
 };
 
 export type Config = {|
