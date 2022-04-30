@@ -38,6 +38,7 @@ import {
   navigateToEmojiPicker,
   navigateToStream,
   fetchSomeMessageIdForConversation,
+  navigateToSearch,
 } from '../actions';
 import {
   navigateToMessageReactionScreen,
@@ -331,6 +332,14 @@ const unsubscribe = {
   },
 };
 
+const searchMessage = {
+  title: 'Search in stream',
+  errorMessage: 'Failed to open search',
+  action: ({ streamId, streams }) => {
+    NavigationService.dispatch(navigateToSearch(streamId, streams.get(streamId)?.name));
+  },
+};
+
 const pinToTop = {
   title: 'Pin to top',
   errorMessage: 'Failed to pin to top',
@@ -471,6 +480,7 @@ export const constructStreamActionButtons = (args: {|
     buttons.push(subscribe);
   }
   buttons.push(showStreamSettings);
+  buttons.push(searchMessage);
   buttons.push(cancel);
   return buttons;
 };

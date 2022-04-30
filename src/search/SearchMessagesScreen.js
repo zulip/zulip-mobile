@@ -18,7 +18,7 @@ import { fetchMessages } from '../message/fetchActions';
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
   navigation: AppNavigationProp<'search-messages'>,
-  route: RouteProp<'search-messages', void>,
+  route: RouteProp<'search-messages', {| streamId?: number, streamName?: string |}>,
 |}>;
 
 type SelectorProps = $ReadOnly<{|
@@ -63,9 +63,14 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
    * Stores the fetched messages in the Redux store. Does not read any
    * of the component's data except `props.dispatch`.
    */
-  fetchSearchMessages = async (query: string): Promise<$ReadOnlyArray<Message>> => {
+  fetchSearchMessages = async (
+    query: string,
+    inStream: boolean,
+  ): Promise<$ReadOnlyArray<Message>> => {
     const fetchArgs = {
-      narrow: SEARCH_NARROW(query),
+      narrow: inStream
+        ? SEARCH_NARROW(query, this.props.route.params.streamId)
+        : SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,
       numBefore: 20,
       numAfter: 0,
@@ -90,7 +95,17 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
   // invalidate outstanding requests on change will require more work.
 
   handleQuerySubmit = async (e: EditingEvent) => {
-    const query = e.nativeEvent.text;
+    const searchString = e.nativeEvent.text;
+    let query;
+    if (
+      this.props.route.params.streamName !== undefined
+      && searchString.substring(0, 7) === 'stream:'
+    ) {
+      const prefixLength = `stream:${this.props.route.params.streamName.replace(' ', '+')}`.length;
+      query = searchString.substring(prefixLength + 1);
+    } else {
+      query = searchString;
+    }
     const id = ++this.lastIdSent;
 
     if (query === '') {
@@ -103,7 +118,10 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
 
     this.setState({ isFetching: true });
     try {
-      const messages = await this.fetchSearchMessages(query);
+      const messages = await this.fetchSearchMessages(
+        query,
+        searchString.substring(0, 7) === 'stream:',
+      );
 
       // Update `state.messages` if this is our new latest result.
       if (id > this.lastIdSuccess) {
@@ -133,6 +151,10 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
 
   render() {
     const { messages, isFetching } = this.state;
+    const searchPrefix =
+      this.props.route.params.streamId != null
+        ? `stream:${this.props.route.params.streamName?.replace(' ', '+') ?? ''} `
+        : '';
 
     return (
       <Screen
@@ -140,11 +162,12 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
         autoFocus
         searchBarOnSubmit={this.handleQuerySubmitWrapper}
         style={styles.flexed}
+        searchPrefixText={searchPrefix}
       >
         <SearchMessagesCard
           messages={messages}
           isFetching={isFetching}
-          narrow={SEARCH_NARROW(this.state.query)}
+          narrow={SEARCH_NARROW(this.state.query, this.props.route.params.streamId)}
         />
       </Screen>
     );

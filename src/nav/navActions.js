@@ -50,7 +50,8 @@ export const replaceWithChat = (narrow: Narrow): GenericNavigationAction =>
 
 export const navigateToUsersScreen = (): GenericNavigationAction => StackActions.push('users');
 
-export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search-messages');
+export const navigateToSearch = (streamId?: number, streamName?: string): GenericNavigationAction =>
+  StackActions.push('search-messages', { streamId, streamName });
 
 export const navigateToEmojiPicker = (
   onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,

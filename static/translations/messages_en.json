@@ -218,6 +218,8 @@
   "Failed to delete topic": "Failed to delete topic",
   "Stream settings": "Stream settings",
   "Failed to show stream settings": "Failed to show stream settings",
+  "Search in stream": "Search in stream",
+  "Failed to open search": "Failed to open search",
   "show": "show",
   "hide": "hide",
   "Debug": "Debug",
