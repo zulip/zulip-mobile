@@ -48,6 +48,7 @@ type Props = $ReadOnly<{|
   searchBarOnSubmit?: (e: EditingEvent) => void,
   shouldShowLoadingBanner?: boolean,
   searchPlaceholder?: LocalizableText,
+  searchPrefixText?: string,
 
   canGoBack?: boolean,
   title?: LocalizableReactText,
@@ -88,6 +89,7 @@ export default function Screen(props: Props): Node {
     scrollEnabled = true,
     search = false,
     searchPlaceholder,
+    searchPrefixText,
     searchBarOnChange = (text: string) => {},
     style,
     title = '',
@@ -108,6 +110,7 @@ export default function Screen(props: Props): Node {
           searchBarOnChange={searchBarOnChange}
           searchBarOnSubmit={searchBarOnSubmit}
           placeholder={searchPlaceholder}
+          prefixText={searchPrefixText}
         />
       ) : (
         <ModalNavBar canGoBack={canGoBack} title={title} />

@@ -24,9 +24,9 @@ type Props = $ReadOnly<$Diff<InputProps, {| textInputRef: mixed, value: mixed, _
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
 export default function InputWithClearButton(props: Props): Node {
-  const { onChangeText } = props;
+  const { onChangeText, prefixText } = props;
 
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string>(prefixText ?? '');
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that

@@ -15,6 +15,7 @@ type Props = $ReadOnly<{|
   searchBarOnChange: (text: string) => void,
   searchBarOnSubmit: (e: EditingEvent) => void,
   placeholder?: LocalizableText,
+  prefixText?: string,
   canGoBack?: boolean,
 |}>;
 
@@ -23,7 +24,14 @@ export default function ModalSearchNavBar(props: Props): Node {
   //
   // For details, see comment at ModalNavBar.
 
-  const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit, placeholder } = props;
+  const {
+    autoFocus,
+    searchBarOnChange,
+    canGoBack = true,
+    searchBarOnSubmit,
+    placeholder,
+    prefixText,
+  } = props;
   const { backgroundColor } = useContext(ThemeContext);
   return (
     <SafeAreaView
@@ -50,6 +58,7 @@ export default function ModalSearchNavBar(props: Props): Node {
         onChangeText={searchBarOnChange}
         onSubmitEditing={searchBarOnSubmit}
         placeholder={placeholder}
+        prefixText={prefixText}
       />
     </SafeAreaView>
   );
