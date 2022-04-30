@@ -78,6 +78,10 @@ function defaultStateReconciler<S: { ... }>(
 
   Object.keys(inboundState).forEach(key => {
     // if initialState does not have key, skip auto rehydration
+    /* $FlowIgnore[method-unbinding]: This is the standard way to call
+       `hasOwnProperty`. See discussion:
+         https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20158.20errors/near/1375563
+    */
     if (!Object.prototype.hasOwnProperty.call(state, key)) {
       return;
     }

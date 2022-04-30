@@ -55,6 +55,10 @@ describe('setItem', () => {
 
   describe('failure', () => {
     // Mock `.setItem` to simulate failure, and reset when we're done.
+    /* $FlowFixMe[method-unbinding] - If things were to actually go wrong,
+       it'd probably make those tests not work at all, so we'd know; see
+         https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20158.20errors/near/1375705
+    */
     const savedMethod = AsyncStorage.setItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -104,6 +108,10 @@ describe('multiSet', () => {
 
   describe('failure', () => {
     // Mock `.multiSet` to simulate failure, and reset when we're done.
+    /* $FlowFixMe[method-unbinding] - If things were to actually go wrong,
+       it'd probably make those tests not work at all, so we'd know; see
+         https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20158.20errors/near/1375705
+    */
     const savedMethod = AsyncStorage.multiSet;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.
@@ -159,6 +167,10 @@ describe('getItem', () => {
 
   describe('failure', () => {
     // Mock `.getItem` to simulate failure, and reset when we're done.
+    /* $FlowFixMe[method-unbinding] - If things were to actually go wrong,
+       it'd probably make those tests not work at all, so we'd know; see
+         https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20158.20errors/near/1375705
+    */
     const savedMethod = AsyncStorage.getItem;
     beforeEach(() => {
       // $FlowFixMe[cannot-write] Make Flow understand about mocking.

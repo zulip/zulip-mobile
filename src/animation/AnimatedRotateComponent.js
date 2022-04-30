@@ -20,7 +20,10 @@ export default class AnimatedRotateComponent extends PureComponent<Props> {
       Animated.timing(this.rotation, {
         toValue: 360,
         duration: 1000,
+
+        // $FlowFixMe[method-unbinding] - RN should fix, and this code isn't central.
         easing: Easing.linear,
+
         useNativeDriver: true,
       }),
     ).start();
