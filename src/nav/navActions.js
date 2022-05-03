@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
-import type { Message, Narrow, UserId, EmojiType } from '../types';
+import type { Message, Narrow, UserId, EmojiType, Outbox } from '../types';
 import type { PmKeyRecipients } from '../utils/recipient';
 import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
@@ -126,6 +126,15 @@ export const navigateToMessageReactionScreen = (
   messageId: number,
   reactionName?: string,
 ): GenericNavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
+
+export const navigateToMoveMessage = (
+  message: Message | Outbox,
+  messageNarrow: Narrow,
+): GenericNavigationAction =>
+  StackActions.push('move-message', {
+    message,
+    messageNarrow,
+  });
 
 export const navigateToLegal = (): GenericNavigationAction => StackActions.push('legal');
 

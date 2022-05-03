@@ -22,6 +22,7 @@ export default async (
 
     propagate_mode?: PropagateMode,
     content?: string,
+    stream_id?: number,
 
     send_notification_to_old_thread?: boolean,
     send_notification_to_new_thread?: boolean,
