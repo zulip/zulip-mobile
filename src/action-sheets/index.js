@@ -42,6 +42,7 @@ import {
 import {
   navigateToMessageReactionScreen,
   navigateToPmConversationDetails,
+  navigateToMoveMessage,
 } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -91,6 +92,7 @@ type MessageArgs = {
   dispatch: Dispatch,
   _: GetText,
   startEditMessage: (editMessage: EditMessage) => void,
+  narrow: Narrow,
   ...
 };
 
@@ -246,6 +248,14 @@ const resolveTopic = {
   title: 'Resolve topic',
   errorMessage: 'Failed to resolve topic',
   action: toggleResolveTopic,
+};
+
+const moveMessage = {
+  title: 'Move message',
+  errorMessage: 'Failed to move message',
+  action: async ({ message, narrow }) => {
+    NavigationService.dispatch(navigateToMoveMessage(message, narrow));
+  },
 };
 
 const unresolveTopic = {
@@ -574,6 +584,7 @@ export const constructMessageActionButtons = (args: {|
     && (isStreamOrTopicNarrow(narrow) || isPmNarrow(narrow))
   ) {
     buttons.push(editMessage);
+    buttons.push(moveMessage);
   }
   if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
     // TODO(#2793): Don't show if message isn't deletable.

@@ -45,6 +45,7 @@ import SettingsScreen from '../settings/SettingsScreen';
 import UserStatusScreen from '../user-statuses/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
+import moveMessage from '../message/MoveMessage';
 
 export type AppNavigatorParamList = {|
   'account-pick': RouteParamsOf<typeof AccountPickScreen>,
@@ -56,6 +57,7 @@ export type AppNavigatorParamList = {|
   'emoji-picker': RouteParamsOf<typeof EmojiPickerScreen>,
   'main-tabs': RouteParamsOf<typeof MainTabsScreen>,
   'message-reactions': RouteParamsOf<typeof MessageReactionsScreen>,
+  'move-message': RouteParamsOf<typeof moveMessage>,
   'password-auth': RouteParamsOf<typeof PasswordAuthScreen>,
   'realm-input': RouteParamsOf<typeof RealmInputScreen>,
   'search-messages': RouteParamsOf<typeof SearchMessagesScreen>,
@@ -124,6 +126,7 @@ export default function AppNavigator(props: Props): Node {
         name="message-reactions"
         component={useHaveServerDataGate(MessageReactionsScreen)}
       />
+      <Stack.Screen name="move-message" component={useHaveServerDataGate(moveMessage)} />
       <Stack.Screen
         name="search-messages"
         component={useHaveServerDataGate(SearchMessagesScreen)}
