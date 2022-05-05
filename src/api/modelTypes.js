@@ -146,9 +146,6 @@ export type User = {|
   // If we use this, avoid `avatar_url` falling out of sync with it.
   -avatar_version: number,
 
-  // Empirically, this might be missing when the user has no custom profile
-  // fields:
-  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60profile_data.60.20in.20.60.2Fregister.60.20response/near/1374170
   +profile_data?: {|
     +[id: string]: {|
       +value: string,
@@ -231,18 +228,7 @@ export type CrossRealmBot = {|
   // If we use this, avoid `avatar_url` falling out of sync with it.
   -avatar_version: number,
 
-  // Empirically, this might be missing when the bot has no custom profile
-  // fields:
-  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60profile_data.60.20in.20.60.2Fregister.60.20response/near/1374170
-  +profile_data?: {|
-    +[id: string]: {|
-      +value: string,
-      // New in server 2.0, server commit e3aed0f7b.
-      // TODO(server-2.0): Delete the server-2.0 comment, but keep the type
-      //   optional; only some custom profile field types support Markdown.
-      +rendered_value?: string,
-    |},
-  |},
+  // profile_data is never present; bots can't have custom profile fields.
 
   // We assume this is `true` when present.
   // TODO(server-5.0): New in FL 83, replacing is_cross_realm_bot

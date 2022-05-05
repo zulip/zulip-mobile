@@ -165,7 +165,6 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     is_admin: false,
     timezone: 'UTC',
     user_id,
-    profile_data: {},
   });
 };
 
@@ -179,6 +178,7 @@ export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): Use
     // bot_owner omitted
 
     is_guest: false,
+    profile_data: {},
   });
 
 /** Beware! These values may not be representative. */
