@@ -163,7 +163,7 @@ export type InitialDataRealm = $ReadOnly<{|
   // realm_create_private_stream_policy and realm_create_public_stream_policy
   realm_create_stream_policy?: number,
 
-  // TODO(server-5.0): Added in feat. 103
+  // TODO(server-5.0): Added in feat. 103; when absent, treat as 6 (nobody).
   realm_create_web_public_stream_policy?: number,
 
   realm_default_code_block_language: string | null,
@@ -198,7 +198,7 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_email_changes_disabled: boolean,
   realm_emails_restricted_to_domains: boolean,
 
-  // TODO(server-5.0): Added in feat. 109
+  // TODO(server-5.0): Added in feat. 109; if absent, treat as false.
   realm_enable_spectator_access?: boolean,
 
   // TODO(server-4.0): Added in feat. 55.
@@ -273,7 +273,7 @@ export type InitialDataRealm = $ReadOnly<{|
   // TODO(server-5.0): Added in feat. 74
   server_needs_upgrade?: boolean,
 
-  // TODO(server-5.0): Added in feat. 110
+  // TODO(server-5.0): Added in feat. 110; if absent, treat as false.
   server_web_public_streams_enabled?: boolean,
 
   settings_send_digest_emails: boolean,

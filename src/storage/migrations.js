@@ -412,6 +412,10 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add is_web_public to Stream and Subscription.
   '41': dropCache,
 
+  // Add webPublicStreamsEnabled, enableSpectatorAccess, and
+  // createWebPublicStreamPolicy to state.realm.
+  '42': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

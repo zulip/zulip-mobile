@@ -27,6 +27,9 @@ describe('realmReducer', () => {
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
+        webPublicStreamsEnabled: action.data.server_web_public_streams_enabled ?? false,
+        createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy ?? 6,
+        enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
 
         email: action.data.email,
         user_id: action.data.user_id,

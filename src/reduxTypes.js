@@ -285,6 +285,9 @@ export type RealmState = $ReadOnly<{|
   messageContentDeleteLimitSeconds: number | null,
   messageContentEditLimitSeconds: number,
   pushNotificationsEnabled: boolean,
+  webPublicStreamsEnabled: boolean,
+  createWebPublicStreamPolicy: number,
+  enableSpectatorAccess: boolean,
 
   email: string | void,
   user_id: UserId | void,
