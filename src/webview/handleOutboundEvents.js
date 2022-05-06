@@ -13,7 +13,7 @@ import { pmKeyRecipientsFromMessage } from '../utils/recipient';
 import { isUrlAnImage } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
-import { parseNarrow } from '../utils/narrow';
+import { parseNarrow, isTopicNarrow, isPmNarrow } from '../utils/narrow';
 import {
   fetchOlder,
   fetchNewer,
@@ -166,7 +166,7 @@ type Props = $ReadOnly<{
   dispatch: Dispatch,
   messages: $ReadOnlyArray<Message | Outbox>,
   narrow: Narrow,
-  doNotMarkMessagesAsRead: boolean,
+  shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation',
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
   ...
@@ -185,7 +185,14 @@ const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
 
 const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
   const { flags, auth } = props.backgroundData;
-  if (props.doNotMarkMessagesAsRead) {
+  if (props.shouldMarkAsReadOnScroll === 'never') {
+    return;
+  }
+  if (
+    props.shouldMarkAsReadOnScroll === 'conversation'
+    && !isTopicNarrow(props.narrow)
+    && !isPmNarrow(props.narrow)
+  ) {
     return;
   }
   const unreadMessageIds = filterUnreadMessagesInRange(

@@ -81,7 +81,7 @@ declare var isDevelopment: boolean;
  * defined in `handleInitialLoad`.
  * declared globally so as to use across functions.
  */
-declare var doNotMarkMessagesAsRead: boolean;
+declare var shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation';
 
 // We pull out document.body in one place, and check it's not null, in order
 // to provide that assertion to the type-checker.
@@ -471,7 +471,7 @@ const sendScrollMessage = () => {
     startMessageId: rangeHull.first,
     endMessageId: rangeHull.last,
   });
-  if (!doNotMarkMessagesAsRead) {
+  if (shouldMarkAsReadOnScroll === 'always' || shouldMarkAsReadOnScroll === 'conversation') {
     setMessagesReadAttributes(rangeHull);
   }
   // If there are no visible + read messages (for instance, the entire screen

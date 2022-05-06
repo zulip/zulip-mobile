@@ -554,7 +554,7 @@ var compiledWebviewJs = (function (exports) {
       endMessageId: rangeHull.last
     });
 
-    if (!doNotMarkMessagesAsRead) {
+    if (shouldMarkAsReadOnScroll === 'always' || shouldMarkAsReadOnScroll === 'conversation') {
       setMessagesReadAttributes(rangeHull);
     }
 

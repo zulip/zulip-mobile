@@ -2,7 +2,9 @@
 
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
-
+import { View } from 'react-native';
+// $FlowFixMe[untyped-import]
+import { Picker } from '@react-native-picker/picker';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import * as NavigationService from '../nav/NavigationService';
@@ -10,6 +12,7 @@ import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import NestedNavRow from '../common/NestedNavRow';
 import SwitchRow from '../common/SwitchRow';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
 import {
   IconDiagnostics,
@@ -34,8 +37,8 @@ type Props = $ReadOnly<{|
 export default function SettingsScreen(props: Props): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
-  const doNotMarkMessagesAsRead = useGlobalSelector(
-    state => getGlobalSettings(state).doNotMarkMessagesAsRead,
+  const shouldMarkAsReadOnScroll = useGlobalSelector(
+    state => getGlobalSettings(state).shouldMarkAsReadOnScroll,
   );
   const dispatch = useDispatch();
 
@@ -53,13 +56,32 @@ export default function SettingsScreen(props: Props): Node {
           dispatch(setGlobalSettings({ browser: value ? 'embedded' : 'external' }));
         }}
       />
-      <SwitchRow
-        label="Do not mark messages read on scroll"
-        value={doNotMarkMessagesAsRead}
-        onValueChange={value => {
-          dispatch(setGlobalSettings({ doNotMarkMessagesAsRead: value }));
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignContent: 'space-around',
+          flexWrap: 'wrap',
+          paddingLeft: 15,
         }}
-      />
+      >
+        <ZulipTextIntl
+          style={{ fontSize: 15, alignSelf: 'center' }}
+          text="Mark as read on scroll"
+        />
+        <Picker
+          selectedValue={shouldMarkAsReadOnScroll}
+          onValueChange={(itemValue, itemIndex) => {
+            dispatch(setGlobalSettings({ shouldMarkAsReadOnScroll: itemValue }));
+          }}
+          style={{ height: '100%', width: '50%' }}
+        >
+          <Picker.Item label="Always" value="always" />
+          <Picker.Item label="Conversation" value="conversation" />
+          <Picker.Item label="Never" value="never" />
+        </Picker>
+      </View>
+
       <NestedNavRow
         Icon={IconNotifications}
         label="Notifications"

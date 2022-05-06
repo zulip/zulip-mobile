@@ -15,7 +15,7 @@ import compiledWebviewJs from './generatedEs3';
 export default (
   scrollMessageId: number | null,
   auth: Auth,
-  doNotMarkMessagesAsRead: boolean,
+  shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation',
 ): string => `
 <script>
 window.__forceSmoothScrollPolyfill__ = true;
@@ -24,7 +24,7 @@ ${matchesPolyfill}
 document.addEventListener('DOMContentLoaded', function() {
   var platformOS = ${JSON.stringify(Platform.OS)};
   var isDevelopment = ${JSON.stringify(process.env.NODE_ENV === 'development')};
-  var doNotMarkMessagesAsRead = ${JSON.stringify(doNotMarkMessagesAsRead)};
+  var shouldMarkAsReadOnScroll = ${JSON.stringify(shouldMarkAsReadOnScroll)};
   ${compiledWebviewJs}
   compiledWebviewJs.handleInitialLoad(
     ${JSON.stringify(scrollMessageId)},

@@ -377,7 +377,7 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     // Handle the migration before 30.
     settings: {
       ...state.settings,
-      doNotMarkMessagesAsRead: state.settings.doNotMarkMessagesAsRead ?? false,
+      shouldMarkAsReadOnScroll: state.settings.shouldMarkAsReadOnScroll ?? 'always',
     },
   }),
 

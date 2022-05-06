@@ -62,7 +62,7 @@ type SelectorProps = {|
   fetching: Fetching,
   messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
   typingUsers: $ReadOnlyArray<UserOrBot>,
-  doNotMarkMessagesAsRead: boolean,
+  shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation',
 |};
 
 export type Props = $ReadOnly<{|
@@ -158,7 +158,7 @@ class MessageListInner extends Component<Props> {
       messageListElementsForShownMessages,
       initialScrollMessageId,
       showMessagePlaceholders,
-      doNotMarkMessagesAsRead,
+      shouldMarkAsReadOnScroll,
       _,
     } = this.props;
     const contentHtml = messageListElementsForShownMessages
@@ -175,7 +175,7 @@ class MessageListInner extends Component<Props> {
       scrollMessageId: initialScrollMessageId,
       auth,
       showMessagePlaceholders,
-      doNotMarkMessagesAsRead,
+      shouldMarkAsReadOnScroll,
     });
 
     /**
@@ -261,29 +261,32 @@ class MessageListInner extends Component<Props> {
  * "Can", not "will": other conditions can mean we don't want to mark
  * messages as read even when in a narrow where this is true.
  */
-const marksMessagesAsRead = (narrow: Narrow): boolean =>
+const marksMessagesAsRead = (
+  narrow: Narrow,
+  shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation',
+): 'never' | 'always' | 'conversation' =>
   // Generally we want these to agree with the web/desktop app, so that user
   // expectations transfer between the different apps.
   caseNarrow(narrow, {
     // These narrows show one conversation in full.  Each message appears
     // in its full context, so it makes sense to say the user's read it
     // and doesn't need to be shown it as unread again.
-    topic: () => true,
-    pm: () => true,
+    topic: () => shouldMarkAsReadOnScroll,
+    pm: () => shouldMarkAsReadOnScroll,
 
     // These narrows show several conversations interleaved.  They always
     // show entire conversations, so each message still appears in its
     // full context and it still makes sense to mark it as read.
-    stream: () => true,
-    home: () => true,
-    allPrivate: () => true,
+    stream: () => shouldMarkAsReadOnScroll,
+    home: () => shouldMarkAsReadOnScroll,
+    allPrivate: () => shouldMarkAsReadOnScroll,
 
     // These narrows show selected messages out of context.  The user will
     // typically still want to see them another way, in context, before
     // letting them disappear from their list of unread messages.
-    search: () => false,
-    starred: () => false,
-    mentioned: () => false,
+    search: () => 'never',
+    starred: () => 'never',
+    mentioned: () => 'never',
   });
 
 const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
@@ -303,8 +306,9 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
         props.narrow,
       ),
       typingUsers: getCurrentTypingUsers(state, props.narrow),
-      doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow) || globalSettings.doNotMarkMessagesAsRead,
+      shouldMarkAsReadOnScroll:
+        marksMessagesAsRead(props.narrow, globalSettings.shouldMarkAsReadOnScroll)
+        || globalSettings.shouldMarkAsReadOnScroll,
     };
   },
 )(connectActionSheet(withGetText(MessageListInner)));

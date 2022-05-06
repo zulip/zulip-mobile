@@ -9,7 +9,7 @@ type InitOptionsType = {|
   scrollMessageId: number | null,
   auth: Auth,
   showMessagePlaceholders: boolean,
-  doNotMarkMessagesAsRead: boolean,
+  shouldMarkAsReadOnScroll: 'never' | 'always' | 'conversation',
 |};
 
 /**
@@ -45,7 +45,7 @@ export default (
   theme: ThemeName,
   initOptions: InitOptionsType,
 ): string => template`
-$!${script(initOptions.scrollMessageId, initOptions.auth, initOptions.doNotMarkMessagesAsRead)}
+$!${script(initOptions.scrollMessageId, initOptions.auth, initOptions.shouldMarkAsReadOnScroll)}
 $!${css(theme)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">

@@ -80,7 +80,7 @@ describe('migrations', () => {
       streamNotification: false,
       // added:
       browser: 'default',
-      doNotMarkMessagesAsRead: false,
+      shouldMarkAsReadOnScroll: 'always',
     },
   };
 
@@ -204,14 +204,19 @@ describe('migrations', () => {
     ],
     // 36 covered by whole
     [
-      'check 37 with setting already false',
-      { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: false } },
-      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: false } },
+      'check 37 with setting - always',
+      { ...base15, settings: { ...base15.settings, shouldMarkAsReadOnScroll: 'always' } },
+      { ...endBase, settings: { ...endBase.settings, shouldMarkAsReadOnScroll: 'always' } },
     ],
     [
-      'check 37 with setting already true',
-      { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: true } },
-      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: true } },
+      'check 37 with setting - conversation',
+      { ...base15, settings: { ...base15.settings, shouldMarkAsReadOnScroll: 'conversation' } },
+      { ...endBase, settings: { ...endBase.settings, shouldMarkAsReadOnScroll: 'conversation' } },
+    ],
+    [
+      'check 37 with setting - never',
+      { ...base15, settings: { ...base15.settings, shouldMarkAsReadOnScroll: 'never' } },
+      { ...endBase, settings: { ...endBase.settings, shouldMarkAsReadOnScroll: 'never' } },
     ],
     [
       'check 38',

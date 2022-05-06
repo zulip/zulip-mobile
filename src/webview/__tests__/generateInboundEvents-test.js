@@ -15,7 +15,7 @@ describe('generateInboundEvents', () => {
     messages: [],
     messageListElementsForShownMessages: [],
     typingUsers: [],
-    doNotMarkMessagesAsRead: eg.baseReduxState.settings.doNotMarkMessagesAsRead,
+    shouldMarkAsReadOnScroll: eg.baseReduxState.settings.shouldMarkAsReadOnScroll,
   });
 
   type FudgedProps = {|
