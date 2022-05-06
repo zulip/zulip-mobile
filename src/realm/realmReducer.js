@@ -19,7 +19,9 @@ import {
 import { objectFromEntries } from '../jsBackport';
 
 const initialState = {
-  crossRealmBots: [],
+  //
+  // InitialDataRealm
+  //
 
   name: '',
   description: '',
@@ -35,11 +37,22 @@ const initialState = {
   createWebPublicStreamPolicy: 6,
   enableSpectatorAccess: false,
 
+  //
+  // InitialDataRealmUser
+  //
+
   email: undefined,
   user_id: undefined,
-  twentyFourHourTime: false,
   canCreateStreams: true,
   isAdmin: false,
+  crossRealmBots: [],
+
+  //
+  // InitialDataUpdateDisplaySettings. Deprecated!
+  //
+  // TODO(#4933): Use modern `user_settings` object for these.
+
+  twentyFourHourTime: false,
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -75,7 +88,9 @@ export default (
 
     case REGISTER_COMPLETE: {
       return {
-        crossRealmBots: action.data.cross_realm_bots,
+        //
+        // InitialDataRealm
+        //
 
         name: action.data.realm_name,
         description: action.data.realm_description,
@@ -95,14 +110,22 @@ export default (
         createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy ?? 6,
         enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
 
+        //
+        // InitialDataRealmUser
+        //
+
         email: action.data.email,
         user_id: action.data.user_id,
-
-        // TODO(#4933): Use modern `user_settings` object for this
-        twentyFourHourTime: action.data.twenty_four_hour_time,
-
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        crossRealmBots: action.data.cross_realm_bots,
+
+        //
+        // InitialDataUpdateDisplaySettings. Deprecated!
+        //
+        // TODO(#4933): Use modern `user_settings` object for these.
+
+        twentyFourHourTime: action.data.twenty_four_hour_time,
       };
     }
 

@@ -273,7 +273,9 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  * @prop isAdmin
  */
 export type RealmState = $ReadOnly<{|
-  crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
+  //
+  // InitialDataRealm
+  //
 
   name: string,
   description: string,
@@ -289,11 +291,22 @@ export type RealmState = $ReadOnly<{|
   createWebPublicStreamPolicy: number,
   enableSpectatorAccess: boolean,
 
+  //
+  // InitialDataRealmUser
+  //
+
   email: string | void,
   user_id: UserId | void,
-  twentyFourHourTime: boolean,
   canCreateStreams: boolean,
   isAdmin: boolean,
+  crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
+
+  //
+  // InitialDataUpdateDisplaySettings. Deprecated!
+  //
+  // TODO(#4933): Use modern `user_settings` object for these.
+
+  twentyFourHourTime: boolean,
 |}>;
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should

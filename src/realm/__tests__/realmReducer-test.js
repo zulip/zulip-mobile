@@ -15,7 +15,9 @@ describe('realmReducer', () => {
     test('updates as appropriate on a boring but representative REGISTER_COMPLETE', () => {
       const action = eg.action.register_complete;
       expect(realmReducer(eg.baseReduxState.realm, action)).toEqual({
-        crossRealmBots: action.data.cross_realm_bots,
+        //
+        // InitialDataRealm
+        //
 
         name: action.data.realm_name,
         description: action.data.realm_description,
@@ -31,11 +33,22 @@ describe('realmReducer', () => {
         createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy ?? 6,
         enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
 
+        //
+        // InitialDataRealmUser
+        //
+
         email: action.data.email,
         user_id: action.data.user_id,
-        twentyFourHourTime: action.data.twenty_four_hour_time,
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        crossRealmBots: action.data.cross_realm_bots,
+
+        //
+        // InitialDataUpdateDisplaySettings. Deprecated!
+        //
+        // TODO(#4933): Use modern `user_settings` object for these.
+
+        twentyFourHourTime: action.data.twenty_four_hour_time,
       });
     });
   });
