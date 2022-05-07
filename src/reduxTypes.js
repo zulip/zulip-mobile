@@ -297,6 +297,8 @@ export type RealmState = $ReadOnly<{|
 
   canCreateStreams: boolean,
   isAdmin: boolean,
+  isOwner: boolean,
+  isModerator: boolean,
   user_id: UserId | void,
   email: string | void,
   crossRealmBots: $ReadOnlyArray<CrossRealmBot>,

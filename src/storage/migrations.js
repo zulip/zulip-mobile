@@ -416,6 +416,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // createWebPublicStreamPolicy to state.realm.
   '42': dropCache,
 
+  // Add isOwner and isModerator to state.realm.
+  '43': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

@@ -43,6 +43,8 @@ const initialState = {
 
   canCreateStreams: true,
   isAdmin: false,
+  isOwner: false,
+  isModerator: false,
   user_id: undefined,
   email: undefined,
   crossRealmBots: [],
@@ -116,6 +118,8 @@ export default (
 
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        isOwner: action.data.is_owner,
+        isModerator: action.data.is_moderator ?? action.data.is_admin,
         user_id: action.data.user_id,
         email: action.data.email,
         crossRealmBots: action.data.cross_realm_bots,
