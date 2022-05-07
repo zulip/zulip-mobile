@@ -37,10 +37,10 @@ describe('realmReducer', () => {
         // InitialDataRealmUser
         //
 
-        email: action.data.email,
-        user_id: action.data.user_id,
         canCreateStreams: action.data.can_create_streams,
         isAdmin: action.data.is_admin,
+        user_id: action.data.user_id,
+        email: action.data.email,
         crossRealmBots: action.data.cross_realm_bots,
 
         //
