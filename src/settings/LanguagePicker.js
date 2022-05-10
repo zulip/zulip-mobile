@@ -61,8 +61,8 @@ export default class LanguagePicker extends PureComponent<Props> {
             selected={item.tag === value}
             onRequestSelectionChange={onValueChange}
             itemKey={item.tag}
-            subtitle={item.name}
-            title={item.selfname}
+            subtitle={{ text: '{_}', values: { _: item.name } }}
+            title={{ text: '{_}', values: { _: item.selfname } }}
           />
         )}
       />

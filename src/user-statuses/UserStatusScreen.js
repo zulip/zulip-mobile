@@ -181,8 +181,11 @@ export default function UserStatusScreen(props: Props): Node {
               itemKey={index}
               title={
                 serverSupportsEmojiStatus
-                  ? `${parseUnicodeEmojiCode(emoji.emoji_code)} ${translatedText}`
-                  : translatedText
+                  ? {
+                      text: '{_}',
+                      values: { _: `${parseUnicodeEmojiCode(emoji.emoji_code)} ${translatedText}` },
+                    }
+                  : text
               }
               selected={
                 translatedText === statusTextFromInputValue(textInputValue)

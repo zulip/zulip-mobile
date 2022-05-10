@@ -3,7 +3,8 @@ import React, { useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import ZulipText from './ZulipText';
+import type { LocalizableText } from '../types';
+import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { IconDone } from './Icons';
@@ -16,8 +17,8 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
   // position that requires it).
   itemKey: TItemKey,
 
-  title: string,
-  subtitle?: string,
+  title: LocalizableText,
+  subtitle?: LocalizableText,
   selected: boolean,
 
   // We might have called this `onPress`, but
@@ -86,8 +87,8 @@ export default function SelectableOptionRow<TItemKey: string | number>(
     <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
       <View style={styles.wrapper}>
         <View style={styles.textWrapper}>
-          <ZulipText text={title} />
-          {subtitle !== undefined && <ZulipText text={subtitle} style={styles.subtitle} />}
+          <ZulipTextIntl text={title} />
+          {subtitle !== undefined && <ZulipTextIntl text={subtitle} style={styles.subtitle} />}
         </View>
         <View style={styles.checkmarkWrapper}>
           {selected && <IconDone size={kCheckmarkSize} color={BRAND_COLOR} />}
