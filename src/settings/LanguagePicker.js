@@ -20,7 +20,7 @@ export default class LanguagePicker extends PureComponent<Props> {
   static contextType: Context<GetText> = TranslationContext;
   context: GetText;
 
-  getTranslatedLanguages: () => Language[] = () =>
+  getTranslatedLanguages: () => $ReadOnlyArray<Language> = () =>
     languages.map((language: Language) => {
       const _ = this.context;
       const translatedName = _(language.name);
@@ -30,7 +30,7 @@ export default class LanguagePicker extends PureComponent<Props> {
       };
     });
 
-  getFilteredLanguageList: string => Language[] = filter => {
+  getFilteredLanguageList: string => $ReadOnlyArray<Language> = filter => {
     const list = this.getTranslatedLanguages();
 
     if (!filter) {
