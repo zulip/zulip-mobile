@@ -7,6 +7,7 @@ import type { Config, OverpromisedRehydrateAction, Persistor } from './types';
 import { REHYDRATE } from './constants';
 import getStoredState from './getStoredState';
 import createPersistor from './createPersistor';
+import { randString } from '../../utils/misc';
 
 export default function persistStore<
   // The state type should have a schema version for migrations, like so.
@@ -133,7 +134,7 @@ export default function persistStore<
         ({
           // Include a random string, to be sure no other action type
           // matches this one. Like Redux does for the initial action.
-          type: `PERSIST_DUMMY/${Math.floor(Math.random() * 2 ** 54).toString(36)}`,
+          type: `PERSIST_DUMMY/${randString()}`,
 
           // The intended param type for `dispatch` would be a union where one
           // branch is "any other `type`".  There isn't a way to specify that
