@@ -21,6 +21,7 @@ import type {
   UserStatusUpdate,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
+import type { UserSettings } from './initialDataTypes';
 
 export const EventTypes = keyMirror({
   alert_words: null,
@@ -262,6 +263,24 @@ export type RealmUpdateDictEvent = $ReadOnly<{|
   op: 'update_dict',
   property: 'default',
   data: $Rest<RealmDataForUpdate, { ... }>,
+|}>;
+
+/**
+ * https://zulip.com/api/get-events#user_settings-update
+ *
+ * New in Zulip 5.0, FL 89.
+ */
+export type UserSettingsUpdateEvent = $ReadOnly<{|
+  ...EventCommon,
+  type: typeof EventTypes.user_settings,
+
+  op: 'update',
+
+  // TODO(flow): `property` and `value` should correspond
+  property: $Keys<UserSettings>,
+  value: $Values<UserSettings>,
+
+  language_name?: string,
 |}>;
 
 /**

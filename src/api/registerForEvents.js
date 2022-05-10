@@ -146,6 +146,7 @@ export default async (
       'update_display_settings',
       'update_global_notifications',
       'update_message_flags',
+      'user_settings',
       'user_status',
       'zulip_version',
     ]),
