@@ -29,6 +29,7 @@ import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
 import { getGlobalSettings, getDebug } from '../../selectors';
 import { getBackgroundData } from '../backgroundData';
+import { randString } from '../../utils/misc';
 
 // Tell ESLint to recognize `check` as a helper function that runs
 // assertions.
@@ -672,7 +673,7 @@ describe('getEditSequence correct for interesting changes', () => {
 
   const withContentReplaced = <M: Message | Outbox>(m: M): M => ({
     ...(m: M),
-    content: eg.randString(),
+    content: randString(),
   });
 
   describe('from empty', () => {

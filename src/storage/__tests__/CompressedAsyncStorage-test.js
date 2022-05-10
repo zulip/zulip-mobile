@@ -4,7 +4,7 @@ import { Platform, NativeModules } from 'react-native';
 import { AsyncStorage } from '../AsyncStorage';
 import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import * as logging from '../../utils/logging';
-import * as eg from '../../__tests__/lib/exampleData';
+import { randString } from '../../utils/misc';
 
 test('smoke-test all methods, end to end', async () => {
   await CompressedAsyncStorage.clear();
@@ -196,16 +196,16 @@ describe('getItem', () => {
 
 describe('set/get together', () => {
   test('round-tripping of single key-value pair works', async () => {
-    const key = eg.randString();
-    const value = JSON.stringify(eg.randString());
+    const key = randString();
+    const value = JSON.stringify(randString());
     await CompressedAsyncStorage.setItem(key, value);
     expect(await CompressedAsyncStorage.getItem(key)).toEqual(value);
   });
 
   test('round-tripping of multiple key-value pairs works', async () => {
     const keyValuePairs = [
-      [eg.randString(), JSON.stringify(eg.randString())],
-      [eg.randString(), JSON.stringify(eg.randString())],
+      [randString(), JSON.stringify(randString())],
+      [randString(), JSON.stringify(randString())],
     ];
     await CompressedAsyncStorage.multiSet(keyValuePairs);
     expect(

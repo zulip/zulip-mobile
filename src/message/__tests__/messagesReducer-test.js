@@ -14,6 +14,7 @@ import {
 import * as eg from '../../__tests__/lib/exampleData';
 import { ALL_PRIVATE_NARROW, HOME_NARROW, HOME_NARROW_STR } from '../../utils/narrow';
 import { makeUserId } from '../../api/idTypes';
+import { randString } from '../../utils/misc';
 
 describe('messagesReducer', () => {
   describe('EVENT_NEW_MESSAGE', () => {
@@ -68,7 +69,7 @@ describe('messagesReducer', () => {
         submessage_id: 2,
         sender_id: eg.otherUser.user_id,
         msg_type: 'widget',
-        content: eg.randString(),
+        content: randString(),
       });
       const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toBe(prevState);
@@ -84,7 +85,7 @@ describe('messagesReducer', () => {
             message_id: 2,
             sender_id: eg.otherUser.user_id,
             msg_type: 'widget', // only this type is currently available
-            content: eg.randString(), // JSON string
+            content: randString(), // JSON string
           },
         ],
       });
@@ -201,11 +202,11 @@ describe('messagesReducer', () => {
       const action = mkAction({
         edit_timestamp: Date.now() - 1000,
         message: message3,
-        orig_content: eg.randString(),
-        orig_rendered_content: eg.randString(),
+        orig_content: randString(),
+        orig_rendered_content: randString(),
         prev_rendered_content_version: 0,
-        rendered_content: eg.randString(),
-        content: eg.randString(),
+        rendered_content: randString(),
+        content: randString(),
       });
       const newState = messagesReducer(prevState, action, eg.plusReduxState);
       expect(newState).toBe(prevState);

@@ -9,6 +9,7 @@ import {
   ACCOUNT_REMOVE,
   EVENT,
 } from '../../actionConstants';
+import { randString } from '../../utils/misc';
 import accountsReducer from '../accountsReducer';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
@@ -89,17 +90,17 @@ describe('accountsReducer', () => {
   describe('LOGIN_SUCCESS', () => {
     const account1 = eg.makeAccount({
       realm: new URL('https://one.example.org'),
-      ackedPushToken: eg.randString(),
+      ackedPushToken: randString(),
     });
     const account2 = eg.makeAccount({
       realm: new URL('https://two.example.org'),
-      ackedPushToken: eg.randString(),
+      ackedPushToken: randString(),
     });
 
     const prevState = deepFreeze([account1, account2]);
 
     test('on login, if account does not exist, add as first item, with null userId, zulipVersion, zulipFeatureLevel', () => {
-      const newApiKey = eg.randString();
+      const newApiKey = randString();
       const newEmail = 'newaccount@example.com';
       const newRealm = new URL('https://new.realm.org');
 
@@ -129,7 +130,7 @@ describe('accountsReducer', () => {
     });
 
     test("on login, if account does exist, move to top, update with apiKey, set ackedPushToken to null, don't clobber anything else", () => {
-      const newApiKey = eg.randString();
+      const newApiKey = randString();
 
       const action = deepFreeze({
         type: LOGIN_SUCCESS,

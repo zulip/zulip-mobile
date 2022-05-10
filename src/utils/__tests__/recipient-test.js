@@ -7,6 +7,7 @@ import {
 } from '../recipient';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
+import { randString } from '../misc';
 
 describe('normalizeRecipientsAsUserIdsSansMe', () => {
   test('if only self user ID provided return unmodified', () => {
@@ -65,9 +66,9 @@ describe('isSameRecipient', () => {
   });
 
   test('recipients are same for stream type if display_recipient and subject match', () => {
-    const topic = eg.randString();
-    const msg1 = eg.streamMessage({ stream: eg.stream, subject: topic, content: eg.randString() });
-    const msg2 = eg.streamMessage({ stream: eg.stream, subject: topic, content: eg.randString() });
+    const topic = randString();
+    const msg1 = eg.streamMessage({ stream: eg.stream, subject: topic, content: randString() });
+    const msg2 = eg.streamMessage({ stream: eg.stream, subject: topic, content: randString() });
     expect(isSameRecipient(msg1, msg2)).toBe(true);
   });
 });

@@ -5,10 +5,11 @@ import type { UnreadState } from '../unreadModelTypes';
 import type { Message, Stream } from '../../api/apiTypes';
 import type { PerAccountState } from '../../reduxTypes';
 import * as eg from '../../__tests__/lib/exampleData';
+import { randString } from '../../utils/misc';
 
 export const initialState: UnreadState = reducer(
   undefined,
-  ({ type: eg.randString() }: $FlowFixMe),
+  ({ type: randString() }: $FlowFixMe),
   eg.baseReduxState,
 );
 

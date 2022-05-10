@@ -17,6 +17,7 @@ import type {
   UserId,
   UserStatus,
 } from '../../api/modelTypes';
+import { randString, randInt } from '../../utils/misc';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
 import { EventTypes, type UpdateMessageEvent } from '../../api/eventTypes';
@@ -72,9 +73,6 @@ const makeTime: () => number = (() => {
   return () => startTime + 1000 * ++calls;
 })();
 
-/** Return an integer 0 <= N < end, roughly uniformly at random. */
-const randInt = (end: number) => Math.floor(Math.random() * end);
-
 /**
  * Return a factory for unique integers 0 <= N < end.
  *
@@ -103,9 +101,6 @@ const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
     return leftValue;
   };
 };
-
-/** Return a string that's almost surely different every time. */
-export const randString = (): string => randInt(2 ** 54).toString(36);
 
 const intRange = (start, len) => Array.from({ length: len }, (k, i) => i + start);
 

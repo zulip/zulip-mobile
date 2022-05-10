@@ -1,6 +1,6 @@
 // @flow strict-local
 
-import { randString } from '../../__tests__/lib/exampleData';
+import { randString } from '../misc';
 import { ZulipVersion } from '../zulipVersion';
 
 describe('ZulipVersion.prototype.isAtLeast(otherZulipVersion)', () => {

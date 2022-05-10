@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import { usersOfKey, keyOfExactUsers, reducer } from '../pmConversationsModel';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
+import { randString } from '../../utils/misc';
 
 describe('usersOfKey', () => {
   for (const [desc, ids] of [
@@ -18,7 +19,7 @@ describe('usersOfKey', () => {
 });
 
 describe('reducer', () => {
-  const initialState = reducer(undefined, ({ type: eg.randString() }: $FlowFixMe));
+  const initialState = reducer(undefined, ({ type: randString() }: $FlowFixMe));
   const someKey = keyOfExactUsers([eg.makeUser().user_id]);
   const someState = { map: Immutable.Map([[someKey, 123]]), sorted: Immutable.List([someKey]) };
 

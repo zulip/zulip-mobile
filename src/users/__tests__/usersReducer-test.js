@@ -6,6 +6,7 @@ import type { User } from '../../types';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { EVENT_USER_ADD, EVENT_USER_UPDATE, ACCOUNT_SWITCH } from '../../actionConstants';
 import usersReducer from '../usersReducer';
+import { randString } from '../../utils/misc';
 
 describe('usersReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -80,23 +81,23 @@ describe('usersReducer', () => {
      */
 
     test('When a user changes their full name.', () => {
-      check({ full_name: eg.randString() });
+      check({ full_name: randString() });
     });
 
     test('When a user changes their avatar.', () => {
       check({
         avatar_url: UploadedAvatarURL.validateAndConstructInstance({
           realm: new URL('https://zulip.example.org'),
-          absoluteOrRelativeUrl: `/yo/avatar-${eg.randString()}.png`,
+          absoluteOrRelativeUrl: `/yo/avatar-${randString()}.png`,
         }),
         // avatar_source: user1.avatar_source === 'G' ? 'U' : 'G',
-        // avatar_url_medium: eg.randString(),
+        // avatar_url_medium: randString(),
         // avatar_version: user1.avatar_version + 1,
       });
     });
 
     test('When a user changes their timezone setting.', () => {
-      check({ timezone: eg.randString() });
+      check({ timezone: randString() });
     });
 
     // Excluded: "When the owner of a bot changes." The `users` state
@@ -117,7 +118,7 @@ describe('usersReducer', () => {
         // The `Object.freeze` is to work around a Flow issue:
         //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
         Object.freeze({
-          // delivery_email: eg.randString(),
+          // delivery_email: randString(),
         }),
       );
     });
@@ -129,8 +130,8 @@ describe('usersReducer', () => {
         Object.freeze({
           // custom_profile_field: {
           //   id: 4,
-          //   value: eg.randString(),
-          //   rendered_value: eg.randString(),
+          //   value: randString(),
+          //   rendered_value: randString(),
           // },
         }),
       );
