@@ -37,18 +37,6 @@ export default function EditStreamCard(props: Props): Node {
     onComplete(name, description, privacy);
   }, [onComplete, name, description, privacy]);
 
-  const handleNameChange = useCallback(name => {
-    setName(name);
-  }, []);
-
-  const handleDescriptionChange = useCallback(description => {
-    setDescription(description);
-  }, []);
-
-  const handlePrivacyChange = useCallback(privacy => {
-    setPrivacy(privacy);
-  }, []);
-
   const privacyOptions = useMemo(
     () => [
       { key: 'public', title: 'Public' },
@@ -65,21 +53,21 @@ export default function EditStreamCard(props: Props): Node {
         placeholder="Name"
         autoFocus
         defaultValue={initialValues.name}
-        onChangeText={handleNameChange}
+        onChangeText={setName}
       />
       <ZulipTextIntl text="Description" />
       <Input
         style={styles.marginBottom}
         placeholder="Description"
         defaultValue={initialValues.description}
-        onChangeText={handleDescriptionChange}
+        onChangeText={setDescription}
       />
       <InputRowRadioButtons
         navigation={navigation}
         label="Privacy"
         items={privacyOptions}
         valueKey={privacy}
-        onValueChange={handlePrivacyChange}
+        onValueChange={setPrivacy}
       />
       <ZulipButton
         style={styles.marginTop}
