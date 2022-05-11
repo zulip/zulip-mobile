@@ -354,7 +354,6 @@ export type RawInitialDataRealmUser = {|
   +is_moderator?: boolean,
 
   +is_guest: boolean,
-  -enter_sends: boolean, // TODO(#4933): Deprecated; don't use
   +user_id: UserId,
   +email: string,
   +delivery_email: string,
@@ -420,6 +419,7 @@ export type InitialDataUpdateDisplaySettings = {|
   -default_language: string,
   -emojiset: string,
   -emojiset_choices: $ReadOnly<{| [string]: string |}>,
+  -enter_sends: boolean,
   -high_contrast_mode: boolean,
   -left_side_userlist: boolean,
   -timezone: string,
