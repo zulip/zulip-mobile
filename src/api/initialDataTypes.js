@@ -414,33 +414,63 @@ export type InitialDataSubscription = $ReadOnly<{|
   unsubscribed: $ReadOnlyArray<Subscription>,
 |}>;
 
-// TODO(#4933): Deprecated; remove current uses and don't add more
+// Deprecated. Use only as fallback for InitialDataUserSettings, new in 5.0.
+//
+// All properties optional. They will be present from servers that don't
+// support the user_settings_object client capability, and absent from those
+// that do. (We declare the capability.) See doc on each property:
+//   https://zulip.com/api/register-queue
+//   > Present if `update_display_settings` is present in `fetch_event_types`
+//   > and only for clients that did not include `user_settings_object` in
+//   > their `client_capabilities` when registering the event queue.
+// and see
+//   https://zulip.com/api/register-queue#parameter-client_capabilities .
+// TODO(server-5.0): Remove, when all supported servers can handle the
+//   `user_settings_object` client capability (FL 89).
 export type InitialDataUpdateDisplaySettings = {|
-  -default_language: string,
-  -emojiset: string,
-  -emojiset_choices: $ReadOnly<{| [string]: string |}>,
-  -enter_sends: boolean,
-  -high_contrast_mode: boolean,
-  -left_side_userlist: boolean,
-  -timezone: string,
-  -translate_emoticons: boolean,
-  +twenty_four_hour_time: boolean,
+  // Write-only properties commented out to handle a suspected Flow bug:
+  //   https://github.com/zulip/zulip-mobile/pull/5379#discussion_r871938749
+  //
+  // -default_language?: string,
+  // -emojiset?: string,
+  // -emojiset_choices?: $ReadOnly<{| [string]: string |}>,
+  // -enter_sends?: boolean,
+  // -high_contrast_mode?: boolean,
+  // -left_side_userlist?: boolean,
+  // -timezone?: string,
+  // -translate_emoticons?: boolean,
+  +twenty_four_hour_time?: boolean,
 |};
 
-// TODO(#4933): Deprecated; remove current uses and don't add more
+// Deprecated. Use only as fallback for InitialDataUserSettings, new in 5.0.
+//
+// All properties optional. They will be present from servers that don't
+// support the user_settings_object client capability, and absent from those
+// that do. (We declare the capability.) See doc on each property:
+//   https://zulip.com/api/register-queue
+//   > Present if `update_global_notifications` is present in `fetch_event_types`
+//   > and only for clients that did not include `user_settings_object` in
+//   > their `client_capabilities` when registering the event queue.
+// and see
+//   https://zulip.com/api/register-queue#parameter-client_capabilities .
+// TODO(server-5.0): Remove, when all supported servers can handle the
+//   `user_settings_object` client capability (FL 89).
 export type InitialDataUpdateGlobalNotifications = {|
-  -enable_desktop_notifications: boolean,
-  -enable_digest_emails: boolean,
-  -enable_offline_email_notifications: boolean,
-  +enable_offline_push_notifications: boolean,
-  +enable_online_push_notifications: boolean,
-  -enable_sounds: boolean,
-  -enable_stream_desktop_notifications: boolean,
-  -enable_stream_email_notifications: boolean,
-  +enable_stream_push_notifications: boolean,
-  -message_content_in_email_notifications: boolean,
-  -pm_content_in_desktop_notifications: boolean,
-  -realm_name_in_notifications: boolean,
+  // Write-only properties commented out to handle a suspected Flow bug:
+  //   https://github.com/zulip/zulip-mobile/pull/5379#discussion_r871938749
+  //
+  // -enable_desktop_notifications?: boolean,
+  // -enable_digest_emails?: boolean,
+  // -enable_offline_email_notifications?: boolean,
+  +enable_offline_push_notifications?: boolean,
+  +enable_online_push_notifications?: boolean,
+  // -enable_sounds?: boolean,
+  // -enable_stream_desktop_notifications?: boolean,
+  // -enable_stream_email_notifications?: boolean,
+  +enable_stream_push_notifications?: boolean,
+  // -message_content_in_email_notifications?: boolean,
+  // -pm_content_in_desktop_notifications?: boolean,
+  // -realm_name_in_notifications?: boolean,
 |};
 
 export type StreamUnreadItem = $ReadOnly<{|

@@ -158,6 +158,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
 
     case 'restart':
     case 'stream':
+    case 'user_settings':
       return {
         type: EVENT,
         event,
@@ -176,9 +177,13 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
     case 'muted_users':
     case 'realm_emoji':
     case 'submessage':
-    case 'update_global_notifications':
+
+    // TODO(server-5.0): Remove these two when all supported servers can
+    //   handle the `user_settings_object` client capability (FL 89).
+    case 'update_global_notifications': // eslint-disable-line no-fallthrough
     case 'update_display_settings':
-    case 'user_status':
+
+    case 'user_status': // eslint-disable-line no-fallthrough
       return {
         ...event,
         type: actionTypeOfEventType[event.type],
@@ -336,10 +341,6 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         ...event,
         type: opToActionUserGroup[event.op],
       };
-
-    case 'user_settings':
-      // TODO(#4933): Start handling these `user_settings` events.
-      return null;
 
     case 'pointer':
       // Ignore these `pointer` events.  We've never used this information.

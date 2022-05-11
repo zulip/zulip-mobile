@@ -4,7 +4,9 @@ import {
   SET_GLOBAL_SETTINGS,
   REGISTER_COMPLETE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+  EVENT,
 } from '../actionConstants';
+import { EventTypes } from '../api/eventTypes';
 import { ensureUnreachable } from '../types';
 
 const initialState: SettingsState = {
@@ -20,15 +22,31 @@ const initialState: SettingsState = {
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
   switch (action.type) {
-    case REGISTER_COMPLETE:
-      return {
-        ...state,
+    case REGISTER_COMPLETE: {
+      const { data } = action;
 
-        // TODO(#4933): Use modern `user_settings` object for these
-        offlineNotification: action.data.enable_offline_push_notifications,
-        onlineNotification: action.data.enable_online_push_notifications,
-        streamNotification: action.data.enable_stream_push_notifications,
-      };
+      if (data.user_settings) {
+        return {
+          ...state,
+          offlineNotification: data.user_settings.enable_offline_push_notifications,
+          onlineNotification: data.user_settings.enable_online_push_notifications,
+          streamNotification: data.user_settings.enable_stream_push_notifications,
+        };
+      } else {
+        // Fall back to InitialDataUpdateDisplaySettings for servers that
+        // don't support the user_settings_object client capability.
+        return {
+          ...state,
+          /* $FlowIgnore[incompatible-cast]: If `user_settings` is absent,
+             this will be present. */
+          offlineNotification: (action.data.enable_offline_push_notifications: boolean),
+          // $FlowIgnore[incompatible-cast]
+          onlineNotification: (action.data.enable_online_push_notifications: boolean),
+          // $FlowIgnore[incompatible-cast]
+          streamNotification: (action.data.enable_stream_push_notifications: boolean),
+        };
+      }
+    }
 
     case SET_GLOBAL_SETTINGS:
       return {
@@ -48,6 +66,38 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
           ensureUnreachable(action.notification_name);
           return state;
       }
+
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.user_settings:
+          if (event.op === 'update') {
+            const { property, value } = event;
+            switch (property) {
+              case 'enable_offline_push_notifications': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, offlineNotification: (value: boolean) };
+              }
+              case 'enable_online_push_notifications': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, onlineNotification: (value: boolean) };
+              }
+              case 'enable_stream_push_notifications': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, streamNotification: (value: boolean) };
+              }
+
+              default:
+                return state;
+            }
+          }
+
+          return state;
+
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;

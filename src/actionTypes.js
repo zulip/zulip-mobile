@@ -67,6 +67,7 @@ import type {
   StreamEvent,
   RealmUpdateEvent,
   RealmUpdateDictEvent,
+  UserSettingsUpdateEvent,
   SubmessageEvent,
   RestartEvent,
   UpdateMessageEvent,
@@ -269,6 +270,8 @@ type EventRealmFiltersAction = $ReadOnly<{|
   realm_filters: $ReadOnlyArray<RealmFilter>,
 |}>;
 
+// TODO(server-5.0): Remove, when all supported servers can handle the
+//   `user_settings_object` client capability (FL 89).
 type EventUpdateGlobalNotificationsSettingsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
@@ -324,7 +327,12 @@ type EventSubscriptionPeerRemoveAction = $ReadOnly<{|
 
 type GenericEventAction = $ReadOnly<{|
   type: typeof EVENT,
-  event: StreamEvent | RestartEvent | RealmUpdateEvent | RealmUpdateDictEvent,
+  event:
+    | StreamEvent
+    | RestartEvent
+    | RealmUpdateEvent
+    | RealmUpdateDictEvent
+    | UserSettingsUpdateEvent,
 |}>;
 
 type EventNewMessageAction = $ReadOnly<{|
@@ -479,6 +487,8 @@ type EventRealmEmojiUpdateAction = $ReadOnly<{|
   realm_emoji: RealmEmojiById,
 |}>;
 
+// TODO(server-5.0): Remove, when all supported servers can handle the
+//   `user_settings_object` client capability (FL 89).
 type EventUpdateDisplaySettingsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_UPDATE_DISPLAY_SETTINGS,

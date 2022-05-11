@@ -1,13 +1,17 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
+import type { RealmState } from '../../types';
 import realmReducer from '../realmReducer';
 import {
   ACCOUNT_SWITCH,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
+  EVENT,
 } from '../../actionConstants';
+import type { UserSettings } from '../../api/initialDataTypes';
+import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('realmReducer', () => {
@@ -46,11 +50,12 @@ describe('realmReducer', () => {
         crossRealmBots: action.data.cross_realm_bots,
 
         //
-        // InitialDataUpdateDisplaySettings. Deprecated!
+        // InitialDataUserSettings
         //
-        // TODO(#4933): Use modern `user_settings` object for these.
 
-        twentyFourHourTime: action.data.twenty_four_hour_time,
+        /* $FlowIgnore[incompatible-use] - testing modern servers, which
+           send user_settings. */
+        twentyFourHourTime: action.data.user_settings.twenty_four_hour_time,
       });
     });
   });
@@ -186,6 +191,47 @@ describe('realmReducer', () => {
       const newState = realmReducer(initialState, action);
 
       expect(newState).toEqual(expectedState);
+    });
+  });
+
+  describe('EVENT', () => {
+    describe('type `user_settings`, op `update`', () => {
+      const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
+
+      const mkCheck = <S: $Keys<RealmState>, E: $Keys<UserSettings>>(
+        statePropertyName: S,
+        eventPropertyName: E,
+      ): (($ElementType<RealmState, S>, $ElementType<UserSettings, E>) => void) => (
+        initialStateValue,
+        eventValue,
+      ) => {
+        const initialState = { ...eg.plusReduxState.realm };
+        // $FlowFixMe[prop-missing]
+        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+           right kind of value for its chosen key. */
+        initialState[statePropertyName] = initialStateValue;
+
+        const expectedState = { ...initialState };
+        // $FlowFixMe[prop-missing]
+        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+           right kind of value for its chosen key. */
+        expectedState[statePropertyName] = eventValue;
+
+        expect(
+          realmReducer(initialState, {
+            type: EVENT,
+            event: { ...eventCommon, property: eventPropertyName, value: eventValue },
+          }),
+        ).toEqual(expectedState);
+      };
+
+      describe('twentyFourHourTime / twenty_four_hour_time', () => {
+        const check = mkCheck('twentyFourHourTime', 'twenty_four_hour_time');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
     });
   });
 });

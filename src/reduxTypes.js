@@ -304,9 +304,8 @@ export type RealmState = $ReadOnly<{|
   crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
 
   //
-  // InitialDataUpdateDisplaySettings. Deprecated!
+  // InitialDataUserSettings
   //
-  // TODO(#4933): Use modern `user_settings` object for these.
 
   twentyFourHourTime: boolean,
 |}>;

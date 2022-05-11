@@ -124,6 +124,7 @@ export default async (
       notification_settings_null: true,
       bulk_message_deletion: true,
       user_avatar_url_field_optional: true,
+      user_settings_object: true,
     }),
     include_subscribers: false,
     fetch_event_types: JSON.stringify([
@@ -143,8 +144,12 @@ export default async (
       'recent_private_conversations',
       'stream',
       'subscription',
+
+      // TODO(server-5.0): Remove these two when all supported servers can
+      //   handle the `user_settings_object` client capability (FL 89).
       'update_display_settings',
       'update_global_notifications',
+
       'update_message_flags',
       'user_settings',
       'user_status',

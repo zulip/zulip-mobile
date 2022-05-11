@@ -50,9 +50,8 @@ const initialState = {
   crossRealmBots: [],
 
   //
-  // InitialDataUpdateDisplaySettings. Deprecated!
+  // InitialDataUserSettings
   //
-  // TODO(#4933): Use modern `user_settings` object for these.
 
   twentyFourHourTime: false,
 };
@@ -125,11 +124,16 @@ export default (
         crossRealmBots: action.data.cross_realm_bots,
 
         //
-        // InitialDataUpdateDisplaySettings. Deprecated!
+        // InitialDataUserSettings
         //
-        // TODO(#4933): Use modern `user_settings` object for these.
 
-        twentyFourHourTime: action.data.twenty_four_hour_time,
+        twentyFourHourTime:
+          action.data.user_settings?.twenty_four_hour_time
+          // Fall back to InitialDataUpdateDisplaySettings for servers that
+          // don't support the user_settings_object client capability.
+          /* $FlowIgnore[incompatible-cast]: If `user_settings` is absent,
+             this will be present. */
+          ?? (action.data.twenty_four_hour_time: boolean),
       };
     }
 
@@ -175,6 +179,22 @@ export default (
 
           // (We've converted any `op: 'update'` events to
           //   `op: 'update_dict'` events near the edge.)
+          return state;
+
+        case EventTypes.user_settings:
+          if (event.op === 'update') {
+            const { property, value } = event;
+            switch (property) {
+              case 'twenty_four_hour_time': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, twentyFourHourTime: (value: boolean) };
+              }
+
+              default:
+                return state;
+            }
+          }
+
           return state;
 
         default:
