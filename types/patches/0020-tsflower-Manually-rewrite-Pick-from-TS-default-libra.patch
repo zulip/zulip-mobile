@@ -29,7 +29,7 @@ first argument?
  5 files changed, 67 insertions(+), 154 deletions(-)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/useNavigationBuilder.js.flow b/types/@react-navigation/core/lib/typescript/src/useNavigationBuilder.js.flow
-index 0c9c167c3..df244f7fb 100644
+index 081a20a79..c07a899ba 100644
 --- a/types/@react-navigation/core/lib/typescript/src/useNavigationBuilder.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/useNavigationBuilder.js.flow
 @@ -1,6 +1,7 @@
@@ -40,7 +40,7 @@ index 0c9c167c3..df244f7fb 100644
  import type { NavigationProp as $tsflower_import_type$_$_2e__2f_types$NavigationProp } from './types';
  import type { EventEmitter as $tsflower_import_type$_$_2e__2f_types$EventEmitter } from './types';
  import type { EventConsumer as $tsflower_import_type$_$_2e__2f_types$EventConsumer } from './types';
-@@ -317,12 +318,12 @@ declare export default function useNavigationBuilder<
+@@ -315,12 +316,12 @@ declare export default function useNavigationBuilder<
      >,
    },
    NavigationContent: (
@@ -59,7 +59,7 @@ diff --git a/types/@react-navigation/native/lib/typescript/src/useLinking.js.flo
 index 66bfb1f4d..19a797a4a 100644
 --- a/types/@react-navigation/native/lib/typescript/src/useLinking.js.flow
 +++ b/types/@react-navigation/native/lib/typescript/src/useLinking.js.flow
-@@ -16,70 +16,32 @@ declare export default function useLinking(
+@@ -16,33 +16,14 @@ declare export default function useLinking(
  ): {
    getInitialState: () => PromiseLike<
      | (Partial<
@@ -101,10 +101,7 @@ index 66bfb1f4d..19a797a4a 100644
        > &
          Readonly<{
            stale?: true | void,
-           routes: $tsflower_import_type$_$_40_react_2d_navigation_2f_core$PartialRoute<
-             $tsflower_import_type$_$_40_react_2d_navigation_2f_core$Route<string, { ... } | void>,
-           >[],
-           ...
+@@ -53,33 +34,14 @@ declare export default function useLinking(
          }> & {
            state?:
              | (Partial<
@@ -150,7 +147,7 @@ diff --git a/types/@react-navigation/native/lib/typescript/src/useLinking.native
 index 66bfb1f4d..19a797a4a 100644
 --- a/types/@react-navigation/native/lib/typescript/src/useLinking.native.js.flow
 +++ b/types/@react-navigation/native/lib/typescript/src/useLinking.native.js.flow
-@@ -16,70 +16,32 @@ declare export default function useLinking(
+@@ -16,33 +16,14 @@ declare export default function useLinking(
  ): {
    getInitialState: () => PromiseLike<
      | (Partial<
@@ -192,10 +189,7 @@ index 66bfb1f4d..19a797a4a 100644
        > &
          Readonly<{
            stale?: true | void,
-           routes: $tsflower_import_type$_$_40_react_2d_navigation_2f_core$PartialRoute<
-             $tsflower_import_type$_$_40_react_2d_navigation_2f_core$Route<string, { ... } | void>,
-           >[],
-           ...
+@@ -53,33 +34,14 @@ declare export default function useLinking(
          }> & {
            state?:
              | (Partial<
@@ -238,7 +232,7 @@ index 66bfb1f4d..19a797a4a 100644
                  Readonly<{
                    stale?: true | void,
 diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
-index 746d3b1f7..e5f878945 100644
+index d7bdf0f5e..cce94da4b 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 @@ -1,6 +1,7 @@
@@ -249,7 +243,7 @@ index 746d3b1f7..e5f878945 100644
  import type { PartialState as $tsflower_import_type$_$_2e__2f_types$PartialState } from './types';
  import type { Readonly } from 'tsflower/subst/lib';
  
-@@ -160,31 +161,21 @@ declare export default function StackRouter(
+@@ -158,31 +159,21 @@ declare export default function StackRouter(options: StackRouterOptions): Router
                ...
              }>,
            >
@@ -297,7 +291,7 @@ index 746d3b1f7..e5f878945 100644
        source?: string | void,
        target?: string | void,
 diff --git a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
-index 99c02f62b..eca6ce9be 100644
+index 4fa8ed1ca..db3326e84 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 @@ -1,6 +1,7 @@
@@ -308,7 +302,7 @@ index 99c02f62b..eca6ce9be 100644
  import type { Extract, Readonly } from 'tsflower/subst/lib';
  
  import {
-@@ -121,25 +122,21 @@ declare export default function TabRouter(
+@@ -119,25 +120,21 @@ declare export default function TabRouter(TabRouterOptions): Router<
                ...
              }>,
            >
@@ -350,5 +344,5 @@ index 99c02f62b..eca6ce9be 100644
        source?: string | void,
        target?: string | void,
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

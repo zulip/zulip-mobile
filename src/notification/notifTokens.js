@@ -28,34 +28,32 @@ import * as logging from '../utils/logging';
  *
  * Returns null (and logs a warning or error) if getting the token failed.
  */
-export const androidGetToken = (): GlobalThunkAction<Promise<mixed>> => async (
-  dispatch,
-  getState,
-) => {
-  try {
-    return await NativeModules.Notifications.getToken();
-  } catch (e) {
-    // `getToken` failed.  That happens sometimes, apparently including
-    // due to network errors: see #5061.  In that case all will be well
-    // if the user later launches the app while on a working network.
-    //
-    // But maybe this can happen in other, non-transient situations too.
-    // Log it so we can hope to find out if that's happening.
-    const ackedPushTokens = getAccounts(getState()).map(a => a.ackedPushToken);
-    if (ackedPushTokens.some(t => t !== null) || ackedPushTokens.length === 0) {
-      // It's probably a transient issue: we've previously gotten a
-      // token (that we've even successfully sent to a server), or else
-      // we have no accounts at all so we haven't had a chance to do so.
-      logging.warn(`notif: getToken failed, but looks transient: ${e.message}`);
-    } else {
-      // Might not be transient!  The user might be persistently unable
-      // to get push notifications.
-      logging.error(`notif: getToken failed, seems persistent: ${e.message}`);
-    }
+export const androidGetToken =
+  (): GlobalThunkAction<Promise<mixed>> => async (dispatch, getState) => {
+    try {
+      return await NativeModules.Notifications.getToken();
+    } catch (e) {
+      // `getToken` failed.  That happens sometimes, apparently including
+      // due to network errors: see #5061.  In that case all will be well
+      // if the user later launches the app while on a working network.
+      //
+      // But maybe this can happen in other, non-transient situations too.
+      // Log it so we can hope to find out if that's happening.
+      const ackedPushTokens = getAccounts(getState()).map(a => a.ackedPushToken);
+      if (ackedPushTokens.some(t => t !== null) || ackedPushTokens.length === 0) {
+        // It's probably a transient issue: we've previously gotten a
+        // token (that we've even successfully sent to a server), or else
+        // we have no accounts at all so we haven't had a chance to do so.
+        logging.warn(`notif: getToken failed, but looks transient: ${e.message}`);
+      } else {
+        // Might not be transient!  The user might be persistently unable
+        // to get push notifications.
+        logging.error(`notif: getToken failed, seems persistent: ${e.message}`);
+      }
 
-    return null;
-  }
-};
+      return null;
+    }
+  };
 
 /**
  * Try to cause a `remoteNotificationsRegistered` event.
@@ -129,10 +127,11 @@ const ackPushToken = (pushToken: string, identity: Identity): AllAccountsAction 
 });
 
 /** Tell the given server about this device token, if it doesn't already know. */
-const sendPushToken = (
-  account: Account | void,
-  pushToken: string,
-): GlobalThunkAction<Promise<void>> & ThunkAction<Promise<void>> =>
+const sendPushToken =
+  (
+    account: Account | void,
+    pushToken: string,
+  ): GlobalThunkAction<Promise<void>> & ThunkAction<Promise<void>> =>
   // Why both GlobalThunkAction and ThunkAction?  Well, this function is
   // per-account... but whereas virtually all our other per-account code is
   // implicitly about the active account, this is about a specific account
@@ -155,32 +154,34 @@ const sendPushToken = (
   };
 
 /** Tell this account's server about our device token, if needed. */
-export const initNotifications = (): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-  { getGlobalSession }, // eslint-disable-line no-shadow
-) => {
-  const { pushToken } = getGlobalSession();
-  if (pushToken === null) {
-    // Probably, we just don't have the token yet.  When we learn it,
-    // the listener will update this and all other logged-in servers.
-    // Try to learn it.
-    //
-    // Or, if we *have* gotten something for the token and it was
-    // `null`, we're probably on Android; see note on
-    // `SessionState.pushToken`. It's harmless to call
-    // `getNotificationToken` in that case; it does nothing on
-    // Android.
-    //
-    // On iOS this is normal because getting the token may involve
-    // showing the user a permissions modal, so we defer that until
-    // this point.
-    getNotificationToken();
-    return;
-  }
-  const account = getAccount(getState());
-  await dispatch(sendPushToken(account, pushToken));
-};
+export const initNotifications =
+  (): ThunkAction<Promise<void>> =>
+  async (
+    dispatch,
+    getState,
+    { getGlobalSession }, // eslint-disable-line no-shadow
+  ) => {
+    const { pushToken } = getGlobalSession();
+    if (pushToken === null) {
+      // Probably, we just don't have the token yet.  When we learn it,
+      // the listener will update this and all other logged-in servers.
+      // Try to learn it.
+      //
+      // Or, if we *have* gotten something for the token and it was
+      // `null`, we're probably on Android; see note on
+      // `SessionState.pushToken`. It's harmless to call
+      // `getNotificationToken` in that case; it does nothing on
+      // Android.
+      //
+      // On iOS this is normal because getting the token may involve
+      // showing the user a permissions modal, so we defer that until
+      // this point.
+      getNotificationToken();
+      return;
+    }
+    const account = getAccount(getState());
+    await dispatch(sendPushToken(account, pushToken));
+  };
 
 /** Tell all logged-in accounts' servers about our device token, as needed. */
 const sendAllPushToken = (): GlobalThunkAction<Promise<void>> => async (dispatch, getState) => {
@@ -199,27 +200,27 @@ const sendAllPushToken = (): GlobalThunkAction<Promise<void>> => async (dispatch
  *   at the registration site to allow us to ensure it. As we've been burned
  *   by unexpected types here before, we do the validation explicitly.
  */
-export const handleDeviceToken = (
-  deviceToken: mixed,
-): GlobalThunkAction<Promise<void>> => async dispatch => {
-  // Null device tokens are known to occur (at least) on Android emulators
-  // without Google Play services, and have been reported in other scenarios.
-  // See https://stackoverflow.com/q/37517860 for relevant discussion.
-  //
-  // Otherwise, a device token should be some (platform-dependent and largely
-  // unspecified) flavor of string.
-  if (deviceToken !== null && typeof deviceToken !== 'string') {
-    /* $FlowFixMe[incompatible-type]: `deviceToken` probably _is_
+export const handleDeviceToken =
+  (deviceToken: mixed): GlobalThunkAction<Promise<void>> =>
+  async dispatch => {
+    // Null device tokens are known to occur (at least) on Android emulators
+    // without Google Play services, and have been reported in other scenarios.
+    // See https://stackoverflow.com/q/37517860 for relevant discussion.
+    //
+    // Otherwise, a device token should be some (platform-dependent and largely
+    // unspecified) flavor of string.
+    if (deviceToken !== null && typeof deviceToken !== 'string') {
+      /* $FlowFixMe[incompatible-type]: `deviceToken` probably _is_
          JSONable, but we can only hope. */
-    const token: JSONable = deviceToken;
-    logging.error('Received invalid device token', { token });
-    // Take no further action.
-    return;
-  }
+      const token: JSONable = deviceToken;
+      logging.error('Received invalid device token', { token });
+      // Take no further action.
+      return;
+    }
 
-  dispatch(gotPushToken(deviceToken));
-  await dispatch(sendAllPushToken());
-};
+    dispatch(gotPushToken(deviceToken));
+    await dispatch(sendAllPushToken());
+  };
 
 /** Ask this account's server to stop sending notifications to this device. */
 // TODO: We don't call this in enough situations: see #3469.
@@ -228,18 +229,16 @@ export const handleDeviceToken = (
 // you should be able to log in from elsewhere and cut the device off from
 // your account, including notifications, even when you don't have the
 // device in your possession.  That's zulip/zulip#17939.
-export const tryStopNotifications = (): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
-  const auth = getAuth(getState());
-  const { ackedPushToken } = getAccount(getState());
-  if (ackedPushToken !== null) {
-    dispatch(unackPushToken(identityOfAuth(auth)));
-    try {
-      await api.forgetPushToken(auth, Platform.OS, ackedPushToken);
-    } catch (e) {
-      logging.warn(e);
+export const tryStopNotifications =
+  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+    const auth = getAuth(getState());
+    const { ackedPushToken } = getAccount(getState());
+    if (ackedPushToken !== null) {
+      dispatch(unackPushToken(identityOfAuth(auth)));
+      try {
+        await api.forgetPushToken(auth, Platform.OS, ackedPushToken);
+      } catch (e) {
+        logging.warn(e);
+      }
     }
-  }
-};
+  };

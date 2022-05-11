@@ -58,8 +58,7 @@ export default function PushNotifsSetupBanner(props: Props): Node {
     visible = true;
     text = isAtLeastAdmin
       ? {
-          text:
-            'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',
+          text: 'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',
           values: { realm: realm.toString() },
         }
       : {

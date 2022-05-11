@@ -48,7 +48,7 @@ index 36bc57918..1c02714a5 100644
    tabBarAccessibilityLabel?: string,
    tabBarTestID?: string,
    ...
-@@ -88,30 +89,30 @@ export type MaterialTopTabDescriptorMap = { [key: string]: MaterialTopTabDescrip
+@@ -88,7 +89,7 @@ export type MaterialTopTabDescriptorMap = { [key: string]: MaterialTopTabDescrip
  
  export type MaterialTopTabNavigationConfig = Partial<
    $Diff<
@@ -57,12 +57,7 @@ index 36bc57918..1c02714a5 100644
      {|
        navigationState: mixed,
        onIndexChange: mixed,
-       onSwipeStart: mixed,
-       onSwipeEnd: mixed,
-       renderScene: mixed,
-       renderTabBar: mixed,
-       renderPager: mixed,
-       renderLazyPlaceholder: mixed,
+@@ -101,9 +102,9 @@ export type MaterialTopTabNavigationConfig = Partial<
      |},
    >,
  > & {
@@ -75,7 +70,7 @@ index 36bc57918..1c02714a5 100644
    tabBarOptions?: MaterialTopTabBarOptions,
    tabBarPosition?: 'top' | 'bottom',
    ...
- };
+@@ -111,7 +112,7 @@ export type MaterialTopTabNavigationConfig = Partial<
  
  export type MaterialTopTabBarOptions = Partial<
    $Diff<
@@ -85,5 +80,5 @@ index 36bc57918..1c02714a5 100644
        [key:
          | 'navigationState'
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

@@ -111,14 +111,12 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                       };
                     case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
                       return {
-                        text:
-                          '{realmName} only allows organization administrators or owners to make web-public streams.',
+                        text: '{realmName} only allows organization administrators or owners to make web-public streams.',
                         values: { realmName },
                       };
                     case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
                       return {
-                        text:
-                          '{realmName} only allows organization moderators, administrators, or owners to make web-public streams.',
+                        text: '{realmName} only allows organization moderators, administrators, or owners to make web-public streams.',
                         values: { realmName },
                       };
                     default: {

@@ -155,9 +155,8 @@ export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
 // TODO(?): Could deduplicate with the other getCanCreate*Streams; see
 //     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
-  const { webPublicStreamsEnabled, enableSpectatorAccess, createWebPublicStreamPolicy } = getRealm(
-    state,
-  );
+  const { webPublicStreamsEnabled, enableSpectatorAccess, createWebPublicStreamPolicy } =
+    getRealm(state);
   const role = getOwnUserRole(state);
 
   if (!webPublicStreamsEnabled || !enableSpectatorAccess) {

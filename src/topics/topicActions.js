@@ -13,40 +13,37 @@ export const initTopics = (topics: $ReadOnlyArray<Topic>, streamId: number): Per
   streamId,
 });
 
-export const fetchTopics = (streamId: number): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
-  const auth = getAuth(getState());
-  const { topics } = await api.getTopics(auth, streamId);
-  dispatch(initTopics(topics, streamId));
-};
+export const fetchTopics =
+  (streamId: number): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    const auth = getAuth(getState());
+    const { topics } = await api.getTopics(auth, streamId);
+    dispatch(initTopics(topics, streamId));
+  };
 
-export const fetchTopicsForStream = (narrow: Narrow): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
-  if (!isStreamNarrow(narrow)) {
-    return;
-  }
-  dispatch(fetchTopics(streamIdOfNarrow(narrow)));
-};
-
-export const deleteMessagesForTopic = (
-  streamId: number,
-  topic: string,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const state = getState();
-  const outbox = getOutbox(state);
-
-  outbox.forEach((outboxMessage: Outbox) => {
-    if (
-      outboxMessage.type === 'stream'
-      && outboxMessage.stream_id === streamId
-      && outboxMessage.subject === topic
-    ) {
-      dispatch(deleteOutboxMessage(outboxMessage.id));
+export const fetchTopicsForStream =
+  (narrow: Narrow): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    if (!isStreamNarrow(narrow)) {
+      return;
     }
-  });
-  await api.deleteTopic(getAuth(state), streamId, topic);
-};
+    dispatch(fetchTopics(streamIdOfNarrow(narrow)));
+  };
+
+export const deleteMessagesForTopic =
+  (streamId: number, topic: string): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    const state = getState();
+    const outbox = getOutbox(state);
+
+    outbox.forEach((outboxMessage: Outbox) => {
+      if (
+        outboxMessage.type === 'stream'
+        && outboxMessage.stream_id === streamId
+        && outboxMessage.subject === topic
+      ) {
+        dispatch(deleteOutboxMessage(outboxMessage.id));
+      }
+    });
+    await api.deleteTopic(getAuth(state), streamId, topic);
+  };

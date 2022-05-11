@@ -11,9 +11,7 @@ type Options = {
   ...
 };
 
-declare export default function useOptionsGetters(
-  Options,
-): {
+declare export default function useOptionsGetters(Options): {
   addOptionsGetter: (key: string, getter: () => { ... } | void | null) => () => void,
   getCurrentOptions: () => { ... } | null | void,
   ...

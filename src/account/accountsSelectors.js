@@ -25,10 +25,10 @@ export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
  * This should be used in preference to `getAccounts` where we don't
  * actually need the API keys, but just need to know whether we have them.
  */
-export const getAccountStatuses: GlobalSelector<
-  $ReadOnlyArray<AccountStatus>,
-> = createSelector(getAccounts, accounts =>
-  accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+export const getAccountStatuses: GlobalSelector<$ReadOnlyArray<AccountStatus>> = createSelector(
+  getAccounts,
+  accounts =>
+    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
 );
 
 /** The list of known accounts, reduced to `Identity`. */

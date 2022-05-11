@@ -27,7 +27,7 @@ index d3c2017d4..3bc615faa 100644
    ParamList,
    RouteName,
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index 1e26183cb..91a0f4541 100644
+index 41f13ea18..ccdd92d43 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -126,7 +126,7 @@ export type EventEmitter<EventMap: EventMapBase> = {
@@ -48,7 +48,7 @@ index 1e26183cb..91a0f4541 100644
    State: NavigationState<> = NavigationState<>,
  > = {
    dispatch(action: NavigationAction | ((state: State) => NavigationAction)): void,
-@@ -200,19 +200,19 @@ export type NavigationContainerProps = {
+@@ -200,8 +200,8 @@ export type NavigationContainerProps = {
  };
  
  export type NavigationProp<
@@ -59,10 +59,7 @@ index 1e26183cb..91a0f4541 100644
    State: NavigationState<ParamList> = NavigationState<ParamList>,
    ScreenOptions: { ... } = { ... },
    EventMap: EventMapBase = EventMapBase,
- > = NavigationHelpersCommon<ParamList, State> & {
-   setParams(params: Partial<$ElementType<ParamList, RouteName>>): void,
-   setOptions(options: Partial<ScreenOptions>): void,
-   ...
+@@ -212,7 +212,7 @@ export type NavigationProp<
  } & EventConsumer<EventMap & EventMapCore<State>> &
    PrivateValueStore<ParamList, RouteName, EventMap>;
  
@@ -85,7 +82,7 @@ index cf53d769d..8d2ea317f 100644
    ParamList,
    RouteName,
 diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-index 45fb02599..4b0964c14 100644
+index ea0e29c32..6a0de188b 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -4,12 +4,12 @@
@@ -135,5 +132,5 @@ index 94ea2dee5..da137e97a 100644
    ParamList,
    RouteName,
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

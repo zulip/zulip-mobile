@@ -66,8 +66,8 @@ export default function TopicItem(props: Props): Node {
     onPress,
   } = props;
 
-  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
-    .showActionSheetWithOptions;
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
   const dispatch = useDispatch();
   const backgroundData = useSelector(state => ({

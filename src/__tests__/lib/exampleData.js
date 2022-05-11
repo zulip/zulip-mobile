@@ -142,9 +142,10 @@ const makeAvatarUrl = (tag: string) =>
   // here with a full-blown URL object in the first place to prevent that.
   new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${tag}.png`));
 
-const randUserId: () => UserId = (mk => () => makeUserId(mk()))(
-  makeUniqueRandInt('user IDs', 10000),
-);
+const randUserId: () => UserId = (
+  mk => () =>
+    makeUserId(mk())
+)(makeUniqueRandInt('user IDs', 10000));
 const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
   const user_id = args.user_id != null ? makeUserId(args.user_id) : randUserId();
   const randName = randString();
@@ -152,9 +153,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     avatar_url: args.avatar_url ?? makeAvatarUrl(user_id.toString()),
     avatar_version: 0,
 
-    date_joined: `2014-04-${randInt(30)
-      .toString()
-      .padStart(2, '0')}`,
+    date_joined: `2014-04-${randInt(30).toString().padStart(2, '0')}`,
 
     email: args.email ?? `${randName}@example.org`,
     full_name: args.full_name ?? `${randName} User`,

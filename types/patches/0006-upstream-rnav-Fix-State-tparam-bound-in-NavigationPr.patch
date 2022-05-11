@@ -10,7 +10,7 @@ not some other.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index c9a644412..1e26183cb 100644
+index e3dd9a0d0..41f13ea18 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -202,7 +202,7 @@ export type NavigationContainerProps = {
@@ -23,5 +23,5 @@ index c9a644412..1e26183cb 100644
    EventMap: EventMapBase = EventMapBase,
  > = NavigationHelpersCommon<ParamList, State> & {
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

@@ -26,7 +26,7 @@ type Options<State: NavigationState<>> = {
 
 type NavigationCache<State: NavigationState<>, ScreenOptions: { ... }> = {
   [key: string]: NavigationProp<ParamListBase, string, State, ScreenOptions>,
-  ...,
+  ...
 };
 declare export default function useNavigationCache<
   State: NavigationState<>,

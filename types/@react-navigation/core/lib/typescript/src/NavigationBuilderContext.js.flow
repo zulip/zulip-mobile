@@ -37,9 +37,7 @@ export type ChildActionListener = (
 ) => boolean;
 export type FocusedNavigationCallback<T> = (navigation: NavigationHelpers<ParamListBase>) => T;
 
-export type FocusedNavigationListener = <T>(
-  callback: FocusedNavigationCallback<T>,
-) => {
+export type FocusedNavigationListener = <T>(callback: FocusedNavigationCallback<T>) => {
   handled: boolean,
   result: T,
   ...

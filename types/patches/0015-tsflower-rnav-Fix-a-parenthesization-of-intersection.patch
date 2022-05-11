@@ -12,7 +12,7 @@ So that's a TsFlower bug.  Probably ultimately a Recast bug.
  1 file changed, 24 insertions(+), 23 deletions(-)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index a96ec6c0d..e319b03e1 100644
+index 1421d39dd..cb0af945e 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -268,32 +268,32 @@ export type RouteConfig<
@@ -81,5 +81,5 @@ index a96ec6c0d..e319b03e1 100644
  export type NavigationContainerEventMap = {|
    state: {| data: { state: NavigationState<> | PartialState<NavigationState<>> | void, ... } |},
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

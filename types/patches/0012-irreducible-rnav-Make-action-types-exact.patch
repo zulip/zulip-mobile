@@ -38,7 +38,7 @@ index dcd559b0a..054215538 100644
  declare export function goBack(): Action;
  
 diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
-index ba5e5e532..746d3b1f7 100644
+index 3bd89b8ce..d7bdf0f5e 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 @@ -12,7 +12,7 @@ import {
@@ -61,5 +61,5 @@ index ba5e5e532..746d3b1f7 100644
  export type StackRouterOptions = DefaultRouterOptions<>;
  export type StackNavigationState<ParamList: ParamListBase> = NavigationState<ParamList> & {
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

@@ -35,9 +35,9 @@ export default (
 
     case EVENT_PRESENCE: {
       // A presence event should have either "active" or "idle" status
-      const isPresenceEventValid = !!objectEntries(
-        action.presence,
-      ).find(([device, devicePresence]) => ['active', 'idle'].includes(devicePresence.status));
+      const isPresenceEventValid = !!objectEntries(action.presence).find(
+        ([device, devicePresence]) => ['active', 'idle'].includes(devicePresence.status),
+      );
       if (!isPresenceEventValid) {
         return state;
       }

@@ -16,10 +16,10 @@ them unconditionally.
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index e319b03e1..9ddf90385 100644
+index cb0af945e..4d918550e 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-@@ -65,17 +65,23 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
+@@ -65,7 +65,11 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
    +type: EventName,
    +target?: string,
    ...
@@ -32,8 +32,7 @@ index e319b03e1..9ddf90385 100644
      /**
       * Whether `event.preventDefault()` was called on this event object.
       * /
-     readonly defaultPrevented: boolean;
-     /**
+@@ -74,8 +78,10 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
       * Prevent the default action which happens on this event.
       * /
      preventDefault(): void;
@@ -47,5 +46,5 @@ index e319b03e1..9ddf90385 100644
  } : {
      readonly data: Readonly<Data>;
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

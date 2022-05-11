@@ -62,11 +62,11 @@ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<Par
 export type StackActionHelpers<ParamList: ParamListBase> = {
   // prettier-ignore
   replace<RouteName: $Keys<ParamList>>(
-    ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
   ): void,
   // prettier-ignore
   push<RouteName: $Keys<ParamList>>(
-    ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
   ): void,
   pop(count?: number): void,
   popToTop(): void,
@@ -81,9 +81,7 @@ declare export var StackActions: {
   ...
 };
 
-declare export default function StackRouter(
-  options: StackRouterOptions,
-): Router<
+declare export default function StackRouter(options: StackRouterOptions): Router<
   StackNavigationState<{ [key: string]: { ... } | void }>,
   | {
       type: 'GO_BACK',

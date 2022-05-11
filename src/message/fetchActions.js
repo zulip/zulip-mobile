@@ -83,16 +83,8 @@ const messageFetchComplete = (args: {|
   foundOldest: boolean,
   ownUserId: UserId,
 |}): PerAccountAction => {
-  const {
-    messages,
-    narrow,
-    anchor,
-    numBefore,
-    numAfter,
-    foundNewest,
-    foundOldest,
-    ownUserId,
-  } = args;
+  const { messages, narrow, anchor, numBefore, numAfter, foundNewest, foundOldest, ownUserId } =
+    args;
   return {
     type: MESSAGE_FETCH_COMPLETE,
     messages,
@@ -113,108 +105,114 @@ const messageFetchComplete = (args: {|
  * failed network request or any failure to process data and get it
  * stored in Redux. If it rejects, it tells Redux about it.
  */
-export const fetchMessages = (fetchArgs: {|
-  narrow: Narrow,
-  anchor: number,
-  numBefore: number,
-  numAfter: number,
-|}): ThunkAction<Promise<$ReadOnlyArray<Message>>> => async (dispatch, getState) => {
-  dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
-  try {
-    const { messages, found_newest, found_oldest } =
-      // TODO: If `MESSAGE_FETCH_ERROR` isn't the right way to respond
-      // to a timeout, maybe make a new action.
-      // eslint-disable-next-line no-use-before-define
-      await tryFetch(() =>
-        api.getMessages(getAuth(getState()), {
+export const fetchMessages =
+  (fetchArgs: {|
+    narrow: Narrow,
+    anchor: number,
+    numBefore: number,
+    numAfter: number,
+  |}): ThunkAction<Promise<$ReadOnlyArray<Message>>> =>
+  async (dispatch, getState) => {
+    dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
+    try {
+      const { messages, found_newest, found_oldest } =
+        // TODO: If `MESSAGE_FETCH_ERROR` isn't the right way to respond
+        // to a timeout, maybe make a new action.
+        // eslint-disable-next-line no-use-before-define
+        await tryFetch(() =>
+          api.getMessages(getAuth(getState()), {
+            ...fetchArgs,
+            narrow: apiNarrowOfNarrow(
+              fetchArgs.narrow,
+              getAllUsersById(getState()),
+              getStreamsById(getState()),
+            ),
+            useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+          }),
+        );
+      dispatch(
+        messageFetchComplete({
           ...fetchArgs,
-          narrow: apiNarrowOfNarrow(
-            fetchArgs.narrow,
-            getAllUsersById(getState()),
-            getStreamsById(getState()),
-          ),
-          useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+          messages,
+          foundNewest: found_newest,
+          foundOldest: found_oldest,
+          ownUserId: getOwnUserId(getState()),
         }),
       );
-    dispatch(
-      messageFetchComplete({
-        ...fetchArgs,
-        messages,
-        foundNewest: found_newest,
-        foundOldest: found_oldest,
-        ownUserId: getOwnUserId(getState()),
-      }),
-    );
-    return messages;
-  } catch (errorIllTyped) {
-    const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-    dispatch(
-      messageFetchError({
-        narrow: fetchArgs.narrow,
-        error: e,
-      }),
-    );
-    // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
-    logging.warn((e: Error), {
-      message: 'Message-fetch error',
+      return messages;
+    } catch (errorIllTyped) {
+      const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+      dispatch(
+        messageFetchError({
+          narrow: fetchArgs.narrow,
+          error: e,
+        }),
+      );
+      // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
+      logging.warn((e: Error), {
+        message: 'Message-fetch error',
 
-      // Describe the narrow without sending sensitive data to Sentry.
-      narrow: caseNarrow(fetchArgs.narrow, {
-        stream: () => 'stream',
-        topic: () => 'topic',
-        pm: ids => (ids.length > 1 ? 'pm (group)' : 'pm (1:1)'),
-        home: () => 'all',
-        starred: () => 'starred',
-        mentioned: () => 'mentioned',
-        allPrivate: () => 'all-pm',
-        search: () => 'search',
-      }),
+        // Describe the narrow without sending sensitive data to Sentry.
+        narrow: caseNarrow(fetchArgs.narrow, {
+          stream: () => 'stream',
+          topic: () => 'topic',
+          pm: ids => (ids.length > 1 ? 'pm (group)' : 'pm (1:1)'),
+          home: () => 'all',
+          starred: () => 'starred',
+          mentioned: () => 'mentioned',
+          allPrivate: () => 'all-pm',
+          search: () => 'search',
+        }),
 
-      anchor: fetchArgs.anchor,
-      numBefore: fetchArgs.numBefore,
-      numAfter: fetchArgs.numAfter,
-    });
-    throw e;
-  }
-};
+        anchor: fetchArgs.anchor,
+        numBefore: fetchArgs.numBefore,
+        numAfter: fetchArgs.numAfter,
+      });
+      throw e;
+    }
+  };
 
-export const fetchOlder = (narrow: Narrow): ThunkAction<void> => (dispatch, getState) => {
-  const state = getState();
-  const firstMessageId = getFirstMessageId(state, narrow);
-  const caughtUp = getCaughtUpForNarrow(state, narrow);
-  const fetching = getFetchingForNarrow(state, narrow);
-  const { loading } = getSession(state);
+export const fetchOlder =
+  (narrow: Narrow): ThunkAction<void> =>
+  (dispatch, getState) => {
+    const state = getState();
+    const firstMessageId = getFirstMessageId(state, narrow);
+    const caughtUp = getCaughtUpForNarrow(state, narrow);
+    const fetching = getFetchingForNarrow(state, narrow);
+    const { loading } = getSession(state);
 
-  if (!loading && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
-    dispatch(
-      fetchMessages({
-        narrow,
-        anchor: firstMessageId,
-        numBefore: config.messagesPerRequest,
-        numAfter: 0,
-      }),
-    );
-  }
-};
+    if (!loading && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
+      dispatch(
+        fetchMessages({
+          narrow,
+          anchor: firstMessageId,
+          numBefore: config.messagesPerRequest,
+          numAfter: 0,
+        }),
+      );
+    }
+  };
 
-export const fetchNewer = (narrow: Narrow): ThunkAction<void> => (dispatch, getState) => {
-  const state = getState();
-  const lastMessageId = getLastMessageId(state, narrow);
-  const caughtUp = getCaughtUpForNarrow(state, narrow);
-  const fetching = getFetchingForNarrow(state, narrow);
-  const { loading } = getSession(state);
+export const fetchNewer =
+  (narrow: Narrow): ThunkAction<void> =>
+  (dispatch, getState) => {
+    const state = getState();
+    const lastMessageId = getLastMessageId(state, narrow);
+    const caughtUp = getCaughtUpForNarrow(state, narrow);
+    const fetching = getFetchingForNarrow(state, narrow);
+    const { loading } = getSession(state);
 
-  if (!loading && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
-    dispatch(
-      fetchMessages({
-        narrow,
-        anchor: lastMessageId,
-        numBefore: 0,
-        numAfter: config.messagesPerRequest,
-      }),
-    );
-  }
-};
+    if (!loading && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
+      dispatch(
+        fetchMessages({
+          narrow,
+          anchor: lastMessageId,
+          numBefore: 0,
+          numAfter: config.messagesPerRequest,
+        }),
+      );
+    }
+  };
 
 /** Some message ID in the conversation; void if there are none. */
 // This corresponds to web's message_edit.with_first_message_id.  (Note
@@ -250,60 +248,59 @@ const registerAbortPlain = (reason: RegisterAbortReason): PerAccountAction => ({
   reason,
 });
 
-export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
-  dispatch(registerAbortPlain(reason));
-  if (getHaveServerData(getState()) && reason !== 'unexpected') {
-    // Try again, forever if necessary; the user has an interactable UI and
-    // can look at stale data while waiting.
-    //
-    // Do so by lying that the server has told us our queue is invalid and
-    // we need a new one. Note that this must fire *after*
-    // `registerAbortPlain()`, so that AppDataFetcher sees
-    // `needsInitialFetch` go from `false` to `true`. We don't call
-    // `doInitialFetch` directly here because that would go against
-    // `AppDataFetcher`'s implicit interface. (Also, `needsInitialFetch` is
-    // dubiously being read outside `AppDataFetcher`, in
-    // `fetchOlder`/`fetchNewer`, and we don't want to break something
-    // there.)
-    //
-    // TODO: Clean up all this brittle logic.
-    // TODO: Instead, let the retry be on-demand, with a banner.
-    dispatch(deadQueue()); // eslint-disable-line no-use-before-define
-  } else {
-    // Tell the user we've given up and let them try the same account or a
-    // different account from the account picker.
-    showErrorAlert(
-      // TODO: Set up these user-facing strings for translation once
-      // `initialFetchAbort`'s callers all have access to a `GetText`
-      // function. As of adding the strings, the initial fetch is dispatched
-      // from `AppDataFetcher` which isn't a descendant of
-      // `TranslationProvider`.
-      'Connection failed',
-      (() => {
-        const realmStr = getIdentity(getState()).realm.toString();
-        switch (reason) {
-          case 'server':
-            return roleIsAtLeast(getOwnUserRole(getState()), Role.Admin)
-              ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
-              : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
-          case 'network':
-            return `The network request to ${realmStr} failed.`;
-          case 'timeout':
-            return `Gave up trying to connect to ${realmStr} after waiting too long.`;
-          case 'unexpected':
-            return `Unexpected error while trying to connect to ${realmStr}.`;
-          default:
-            ensureUnreachable(reason);
-            return '';
-        }
-      })(),
-    );
-    NavigationService.dispatch(resetToAccountPicker());
-  }
-};
+export const registerAbort =
+  (reason: RegisterAbortReason): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    dispatch(registerAbortPlain(reason));
+    if (getHaveServerData(getState()) && reason !== 'unexpected') {
+      // Try again, forever if necessary; the user has an interactable UI and
+      // can look at stale data while waiting.
+      //
+      // Do so by lying that the server has told us our queue is invalid and
+      // we need a new one. Note that this must fire *after*
+      // `registerAbortPlain()`, so that AppDataFetcher sees
+      // `needsInitialFetch` go from `false` to `true`. We don't call
+      // `doInitialFetch` directly here because that would go against
+      // `AppDataFetcher`'s implicit interface. (Also, `needsInitialFetch` is
+      // dubiously being read outside `AppDataFetcher`, in
+      // `fetchOlder`/`fetchNewer`, and we don't want to break something
+      // there.)
+      //
+      // TODO: Clean up all this brittle logic.
+      // TODO: Instead, let the retry be on-demand, with a banner.
+      dispatch(deadQueue()); // eslint-disable-line no-use-before-define
+    } else {
+      // Tell the user we've given up and let them try the same account or a
+      // different account from the account picker.
+      showErrorAlert(
+        // TODO: Set up these user-facing strings for translation once
+        // `initialFetchAbort`'s callers all have access to a `GetText`
+        // function. As of adding the strings, the initial fetch is dispatched
+        // from `AppDataFetcher` which isn't a descendant of
+        // `TranslationProvider`.
+        'Connection failed',
+        (() => {
+          const realmStr = getIdentity(getState()).realm.toString();
+          switch (reason) {
+            case 'server':
+              return roleIsAtLeast(getOwnUserRole(getState()), Role.Admin)
+                ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
+                : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
+            case 'network':
+              return `The network request to ${realmStr} failed.`;
+            case 'timeout':
+              return `Gave up trying to connect to ${realmStr} after waiting too long.`;
+            case 'unexpected':
+              return `Unexpected error while trying to connect to ${realmStr}.`;
+            default:
+              ensureUnreachable(reason);
+              return '';
+          }
+        })(),
+      );
+      NavigationService.dispatch(resetToAccountPicker());
+    }
+  };
 
 const registerComplete = (data: InitialData): PerAccountAction => ({
   type: REGISTER_COMPLETE,
@@ -343,22 +340,24 @@ export const isFetchNeededAtAnchor = (
  * See also handlers for the `MESSAGE_FETCH_COMPLETE` action, which this
  * dispatches with the data it receives from the server.
  */
-export const fetchMessagesInNarrow = (
-  narrow: Narrow,
-  anchor: number = FIRST_UNREAD_ANCHOR,
-): ThunkAction<Promise<$ReadOnlyArray<Message> | void>> => async (dispatch, getState) => {
-  if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
-    return undefined;
-  }
-  return dispatch(
-    fetchMessages({
-      narrow,
-      anchor,
-      numBefore: config.messagesPerRequest / 2,
-      numAfter: config.messagesPerRequest / 2,
-    }),
-  );
-};
+export const fetchMessagesInNarrow =
+  (
+    narrow: Narrow,
+    anchor: number = FIRST_UNREAD_ANCHOR,
+  ): ThunkAction<Promise<$ReadOnlyArray<Message> | void>> =>
+  async (dispatch, getState) => {
+    if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
+      return undefined;
+    }
+    return dispatch(
+      fetchMessages({
+        narrow,
+        anchor,
+        numBefore: config.messagesPerRequest / 2,
+        numAfter: config.messagesPerRequest / 2,
+      }),
+    );
+  };
 
 /**
  * Fetch the few most recent PMs.
@@ -559,14 +558,12 @@ export const doInitialFetch = (): ThunkAction<Promise<void>> => async (dispatch,
   dispatch(initNotifications());
 };
 
-export const uploadFile = (
-  destinationNarrow: Narrow,
-  uri: string,
-  name: string,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const auth = getAuth(getState());
-  const response = await api.uploadFile(auth, uri, name);
-  const messageToSend = `[${name}](${response.uri})`;
+export const uploadFile =
+  (destinationNarrow: Narrow, uri: string, name: string): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    const auth = getAuth(getState());
+    const response = await api.uploadFile(auth, uri, name);
+    const messageToSend = `[${name}](${response.uri})`;
 
-  dispatch(addToOutbox(destinationNarrow, messageToSend));
-};
+    dispatch(addToOutbox(destinationNarrow, messageToSend));
+  };

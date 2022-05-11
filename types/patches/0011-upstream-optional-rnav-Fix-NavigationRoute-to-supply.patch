@@ -12,7 +12,7 @@ that I hoped it might resolve.)
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-index daf37cc5f..45fb02599 100644
+index a194fa5fa..ea0e29c32 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -7,7 +7,7 @@ export type CommonNavigationAction = CommonActions.Action;
@@ -25,5 +25,5 @@ index daf37cc5f..45fb02599 100644
  export type NavigationState<ParamList: ParamListBase = ParamListBase> = Readonly<{
    key: string,
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

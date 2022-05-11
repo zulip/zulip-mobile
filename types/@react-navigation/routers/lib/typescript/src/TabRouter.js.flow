@@ -44,7 +44,7 @@ export type TabNavigationState<ParamList: ParamListBase> = $Diff<
 export type TabActionHelpers<ParamList: ParamListBase> = {
   // prettier-ignore
   jumpTo<RouteName: Extract<$Keys<ParamList>, string>>(
-    ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
   ): void,
   ...
 };
@@ -54,9 +54,7 @@ declare export var TabActions: {
   ...
 };
 
-declare export default function TabRouter(
-  TabRouterOptions,
-): Router<
+declare export default function TabRouter(TabRouterOptions): Router<
   TabNavigationState<{ [key: string]: { ... } | void }>,
   | {
       type: 'GO_BACK',

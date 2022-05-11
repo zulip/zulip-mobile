@@ -6,5 +6,5 @@ import * as React from 'react';
 import { type SceneRendererProps } from './types';
 declare export default function SceneMap<T: any>(scenes: {
   [key: string]: React.ComponentType<T>,
-  ...,
+  ...
 }): (SceneRendererProps & { route: any, ... }) => $tsflower_subst$React$JSX$Element;

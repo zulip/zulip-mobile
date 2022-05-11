@@ -61,7 +61,7 @@ describe('flagsReducer', () => {
     const action = deepFreeze({
       type: MESSAGE_FETCH_COMPLETE,
       // prettier-ignore
-      messages: [{ id: 1, flags: ['read'] }, { id: 2, flags: [] }]
+      messages: [{ id: 1, flags: ['read'] }, { id: 2, flags: [] }],
     });
 
     const expectedState = {

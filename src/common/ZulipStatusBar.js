@@ -55,10 +55,7 @@ export default function ZulipStatusBar(props: Props): Node {
         animated
         showHideTransition="slide"
         hidden={hidden && Platform.OS !== 'android'}
-        backgroundColor={Color(statusBarColor)
-          .darken(0.1)
-          .hsl()
-          .string()}
+        backgroundColor={Color(statusBarColor).darken(0.1).hsl().string()}
         barStyle={getStatusBarStyle(statusBarColor)}
       />
     )

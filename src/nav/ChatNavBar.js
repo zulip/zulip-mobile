@@ -160,10 +160,7 @@ export default function ChatNavBar(props: {|
           borderColor:
             streamColor === undefined
               ? 'hsla(0, 0%, 50%, 0.25)'
-              : Color(streamColor)
-                  .darken(0.1)
-                  .hsl()
-                  .string(),
+              : Color(streamColor).darken(0.1).hsl().string(),
           borderBottomWidth: 1,
           backgroundColor: streamColor,
         }}

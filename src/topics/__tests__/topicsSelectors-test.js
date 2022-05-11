@@ -18,7 +18,7 @@ describe('getTopicsForNarrow', () => {
     const state = eg.reduxStatePlus({
       topics: {
         // prettier-ignore
-        [eg.stream.stream_id]: [{ name: 'hi', max_id: 123 }, { name: 'wow', max_id: 234 }]
+        [eg.stream.stream_id]: [{ name: 'hi', max_id: 123 }, { name: 'wow', max_id: 234 }],
       },
     });
 

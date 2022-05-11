@@ -54,13 +54,15 @@ export const Icon: ComponentType<IconProps<IconNames>> = fixIconType<IconNames>(
 /** A (type for a) component-type like `Icon` but with `name` already specified. */
 export type SpecificIconType = ComponentType<$Diff<IconProps<empty>, {| name: mixed |}>>;
 
-const makeIcon = <Glyphs: string>(
-  iconSet: ComponentType<IconPropsBusted<Glyphs>>,
-  name: Glyphs,
-): SpecificIconType => props => {
-  const FixedIcon = fixIconType<Glyphs>(iconSet);
-  return <FixedIcon name={name} {...props} />;
-};
+const makeIcon =
+  <Glyphs: string>(
+    iconSet: ComponentType<IconPropsBusted<Glyphs>>,
+    name: Glyphs,
+  ): SpecificIconType =>
+  props => {
+    const FixedIcon = fixIconType<Glyphs>(iconSet);
+    return <FixedIcon name={name} {...props} />;
+  };
 
 export const IconInbox: SpecificIconType = makeIcon(Feather, 'inbox');
 export const IconMention: SpecificIconType = makeIcon(Feather, 'at-sign');

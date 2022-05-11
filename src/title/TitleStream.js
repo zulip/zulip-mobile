@@ -64,8 +64,8 @@ export default function TitleStream(props: Props): Node {
     zulipFeatureLevel: getZulipFeatureLevel(state),
   }));
 
-  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
-    .showActionSheetWithOptions;
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
 
   return (

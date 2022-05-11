@@ -58,9 +58,8 @@ typesEquivalent<CustomProfileFieldTypeT, $Values<typeof CustomProfileFieldType>>
  * See CustomProfileFieldType for an enum to refer to these by meaningful
  * names.
  */
-export const CustomProfileFieldTypeValues: $ReadOnlyArray<CustomProfileFieldTypeT> = objectValues(
-  CustomProfileFieldType,
-);
+export const CustomProfileFieldTypeValues: $ReadOnlyArray<CustomProfileFieldTypeT> =
+  objectValues(CustomProfileFieldType);
 
 /**
  * A custom profile field available to users in this org.

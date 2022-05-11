@@ -24,10 +24,12 @@ const accountSwitchPlain = (index: number): AllAccountsAction => ({
   index,
 });
 
-export const accountSwitch = (index: number): GlobalThunkAction<void> => (dispatch, getState) => {
-  NavigationService.dispatch(resetToMainTabs());
-  dispatch(accountSwitchPlain(index));
-};
+export const accountSwitch =
+  (index: number): GlobalThunkAction<void> =>
+  (dispatch, getState) => {
+    NavigationService.dispatch(resetToMainTabs());
+    dispatch(accountSwitchPlain(index));
+  };
 
 export const removeAccount = (index: number): AllAccountsAction => ({
   type: ACCOUNT_REMOVE,
@@ -41,13 +43,12 @@ const loginSuccessPlain = (realm: URL, email: string, apiKey: string): AllAccoun
   apiKey,
 });
 
-export const loginSuccess = (realm: URL, email: string, apiKey: string): ThunkAction<void> => (
-  dispatch,
-  getState,
-) => {
-  NavigationService.dispatch(resetToMainTabs());
-  dispatch(loginSuccessPlain(realm, email, apiKey));
-};
+export const loginSuccess =
+  (realm: URL, email: string, apiKey: string): ThunkAction<void> =>
+  (dispatch, getState) => {
+    NavigationService.dispatch(resetToMainTabs());
+    dispatch(loginSuccessPlain(realm, email, apiKey));
+  };
 
 const logoutPlain = (): AllAccountsAction => ({
   type: LOGOUT,

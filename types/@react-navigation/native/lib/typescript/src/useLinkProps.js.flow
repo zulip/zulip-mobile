@@ -13,9 +13,7 @@ type Props = {
   ...
 };
 
-declare export default function useLinkProps(
-  Props,
-): {
+declare export default function useLinkProps(Props): {
   href: string,
   accessibilityRole: 'link',
   onPress: (

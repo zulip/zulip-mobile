@@ -205,6 +205,15 @@ rules:
     - error
     - AssignmentExpression: {array: false, object: false}
 
+  # new Promise(r => setTimeout(r, 1000));
+  # Certain other things could be nice to catch, but see
+  #   https://github.com/zulip/zulip-mobile/pull/5393#discussion_r883237343
+  no-promise-executor-return: off
+
+  # More noisy than helpful; see
+  #   https://github.com/zulip/zulip-mobile/pull/5393#discussion_r883233303
+  class-methods-use-this: off
+
   # Likely-wrong code
   no-unused-vars: [warn, {vars: local, args: none}]
   # no-param-reassign seems well-intentioned... but fires on common uses
@@ -285,9 +294,10 @@ rules:
   react/prop-types: off  # We handle this better with types.
   react/require-default-props: off  # We handle this better with types.
 
-  # These two could be good to fix.
+  # These could be good to fix.
   react/prefer-stateless-function: off
   react/sort-comp: off
+  react/no-unstable-nested-components: off
 
 
   #
@@ -334,6 +344,18 @@ rules:
   flowtype/use-flow-type: warn
   flowtype/valid-syntax: warn
 
+  #
+  # ================================================================
+  # New rules we want, but that require code changes to enable
+  #
+
+  default-param-last: off
+  react/function-component-definition: off
+  react/jsx-no-useless-fragment: off
+  react/no-arrow-function-lifecycle: off
+  import/no-import-module-exports: off
+  prefer-regex-literals: off
+  react/no-unused-class-component-methods: off
 
 overrides:
 
@@ -343,6 +365,7 @@ overrides:
   - files: ['**/__tests__/**', 'jest/jestSetup.js']
     rules:
       no-restricted-imports: off
+      no-import-assign: off # Jest mocking
 
   #
   # ================================================================

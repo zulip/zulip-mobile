@@ -121,9 +121,9 @@ export default (
         filters: action.data.realm_filters,
         emoji: convertRealmEmoji(action.data.realm_emoji),
         defaultExternalAccounts: new Map(
-          objectEntries(
-            action.data.realm_default_external_accounts,
-          ).map(([name, { url_pattern }]) => [name, { url_pattern }]),
+          objectEntries(action.data.realm_default_external_accounts).map(
+            ([name, { url_pattern }]) => [name, { url_pattern }],
+          ),
         ),
         videoChatProvider: getVideoChatProvider({
           availableProviders: action.data.realm_available_video_chat_providers,

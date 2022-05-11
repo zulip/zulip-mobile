@@ -64,9 +64,10 @@ export default function StreamListCard(props: Props): Node {
     [auth],
   );
 
-  const handleNarrow = useCallback(stream => dispatch(doNarrow(streamNarrow(stream.stream_id))), [
-    dispatch,
-  ]);
+  const handleNarrow = useCallback(
+    stream => dispatch(doNarrow(streamNarrow(stream.stream_id))),
+    [dispatch],
+  );
 
   return (
     <View style={styles.wrapper}>

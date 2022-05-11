@@ -168,8 +168,7 @@ function MentionWarningsInner(props: Props, ref): Node {
   return mentionWarnings;
 }
 
-const MentionWarnings: AbstractComponent<Props, ImperativeHandle> = forwardRef(
-  MentionWarningsInner,
-);
+const MentionWarnings: AbstractComponent<Props, ImperativeHandle> =
+  forwardRef(MentionWarningsInner);
 
 export default MentionWarnings;

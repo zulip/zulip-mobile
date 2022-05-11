@@ -26,6 +26,7 @@ describe('Heartbeat', () => {
     callback: CallbackType;
     heartbeat: Heartbeat;
 
+    // eslint-disable-next-line no-use-before-define
     static _currentHeartbeats: Array<JestHeartbeatHelper> = [];
 
     constructor() {
@@ -45,6 +46,7 @@ describe('Heartbeat', () => {
       return this.heartbeat.isActive();
     }
 
+    // eslint-disable-next-line no-use-before-define
     static getExtant(): $ReadOnlyArray<JestHeartbeatHelper> {
       return this._currentHeartbeats;
     }

@@ -162,32 +162,31 @@ describe('settingsReducer', () => {
     describe('type `user_settings`, op `update`', () => {
       const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
 
-      const mkCheck = <S: $Keys<SettingsState>, E: $Keys<UserSettings>>(
-        statePropertyName: S,
-        eventPropertyName: E,
-      ): (($ElementType<SettingsState, S>, $ElementType<UserSettings, E>) => void) => (
-        initialStateValue,
-        eventValue,
-      ) => {
-        test(`${initialStateValue.toString()} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
-          const initialState = { ...baseState };
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+      const mkCheck =
+        <S: $Keys<SettingsState>, E: $Keys<UserSettings>>(
+          statePropertyName: S,
+          eventPropertyName: E,
+        ): (($ElementType<SettingsState, S>, $ElementType<UserSettings, E>) => void) =>
+        (initialStateValue, eventValue) => {
+          test(`${initialStateValue.toString()} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+            const initialState = { ...baseState };
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-          initialState[statePropertyName] = initialStateValue;
+            initialState[statePropertyName] = initialStateValue;
 
-          const expectedState = { ...initialState };
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+            const expectedState = { ...initialState };
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-          expectedState[statePropertyName] = eventValue;
+            expectedState[statePropertyName] = eventValue;
 
-          expect(
-            settingsReducer(initialState, {
-              type: EVENT,
-              event: { ...eventCommon, property: eventPropertyName, value: eventValue },
-            }),
-          ).toEqual(expectedState);
-        });
-      };
+            expect(
+              settingsReducer(initialState, {
+                type: EVENT,
+                event: { ...eventCommon, property: eventPropertyName, value: eventValue },
+              }),
+            ).toEqual(expectedState);
+          });
+        };
 
       describe('offlineNotification / enable_offline_push_notifications', () => {
         const check = mkCheck('offlineNotification', 'enable_offline_push_notifications');

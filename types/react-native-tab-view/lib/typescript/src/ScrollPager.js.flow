@@ -15,10 +15,9 @@ type State = {
   ...
 };
 
-declare export default class ScrollPager<T: Route> extends React.Component<
-  Props<T> & { overscroll?: boolean, ... },
-  State,
-> {
+declare export default class ScrollPager<T: Route>
+  extends React.Component<Props<T> & { overscroll?: boolean, ... }, State>
+{
   defaultProps: { bounces: boolean, ... };
   componentDidMount(): void;
   componentDidUpdate(prevProps: Props<T>): void;

@@ -39,7 +39,7 @@ index 3bc615faa..ed9343057 100644
  export type LabelPosition = 'beside-icon' | 'below-icon';
  export type BottomTabNavigationHelpers = NavigationHelpers<
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index 91a0f4541..a96ec6c0d 100644
+index ccdd92d43..1421d39dd 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -45,24 +45,21 @@ export type DefaultNavigatorOptions<
@@ -169,5 +169,5 @@ index da137e97a..fa014c506 100644
  export type StackNavigationHelpers = NavigationHelpers<ParamListBase, StackNavigationEventMap> &
    StackActionHelpers<ParamListBase>;
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

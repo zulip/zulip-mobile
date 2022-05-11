@@ -47,8 +47,8 @@ type Props = $ReadOnly<{|
 
 export default function Lightbox(props: Props): Node {
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
-  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
-    .showActionSheetWithOptions;
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
   const auth = useSelector(getAuth);
 
   // Pulled out here just because this function is used twice.

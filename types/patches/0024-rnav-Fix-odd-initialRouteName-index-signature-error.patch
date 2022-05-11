@@ -34,7 +34,7 @@ References:
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index 9ddf90385..b1232ee31 100644
+index 4d918550e..58cf56a85 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -24,7 +24,7 @@ import {
@@ -47,5 +47,5 @@ index 9ddf90385..b1232ee31 100644
    screenOptions?:
      | ScreenOptions
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

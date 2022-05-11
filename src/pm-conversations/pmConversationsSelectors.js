@@ -30,65 +30,63 @@ function unreadCount(unreadsKey, unreadPms, unreadHuddles): number {
 }
 
 // TODO(server-2.1): Delete this, and simplify logic around it.
-export const getRecentConversationsLegacy: Selector<
-  $ReadOnlyArray<PmConversationData>,
-> = createSelector(
-  getOwnUserId,
-  getPrivateMessages,
-  getUnreadByPms,
-  getUnreadByHuddles,
-  getAllUsersById,
-  (
-    ownUserId,
-    messages: $ReadOnlyArray<PmMessage>,
-    unreadPms: {| [number]: number |},
-    unreadHuddles: {| [string]: number |},
-    allUsersById,
-  ): $ReadOnlyArray<PmConversationData> => {
-    const items = messages
-      .map(msg => {
-        // Note this can be a different set of users from those in `keyRecipients`.
-        const unreadsKey = pmUnreadsKeyFromMessage(msg, ownUserId);
-        const keyRecipients = pmKeyRecipientUsersFromMessage(msg, allUsersById, ownUserId);
-        return keyRecipients === null ? null : { unreadsKey, keyRecipients, msgId: msg.id };
-      })
-      .filter(Boolean);
+export const getRecentConversationsLegacy: Selector<$ReadOnlyArray<PmConversationData>> =
+  createSelector(
+    getOwnUserId,
+    getPrivateMessages,
+    getUnreadByPms,
+    getUnreadByHuddles,
+    getAllUsersById,
+    (
+      ownUserId,
+      messages: $ReadOnlyArray<PmMessage>,
+      unreadPms: {| [number]: number |},
+      unreadHuddles: {| [string]: number |},
+      allUsersById,
+    ): $ReadOnlyArray<PmConversationData> => {
+      const items = messages
+        .map(msg => {
+          // Note this can be a different set of users from those in `keyRecipients`.
+          const unreadsKey = pmUnreadsKeyFromMessage(msg, ownUserId);
+          const keyRecipients = pmKeyRecipientUsersFromMessage(msg, allUsersById, ownUserId);
+          return keyRecipients === null ? null : { unreadsKey, keyRecipients, msgId: msg.id };
+        })
+        .filter(Boolean);
 
-    const latestByRecipients = new Map();
-    items.forEach(item => {
-      const prev = latestByRecipients.get(item.unreadsKey);
-      if (!prev || item.msgId > prev.msgId) {
-        latestByRecipients.set(item.unreadsKey, item);
-      }
-    });
+      const latestByRecipients = new Map();
+      items.forEach(item => {
+        const prev = latestByRecipients.get(item.unreadsKey);
+        if (!prev || item.msgId > prev.msgId) {
+          latestByRecipients.set(item.unreadsKey, item);
+        }
+      });
 
-    const sortedByMostRecent = Array.from(latestByRecipients.values()).sort(
-      (a, b) => +b.msgId - +a.msgId,
-    );
+      const sortedByMostRecent = Array.from(latestByRecipients.values()).sort(
+        (a, b) => +b.msgId - +a.msgId,
+      );
 
-    return sortedByMostRecent.map(conversation => ({
-      key: conversation.unreadsKey,
-      keyRecipients: conversation.keyRecipients,
-      msgId: conversation.msgId,
-      unread: unreadCount(conversation.unreadsKey, unreadPms, unreadHuddles),
-    }));
-  },
-);
+      return sortedByMostRecent.map(conversation => ({
+        key: conversation.unreadsKey,
+        keyRecipients: conversation.keyRecipients,
+        msgId: conversation.msgId,
+        unread: unreadCount(conversation.unreadsKey, unreadPms, unreadHuddles),
+      }));
+    },
+  );
 
-export const getRecentConversationsModern: Selector<
-  $ReadOnlyArray<PmConversationData>,
-> = createSelector(
-  state => state.pmConversations,
-  getUnreadByPms,
-  getUnreadByHuddles,
-  getAllUsersById,
-  getOwnUserId,
-  // This is defined separately, just below.  When this is defined inline,
-  // if there's a type error in it, the message Flow gives is often pretty
-  // terrible: just highlighting the whole thing and pointing at something
-  // in the `reselect` libdef.  Defining it separately seems to help.
-  getRecentConversationsModernImpl, // eslint-disable-line no-use-before-define
-);
+export const getRecentConversationsModern: Selector<$ReadOnlyArray<PmConversationData>> =
+  createSelector(
+    state => state.pmConversations,
+    getUnreadByPms,
+    getUnreadByHuddles,
+    getAllUsersById,
+    getOwnUserId,
+    // This is defined separately, just below.  When this is defined inline,
+    // if there's a type error in it, the message Flow gives is often pretty
+    // terrible: just highlighting the whole thing and pointing at something
+    // in the `reselect` libdef.  Defining it separately seems to help.
+    getRecentConversationsModernImpl, // eslint-disable-line no-use-before-define
+  );
 
 function getRecentConversationsModernImpl(
   { sorted, map }: PmConversationsState,
@@ -138,8 +136,7 @@ export const getRecentConversations = (
 ): $ReadOnlyArray<PmConversationData> =>
   getServerIsOld(state) ? getRecentConversationsLegacy(state) : getRecentConversationsModern(state);
 
-export const getUnreadConversations: Selector<
-  $ReadOnlyArray<PmConversationData>,
-> = createSelector(getRecentConversations, conversations =>
-  conversations.filter(c => c.unread > 0),
+export const getUnreadConversations: Selector<$ReadOnlyArray<PmConversationData>> = createSelector(
+  getRecentConversations,
+  conversations => conversations.filter(c => c.unread > 0),
 );

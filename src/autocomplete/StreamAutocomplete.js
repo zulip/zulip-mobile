@@ -18,9 +18,10 @@ export default function StreamAutocomplete(props: Props): Node {
   const { filter, onAutocomplete } = props;
   const subscriptions = useSelector(getSubscriptions);
 
-  const handleStreamItemAutocomplete = useCallback(stream => onAutocomplete(`**${stream.name}**`), [
-    onAutocomplete,
-  ]);
+  const handleStreamItemAutocomplete = useCallback(
+    stream => onAutocomplete(`**${stream.name}**`),
+    [onAutocomplete],
+  );
 
   const isPrefixMatch = x => x.name.toLowerCase().startsWith(filter.toLowerCase());
 

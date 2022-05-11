@@ -111,8 +111,8 @@ export default function StreamItem(props: Props): Node {
   const realmUrl = useSelector(getRealmUrl);
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
-  const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
-    .showActionSheetWithOptions;
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
   const dispatch = useDispatch();
   const backgroundData = useSelector(state => ({

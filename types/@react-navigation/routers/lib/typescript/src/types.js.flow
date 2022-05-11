@@ -82,7 +82,7 @@ export type NavigationAction = Readonly<{
 
 export type ActionCreators<Action: NavigationAction> = {
   [key: string]: (...args: any) => Action,
-  ...,
+  ...
 };
 export type DefaultRouterOptions<RouteName: string = string> = {
   initialRouteName?: RouteName,

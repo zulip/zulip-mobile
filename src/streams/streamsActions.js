@@ -44,43 +44,45 @@ export const privacyToStreamProps = (privacy: Privacy): $Exact<StreamPrivacyProp
   }
 };
 
-export const updateExistingStream = (
-  id: number,
-  changedValues: {| +name?: string, +description?: string, +privacy?: Privacy |},
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  const state = getState();
+export const updateExistingStream =
+  (
+    id: number,
+    changedValues: {| +name?: string, +description?: string, +privacy?: Privacy |},
+  ): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    const state = getState();
 
-  const maybeEncode = (value: string): string =>
-    // Adapt to a server API change that was accidentally incompatible:
-    //   https://github.com/zulip/zulip-mobile/pull/4748#issuecomment-852254404
-    //   https://github.com/zulip/zulip-mobile/issues/4747#issuecomment-946362729
-    // TODO(#4659): Ideally this belongs inside `api.updateStream`.
-    // TODO(server-4.0): Simplify this (if it hasn't already moved.)
-    getZulipFeatureLevel(state) >= 64 ? value : JSON.stringify(value);
+    const maybeEncode = (value: string): string =>
+      // Adapt to a server API change that was accidentally incompatible:
+      //   https://github.com/zulip/zulip-mobile/pull/4748#issuecomment-852254404
+      //   https://github.com/zulip/zulip-mobile/issues/4747#issuecomment-946362729
+      // TODO(#4659): Ideally this belongs inside `api.updateStream`.
+      // TODO(server-4.0): Simplify this (if it hasn't already moved.)
+      getZulipFeatureLevel(state) >= 64 ? value : JSON.stringify(value);
 
-  const auth = getAuth(state);
-  const updates = {};
-  if (changedValues.name !== undefined) {
-    updates.new_name = maybeEncode(changedValues.name);
-  }
-  if (changedValues.description !== undefined) {
-    updates.description = maybeEncode(changedValues.description);
-  }
-  if (changedValues.privacy !== undefined) {
-    const streamProps = privacyToStreamProps(changedValues.privacy);
-
-    // Only send is_web_public if the server will recognize it.
-    // TODO(server-5.0): Remove conditional.
-    if (getZulipFeatureLevel(state) >= 98) {
-      updates.is_web_public = streamProps.is_web_public;
+    const auth = getAuth(state);
+    const updates = {};
+    if (changedValues.name !== undefined) {
+      updates.new_name = maybeEncode(changedValues.name);
     }
-    updates.is_private = streamProps.invite_only;
-    updates.history_public_to_subscribers = streamProps.history_public_to_subscribers;
-  }
+    if (changedValues.description !== undefined) {
+      updates.description = maybeEncode(changedValues.description);
+    }
+    if (changedValues.privacy !== undefined) {
+      const streamProps = privacyToStreamProps(changedValues.privacy);
 
-  if (Object.keys(updates).length === 0) {
-    return;
-  }
+      // Only send is_web_public if the server will recognize it.
+      // TODO(server-5.0): Remove conditional.
+      if (getZulipFeatureLevel(state) >= 98) {
+        updates.is_web_public = streamProps.is_web_public;
+      }
+      updates.is_private = streamProps.invite_only;
+      updates.history_public_to_subscribers = streamProps.history_public_to_subscribers;
+    }
 
-  await api.updateStream(auth, id, updates);
-};
+    if (Object.keys(updates).length === 0) {
+      return;
+    }
+
+    await api.updateStream(auth, id, updates);
+  };

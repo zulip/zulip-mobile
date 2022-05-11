@@ -82,9 +82,8 @@ typesEquivalent<
  * See CreatePublicOrPrivateStreamPolicy for an enum to refer to these by
  * meaningful names.
  */
-export const CreatePublicOrPrivateStreamPolicyValues: $ReadOnlyArray<CreatePublicOrPrivateStreamPolicyT> = objectValues(
-  CreatePublicOrPrivateStreamPolicy,
-);
+export const CreatePublicOrPrivateStreamPolicyValues: $ReadOnlyArray<CreatePublicOrPrivateStreamPolicyT> =
+  objectValues(CreatePublicOrPrivateStreamPolicy);
 
 /**
  * The policy for which users can create web public streams in this
@@ -119,6 +118,5 @@ typesEquivalent<CreateWebPublicStreamPolicyT, $Values<typeof CreateWebPublicStre
  *
  * See CreateWebPublicStreamPolicy for an enum to refer to these by meaningful names.
  */
-export const CreateWebPublicStreamPolicyValues: $ReadOnlyArray<CreateWebPublicStreamPolicyT> = objectValues(
-  CreateWebPublicStreamPolicy,
-);
+export const CreateWebPublicStreamPolicyValues: $ReadOnlyArray<CreateWebPublicStreamPolicyT> =
+  objectValues(CreateWebPublicStreamPolicy);

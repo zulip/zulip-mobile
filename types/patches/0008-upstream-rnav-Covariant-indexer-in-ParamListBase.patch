@@ -8,7 +8,7 @@ Subject: [upstream] rnav: Covariant indexer in ParamListBase
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-index 1a60f57f0..daf37cc5f 100644
+index 65d187165..a194fa5fa 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -70,7 +70,7 @@ export type Route<RouteName: string, Params: { ... } | void = { ... } | void> =
@@ -21,5 +21,5 @@ index 1a60f57f0..daf37cc5f 100644
  export type NavigationAction = Readonly<{
    type: string,
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

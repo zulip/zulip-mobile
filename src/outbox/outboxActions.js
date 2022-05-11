@@ -171,35 +171,34 @@ const getContentPreview = (content: string, state: PerAccountState): string => {
   }
 };
 
-export const addToOutbox = (
-  destinationNarrow: Narrow,
-  content: string,
-): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-  invariant(isConversationNarrow(destinationNarrow), 'destination narrow must be conversation');
-  const state = getState();
-  const ownUser = getOwnUser(state);
+export const addToOutbox =
+  (destinationNarrow: Narrow, content: string): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    invariant(isConversationNarrow(destinationNarrow), 'destination narrow must be conversation');
+    const state = getState();
+    const ownUser = getOwnUser(state);
 
-  const localTime = Math.round(new Date().getTime() / 1000);
-  dispatch(
-    messageSendStart({
-      isSent: false,
-      ...outboxPropertiesForNarrow(
-        destinationNarrow,
-        getStreamsById(state),
-        getAllUsersById(state),
-        ownUser,
-      ),
-      markdownContent: content,
-      content: getContentPreview(content, state),
-      timestamp: localTime,
-      id: localTime,
-      sender_full_name: ownUser.full_name,
-      sender_email: ownUser.email,
-      sender_id: ownUser.user_id,
-      avatar_url: ownUser.avatar_url,
-      isOutbox: true,
-      reactions: [],
-    }),
-  );
-  dispatch(sendOutbox());
-};
+    const localTime = Math.round(new Date().getTime() / 1000);
+    dispatch(
+      messageSendStart({
+        isSent: false,
+        ...outboxPropertiesForNarrow(
+          destinationNarrow,
+          getStreamsById(state),
+          getAllUsersById(state),
+          ownUser,
+        ),
+        markdownContent: content,
+        content: getContentPreview(content, state),
+        timestamp: localTime,
+        id: localTime,
+        sender_full_name: ownUser.full_name,
+        sender_email: ownUser.email,
+        sender_id: ownUser.user_id,
+        avatar_url: ownUser.avatar_url,
+        isOutbox: true,
+        reactions: [],
+      }),
+    );
+    dispatch(sendOutbox());
+  };

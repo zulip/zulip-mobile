@@ -9,7 +9,7 @@ type Options = {
   navigation: NavigationHelpers<ParamListBase>,
   descriptors: {
     [key: string]: Descriptor<ParamListBase, string, NavigationState<>, { ... }>,
-    ...,
+    ...
   },
   ...
 };

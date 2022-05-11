@@ -13,7 +13,7 @@ Discussion with a reduced repro of the Prettier bug:
  3 files changed, 4 insertions(+)
 
 diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-index 41c9a70d2..3e166a2b0 100644
+index 086c12609..b6145283b 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -150,6 +150,7 @@ type NavigationHelpersCommon<
@@ -22,10 +22,10 @@ index 41c9a70d2..3e166a2b0 100644
    dispatch(action: NavigationAction | ((state: State) => NavigationAction)): void,
 +  // prettier-ignore
    navigate<RouteName: $Keys<ParamList>>(
-     ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+     ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
 diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
-index b93d56027..ba5e5e532 100644
+index 179e34e09..3bd89b8ce 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 @@ -58,9 +58,11 @@ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<Par
@@ -34,14 +34,14 @@ index b93d56027..ba5e5e532 100644
  export type StackActionHelpers<ParamList: ParamListBase> = {
 +  // prettier-ignore
    replace<RouteName: $Keys<ParamList>>(
-     ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+     ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
 +  // prettier-ignore
    push<RouteName: $Keys<ParamList>>(
-     ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+     ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
 diff --git a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
-index 8da462379..99c02f62b 100644
+index fd281a865..4fa8ed1ca 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 @@ -41,6 +41,7 @@ export type TabNavigationState<ParamList: ParamListBase> = $Diff<
@@ -50,8 +50,8 @@ index 8da462379..99c02f62b 100644
  export type TabActionHelpers<ParamList: ParamListBase> = {
 +  // prettier-ignore
    jumpTo<RouteName: Extract<$Keys<ParamList>, string>>(
-     ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+     ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
 -- 
-2.30.2
+2.32.0 (Apple Git-132)
 

@@ -116,11 +116,11 @@ export type EventEmitter<EventMap: EventMapBase> = {
     } & $FlowFixMe /* EventMap[EventName]['canPreventDefault'] extends true ? {
             canPreventDefault: true;
         } : {} */ /* tsflower-unimplemented: ConditionalType */ &
-      $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /* undefined extends EventMap[EventName]['data'] ? {
+      $FlowFixMe /* undefined extends EventMap[EventName]['data'] ? {
             data?: EventMap[EventName]['data'];
         } : {
             data: EventMap[EventName]['data'];
-        } */,
+        } */ /* tsflower-unimplemented: ConditionalType */,
   ): EventArg<
     EventName,
     $ElementType<$ElementType<EventMap, EventName>, 'canPreventDefault'>,
@@ -155,7 +155,7 @@ type NavigationHelpersCommon<
   dispatch(action: NavigationAction | ((state: State) => NavigationAction)): void,
   // prettier-ignore
   navigate<RouteName: $Keys<ParamList>>(
-    ...args: $FlowFixMe /* tsflower-unimplemented: ConditionalType */ /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */
+    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
   ): void,
   navigate<RouteName: $Keys<ParamList>>(
     route:

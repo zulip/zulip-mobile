@@ -265,9 +265,7 @@ declare export default function useNavigationHelpers<
             target?: string | void,
             ...
           }>
-        | ((
-            state: any,
-          ) => Readonly<{
+        | ((state: any) => Readonly<{
             type: string,
             payload?: { ... } | void,
             source?: string | void,

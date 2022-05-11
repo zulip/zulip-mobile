@@ -264,15 +264,14 @@ describe('realmReducer', () => {
     describe('type `user_settings`, op `update`', () => {
       const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
 
-      const mkCheck = <S: $Keys<ReadableRealmState>, E: $Keys<UserSettings>>(
-        statePropertyName: S,
-        eventPropertyName: E,
-      ): (($ElementType<RealmState, S>, $ElementType<UserSettings, E>) => void) => (
-        initialStateValue,
-        eventValue,
-      ) => {
-        /* prettier-ignore */ // (wants to wrap the name weirdly)
-        test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+      const mkCheck =
+        <S: $Keys<ReadableRealmState>, E: $Keys<UserSettings>>(
+          statePropertyName: S,
+          eventPropertyName: E,
+        ): (($ElementType<RealmState, S>, $ElementType<UserSettings, E>) => void) =>
+        (initialStateValue, eventValue) => {
+          /* prettier-ignore */ // (wants to wrap the name weirdly)
+          test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
           const initialState = { ...eg.plusReduxState.realm };
           // $FlowFixMe[prop-missing]
           // $FlowFixMe[class-object-subtyping]
@@ -293,7 +292,7 @@ describe('realmReducer', () => {
             }),
           ).toEqual(expectedState);
         });
-      };
+        };
 
       describe('twentyFourHourTime / twenty_four_hour_time', () => {
         const check = mkCheck('twentyFourHourTime', 'twenty_four_hour_time');
@@ -307,15 +306,14 @@ describe('realmReducer', () => {
     describe('type `realm`, op `update_dict`', () => {
       const eventCommon = { id: 0, type: EventTypes.realm, op: 'update_dict', property: 'default' };
 
-      const mkCheck = <S: $Keys<ReadableRealmState>, E: $Keys<RealmDataForUpdate>>(
-        statePropertyName: S,
-        eventPropertyName: E,
-      ): (($ElementType<RealmState, S>, $ElementType<RealmDataForUpdate, E>) => void) => (
-        initialStateValue,
-        eventValue,
-      ) => {
-        /* prettier-ignore */ // (wants to wrap the name weirdly)
-        test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+      const mkCheck =
+        <S: $Keys<ReadableRealmState>, E: $Keys<RealmDataForUpdate>>(
+          statePropertyName: S,
+          eventPropertyName: E,
+        ): (($ElementType<RealmState, S>, $ElementType<RealmDataForUpdate, E>) => void) =>
+        (initialStateValue, eventValue) => {
+          /* prettier-ignore */ // (wants to wrap the name weirdly)
+          test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
           const initialState = { ...eg.plusReduxState.realm };
           // $FlowFixMe[prop-missing]
           // $FlowFixMe[class-object-subtyping]
@@ -339,7 +337,7 @@ describe('realmReducer', () => {
             }),
           ).toEqual(expectedState);
         });
-      };
+        };
 
       describe('name / name', () => {
         const check = mkCheck('name', 'name');
@@ -379,12 +377,8 @@ describe('realmReducer', () => {
       });
 
       describe('createPublicStreamPolicy / create_public_stream_policy', () => {
-        const {
-          MemberOrAbove,
-          AdminOrAbove,
-          FullMemberOrAbove,
-          ModeratorOrAbove,
-        } = CreatePublicOrPrivateStreamPolicy;
+        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
+          CreatePublicOrPrivateStreamPolicy;
         const check = mkCheck('createPublicStreamPolicy', 'create_public_stream_policy');
         check(MemberOrAbove, AdminOrAbove);
         check(MemberOrAbove, FullMemberOrAbove);
@@ -401,12 +395,8 @@ describe('realmReducer', () => {
       });
 
       describe('createPrivateStreamPolicy / create_private_stream_policy', () => {
-        const {
-          MemberOrAbove,
-          AdminOrAbove,
-          FullMemberOrAbove,
-          ModeratorOrAbove,
-        } = CreatePublicOrPrivateStreamPolicy;
+        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
+          CreatePublicOrPrivateStreamPolicy;
         const check = mkCheck('createPrivateStreamPolicy', 'create_private_stream_policy');
         check(MemberOrAbove, AdminOrAbove);
         check(MemberOrAbove, FullMemberOrAbove);
@@ -425,12 +415,8 @@ describe('realmReducer', () => {
       describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {
         // TODO(server-5.0): Stop expecting create_stream_policy; remove.
 
-        const {
-          MemberOrAbove,
-          AdminOrAbove,
-          FullMemberOrAbove,
-          ModeratorOrAbove,
-        } = CreatePublicOrPrivateStreamPolicy;
+        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
+          CreatePublicOrPrivateStreamPolicy;
         const check = (initialStateValue, eventValue) => {
           test(`${initialStateValue.toString()} → ${eventValue.toString()}`, () => {
             const initialState = {

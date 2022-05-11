@@ -30,12 +30,10 @@ const typingStatusExpiryLoop = () => async (dispatch, getState) => {
 };
 
 /** Start the typing-status expiry loop, if there isn't one already. */
-export const ensureTypingStatusExpiryLoop = (): ThunkAction<Promise<void>> => async (
-  dispatch,
-  getState,
-) => {
-  const state = getState();
-  if (Object.keys(state.typing).length === 0) {
-    dispatch(typingStatusExpiryLoop());
-  }
-};
+export const ensureTypingStatusExpiryLoop =
+  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
+    const state = getState();
+    if (Object.keys(state.typing).length === 0) {
+      dispatch(typingStatusExpiryLoop());
+    }
+  };

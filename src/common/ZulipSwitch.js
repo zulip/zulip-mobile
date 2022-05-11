@@ -27,9 +27,7 @@ export default function ZulipSwitch(props: Props): Node {
       value={value}
       trackColor={{
         false: 'hsl(0, 0%, 86%)',
-        true: Color(BRAND_COLOR)
-          .fade(0.3)
-          .toString(),
+        true: Color(BRAND_COLOR).fade(0.3).toString(),
       }}
       thumbColor={
         /* eslint-disable operator-linebreak */

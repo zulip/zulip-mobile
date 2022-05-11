@@ -4,5 +4,6 @@ import { nativeApplicationVersion } from 'expo-application';
 
 const { getSystemName, getSystemVersion } = DeviceInfo;
 
-export default `ZulipMobile/${nativeApplicationVersion
-  ?? '?.?.?'} (${getSystemName()} ${getSystemVersion()})`;
+export default `ZulipMobile/${
+  nativeApplicationVersion ?? '?.?.?'
+} (${getSystemName()} ${getSystemVersion()})`;
