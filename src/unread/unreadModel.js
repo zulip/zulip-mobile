@@ -172,7 +172,7 @@ function deleteMessages(
 }
 
 function streamsReducer(
-  state: UnreadStreamsState = initialStreamsState,
+  state: UnreadStreamsState = initialStreamsState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
   globalState: PerAccountState,
 ): UnreadStreamsState {

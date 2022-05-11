@@ -131,7 +131,7 @@ const eventUpdateMessageFlags = (state, action) => {
 };
 
 export default (
-  state: FlagsState = initialState,
+  state: FlagsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): FlagsState => {
   switch (action.type) {

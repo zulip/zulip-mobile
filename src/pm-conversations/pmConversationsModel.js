@@ -180,7 +180,7 @@ function insertMessage(state, message, ownUserId) {
 }
 
 export function reducer(
-  state: PmConversationsState = initialState,
+  state: PmConversationsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): PmConversationsState {
   switch (action.type) {

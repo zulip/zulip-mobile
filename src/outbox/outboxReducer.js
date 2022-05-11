@@ -23,7 +23,7 @@ const messageSendStart = (state, action) => {
 };
 
 export default (
-  state: OutboxState = initialState,
+  state: OutboxState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): OutboxState => {
   switch (action.type) {

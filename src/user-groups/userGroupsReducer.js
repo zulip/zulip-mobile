@@ -46,7 +46,7 @@ const eventUserGroupRemoveMembers = (state, action) =>
   );
 
 export default (
-  state: UserGroupsState = initialState,
+  state: UserGroupsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): UserGroupsState => {
   switch (action.type) {

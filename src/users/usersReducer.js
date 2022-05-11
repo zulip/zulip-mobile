@@ -15,7 +15,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState: UsersState = NULL_ARRAY;
 
 export default (
-  state: UsersState = initialState,
+  state: UsersState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): UsersState => {
   switch (action.type) {

@@ -61,7 +61,7 @@ function updateUserStatus(
 }
 
 export const reducer = (
-  state: UserStatusesState = initialState,
+  state: UserStatusesState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): UserStatusesState => {
   switch (action.type) {

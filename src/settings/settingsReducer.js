@@ -30,6 +30,7 @@ const initialState: SettingsState = {
   displayEmojiReactionUsers: false,
 };
 
+// eslint-disable-next-line default-param-last
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
   switch (action.type) {
     case REGISTER_COMPLETE: {

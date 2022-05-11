@@ -6,7 +6,7 @@ import { NULL_ARRAY } from '../nullObjects';
 const initialState = NULL_ARRAY;
 
 export default (
-  state: AlertWordsState = initialState,
+  state: AlertWordsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): AlertWordsState => {
   switch (action.type) {

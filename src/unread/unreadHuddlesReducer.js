@@ -55,7 +55,7 @@ const eventUpdateMessageFlags = (state, action) => {
 };
 
 export default (
-  state: UnreadHuddlesState = initialState,
+  state: UnreadHuddlesState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): UnreadHuddlesState => {
   switch (action.type) {

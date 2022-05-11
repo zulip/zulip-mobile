@@ -23,7 +23,7 @@ const draftUpdate = (state, action) => {
 };
 
 export default (
-  state: DraftsState = initialState,
+  state: DraftsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): DraftsState => {
   switch (action.type) {

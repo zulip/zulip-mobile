@@ -193,7 +193,7 @@ const eventUpdateMessageFlags = (state, action) => {
 };
 
 export default (
-  state: NarrowsState = initialState,
+  state: NarrowsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): NarrowsState => {
   switch (action.type) {

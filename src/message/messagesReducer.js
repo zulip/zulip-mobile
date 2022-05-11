@@ -65,7 +65,7 @@ const eventNewMessage = (state, action) => {
 };
 
 export default (
-  state: MessagesState = initialState,
+  state: MessagesState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
   globalState: PerAccountState,
 ): MessagesState => {

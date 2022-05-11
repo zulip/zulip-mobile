@@ -17,7 +17,7 @@ import { filterArray } from '../utils/immutability';
 const initialState: SubscriptionsState = NULL_ARRAY;
 
 export default (
-  state: SubscriptionsState = initialState,
+  state: SubscriptionsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): SubscriptionsState => {
   switch (action.type) {

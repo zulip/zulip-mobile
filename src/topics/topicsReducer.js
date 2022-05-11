@@ -37,7 +37,7 @@ const eventNewMessage = (state, action) => {
 };
 
 export default (
-  state: TopicsState = initialState,
+  state: TopicsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): TopicsState => {
   switch (action.type) {

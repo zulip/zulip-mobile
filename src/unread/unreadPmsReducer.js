@@ -53,7 +53,7 @@ const eventUpdateMessageFlags = (state, action) => {
 };
 
 export default (
-  state: UnreadPmsState = initialState,
+  state: UnreadPmsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): UnreadPmsState => {
   switch (action.type) {

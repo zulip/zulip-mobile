@@ -164,6 +164,7 @@ const rehydrate = (state, action) => {
   };
 };
 
+// eslint-disable-next-line default-param-last
 export default (state: SessionState = initialState, action: Action): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:

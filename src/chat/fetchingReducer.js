@@ -64,7 +64,7 @@ const messageFetchComplete = (state, action) => {
 };
 
 export default (
-  state: FetchingState = initialState,
+  state: FetchingState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): FetchingState => {
   switch (action.type) {

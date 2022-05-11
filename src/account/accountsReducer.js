@@ -102,6 +102,7 @@ const accountRemove = (state, action) => {
   return newState;
 };
 
+// eslint-disable-next-line default-param-last
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:

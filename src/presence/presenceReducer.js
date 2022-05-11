@@ -15,7 +15,7 @@ import { objectEntries } from '../flowPonyfill';
 const initialState: PresenceState = NULL_OBJECT;
 
 export default (
-  state: PresenceState = initialState,
+  state: PresenceState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): PresenceState => {
   switch (action.type) {

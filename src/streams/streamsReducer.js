@@ -52,7 +52,7 @@ export function updateStreamProperties<S: Stream | Subscription>(
 }
 
 export default (
-  state: StreamsState = initialState,
+  state: StreamsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): StreamsState => {
   switch (action.type) {

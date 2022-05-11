@@ -42,7 +42,7 @@ function convert(data, streams): MuteState {
 }
 
 export const reducer = (
-  state: MuteState = initialState,
+  state: MuteState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
   globalState: PerAccountState,
 ): MuteState => {

@@ -94,7 +94,7 @@ function getVideoChatProvider({
 }
 
 export default (
-  state: RealmState = initialState,
+  state: RealmState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): RealmState => {
   switch (action.type) {

@@ -349,7 +349,6 @@ rules:
   # New rules we want, but that require code changes to enable
   #
 
-  default-param-last: off
   react/function-component-definition: off
   react/jsx-no-useless-fragment: off
   react/no-arrow-function-lifecycle: off

@@ -30,7 +30,7 @@ function addMessages(state: CaughtUpState, narrow, messageIds): CaughtUpState {
 }
 
 export default (
-  state: CaughtUpState = initialState,
+  state: CaughtUpState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): CaughtUpState => {
   switch (action.type) {

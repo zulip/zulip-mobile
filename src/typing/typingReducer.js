@@ -84,7 +84,7 @@ const clearTyping = (state, action) => {
 };
 
 export default (
-  state: TypingState = initialState,
+  state: TypingState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): TypingState => {
   switch (action.type) {

@@ -18,7 +18,7 @@ function mutedUsersToMap(muted_users: $ReadOnlyArray<MutedUser>): Immutable.Map<
 }
 
 export default (
-  state: MutedUsersState = initialState,
+  state: MutedUsersState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
 ): MutedUsersState => {
   switch (action.type) {
