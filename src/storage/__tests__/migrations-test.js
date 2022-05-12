@@ -105,7 +105,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base52,
-    migrations: { version: 58 },
+    migrations: { version: 59 },
   };
 
   for (const [desc, before, after] of [
@@ -128,9 +128,9 @@ describe('migrations', () => {
     // redundant with this one, because none of the migration steps notice
     // whether any properties outside `storeKeys` are present or not.
     [
-      'check dropCache at 56',
+      'check dropCache at 59',
       // Just before the `dropCache`, plus a `cacheKeys` property, plus junk.
-      { ...base52, migrations: { version: 55 }, mute: [], nonsense: [1, 2, 3] },
+      { ...base52, migrations: { version: 58 }, mute: [], nonsense: [1, 2, 3] },
       // Should wind up with the same result as without the extra properties.
       endBase,
     ],

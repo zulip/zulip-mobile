@@ -2,13 +2,54 @@
 import deepFreeze from 'deep-freeze';
 
 import fullReducer from '../../boot/reducers';
-import { getMute, reducer } from '../muteModel';
+import { getMute, getTopicVisibilityPolicy, isTopicMuted, reducer } from '../muteModel';
 import { EVENT_MUTED_TOPICS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeMuteState } from './mute-testlib';
 import { tryGetActiveAccountState } from '../../selectors';
+import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
+
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
 
 const initialState = makeMuteState([]);
+
+describe('getters', () => {
+  describe('getTopicVisibilityPolicy', () => {
+    function check(state, expected) {
+      expect(getTopicVisibilityPolicy(state, eg.stream.stream_id, 'topic')).toEqual(expected);
+    }
+
+    test('with nothing for stream', () => {
+      check(makeMuteState([]), UserTopicVisibilityPolicy.None);
+    });
+
+    test('with nothing for topic', () => {
+      check(makeMuteState([[eg.stream, 'other topic']]), UserTopicVisibilityPolicy.None);
+    });
+
+    test('with topic muted', () => {
+      check(makeMuteState([[eg.stream, 'topic']]), UserTopicVisibilityPolicy.Muted);
+    });
+  });
+
+  describe('isTopicMuted', () => {
+    function check(state, expected) {
+      expect(isTopicMuted(eg.stream.stream_id, 'topic', state)).toEqual(expected);
+    }
+
+    test('with nothing for stream', () => {
+      check(makeMuteState([]), false);
+    });
+
+    test('with nothing for topic', () => {
+      check(makeMuteState([[eg.stream, 'other topic']]), false);
+    });
+
+    test('with topic muted', () => {
+      check(makeMuteState([[eg.stream, 'topic']]), true);
+    });
+  });
+});
 
 describe('reducer', () => {
   describe('REGISTER_COMPLETE', () => {

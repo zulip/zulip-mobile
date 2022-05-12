@@ -1,6 +1,8 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
 
 import type { MuteState, PerAccountApplicableAction, PerAccountState } from '../types';
+import { UserTopicVisibilityPolicy } from '../api/modelTypes';
 import { REGISTER_COMPLETE, EVENT_MUTED_TOPICS, RESET_ACCOUNT_DATA } from '../actionConstants';
 import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as logging from '../utils/logging';
@@ -18,27 +20,52 @@ export const getMute = (state: PerAccountState): MuteState => state.mute;
 // Getters.
 //
 
-export const isTopicMuted = (streamId: number, topic: string, mute: MuteState): boolean =>
-  mute.get(streamId)?.has(topic) ?? false;
+export function getTopicVisibilityPolicy(
+  mute: MuteState,
+  streamId: number,
+  topic: string,
+): UserTopicVisibilityPolicy {
+  return mute.get(streamId)?.get(topic) ?? UserTopicVisibilityPolicy.None;
+}
+
+export function isTopicMuted(streamId: number, topic: string, mute: MuteState): boolean {
+  const policy = getTopicVisibilityPolicy(mute, streamId, topic);
+  switch (policy) {
+    case UserTopicVisibilityPolicy.None:
+      return false;
+    case UserTopicVisibilityPolicy.Muted:
+      return true;
+  }
+}
 
 //
 //
 // Reducer.
 //
 
-const initialState: MuteState = new Map();
+const initialState: MuteState = Immutable.Map();
 
 function convert(data, streams): MuteState {
-  const result = new DefaultMap(() => new Set());
+  // Turn the incoming array into a nice, indexed, Immutable data structure
+  // in the same two-phase pattern we use for the unread data, as an
+  // optimization.  Here it's probably much less often enough data for the
+  // optimization to matter; but a longtime user who regularly uses this
+  // feature will accumulate many records over time, and then it could.
+
+  // First, collect together all the data for a given stream, just in a
+  // plain old Array.
+  const byStream = new DefaultMap(() => []);
   for (const [streamName, topic] of data) {
     const stream = streams.get(streamName);
     if (!stream) {
       logging.warn('mute: unknown stream');
       continue;
     }
-    result.getOrCreate(stream.stream_id).add(topic);
+    byStream.getOrCreate(stream.stream_id).push([topic, UserTopicVisibilityPolicy.Muted]);
   }
-  return result.map;
+
+  // Then, from each of those build an Immutable.Map all in one shot.
+  return Immutable.Map(Immutable.Seq.Keyed(byStream.map.entries()).map(Immutable.Map));
 }
 
 export const reducer = (

@@ -502,6 +502,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     ),
   }),
 
+  // Change `state.mute` data structure: was a plain JS Map.
+  '59': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };
