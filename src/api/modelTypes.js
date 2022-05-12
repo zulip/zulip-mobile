@@ -636,6 +636,29 @@ export type Topic = $ReadOnly<{|
 |}>;
 
 /**
+ * A user's policy for whether and how to see a particular topic.
+ *
+ * See `visibility_policy` at: https://zulip.com/api/get-events#user_topic
+ */
+export enum UserTopicVisibilityPolicy {
+  None = 0,
+  Muted = 1,
+}
+
+/**
+ * A user's relationship to a topic; in particular, muting.
+ *
+ * Found in the initial data at `user_topics`, and in `user_topic` events:
+ *   https://zulip.com/api/get-events#user_topic
+ */
+export type UserTopic = {|
+  +stream_id: number,
+  +topic_name: string,
+  +last_updated: number,
+  +visibility_policy: UserTopicVisibilityPolicy,
+|};
+
+/**
  * A muted topic.
  *
  * Found in the initial data, and in `muted_topics` events.
@@ -645,6 +668,7 @@ export type Topic = $ReadOnly<{|
 // Server issue for using stream IDs (#3918) for muted topics, not names:
 //   https://github.com/zulip/zulip/issues/21015
 // TODO(server-3.0): Simplify away the no-timestamp version, new in FL 1.
+// TODO(server-6.0): Remove, in favor of UserTopic.
 export type MutedTopicTuple = [string, string] | [string, string, number];
 
 //
