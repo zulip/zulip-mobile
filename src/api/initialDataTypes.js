@@ -1,8 +1,8 @@
 /* @flow strict-local */
 
-import type { CustomProfileField, UserStatusUpdate, UserSettings } from './modelTypes';
 import type {
   CrossRealmBot,
+  CustomProfileField,
   MutedTopicTuple,
   MutedUser,
   PresenceSnapshot,
@@ -15,7 +15,9 @@ import type {
   User,
   UserGroup,
   UserId,
-} from './apiTypes';
+  UserSettings,
+  UserStatusUpdate,
+} from './modelTypes';
 import type {
   CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicy,
