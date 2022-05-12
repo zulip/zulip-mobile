@@ -5,7 +5,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 import { ensureUnreachable } from '../types';
-import objectEntries from './objectEntries';
+import { objectEntries } from '../flowPonyfill';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {

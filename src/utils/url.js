@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { Auth } from '../api/transportTypes';
 import { getAuthHeaders } from '../api/transport';
-import objectEntries from './objectEntries';
+import { objectEntries } from '../flowPonyfill';
 
 /**
  * An object `encodeParamsForUrl` can flatten.

@@ -2,7 +2,7 @@
 import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
-import objectEntries from '../../utils/objectEntries';
+import { objectEntries } from '../../flowPonyfill';
 import type { GlobalState } from '../../types';
 import CompressedAsyncStorage from '../CompressedAsyncStorage';
 import { stringify, parse } from '../replaceRevive';

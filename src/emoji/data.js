@@ -5,7 +5,7 @@ import type { EmojiType, ReactionType, EmojiForShared } from '../types';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
-import objectEntries from '../utils/objectEntries';
+import { objectEntries } from '../flowPonyfill';
 
 const unicodeEmojiNames = Object.keys(unicodeCodeByName);
 

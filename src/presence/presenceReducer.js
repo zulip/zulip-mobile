@@ -10,7 +10,7 @@ import {
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { getAggregatedPresence } from '../utils/presence';
-import objectEntries from '../utils/objectEntries';
+import { objectEntries } from '../flowPonyfill';
 
 const initialState: PresenceState = NULL_OBJECT;
 

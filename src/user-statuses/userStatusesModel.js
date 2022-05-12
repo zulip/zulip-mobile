@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 
 import type { UserStatus, UserStatusUpdate } from '../api/modelTypes';
 import { makeUserId } from '../api/idTypes';
-import objectEntries from '../utils/objectEntries';
+import { objectEntries } from '../flowPonyfill';
 import type { PerAccountState, PerAccountApplicableAction, UserId } from '../types';
 import type { UserStatusesState } from './userStatusesCore';
 import {

@@ -9,7 +9,7 @@ import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromUsersUnsafe } from '../.
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { fromAPNsImpl as extractIosNotificationData } from '../extract';
-import objectEntries from '../../utils/objectEntries';
+import { objectEntries } from '../../flowPonyfill';
 
 const realm_uri = eg.realm.toString();
 const user_id = eg.selfUser.user_id;

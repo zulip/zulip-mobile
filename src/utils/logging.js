@@ -10,7 +10,7 @@ import {
 
 import type { ZulipVersion } from './zulipVersion';
 import type { JSONable } from './jsonable';
-import objectEntries from './objectEntries';
+import { objectEntries } from '../flowPonyfill';
 import config from '../config';
 
 /** Type of "extras" intended for Sentry. */
