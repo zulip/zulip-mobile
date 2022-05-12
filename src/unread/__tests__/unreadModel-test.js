@@ -2,7 +2,8 @@
 import Immutable from 'immutable';
 
 import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
-import { reducer, setUnion } from '../unreadModel';
+import { reducer } from '../unreadModel';
+import { setUnion } from '../../immutableUtils';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 import { initialState, makeUnreadState } from './unread-testlib';
