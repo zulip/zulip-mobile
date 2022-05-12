@@ -7,9 +7,23 @@
  * @flow strict
  */
 
-/** Ponyfill for properly-typed `Object.entries`. */
-export const objectEntries = <K: string, V>(obj: {| +[K]: V |}): Array<[K, V]> =>
+/**
+ * Ponyfill for properly-typed `Object.entries`.
+ *
+ * See also `objectValues`, for `Object.values`.
+ */
+export function objectEntries<K: string, V>(obj: {| +[K]: V |}): Array<[K, V]> {
   // Flow's definition for Object.entries is simply
   //    static entries(object: mixed): Array<[string, mixed]>;
   // .... which is almost useless.
-  (Object.entries(obj): $FlowFixMe);
+  return (Object.entries(obj): $FlowIssue);
+}
+
+/**
+ * Ponyfill for properly-typed `Object.values`.
+ *
+ * See also `objectEntries`, for `Object.entries`.
+ */
+export function objectValues<K: string, V>(obj: {| +[K]: V |}): V[] {
+  return (Object.values(obj): $FlowIssue); // Really should be fixed in flowlib.
+}
