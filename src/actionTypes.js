@@ -75,6 +75,7 @@ import type {
   RestartEvent,
   UpdateMessageEvent,
   RealmUserUpdateEvent,
+  UserTopicEvent,
 } from './api/eventTypes';
 import type { MutedTopicTuple, PresenceSnapshot } from './api/apiTypes';
 import type { MessageMove } from './api/misc';
@@ -336,8 +337,9 @@ type GenericEventAction = $ReadOnly<{|
     | RestartEvent
     | RealmUpdateEvent
     | RealmUpdateDictEvent
+    | RealmUserUpdateEvent
     | UserSettingsUpdateEvent
-    | RealmUserUpdateEvent,
+    | UserTopicEvent,
 |}>;
 
 type EventNewMessageAction = $ReadOnly<{|

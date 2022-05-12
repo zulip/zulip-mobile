@@ -17,6 +17,7 @@ import type {
   UserId,
   UserSettings,
   UserStatusUpdate,
+  UserTopic,
 } from './modelTypes';
 import type {
   CreatePublicOrPrivateStreamPolicyT,
@@ -90,7 +91,9 @@ export type InitialDataMessage = $ReadOnly<{|
 |}>;
 
 export type InitialDataMutedTopics = $ReadOnly<{|
-  muted_topics: $ReadOnlyArray<MutedTopicTuple>,
+  /** Omitted by new servers that send `user_topics`; read that instead. */
+  // TODO(server-6.0): Remove; gone in FL 134 (given that we request `user_topic`).
+  muted_topics?: $ReadOnlyArray<MutedTopicTuple>,
 |}>;
 
 export type InitialDataMutedUsers = $ReadOnly<{|
@@ -674,6 +677,18 @@ export type InitialDataUserStatus = $ReadOnly<{|
   |}>,
 |}>;
 
+/** Initial data for the `user_topic` event type. */
+export type InitialDataUserTopic = {|
+  /**
+   * When absent (on older servers), read `muted_topics` instead.
+   *
+   * For user-topic pairs not found here, the value is implicitly a
+   * zero value: `visibility_policy` is `UserTopicVisibilityPolicy.None`.
+   */
+  // TODO(server-6.0): Introduced in FL 134.
+  +user_topics?: $ReadOnlyArray<UserTopic>,
+|};
+
 /**
  * The initial data snapshot sent on `/register`.
  *
@@ -718,6 +733,7 @@ export type InitialData = {|
   ...InitialDataUpdateMessageFlags,
   ...InitialDataUserSettings,
   ...InitialDataUserStatus,
+  ...InitialDataUserTopic,
 |};
 
 /**

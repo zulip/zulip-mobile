@@ -25,6 +25,7 @@ import type {
   UserStatusUpdate,
   UserSettings,
   ClientPresence,
+  UserTopic,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
 
@@ -69,6 +70,7 @@ export const EventTypes = keyMirror({
   user_group: null,
   user_settings: null,
   user_status: null,
+  user_topic: null,
 });
 
 export type EventType = $Keys<typeof EventTypes>;
@@ -448,4 +450,12 @@ export type RealmUserUpdateEvent = {|
         // avatar_source: string,
         // avatar_url_medium: string,
       |},
+|};
+
+export type UserTopicEvent = {|
+  ...EventCommon,
+  +type: typeof EventTypes.user_topic,
+
+  // The event comprises the whole new state of the user-topic relationship.
+  ...UserTopic,
 |};

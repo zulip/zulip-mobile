@@ -737,9 +737,6 @@ export const action = Object.freeze({
       // InitialDataMessage
       max_message_id: 100,
 
-      // InitialDataMutedTopics
-      muted_topics: [],
-
       // InitialDataMutedUsers
       muted_users: [],
 
@@ -950,6 +947,9 @@ export const action = Object.freeze({
 
       // InitialDataUserStatus
       user_status: {},
+
+      // InitialDataUserTopic
+      user_topics: [],
     },
   }): RegisterCompleteAction),
 

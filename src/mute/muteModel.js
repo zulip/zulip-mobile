@@ -3,10 +3,17 @@ import Immutable from 'immutable';
 
 import type { MuteState, PerAccountApplicableAction, PerAccountState } from '../types';
 import { UserTopicVisibilityPolicy } from '../api/modelTypes';
-import { REGISTER_COMPLETE, EVENT_MUTED_TOPICS, RESET_ACCOUNT_DATA } from '../actionConstants';
+import { EventTypes } from '../api/eventTypes';
+import {
+  REGISTER_COMPLETE,
+  EVENT_MUTED_TOPICS,
+  RESET_ACCOUNT_DATA,
+  EVENT,
+} from '../actionConstants';
 import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as logging from '../utils/logging';
 import DefaultMap from '../utils/DefaultMap';
+import { updateAndPrune } from '../immutableUtils';
 
 //
 //
@@ -45,7 +52,24 @@ export function isTopicMuted(streamId: number, topic: string, mute: MuteState): 
 
 const initialState: MuteState = Immutable.Map();
 
-function convert(data, streams): MuteState {
+/** Consume the old `muted_topics` format. */
+function convertLegacy(data, streams): MuteState {
+  // Same strategy as in convertInitial, below.
+
+  const byStream = new DefaultMap(() => []);
+  for (const [streamName, topic] of data) {
+    const stream = streams.get(streamName);
+    if (!stream) {
+      logging.warn('mute: unknown stream');
+      continue;
+    }
+    byStream.getOrCreate(stream.stream_id).push([topic, UserTopicVisibilityPolicy.Muted]);
+  }
+
+  return Immutable.Map(Immutable.Seq.Keyed(byStream.map.entries()).map(Immutable.Map));
+}
+
+function convertInitial(data): MuteState {
   // Turn the incoming array into a nice, indexed, Immutable data structure
   // in the same two-phase pattern we use for the unread data, as an
   // optimization.  Here it's probably much less often enough data for the
@@ -55,13 +79,13 @@ function convert(data, streams): MuteState {
   // First, collect together all the data for a given stream, just in a
   // plain old Array.
   const byStream = new DefaultMap(() => []);
-  for (const [streamName, topic] of data) {
-    const stream = streams.get(streamName);
-    if (!stream) {
-      logging.warn('mute: unknown stream');
+  for (const { stream_id, topic_name, visibility_policy } of data) {
+    if (!UserTopicVisibilityPolicy.isValid((visibility_policy: number))) {
+      // Not a value we expect.  Keep it out of our data structures.
+      logging.warn(`unexpected UserTopicVisibilityPolicy: ${(visibility_policy: number)}`);
       continue;
     }
-    byStream.getOrCreate(stream.stream_id).push([topic, UserTopicVisibilityPolicy.Muted]);
+    byStream.getOrCreate(stream_id).push([topic_name, visibility_policy]);
   }
 
   // Then, from each of those build an Immutable.Map all in one shot.
@@ -78,10 +102,14 @@ export const reducer = (
       return initialState;
 
     case REGISTER_COMPLETE:
+      if (action.data.user_topics) {
+        return convertInitial(action.data.user_topics);
+      }
       // We require this `globalState` to reflect the `streams` sub-reducer
       // already having run, so that `getStreamsByName` gives the data we
       // just received.  See this sub-reducer's call site in `reducers.js`.
-      return convert(
+      // TODO(server-6.0): Stop caring about that, when we cut muted_topics.
+      return convertLegacy(
         action.data.muted_topics
           // TODO(#5102): Delete fallback once we enforce any threshold for
           //   ancient servers we refuse to connect to. It was added in
@@ -94,7 +122,30 @@ export const reducer = (
       );
 
     case EVENT_MUTED_TOPICS:
-      return convert(action.muted_topics, getStreamsByName(globalState));
+      return convertLegacy(action.muted_topics, getStreamsByName(globalState));
+
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.user_topic: {
+          const { stream_id, topic_name, visibility_policy } = event;
+          if (visibility_policy === UserTopicVisibilityPolicy.None) {
+            // This is the "zero value" for this type, which our MuteState
+            // data structure represents by leaving the topic out entirely.
+            return updateAndPrune(
+              state,
+              Immutable.Map(),
+              stream_id,
+              (perStream = Immutable.Map()) => perStream.delete(topic_name),
+            );
+          }
+          return state.updateIn([stream_id, topic_name], () => visibility_policy);
+        }
+
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;

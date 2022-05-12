@@ -168,6 +168,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
     case 'custom_profile_fields':
     case 'stream':
     case 'user_settings':
+    case 'user_topic':
       return {
         type: EVENT,
         event,

@@ -149,7 +149,7 @@ export default async (
       'alert_words',
       'custom_profile_fields',
       'message',
-      'muted_topics',
+      'muted_topics', // TODO(server-6.0): Stop requesting, in favor of user_topic
       'muted_users',
       'presence',
       'realm',
@@ -170,6 +170,7 @@ export default async (
       'update_message_flags',
       'user_settings',
       'user_status',
+      'user_topic',
       'zulip_version',
     ]),
 
