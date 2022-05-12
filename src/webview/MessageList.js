@@ -16,8 +16,6 @@ import type {
   EditMessage,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
-import type { ThemeData } from '../styles';
-import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
   getCurrentTypingUsers,
@@ -104,9 +102,6 @@ const assetsUrl =
 const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
 class MessageListInner extends Component<Props> {
-  static contextType = ThemeContext;
-  context: ThemeData;
-
   webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];

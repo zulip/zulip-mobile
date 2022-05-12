@@ -5,9 +5,8 @@ import type { ComponentType } from 'react';
 import type { ValidationError } from './ShareWrapper';
 import type { SharingNavigationProp } from './SharingScreen';
 import type { RouteProp } from '../react-navigation';
-import type { Dispatch, Auth, GetText, Stream } from '../types';
+import type { Dispatch, Auth, Stream } from '../types';
 import type { SharedData } from './types';
-import { TranslationContext } from '../boot/TranslationProvider';
 import { connect } from '../react-redux';
 import Input from '../common/Input';
 import StreamAutocomplete from '../autocomplete/StreamAutocomplete';
@@ -50,9 +49,6 @@ type State = $ReadOnly<{|
 |}>;
 
 class ShareToStreamInner extends React.Component<Props, State> {
-  static contextType = TranslationContext;
-  context: GetText;
-
   state = {
     streamName: '',
     streamId: null,

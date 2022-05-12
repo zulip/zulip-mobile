@@ -1,15 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
-import type { Node, Context } from 'react';
+import type { Node } from 'react';
 import { View, Modal } from 'react-native';
 
 import type { ValidationError } from './ShareWrapper';
 import type { RouteProp } from '../react-navigation';
 import type { SharingNavigationProp } from './SharingScreen';
-import type { GetText, UserId } from '../types';
+import type { UserId } from '../types';
 import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
-import { TranslationContext } from '../boot/TranslationProvider';
 import ZulipButton from '../common/ZulipButton';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import UserItem from '../users/UserItem';
@@ -39,9 +38,6 @@ type State = $ReadOnly<{|
 |}>;
 
 export default class ShareToPm extends React.Component<Props, State> {
-  static contextType: Context<GetText> = TranslationContext;
-  context: GetText;
-
   state: State = {
     selectedRecipients: [],
     choosingRecipients: false,

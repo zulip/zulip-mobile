@@ -344,13 +344,6 @@ rules:
   flowtype/use-flow-type: warn
   flowtype/valid-syntax: warn
 
-  #
-  # ================================================================
-  # New rules we want, but that require code changes to enable
-  #
-
-  react/no-unused-class-component-methods: off
-
 overrides:
 
   #
