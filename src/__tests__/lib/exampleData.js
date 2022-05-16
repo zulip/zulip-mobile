@@ -714,28 +714,48 @@ export const action = Object.freeze({
   register_complete: (deepFreeze({
     type: REGISTER_COMPLETE,
     data: {
+      // InitialDataBase
       last_event_id: 34,
       msg: '',
       queue_id: '1',
+      zulip_feature_level: 1,
+      zulip_version: zulipVersion.raw(),
+
+      // InitialDataAlertWords
       alert_words: [],
+
+      // InitialDataMessage
       max_message_id: 100,
+
+      // InitialDataMutedTopics
       muted_topics: [],
+
+      // InitialDataMutedUsers
       muted_users: [],
+
+      // InitialDataPresence
       presences: {},
+
+      // InitialDataRealm
       development_environment: false,
       event_queue_longpoll_timeout_seconds: 600,
+      // jitsi_server_url omitted
       max_avatar_file_size_mib: 3,
       max_file_upload_size_mib: 3,
-      max_icon_file_size: 3,
+      max_icon_file_size: 3, // TODO: remove; deprecated.
       max_icon_file_size_mib: 3,
       max_logo_file_size_mib: 3,
+      // TODO: add max_message_length
+      // TODO: add max_stream_description_length
+      // TODO: add max_stream_name_length
+      // TODO: add max_topic_length
       password_min_length: 8,
       password_min_guesses: 3,
       realm_add_custom_emoji_policy: 3,
-      realm_add_emoji_by_admins_only: true,
-      realm_allow_community_topic_editing: true,
+      realm_add_emoji_by_admins_only: true, // TODO: remove; deprecated.
+      realm_allow_community_topic_editing: true, // TODO: remove; deprecated.
       realm_allow_edit_history: true,
-      realm_allow_message_deleting: true,
+      realm_allow_message_deleting: true, // TODO: remove; deprecated.
       realm_allow_message_editing: true,
       realm_authentication_methods: { GitHub: true, Email: true, Google: true },
       realm_available_video_chat_providers: {},
@@ -749,7 +769,7 @@ export const action = Object.freeze({
       realm_default_code_block_language: 'python',
       realm_default_external_accounts: {},
       realm_default_language: 'en',
-      realm_default_twenty_four_hour_time: true,
+      realm_default_twenty_four_hour_time: true, // TODO: remove; deprecated.
       realm_delete_own_message_policy: 3,
       realm_description: 'description',
       realm_digest_emails_enabled: true,
@@ -760,12 +780,13 @@ export const action = Object.freeze({
       realm_email_auth_enabled: true,
       realm_email_changes_disabled: true,
       realm_emails_restricted_to_domains: false,
+      // TODO: add realm_enable_spectator_access
       realm_giphy_rating: 3,
       realm_icon_source: 'U',
       realm_icon_url: 'example.com/some/path',
       realm_inline_image_preview: true,
       realm_inline_url_embed_preview: true,
-      realm_invite_by_admins_only: true,
+      realm_invite_by_admins_only: true, // TODO: remove; deprecated.
       realm_invite_required: true,
       realm_invite_to_realm_policy: 3,
       realm_invite_to_stream_policy: 3,
@@ -797,26 +818,29 @@ export const action = Object.freeze({
       realm_waiting_period_threshold: 3,
       realm_wildcard_mention_policy: 3,
       server_avatar_changes_disabled: false,
+      server_generation: 3,
+      server_inline_image_preview: true,
+      server_inline_url_embed_preview: true,
       server_name_changes_disabled: false,
       server_needs_upgrade: false,
-      server_inline_url_embed_preview: true,
-      server_inline_image_preview: true,
-      server_generation: 3,
+      // TODO: add server_web_public_streams_enabled
       settings_send_digest_emails: true,
       upgrade_text_for_wide_organization_logo: '',
       zulip_plan_is_not_limited: false,
-      zulip_feature_level: 1,
-      zulip_version: zulipVersion.raw(),
+
+      // InitialDataRealmEmoji
       realm_emoji: {},
+
+      // InitialDataRealmFilters
       realm_filters: [],
 
-      // RawInitialDataRealmUser
+      // InitialDataRealmUser
       realm_users: [],
       realm_non_active_users: [],
       avatar_source: 'G',
       avatar_url_medium: 'url',
       avatar_url: null, // ideally would agree with selfUser.avatar_url
-      can_create_streams: false,
+      can_create_streams: false, // new servers don't send, but we fill in
       can_create_public_streams: false,
       can_create_private_streams: false,
       can_create_web_public_streams: false,
@@ -833,19 +857,30 @@ export const action = Object.freeze({
       full_name: selfUser.full_name,
       cross_realm_bots: [],
 
+      // InitialDataRealmUserGroups
       realm_user_groups: [],
+
+      // InitialDataRecentPmConversations
       recent_private_conversations: [],
+
+      // InitialDataStream
       streams: [],
+
+      // InitialDataSubscription
       never_subscribed: [],
       subscriptions: [],
       unsubscribed: [],
+
+      // InitialDataUpdateMessageFlags
       unread_msgs: {
         streams: [],
         huddles: [],
-        count: 0,
         pms: [],
         mentions: [],
+        count: 0,
       },
+
+      // InitialDataUserSettings
       user_settings: {
         twenty_four_hour_time: true,
         dense_mode: true,
@@ -890,6 +925,8 @@ export const action = Object.freeze({
         send_stream_typing_notifications: true,
         send_read_receipts: true,
       },
+
+      // InitialDataUserStatus
       user_status: {},
     },
   }): RegisterCompleteAction),
