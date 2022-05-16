@@ -6,6 +6,7 @@
 
 import type { AvatarURL } from '../utils/avatar';
 import type { UserId } from './idTypes';
+import type { RoleT } from './permissionsTypes';
 
 export type * from './idTypes';
 
@@ -125,7 +126,7 @@ export type User = {|
   +bot_owner?: string,
 
   // TODO(server-4.0): New in FL 59
-  +role?: number,
+  +role?: RoleT,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
   // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
@@ -212,7 +213,7 @@ export type CrossRealmBot = {|
   // +bot_owner?: string,
 
   // TODO(server-4.0): New in FL 59
-  +role?: number,
+  +role?: RoleT,
 
   // The ? is for future-proofing.  For bots it's always '':
   //   https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576
