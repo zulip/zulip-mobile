@@ -15,6 +15,7 @@ import EditStreamCard from './EditStreamCard';
 import { showErrorAlert } from '../utils/info';
 import { ApiError } from '../api/apiErrors';
 import * as api from '../api';
+import { privacyToStreamProps } from './streamsActions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'create-stream'>,
@@ -39,7 +40,7 @@ export default function CreateStreamScreen(props: Props): Node {
       }
 
       try {
-        await api.createStream(auth, { name, description, invite_only: privacy === 'private' });
+        await api.createStream(auth, { name, description, ...privacyToStreamProps(privacy) });
         NavigationService.dispatch(navigateBack());
       } catch (error) {
         // If the stream already exists but you can't access it (e.g., it's

@@ -5,19 +5,37 @@ import { getAuth, getZulipFeatureLevel } from '../selectors';
 import { ensureUnreachable } from '../generics';
 import type { SubsetProperties } from '../generics';
 
-export type Privacy = 'public' | 'private';
+export type Privacy = 'web-public' | 'public' | 'invite-only-public-history' | 'invite-only';
 
-type StreamPrivacyProps = SubsetProperties<Stream, { +invite_only: mixed, ... }>;
+type StreamPrivacyProps = SubsetProperties<
+  Stream,
+  // If making any optional, read discussion first:
+  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/PATCH.20.2Fstreams.2F.7Bstream_id.7D/near/1383984
+  { +is_web_public: mixed, +invite_only: mixed, +history_public_to_subscribers: mixed, ... },
+>;
 
-export const streamPropsToPrivacy = (streamProps: StreamPrivacyProps): Privacy =>
-  streamProps.invite_only ? 'private' : 'public';
+export const streamPropsToPrivacy = (streamProps: StreamPrivacyProps): Privacy => {
+  if (streamProps.is_web_public === true) {
+    return 'web-public';
+  } else if (streamProps.invite_only === false) {
+    return 'public';
+  } else if (streamProps.history_public_to_subscribers === true) {
+    return 'invite-only-public-history';
+  } else {
+    return 'invite-only';
+  }
+};
 
 export const privacyToStreamProps = (privacy: Privacy): $Exact<StreamPrivacyProps> => {
   switch (privacy) {
-    case 'private':
-      return { invite_only: true };
+    case 'web-public':
+      return { is_web_public: true, invite_only: false, history_public_to_subscribers: true };
     case 'public':
-      return { invite_only: false };
+      return { is_web_public: false, invite_only: false, history_public_to_subscribers: true };
+    case 'invite-only-public-history':
+      return { is_web_public: false, invite_only: true, history_public_to_subscribers: true };
+    case 'invite-only':
+      return { is_web_public: false, invite_only: true, history_public_to_subscribers: false };
     default:
       ensureUnreachable(privacy);
 
@@ -51,7 +69,13 @@ export const updateExistingStream = (
   if (changedValues.privacy !== undefined) {
     const streamProps = privacyToStreamProps(changedValues.privacy);
 
+    // Only send is_web_public if the server will recognize it.
+    // TODO(server-5.0): Remove conditional.
+    if (getZulipFeatureLevel(state) >= 98) {
+      updates.is_web_public = streamProps.is_web_public;
+    }
     updates.is_private = streamProps.invite_only;
+    updates.history_public_to_subscribers = streamProps.history_public_to_subscribers;
   }
 
   if (Object.keys(updates).length === 0) {
