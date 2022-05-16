@@ -16,6 +16,7 @@ import type {
   UserGroup,
   UserId,
 } from './apiTypes';
+import type { CreateWebPublicStreamPolicyT } from './permissionsTypes';
 
 /*
    The types in this file are organized by which `fetch_event_types` values
@@ -163,8 +164,9 @@ export type InitialDataRealm = $ReadOnly<{|
   // realm_create_private_stream_policy and realm_create_public_stream_policy
   realm_create_stream_policy?: number,
 
-  // TODO(server-5.0): Added in feat. 103; when absent, treat as 6 (nobody).
-  realm_create_web_public_stream_policy?: number,
+  // TODO(server-5.0): Added in feat. 103; when absent, treat as
+  //   CreateWebPublicStreamPolicy.Nobody.
+  realm_create_web_public_stream_policy?: CreateWebPublicStreamPolicyT,
 
   realm_default_code_block_language: string | null,
   realm_default_external_accounts: {|

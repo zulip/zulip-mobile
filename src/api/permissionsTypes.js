@@ -39,3 +39,40 @@ typesEquivalent<RoleT, $Values<typeof Role>>();
  * See Role for an enum to refer to these by meaningful names.
  */
 export const RoleValues: $ReadOnlyArray<RoleT> = objectValues(Role);
+
+/**
+ * The policy for which users can create web public streams in this
+ * organization. Ignore if the server hasn't opted into the concept of
+ * web-public streams.
+ */
+// Ideally both the type and enum would have the simple name; but a type
+// and value sharing a name is one nice TS feature that Flow lacks.
+// Or we could leapfrog TS and make this a Flow enum:
+//   https://flow.org/en/docs/enums/
+// (TS has its own enums, but they are a mess.)
+// eslint-disable-next-line flowtype/type-id-match
+export type CreateWebPublicStreamPolicyT = 2 | 4 | 6 | 7;
+
+/**
+ * An enum of all valid values for `CreateWebPublicStreamPolicyT`.
+ *
+ * See CreateWebPublicStreamPolicyValues for the list of values.
+ */
+export const CreateWebPublicStreamPolicy = {
+  AdminOrAbove: (2: 2),
+  ModeratorOrAbove: (4: 4),
+  Nobody: (6: 6),
+  OwnerOnly: (7: 7),
+};
+
+// Check that the enum indeed has all and exactly the values of the type.
+typesEquivalent<CreateWebPublicStreamPolicyT, $Values<typeof CreateWebPublicStreamPolicy>>();
+
+/**
+ * A list of all valid values for `CreateWebPublicStreamPolicyT`.
+ *
+ * See CreateWebPublicStreamPolicy for an enum to refer to these by meaningful names.
+ */
+export const CreateWebPublicStreamPolicyValues: $ReadOnlyArray<CreateWebPublicStreamPolicyT> = objectValues(
+  CreateWebPublicStreamPolicy,
+);

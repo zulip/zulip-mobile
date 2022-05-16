@@ -21,6 +21,7 @@ import { randString, randInt } from '../../utils/misc';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
 import { EventTypes, type UpdateMessageEvent } from '../../api/eventTypes';
+import { CreateWebPublicStreamPolicy } from '../../api/permissionsTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -761,7 +762,7 @@ export const action = Object.freeze({
       realm_community_topic_editing_limit_seconds: 600,
       realm_create_private_stream_policy: 3,
       realm_create_public_stream_policy: 3,
-      realm_create_web_public_stream_policy: 3,
+      realm_create_web_public_stream_policy: CreateWebPublicStreamPolicy.ModeratorOrAbove,
       realm_default_code_block_language: 'python',
       realm_default_external_accounts: {},
       realm_default_language: 'en',

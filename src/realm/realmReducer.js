@@ -5,6 +5,7 @@ import type {
   RealmEmojiById,
   VideoChatProvider,
 } from '../types';
+import { CreateWebPublicStreamPolicy } from '../api/permissionsTypes';
 import { EventTypes } from '../api/eventTypes';
 import {
   REGISTER_COMPLETE,
@@ -34,7 +35,7 @@ const initialState = {
   messageContentEditLimitSeconds: 1,
   pushNotificationsEnabled: true,
   webPublicStreamsEnabled: false,
-  createWebPublicStreamPolicy: 6,
+  createWebPublicStreamPolicy: CreateWebPublicStreamPolicy.Nobody,
   enableSpectatorAccess: false,
 
   //
@@ -108,7 +109,8 @@ export default (
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
         webPublicStreamsEnabled: action.data.server_web_public_streams_enabled ?? false,
-        createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy ?? 6,
+        createWebPublicStreamPolicy:
+          action.data.realm_create_web_public_stream_policy ?? CreateWebPublicStreamPolicy.Nobody,
         enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
 
         //
