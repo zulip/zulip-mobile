@@ -173,6 +173,11 @@ export default (
             if (data.description !== undefined) {
               result.description = data.description;
             }
+            // TODO: Can also update createWebPublicStreamPolicy?
+            //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/event.20with.20.60create_web_public_stream_policy.60.3F/near/1381274
+            if (data.enable_spectator_access !== undefined) {
+              result.enableSpectatorAccess = data.enable_spectator_access;
+            }
 
             return result;
           }
