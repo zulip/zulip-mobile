@@ -135,7 +135,7 @@ export type User = {|
   +timezone?: string,
 
   /**
-   * Present under EVENT_USER_ADD, EVENT_USER_UPDATE (if change
+   * Present under EVENT_USER_ADD, RealmUserUpdateEvent (if change
    * indicated), under REGISTER_COMPLETE, and in `state.users`, all as an
    * AvatarURL, because we translate into that form at the edge.
    *

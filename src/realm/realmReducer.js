@@ -139,7 +139,7 @@ export default (
       };
     }
 
-    // TODO on EVENT_USER_UPDATE for self: update email, isAdmin, etc.
+    // TODO on RealmUserUpdateEvent for self: update email, isAdmin, etc.
 
     case EVENT_REALM_FILTERS:
       return {

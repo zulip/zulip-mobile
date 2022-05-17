@@ -10,7 +10,7 @@ type ApiResponseUsers = {|
 
 // TODO: If we start to use this, we need to convert `.avatar_url` to
 // an AvatarURL instance, like we do in `registerForEvents` and
-// `EVENT_USER_ADD` and `EVENT_USER_UPDATE`.
+// `EVENT_USER_ADD` and RealmUserUpdateEvent.
 
 /** See https://zulip.com/api/get-users */
 export default (auth: Auth): Promise<ApiResponseUsers> =>

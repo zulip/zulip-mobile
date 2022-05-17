@@ -1,6 +1,5 @@
 /* @flow strict-local */
-import { EventTypes, type EventType } from '../api/eventTypes';
-
+import { EventTypes, type EventType, type RealmUserUpdateEventRaw } from '../api/eventTypes';
 import * as logging from '../utils/logging';
 import type { PerAccountState, EventAction } from '../types';
 import {
@@ -17,7 +16,6 @@ import {
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
-  EVENT_USER_UPDATE,
   EVENT_MUTED_TOPICS,
   EVENT_MUTED_USERS,
   EVENT_USER_GROUP_ADD,
@@ -245,7 +243,9 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
         }
 
         case 'update': {
-          const { user_id: userId } = event.person;
+          const rawEvent: RealmUserUpdateEventRaw = event;
+
+          const { user_id: userId } = rawEvent.person;
           const existingUser = tryGetUserForId(state, userId);
           if (!existingUser) {
             // If we get one of these events and don't have
@@ -257,36 +257,30 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
             );
             return null;
           }
-          return {
-            type: EVENT_USER_UPDATE,
-            id: event.id,
-            userId,
-            // Just the fields we want to overwrite.
-            person: {
-              // Note: The `avatar_url` field will be out of sync with
-              // some related, documented properties, but we don't
-              // currently use them: `avatar_source`,
-              // `avatar_url_medium`, and `avatar_version`.
-              ...(() => {
-                if (event.person.avatar_url !== undefined) {
-                  return {
-                    avatar_url: AvatarURL.fromUserOrBotData({
-                      rawAvatarUrl: event.person.avatar_url,
-                      userId,
-                      email: existingUser.email,
-                      realm,
-                    }),
-                  };
-                } else if (event.person.role !== undefined) {
-                  return {
-                    role: event.person.role,
-                  };
-                } else {
-                  return undefined;
-                }
-              })(),
-            },
-          };
+
+          const { person } = rawEvent;
+          if (person.avatar_url !== undefined) {
+            return {
+              type: EVENT,
+              event: {
+                ...rawEvent,
+                person: {
+                  user_id: person.user_id,
+                  avatar_url: AvatarURL.fromUserOrBotData({
+                    rawAvatarUrl: person.avatar_url,
+                    userId,
+                    email: existingUser.email,
+                    realm,
+                  }),
+                },
+              },
+            };
+          } else {
+            return {
+              type: EVENT,
+              event: { ...rawEvent, person },
+            };
+          }
         }
 
         case 'remove':

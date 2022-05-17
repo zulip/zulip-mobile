@@ -7,8 +7,9 @@ import {
   REGISTER_COMPLETE,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
-  EVENT_USER_UPDATE,
+  EVENT,
 } from '../actionConstants';
+import { EventTypes } from '../api/eventTypes';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UsersState = NULL_ARRAY;
@@ -32,10 +33,31 @@ export default (
     case EVENT_USER_REMOVE:
       return state; // TODO
 
-    case EVENT_USER_UPDATE:
-      return state.map(user =>
-        user.user_id === action.userId ? { ...user, ...action.person } : user,
-      );
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.realm_user: {
+          switch (event.op) {
+            case 'update': {
+              return state.map(user => {
+                if (user.user_id !== event.person.user_id) {
+                  return user;
+                }
+                if (event.person.avatar_url || event.person.role) {
+                  return { ...user, ...event.person };
+                } else {
+                  return user;
+                }
+              });
+            }
+            default:
+              return state;
+          }
+        }
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;

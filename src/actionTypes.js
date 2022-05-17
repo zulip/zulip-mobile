@@ -51,7 +51,6 @@ import {
   EVENT_MUTED_USERS,
   EVENT_REALM_FILTERS,
   EVENT_USER_REMOVE,
-  EVENT_USER_UPDATE,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_SUBMESSAGE,
@@ -71,6 +70,7 @@ import type {
   SubmessageEvent,
   RestartEvent,
   UpdateMessageEvent,
+  RealmUserUpdateEvent,
 } from './api/eventTypes';
 import type { MutedTopicTuple, PresenceSnapshot } from './api/apiTypes';
 import type { MessageMove } from './api/misc';
@@ -332,7 +332,8 @@ type GenericEventAction = $ReadOnly<{|
     | RestartEvent
     | RealmUpdateEvent
     | RealmUpdateDictEvent
-    | UserSettingsUpdateEvent,
+    | UserSettingsUpdateEvent
+    | RealmUserUpdateEvent,
 |}>;
 
 type EventNewMessageAction = $ReadOnly<{|
@@ -424,14 +425,6 @@ type EventUserRemoveAction = $ReadOnly<{|
   // the type before going and adding those other properties here properly.
 |}>;
 
-type EventUserUpdateAction = $ReadOnly<{|
-  ...ServerEvent,
-  type: typeof EVENT_USER_UPDATE,
-  userId: UserId,
-  // Include only the fields that should be overwritten.
-  person: $Rest<User, { ... }>,
-|}>;
-
 type EventMutedTopicsAction = $ReadOnly<{|
   ...ServerEvent,
   type: typeof EVENT_MUTED_TOPICS,
@@ -515,7 +508,9 @@ type EventSubscriptionAction =
 
 type EventTypingAction = EventTypingStartAction | EventTypingStopAction;
 
-type EventUserAction = EventUserAddAction | EventUserRemoveAction | EventUserUpdateAction;
+// For the update-user event, the action type is GenericEventAction, and the
+// event type is RealmUserUpdateEvent.
+type EventUserAction = EventUserAddAction | EventUserRemoveAction;
 
 type EventUserGroupAction =
   | EventUserGroupAddAction
@@ -761,7 +756,6 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case EVENT_USER_GROUP_UPDATE:
     case EVENT_USER_REMOVE:
     case EVENT_USER_STATUS_UPDATE:
-    case EVENT_USER_UPDATE:
     case DEAD_QUEUE:
     case REGISTER_START:
     case REGISTER_ABORT:

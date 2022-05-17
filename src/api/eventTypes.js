@@ -10,9 +10,11 @@
  * @flow strict-local
  */
 
+import type { SubsetProperties } from '../generics';
 import { keyMirror } from '../utils/keyMirror';
 import type {
   Message,
+  UserOrBot,
   MutedUser,
   PropagateMode,
   Stream,
@@ -331,3 +333,82 @@ export type UpdateMessageEvent = $ReadOnly<{|
   rendered_content?: string,
   is_me_message?: boolean,
 |}>;
+
+type PersonCommon =
+  | SubsetProperties<UserOrBot, {| +user_id: mixed, +full_name: mixed |}>
+  | SubsetProperties<
+      UserOrBot,
+      {|
+        +user_id: mixed,
+        // -email?: mixed, // deprecated
+        +timezone: mixed,
+      |},
+    >
+  | SubsetProperties<UserOrBot, {| +user_id: mixed, +bot_owner_id: mixed |}>
+  | SubsetProperties<UserOrBot, {| +user_id: mixed, +role: mixed |}>
+  | SubsetProperties<UserOrBot, {| +user_id: mixed, +is_billing_admin: mixed |}>
+  | SubsetProperties<UserOrBot, {| +user_id: mixed, +delivery_email: mixed |}>
+  | {|
+      +user_id: $PropertyType<UserOrBot, 'user_id'>,
+      +custom_profile_field: {| +id: number, +value: string, +rendered_value?: string |},
+    |}
+  | {| +user_id: $PropertyType<UserOrBot, 'user_id'>, +new_email: string |};
+
+/**
+ * A realm_user update event, straight from the server.
+ *
+ * Doc: https://zulip.com/api/get-events#realm_user-update
+ */
+// Current to FL 129.
+export type RealmUserUpdateEventRaw = {|
+  ...EventCommon,
+  +type: typeof EventTypes.realm_user,
+  +op: 'update',
+  +person:
+    | PersonCommon
+    | {|
+        ...SubsetProperties<
+          UserOrBot,
+          {|
+            +user_id: mixed,
+
+            // TODO: This is documented in the event. If handling, see if
+            // the object at `avatar_url` needs to change to stay in sync.
+            // avatar_version: number,
+          |},
+        >,
+        +avatar_url: string | null,
+
+        // These are documented in the event, but they're not documented in
+        // the collections of users and bots in the initial data. Ignore.
+        // avatar_source: string,
+        // avatar_url_medium: string,
+      |},
+|};
+
+/** A realm_user update event, after we've processed it at the edge. */
+export type RealmUserUpdateEvent = {|
+  ...EventCommon,
+  +type: typeof EventTypes.realm_user,
+  +op: 'update',
+  +person:
+    | PersonCommon
+    | {|
+        ...SubsetProperties<
+          UserOrBot,
+          {|
+            +user_id: mixed,
+            +avatar_url: mixed,
+
+            // TODO: This is documented in the event. If handling, see if
+            // the object at `avatar_url` needs to change to stay in sync.
+            // avatar_version: number,
+          |},
+        >,
+
+        // These are documented in the event, but they're not documented in
+        // the collections of users and bots in the initial data. Ignore.
+        // avatar_source: string,
+        // avatar_url_medium: string,
+      |},
+|};

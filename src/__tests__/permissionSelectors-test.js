@@ -10,8 +10,9 @@ import {
 } from '../api/permissionsTypes';
 import { getCanCreateWebPublicStreams } from '../permissionSelectors';
 import rootReducer from '../boot/reducers';
-import { EVENT_USER_UPDATE } from '../actionConstants';
+import { EVENT } from '../actionConstants';
 import * as eg from './lib/exampleData';
+import { EventTypes } from '../api/eventTypes';
 
 describe('getCanCreateWebPublicStreams', () => {
   const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;
@@ -20,10 +21,13 @@ describe('getCanCreateWebPublicStreams', () => {
   test('returns false when webPublicStreamsEnabled is false', () => {
     const globalState = [
       {
-        type: EVENT_USER_UPDATE,
-        id: 0,
-        userId: eg.selfUser.user_id,
-        person: { user_id: eg.selfUser.user_id, role: Owner },
+        type: EVENT,
+        event: {
+          id: 0,
+          type: EventTypes.realm_user,
+          op: 'update',
+          person: { user_id: eg.selfUser.user_id, role: Owner },
+        },
       },
     ].reduce(
       rootReducer,
@@ -46,10 +50,13 @@ describe('getCanCreateWebPublicStreams', () => {
   test('returns false when enableSpectatorAccess is false', () => {
     const globalState = [
       {
-        type: EVENT_USER_UPDATE,
-        id: 0,
-        userId: eg.selfUser.user_id,
-        person: { user_id: eg.selfUser.user_id, role: Owner },
+        type: EVENT,
+        event: {
+          id: 0,
+          type: EventTypes.realm_user,
+          op: 'update',
+          person: { user_id: eg.selfUser.user_id, role: Owner },
+        },
       },
     ].reduce(
       rootReducer,
@@ -104,10 +111,13 @@ describe('getCanCreateWebPublicStreams', () => {
     }) => {
       const globalState = [
         {
-          type: EVENT_USER_UPDATE,
-          id: 0,
-          userId: eg.selfUser.user_id,
-          person: { user_id: eg.selfUser.user_id, role },
+          type: EVENT,
+          event: {
+            id: 0,
+            type: EventTypes.realm_user,
+            op: 'update',
+            person: { user_id: eg.selfUser.user_id, role },
+          },
         },
       ].reduce(
         rootReducer,
