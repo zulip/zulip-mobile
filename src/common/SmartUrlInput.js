@@ -77,7 +77,7 @@ export default function SmartUrlInput(props: Props): Node {
     <View style={[styles.wrapper, style]}>
       <TextInput
         value={value}
-        placeholder="your-org.zulipchat.com"
+        placeholder="example.zulipchat.com"
         placeholderTextColor={HALF_COLOR}
         style={[styles.realmInput, { color: themeContext.color }]}
         autoFocus
