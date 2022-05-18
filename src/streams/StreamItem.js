@@ -5,17 +5,20 @@ import { View, Pressable } from 'react-native';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
+import { showErrorAlert } from '../utils/info';
 import { showStreamActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { useDispatch, useSelector } from '../react-redux';
+import { useDispatch, useSelector, useGlobalSelector } from '../react-redux';
 import {
   getAuth,
+  getRealmUrl,
   getFlags,
   getSubscriptionsById,
   getStreamsById,
   getOwnUser,
   getSettings,
+  getGlobalSettings,
 } from '../selectors';
 import styles, {
   createStyleSheet,
@@ -105,6 +108,9 @@ export default function StreamItem(props: Props): Node {
     onSubscribeButtonPressed,
   } = props;
 
+  const realmUrl = useSelector(getRealmUrl);
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   const showActionSheetWithOptions: ShowActionSheetWithOptions = useActionSheet()
     .showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
@@ -176,11 +182,20 @@ export default function StreamItem(props: Props): Node {
               <Pressable
                 onPress={() => {
                   if (onSubscribeButtonPressed) {
+                    if (disabled) {
+                      showErrorAlert(
+                        _('Cannot subscribe to stream'),
+                        _('Stream #{name} is private.', { name }),
+                        new URL('/help/stream-permissions', realmUrl),
+                        globalSettings,
+                      );
+                      return;
+                    }
+
                     onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
                   }
                 }}
                 hitSlop={12}
-                disabled={disabled}
                 style={{ opacity: disabled ? 0.1 : 1 }}
               >
                 {({ pressed }) =>

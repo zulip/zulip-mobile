@@ -1,4 +1,6 @@
 {
+  "Cannot subscribe to stream": "Cannot subscribe to stream",
+  "Stream #{name} is private.": "Stream #{name} is private.",
   "See details": "See details",
   "Failed to show details": "Failed to show details",
   "Share canceled": "Share canceled",
