@@ -4,6 +4,8 @@
  * @flow strict-local
  */
 
+import { typesEquivalent } from '../generics';
+import { objectValues } from '../flowPonyfill';
 import type { AvatarURL } from '../utils/avatar';
 import type { UserId } from './idTypes';
 import type { RoleT } from './permissionsTypes';
@@ -17,6 +19,70 @@ export type * from './idTypes';
 // Data attached to the realm or the server.
 //
 //
+
+/**
+ * See CustomProfileField for semantics.
+ *
+ * See also CustomProfileFieldType for an enum with meaningful names, and
+ * CustomProfileFieldTypeValues for a list of values.
+ */
+// This is an enum; see discussion on other enums.
+// eslint-disable-next-line flowtype/type-id-match
+export type CustomProfileFieldTypeT = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+/**
+ * An enum of all valid values for CustomProfileFieldTypeT.
+ *
+ * See CustomProfileFieldTypeValues for a list of values,
+ * and CustomProfileField for semantics.
+ */
+export const CustomProfileFieldType = {
+  // The names are from a mix of the descriptions on custom_profile_fields
+  // itself, and the names in custom_profile_field_types:
+  //   https://zulip.com/api/register-queue
+  ShortText: (1: 1),
+  LongText: (2: 2),
+  Choice: (3: 3),
+  Date: (4: 4),
+  Link: (5: 5),
+  User: (6: 6),
+  ExternalAccount: (7: 7),
+};
+
+// Check that the enum indeed has all and only the values of the type.
+typesEquivalent<CustomProfileFieldTypeT, $Values<typeof CustomProfileFieldType>>();
+
+/**
+ * A list of all valid values for CustomProfileFieldTypeT.
+ *
+ * See CustomProfileFieldType for an enum to refer to these by meaningful
+ * names.
+ */
+export const CustomProfileFieldTypeValues: $ReadOnlyArray<CustomProfileFieldTypeT> = objectValues(
+  CustomProfileFieldType,
+);
+
+/**
+ * A custom profile field available to users in this org.
+ *
+ * See event doc: https://zulip.com/api/get-events#custom_profile_fields
+ */
+export type CustomProfileField = {|
+  +id: number,
+  +type: CustomProfileFieldTypeT,
+  +order: number,
+  +name: string,
+  +hint: string,
+  /**
+   * Some data in a format determined by the custom profile field's `type`.
+   *
+   * Empirically this is an empty string for field types that don't use it.
+   *
+   * Docs wrongly say it's a "JSON dictionary" for type 3; the example shows
+   * it's a string, one serializing a JSON object.
+   */
+  +field_data: string,
+|};
 
 export type ImageEmojiType = $ReadOnly<{|
   author?: $ReadOnly<{|

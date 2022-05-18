@@ -13,6 +13,7 @@
 import type { SubsetProperties } from '../generics';
 import { keyMirror } from '../utils/keyMirror';
 import type {
+  CustomProfileField,
   Message,
   UserOrBot,
   MutedUser,
@@ -87,6 +88,13 @@ export type HeartbeatEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.heartbeat,
 |}>;
+
+/** https://zulip.com/api/get-events#custom_profile_fields */
+export type CustomProfileFieldsEvent = {|
+  ...EventCommon,
+  type: typeof EventTypes.custom_profile_fields,
+  fields: $ReadOnlyArray<CustomProfileField>,
+|};
 
 export type MessageEvent = $ReadOnly<{|
   ...EventCommon,

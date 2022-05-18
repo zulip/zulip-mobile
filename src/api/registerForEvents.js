@@ -131,6 +131,7 @@ export default async (
       // Event types not supported by the server are ignored; see
       //   https://zulip.com/api/register-queue#parameter-fetch_event_types.
       'alert_words',
+      'custom_profile_fields',
       'message',
       'muted_topics',
       'muted_users',

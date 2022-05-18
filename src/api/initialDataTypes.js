@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import type { UserStatusUpdate } from './modelTypes';
+import type { CustomProfileField, UserStatusUpdate } from './modelTypes';
 import type {
   CrossRealmBot,
   MutedTopicTuple,
@@ -66,6 +66,11 @@ export type InitialDataBase = $ReadOnly<{|
 export type InitialDataAlertWords = $ReadOnly<{|
   alert_words: $ReadOnlyArray<string>,
 |}>;
+
+export type InitialDataCustomProfileFields = {|
+  +custom_profile_fields: $ReadOnlyArray<CustomProfileField>,
+  // +custom_profile_field_types: mixed, // Only used in admin settings UI
+|};
 
 export type InitialDataMessage = $ReadOnly<{|
   max_message_id: number,
@@ -709,6 +714,7 @@ export type InitialData = {|
   // consult the server implementation, that's a bug in the API docs.)
   ...InitialDataBase,
   ...InitialDataAlertWords,
+  ...InitialDataCustomProfileFields,
   ...InitialDataMessage,
   ...InitialDataMutedTopics,
   ...InitialDataMutedUsers,

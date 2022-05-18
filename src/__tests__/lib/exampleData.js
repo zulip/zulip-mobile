@@ -723,6 +723,9 @@ export const action = Object.freeze({
       // InitialDataAlertWords
       alert_words: [],
 
+      // InitialDataCustomProfileFields
+      custom_profile_fields: [],
+
       // InitialDataMessage
       max_message_id: 100,
 
