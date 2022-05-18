@@ -169,26 +169,30 @@ export default function StreamItem(props: Props): Node {
           )}
         </View>
         <UnreadCount color={iconColor} count={unreadCount} />
-        {offersSubscribeButton && (
-          <Pressable
-            onPress={() => {
-              if (onSubscribeButtonPressed) {
-                onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
-              }
-            }}
-            hitSlop={12}
-            disabled={!isSubscribed && isPrivate}
-            style={{ opacity: !isSubscribed && isPrivate ? 0.1 : 1 }}
-          >
-            {({ pressed }) =>
-              isSubscribed ? (
-                <IconDone size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
-              ) : (
-                <IconPlus size={24} color={pressed ? HALF_COLOR : iconColor} />
-              )
-            }
-          </Pressable>
-        )}
+        {offersSubscribeButton
+          && (() => {
+            const disabled = !isSubscribed && isPrivate;
+            return (
+              <Pressable
+                onPress={() => {
+                  if (onSubscribeButtonPressed) {
+                    onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
+                  }
+                }}
+                hitSlop={12}
+                disabled={disabled}
+                style={{ opacity: disabled ? 0.1 : 1 }}
+              >
+                {({ pressed }) =>
+                  isSubscribed ? (
+                    <IconDone size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
+                  ) : (
+                    <IconPlus size={24} color={pressed ? HALF_COLOR : iconColor} />
+                  )
+                }
+              </Pressable>
+            );
+          })()}
       </View>
     </Touchable>
   );
