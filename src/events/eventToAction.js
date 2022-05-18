@@ -155,6 +155,7 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       };
 
     case 'restart':
+    case 'custom_profile_fields':
     case 'stream':
     case 'user_settings':
       return {
@@ -381,7 +382,6 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
       // We'd also need them as part of a full org-settings UI.
       return null;
 
-    case 'custom_profile_fields':
     case 'realm_export':
     case 'realm_playgrounds':
     case 'realm_user_settings_defaults':

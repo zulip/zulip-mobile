@@ -16,6 +16,7 @@ import {
   CreatePublicOrPrivateStreamPolicy,
   CreateWebPublicStreamPolicy,
 } from '../../api/permissionsTypes';
+import { CustomProfileFieldType } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -24,6 +25,12 @@ describe('realmReducer', () => {
     test('updates as appropriate on a boring but representative REGISTER_COMPLETE', () => {
       const action = eg.action.register_complete;
       expect(realmReducer(eg.baseReduxState.realm, action)).toEqual({
+        //
+        // InitialDataCustomProfileFields
+        //
+
+        customProfileFields: action.data.custom_profile_fields,
+
         //
         // InitialDataRealm
         //
@@ -204,6 +211,44 @@ describe('realmReducer', () => {
   });
 
   describe('EVENT', () => {
+    describe('type `custom_profile_fields`', () => {
+      const mkState = fields =>
+        deepFreeze({ ...eg.plusReduxState.realm, customProfileFields: fields });
+      const mkAction = fields =>
+        deepFreeze({
+          type: EVENT,
+          event: { id: 0, type: EventTypes.custom_profile_fields, fields },
+        });
+      const mkField = props => ({
+        type: CustomProfileFieldType.ShortText,
+        hint: '',
+        field_data: '',
+        ...props,
+      });
+
+      test('add from none', () => {
+        const field = mkField({ id: 0, order: 0, name: 'thing' });
+        expect(realmReducer(mkState([]), mkAction([field]))).toEqual(mkState([field]));
+      });
+
+      test('remove all', () => {
+        const field = mkField({ id: 0, order: 0, name: 'thing' });
+        expect(realmReducer(mkState([field]), mkAction([]))).toEqual(mkState([]));
+      });
+
+      test('update, delete, remove', () => {
+        const field0 = mkField({ id: 12, order: 0, name: 'thing' });
+        const field1 = mkField({ id: 3, order: 1, name: 'other thing' });
+
+        const field2 = mkField({ id: 42, order: 0, name: 'new thing' });
+        const field0a = mkField({ id: field0.id, order: 1, name: 'thing again' });
+
+        expect(realmReducer(mkState([field0, field1]), mkAction([field2, field0a]))).toEqual(
+          mkState([field2, field0a]),
+        );
+      });
+    });
+
     describe('type `user_settings`, op `update`', () => {
       const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
 

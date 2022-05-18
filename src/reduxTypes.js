@@ -13,6 +13,7 @@ import type { InputSelector } from 'reselect';
 import type { Account, Outbox } from './types';
 import type { Action, DispatchableWithoutAccountAction } from './actionTypes';
 import type {
+  CustomProfileField,
   Topic,
   Message,
   CrossRealmBot,
@@ -275,6 +276,12 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  * @prop isAdmin
  */
 export type RealmState = $ReadOnly<{|
+  //
+  // InitialDataCustomProfileFields
+  //
+
+  customProfileFields: $ReadOnlyArray<CustomProfileField>,
+
   //
   // InitialDataRealm
   //

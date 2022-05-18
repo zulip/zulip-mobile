@@ -24,6 +24,12 @@ import { objectFromEntries } from '../jsBackport';
 
 const initialState = {
   //
+  // InitialDataCustomProfileFields
+  //
+
+  customProfileFields: [],
+
+  //
   // InitialDataRealm
   //
 
@@ -97,6 +103,12 @@ export default (
 
     case REGISTER_COMPLETE: {
       return {
+        //
+        // InitialDataCustomProfileFields
+        //
+
+        customProfileFields: action.data.custom_profile_fields,
+
         //
         // InitialDataRealm
         //
@@ -183,6 +195,13 @@ export default (
     case EVENT: {
       const { event } = action;
       switch (event.type) {
+        case EventTypes.custom_profile_fields:
+          // TODO(server): The API docs suggest that this event just
+          //   contains new custom profile fields, but it looks like in fact
+          //   it's the new entire list of them.  See chat thread:
+          //     https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1382993
+          return { ...state, customProfileFields: event.fields };
+
         case EventTypes.realm:
           if (event.op === 'update_dict') {
             const { data } = event;

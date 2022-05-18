@@ -60,6 +60,7 @@ import {
 } from './actionConstants';
 
 import type {
+  CustomProfileFieldsEvent,
   MessageEvent,
   MutedUsersEvent,
   PresenceEvent,
@@ -328,6 +329,7 @@ type EventSubscriptionPeerRemoveAction = $ReadOnly<{|
 type GenericEventAction = $ReadOnly<{|
   type: typeof EVENT,
   event:
+    | CustomProfileFieldsEvent
     | StreamEvent
     | RestartEvent
     | RealmUpdateEvent
