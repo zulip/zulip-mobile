@@ -120,6 +120,7 @@
     "redux-mock-store": "^1.5.1",
     "rollup": "^2.26.5",
     "sqlite3": "^5.0.2",
+    "tsflower": "^0.0.12",
     "typescript": "~3.8.3",
     "yarn-deduplicate": "^3.0.0"
   },
