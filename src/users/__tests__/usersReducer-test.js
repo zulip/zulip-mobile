@@ -5,6 +5,7 @@ import * as eg from '../../__tests__/lib/exampleData';
 import { UploadedAvatarURL } from '../../utils/avatar';
 import { EVENT_USER_ADD, ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
 import { EventTypes, type RealmUserUpdateEvent } from '../../api/eventTypes';
+import type { User } from '../../types';
 import { RoleValues } from '../../api/permissionsTypes';
 import usersReducer from '../usersReducer';
 import { randString } from '../../utils/misc';
@@ -54,12 +55,22 @@ describe('usersReducer', () => {
      * Check that an update event with supplied `person` works.
      *
      * May omit `user_id` to avoid repetition.
+     *
+     * Normally, the expected User value after the change is
+     *
+     *   { ...theUser, ...person }
+     *
+     * But in at least one case (when updating custom profile fields), that
+     * isn't even a valid User object because `person`'s properties aren't
+     * a subset of User's. To handle that, callers can pass an
+     * `expectedUser`.
      */
     // Tell ESLint to recognize `check` as a helper function that runs
     // assertions.
     /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
     const check = <P: $PropertyType<RealmUserUpdateEvent, 'person'>>(
       personMaybeWithoutId: $Rest<P, {| user_id?: mixed |}>,
+      expectedUser?: User,
     ) => {
       const person: P = { user_id: theUser.user_id, ...personMaybeWithoutId };
 
@@ -68,7 +79,7 @@ describe('usersReducer', () => {
         event: { id: 1, type: EventTypes.realm_user, op: 'update', person },
       });
 
-      expect(usersReducer(prevState, action)).toEqual([{ ...theUser, ...person }]);
+      expect(usersReducer(prevState, action)).toEqual([expectedUser ?? { ...theUser, ...person }]);
     };
 
     /*
@@ -79,7 +90,7 @@ describe('usersReducer', () => {
      * A few properties that we don't handle are commented out.
      */
 
-    test.skip('When a user changes their full name.', () => {
+    test('When a user changes their full name.', () => {
       check({ full_name: randString() });
     });
 
@@ -95,11 +106,11 @@ describe('usersReducer', () => {
       });
     });
 
-    test.skip('When a user changes their timezone setting.', () => {
+    test('When a user changes their timezone setting.', () => {
       check({ timezone: randString() });
     });
 
-    test.skip('When the owner of a bot changes.', () => {
+    test('When the owner of a bot changes.', () => {
       check({ bot_owner_id: (theUser.bot_owner_id ?? 1) + 1 });
     });
 
@@ -107,22 +118,26 @@ describe('usersReducer', () => {
       check({ role: RoleValues[(RoleValues.indexOf(theUser.role) + 1) % RoleValues.length] });
     });
 
-    test.skip("When a user's billing-admin status changes", () => {
+    test("When a user's billing-admin status changes", () => {
       check({ is_billing_admin: !theUser.is_billing_admin });
     });
 
-    test.skip('When the delivery email of a user changes.', () => {
+    test('When the delivery email of a user changes.', () => {
       check({ delivery_email: randString() });
     });
 
-    test.skip('When the user updates one of their custom profile fields.', () => {
-      check({
-        custom_profile_field: { id: 4, value: randString(), rendered_value: randString() },
-      });
+    test('When the user updates one of their custom profile fields.', () => {
+      const value = randString();
+      const rendered_value = randString();
+      check(
+        { custom_profile_field: { id: 4, value, rendered_value } },
+        { ...theUser, profile_data: { '4': { value, rendered_value } } },
+      );
     });
 
-    test.skip('When the Zulip display email address of a user changes', () => {
-      check({ new_email: randString() });
+    test('When the Zulip display email address of a user changes', () => {
+      const new_email = randString();
+      check({ new_email }, { ...theUser, email: new_email });
     });
   });
 

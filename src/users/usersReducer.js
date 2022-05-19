@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { UsersState, PerAccountApplicableAction } from '../types';
+import type { User, UsersState, PerAccountApplicableAction } from '../types';
 import {
   LOGOUT,
   LOGIN_SUCCESS,
@@ -40,13 +40,25 @@ export default (
           switch (event.op) {
             case 'update': {
               return state.map(user => {
-                if (user.user_id !== event.person.user_id) {
+                const { person } = event;
+                if (user.user_id !== person.user_id) {
                   return user;
                 }
-                if (event.person.avatar_url || event.person.role) {
-                  return { ...user, ...event.person };
+                if (person.custom_profile_field) {
+                  return {
+                    ...user,
+                    profile_data: {
+                      ...(user.profile_data: $PropertyType<User, 'profile_data'>),
+                      [person.custom_profile_field.id]: {
+                        value: person.custom_profile_field.value,
+                        rendered_value: person.custom_profile_field.rendered_value,
+                      },
+                    },
+                  };
+                } else if (person.new_email !== undefined) {
+                  return { ...user, email: person.new_email };
                 } else {
-                  return user;
+                  return { ...user, ...person };
                 }
               });
             }
