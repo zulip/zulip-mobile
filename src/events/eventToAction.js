@@ -267,16 +267,20 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
               // some related, documented properties, but we don't
               // currently use them: `avatar_source`,
               // `avatar_url_medium`, and `avatar_version`.
-              ...(event.person.avatar_url !== undefined
-                ? {
+              ...(() => {
+                if (event.person.avatar_url !== undefined) {
+                  return {
                     avatar_url: AvatarURL.fromUserOrBotData({
                       rawAvatarUrl: event.person.avatar_url,
                       userId,
                       email: existingUser.email,
                       realm,
                     }),
-                  }
-                : undefined),
+                  };
+                } else {
+                  return undefined;
+                }
+              })(),
             },
           };
         }
