@@ -277,6 +277,10 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
                       realm,
                     }),
                   };
+                } else if (event.person.role !== undefined) {
+                  return {
+                    role: event.person.role,
+                  };
                 } else {
                   return undefined;
                 }
