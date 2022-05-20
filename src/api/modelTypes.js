@@ -233,7 +233,9 @@ export type CrossRealmBot = {|
   // If we use this, avoid `avatar_url` falling out of sync with it.
   -avatar_version: number,
 
-  // profile_data is never present; bots can't have custom profile fields.
+  // (We could be more specific here; but in the interest of reducing
+  // differences between CrossRealmBot and User, just follow the latter.)
+  +profile_data?: $ElementType<User, 'profile_data'>,
 
   // We assume this is `true` when present.
   // TODO(server-5.0): New in FL 83, replacing is_cross_realm_bot
