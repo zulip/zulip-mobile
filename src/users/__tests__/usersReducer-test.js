@@ -99,11 +99,16 @@ describe('usersReducer', () => {
       check({ timezone: randString() });
     });
 
-    // Excluded: "When the owner of a bot changes." The `users` state
-    // doesn't include cross-realm bots.
+    test.skip('When the owner of a bot changes.', () => {
+      check({ bot_owner_id: (theUser.bot_owner_id ?? 1) + 1 });
+    });
 
     test('When the role of a user changes.', () => {
       check({ role: RoleValues[(RoleValues.indexOf(theUser.role) + 1) % RoleValues.length] });
+    });
+
+    test.skip("When a user's billing-admin status changes", () => {
+      check({ is_billing_admin: !theUser.is_billing_admin });
     });
 
     test.skip('When the delivery email of a user changes.', () => {
@@ -114,6 +119,10 @@ describe('usersReducer', () => {
       check({
         custom_profile_field: { id: 4, value: randString(), rendered_value: randString() },
       });
+    });
+
+    test.skip('When the Zulip display email address of a user changes', () => {
+      check({ new_email: randString() });
     });
   });
 
