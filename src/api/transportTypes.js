@@ -18,6 +18,9 @@
 export type Auth = $ReadOnly<{|
   realm: URL,
   apiKey: string,
+
+  // TODO: Follow changes in the user's email address, whether while we're
+  //   event polling or not.
   email: string,
 |}>;
 
