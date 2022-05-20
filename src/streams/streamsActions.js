@@ -2,11 +2,34 @@
 import type { Stream, ThunkAction } from '../types';
 import * as api from '../api';
 import { getAuth, getZulipFeatureLevel } from '../selectors';
+import { ensureUnreachable } from '../generics';
+import type { SubsetProperties } from '../generics';
+
+export type Privacy = 'public' | 'private';
+
+type StreamPrivacyProps = SubsetProperties<Stream, { +invite_only: mixed, ... }>;
+
+export const streamPropsToPrivacy = (streamProps: StreamPrivacyProps): Privacy =>
+  streamProps.invite_only ? 'private' : 'public';
+
+export const privacyToStreamProps = (privacy: Privacy): $Exact<StreamPrivacyProps> => {
+  switch (privacy) {
+    case 'private':
+      return { invite_only: true };
+    case 'public':
+      return { invite_only: false };
+    default:
+      ensureUnreachable(privacy);
+
+      // (Unreachable as long as the cases are exhaustive.)
+      throw new Error();
+  }
+};
 
 export const updateExistingStream = (
   id: number,
   initialValues: Stream,
-  newValues: {| name: string, description: string, invite_only: boolean |},
+  newData: {| name: string, description: string, privacy: Privacy |},
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
 
@@ -20,14 +43,17 @@ export const updateExistingStream = (
 
   const auth = getAuth(state);
   const updates = {};
-  if (initialValues.name !== newValues.name) {
-    updates.new_name = maybeEncode(newValues.name);
+  if (initialValues.name !== newData.name) {
+    updates.new_name = maybeEncode(newData.name);
   }
-  if (initialValues.description !== newValues.description) {
-    updates.description = maybeEncode(newValues.description);
+  if (initialValues.description !== newData.description) {
+    updates.description = maybeEncode(newData.description);
   }
-  if (initialValues.invite_only !== newValues.invite_only) {
-    updates.is_private = newValues.invite_only;
+  const initialPrivacy = streamPropsToPrivacy(initialValues);
+  if (initialPrivacy !== newData.privacy) {
+    const streamProps = privacyToStreamProps(newData.privacy);
+
+    updates.is_private = streamProps.invite_only;
   }
 
   if (Object.keys(updates).length === 0) {

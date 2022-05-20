@@ -3,6 +3,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import type { Privacy } from './streamsActions';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import Input from '../common/Input';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
@@ -11,8 +12,6 @@ import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
 
 /* eslint-disable no-shadow */
-
-type Privacy = 'public' | 'private';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'edit-stream' | 'create-stream'>,

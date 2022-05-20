@@ -27,7 +27,7 @@ export default function EditStreamScreen(props: Props): Node {
         updateExistingStream(stream.stream_id, stream, {
           name,
           description,
-          invite_only: privacy === 'private',
+          privacy,
         }),
       );
       NavigationService.dispatch(navigateBack());
