@@ -135,6 +135,10 @@ describe('usersReducer', () => {
       );
     });
 
+    test('When the user clears one of their custom profile fields.', () => {
+      check({ custom_profile_field: { id: 4, value: null } }, { ...theUser, profile_data: {} });
+    });
+
     test('When the Zulip display email address of a user changes', () => {
       const new_email = randString();
       check({ new_email }, { ...theUser, email: new_email });

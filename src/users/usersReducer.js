@@ -47,13 +47,29 @@ export default (
                 if (person.custom_profile_field) {
                   return {
                     ...user,
-                    profile_data: {
-                      ...(user.profile_data: $PropertyType<User, 'profile_data'>),
-                      [person.custom_profile_field.id]: {
-                        value: person.custom_profile_field.value,
-                        rendered_value: person.custom_profile_field.rendered_value,
-                      },
-                    },
+                    profile_data: (() => {
+                      if (person.custom_profile_field.value !== null) {
+                        return {
+                          ...(user.profile_data: $PropertyType<User, 'profile_data'>),
+                          [person.custom_profile_field.id]: ({
+                            value: person.custom_profile_field.value,
+                            rendered_value: person.custom_profile_field.rendered_value,
+
+                            // FlowIssue: This assertion is cumbersome. But
+                            // it fills a gap in Flow's coverage…that
+                            // apparently Flow doesn't announce by marking
+                            // anything with `any`. Remove when doing so
+                            // doesn't stop Flow from catching something
+                            // wrong on `value` or `rendered_value`.
+                          }: $Values<$NonMaybeType<$PropertyType<User, 'profile_data'>>>),
+                        };
+                      } else {
+                        // eslint-disable-next-line no-unused-vars
+                        const { [person.custom_profile_field.id.toString()]: _, ...rest } =
+                          user.profile_data ?? {};
+                        return rest;
+                      }
+                    })(),
                   };
                 } else if (person.new_email !== undefined) {
                   return { ...user, email: person.new_email };

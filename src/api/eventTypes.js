@@ -350,7 +350,7 @@ type PersonCommon =
   | SubsetProperties<UserOrBot, {| +user_id: mixed, +delivery_email: mixed |}>
   | {|
       +user_id: $PropertyType<UserOrBot, 'user_id'>,
-      +custom_profile_field: {| +id: number, +value: string, +rendered_value?: string |},
+      +custom_profile_field: {| +id: number, +value: string | null, +rendered_value?: string |},
     |}
   | {| +user_id: $PropertyType<UserOrBot, 'user_id'>, +new_email: string |};
 
