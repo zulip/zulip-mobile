@@ -12,6 +12,7 @@ import {
 } from '../../actionConstants';
 import type { UserSettings } from '../../api/initialDataTypes';
 import type { RealmDataForUpdate } from '../../api/realmDataTypes';
+import { CreateWebPublicStreamPolicy } from '../../api/permissionsTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -292,6 +293,23 @@ describe('realmReducer', () => {
         check(true, false);
         check(false, true);
         check(false, false);
+      });
+
+      describe('createWebPublicStreamPolicy / create_web_public_stream_policy', () => {
+        const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;
+        const check = mkCheck('createWebPublicStreamPolicy', 'create_web_public_stream_policy');
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, Nobody);
+        check(AdminOrAbove, OwnerOnly);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, Nobody);
+        check(ModeratorOrAbove, OwnerOnly);
+        check(Nobody, AdminOrAbove);
+        check(Nobody, ModeratorOrAbove);
+        check(Nobody, OwnerOnly);
+        check(OwnerOnly, AdminOrAbove);
+        check(OwnerOnly, ModeratorOrAbove);
+        check(OwnerOnly, Nobody);
       });
     });
   });
