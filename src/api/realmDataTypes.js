@@ -12,7 +12,7 @@ import type { InitialDataRealm } from './initialDataTypes';
  * start with "realm_"). But we expect the values to be typed the same.
  */
 /* prettier-ignore */
-// Current to FL 121.
+// Current to FL 130.
 export type RealmDataForUpdate = $ReadOnly<{
   //
   // Keep alphabetical by the InitialDataRealm property. So by
@@ -41,6 +41,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     $PropertyType<InitialDataRealm, 'realm_create_private_stream_policy'>,
   create_public_stream_policy:
     $PropertyType<InitialDataRealm, 'realm_create_public_stream_policy'>,
+  create_web_public_stream_policy:
+    $PropertyType<InitialDataRealm, 'realm_create_web_public_stream_policy'>,
   create_stream_policy: // deprecated
     $PropertyType<InitialDataRealm, 'realm_create_stream_policy'>,
   default_code_block_language:
@@ -59,6 +61,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     $PropertyType<InitialDataRealm, 'realm_edit_topic_policy'>,
   email_address_visibility:
     $PropertyType<InitialDataRealm, 'realm_email_address_visibility'>,
+  email_changes_disabled:
+    $PropertyType<InitialDataRealm, 'realm_email_changes_disabled'>,
   emails_restricted_to_domains:
     $PropertyType<InitialDataRealm, 'realm_emails_restricted_to_domains'>,
   enable_spectator_access:
@@ -121,6 +125,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     $PropertyType<InitialDataRealm, 'realm_video_chat_provider'>,
   waiting_period_threshold:
     $PropertyType<InitialDataRealm, 'realm_waiting_period_threshold'>,
+  want_advertise_in_communities_directory:
+    $PropertyType<InitialDataRealm, 'realm_want_advertise_in_communities_directory'>,
   wildcard_mention_policy:
     $PropertyType<InitialDataRealm, 'realm_wildcard_mention_policy'>,
 

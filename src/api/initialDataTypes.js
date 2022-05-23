@@ -85,7 +85,7 @@ export type AvailableVideoChatProviders = $ReadOnly<{|
   [providerName: string]: $ReadOnly<{| name: string, id: number |}>,
 |}>;
 
-// This is current to feature level 121.
+// This is current to feature level 130.
 export type InitialDataRealm = $ReadOnly<{|
   //
   // Keep alphabetical order. When changing this, also change our type for
@@ -244,6 +244,10 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_night_logo_source: 'D' | 'U',
   realm_night_logo_url: string,
   realm_notifications_stream_id: number,
+
+  // TODO(server-6.0): Added in feat. 128
+  realm_org_type?: 0 | 10 | 20 | 30 | 35 | 40 | 50 | 60 | 70 | 80 | 90 | 1000,
+
   realm_password_auth_enabled: boolean,
   realm_plan_type: number,
   realm_presence_disabled: boolean,
@@ -262,6 +266,9 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_uri: string,
   realm_video_chat_provider: number,
   realm_waiting_period_threshold: number,
+
+  // TODO(server-6.0): Added in feat. 129
+  realm_want_advertise_in_communities_directory?: boolean,
 
   // TODO(server-4.0): Added in feat. 33, updated with moderators option in 62
   realm_wildcard_mention_policy?: number,
