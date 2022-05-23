@@ -11,6 +11,7 @@ import {
   EVENT,
 } from '../../actionConstants';
 import type { UserSettings } from '../../api/initialDataTypes';
+import type { RealmDataForUpdate } from '../../api/realmDataTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -230,6 +231,63 @@ describe('realmReducer', () => {
 
       describe('twentyFourHourTime / twenty_four_hour_time', () => {
         const check = mkCheck('twentyFourHourTime', 'twenty_four_hour_time');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
+    });
+
+    describe('type `realm`, op `update_dict`', () => {
+      const eventCommon = { id: 0, type: EventTypes.realm, op: 'update_dict', property: 'default' };
+
+      const mkCheck = <S: $Keys<RealmState>, E: $Keys<RealmDataForUpdate>>(
+        statePropertyName: S,
+        eventPropertyName: E,
+      ): (($ElementType<RealmState, S>, $ElementType<RealmDataForUpdate, E>) => void) => (
+        initialStateValue,
+        eventValue,
+      ) => {
+        /* prettier-ignore */ // (wants to wrap the name weirdly)
+        test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+          const initialState = { ...eg.plusReduxState.realm };
+          // $FlowFixMe[prop-missing]
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+           right kind of value for its chosen key. */
+          initialState[statePropertyName] = initialStateValue;
+
+          const expectedState = { ...initialState };
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+           right kind of value for its chosen key. */
+          expectedState[statePropertyName] = eventValue;
+
+          expect(
+            realmReducer(initialState, {
+              type: EVENT,
+              event: {
+                ...eventCommon,
+                // $FlowFixMe[invalid-computed-prop]
+                data: { [eventPropertyName]: eventValue },
+              },
+            }),
+          ).toEqual(expectedState);
+        });
+      };
+
+      describe('name / name', () => {
+        const check = mkCheck('name', 'name');
+        check('foo', 'foo');
+        check('foo', 'bar');
+      });
+
+      describe('description / description', () => {
+        const check = mkCheck('description', 'description');
+        check('foo', 'foo');
+        check('foo', 'bar');
+      });
+
+      describe('enableSpectatorAccess / enable_spectator_access', () => {
+        const check = mkCheck('enableSpectatorAccess', 'enable_spectator_access');
         check(true, true);
         check(true, false);
         check(false, true);
