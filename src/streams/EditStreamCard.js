@@ -13,28 +13,56 @@ import styles from '../styles';
 
 /* eslint-disable no-shadow */
 
-type Props = $ReadOnly<{|
+type PropsBase = $ReadOnly<{|
   navigation: AppNavigationProp<'edit-stream' | 'create-stream'>,
 
-  isNewStream: boolean,
   initialValues: {|
     name: string,
     description: string,
     privacy: Privacy,
   |},
+|}>;
+
+type PropsEditStream = $ReadOnly<{|
+  ...PropsBase,
+
+  isNewStream: false,
+  onComplete: (changedValues: {|
+    // Properties optional because some values might not have changed.
+
+    +name?: string,
+    +description?: string,
+    +privacy?: Privacy,
+  |}) => void | Promise<void>,
+|}>;
+
+type PropsCreateStream = $ReadOnly<{|
+  ...PropsBase,
+
+  isNewStream: true,
   onComplete: (name: string, description: string, privacy: Privacy) => void | Promise<void>,
 |}>;
 
+type Props = $ReadOnly<PropsEditStream | PropsCreateStream>;
+
 export default function EditStreamCard(props: Props): Node {
-  const { navigation, onComplete, initialValues, isNewStream } = props;
+  const { navigation, initialValues, isNewStream } = props;
 
   const [name, setName] = useState<string>(props.initialValues.name);
   const [description, setDescription] = useState<string>(props.initialValues.description);
   const [privacy, setPrivacy] = useState<Privacy>(props.initialValues.privacy);
 
   const handlePerformAction = useCallback(() => {
-    onComplete(name, description, privacy);
-  }, [onComplete, name, description, privacy]);
+    if (props.isNewStream) {
+      props.onComplete(name, description, privacy);
+    } else {
+      props.onComplete({
+        name: initialValues.name !== name ? name : undefined,
+        description: initialValues.description !== description ? description : undefined,
+        privacy: initialValues.privacy !== privacy ? privacy : undefined,
+      });
+    }
+  }, [props, initialValues, name, description, privacy]);
 
   const privacyOptions = useMemo(
     () => [
