@@ -205,24 +205,27 @@ describe('realmReducer', () => {
         initialStateValue,
         eventValue,
       ) => {
-        const initialState = { ...eg.plusReduxState.realm };
-        // $FlowFixMe[prop-missing]
-        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+        /* prettier-ignore */ // (wants to wrap the name weirdly)
+        test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+          const initialState = { ...eg.plusReduxState.realm };
+          // $FlowFixMe[prop-missing]
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-        initialState[statePropertyName] = initialStateValue;
+          initialState[statePropertyName] = initialStateValue;
 
-        const expectedState = { ...initialState };
-        // $FlowFixMe[prop-missing]
-        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+          const expectedState = { ...initialState };
+          // $FlowFixMe[prop-missing]
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-        expectedState[statePropertyName] = eventValue;
+          expectedState[statePropertyName] = eventValue;
 
-        expect(
-          realmReducer(initialState, {
-            type: EVENT,
-            event: { ...eventCommon, property: eventPropertyName, value: eventValue },
-          }),
-        ).toEqual(expectedState);
+          expect(
+            realmReducer(initialState, {
+              type: EVENT,
+              event: { ...eventCommon, property: eventPropertyName, value: eventValue },
+            }),
+          ).toEqual(expectedState);
+        });
       };
 
       describe('twentyFourHourTime / twenty_four_hour_time', () => {

@@ -166,22 +166,24 @@ describe('settingsReducer', () => {
         initialStateValue,
         eventValue,
       ) => {
-        const initialState = { ...baseState };
-        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+        test(`${initialStateValue.toString()} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+          const initialState = { ...baseState };
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-        initialState[statePropertyName] = initialStateValue;
+          initialState[statePropertyName] = initialStateValue;
 
-        const expectedState = { ...initialState };
-        /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+          const expectedState = { ...initialState };
+          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
-        expectedState[statePropertyName] = eventValue;
+          expectedState[statePropertyName] = eventValue;
 
-        expect(
-          settingsReducer(initialState, {
-            type: EVENT,
-            event: { ...eventCommon, property: eventPropertyName, value: eventValue },
-          }),
-        ).toEqual(expectedState);
+          expect(
+            settingsReducer(initialState, {
+              type: EVENT,
+              event: { ...eventCommon, property: eventPropertyName, value: eventValue },
+            }),
+          ).toEqual(expectedState);
+        });
       };
 
       describe('offlineNotification / enable_offline_push_notifications', () => {
