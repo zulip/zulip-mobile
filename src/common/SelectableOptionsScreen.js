@@ -16,6 +16,13 @@ type Item<TKey> = $ReadOnly<{|
   key: TKey,
   title: LocalizableText,
   subtitle?: LocalizableText,
+  disabled?:
+    | {|
+        +title: LocalizableText,
+        +message?: LocalizableText,
+        +learnMoreUrl?: URL,
+      |}
+    | false,
   selected: boolean,
 |}>;
 
@@ -93,6 +100,7 @@ export default function SelectableOptionsScreen<TItemKey: string>(props: Props<T
           itemKey={item.key}
           title={item.title}
           subtitle={item.subtitle}
+          disabled={item.disabled}
           selected={item.selected}
           onRequestSelectionChange={onRequestSelectionChange}
         />

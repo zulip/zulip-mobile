@@ -17,6 +17,13 @@ type Item<TKey> = $ReadOnly<{|
   key: TKey,
   title: LocalizableText,
   subtitle?: LocalizableText,
+  disabled?:
+    | {|
+        +title: LocalizableText,
+        +message?: LocalizableText,
+        +learnMoreUrl?: URL,
+      |}
+    | false,
 |}>;
 
 type Props<TItemKey> = $ReadOnly<{|
@@ -68,10 +75,11 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
     () => ({
       title: label,
       description,
-      items: items.map(({ key, title, subtitle }) => ({
+      items: items.map(({ key, title, subtitle, disabled }) => ({
         key,
         title,
         subtitle,
+        disabled,
         selected: key === valueKey,
       })),
       onRequestSelectionChange: (itemKey, requestedValue) => {

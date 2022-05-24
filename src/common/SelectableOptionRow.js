@@ -1,13 +1,17 @@
 /* @flow strict-local */
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import { useGlobalSelector } from '../react-redux';
 import type { LocalizableText } from '../types';
 import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
-import { BRAND_COLOR, createStyleSheet } from '../styles';
+import { BRAND_COLOR, createStyleSheet, HALF_COLOR, ThemeContext } from '../styles';
 import { IconDone } from './Icons';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
+import { getGlobalSettings } from '../directSelectors';
 
 type Props<TItemKey: string | number> = $ReadOnly<{|
   // A key to uniquely identify the item. The function passed as
@@ -19,6 +23,13 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
 
   title: LocalizableText,
   subtitle?: LocalizableText,
+  disabled?:
+    | {|
+        +title: LocalizableText,
+        +message?: LocalizableText,
+        +learnMoreUrl?: URL,
+      |}
+    | false,
   selected: boolean,
 
   // We might have called this `onPress`, but
@@ -47,7 +58,12 @@ const kCheckmarkSize = 24;
 export default function SelectableOptionRow<TItemKey: string | number>(
   props: Props<TItemKey>,
 ): Node {
-  const { itemKey, title, subtitle, selected, onRequestSelectionChange } = props;
+  const { itemKey, title, subtitle, selected, onRequestSelectionChange, disabled = false } = props;
+
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
+  const _ = useContext(TranslationContext);
+  const themeData = useContext(ThemeContext);
 
   const styles = useMemo(
     () =>
@@ -67,7 +83,11 @@ export default function SelectableOptionRow<TItemKey: string | number>(
           width: kCheckmarkSize,
         },
 
+        title: {
+          color: disabled ? HALF_COLOR : themeData.color,
+        },
         subtitle: {
+          color: disabled ? HALF_COLOR : themeData.color,
           fontWeight: '300',
           fontSize: 13,
         },
@@ -80,14 +100,38 @@ export default function SelectableOptionRow<TItemKey: string | number>(
           paddingRight: 16,
         },
       }),
-    [],
+    [disabled, themeData.color],
   );
 
   return (
-    <Touchable onPress={() => onRequestSelectionChange(itemKey, !selected)}>
+    <Touchable
+      onPress={() => {
+        if (disabled) {
+          const { title, message, learnMoreUrl } = disabled; // eslint-disable-line no-shadow
+          showErrorAlert(
+            typeof title === 'string' ? _(title) : _(title.text, title.values),
+            (() => {
+              switch (typeof message) {
+                case 'undefined':
+                  return undefined;
+                case 'string':
+                  return _(message);
+                default:
+                  return _(message.text, message.values);
+              }
+            })(),
+            learnMoreUrl,
+            globalSettings,
+          );
+          return;
+        }
+
+        onRequestSelectionChange(itemKey, !selected);
+      }}
+    >
       <View style={styles.wrapper}>
         <View style={styles.textWrapper}>
-          <ZulipTextIntl text={title} />
+          <ZulipTextIntl text={title} style={styles.title} />
           {subtitle !== undefined && <ZulipTextIntl text={subtitle} style={styles.subtitle} />}
         </View>
         <View style={styles.checkmarkWrapper}>
