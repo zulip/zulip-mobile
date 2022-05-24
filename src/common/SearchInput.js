@@ -25,6 +25,7 @@ type Props = $ReadOnly<{|
   onChangeText: (text: string) => void,
   onSubmitEditing: (e: EditingEvent) => mixed,
   placeholder?: LocalizableText,
+  prefixText?: string,
 |}>;
 
 /**
@@ -35,7 +36,13 @@ type Props = $ReadOnly<{|
  * @prop onChangeText - Event called when search query is edited.
  */
 export default function SearchInput(props: Props): Node {
-  const { autoFocus = true, onChangeText, onSubmitEditing, placeholder = 'Search' } = props;
+  const {
+    autoFocus = true,
+    onChangeText,
+    onSubmitEditing,
+    placeholder = 'Search',
+    prefixText,
+  } = props;
 
   return (
     <View style={styles.wrapper}>
@@ -51,6 +58,7 @@ export default function SearchInput(props: Props): Node {
         onChangeText={onChangeText}
         autoFocus={autoFocus}
         onSubmitEditing={onSubmitEditing}
+        prefixText={prefixText}
       />
     </View>
   );

@@ -36,7 +36,10 @@ export opaque type Narrow =
   | {| type: 'stream', streamId: number |}
   | {| type: 'topic', streamId: number, topic: string |}
   | {| type: 'pm', userIds: PmKeyRecipients |}
-  | {| type: 'search', query: string |}
+  // The search narrow can behave in two ways,
+  // one where there is no filters, so the user can search a message in all the streams
+  // the second where the user wants to search in a particular stream
+  | {| type: 'search', query: string, streamId?: number |}
   | {| type: 'all' | 'starred' | 'mentioned' | 'all-pm' |};
 
 export const HOME_NARROW: Narrow = Object.freeze({ type: 'all' });
@@ -153,7 +156,8 @@ export const streamNarrow = (streamId: number): Narrow =>
 export const topicNarrow = (streamId: number, topic: string): Narrow =>
   Object.freeze({ type: 'topic', streamId, topic });
 
-export const SEARCH_NARROW = (query: string): Narrow => Object.freeze({ type: 'search', query });
+export const SEARCH_NARROW = (query: string, streamId?: number): Narrow =>
+  Object.freeze({ type: 'search', query, streamId });
 
 type NarrowCases<T> = {|
   home: () => T,
@@ -163,7 +167,7 @@ type NarrowCases<T> = {|
   allPrivate: () => T,
   stream: (streamId: number) => T,
   topic: (streamId: number, topic: string) => T,
-  search: (query: string) => T,
+  search: (query: string, streamId?: number) => T,
 |};
 
 /* prettier-ignore */
@@ -176,7 +180,7 @@ export function caseNarrow<T>(narrow: Narrow, cases: NarrowCases<T>): T {
     case 'stream': return cases.stream(narrow.streamId);
     case 'topic': return cases.topic(narrow.streamId, narrow.topic);
     case 'pm': return cases.pm(narrow.userIds);
-    case 'search': return cases.search(narrow.query);
+    case 'search': return cases.search(narrow.query, narrow.streamId);
     case 'all': return cases.home();
     case 'starred': return cases.starred();
     case 'mentioned': return cases.mentioned();
@@ -437,7 +441,13 @@ export const apiNarrowOfNarrow = (
       // TODO(server-2.1): just send IDs instead
       return [{ operator: 'pm-with', operand: emails.join(',') }];
     },
-    search: query => [{ operator: 'search', operand: query }],
+    search: (query, streamId) =>
+      streamId !== undefined
+        ? [
+            { operator: 'search', operand: query },
+            { operator: 'stream', operand: get('stream', streamsById, streamId).name },
+          ]
+        : [{ operator: 'search', operand: query }],
     home: () => [],
     starred: () => [{ operator: 'is', operand: 'starred' }],
     mentioned: () => [{ operator: 'is', operand: 'mentioned' }],

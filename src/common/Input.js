@@ -11,6 +11,7 @@ export type Props = $ReadOnly<{|
   ...React$ElementConfig<typeof TextInput>,
   placeholder: LocalizableText,
   onChangeText?: (text: string) => void,
+  prefixText?: string,
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
@@ -47,7 +48,7 @@ const componentStyles = createStyleSheet({
  *   See upstream: https://reactnative.dev/docs/textinput
  */
 export default function Input(props: Props): Node {
-  const { style, placeholder, textInputRef, ...restProps } = props;
+  const { style, placeholder, textInputRef, prefixText, ...restProps } = props;
 
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -76,6 +77,7 @@ export default function Input(props: Props): Node {
       onFocus={handleFocus}
       onBlur={handleBlur}
       ref={textInputRef}
+      value={prefixText}
       {...restProps}
     />
   );
