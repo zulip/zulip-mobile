@@ -30,7 +30,9 @@ export const updateExistingStream = (
     updates.is_private = newValues.invite_only;
   }
 
-  if (Object.keys(updates).length > 0) {
-    await api.updateStream(auth, id, updates);
+  if (Object.keys(updates).length === 0) {
+    return;
   }
+
+  await api.updateStream(auth, id, updates);
 };
