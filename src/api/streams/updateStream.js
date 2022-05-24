@@ -28,6 +28,8 @@ export default (
     // TODO(server-3.0): New in FL 1; for older servers, pass is_announcement_only.
     stream_post_policy?: $PropertyType<Stream, 'stream_post_policy'>,
 
+    // N.B.: Don't pass this without also passing is_web_public; see
+    //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/PATCH.20.2Fstreams.2F.7Bstream_id.7D/near/1383984
     history_public_to_subscribers?: $PropertyType<Stream, 'history_public_to_subscribers'>,
 
     // Doesn't take the same special values as Stream.is_announcement_only!
