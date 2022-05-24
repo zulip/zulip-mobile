@@ -1,4 +1,5 @@
 {
+  "Cannot apply requested settings": "Cannot apply requested settings",
   "Cannot subscribe to stream": "Cannot subscribe to stream",
   "Stream #{name} is private.": "Stream #{name} is private.",
   "See details": "See details",
