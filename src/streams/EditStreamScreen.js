@@ -10,6 +10,7 @@ import { updateExistingStream, navigateBack } from '../actions';
 import { getStreamForId } from '../selectors';
 import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
+import { streamPropsToPrivacy } from './streamsActions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'edit-stream'>,
@@ -24,10 +25,10 @@ export default function EditStreamScreen(props: Props): Node {
   const handleComplete = useCallback(
     (name, description, privacy) => {
       dispatch(
-        updateExistingStream(stream.stream_id, stream, {
-          name,
-          description,
-          privacy,
+        updateExistingStream(stream.stream_id, {
+          name: stream.name !== name ? name : undefined,
+          description: stream.description !== description ? description : undefined,
+          privacy: streamPropsToPrivacy(stream) !== privacy ? privacy : undefined,
         }),
       );
       NavigationService.dispatch(navigateBack());

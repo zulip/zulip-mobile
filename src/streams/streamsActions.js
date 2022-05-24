@@ -28,8 +28,7 @@ export const privacyToStreamProps = (privacy: Privacy): $Exact<StreamPrivacyProp
 
 export const updateExistingStream = (
   id: number,
-  initialValues: Stream,
-  newData: {| name: string, description: string, privacy: Privacy |},
+  changedValues: {| +name?: string, +description?: string, +privacy?: Privacy |},
 ): ThunkAction<Promise<void>> => async (dispatch, getState) => {
   const state = getState();
 
@@ -43,15 +42,14 @@ export const updateExistingStream = (
 
   const auth = getAuth(state);
   const updates = {};
-  if (initialValues.name !== newData.name) {
-    updates.new_name = maybeEncode(newData.name);
+  if (changedValues.name !== undefined) {
+    updates.new_name = maybeEncode(changedValues.name);
   }
-  if (initialValues.description !== newData.description) {
-    updates.description = maybeEncode(newData.description);
+  if (changedValues.description !== undefined) {
+    updates.description = maybeEncode(changedValues.description);
   }
-  const initialPrivacy = streamPropsToPrivacy(initialValues);
-  if (initialPrivacy !== newData.privacy) {
-    const streamProps = privacyToStreamProps(newData.privacy);
+  if (changedValues.privacy !== undefined) {
+    const streamProps = privacyToStreamProps(changedValues.privacy);
 
     updates.is_private = streamProps.invite_only;
   }
