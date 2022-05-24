@@ -31,6 +31,15 @@ export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
     return false;
   }
 
+  // Web-public streams weren't available until 5.0, in FL 103. (See
+  // InitialDataRealm.realm_create_web_public_stream_policy.) If `User.role`
+  // is missing, that means we're before FL 59 (see `User.role`), so we
+  // definitely don't have web-public streams.
+  // TODO(server-4.0): Remove.
+  if (role === undefined) {
+    return false;
+  }
+
   switch (createWebPublicStreamPolicy) {
     // FlowIssue: sad that we end up having to write numeric literals here :-/
     //   But the most important thing to get from the type-checker here is
