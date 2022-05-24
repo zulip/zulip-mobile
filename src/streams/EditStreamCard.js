@@ -98,7 +98,7 @@ export default function EditStreamCard(props: Props): Node {
       />
       <ZulipButton
         style={styles.marginTop}
-        text={isNewStream ? 'Create' : 'Update'}
+        text={isNewStream ? 'Create' : 'Save'}
         disabled={name.length === 0}
         onPress={handlePerformAction}
       />
