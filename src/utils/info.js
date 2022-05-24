@@ -13,20 +13,20 @@ export const showToast = (message: string) => {
 export const showErrorAlert = (
   title: string,
   message?: string,
-  learnMoreURL?: URL,
+  learnMoreUrl?: URL,
 
-  // Required if learnMoreURL passed (used to open the link)
+  // Required if learnMoreUrl passed (used to open the link)
   globalSettings?: GlobalSettingsState,
 ): void => {
   // TODO: Translate button text
 
   const buttons = [];
-  if (learnMoreURL) {
-    invariant(globalSettings !== undefined, 'learnMoreURL is passed; globalSettings should be too');
+  if (learnMoreUrl) {
+    invariant(globalSettings !== undefined, 'learnMoreUrl is passed; globalSettings should be too');
     buttons.push({
       text: 'Learn more',
       onPress: () => {
-        openLinkWithUserPreference(learnMoreURL.toString(), globalSettings);
+        openLinkWithUserPreference(learnMoreUrl.toString(), globalSettings);
       },
     });
   }
