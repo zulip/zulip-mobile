@@ -191,7 +191,7 @@
   "Mark conversation as read": "Marquer la conversation comme lue",
   "1 unread message": "1 message non lu",
   "{unreadCount} unread messages": "{unreadCount} messages non lus",
-  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} message non lu} other {{unreadCount} messages non lus}\n}",
+  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} message non lu} many {{unreadCount} messages non lus} other {{unreadCount} messages non lus}\n}",
   "New group PM": "Nouveau MP de groupe",
   "New PM": "Nouveau MP",
   "Share": "Partager",

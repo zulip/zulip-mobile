@@ -191,7 +191,7 @@
   "Mark conversation as read": "Marcar conversa como lida",
   "1 unread message": "1 mensagem não lida",
   "{unreadCount} unread messages": "{unreadCount} mensagens não lidas",
-  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} mensagem não lida} other {{unreadCount} mensagens não lidas}\n}",
+  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} mensagem não lida} many {{unreadCount} mensagens não lidas} other {{unreadCount} mensagens não lidas}\n}",
   "New group PM": "Novo grupo MP",
   "New PM": "Nova MP",
   "Share": "Partilhar",

@@ -191,7 +191,7 @@
   "Mark conversation as read": "Contrassegna la conversazione come letta",
   "1 unread message": "1 messaggio non letto",
   "{unreadCount} unread messages": "{unreadCount} messaggi non letti",
-  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} messaggio non letto} other {{unreadCount} messaggi non letti}\n}",
+  "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} messaggio non letto} many {{unreadCount} messaggi non letti} other {{unreadCount} messaggi non letti}\n}",
   "New group PM": "Nuovo gruppo PM",
   "New PM": "Nuovo PM",
   "Share": "Condividi",
