@@ -1,0 +1,17 @@
+// These are hand-written stubs, while we focus on other libraries
+// that consume this one.
+// @flow
+
+import * as React from 'react';
+
+export type PanGestureHandlerProps = $FlowFixMe;
+export type PanGestureHandlerProperties = $FlowFixMe;
+export type PanGestureHandlerGestureEvent = $FlowFixMe;
+export class PanGestureHandler extends React.Component<PanGestureHandlerProps> {}
+
+export type TapGestureHandler = $FlowFixMe;
+export type TapGestureHandlerProperties = $FlowFixMe;
+export type State = $FlowFixMe;
+
+declare export var GestureHandlerRootView: $FlowFixMe;
+declare export var BaseButton: $FlowFixMe;
