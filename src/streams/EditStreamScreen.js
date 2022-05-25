@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
@@ -22,6 +22,13 @@ export default function EditStreamScreen(props: Props): Node {
   const dispatch = useDispatch();
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
+  // What we pass for EditStreamCard's `initialValues` should be constant.
+  const initialValues = useRef({
+    name: stream.name,
+    description: stream.description,
+    privacy: stream.invite_only ? 'private' : 'public',
+  }).current;
+
   const handleComplete = useCallback(
     (name, description, privacy) => {
       dispatch(
@@ -41,11 +48,7 @@ export default function EditStreamScreen(props: Props): Node {
       <EditStreamCard
         navigation={navigation}
         isNewStream={false}
-        initialValues={{
-          name: stream.name,
-          description: stream.description,
-          privacy: stream.invite_only ? 'private' : 'public',
-        }}
+        initialValues={initialValues}
         onComplete={handleComplete}
       />
     </Screen>
