@@ -40,7 +40,42 @@ It doesn't include
 ## Unreleased
 
 
+### Highlights for users, vs. v27.183 (last prod release)
+
+* Support for creating web-public streams. (#5250)
+* We now offer the app in Mongolian. Many thanks to our kind volunteer
+  translators!
+* In the Home tab, topics with unread @-mentions are now highlighted with
+  "@". (#4857)
+* When searching for an emoji, you can now separate words with spaces,
+  rather than having to type underscores. (#4636)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs v27.185 (last beta)
+
+* Fixed a bug where the app sometimes wouldn't start. (#5383)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers, vs. v27.185
+
+* Migrated to use servers' new `user_settings` object when possible. (#4933)
+
+* Improved various types to better model the server API. (PRs #5373, #5374,
+  #5376, #5379, #5384, #5386, #5388)
+
+* Resolved issues: #5250, #5386, #4658, #5383, #4933, #5199
+
+
 ## 27.185 (2022-04-28)
+
+This was a beta-only release.
+
 
 ### Highlights for users, vs. v27.183 (last prod release)
 
