@@ -55,6 +55,8 @@ export default function CreateStreamScreen(props: Props): Node {
         //   possibly the server should be more specific)
         if (error instanceof ApiError) {
           showErrorAlert(error.message);
+        } else {
+          throw error;
         }
       }
     },
