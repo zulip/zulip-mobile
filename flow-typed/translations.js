@@ -128,6 +128,10 @@ declare module '../../static/translations/messages_ml.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_mn.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_nb_NO.json' {
   declare export default {| [string]: string |};
 }
