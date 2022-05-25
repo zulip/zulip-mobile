@@ -4,15 +4,41 @@ import invariant from 'invariant';
 import { tryGetActiveAccountState } from '../selectors';
 import {
   Role,
+  RoleValues,
   type RoleT,
   CreateWebPublicStreamPolicy,
   type CreateWebPublicStreamPolicyT,
 } from '../api/permissionsTypes';
-import { getCanCreateWebPublicStreams } from '../permissionSelectors';
+import { getCanCreateWebPublicStreams, roleIsAtLeast } from '../permissionSelectors';
 import rootReducer from '../boot/reducers';
 import { EVENT } from '../actionConstants';
 import * as eg from './lib/exampleData';
 import { EventTypes } from '../api/eventTypes';
+import { objectEntries } from '../flowPonyfill';
+
+describe('roleIsAtLeast', () => {
+  const { Owner, Admin, Moderator, Member, Guest } = Role;
+
+  // Keep this current with all possible roles, from least to most privilege.
+  const kRolesAscending = [Guest, Member, Moderator, Admin, Owner];
+  expect(RoleValues).toIncludeSameMembers(kRolesAscending);
+  expect(RoleValues).toBeArrayOfSize(kRolesAscending.length);
+
+  objectEntries(Role).forEach(([thresholdRoleName, thresholdRole]) => {
+    objectEntries(Role).forEach(([thisRoleName, thisRole]) => {
+      const expected = kRolesAscending.indexOf(thisRole) >= kRolesAscending.indexOf(thresholdRole);
+
+      const testName = expected
+        ? `${thisRoleName} is at least as high as ${thresholdRoleName}`
+        : `${thisRoleName} is lower than ${thresholdRoleName}`;
+
+      const actual = roleIsAtLeast(thisRole, thresholdRole);
+      test(testName, () => {
+        expect(actual).toBe(expected);
+      });
+    });
+  });
+});
 
 describe('getCanCreateWebPublicStreams', () => {
   const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;

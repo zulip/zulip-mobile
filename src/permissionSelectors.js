@@ -1,11 +1,44 @@
 /* @flow strict-local */
 import type { PerAccountState } from './types';
 import { ensureUnreachable } from './types';
-import { Role } from './api/permissionsTypes';
+import { Role, type RoleT } from './api/permissionsTypes';
 import { getRealm, getOwnUser } from './selectors';
 
-// eslint-disable-next-line no-unused-vars
 const { Guest, Member, Moderator, Admin, Owner } = Role;
+
+/**
+ * The Role of the self-user.
+ *
+ * For servers at FL 59 (version 4.0) or above, this will be live-updated
+ * when the role changes while we're polling an event queue.
+ */
+// TODO(server-4.0): Probably just delete this and use User.role directly?
+export function getOwnUserRole(state: PerAccountState): RoleT {
+  const fromUserObject = getOwnUser(state).role;
+
+  if (fromUserObject !== undefined) {
+    return fromUserObject;
+  }
+
+  // Servers don't send events to update these.
+  const { isOwner, isAdmin, isModerator, isGuest } = getRealm(state);
+
+  if (isOwner) {
+    return Owner;
+  } else if (isAdmin) {
+    return Admin;
+  } else if (isModerator) {
+    return Moderator;
+  } else if (isGuest) {
+    return Guest;
+  } else {
+    return Member;
+  }
+}
+
+export function roleIsAtLeast(thisRole: RoleT, thresholdRole: RoleT): boolean {
+  return thisRole <= thresholdRole; // Roles with more privilege have lower numbers.
+}
 
 /**
  * Whether the self-user can create or edit a stream to be web-public.
