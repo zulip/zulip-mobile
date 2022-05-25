@@ -14,8 +14,7 @@ describe('navigateBack', () => {
     );
 
     const action = navigateBack();
-
-    expect(action.payload.count).toEqual(0);
+    expect(action).toMatchObject({ type: 'POP', payload: { count: 0 } });
   });
 
   test('if last route differs from  routes the count of same routes is 0', () => {
@@ -27,8 +26,7 @@ describe('navigateBack', () => {
     );
 
     const action = navigateBack();
-
-    expect(action.payload.count).toEqual(1);
+    expect(action).toMatchObject({ type: 'POP', payload: { count: 1 } });
   });
 
   test('if several of the routes are the same ignore the params and return their count', () => {
@@ -46,7 +44,6 @@ describe('navigateBack', () => {
     );
 
     const action = navigateBack();
-
-    expect(action.payload.count).toEqual(3);
+    expect(action).toMatchObject({ type: 'POP', payload: { count: 3 } });
   });
 });
