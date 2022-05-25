@@ -16,6 +16,8 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
+import * as NavigationService from '../nav/NavigationService';
+import { navigateBack } from '../nav/navActions';
 
 /* eslint-disable no-shadow */
 
@@ -242,7 +244,9 @@ export default function EditStreamCard(props: Props): Node {
         });
       }
     } finally {
-      if (!result) {
+      if (result) {
+        NavigationService.dispatch(navigateBack());
+      } else {
         setAwaitingUserInput(true);
       }
     }

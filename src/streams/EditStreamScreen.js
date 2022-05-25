@@ -4,9 +4,8 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useSelector, useDispatch } from '../react-redux';
-import { updateExistingStream, navigateBack } from '../actions';
+import { updateExistingStream } from '../actions';
 import { getStreamForId } from '../selectors';
 import Screen from '../common/Screen';
 import EditStreamCard from './EditStreamCard';
@@ -37,7 +36,6 @@ export default function EditStreamScreen(props: Props): Node {
     async changedValues => {
       try {
         await dispatch(updateExistingStream(stream.stream_id, changedValues));
-        NavigationService.dispatch(navigateBack());
         return true;
       } catch (errorIllTyped) {
         const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470

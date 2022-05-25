@@ -5,9 +5,7 @@ import type { Node } from 'react';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
-import { navigateBack } from '../actions';
 import { getAuth } from '../selectors';
 import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import Screen from '../common/Screen';
@@ -41,7 +39,6 @@ export default function CreateStreamScreen(props: Props): Node {
 
       try {
         await api.createStream(auth, { name, description, ...privacyToStreamProps(privacy) });
-        NavigationService.dispatch(navigateBack());
         return true;
       } catch (error) {
         // If the stream already exists but you can't access it (e.g., it's
