@@ -4,6 +4,9 @@ import { ensureUnreachable } from './types';
 import { Role } from './api/permissionsTypes';
 import { getRealm, getOwnUser } from './selectors';
 
+// eslint-disable-next-line no-unused-vars
+const { Guest, Member, Moderator, Admin, Owner } = Role;
+
 /**
  * Whether the self-user can create or edit a stream to be web-public.
  *
@@ -50,11 +53,11 @@ export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
     case 6: // CreateWebPublicStreamPolicy.Nobody
       return false;
     case 7: // CreateWebPublicStreamPolicy.OwnerOnly
-      return role === Role.Owner;
+      return role === Owner;
     case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
-      return role === Role.Owner || role === Role.Admin;
+      return role === Owner || role === Admin;
     case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
-      return role === Role.Owner || role === Role.Admin || role === Role.Moderator;
+      return role === Owner || role === Admin || role === Moderator;
     default: {
       ensureUnreachable(createWebPublicStreamPolicy);
 
