@@ -6,6 +6,7 @@ import invariant from 'invariant';
 import { CommonActions } from '@react-navigation/native';
 
 import type { LocalizableText } from '../types';
+import type { GlobalParamList } from '../nav/globalTypes';
 import { randString } from '../utils/misc';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Touchable from './Touchable';
@@ -66,7 +67,7 @@ type Props<TItemKey> = $ReadOnly<{|
 export default function InputRowRadioButtons<TItemKey: string>(props: Props<TItemKey>): Node {
   const { navigation, label, description, valueKey, items, onValueChange } = props;
 
-  const screenKey = useRef(`selectable-options-${randString()}`).current;
+  const screenKey: string = useRef(`selectable-options-${randString()}`).current;
 
   const selectedItem = items.find(c => c.key === valueKey);
   invariant(selectedItem != null, 'InputRowRadioButtons: exactly one choice must be selected');
@@ -103,7 +104,7 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
     navigation.navigate({
       name: 'selectable-options',
       key: screenKey,
-      params: screenParams,
+      params: (screenParams: $ElementType<GlobalParamList, 'selectable-options'>),
     });
   }, [navigation, screenKey, screenParams]);
 
