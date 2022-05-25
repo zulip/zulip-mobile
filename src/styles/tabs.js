@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
-import type { ExtraMaterialTopTabNavigatorProps } from '@react-navigation/material-top-tabs';
-import type { ExtraBottomTabNavigatorProps } from '@react-navigation/bottom-tabs';
+import type { MaterialTopTabBarOptions } from '@react-navigation/material-top-tabs';
+import type { BottomTabBarOptions } from '@react-navigation/bottom-tabs';
 
 import { BRAND_COLOR } from './constants';
 
-export const bottomTabNavigatorConfig = (): ExtraBottomTabNavigatorProps => ({
+export const bottomTabNavigatorConfig = (): {| tabBarOptions: BottomTabBarOptions |} => ({
   tabBarOptions: {
     // TODO: Find a way to tell if we're on an Android tablet,
     //   and use that -- we don't want to assume Android users
@@ -34,7 +34,7 @@ export const bottomTabNavigatorConfig = (): ExtraBottomTabNavigatorProps => ({
   },
 });
 
-export const materialTopTabNavigatorConfig = (): ExtraMaterialTopTabNavigatorProps => ({
+export const materialTopTabNavigatorConfig = (): {| tabBarOptions: MaterialTopTabBarOptions |} => ({
   tabBarOptions: {
     showLabel: true,
     showIcon: false,
