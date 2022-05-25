@@ -477,7 +477,7 @@ export type CommonActionsType = {|
   +setParams: (params: ScreenParams) => SetParamsAction,
 |};
 
-export type GenericNavigationAction = {|
+export type NavigationAction = {|
   +type: string,
   +payload?: {| +[key: string]: mixed |},
   +source?: string,
@@ -544,7 +544,7 @@ export type PossiblyStaleRoute<RouteName: string = string> =
 
 type ActionCreators<
   State: NavigationState,
-  Action: GenericNavigationAction,
+  Action: NavigationAction,
 > = {|
   +[key: string]: (...args: $FlowFixMe) => (Action | State => Action),
 |};
@@ -556,7 +556,7 @@ export type DefaultRouterOptions = {
 
 export type RouterFactory<
   State: NavigationState,
-  Action: GenericNavigationAction,
+  Action: NavigationAction,
   RouterOptions: DefaultRouterOptions,
 > = (options: RouterOptions) => Router<State, Action>;
 
@@ -569,7 +569,7 @@ export type RouterConfigOptions = {|
 
 export type Router<
   State: NavigationState,
-  Action: GenericNavigationAction,
+  Action: NavigationAction,
 > = {|
   +type: $PropertyType<State, 'type'>,
   +getInitialState: (options: RouterConfigOptions) => State,
@@ -587,7 +587,7 @@ export type Router<
     action: Action,
     options: RouterConfigOptions,
   ) => ?PossiblyStaleNavigationState;
-  +shouldActionChangeFocus: (action: GenericNavigationAction) => boolean,
+  +shouldActionChangeFocus: (action: NavigationAction) => boolean,
   +actionCreators?: ActionCreators<State, Action>,
 |};
 
@@ -807,8 +807,8 @@ type NavigationHelpers<
   +navigate: Navigate<ParamList>,
   +dispatch: (
     action:
-      | GenericNavigationAction
-      | (State => GenericNavigationAction),
+      | NavigationAction
+      | (State => NavigationAction),
   ) => void,
   +reset: PossiblyStaleNavigationState => void,
   +goBack: () => void,
@@ -1036,7 +1036,7 @@ export type Descriptor<
 
 export type UseNavigationBuilder = <
   State: NavigationState,
-  Action: GenericNavigationAction,
+  Action: NavigationAction,
   ScreenOptions: {...},
   RouterOptions: DefaultRouterOptions,
   NavProp,
@@ -1924,7 +1924,7 @@ export type ContainerEventMap = {|
   |},
   +__unsafe_action__: {|
     +data: {|
-      +action: GenericNavigationAction,
+      +action: NavigationAction,
       +noop: boolean,
     |},
     +canPreventDefault: false,

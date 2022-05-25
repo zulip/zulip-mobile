@@ -3,7 +3,7 @@ import {
   type PopAction,
   StackActions,
   CommonActions,
-  type GenericNavigationAction,
+  type NavigationAction,
 } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
@@ -30,10 +30,10 @@ export const navigateBack = (): PopAction => {
  * "Reset" actions, to explicitly prohibit back navigation.
  */
 
-export const resetToAccountPicker = (): GenericNavigationAction =>
+export const resetToAccountPicker = (): NavigationAction =>
   CommonActions.reset({ index: 0, routes: [{ name: 'account-pick' }] });
 
-export const resetToMainTabs = (): GenericNavigationAction =>
+export const resetToMainTabs = (): NavigationAction =>
   CommonActions.reset({ index: 0, routes: [{ name: 'main-tabs' }] });
 
 /*
@@ -41,97 +41,90 @@ export const resetToMainTabs = (): GenericNavigationAction =>
  */
 
 /** Only call this via `doNarrow`.  See there for details. */
-export const navigateToChat = (narrow: Narrow): GenericNavigationAction =>
+export const navigateToChat = (narrow: Narrow): NavigationAction =>
   // This route name 'chat' appears in one more place than usual: doEventActionSideEffects.js .
   StackActions.push('chat', { narrow, editMessage: null });
 
-export const replaceWithChat = (narrow: Narrow): GenericNavigationAction =>
+export const replaceWithChat = (narrow: Narrow): NavigationAction =>
   StackActions.replace('chat', { narrow, editMessage: null });
 
-export const navigateToUsersScreen = (): GenericNavigationAction => StackActions.push('users');
+export const navigateToUsersScreen = (): NavigationAction => StackActions.push('users');
 
-export const navigateToSearch = (): GenericNavigationAction => StackActions.push('search-messages');
+export const navigateToSearch = (): NavigationAction => StackActions.push('search-messages');
 
 export const navigateToEmojiPicker = (
   onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,
-): GenericNavigationAction => StackActions.push('emoji-picker', { onPressEmoji });
+): NavigationAction => StackActions.push('emoji-picker', { onPressEmoji });
 
-export const navigateToAuth = (
-  serverSettings: ApiResponseServerSettings,
-): GenericNavigationAction => StackActions.push('auth', { serverSettings });
+export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigationAction =>
+  StackActions.push('auth', { serverSettings });
 
-export const navigateToDevAuth = (args: {| realm: URL |}): GenericNavigationAction =>
+export const navigateToDevAuth = (args: {| realm: URL |}): NavigationAction =>
   StackActions.push('dev-auth', { realm: args.realm });
 
 export const navigateToPasswordAuth = (args: {|
   realm: URL,
   requireEmailFormat: boolean,
-|}): GenericNavigationAction =>
+|}): NavigationAction =>
   StackActions.push('password-auth', {
     realm: args.realm,
     requireEmailFormat: args.requireEmailFormat,
   });
 
-export const navigateToAccountPicker = (): GenericNavigationAction =>
-  StackActions.push('account-pick');
+export const navigateToAccountPicker = (): NavigationAction => StackActions.push('account-pick');
 
-export const navigateToAccountDetails = (userId: UserId): GenericNavigationAction =>
+export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
   StackActions.push('account-details', { userId });
 
-export const navigateToPmConversationDetails = (
-  recipients: PmKeyRecipients,
-): GenericNavigationAction => StackActions.push('pm-conversation-details', { recipients });
+export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): NavigationAction =>
+  StackActions.push('pm-conversation-details', { recipients });
 
-export const navigateToRealmInputScreen = (): GenericNavigationAction =>
+export const navigateToRealmInputScreen = (): NavigationAction =>
   StackActions.push('realm-input', { initial: undefined });
 
-export const navigateToLightbox = (src: string, message: Message): GenericNavigationAction =>
+export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
   StackActions.push('lightbox', { src, message });
 
-export const navigateToLanguage = (): GenericNavigationAction => StackActions.push('language');
+export const navigateToLanguage = (): NavigationAction => StackActions.push('language');
 
-export const navigateToCreateGroup = (): GenericNavigationAction =>
-  StackActions.push('create-group');
+export const navigateToCreateGroup = (): NavigationAction => StackActions.push('create-group');
 
-export const navigateToDiagnostics = (): GenericNavigationAction =>
-  StackActions.push('diagnostics');
+export const navigateToDiagnostics = (): NavigationAction => StackActions.push('diagnostics');
 
-export const navigateToVariables = (): GenericNavigationAction => StackActions.push('variables');
+export const navigateToVariables = (): NavigationAction => StackActions.push('variables');
 
-export const navigateToTiming = (): GenericNavigationAction => StackActions.push('timing');
+export const navigateToTiming = (): NavigationAction => StackActions.push('timing');
 
-export const navigateToStorage = (): GenericNavigationAction => StackActions.push('storage');
+export const navigateToStorage = (): NavigationAction => StackActions.push('storage');
 
-export const navigateToDebug = (): GenericNavigationAction => StackActions.push('debug');
+export const navigateToDebug = (): NavigationAction => StackActions.push('debug');
 
-export const navigateToStream = (streamId: number): GenericNavigationAction =>
+export const navigateToStream = (streamId: number): NavigationAction =>
   StackActions.push('stream-settings', { streamId });
 
-export const navigateToTopicList = (streamId: number): GenericNavigationAction =>
+export const navigateToTopicList = (streamId: number): NavigationAction =>
   StackActions.push('topic-list', { streamId });
 
-export const navigateToCreateStream = (): GenericNavigationAction =>
-  StackActions.push('create-stream');
+export const navigateToCreateStream = (): NavigationAction => StackActions.push('create-stream');
 
-export const navigateToEditStream = (streamId: number): GenericNavigationAction =>
+export const navigateToEditStream = (streamId: number): NavigationAction =>
   StackActions.push('edit-stream', { streamId });
 
-export const navigateToStreamSubscribers = (streamId: number): GenericNavigationAction =>
+export const navigateToStreamSubscribers = (streamId: number): NavigationAction =>
   StackActions.push('invite-users', { streamId });
 
-export const navigateToNotifications = (): GenericNavigationAction =>
-  StackActions.push('notifications');
+export const navigateToNotifications = (): NavigationAction => StackActions.push('notifications');
 
 export const navigateToMessageReactionScreen = (
   messageId: number,
   reactionName?: string,
-): GenericNavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
+): NavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
 
-export const navigateToLegal = (): GenericNavigationAction => StackActions.push('legal');
+export const navigateToLegal = (): NavigationAction => StackActions.push('legal');
 
-export const navigateToUserStatus = (): GenericNavigationAction => StackActions.push('user-status');
+export const navigateToUserStatus = (): NavigationAction => StackActions.push('user-status');
 
-export const navigateToSharing = (sharedData: SharedData): GenericNavigationAction =>
+export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
   StackActions.push('sharing', { sharedData });
 
-export const navigateToSettings = (): GenericNavigationAction => StackActions.push('settings');
+export const navigateToSettings = (): NavigationAction => StackActions.push('settings');

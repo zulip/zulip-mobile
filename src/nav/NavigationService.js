@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import type {
-  GenericNavigationAction,
+  NavigationAction,
   NavigationState,
   NavigationContainerType,
 } from '@react-navigation/native';
@@ -23,5 +23,5 @@ const getContainer = () => {
 
 export const getState = (): NavigationState => getContainer().getRootState();
 
-export const dispatch = (navigationAction: GenericNavigationAction): void =>
+export const dispatch = (navigationAction: NavigationAction): void =>
   getContainer().dispatch(navigationAction);
