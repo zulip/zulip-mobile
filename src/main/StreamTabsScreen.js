@@ -16,8 +16,8 @@ import SubscriptionsCard from '../streams/SubscriptionsCard';
 import StreamListCard from '../subscriptions/StreamListCard';
 
 export type StreamTabsNavigatorParamList = {|
-  subscribed: RouteParamsOf<typeof SubscriptionsCard>,
-  allStreams: RouteParamsOf<typeof StreamListCard>,
+  +subscribed: RouteParamsOf<typeof SubscriptionsCard>,
+  +allStreams: RouteParamsOf<typeof StreamListCard>,
 |};
 
 export type StreamTabsNavigationProp<

@@ -23,10 +23,10 @@ import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 
 export type MainTabsNavigatorParamList = {|
-  home: RouteParamsOf<typeof HomeScreen>,
-  'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
-  'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
-  profile: RouteParamsOf<typeof ProfileScreen>,
+  +home: RouteParamsOf<typeof HomeScreen>,
+  +'stream-tabs': RouteParamsOf<typeof StreamTabsScreen>,
+  +'pm-conversations': RouteParamsOf<typeof PmConversationsScreen>,
+  +profile: RouteParamsOf<typeof ProfileScreen>,
 |};
 
 export type MainTabsNavigationProp<

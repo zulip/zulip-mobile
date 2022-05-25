@@ -24,8 +24,8 @@ import ShareToPm from './ShareToPm';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
 export type SharingNavigatorParamList = {|
-  'share-to-stream': RouteParamsOf<typeof ShareToStream>,
-  'share-to-pm': RouteParamsOf<typeof ShareToPm>,
+  +'share-to-stream': RouteParamsOf<typeof ShareToStream>,
+  +'share-to-pm': RouteParamsOf<typeof ShareToPm>,
 |};
 
 export type SharingNavigationProp<
