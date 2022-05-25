@@ -60,19 +60,9 @@ export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
   const { webPublicStreamsEnabled, enableSpectatorAccess, createWebPublicStreamPolicy } = getRealm(
     state,
   );
-  const ownUser = getOwnUser(state);
-  const { role } = ownUser;
+  const role = getOwnUserRole(state);
 
   if (!webPublicStreamsEnabled || !enableSpectatorAccess) {
-    return false;
-  }
-
-  // Web-public streams weren't available until 5.0, in FL 103. (See
-  // InitialDataRealm.realm_create_web_public_stream_policy.) If `User.role`
-  // is missing, that means we're before FL 59 (see `User.role`), so we
-  // definitely don't have web-public streams.
-  // TODO(server-4.0): Remove.
-  if (role === undefined) {
     return false;
   }
 
@@ -86,11 +76,11 @@ export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
     case 6: // CreateWebPublicStreamPolicy.Nobody
       return false;
     case 7: // CreateWebPublicStreamPolicy.OwnerOnly
-      return role === Owner;
+      return roleIsAtLeast(role, Owner);
     case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
-      return role === Owner || role === Admin;
+      return roleIsAtLeast(role, Admin);
     case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
-      return role === Owner || role === Admin || role === Moderator;
+      return roleIsAtLeast(role, Moderator);
     default: {
       ensureUnreachable(createWebPublicStreamPolicy);
 
