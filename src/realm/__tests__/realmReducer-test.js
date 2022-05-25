@@ -47,6 +47,7 @@ describe('realmReducer', () => {
         isAdmin: action.data.is_admin,
         isOwner: action.data.is_owner,
         isModerator: action.data.is_moderator,
+        isGuest: action.data.is_guest,
         user_id: action.data.user_id,
         email: action.data.email,
         crossRealmBots: action.data.cross_realm_bots,
