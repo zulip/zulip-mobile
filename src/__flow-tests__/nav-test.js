@@ -66,7 +66,9 @@ function testNavigatorTypes() {
       <Stack.Screen name="Profile" component={Profile} />
       {/* $FlowExpectedError[incompatible-type] - mismatch of name with route prop */}
       <Stack.Screen name="Profile1" component={Profile12} />
-      {/* Should error but doesn't! on mismatch of name with navigation prop */}
+      {/* FAIL - Should error but doesn't! on mismatch of name with navigation prop */}
       <Stack.Screen name="Profile2" component={Profile12} />
+      {/* $FlowExpectedError[incompatible-type] - name that isn't even in the list */}
+      <Stack.Screen name="Profile1234" component={Profile12} />
     </Stack.Navigator>;
 }
