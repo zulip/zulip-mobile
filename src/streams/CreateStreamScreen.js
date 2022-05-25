@@ -29,7 +29,7 @@ export default function CreateStreamScreen(props: Props): Node {
   const streamsByName = useSelector(getStreamsByName);
 
   const handleComplete = useCallback(
-    async (name, description, privacy) => {
+    async ({ name, description, privacy }) => {
       // This will miss existing streams that the client can't know about;
       // for example, a private stream the user can't access. See comment
       // where we catch an `ApiError`, below.

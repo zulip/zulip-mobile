@@ -40,7 +40,7 @@ type PropsCreateStream = $ReadOnly<{|
   ...PropsBase,
 
   isNewStream: true,
-  onComplete: (name: string, description: string, privacy: Privacy) => void | Promise<void>,
+  onComplete: ({| name: string, description: string, privacy: Privacy |}) => void | Promise<void>,
 |}>;
 
 type Props = $ReadOnly<PropsEditStream | PropsCreateStream>;
@@ -54,7 +54,7 @@ export default function EditStreamCard(props: Props): Node {
 
   const handlePerformAction = useCallback(() => {
     if (props.isNewStream) {
-      props.onComplete(name, description, privacy);
+      props.onComplete({ name, description, privacy });
     } else {
       props.onComplete({
         name: initialValues.name !== name ? name : undefined,
