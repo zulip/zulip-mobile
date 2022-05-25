@@ -38,6 +38,7 @@ export default function EditStreamScreen(props: Props): Node {
       try {
         await dispatch(updateExistingStream(stream.stream_id, changedValues));
         NavigationService.dispatch(navigateBack());
+        return true;
       } catch (errorIllTyped) {
         const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
         if (error instanceof ApiError) {
@@ -49,6 +50,7 @@ export default function EditStreamScreen(props: Props): Node {
             // server could be more specific with this error.
             error.message,
           );
+          return false;
         } else {
           throw error;
         }

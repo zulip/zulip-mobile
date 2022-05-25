@@ -36,12 +36,13 @@ export default function CreateStreamScreen(props: Props): Node {
       // where we catch an `ApiError`, below.
       if (streamsByName.has(name)) {
         showErrorAlert(_('A stream with this name already exists.'));
-        return;
+        return false;
       }
 
       try {
         await api.createStream(auth, { name, description, ...privacyToStreamProps(privacy) });
         NavigationService.dispatch(navigateBack());
+        return true;
       } catch (error) {
         // If the stream already exists but you can't access it (e.g., it's
         // private), then it won't be in the client's data structures, so
@@ -55,6 +56,7 @@ export default function CreateStreamScreen(props: Props): Node {
         //   possibly the server should be more specific)
         if (error instanceof ApiError) {
           showErrorAlert(error.message);
+          return false;
         } else {
           throw error;
         }

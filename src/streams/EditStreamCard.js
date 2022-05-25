@@ -1,7 +1,7 @@
 /* @flow strict-local */
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useContext } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 
 import type { Privacy } from './streamsActions';
 import { ensureUnreachable } from '../types';
@@ -15,6 +15,7 @@ import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 /* eslint-disable no-shadow */
 
@@ -38,14 +39,16 @@ type PropsEditStream = $ReadOnly<{|
     +name?: string,
     +description?: string,
     +privacy?: Privacy,
-  |}) => void | Promise<void>,
+  |}) => boolean | Promise<boolean>,
 |}>;
 
 type PropsCreateStream = $ReadOnly<{|
   ...PropsBase,
 
   isNewStream: true,
-  onComplete: ({| name: string, description: string, privacy: Privacy |}) => void | Promise<void>,
+  onComplete: ({| name: string, description: string, privacy: Privacy |}) =>
+    | boolean
+    | Promise<boolean>,
 |}>;
 
 type Props = $ReadOnly<PropsEditStream | PropsCreateStream>;
@@ -181,20 +184,67 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
 
 export default function EditStreamCard(props: Props): Node {
   const { navigation, initialValues, isNewStream } = props;
+  const _ = useContext(TranslationContext);
 
   const [name, setName] = useState<string>(props.initialValues.name);
   const [description, setDescription] = useState<string>(props.initialValues.description);
   const [privacy, setPrivacy] = useState<Privacy>(props.initialValues.privacy);
+  // When adding more, update areInputsTouched.
 
-  const handlePerformAction = useCallback(() => {
-    if (props.isNewStream) {
-      props.onComplete({ name, description, privacy });
-    } else {
-      props.onComplete({
-        name: initialValues.name !== name ? name : undefined,
-        description: initialValues.description !== description ? description : undefined,
-        privacy: initialValues.privacy !== privacy ? privacy : undefined,
-      });
+  const [awaitingUserInput, setAwaitingUserInput] = useState<boolean>(true);
+  const areInputsTouched =
+    name !== initialValues.name
+    || description !== initialValues.description
+    || privacy !== initialValues.privacy;
+
+  useEffect(
+    () =>
+      /* $FlowFixMe[prop-missing]: Get Flow types for
+       react-navigation/react-navigation@6925e92dc */
+      navigation.addListener('beforeRemove', e => {
+        if (!(awaitingUserInput && areInputsTouched)) {
+          return;
+        }
+
+        e.preventDefault();
+
+        Alert.alert(
+          _('Discard changes?'),
+          _('You have unsaved changes. Leave without saving?'),
+          [
+            { text: _('Cancel'), style: 'cancel' },
+            {
+              text: _('Discard'),
+              style: 'destructive',
+
+              /* $FlowFixMe[prop-missing]: Get Flow types for
+               react-navigation/react-navigation@6925e92dc */
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ],
+          { cancelable: true },
+        );
+      }),
+    [_, areInputsTouched, navigation, awaitingUserInput],
+  );
+
+  const handlePerformAction = useCallback(async () => {
+    setAwaitingUserInput(false);
+    let result = false;
+    try {
+      if (props.isNewStream) {
+        result = await props.onComplete({ name, description, privacy });
+      } else {
+        result = await props.onComplete({
+          name: initialValues.name !== name ? name : undefined,
+          description: initialValues.description !== description ? description : undefined,
+          privacy: initialValues.privacy !== privacy ? privacy : undefined,
+        });
+      }
+    } finally {
+      if (!result) {
+        setAwaitingUserInput(true);
+      }
     }
   }, [props, initialValues, name, description, privacy]);
 

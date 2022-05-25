@@ -1,4 +1,7 @@
 {
+  "Discard changes?": "Discard changes?",
+  "You have unsaved changes. Leave without saving?": "You have unsaved changes. Leave without saving?",
+  "Discard": "Discard",
   "Who can access the stream?": "Who can access the stream?",
   "Cannot apply requested settings": "Cannot apply requested settings",
   "Insufficient permission": "Insufficient permission",
