@@ -85,6 +85,7 @@
     "@octokit/core": "^3.4.0",
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
+    "@types/react-native": "^0.67.7",
     "@vusion/webfonts-generator": "^0.8.0",
     "babel-eslint": "^10.0.3",
     "core-js": "^3.1.4",
