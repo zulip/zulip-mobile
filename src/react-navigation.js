@@ -7,8 +7,7 @@
 import { type ElementConfig } from 'react';
 import {
   useNavigation as useNavigationInner,
-  type LeafRoute,
-  type ScreenParams,
+  type Route,
   type NavigationProp,
 } from '@react-navigation/native';
 
@@ -30,8 +29,8 @@ import type { GlobalParamList } from './nav/globalTypes';
  *   by at the navigator.  (This is type-checked at the navigator.)
  * @param {RouteParams} - The type to use for `props.route.params`.
  */
-export type RouteProp<+RouteName: string, +RouteParams: ScreenParams | void> = {|
-  ...LeafRoute<RouteName>,
+export type RouteProp<+RouteName: string, +RouteParams: { ... } | void> = {|
+  ...Route<RouteName>,
   +params: RouteParams,
 |};
 

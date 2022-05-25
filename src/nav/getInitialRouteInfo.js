@@ -1,13 +1,11 @@
 /* @flow strict-local */
 
-import type { ScreenParams } from '@react-navigation/native';
-
 import type { Account } from '../types';
 
 export default (args: {|
   hasAuth: boolean,
   accounts: $ReadOnlyArray<Account>,
-|}): {| initialRouteName: string, initialRouteParams?: ScreenParams |} => {
+|}): {| initialRouteName: string, initialRouteParams?: { ... } |} => {
   const { hasAuth, accounts } = args;
 
   // If the active account is not logged in, bring the user as close
