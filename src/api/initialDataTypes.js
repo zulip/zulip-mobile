@@ -16,7 +16,10 @@ import type {
   UserGroup,
   UserId,
 } from './apiTypes';
-import type { CreateWebPublicStreamPolicyT } from './permissionsTypes';
+import type {
+  CreatePublicOrPrivateStreamPolicyT,
+  CreateWebPublicStreamPolicyT,
+} from './permissionsTypes';
 
 /*
    The types in this file are organized by which `fetch_event_types` values
@@ -154,15 +157,15 @@ export type InitialDataRealm = $ReadOnly<{|
 
   // TODO(server-5.0): Added in feat. 102, replacing
   // realm_create_stream_policy for private streams
-  realm_create_private_stream_policy?: number,
+  realm_create_private_stream_policy?: CreatePublicOrPrivateStreamPolicyT,
 
   // TODO(server-5.0): Added in feat. 102, replacing
   // realm_create_stream_policy for public streams
-  realm_create_public_stream_policy?: number,
+  realm_create_public_stream_policy?: CreatePublicOrPrivateStreamPolicyT,
 
   // TODO(server-5.0): Replaced in feat. 102 by
   // realm_create_private_stream_policy and realm_create_public_stream_policy
-  realm_create_stream_policy?: number,
+  realm_create_stream_policy?: CreatePublicOrPrivateStreamPolicyT,
 
   // TODO(server-5.0): Added in feat. 103; when absent, treat as
   //   CreateWebPublicStreamPolicy.Nobody.
