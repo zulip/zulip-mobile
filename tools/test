@@ -209,7 +209,7 @@ run_lint() {
     local files
     files=( $(apply_eslintignore "$@") )
     (( ${#files[@]} )) || return 0
-    eslint ${fix:+--fix} --max-warnings=0 "${files[@]}"
+    eslint ${fix:+--fix} --report-unused-disable-directives --max-warnings=0 "${files[@]}"
 }
 
 run_jest() {

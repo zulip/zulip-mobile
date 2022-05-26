@@ -268,7 +268,7 @@ export const registerAbort =
       //
       // TODO: Clean up all this brittle logic.
       // TODO: Instead, let the retry be on-demand, with a banner.
-      dispatch(deadQueue()); // eslint-disable-line no-use-before-define
+      dispatch(deadQueue());
     } else {
       // Tell the user we've given up and let them try the same account or a
       // different account from the account picker.

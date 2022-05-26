@@ -392,8 +392,6 @@ export default function ComposeBox(props: Props): Node {
       setMessageInputValue(completedText);
 
       if (lastWordPrefix === '@') {
-        // https://github.com/eslint/eslint/issues/11045
-        // eslint-disable-next-line no-unused-expressions
         mentionWarnings.current?.handleMentionSubscribedCheck(completion);
       }
     },

@@ -62,7 +62,6 @@ export type CreatePublicOrPrivateStreamPolicyT = 1 | 2 | 3 | 4;
 // Or we could leapfrog TS and make this a Flow enum:
 //   https://flow.org/en/docs/enums/
 // (TS has its own enums, but they are a mess.)
-// eslint-disable-next-line flowtype/type-id-match
 export const CreatePublicOrPrivateStreamPolicy = {
   MemberOrAbove: (1: 1),
   AdminOrAbove: (2: 2),

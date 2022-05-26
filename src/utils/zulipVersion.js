@@ -137,7 +137,7 @@ export class ZulipVersion {
     const commitsMatch = /^-(\d+)-g([a-fA-F0-9]{4,40})/.exec(rest);
     if (commitsMatch !== null) {
       result.numCommits = parseInt(commitsMatch[1], 10);
-      result.commitId = commitsMatch[2]; // eslint-disable-line prefer-destructuring
+      result.commitId = commitsMatch[2];
     }
 
     return result;

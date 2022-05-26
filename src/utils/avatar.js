@@ -86,7 +86,6 @@ export class AvatarURL {
     }
   }
 
-  /* eslint-disable-next-line class-methods-use-this */
   get(sizePhysicalPx: number): URL {
     throw new Error('unimplemented');
   }

@@ -7,8 +7,6 @@ import LegacyAsyncStorage from '@react-native-async-storage/async-storage';
 import { AsyncStorage } from '../AsyncStorage';
 import { SQLDatabase } from '../sqlite';
 
-/* eslint-disable no-underscore-dangle */
-
 describe('AsyncStorage', () => {
   afterEach(async () => {
     await AsyncStorage.clear();

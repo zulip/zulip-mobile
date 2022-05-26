@@ -40,10 +40,6 @@ import { tryParseUrl } from '../utils/url';
 import { caseNarrow } from '../utils/narrow';
 import { type BackgroundData, getBackgroundData } from './backgroundData';
 
-// ESLint doesn't notice how `this.props` escapes, and complains about some
-// props not being used here.
-/* eslint-disable react/no-unused-prop-types */
-
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
   messages: $ReadOnlyArray<Message | Outbox>,

@@ -960,7 +960,6 @@ export const action = Object.freeze({
 });
 
 // Ensure every `eg.action.foo` is some well-typed action.
-/* eslint-disable-next-line no-unused-expressions */
 (action: {| [string]: Action |});
 
 /* ========================================================================

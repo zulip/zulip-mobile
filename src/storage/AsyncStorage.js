@@ -5,9 +5,6 @@ import invariant from 'invariant';
 import { SQLDatabase } from './sqlite';
 import * as logging from '../utils/logging';
 
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable class-methods-use-this */
-
 // A better name for this class might be simply AsyncStorage.
 // But for now we reserve that name for the thing that's a (nearly) drop-in
 // replacement for the upstream AsyncStorage, which isn't this class itself

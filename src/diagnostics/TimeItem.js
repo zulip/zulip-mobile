@@ -28,7 +28,7 @@ export default class TimeItem extends PureComponent<TimingItemType> {
 
   render(): Node {
     const { text, startMs, endMs } = this.props;
-    const startStr = format(startMs, 'HH:mm:ss.S'); // eslint-disable-line
+    const startStr = format(startMs, 'HH:mm:ss.S');
     const durationStrMs = numberWithSeparators(endMs - startMs);
     const timingStr = `Start: ${startStr}   Duration: ${durationStrMs} ms`;
 

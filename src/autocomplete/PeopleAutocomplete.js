@@ -93,7 +93,6 @@ export default function PeopleAutocomplete(props: Props): Node {
 
   return (
     <Popup>
-      {/* eslint-disable-next-line react/jsx-curly-brace-presence */}
       {
         // $FlowFixMe[incompatible-variance]
         /* $FlowFixMe[prop-missing]

@@ -66,7 +66,6 @@ describe('useHasStayedTrueForMs', () => {
       return result;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     async sleep(ms: number): Promise<void> {
       // `fakeSleep` causes the timer to run, which causes the hook to set
       // some state (with `useState`). `react-test-renderer` says we need to

@@ -21,8 +21,6 @@ import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 
-/* eslint-disable no-shadow */
-
 type PropsBase = $ReadOnly<{|
   navigation: AppNavigationProp<'edit-stream' | 'create-stream'>,
 

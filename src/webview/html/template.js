@@ -19,7 +19,7 @@ export default (
   ...values: $ReadOnlyArray<string | number>
 ): string => {
   // $FlowIssue[prop-missing] #2616 github.com/facebook/flow/issues/2616
-  const raw: $ReadOnlyArray<string> = strings.raw; // eslint-disable-line prefer-destructuring
+  const raw: $ReadOnlyArray<string> = strings.raw;
   const result = [];
   values.forEach((value, i) => {
     if (raw[i].endsWith('$!')) {

@@ -39,7 +39,6 @@ const getRoundTrippedStateValue = async <K: $Keys<GlobalState>, V: $Values<Globa
 const getRoundTrippedState = async (globalState: GlobalState): Promise<GlobalState> => {
   const entries = await Promise.all(
     objectEntries(globalState).map(
-      // eslint-disable-next-line flowtype/generic-spacing
       async <K: $Keys<GlobalState>, V: $Values<GlobalState>>([key: K, value: V]): Promise<
         [K, V],
       > => [

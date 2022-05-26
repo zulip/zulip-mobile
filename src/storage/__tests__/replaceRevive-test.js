@@ -1,6 +1,4 @@
 /* @flow strict-local */
-/* eslint-disable id-match */
-/* eslint-disable no-underscore-dangle */
 
 import Immutable from 'immutable';
 

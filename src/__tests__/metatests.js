@@ -60,7 +60,6 @@ describe('jsdom-global', () => {
       ['absolute', 'file:///bin/sh', 0],
     ];
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const [urlType, url, expectedCount] of data) {
       test(`from a(n) ${urlType} URL`, () => {
         global.jsdom.reconfigure({ url: sourceURL });

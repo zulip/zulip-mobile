@@ -46,7 +46,7 @@ export { default as isSameDay } from 'date-fns/isSameDay';
 //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Snapshot.20tests/near/1167545
 function maybePretendUtc(date: Date): Date {
   /* eslint-disable operator-linebreak */
-  /* eslint-disable-next-line id-match,no-underscore-dangle */
+  /* eslint-disable-next-line no-underscore-dangle */
   return global.__TEST__
     ? // Negate the UTC offset, using an offset we get from `date` itself, so
       // it'll be correct for DST-type changes through the year.

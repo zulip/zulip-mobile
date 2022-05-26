@@ -285,7 +285,7 @@ export function getCustomProfileFieldsForUser(
   //   the order they appear in the array (`custom_profile_fields` in the
   //   API; our `realmFields` array here.)  See chat thread:
   //     https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1382982
-  const fields = []; // eslint-disable-line no-shadow
+  const fields = [];
   for (const realmField of realmFields) {
     const value = interpretCustomProfileField(
       realmDefaultExternalAccounts,
