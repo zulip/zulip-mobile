@@ -59,7 +59,7 @@ experience.
 
 ### Highlights for users, vs v27.185 (last beta)
 
-* Fixed a bug where the app sometimes wouldn't start. (#5383)
+* (Android) Fixed a bug where the app sometimes wouldn't start. (#5383)
 
 Plus, like every release, other fixes and improvements for your Zulip
 experience.
