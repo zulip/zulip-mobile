@@ -22,7 +22,11 @@ import Emoji from '../emoji/Emoji';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import { navigateBack } from '../nav/navActions';
 
-const Tab = createMaterialTopTabNavigator();
+// The tab navigator we make here has a dynamic set of route names, but they
+// all take `void` for parameters.
+type NavParamList = {| +[name: string]: void |};
+
+const Tab = createMaterialTopTabNavigator<NavParamList, _, _>();
 
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
