@@ -12,7 +12,10 @@ import {
 } from '../../actionConstants';
 import type { UserSettings } from '../../api/initialDataTypes';
 import type { RealmDataForUpdate } from '../../api/realmDataTypes';
-import { CreateWebPublicStreamPolicy } from '../../api/permissionsTypes';
+import {
+  CreatePublicOrPrivateStreamPolicy,
+  CreateWebPublicStreamPolicy,
+} from '../../api/permissionsTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -36,6 +39,8 @@ describe('realmReducer', () => {
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
         webPublicStreamsEnabled: action.data.server_web_public_streams_enabled,
+        createPublicStreamPolicy: action.data.realm_create_public_stream_policy,
+        createPrivateStreamPolicy: action.data.realm_create_private_stream_policy,
         createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy,
         enableSpectatorAccess: action.data.realm_enable_spectator_access,
 
@@ -311,6 +316,94 @@ describe('realmReducer', () => {
         check(OwnerOnly, AdminOrAbove);
         check(OwnerOnly, ModeratorOrAbove);
         check(OwnerOnly, Nobody);
+      });
+
+      describe('createPublicStreamPolicy / create_public_stream_policy', () => {
+        const {
+          MemberOrAbove,
+          AdminOrAbove,
+          FullMemberOrAbove,
+          ModeratorOrAbove,
+        } = CreatePublicOrPrivateStreamPolicy;
+        const check = mkCheck('createPublicStreamPolicy', 'create_public_stream_policy');
+        check(MemberOrAbove, AdminOrAbove);
+        check(MemberOrAbove, FullMemberOrAbove);
+        check(MemberOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, MemberOrAbove);
+        check(AdminOrAbove, FullMemberOrAbove);
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(FullMemberOrAbove, MemberOrAbove);
+        check(FullMemberOrAbove, AdminOrAbove);
+        check(FullMemberOrAbove, ModeratorOrAbove);
+        check(ModeratorOrAbove, MemberOrAbove);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('createPrivateStreamPolicy / create_private_stream_policy', () => {
+        const {
+          MemberOrAbove,
+          AdminOrAbove,
+          FullMemberOrAbove,
+          ModeratorOrAbove,
+        } = CreatePublicOrPrivateStreamPolicy;
+        const check = mkCheck('createPrivateStreamPolicy', 'create_private_stream_policy');
+        check(MemberOrAbove, AdminOrAbove);
+        check(MemberOrAbove, FullMemberOrAbove);
+        check(MemberOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, MemberOrAbove);
+        check(AdminOrAbove, FullMemberOrAbove);
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(FullMemberOrAbove, MemberOrAbove);
+        check(FullMemberOrAbove, AdminOrAbove);
+        check(FullMemberOrAbove, ModeratorOrAbove);
+        check(ModeratorOrAbove, MemberOrAbove);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {
+        // TODO(server-5.0): Stop expecting create_stream_policy; remove.
+
+        const {
+          MemberOrAbove,
+          AdminOrAbove,
+          FullMemberOrAbove,
+          ModeratorOrAbove,
+        } = CreatePublicOrPrivateStreamPolicy;
+        const check = (initialStateValue, eventValue) => {
+          test(`${initialStateValue.toString()} → ${eventValue.toString()}`, () => {
+            const initialState = {
+              ...eg.plusReduxState.realm,
+              createPublicStreamPolicy: initialStateValue,
+              createPrivateStreamPolicy: initialStateValue,
+            };
+
+            expect(
+              realmReducer(initialState, {
+                type: EVENT,
+                event: { ...eventCommon, data: { create_stream_policy: eventValue } },
+              }),
+            ).toEqual({
+              ...initialState,
+              createPublicStreamPolicy: eventValue,
+              createPrivateStreamPolicy: eventValue,
+            });
+          });
+        };
+
+        check(MemberOrAbove, AdminOrAbove);
+        check(MemberOrAbove, FullMemberOrAbove);
+        check(MemberOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, MemberOrAbove);
+        check(AdminOrAbove, FullMemberOrAbove);
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(FullMemberOrAbove, MemberOrAbove);
+        check(FullMemberOrAbove, AdminOrAbove);
+        check(FullMemberOrAbove, ModeratorOrAbove);
+        check(ModeratorOrAbove, MemberOrAbove);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, FullMemberOrAbove);
       });
     });
   });

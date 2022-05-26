@@ -24,6 +24,7 @@ import type {
   UserGroup,
   UserId,
   UserPresence,
+  CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicyT,
 } from './api/apiTypes';
 import type {
@@ -288,6 +289,8 @@ export type RealmState = $ReadOnly<{|
   messageContentDeleteLimitSeconds: number | null,
   messageContentEditLimitSeconds: number,
   pushNotificationsEnabled: boolean,
+  createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
+  createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
   webPublicStreamsEnabled: boolean,
   createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
   enableSpectatorAccess: boolean,

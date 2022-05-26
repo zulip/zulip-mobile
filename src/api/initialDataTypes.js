@@ -165,6 +165,8 @@ export type InitialDataRealm = $ReadOnly<{|
 
   // TODO(server-5.0): Replaced in feat. 102 by
   // realm_create_private_stream_policy and realm_create_public_stream_policy
+  // TODO(?): Do we support any servers released before this was added? (No
+  //   entry in API doc or changelog.)
   realm_create_stream_policy?: CreatePublicOrPrivateStreamPolicyT,
 
   // TODO(server-5.0): Added in feat. 103; when absent, treat as

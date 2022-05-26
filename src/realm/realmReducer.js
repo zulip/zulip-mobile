@@ -5,7 +5,10 @@ import type {
   RealmEmojiById,
   VideoChatProvider,
 } from '../types';
-import { CreateWebPublicStreamPolicy } from '../api/permissionsTypes';
+import {
+  CreatePublicOrPrivateStreamPolicy,
+  CreateWebPublicStreamPolicy,
+} from '../api/permissionsTypes';
 import { EventTypes } from '../api/eventTypes';
 import {
   REGISTER_COMPLETE,
@@ -34,6 +37,8 @@ const initialState = {
   messageContentDeleteLimitSeconds: null,
   messageContentEditLimitSeconds: 1,
   pushNotificationsEnabled: true,
+  createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
+  createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
   webPublicStreamsEnabled: false,
   createWebPublicStreamPolicy: CreateWebPublicStreamPolicy.Nobody,
   enableSpectatorAccess: false,
@@ -109,6 +114,16 @@ export default (
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
+        createPublicStreamPolicy:
+          action.data.realm_create_public_stream_policy
+          ?? action.data.realm_create_stream_policy
+          // https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883208179
+          ?? CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
+        createPrivateStreamPolicy:
+          action.data.realm_create_private_stream_policy
+          ?? action.data.realm_create_stream_policy
+          // https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883208179
+          ?? CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
         webPublicStreamsEnabled: action.data.server_web_public_streams_enabled ?? false,
         createWebPublicStreamPolicy:
           action.data.realm_create_web_public_stream_policy ?? CreateWebPublicStreamPolicy.Nobody,
@@ -176,6 +191,17 @@ export default (
             }
             if (data.description !== undefined) {
               result.description = data.description;
+            }
+            if (data.create_stream_policy !== undefined) {
+              // TODO(server-5.0): Stop expecting create_stream_policy; simplify.
+              result.createPublicStreamPolicy = data.create_stream_policy;
+              result.createPrivateStreamPolicy = data.create_stream_policy;
+            }
+            if (data.create_public_stream_policy !== undefined) {
+              result.createPublicStreamPolicy = data.create_public_stream_policy;
+            }
+            if (data.create_private_stream_policy !== undefined) {
+              result.createPrivateStreamPolicy = data.create_private_stream_policy;
             }
             if (data.create_web_public_stream_policy !== undefined) {
               result.createWebPublicStreamPolicy = data.create_web_public_stream_policy;
