@@ -102,6 +102,35 @@ export function getCanCreatePublicStreams(state: PerAccountState): boolean {
 }
 
 /**
+ * Whether the self-user is authorized to create or edit a stream to be
+ *   private.
+ */
+export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
+  const { createPrivateStreamPolicy } = getRealm(state);
+  const ownUser = getOwnUser(state);
+  const role = getOwnUserRole(state);
+
+  switch (createPrivateStreamPolicy) {
+    case 4: // ModeratorOrAbove
+      return roleIsAtLeast(role, Moderator);
+    case 3: // FullMemberOrAbove
+      return role === Member
+        ? getHasUserPassedWaitingPeriod(state, ownUser.user_id)
+        : roleIsAtLeast(role, Member);
+    case 2: // AdminOrAbove
+      return roleIsAtLeast(role, Admin);
+    case 1: // MemberOrAbove
+      return roleIsAtLeast(role, Member);
+    default: {
+      ensureUnreachable(createPrivateStreamPolicy);
+
+      // (Unreachable as long as the cases are exhaustive.)
+      return false;
+    }
+  }
+}
+
+/**
  * Whether the self-user can create or edit a stream to be web-public.
  *
  * True just if:
