@@ -85,6 +85,35 @@ write_patches()
         -o "${patch_dir}" "${commit_range}"
 }
 
+check_consistent()
+{
+    if ! no_uncommitted_changes; then
+        echo >&2 "There are uncommitted changes.  Aborting, to avoid losing your work."
+        return 1
+    fi
+
+    unapply_patches
+
+    # TODO: also catch if one patch touches something and another reverts
+    if ! git diff --exit-code HEAD -- ':!types/*.js.flow'; then
+        echo >&2 "Error: patches should only apply to type definitions in types/."
+        return 1
+    fi
+    echo >&2 "Patches are clean.  Running TsFlower..."
+
+    git add -u
+
+    run_only
+
+    if ! git diff --exit-code; then
+        echo >&2 "Error: fresh TsFlower run didn't match existing definitions"
+        return 1
+    fi
+    echo >&2 "TsFlower run successful."
+
+    git reset --hard --quiet
+}
+
 check_branch_unused()
 {
     local branchname="$1"
@@ -222,11 +251,7 @@ EOF
 
 
 case "${1:-}" in
-    # TODO: subcmd `check`: unapply; check limited to types/**/*.js.flow;
-    #   then restore those files.  Probably needs to skip if any such file
-    #   already touched in Git. ... Also run, and check no changes?
-    #   Then tools/test run this if types/ or yarn.lock touched.
-
+    check) check_consistent;;
     run) run;;  # TODO also as default
     run-only) run_only;;
     apply-patches) apply_patches;;

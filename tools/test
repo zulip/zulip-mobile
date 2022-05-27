@@ -63,6 +63,7 @@ Suites:
   jest
   prettier
   deps
+  tsflower
 EOF
     exit 2
 }
@@ -87,7 +88,7 @@ while (( $# )); do
             ;;
         --all) files=all; platform=both; shift;;
         --fix) fix=1; shift;;
-        native|flow|lint|jest|prettier|deps)
+        native|flow|lint|jest|prettier|deps|tsflower)
             suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -96,7 +97,7 @@ done
 if [ -z "$suites" ]; then
     # This default doesn't have to be the complete list; just be sure to
     # document in the usage message any suites that it skips.
-    suites=(native flow lint jest prettier deps)
+    suites=(native flow lint jest prettier deps tsflower)
 fi
 
 
@@ -252,6 +253,26 @@ EOF
     fi
 }
 
+run_tsflower() {
+    # This suite depends on:
+    #  * the tools/tsflower script
+    #  * the type definitions in types/**/*.js.flow
+    #  * the patches in types/patches/*.patch
+    #  * the versions of `tsflower` and of libraries it processes
+    files_check tools/tsflower types/ yarn.lock \
+        || return 0
+
+    # NB this suite will fail (with a reasonable error message) if
+    # there are any local Git changes, because it can't do its work
+    # without making changes to the worktree.  (Short of making a
+    # temporary worktree somewhere, anyway; but that'd probably mean a
+    # slow test suite.)  Hopefully in normal development this is fine:
+    # it usually won't run because of files_check; if it does, the
+    # error message comes fast and is short, and doesn't get in the
+    # way of the other suites doing their jobs.
+    tools/tsflower check
+}
+
 failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
@@ -273,6 +294,9 @@ for suite in "${suites[@]}"; do
             ;;
         deps)
             run_deps
+            ;;
+        tsflower)
+            run_tsflower
             ;;
     esac || failed+=($suite)
 done
