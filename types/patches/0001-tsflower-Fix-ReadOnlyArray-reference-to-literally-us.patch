@@ -1,0 +1,41 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 16:58:12 -0700
+Subject: [PATCH] [tsflower] Fix $ReadOnlyArray reference to literally use that
+ name
+
+Otherwise get an error on trying to pass an array literal here;
+even if we mark the property read-only.
+
+I suspect the Flow special handling for array literals is looking
+specially for `$ReadOnlyArray`.  That means TsFlower should rewrite
+TS references to `ReadonlyArray` to simply use the name
+`$ReadOnlyArray` directly, instead of using its general "subst"
+mechanism.
+---
+ types/react-native-safe-area-context/SafeArea.types.js.flow | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/types/react-native-safe-area-context/SafeArea.types.js.flow b/types/react-native-safe-area-context/SafeArea.types.js.flow
+index cfa057969..16677dd3c 100644
+--- a/types/react-native-safe-area-context/SafeArea.types.js.flow
++++ b/types/react-native-safe-area-context/SafeArea.types.js.flow
+@@ -9,7 +9,6 @@ import type {
+ } from "tsflower/subst/react-native";
+ 
+ import type { ReactNode as $tsflower_subst$React$ReactNode } from "tsflower/subst/react";
+-import type { ReadonlyArray } from "tsflower/subst/lib";
+ import * as React from "react";
+ import "react-native";
+ export type Edge = "top" | "right" | "bottom" | "left";
+@@ -45,6 +44,6 @@ export interface NativeSafeAreaProviderProps {
+ export type NativeSafeAreaViewProps = $tsflower_subst$RN$ViewProps & {
+     children?: $tsflower_subst$React$ReactNode,
+     mode?: "padding" | "margin",
+-    edges?: ReadonlyArray<Edge>,
++    edges?: $ReadOnlyArray<Edge>,
+     ...
+ };
+-- 
+2.30.2
+

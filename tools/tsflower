@@ -42,7 +42,15 @@ check_no_uncommitted_changes()
 
 run_only()
 {
-    :  # TODO: Run TsFlower here.
+    local package
+    # TODO get list of packages from data... better yet, make it
+    #   one tsflower command, reading a TsFlower config file
+
+    package=react-native-safe-area-context
+    rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
+    "${bindir}"/tsflower tree \
+        node_modules/"${package}"/lib/typescript/src \
+        types/"${package}"
 }
 
 apply_patches()
