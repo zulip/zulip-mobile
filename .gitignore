@@ -30,11 +30,6 @@ android/.idea/*
 .gradle
 local.properties
 
-# node.js
-#
-node_modules/
-npm-debug.log
-
 ### ^
 ### The portion of this file above this line comes from RN upstream's
 ### template.  We leave that part unchanged as much as we can, to help
@@ -49,6 +44,7 @@ npm-debug.log
 
 # Yarn
 /yarn-error.log
+/node_modules/
 
 # VS Code: default Java extension
 /android/.project
