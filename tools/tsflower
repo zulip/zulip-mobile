@@ -22,7 +22,12 @@ patch_opts=(
 
 no_uncommitted_changes()
 {
-    if ! git diff-index --quiet HEAD; then
+    if ! git diff-index --quiet --cached HEAD; then
+        # Index differs from HEAD.
+        return 1
+    fi
+    if ! git diff-files --quiet; then
+        # Worktree differs from index.
         return 1
     fi
 }
