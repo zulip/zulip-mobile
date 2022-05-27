@@ -1,0 +1,232 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s globstar
+
+this_file=$(readlink -f "$0")
+rootdir=${this_file%/*/*}
+
+bindir=${rootdir}/node_modules/.bin
+
+cd "${rootdir}"
+
+patch_dir=${rootdir}/types/patches
+
+# Options to give `patch` our preferred behavior.
+patch_opts=(
+    --quiet  # Don't spew names of patched files.  (Let Git handle that info.)
+    --no-backup-if-mismatch  # Let Git handle the version control.
+    --reject-file -  # Don't spew `.rej` files on error.
+    --force  # Don't ask questions, like "Unreversed patch detected!  Ignore -R?"
+    --fuzz 0  # Don't ignore any context.  (Match `git am`'s behavior.)
+)
+
+no_uncommitted_changes()
+{
+    if ! git diff-index --quiet HEAD; then
+        return 1
+    fi
+}
+
+check_no_uncommitted_changes()
+{
+    if ! no_uncommitted_changes; then
+        echo >&2 "There are uncommitted changes.  Doing nothing, to avoid losing your work."
+        return 1
+    fi
+}
+
+run_only()
+{
+    :  # TODO: Run TsFlower here.
+}
+
+apply_patches()
+{
+    for p in "${patch_dir}"/*.patch; do
+        if ! patch "${patch_opts[@]}" -p1 <"${p}"; then
+            echo >&2 "apply-patches: Failed at patch: ${p#"${rootdir}/"}"
+            return 1
+        fi
+    done
+}
+
+run()
+{
+    run_only
+    echo >&2 "TsFlower run complete.  Applying patches..."
+    apply_patches
+    echo >&2 'Patches complete!'
+}
+
+unapply_patches()
+{
+    local patches=( "${patch_dir}"/*.patch )
+    local i p
+    for (( i = ${#patches[@]} - 1; i >= 0; i-- )); do
+        p="${patches[i]}"
+        if ! patch "${patch_opts[@]}" -p1 -R <"${p}"; then
+            echo >&2 "unapply-patches: Failed at patch: ${p#"${rootdir}/"}"
+            return 1
+        fi
+    done
+}
+
+write_patches()
+{
+    local commit_range="${1:-upstream..tsflower}"
+    rm -f "${patch_dir}"/*.patch
+    git -c diff.noprefix=false \
+        format-patch --quiet --no-thread --no-numbered --zero-commit \
+        -o "${patch_dir}" "${commit_range}"
+}
+
+check_branch_unused()
+{
+    local branchname="$1"
+    if ! git rev-parse --verify --quiet "${branchname}" >/dev/null; then
+        # Branch doesn't exist.
+        return 0
+    fi
+    if ! git rev-list -n1 HEAD.."${branchname}" | grep -q .; then
+        # Branch is an ancestor of HEAD.
+        return 0
+    fi
+    # Branch does exist, and contains commits not in HEAD.
+    return 1
+}
+
+unpack()
+{
+    local branchname="${1:-tsflower}"
+    local basebranch="${branchname}-base"
+
+    check_no_uncommitted_changes
+
+    if ! check_branch_unused "${branchname}" \
+            || ! check_branch_unused "${basebranch}"; then
+        cat >&2 <<EOF
+Branch '${branchname}' or '${basebranch}' already exists and is not an ancestor of HEAD.
+Doing nothing, to avoid losing your work.
+To choose a different branch name:
+            tools/tsflower unpack SOMENAME
+To delete the branches:
+            git branch -D ${branchname@Q} ; git branch -D ${basebranch@Q}
+To reset the branches:
+            git branch -f ${branchname@Q} ; git branch -f ${basebranch@Q}
+EOF
+        return 1
+    fi
+
+    local start
+    start=$(git rev-parse --verify --quiet @)
+
+    git checkout --quiet -B "${basebranch}"
+    unapply_patches
+    git commit -am 'tsflower: Revert patches'
+
+    git checkout --quiet -B "${branchname}"
+    git am --quiet --whitespace=nowarn "${patch_dir}"/*.patch
+
+    git checkout --quiet "${basebranch}"
+    echo "Running TsFlower to regenerate type definitions from upstream..."
+    run_only
+    git commit --allow-empty -am 'tsflower: Regenerate from upstream'
+
+    echo
+    echo "Base branch '${basebranch}':"
+    git log --oneline --reverse --boundary --decorate-refs=refs/ \
+        "${start}".."${basebranch}"
+
+    echo
+    echo "Patch branch '${branchname}':"
+    git log --oneline --reverse --boundary --decorate-refs=refs/ \
+        "${basebranch}".."${branchname}"
+
+    echo
+    echo "Attempting rebase of '${branchname}' onto '${basebranch}'..."
+    git checkout --quiet "${branchname}"
+    if ! git rebase "${basebranch}"; then
+        cat >&2 <<EOF
+
+tools/tsflower: Rebase stopped.
+After you resolve the issue and complete the rebase,
+you can re-pack the revised branch into patches with:
+    $ tools/tsflower pack
+EOF
+        return 1
+    fi
+    cat >&2 <<EOF
+
+Check that Flow passes, and make commits for any needed fixes.
+Then re-pack the revised branch into patches with:
+    $ tools/tsflower pack
+EOF
+}
+
+pack()
+{
+    check_no_uncommitted_changes
+
+    local ref
+    ref=$(git symbolic-ref HEAD)
+    if ! [[ "${ref}" =~ ^refs/heads/ ]]; then
+        echo >&2 "You are at a detached HEAD; no current branch."
+        return 1
+    fi
+    local branch=${ref#refs/heads/}
+
+    local baseref
+    baseref=$(git for-each-ref --format='%(upstream)' "${ref}")
+    if [[ "${baseref}" != "${ref}"-base ]]; then
+        echo >&2 "Current branch '${branch}' does not have '${branch}-base' as upstream."
+        echo >&2 "Aborting.  Did you want \`tools/tsflower unpack\` first?"
+        return 1
+    fi
+    local basebranch=${baseref#refs/heads/}
+
+    local basebaseref
+    basebaseref=$(git for-each-ref --format='%(upstream)' "${baseref}")
+    if ! [[ "${basebaseref}" =~ ^refs/heads/ ]]; then
+        echo >&2 "Base branch '${basebranch}' has non-branch '${basebaseref}' as upstream."
+        echo >&2 "Aborting.  Did you want \`tools/tsflower unpack\` first?"
+        return 1
+    fi
+    local basebasebranch=${basebaseref#refs/heads/}
+
+    git checkout "${basebasebranch}"
+    git restore -s "${ref}" -- 'types/*.js.flow'
+    write_patches "${baseref}".."${ref}"
+
+    # These globs are quoted because we don't want the shell expanding
+    # them (to files that actually exist): we want Git to receive them
+    # literally and interpret them as Git "pathspecs", so that they cover
+    # deleted files as well as still- or newly-existing files.
+    git add --no-ignore-removal -- \
+        'types/patches/*.patch' 'types/*.js.flow'
+
+    cat >&2 <<EOF
+
+Updated types and patches to reflect branch '${branch}'.
+\`git diff --shortstat HEAD\` says the differences are:
+  'types/*.js.flow':       $(git diff --shortstat @ -- 'types/*.js.flow')
+  'types/patches/*.patch': $(git diff --shortstat @ -- 'types/patches/*.patch')
+
+Leaving it to you to commit, or amend existing commit.
+EOF
+}
+
+
+case "${1:-}" in
+    # TODO: subcmd `check`: unapply; check limited to types/**/*.js.flow;
+    #   then restore those files.  Probably needs to skip if any such file
+    #   already touched in Git. ... Also run, and check no changes?
+    #   Then tools/test run this if types/ or yarn.lock touched.
+
+    run) run;;  # TODO also as default
+    run-only) run_only;;
+    apply-patches) apply_patches;;
+    unapply-patches) unapply_patches;;
+    write-patches) write_patches "${2:-}";;
+    unpack) unpack "${2:-}";;
+    pack) pack;;
+esac
