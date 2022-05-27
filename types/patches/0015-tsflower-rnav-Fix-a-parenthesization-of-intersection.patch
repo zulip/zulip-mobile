@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 22:39:40 -0700
+Subject: [tsflower] rnav: Fix a parenthesization of intersection vs. union
+
+In the upstream definition, this is `A & (B | C | D)`.  TsFlower
+emitted `A & B | C | D` -- which doesn't mean the same thing.
+
+So that's a TsFlower bug.  Probably ultimately a Recast bug.
+---
+ .../core/lib/typescript/src/types.js.flow     | 47 ++++++++++---------
+ 1 file changed, 24 insertions(+), 23 deletions(-)
+
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index a96ec6c0d..e319b03e1 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -268,32 +268,32 @@ export type RouteConfig<
+   State: NavigationState<>,
+   ScreenOptions: { ... },
+   EventMap: EventMapBase,
+-> =
+-  | ({
+-      name: RouteName,
+-      options?:
+-        | ScreenOptions
+-        | ((props: {
+-            route: RouteProp<ParamList, RouteName>,
+-            navigation: any,
+-            ...
+-          }) => ScreenOptions),
+-      listeners?:
+-        | ScreenListeners<State, EventMap>
+-        | ((props: {
+-            route: RouteProp<ParamList, RouteName>,
+-            navigation: any,
+-            ...
+-          }) => ScreenListeners<State, EventMap>),
+-      getId?: ({ params: $ElementType<ParamList, RouteName>, ... }) => string | void,
+-      initialParams?: Partial<$ElementType<ParamList, RouteName>>,
+-      ...
+-    } & {
++> = {
++  name: RouteName,
++  options?:
++    | ScreenOptions
++    | ((props: {
++        route: RouteProp<ParamList, RouteName>,
++        navigation: any,
++        ...
++      }) => ScreenOptions),
++  listeners?:
++    | ScreenListeners<State, EventMap>
++    | ((props: {
++        route: RouteProp<ParamList, RouteName>,
++        navigation: any,
++        ...
++      }) => ScreenListeners<State, EventMap>),
++  getId?: ({ params: $ElementType<ParamList, RouteName>, ... }) => string | void,
++  initialParams?: Partial<$ElementType<ParamList, RouteName>>,
++  ...
++} & (
++  | {
+       component: React.ComponentType<any>,
+       getComponent?: empty,
+       children?: empty,
+       ...
+-    })
++    }
+   | {
+       getComponent: () => React.ComponentType<any>,
+       component?: empty,
+@@ -309,7 +309,8 @@ export type RouteConfig<
+       component?: empty,
+       getComponent?: empty,
+       ...
+-    };
++    }
++);
+ 
+ export type NavigationContainerEventMap = {|
+   state: {| data: { state: NavigationState<> | PartialState<NavigationState<>> | void, ... } |},
+-- 
+2.30.2
+

@@ -86,7 +86,7 @@ export type AppNavigationProp<
   +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
 > = StackNavigationProp<GlobalParamList, RouteName>;
 
-const Stack = createStackNavigator<GlobalParamList, AppNavigatorParamList, AppNavigationProp<>>();
+const Stack = createStackNavigator<GlobalParamList>();
 
 type Props = $ReadOnly<{||}>;
 
@@ -161,7 +161,11 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen
         name="realm-input"
         component={RealmInputScreen}
-        initialParams={initialRouteName === 'realm-input' ? initialRouteParams : undefined}
+        initialParams={
+          // $FlowFixMe[incompatible-exact]: initialRouteParams is basically untyped
+          // $FlowFixMe[prop-missing]: initialRouteParams is basically untyped
+          initialRouteName === 'realm-input' ? initialRouteParams : undefined
+        }
       />
       <Stack.Screen name="sharing" component={SharingScreen} />
       <Stack.Screen name="selectable-options" component={SelectableOptionsScreen} />

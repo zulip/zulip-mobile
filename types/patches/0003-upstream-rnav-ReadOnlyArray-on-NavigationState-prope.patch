@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Wed, 25 May 2022 17:31:01 -0700
+Subject: [upstream] rnav: $ReadOnlyArray on NavigationState properties
+
+I believe this could be expressed upstream, with `readonly Foo[]`.
+---
+ .../routers/lib/typescript/src/types.js.flow                | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+index 9b9a04c74..1a60f57f0 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+@@ -12,9 +12,9 @@ type NavigationRoute<ParamList: ParamListBase, RouteName: $Keys<ParamList>> = Ro
+ export type NavigationState<ParamList: ParamListBase = ParamListBase> = Readonly<{
+   key: string,
+   index: number,
+-  routeNames: Extract<$Keys<ParamList>, string>[],
+-  history?: mixed[],
+-  routes: NavigationRoute<ParamList, $Keys<ParamList>>[],
++  routeNames: $ReadOnlyArray<Extract<$Keys<ParamList>, string>>,
++  history?: $ReadOnlyArray<mixed>,
++  routes: $ReadOnlyArray<NavigationRoute<ParamList, $Keys<ParamList>>>,
+   type: string,
+   stale: false,
+   ...
+-- 
+2.30.2
+

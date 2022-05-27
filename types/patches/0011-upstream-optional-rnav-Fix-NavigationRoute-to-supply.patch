@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 23:51:09 -0700
+Subject: [upstream optional] rnav: Fix NavigationRoute to supply ParamList
+
+"Optional" because although this seems like a more accurate type,
+we don't in the end have any Flow errors that it fixes.  (But it was
+a thing I noticed and tried at some point while pursuing an error
+that I hoped it might resolve.)
+---
+ .../@react-navigation/routers/lib/typescript/src/types.js.flow  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+index daf37cc5f..45fb02599 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+@@ -7,7 +7,7 @@ export type CommonNavigationAction = CommonActions.Action;
+ type NavigationRoute<ParamList: ParamListBase, RouteName: $Keys<ParamList>> = Route<
+   Extract<RouteName, string>,
+   $ElementType<ParamList, RouteName>,
+-> & { state?: NavigationState<> | PartialState<NavigationState<>>, ... };
++> & { +state?: NavigationState<ParamList> | PartialState<NavigationState<ParamList>>, ... };
+ 
+ export type NavigationState<ParamList: ParamListBase = ParamListBase> = Readonly<{
+   key: string,
+-- 
+2.30.2
+

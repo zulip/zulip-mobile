@@ -199,8 +199,6 @@ export default function EditStreamCard(props: Props): Node {
 
   useEffect(
     () =>
-      /* $FlowFixMe[prop-missing]: Get Flow types for
-       react-navigation/react-navigation@6925e92dc */
       navigation.addListener('beforeRemove', e => {
         if (!(awaitingUserInput && areInputsTouched)) {
           return;
@@ -217,8 +215,6 @@ export default function EditStreamCard(props: Props): Node {
               text: _('Discard'),
               style: 'destructive',
 
-              /* $FlowFixMe[prop-missing]: Get Flow types for
-               react-navigation/react-navigation@6925e92dc */
               onPress: () => navigation.dispatch(e.data.action),
             },
           ],

@@ -48,7 +48,7 @@ export default (action: EventAction): ThunkAction<Promise<void>> => async (dispa
         //   the active account.)
 
         // $FlowFixMe[incompatible-use]: relying on ChatScreen having route params
-        // $FlowFixMe[incompatible-type]: relying on ChatScreen route-params type
+        // $FlowFixMe[prop-missing]: relying on ChatScreen route-params type
         const narrow: Narrow = route.params.narrow;
         if (
           isTopicNarrow(narrow)

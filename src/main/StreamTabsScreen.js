@@ -24,11 +24,7 @@ export type StreamTabsNavigationProp<
   +RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
 > = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
 
-const Tab = createMaterialTopTabNavigator<
-  GlobalParamList,
-  StreamTabsNavigatorParamList,
-  StreamTabsNavigationProp<>,
->();
+const Tab = createMaterialTopTabNavigator<GlobalParamList>();
 
 const styles = createStyleSheet({
   tab: {

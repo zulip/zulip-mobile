@@ -112,6 +112,7 @@ check_no_uncommitted_changes()
 run_only()
 {
     local package
+    local at="@"
     # TODO get list of packages from data... better yet, make it
     #   one tsflower command, reading a TsFlower config file
 
@@ -120,6 +121,35 @@ run_only()
     "${bindir}"/tsflower tree \
         node_modules/"${package}"/lib/typescript/src \
         types/"${package}"
+    "${bindir}"/prettier-eslint --write --log-level silent \
+        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        -- types/"${package}"/**/*.js.flow
+
+    for package in @react-navigation/{routers,core,native,stack,bottom-tabs,material-top-tabs}; do
+        # TODO(tsflower): make this whole loop body one command (well,
+        #   not deleting node_modules, but skipping it in the first place)
+        rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
+        "${bindir}"/tsflower tree {node_modules,types}/"${package}"
+        rm -rf "${rootdir}"/types/"${package}"/node_modules/
+        echo >"${rootdir}"/types/"${package}"/index.js.flow "\
+/* ${at}flow
+ * ${at}generated
+ */
+export * from './lib/typescript/src/index.js.flow';"
+    done
+    "${bindir}"/prettier-eslint --write --log-level silent \
+        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        -- types/@react-navigation/**/*.js.flow
+
+    package=react-native-tab-view
+    rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
+    "${bindir}"/tsflower tree {node_modules,types}/"${package}"
+    echo >"${rootdir}"/types/"${package}"/index.js.flow "\
+/* ${at}flow
+ * ${at}generated
+ */
+export * from './lib/typescript/src/index.js.flow';"
+    rm -rf "${rootdir}"/types/"${package}"/lib/typescript/example/
     "${bindir}"/prettier-eslint --write --log-level silent \
         --eslint-config-path ./tools/formatting.eslintrc.yaml \
         -- types/"${package}"/**/*.js.flow

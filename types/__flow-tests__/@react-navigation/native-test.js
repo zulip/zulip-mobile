@@ -15,7 +15,7 @@ function test_setParams() {
   }
 
   function test_rejects_extra(navigation: NavProp<{| a: number |}>) {
-    // $FlowExpectedError[prop-missing]
+    // $FlowExpectedError[incompatible-call]
     navigation.setParams({ b: 1 });
   }
 

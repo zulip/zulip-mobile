@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 18:57:24 -0700
+Subject: [adhoc] rnav: Manually approximate conditional in Route
+
+In the upstream definition, this is a conditional type that's basically
+
+    undefined extends T ? { readonly x?: T } : { readonly x: T }
+
+That is, it's like `{ readonly x: T }`, but if T contains undefined,
+then the object could have `x` missing entirely as well as having
+the value `undefined`.
+
+I don't think there's a way to write precisely that type in Flow.
+Here, manually approximate it as `{ +x?: T }` -- that is, make the
+parameter always optional.
+
+Alternatively, we could write `{ +x: T }`.  For code consuming the
+value, I think that's nearly indistinguishable in Flow from the
+upstream type.  But then code supplying such a value would need an
+`x` property.  Here, for the `params` property on a route, that'd
+probably get annoying.
+---
+ .../routers/lib/typescript/src/types.js.flow                | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+index 4b0964c14..780a9b08f 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+@@ -56,19 +56,19 @@ export type PartialState<+State: NavigationState<>> = Partial<
+ export type Route<+RouteName: string, +Params: { ... } | void = { ... } | void> = $ReadOnly<{
+   key: string,
+   name: RouteName,
++  params?: Params, // for conditional below
+   ...
+-}> &
+-  $FlowFixMe /* undefined extends Params ? Readonly<{
++}> /* undefined extends Params ? Readonly<{
+     /**
+      * Params for this route
+      * /
+     params?: Readonly<Params>;
+ }> : Readonly<{
+     /**
+      * Params for this route
+      * /
+     params: Readonly<Params>;
+-}> */ /* tsflower-unimplemented: ConditionalType */;
++}> */ /* tsflower-unimplemented: ConditionalType */; // manually added above
+ 
+ export type ParamListBase = { +[key: string]: { ... } | void };
+ 
+-- 
+2.30.2
+

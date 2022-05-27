@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 17:43:11 -0700
+Subject: [upstream] rnav: $ReadOnly on ResetState as param of reset()
+
+---
+ .../routers/lib/typescript/src/CommonActions.js.flow            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+index 0976fd765..dcd559b0a 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+@@ -71,6 +71,6 @@ declare export function navigate(
+ ): Action;
+ 
+ declare export function navigate(name: string, params?: { ... }): Action;
+-declare export function reset(state: ResetState | void): Action;
++declare export function reset(state: $ReadOnly<ResetState> | void): Action;
+ declare export function setParams(params: { ... }): Action;
+ export {};
+-- 
+2.30.2
+

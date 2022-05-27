@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 18:48:07 -0700
+Subject: [upstream] rnav: Fix State tparam bound in NavigationProp
+
+The state should be one that's valid for this param list,
+not some other.
+---
+ types/@react-navigation/core/lib/typescript/src/types.js.flow | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index c9a644412..1e26183cb 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -202,7 +202,7 @@ export type NavigationContainerProps = {
+ export type NavigationProp<
+   ParamList: ParamListBase,
+   RouteName: $Keys<ParamList> = $Keys<ParamList>,
+-  State: NavigationState<> = NavigationState<ParamList>,
++  State: NavigationState<ParamList> = NavigationState<ParamList>,
+   ScreenOptions: { ... } = { ... },
+   EventMap: EventMapBase = EventMapBase,
+ > = NavigationHelpersCommon<ParamList, State> & {
+-- 
+2.30.2
+

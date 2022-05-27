@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 31 May 2022 22:27:22 -0700
+Subject: [adhoc] rnav: Manually approximate conditionals in EventArg
+
+One of these is the same "contains undefined => optional" pattern
+as in Route in the previous patch.  Here we go for not-optional,
+because we're only consuming these objects and that's the most
+convenient for that case.
+
+The other one is using a boolean flag, which exists purely at the
+type level, to control adding some more properties.  We just add
+them unconditionally.
+---
+ .../core/lib/typescript/src/types.js.flow            | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index e319b03e1..9ddf90385 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -65,17 +65,23 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
+   +type: EventName,
+   +target?: string,
+   ...
+-} & $FlowFixMe /* CanPreventDefault extends true ? {
++} & {
++  +defaultPrevented: boolean,
++  preventDefault(): void,
++  ...
++} /* CanPreventDefault extends true ? {
+     /**
+      * Whether `event.preventDefault()` was called on this event object.
+      * /
+     readonly defaultPrevented: boolean;
+     /**
+      * Prevent the default action which happens on this event.
+      * /
+     preventDefault(): void;
+-} : {} */ /* tsflower-unimplemented: ConditionalType */ &
+-  $FlowFixMe /* undefined extends Data ? {
++} : {} */ /* tsflower-unimplemented: ConditionalType */ & {
++  +data: Data,
++  ...
++} /* undefined extends Data ? {
+     readonly data?: Readonly<Data>;
+ } : {
+     readonly data: Readonly<Data>;
+-- 
+2.30.2
+

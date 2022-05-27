@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 18:48:07 -0700
+Subject: [upstream] rnav: Fix type-parameter defaults that don't meet bounds
+
+In the type aliases NavigationProp, StackNavigationProp,
+NavigationHelpers, and Descriptor.
+
+These are all quite bogus, and Flow gives an extremely confusing error
+when you try to instantiate these types and use the defaults.
+TypeScript apparently just lets them slide.
+
+Fortunately it's easy to fix: give the bound as the default, instead
+of some other type that's above the bound.
+
+TsFlower could also quite likely work around this with a hack: for
+the default, emit the intersection of the original default and the
+bound.  Though that's not good in some more-interesting cases, where
+the default will only sometimes fail to meet the bound, and the
+library author's intention is for the user to get an error in that
+case.  For example, our `typesEquivalent` in src/generics.js.
+---
+ .../core/lib/typescript/src/types.js.flow                 | 8 ++++----
+ .../stack/lib/typescript/src/types.js.flow                | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index 3e166a2b0..c9a644412 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -181,7 +181,7 @@ type NavigationHelpersCommon<
+ 
+ export type NavigationHelpers<
+   ParamList: ParamListBase,
+-  EventMap: EventMapBase = { ... },
++  EventMap: EventMapBase = EventMapBase,
+ > = NavigationHelpersCommon<ParamList> &
+   EventEmitter<EventMap> & {
+     setParams<RouteName: $Keys<ParamList>>(
+@@ -201,10 +201,10 @@ export type NavigationContainerProps = {
+ 
+ export type NavigationProp<
+   ParamList: ParamListBase,
+-  RouteName: $Keys<ParamList> = string,
++  RouteName: $Keys<ParamList> = $Keys<ParamList>,
+   State: NavigationState<> = NavigationState<ParamList>,
+   ScreenOptions: { ... } = { ... },
+-  EventMap: EventMapBase = { ... },
++  EventMap: EventMapBase = EventMapBase,
+ > = NavigationHelpersCommon<ParamList, State> & {
+   setParams(params: Partial<$ElementType<ParamList, RouteName>>): void,
+   setOptions(options: Partial<ScreenOptions>): void,
+@@ -250,7 +250,7 @@ export type Descriptor<
+   RouteName: $Keys<ParamList> = string,
+   State: NavigationState<> = NavigationState<>,
+   ScreenOptions: { ... } = { ... },
+-  EventMap: EventMapBase = { ... },
++  EventMap: EventMapBase = EventMapBase,
+ > = {
+   render(): $tsflower_subst$React$JSX$Element,
+   options: ScreenOptions,
+diff --git a/types/@react-navigation/stack/lib/typescript/src/types.js.flow b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+index 946df1eb6..94ea2dee5 100644
+--- a/types/@react-navigation/stack/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+@@ -43,7 +43,7 @@ export type StackNavigationHelpers = NavigationHelpers<ParamListBase, StackNavig
+   StackActionHelpers<ParamListBase>;
+ export type StackNavigationProp<
+   ParamList: ParamListBase,
+-  RouteName: $Keys<ParamList> = string,
++  RouteName: $Keys<ParamList> = $Keys<ParamList>,
+ > = NavigationProp<
+   ParamList,
+   RouteName,
+-- 
+2.30.2
+

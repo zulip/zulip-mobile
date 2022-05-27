@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 18:30:49 -0700
+Subject: [irreducible] rnav: Make action types exact
+
+Otherwise they're not subtypes of the base action type,
+which specifies types on some optional properties.
+
+Classifying as "irreducible" because I don't think there's anything
+either this library upstream, or TsFlower, could do to take care of
+this.  (Maybe someday TypeScript will have exact object types.)
+---
+ .../routers/lib/typescript/src/CommonActions.js.flow         | 5 +++--
+ .../routers/lib/typescript/src/StackRouter.js.flow           | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+index dcd559b0a..054215538 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+@@ -10,7 +10,7 @@ type ResetState =
+       ...
+     });
+ 
+-export type Action =
++export type Action = $Exact<
+   | {
+       type: 'GO_BACK',
+       source?: string,
+@@ -51,7 +51,8 @@ export type Action =
+       source?: string,
+       target?: string,
+       ...
+-    };
++    },
++>;
+ 
+ declare export function goBack(): Action;
+ 
+diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+index ba5e5e532..746d3b1f7 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+@@ -12,7 +12,7 @@ import {
+   type ParamListBase,
+ } from './types';
+ 
+-export type StackActionType =
++export type StackActionType = $Exact<
+   | {
+       type: 'REPLACE',
+       payload: {
+@@ -49,7 +49,8 @@ export type StackActionType =
+       source?: string,
+       target?: string,
+       ...
+-    };
++    },
++>;
+ 
+ export type StackRouterOptions = DefaultRouterOptions<>;
+ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<ParamList> & {
+-- 
+2.30.2
+

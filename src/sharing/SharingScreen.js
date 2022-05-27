@@ -32,11 +32,7 @@ export type SharingNavigationProp<
   +RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
 > = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
 
-const Tab = createMaterialTopTabNavigator<
-  GlobalParamList,
-  SharingNavigatorParamList,
-  SharingNavigationProp<>,
->();
+const Tab = createMaterialTopTabNavigator<GlobalParamList>();
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'sharing'>,

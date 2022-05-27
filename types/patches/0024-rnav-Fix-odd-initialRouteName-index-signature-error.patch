@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Wed, 25 May 2022 16:31:50 -0700
+Subject: [???] rnav: Fix odd initialRouteName "index signature" error
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This sacrifices a bit of type-checking: it lets an `initialRouteName`
+prop be any string, rather than only actual route names.
+
+It avoids the puzzling error below -- one at each of our navigators.
+
+There's probably something deeper going on, something wrong with these
+type definitions somewhere else.  And definitely Flow could be better
+at explaining what the error is here, to help us find that something.
+
+Error ┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈ src/nav/AppNavigator.js:103:6
+
+Cannot create `Stack.Navigator` element because an index signature
+declaring the expected key / value type is missing in `GlobalParamList` [1]
+in property `initialRouteName`. [prop-missing]
+
+   src/nav/AppNavigator.js:103:6
+   103│     <Stack.Navigator
+             ^^^^^^^^^^^^^^^
+
+References:
+   src/nav/AppNavigator.js:89:36
+    89│ const Stack = createStackNavigator<GlobalParamList>();
+                                           ^^^^^^^^^^^^^^^ [1]
+---
+ types/@react-navigation/core/lib/typescript/src/types.js.flow | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index 9ddf90385..b1232ee31 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -24,7 +24,7 @@ import {
+ export type DefaultNavigatorOptions<
+   ScreenOptions: { ... },
+   ParamList: ParamListBase = ParamListBase,
+-> = DefaultRouterOptions<Extract<$Keys<ParamList>, string>> & {
++> = DefaultRouterOptions<string> & {
+   children: $tsflower_subst$React$ReactNode,
+   screenOptions?:
+     | ScreenOptions
+-- 
+2.30.2
+

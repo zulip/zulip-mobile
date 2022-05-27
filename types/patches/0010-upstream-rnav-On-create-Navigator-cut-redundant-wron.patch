@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 23:00:44 -0700
+Subject: =?UTF-8?q?[upstream]=20rnav:=20On=20create=E2=80=A6Navigator,=20c?=
+ =?UTF-8?q?ut=20redundant=20wrong=20version=20of=20DefaultNav=E2=80=A6Opti?=
+ =?UTF-8?q?ons?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is already taken care of by TypedNavigator.  (The only thing this
+Props type is used for is the parameter to the unexported function on
+the next line; the only thing the latter is used for is as an argument
+to TypedNavigator on the line after that.)
+
+And TypedNavigator actually passes the ParamList type when it does so,
+so it has a chance of being right.
+---
+ .../src/navigators/createMaterialTopTabNavigator.js.flow    | 4 +---
+ .../typescript/src/navigators/createStackNavigator.js.flow  | 6 +++---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+index def19204a..2e5c9ffa6 100644
+--- a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
++++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+@@ -16,9 +16,7 @@ import {
+   type MaterialTopTabNavigationEventMap,
+ } from '../types';
+ 
+-type Props = DefaultNavigatorOptions<MaterialTopTabNavigationOptions> &
+-  TabRouterOptions &
+-  MaterialTopTabNavigationConfig;
++type Props = TabRouterOptions & MaterialTopTabNavigationConfig;
+ declare function MaterialTopTabNavigator(Props): $tsflower_subst$React$JSX$Element;
+ declare var _default: <
+   ParamList: { +[key: string]: { ... } | void },
+diff --git a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+index 3c2939d32..f96ddf688 100644
+--- a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
++++ b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+@@ -16,9 +16,9 @@ import {
+   type StackNavigationEventMap,
+ } from '../types';
+ 
+-type Props = DefaultNavigatorOptions<StackNavigationOptions> &
+-  StackRouterOptions &
+-  StackNavigationConfig;
++type Props =
++  // DefaultNavigatorOptions<StackNavigationOptions> &
++  StackRouterOptions & StackNavigationConfig;
+ declare function StackNavigator(Props): $tsflower_subst$React$JSX$Element;
+ declare var _default: <
+   ParamList: { +[key: string]: { ... } | void },
+-- 
+2.30.2
+

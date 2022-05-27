@@ -1,0 +1,173 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 22:12:21 -0700
+Subject: [irreducible] rnav: EventMap types exact and covariant
+
+Otherwise these FooEventMap types aren't actually subtypes of
+EventMapBase.  Without exactness, their value types aren't actually
+subtypes of the latter's.
+---
+ .../lib/typescript/src/types.js.flow          | 12 +++---
+ .../core/lib/typescript/src/types.js.flow     | 41 ++++++++-----------
+ .../lib/typescript/src/types.js.flow          | 16 ++++----
+ .../stack/lib/typescript/src/types.js.flow    | 15 ++++---
+ 4 files changed, 37 insertions(+), 47 deletions(-)
+
+diff --git a/types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow b/types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+index 3bc615faa..ed9343057 100644
+--- a/types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+@@ -32,15 +32,13 @@ import {
+   type RouteProp,
+ } from '@react-navigation/native';
+ 
+-export type BottomTabNavigationEventMap = {
+-  tabPress: {
++export type BottomTabNavigationEventMap = {|
++  tabPress: {|
+     data: void,
+     canPreventDefault: true,
+-    ...
+-  },
+-  tabLongPress: { data: void, ... },
+-  ...
+-};
++  |},
++  tabLongPress: {| data: void |},
++|};
+ 
+ export type LabelPosition = 'beside-icon' | 'below-icon';
+ export type BottomTabNavigationHelpers = NavigationHelpers<
+diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+index 91a0f4541..a96ec6c0d 100644
+--- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -45,24 +45,21 @@ export type DefaultNavigatorOptions<
+ };
+ 
+ export type EventMapBase = {
+-  [key: string]: {
+-    data?: any,
+-    canPreventDefault?: boolean,
+-    ...
+-  },
++  +[key: string]: {|
++    +data?: any,
++    +canPreventDefault?: boolean,
++  |},
+ };
+ 
+-export type EventMapCore<State: NavigationState<>> = {
+-  focus: { data: void, ... },
+-  blur: { data: void, ... },
+-  state: { data: { state: State, ... }, ... },
+-  beforeRemove: {
++export type EventMapCore<State: NavigationState<>> = {|
++  focus: {| data: void |},
++  blur: {| data: void |},
++  state: {| data: { state: State, ... } |},
++  beforeRemove: {|
+     data: { action: NavigationAction, ... },
+     canPreventDefault: true,
+-    ...
+-  },
+-  ...
+-};
++  |},
++|};
+ 
+ export type EventArg<EventName: string, CanPreventDefault: boolean | void = false, Data = void> = {
+   +type: EventName,
+@@ -209,7 +206,7 @@ export type NavigationProp<
+   setParams(params: Partial<$ElementType<ParamList, RouteName>>): void,
+   setOptions(options: Partial<ScreenOptions>): void,
+   ...
+-} & EventConsumer<EventMap & EventMapCore<State>> &
++} & EventConsumer<{| ...EventMap, ...EventMapCore<State> |}> &
+   PrivateValueStore<ParamList, RouteName, EventMap>;
+ 
+ export type RouteProp<+ParamList: ParamListBase, +RouteName: $Keys<ParamList>> = Route<
+@@ -314,19 +311,17 @@ export type RouteConfig<
+       ...
+     };
+ 
+-export type NavigationContainerEventMap = {
+-  state: { data: { state: NavigationState<> | PartialState<NavigationState<>> | void, ... }, ... },
+-  options: { data: { options: { ... }, ... }, ... },
+-  __unsafe_action__: {
++export type NavigationContainerEventMap = {|
++  state: {| data: { state: NavigationState<> | PartialState<NavigationState<>> | void, ... } |},
++  options: {| data: { options: { ... }, ... } |},
++  __unsafe_action__: {|
+     data: {
+       action: NavigationAction,
+       noop: boolean,
+       ...
+     },
+-    ...
+-  },
+-  ...
+-};
++  |},
++|};
+ 
+ export type NavigationContainerRef = NavigationHelpers<ParamListBase> &
+   EventConsumer<NavigationContainerEventMap> & {
+diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 8d2ea317f..36bc57918 100644
+--- a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -23,17 +23,15 @@ import {
+   type RouteProp,
+ } from '@react-navigation/native';
+ 
+-export type MaterialTopTabNavigationEventMap = {
+-  tabPress: {
++export type MaterialTopTabNavigationEventMap = {|
++  tabPress: {|
+     data: void,
+     canPreventDefault: true,
+-    ...
+-  },
+-  tabLongPress: { data: void, ... },
+-  swipeStart: { data: void, ... },
+-  swipeEnd: { data: void, ... },
+-  ...
+-};
++  |},
++  tabLongPress: {| data: void |},
++  swipeStart: {| data: void |},
++  swipeEnd: {| data: void |},
++|};
+ 
+ export type MaterialTopTabNavigationHelpers = NavigationHelpers<
+   ParamListBase,
+diff --git a/types/@react-navigation/stack/lib/typescript/src/types.js.flow b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+index da137e97a..fa014c506 100644
+--- a/types/@react-navigation/stack/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+@@ -30,14 +30,13 @@ import {
+   type RouteProp,
+ } from '@react-navigation/native';
+ 
+-export type StackNavigationEventMap = {
+-  transitionStart: { data: { closing: boolean, ... }, ... },
+-  transitionEnd: { data: { closing: boolean, ... }, ... },
+-  gestureStart: { data: void, ... },
+-  gestureEnd: { data: void, ... },
+-  gestureCancel: { data: void, ... },
+-  ...
+-};
++export type StackNavigationEventMap = {|
++  transitionStart: {| data: { closing: boolean, ... } |},
++  transitionEnd: {| data: { closing: boolean, ... } |},
++  gestureStart: {| data: void |},
++  gestureEnd: {| data: void |},
++  gestureCancel: {| data: void |},
++|};
+ 
+ export type StackNavigationHelpers = NavigationHelpers<ParamListBase, StackNavigationEventMap> &
+   StackActionHelpers<ParamListBase>;
+-- 
+2.30.2
+

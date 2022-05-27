@@ -87,5 +87,11 @@ export type RouteParamsOf<-C> = $PropertyType<
  * In particular, we use our `GlobalParamList` type.
  */
 export function useNavigation(): NavigationProp<GlobalParamList> {
-  return useNavigationInner<GlobalParamList>();
+  // The upstream type sure isn't very informative: it lets us do this.
+  return useNavigationInner<empty>();
+  // The intended way to call it looks to be like this:
+  //     useNavigationInner<NavigationProp<GlobalParamList>>()
+  // But that gives a large number of puzzling errors.  And the one thing it
+  // actually does with the type argument is to determine the return type,
+  // anyway.  We know what that should be, so just handle it ourselves.
 }

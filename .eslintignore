@@ -4,7 +4,6 @@
 # These are purely type definitions, no runtime code.  Most of them
 # are third-party code, too, so naturally don't match our style.
 **/flow-typed/**
-types/@react-navigation
 types/react-intl.js.flow
 types/@react-native-community/netinfo/**
 types/@sentry/react-native.js.flow

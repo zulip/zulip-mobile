@@ -1,7 +1,8 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Greg Price <greg@zulip.com>
 Date: Tue, 24 May 2022 16:58:12 -0700
-Subject: [tsflower] Fix $ReadOnlyArray reference to literally use that name
+Subject: [tsflower] rnsac: Fix $ReadOnlyArray reference to literally use that
+ name
 
 Otherwise get an error on trying to pass an array literal here;
 even if we mark the property read-only.

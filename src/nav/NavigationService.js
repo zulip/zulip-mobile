@@ -21,7 +21,7 @@ const getContainer = () => {
   return navigationContainerRef.current;
 };
 
-export const getState = (): NavigationState => getContainer().getRootState();
+export const getState = (): NavigationState<> => getContainer().getRootState();
 
 export const dispatch = (navigationAction: NavigationAction): void =>
   getContainer().dispatch(navigationAction);

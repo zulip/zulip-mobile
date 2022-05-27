@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Fri, 27 May 2022 14:21:30 -0700
+Subject: [tsflower] Fix `import type` of classes
+
+This stems from the subtle difference in semantics between
+`import type` in TS and `import type` in Flow.  It should be
+fixed in TsFlower.
+
+What's happening is that the source file here says:
+
+    import type { TabBar, SceneRendererProps, TabView } from 'react-native-tab-view';
+
+In TS, that means the import is "type-only" -- it's seen only by the
+type-checker, and elided in the runtime code.
+
+But in Flow, that `type` modifier would mean it's an import *of* a type.
+
+The difference comes when these names TabBar and TabView refer to
+values -- which they do, specifically they're classes -- and then the
+code goes on to say something like `typeof TabBar` in a type
+annotation.  That's something that only the type-checker sees, so it's
+fine with a TS `import type`; but it's referring to a value named
+TabBar, not a type by that name, so it doesn't work with a Flow
+`import type`.
+
+Currently, TsFlower sees the `type` modifier, and goes and emits a
+`type` modifier.
+
+Instead, if the name we're importing has a value binding, we should
+emit a plain old value import, regardless of the source's `type`
+modifier.
+
+(That works because we're acting on type definitions anyway, and TS
+`import type` is completely redundant in a type definition file.  If
+we were operating on runtime code, we'd have to be more careful
+because a runtime import can have side effects.  We could emit an
+`import typeof`, and then rewrite `typeof` references to drop their
+own `typeof`.  In fact that's what we already do if the name has a
+value binding and doesn't also have a type binding.)
+---
+ .../material-top-tabs/lib/typescript/src/types.js.flow          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 1c02714a5..0dd4c30b6 100644
+--- a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -11,7 +11,7 @@ import type {
+ } from 'tsflower/subst/react-native';
+ 
+ import 'react-native';
+-import { type TabBar, type SceneRendererProps, type TabView } from 'react-native-tab-view';
++import { TabBar, type SceneRendererProps, TabView } from 'react-native-tab-view';
+ 
+ import {
+   type ParamListBase,
+-- 
+2.30.2
+

@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 22:46:07 -0700
+Subject: [upstream] rnav: Covariant indexer in ParamListBase
+
+---
+ .../@react-navigation/routers/lib/typescript/src/types.js.flow  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+index 1a60f57f0..daf37cc5f 100644
+--- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+@@ -70,7 +70,7 @@ export type Route<RouteName: string, Params: { ... } | void = { ... } | void> =
+     params: Readonly<Params>;
+ }> */ /* tsflower-unimplemented: ConditionalType */;
+ 
+-export type ParamListBase = { [key: string]: { ... } | void };
++export type ParamListBase = { +[key: string]: { ... } | void };
+ 
+ export type NavigationAction = Readonly<{
+   type: string,
+-- 
+2.30.2
+

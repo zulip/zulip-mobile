@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import {
-  type StackAction,
+  type StackActionType,
   StackActions,
   CommonActions,
   type NavigationAction,
@@ -13,7 +13,7 @@ import type { SharedData } from '../sharing/types';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 
 // TODO: Probably just do a StackActions.pop()?
-export const navigateBack = (): StackAction => {
+export const navigateBack = (): StackActionType => {
   const routes = NavigationService.getState().routes;
   let i = routes.length - 1;
   while (i >= 0) {

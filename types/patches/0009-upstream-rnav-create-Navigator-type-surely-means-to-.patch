@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 24 May 2022 22:55:13 -0700
+Subject: =?UTF-8?q?[upstream]=20rnav:=20create=E2=80=A6Navigator=20type=20?=
+ =?UTF-8?q?surely=20means=20to=20refer=20back=20to=20ParamList=20here?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Rather than to the upper bound on ParamList.
+---
+ .../src/navigators/createMaterialTopTabNavigator.js.flow        | 2 +-
+ .../lib/typescript/src/navigators/createStackNavigator.js.flow  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+index 29d53b3ff..def19204a 100644
+--- a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
++++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+@@ -24,7 +24,7 @@ declare var _default: <
+   ParamList: { +[key: string]: { ... } | void },
+ >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<
+   ParamList,
+-  TabNavigationState<{ +[key: string]: { ... } | void }>,
++  TabNavigationState<ParamList>,
+   MaterialTopTabNavigationOptions,
+   MaterialTopTabNavigationEventMap,
+   typeof MaterialTopTabNavigator,
+diff --git a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+index 1842836b1..3c2939d32 100644
+--- a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
++++ b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+@@ -24,7 +24,7 @@ declare var _default: <
+   ParamList: { +[key: string]: { ... } | void },
+ >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<
+   ParamList,
+-  StackNavigationState<{ +[key: string]: { ... } | void }>,
++  StackNavigationState<ParamList>,
+   StackNavigationOptions,
+   StackNavigationEventMap,
+   typeof StackNavigator,
+-- 
+2.30.2
+

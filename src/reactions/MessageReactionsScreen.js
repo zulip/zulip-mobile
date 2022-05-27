@@ -26,7 +26,7 @@ import { navigateBack } from '../nav/navActions';
 // all take `void` for parameters.
 type NavParamList = {| +[name: string]: void |};
 
-const Tab = createMaterialTopTabNavigator<NavParamList, _, _>();
+const Tab = createMaterialTopTabNavigator<NavParamList>();
 
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation

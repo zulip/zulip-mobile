@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Fri, 27 May 2022 13:02:49 -0700
+Subject: [tsflower] Handle TS reference pragma for React in material-top-tabs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This seems like not a great practice in the library, but TsFlower
+should deal with it anyway.
+
+What's happening is that in the input file, instead of importing React
+in a normal JS way, it's using a TypeScript `<reference … />` comment
+to bring into scope everything defined in `@types/react`, including the
+`React` namespace.
+
+As a result, TsFlower currently isn't able to spot that the references
+to a `React` namespace are referring to the 'react' module, and doesn't
+rewrite references like `React.ReactNode`.
+---
+ .../lib/typescript/src/types.js.flow              | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 36bc57918..1c02714a5 100644
+--- a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -3,6 +3,7 @@
+  */
+ import type { Partial } from 'tsflower/subst/lib';
+ 
++import type { ReactNode, ComponentProps } from 'tsflower/subst/react';
+ import type {
+   StyleProp as $tsflower_subst$RN$StyleProp,
+   ViewStyle as $tsflower_subst$RN$ViewStyle,
+@@ -67,12 +68,12 @@ export type MaterialTopTabNavigationOptions = {
+         focused: boolean,
+         color: string,
+         ...
+-      }) => React.ReactNode),
++      }) => ReactNode),
+   tabBarIcon?: (props: {
+     focused: boolean,
+     color: string,
+     ...
+-  }) => React.ReactNode,
++  }) => ReactNode,
+   tabBarAccessibilityLabel?: string,
+   tabBarTestID?: string,
+   ...
+@@ -88,30 +89,30 @@ export type MaterialTopTabDescriptorMap = { [key: string]: MaterialTopTabDescrip
+ 
+ export type MaterialTopTabNavigationConfig = Partial<
+   $Diff<
+-    React.ComponentProps<typeof TabView>,
++    ComponentProps<typeof TabView>,
+     {|
+       navigationState: mixed,
+       onIndexChange: mixed,
+       onSwipeStart: mixed,
+       onSwipeEnd: mixed,
+       renderScene: mixed,
+       renderTabBar: mixed,
+       renderPager: mixed,
+       renderLazyPlaceholder: mixed,
+     |},
+   >,
+ > & {
+-  pager?: $ElementType<React.ComponentProps<typeof TabView>, 'renderPager'>,
+-  lazyPlaceholder?: (props: { route: Route<string>, ... }) => React.ReactNode,
+-  tabBar?: (props: MaterialTopTabBarProps) => React.ReactNode,
++  pager?: $ElementType<ComponentProps<typeof TabView>, 'renderPager'>,
++  lazyPlaceholder?: (props: { route: Route<string>, ... }) => ReactNode,
++  tabBar?: (props: MaterialTopTabBarProps) => ReactNode,
+   tabBarOptions?: MaterialTopTabBarOptions,
+   tabBarPosition?: 'top' | 'bottom',
+   ...
+ };
+ 
+ export type MaterialTopTabBarOptions = Partial<
+   $Diff<
+-    React.ComponentProps<typeof TabBar>,
++    ComponentProps<typeof TabBar>,
+     {|
+       [key:
+         | 'navigationState'
+-- 
+2.30.2
+
