@@ -42,6 +42,7 @@ const initialState = {
   webPublicStreamsEnabled: false,
   createWebPublicStreamPolicy: CreateWebPublicStreamPolicy.Nobody,
   enableSpectatorAccess: false,
+  waitingPeriodThreshold: 90,
 
   //
   // InitialDataRealmUser
@@ -128,6 +129,7 @@ export default (
         createWebPublicStreamPolicy:
           action.data.realm_create_web_public_stream_policy ?? CreateWebPublicStreamPolicy.Nobody,
         enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
+        waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
 
         //
         // InitialDataRealmUser
@@ -208,6 +210,9 @@ export default (
             }
             if (data.enable_spectator_access !== undefined) {
               result.enableSpectatorAccess = data.enable_spectator_access;
+            }
+            if (data.waiting_period_threshold !== undefined) {
+              result.waitingPeriodThreshold = data.waiting_period_threshold;
             }
 
             return result;

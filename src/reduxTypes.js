@@ -294,6 +294,7 @@ export type RealmState = $ReadOnly<{|
   webPublicStreamsEnabled: boolean,
   createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
   enableSpectatorAccess: boolean,
+  waitingPeriodThreshold: number,
 
   //
   // InitialDataRealmUser

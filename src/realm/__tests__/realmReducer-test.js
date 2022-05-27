@@ -43,6 +43,7 @@ describe('realmReducer', () => {
         createPrivateStreamPolicy: action.data.realm_create_private_stream_policy,
         createWebPublicStreamPolicy: action.data.realm_create_web_public_stream_policy,
         enableSpectatorAccess: action.data.realm_enable_spectator_access,
+        waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
 
         //
         // InitialDataRealmUser
@@ -404,6 +405,12 @@ describe('realmReducer', () => {
         check(ModeratorOrAbove, MemberOrAbove);
         check(ModeratorOrAbove, AdminOrAbove);
         check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('waitingPeriodThreshold / waiting_period_threshold', () => {
+        const check = mkCheck('waitingPeriodThreshold', 'waiting_period_threshold');
+        check(90, 90);
+        check(90, 30);
       });
     });
   });
