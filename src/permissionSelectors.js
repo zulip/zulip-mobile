@@ -70,6 +70,38 @@ export function getHasUserPassedWaitingPeriod(state: PerAccountState, userId: Us
 }
 
 /**
+ * Whether the self-user is authorized to create or edit a stream to be
+ *   public.
+ *
+ * Note: This isn't about web-public streams. For those, see
+ * getCanCreateWebPublicStreams.
+ */
+export function getCanCreatePublicStreams(state: PerAccountState): boolean {
+  const { createPublicStreamPolicy } = getRealm(state);
+  const ownUser = getOwnUser(state);
+  const role = getOwnUserRole(state);
+
+  switch (createPublicStreamPolicy) {
+    case 4: // ModeratorOrAbove
+      return roleIsAtLeast(role, Moderator);
+    case 3: // FullMemberOrAbove
+      return role === Member
+        ? getHasUserPassedWaitingPeriod(state, ownUser.user_id)
+        : roleIsAtLeast(role, Member);
+    case 2: // AdminOrAbove
+      return roleIsAtLeast(role, Admin);
+    case 1: // MemberOrAbove
+      return roleIsAtLeast(role, Member);
+    default: {
+      ensureUnreachable(createPublicStreamPolicy);
+
+      // (Unreachable as long as the cases are exhaustive.)
+      return false;
+    }
+  }
+}
+
+/**
  * Whether the self-user can create or edit a stream to be web-public.
  *
  * True just if:

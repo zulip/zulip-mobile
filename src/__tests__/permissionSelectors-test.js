@@ -1,16 +1,20 @@
 /* @flow strict-local */
 import invariant from 'invariant';
+import addDays from 'date-fns/addDays';
 
-import { tryGetActiveAccountState } from '../selectors';
+import { getOwnUser, tryGetActiveAccountState, getRealm } from '../selectors';
 import {
   Role,
   RoleValues,
   type RoleT,
+  CreatePublicOrPrivateStreamPolicy,
+  type CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicy,
   type CreateWebPublicStreamPolicyT,
 } from '../api/permissionsTypes';
 import {
   getHasUserPassedWaitingPeriod,
+  getCanCreatePublicStreams,
   getCanCreateWebPublicStreams,
   roleIsAtLeast,
 } from '../permissionSelectors';
@@ -42,6 +46,91 @@ describe('roleIsAtLeast', () => {
       });
     });
   });
+});
+
+describe('getCanCreatePublicStreams', () => {
+  const {
+    MemberOrAbove,
+    AdminOrAbove,
+    FullMemberOrAbove,
+    ModeratorOrAbove,
+  } = CreatePublicOrPrivateStreamPolicy;
+  const { Owner, Admin, Moderator, Member, Guest } = Role;
+
+  test.each`
+    policy               | role         | waitingPeriodPassed | expected
+    ${MemberOrAbove}     | ${Owner}     | ${undefined}        | ${true}
+    ${MemberOrAbove}     | ${Admin}     | ${undefined}        | ${true}
+    ${MemberOrAbove}     | ${Moderator} | ${undefined}        | ${true}
+    ${MemberOrAbove}     | ${Member}    | ${undefined}        | ${true}
+    ${MemberOrAbove}     | ${Guest}     | ${undefined}        | ${false}
+    ${AdminOrAbove}      | ${Owner}     | ${undefined}        | ${true}
+    ${AdminOrAbove}      | ${Admin}     | ${undefined}        | ${true}
+    ${AdminOrAbove}      | ${Moderator} | ${undefined}        | ${false}
+    ${AdminOrAbove}      | ${Member}    | ${undefined}        | ${false}
+    ${AdminOrAbove}      | ${Guest}     | ${undefined}        | ${false}
+    ${FullMemberOrAbove} | ${Owner}     | ${undefined}        | ${true}
+    ${FullMemberOrAbove} | ${Admin}     | ${undefined}        | ${true}
+    ${FullMemberOrAbove} | ${Moderator} | ${undefined}        | ${true}
+    ${FullMemberOrAbove} | ${Member}    | ${true}             | ${true}
+    ${FullMemberOrAbove} | ${Member}    | ${false}            | ${false}
+    ${FullMemberOrAbove} | ${Guest}     | ${undefined}        | ${false}
+    ${ModeratorOrAbove}  | ${Owner}     | ${undefined}        | ${true}
+    ${ModeratorOrAbove}  | ${Admin}     | ${undefined}        | ${true}
+    ${ModeratorOrAbove}  | ${Moderator} | ${undefined}        | ${true}
+    ${ModeratorOrAbove}  | ${Member}    | ${undefined}        | ${false}
+    ${ModeratorOrAbove}  | ${Guest}     | ${undefined}        | ${false}
+  `(
+    'returns $expected when policy is $policy; role is $role; waitingPeriodPassed is $waitingPeriodPassed',
+    async ({
+      policy,
+      role,
+      waitingPeriodPassed,
+      expected,
+    }: {
+      policy: CreatePublicOrPrivateStreamPolicyT,
+      role: RoleT,
+      waitingPeriodPassed: boolean | void,
+      expected: boolean,
+    }) => {
+      const globalState = [
+        {
+          type: EVENT,
+          event: {
+            id: 1,
+            type: EventTypes.realm_user,
+            op: 'update',
+            person: { user_id: eg.selfUser.user_id, role },
+          },
+        },
+        {
+          type: EVENT,
+          event: {
+            id: 0,
+            type: EventTypes.realm,
+            property: 'default',
+            op: 'update_dict',
+            data: { create_public_stream_policy: policy },
+          },
+        },
+      ].reduce(rootReducer, eg.plusReduxState);
+
+      const newState = tryGetActiveAccountState(globalState);
+      invariant(newState !== undefined, 'expected newState');
+
+      if (waitingPeriodPassed !== undefined) {
+        // TODO: Figure out how to jest.mock this or something instead.
+        jest.setSystemTime(
+          addDays(
+            new Date(getOwnUser(newState).date_joined),
+            getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2),
+          ),
+        );
+      }
+
+      expect(getCanCreatePublicStreams(newState)).toBe(expected);
+    },
+  );
 });
 
 describe('getCanCreateWebPublicStreams', () => {
