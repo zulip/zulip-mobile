@@ -76,6 +76,8 @@ export function getHasUserPassedWaitingPeriod(state: PerAccountState, userId: Us
  * Note: This isn't about web-public streams. For those, see
  * getCanCreateWebPublicStreams.
  */
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 export function getCanCreatePublicStreams(state: PerAccountState): boolean {
   const { createPublicStreamPolicy } = getRealm(state);
   const ownUser = getOwnUser(state);
@@ -105,6 +107,8 @@ export function getCanCreatePublicStreams(state: PerAccountState): boolean {
  * Whether the self-user is authorized to create or edit a stream to be
  *   private.
  */
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
   const { createPrivateStreamPolicy } = getRealm(state);
   const ownUser = getOwnUser(state);
@@ -146,6 +150,8 @@ export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
  * Like user_can_create_web_public_streams in the web-app's
  * static/js/settings_data.ts.
  */
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
   const { webPublicStreamsEnabled, enableSpectatorAccess, createWebPublicStreamPolicy } = getRealm(
     state,

@@ -49,6 +49,8 @@ describe('roleIsAtLeast', () => {
   });
 });
 
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 describe('getCanCreatePublicStreams', () => {
   const {
     MemberOrAbove,
@@ -134,6 +136,8 @@ describe('getCanCreatePublicStreams', () => {
   );
 });
 
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 describe('getCanCreatePrivateStreams', () => {
   const {
     MemberOrAbove,
@@ -219,6 +223,8 @@ describe('getCanCreatePrivateStreams', () => {
   );
 });
 
+// TODO(?): Could deduplicate with the other getCanCreate*Streams; see
+//     https://github.com/zulip/zulip-mobile/pull/5394#discussion_r883215288
 describe('getCanCreateWebPublicStreams', () => {
   const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;
   const { Owner, Admin, Moderator, Member, Guest } = Role;
