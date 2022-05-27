@@ -1,8 +1,8 @@
 /* @flow strict-local */
-import type { PerAccountState } from './types';
+import type { PerAccountState, UserId } from './types';
 import { ensureUnreachable } from './types';
 import { Role, type RoleT } from './api/permissionsTypes';
-import { getRealm, getOwnUser } from './selectors';
+import { getRealm, getOwnUser, getUserForId } from './selectors';
 
 const { Guest, Member, Moderator, Admin, Owner } = Role;
 
@@ -38,6 +38,35 @@ export function getOwnUserRole(state: PerAccountState): RoleT {
 
 export function roleIsAtLeast(thisRole: RoleT, thresholdRole: RoleT): boolean {
   return thisRole <= thresholdRole; // Roles with more privilege have lower numbers.
+}
+
+/**
+ * Whether the user has passed the realm's waiting period to be a full member.
+ *
+ * See:
+ *   https://zulip.com/api/roles-and-permissions#determining-if-a-user-is-a-full-member
+ *
+ * To determine if a user is a full member, callers must also check that the
+ * user's role is at least Role.Member.
+ *
+ * Note: If used with useSelector, the value will be out-of-date, though
+ * realistically only by seconds or minutes at most; see implementation.
+ */
+export function getHasUserPassedWaitingPeriod(state: PerAccountState, userId: UserId): boolean {
+  const { waitingPeriodThreshold } = getRealm(state);
+  const { date_joined } = getUserForId(state, userId);
+
+  const intervalLengthInDays = (Date.now() - Date.parse(date_joined)) / 86400_000;
+
+  // When used with useSelector, the result will be based on the time at
+  // which the most recent Redux action was dispatched. This would break
+  // if we made this a caching selector; don't do that.
+  // TODO(?): To upper-bound how long ago that can be, we could dispatch
+  //   actions at a regular short-ish interval. If those actions
+  //   contained a current-date value, we could even store that value in
+  //   Redux and consume it here, letting this be a caching selector if
+  //   we wanted it to be.
+  return intervalLengthInDays >= waitingPeriodThreshold;
 }
 
 /**

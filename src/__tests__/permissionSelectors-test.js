@@ -9,7 +9,11 @@ import {
   CreateWebPublicStreamPolicy,
   type CreateWebPublicStreamPolicyT,
 } from '../api/permissionsTypes';
-import { getCanCreateWebPublicStreams, roleIsAtLeast } from '../permissionSelectors';
+import {
+  getHasUserPassedWaitingPeriod,
+  getCanCreateWebPublicStreams,
+  roleIsAtLeast,
+} from '../permissionSelectors';
 import rootReducer from '../boot/reducers';
 import { EVENT } from '../actionConstants';
 import * as eg from './lib/exampleData';
@@ -161,6 +165,57 @@ describe('getCanCreateWebPublicStreams', () => {
       invariant(state, 'expected per-account state');
 
       expect(getCanCreateWebPublicStreams(state)).toBe(expected);
+    },
+  );
+});
+
+describe('getHasUserPassedWaitingPeriod', () => {
+  test.each`
+    dateJoined                | currentDate               | threshold | expected
+    ${new Date('2000-01-01')} | ${new Date('2000-01-10')} | ${10}     | ${false}
+    ${new Date('2000-01-01')} | ${new Date('2000-01-11')} | ${10}     | ${true}
+    ${new Date('2000-01-01')} | ${new Date('2000-01-12')} | ${10}     | ${true}
+    ${new Date('2000-01-01')} | ${new Date('2000-03-30')} | ${90}     | ${false}
+    ${new Date('2000-01-01')} | ${new Date('2000-03-31')} | ${90}     | ${true}
+    ${new Date('2000-01-01')} | ${new Date('2000-04-01')} | ${90}     | ${true}
+  `(
+    'returns $expected for dateJoined: $dateJoined; currentDate: $currentDate; threshold: $threshold',
+    async (args: {|
+      dateJoined: Date,
+      currentDate: Date,
+      threshold: number,
+      expected: boolean,
+    |}) => {
+      const { dateJoined, currentDate, threshold, expected } = args;
+
+      const globalState = [
+        {
+          type: EVENT,
+          event: {
+            id: 0,
+            type: EventTypes.realm,
+            op: 'update_dict',
+            property: 'default',
+            data: { waiting_period_threshold: threshold },
+          },
+        },
+      ].reduce(
+        rootReducer,
+        eg.reduxStatePlus({
+          users: eg.plusReduxState.users.map(u =>
+            u.user_id === eg.selfUser.user_id ? { ...u, date_joined: dateJoined.toString() } : u,
+          ),
+        }),
+      );
+
+      jest.setSystemTime(currentDate);
+
+      const newState = tryGetActiveAccountState(globalState);
+      expect(newState).toBeTruthy();
+
+      expect(newState && getHasUserPassedWaitingPeriod(newState, eg.selfUser.user_id)).toBe(
+        expected,
+      );
     },
   );
 });

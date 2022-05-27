@@ -95,6 +95,8 @@ export type User = {|
   +delivery_email?: string,
   +email: string,
   +full_name: string,
+
+  // We expect ISO 8601; that's in the doc's example response.
   +date_joined: string,
 
   // is_active never appears in `/register` responses, at least up through
@@ -179,6 +181,8 @@ export type CrossRealmBot = {|
   +delivery_email?: string,
   +email: string,
   +full_name: string,
+
+  // We expect ISO 8601; that's in the doc's example response.
   +date_joined: string,
 
   // is_active never appears in `/register` responses, at least up through
