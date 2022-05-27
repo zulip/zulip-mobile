@@ -1,14 +1,14 @@
 /* @flow strict-local */
 import React from 'react';
-import type {
-  NavigationAction,
-  NavigationState,
-  NavigationContainerType,
+import {
+  type NavigationAction,
+  type NavigationState,
+  typeof NavigationContainer,
 } from '@react-navigation/native';
 
 export const isReadyRef: {| current: null | boolean |} = React.createRef();
 export const navigationContainerRef: {|
-  current: null | React$ElementRef<NavigationContainerType>,
+  current: null | React$ElementRef<NavigationContainer>,
 |} = React.createRef();
 
 const getContainer = () => {
