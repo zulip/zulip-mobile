@@ -54,12 +54,11 @@ export const Icon: ComponentType<IconProps<IconNames>> = fixIconType<IconNames>(
 /** A (type for a) component-type like `Icon` but with `name` already specified. */
 export type SpecificIconType = ComponentType<$Diff<IconProps<empty>, {| name: mixed |}>>;
 
-const makeIcon =
-  <Glyphs: string>(
-    iconSet: ComponentType<IconPropsBusted<Glyphs>>,
-    name: Glyphs,
-  ): SpecificIconType =>
-  props => {
+const makeIcon = <Glyphs: string>(
+  iconSet: ComponentType<IconPropsBusted<Glyphs>>,
+  name: Glyphs,
+): SpecificIconType =>
+  function RNVIIcon(props) {
     const FixedIcon = fixIconType<Glyphs>(iconSet);
     return <FixedIcon name={name} {...props} />;
   };
@@ -107,4 +106,5 @@ export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
 export const IconPlus: SpecificIconType = makeIcon(Feather, 'plus');
+// eslint-disable-next-line react/function-component-definition
 export const IconWebPublic: SpecificIconType = props => <ZulipIcon name="globe" {...props} />;

@@ -37,7 +37,7 @@ if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default (): Node => (
+export default function ZulipMobile(): Node {
   // If using react-native-gesture-handler directly, not just via React
   // Navigation, we should use a GestureHandlerRootView; see
   //  https://docs.swmansion.com/react-native-gesture-handler/docs/1.10.3/#js
@@ -49,31 +49,33 @@ export default (): Node => (
   // which I think is why they don't mention GestureHandlerRootView in their
   // own setup doc, and why I think it's probably fine to omit it if we're
   // not using r-n-gesture-handler directly ourselves.
-  <RootErrorBoundary>
-    <CompatibilityChecker>
-      <StoreProvider>
-        <SafeAreaProvider
-          style={{
-            // While waiting for the safe-area insets, this will
-            // show. Best for it not to be a white flicker.
-            backgroundColor: BRAND_COLOR,
-          }}
-        >
-          <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
-            <AppEventHandlers>
-              <AppDataFetcher>
-                <TranslationProvider>
-                  <ThemeProvider>
-                    <ActionSheetProvider>
-                      <ZulipNavigationContainer />
-                    </ActionSheetProvider>
-                  </ThemeProvider>
-                </TranslationProvider>
-              </AppDataFetcher>
-            </AppEventHandlers>
-          </HideIfNotHydrated>
-        </SafeAreaProvider>
-      </StoreProvider>
-    </CompatibilityChecker>
-  </RootErrorBoundary>
-);
+  return (
+    <RootErrorBoundary>
+      <CompatibilityChecker>
+        <StoreProvider>
+          <SafeAreaProvider
+            style={{
+              // While waiting for the safe-area insets, this will
+              // show. Best for it not to be a white flicker.
+              backgroundColor: BRAND_COLOR,
+            }}
+          >
+            <HideIfNotHydrated PlaceholderComponent={FullScreenLoading}>
+              <AppEventHandlers>
+                <AppDataFetcher>
+                  <TranslationProvider>
+                    <ThemeProvider>
+                      <ActionSheetProvider>
+                        <ZulipNavigationContainer />
+                      </ActionSheetProvider>
+                    </ThemeProvider>
+                  </TranslationProvider>
+                </AppDataFetcher>
+              </AppEventHandlers>
+            </HideIfNotHydrated>
+          </SafeAreaProvider>
+        </StoreProvider>
+      </CompatibilityChecker>
+    </RootErrorBoundary>
+  );
+}

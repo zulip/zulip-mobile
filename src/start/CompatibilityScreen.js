@@ -38,13 +38,13 @@ const styles = createStyleSheet({
   },
 });
 
-const AppStoreBadge = () => (
-  <Image style={styles.appStoreBadge} source={appStoreBadgePNG} resizeMode="contain" />
-);
+function AppStoreBadge() {
+  return <Image style={styles.appStoreBadge} source={appStoreBadgePNG} resizeMode="contain" />;
+}
 
-const GooglePlayBadge = () => (
-  <Image style={styles.googlePlayBadge} source={googlePlayBadgePNG} resizeMode="contain" />
-);
+function GooglePlayBadge() {
+  return <Image style={styles.googlePlayBadge} source={googlePlayBadgePNG} resizeMode="contain" />;
+}
 
 export default class CompatibilityScreen extends PureComponent<{||}> {
   storeURL: string =

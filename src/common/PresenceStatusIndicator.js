@@ -83,21 +83,29 @@ function MaybeOpaqueBackgroundWrapper(
   );
 }
 
-const PresenceStatusIndicatorActive = () => <View style={[styles.active, styles.common]} />;
+function PresenceStatusIndicatorActive() {
+  return <View style={[styles.active, styles.common]} />;
+}
 
-const PresenceStatusIndicatorIdle = () => (
-  <View style={[styles.idleWrapper, styles.common]}>
-    <View style={styles.idleHalfCircle} />
-  </View>
-);
+function PresenceStatusIndicatorIdle() {
+  return (
+    <View style={[styles.idleWrapper, styles.common]}>
+      <View style={styles.idleHalfCircle} />
+    </View>
+  );
+}
 
-const PresenceStatusIndicatorOffline = () => <View style={[styles.offline, styles.common]} />;
+function PresenceStatusIndicatorOffline() {
+  return <View style={[styles.offline, styles.common]} />;
+}
 
-const PresenceStatusIndicatorUnavailable = () => (
-  <View style={[styles.unavailableWrapper, styles.common]}>
-    <View style={styles.unavailableLine} />
-  </View>
-);
+function PresenceStatusIndicatorUnavailable() {
+  return (
+    <View style={[styles.unavailableWrapper, styles.common]}>
+      <View style={styles.unavailableLine} />
+    </View>
+  );
+}
 
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
