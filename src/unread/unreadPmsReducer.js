@@ -59,7 +59,7 @@ const eventUpdateMessageFlags = (state, action, ownUserId) => {
     for (const id of action.messages) {
       const message = message_details.get(id);
 
-      if (message && message.type === 'private' && message.user_ids != null) {
+      if (message && message.type === 'private') {
         if (message.user_ids.length === 1) {
           newState = addItemsToPmArray(newState, [id], message.user_ids[0]);
         } else if (message.user_ids.length === 0) {

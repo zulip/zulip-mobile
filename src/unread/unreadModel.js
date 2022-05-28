@@ -257,12 +257,7 @@ function streamsReducer(
 
           // The server should ensure that all messages sent are in
           // message_details, so the first `message` here is defensive.
-          if (
-            message
-            && message.type === 'stream'
-            && message.stream_id != null
-            && message.topic != null
-          ) {
+          if (message && message.type === 'stream') {
             newlyUnreadState = newlyUnreadState.updateIn(
               [message.stream_id, message.topic],
               Immutable.List(),
