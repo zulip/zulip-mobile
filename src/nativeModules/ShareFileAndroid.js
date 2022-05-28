@@ -7,4 +7,4 @@
  */
 import { NativeModules } from 'react-native';
 
-module.exports = NativeModules.ShareFileAndroid;
+export default NativeModules.ShareFileAndroid;
