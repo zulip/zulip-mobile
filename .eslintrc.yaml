@@ -349,7 +349,6 @@ rules:
   # New rules we want, but that require code changes to enable
   #
 
-  react/jsx-no-useless-fragment: off
   react/no-arrow-function-lifecycle: off
   import/no-import-module-exports: off
   prefer-regex-literals: off

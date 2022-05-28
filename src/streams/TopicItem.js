@@ -108,7 +108,7 @@ export default function TopicItem(props: Props): Node {
           numberOfLines={1}
           ellipsizeMode="tail"
         />
-        {isMentioned ? <IconMention size={14} style={componentStyles.mentionedLabel} /> : <></>}
+        {isMentioned && <IconMention size={14} style={componentStyles.mentionedLabel} />}
         <UnreadCount count={unreadCount} inverse={isSelected} />
       </View>
     </Touchable>
