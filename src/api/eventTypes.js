@@ -212,6 +212,16 @@ export type StreamEvent =
   | {| ...StreamListEvent, +op: 'vacate', |}
   | StreamUpdateEvent;
 
+export type UpdateMessageFlagsMessageDetails = {|
+  type: 'stream' | 'private',
+  mentioned?: true,
+  // type: 'stream'
+  stream_id?: number,
+  topic?: string,
+  // type: 'private'
+  user_ids?: $ReadOnlyArray<UserId>,
+|};
+
 // https://zulip.com/api/get-events#update_message_flags-add
 // https://zulip.com/api/get-events#update_message_flags-remove
 export type UpdateMessageFlagsEvent = $ReadOnly<{|
@@ -229,15 +239,7 @@ export type UpdateMessageFlagsEvent = $ReadOnly<{|
   messages: $ReadOnlyArray<number>,
 
   message_details?: {|
-    [string]: {|
-      type: 'stream' | 'private',
-      mentioned?: true,
-      // type: 'stream'
-      stream_id?: number,
-      topic?: string,
-      // type: 'private'
-      user_ids?: UserId,
-    |},
+    [string]: UpdateMessageFlagsMessageDetails,
   |},
 |}>;
 
