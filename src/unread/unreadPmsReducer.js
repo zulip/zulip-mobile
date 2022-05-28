@@ -54,7 +54,7 @@ const eventUpdateMessageFlags = (state, action, ownUserId) => {
       return state;
     }
 
-    let newState = [...state];
+    let newState = state;
 
     for (const id of action.messages) {
       const message = message_details.get(id);
@@ -68,12 +68,10 @@ const eventUpdateMessageFlags = (state, action, ownUserId) => {
       }
     }
 
-    return [
-      ...newState.map(({ sender_id, unread_message_ids }) => ({
-        sender_id,
-        unread_message_ids: [...unread_message_ids].sort((a, b) => a - b),
-      })),
-    ];
+    return newState.map(({ sender_id, unread_message_ids }) => ({
+      sender_id,
+      unread_message_ids: [...unread_message_ids].sort((a, b) => a - b),
+    }));
   }
 
   return state;
