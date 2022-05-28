@@ -61,7 +61,7 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
     error: '',
   };
 
-  componentDidMount = () => {
+  componentDidMount() {
     const realm = this.props.route.params.realm;
     this.setState({ progress: true, error: undefined });
 
@@ -81,7 +81,7 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
         this.setState({ progress: false });
       }
     })();
-  };
+  }
 
   tryDevLogin = async (email: string) => {
     const realm = this.props.route.params.realm;

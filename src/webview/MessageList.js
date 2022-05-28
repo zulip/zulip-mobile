@@ -136,7 +136,7 @@ class MessageListInner extends Component<Props> {
     }
   };
 
-  shouldComponentUpdate = (nextProps: Props) => {
+  shouldComponentUpdate(nextProps) {
     const uevents = generateInboundEvents(this.props, nextProps);
 
     if (this.sendInboundEventsIsReady) {
@@ -146,7 +146,7 @@ class MessageListInner extends Component<Props> {
     }
 
     return false;
-  };
+  }
 
   render() {
     const {

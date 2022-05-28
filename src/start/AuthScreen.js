@@ -208,7 +208,7 @@ type LinkingEvent = {
 };
 
 class AuthScreenInner extends PureComponent<Props> {
-  componentDidMount = () => {
+  componentDidMount() {
     Linking.addEventListener('url', this.endWebAuth);
     Linking.getInitialURL().then((initialUrl: ?string) => {
       if (initialUrl !== null && initialUrl !== undefined) {
@@ -224,11 +224,11 @@ class AuthScreenInner extends PureComponent<Props> {
     if (authList.length === 1) {
       this.handleAuth(authList[0]);
     }
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     Linking.removeEventListener('url', this.endWebAuth);
-  };
+  }
 
   /**
    * Hand control to the browser for an external auth method.
