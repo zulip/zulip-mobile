@@ -24,7 +24,7 @@ describe('unreadPmsReducer', () => {
 
       const expectedState = [];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -61,7 +61,7 @@ describe('unreadPmsReducer', () => {
         },
       ];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -79,7 +79,7 @@ describe('unreadPmsReducer', () => {
 
       const action = eg.mkActionEventNewMessage(message1);
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -95,7 +95,7 @@ describe('unreadPmsReducer', () => {
 
       const action = eg.mkActionEventNewMessage(message4);
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -110,7 +110,7 @@ describe('unreadPmsReducer', () => {
 
       const action = eg.mkActionEventNewMessage(message1);
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -131,7 +131,7 @@ describe('unreadPmsReducer', () => {
         },
       ];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -158,7 +158,7 @@ describe('unreadPmsReducer', () => {
         },
       ];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -185,7 +185,7 @@ describe('unreadPmsReducer', () => {
         },
       ];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -205,7 +205,7 @@ describe('unreadPmsReducer', () => {
         op: 'add',
       };
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -232,7 +232,7 @@ describe('unreadPmsReducer', () => {
         op: 'add',
       });
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -266,7 +266,7 @@ describe('unreadPmsReducer', () => {
         },
       ];
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -289,7 +289,7 @@ describe('unreadPmsReducer', () => {
         op: 'remove',
       });
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -312,7 +312,7 @@ describe('unreadPmsReducer', () => {
         op: 'add',
       });
 
-      const actualState = unreadPmsReducer(initialState, action);
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(NULL_ARRAY);
     });

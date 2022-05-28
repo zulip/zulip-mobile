@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
-import type { PerAccountApplicableAction } from '../types';
+import type { PerAccountApplicableAction, PerAccountState } from '../types';
 import type { UnreadPmsState } from './unreadModelTypes';
 import {
   REGISTER_COMPLETE,
@@ -55,6 +55,7 @@ const eventUpdateMessageFlags = (state, action) => {
 export default (
   state: UnreadPmsState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
+  globalState: PerAccountState,
 ): UnreadPmsState => {
   switch (action.type) {
     case LOGOUT:
