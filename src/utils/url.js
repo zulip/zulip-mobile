@@ -93,7 +93,7 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-export const isUrlOnRealm = (url: string = '', realm: URL): boolean =>
+export const isUrlOnRealm = (url: string, realm: URL): boolean =>
   url.startsWith('/') || url.startsWith(realm.toString()) || !/^(http|www.)/i.test(url);
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({

@@ -8,7 +8,7 @@ import { pmKeyRecipientsFromIds } from './recipient';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-const getPathsFromUrl = (url: string = '', realm: URL) => {
+const getPathsFromUrl = (url: string, realm: URL) => {
   const paths = url.split(realm.toString()).pop().split('#narrow/').pop()
 .split('/');
 

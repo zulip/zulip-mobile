@@ -79,7 +79,7 @@ export const filterUserList = (
 
 export const filterUserStartWith = (
   users: $ReadOnlyArray<AutocompleteOption>,
-  filter: string = '',
+  filter: string,
   ownUserId: UserId,
 ): $ReadOnlyArray<AutocompleteOption> => {
   const loweredFilter = filter.toLowerCase();
@@ -92,7 +92,7 @@ export const filterUserStartWith = (
 
 export const filterUserThatContains = (
   users: $ReadOnlyArray<AutocompleteOption>,
-  filter: string = '',
+  filter: string,
   ownUserId: UserId,
 ): $ReadOnlyArray<AutocompleteOption> => {
   const loweredFilter = filter.toLowerCase();
@@ -105,7 +105,7 @@ export const filterUserThatContains = (
 
 export const filterUserMatchesEmail = (
   users: $ReadOnlyArray<AutocompleteOption>,
-  filter: string = '',
+  filter: string,
   ownUserId: UserId,
 ): $ReadOnlyArray<AutocompleteOption> =>
   users.filter(
@@ -128,7 +128,7 @@ export const getUsersAndWildcards = (
 
 export const getAutocompleteSuggestion = (
   users: $ReadOnlyArray<AutocompleteOption>,
-  filter: string = '',
+  filter: string,
   ownUserId: UserId,
   mutedUsers: MutedUsersState,
 ): $ReadOnlyArray<AutocompleteOption> => {
