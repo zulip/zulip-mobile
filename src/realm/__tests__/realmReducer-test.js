@@ -40,6 +40,12 @@ describe('realmReducer', () => {
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: {}, // update as necessary if example data changes
+        defaultExternalAccounts: new Map([
+          [
+            'github',
+            { url_pattern: action.data.realm_default_external_accounts.github.url_pattern },
+          ],
+        ]),
         videoChatProvider: null, // update as necessary if example data changes
         mandatoryTopics: action.data.realm_mandatory_topics,
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
@@ -263,6 +269,7 @@ describe('realmReducer', () => {
         test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
           const initialState = { ...eg.plusReduxState.realm };
           // $FlowFixMe[prop-missing]
+          // $FlowFixMe[class-object-subtyping]
           /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
           initialState[statePropertyName] = initialStateValue;
@@ -305,6 +312,7 @@ describe('realmReducer', () => {
         test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
           const initialState = { ...eg.plusReduxState.realm };
           // $FlowFixMe[prop-missing]
+          // $FlowFixMe[class-object-subtyping]
           /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
            right kind of value for its chosen key. */
           initialState[statePropertyName] = initialStateValue;

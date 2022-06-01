@@ -434,6 +434,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add customProfileFields to state.realm.
   '48': dropCache,
 
+  // Add defaultExternalAccounts to state.realm.
+  '49': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

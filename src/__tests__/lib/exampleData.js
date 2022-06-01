@@ -765,7 +765,14 @@ export const action = Object.freeze({
       realm_create_public_stream_policy: 3,
       realm_create_web_public_stream_policy: CreateWebPublicStreamPolicy.ModeratorOrAbove,
       realm_default_code_block_language: 'python',
-      realm_default_external_accounts: {},
+      realm_default_external_accounts: {
+        github: {
+          name: 'GitHub',
+          text: 'GitHub',
+          hint: 'Enter your GitHub username',
+          url_pattern: 'https://github.com/%(username)s',
+        },
+      },
       realm_default_language: 'en',
       realm_delete_own_message_policy: 3,
       realm_description: 'description',

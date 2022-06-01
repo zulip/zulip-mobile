@@ -291,6 +291,7 @@ export type RealmState = $ReadOnly<{|
   nonActiveUsers: $ReadOnlyArray<User>,
   filters: $ReadOnlyArray<RealmFilter>,
   emoji: RealmEmojiById,
+  defaultExternalAccounts: Map<string, {| +url_pattern: string |}>,
   videoChatProvider: VideoChatProvider | null,
   mandatoryTopics: boolean,
   messageContentDeleteLimitSeconds: number | null,

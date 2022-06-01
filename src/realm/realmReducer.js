@@ -21,6 +21,7 @@ import {
   EVENT_REALM_FILTERS,
 } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
+import { objectEntries } from '../flowPonyfill';
 
 const initialState = {
   //
@@ -38,6 +39,7 @@ const initialState = {
   nonActiveUsers: [],
   filters: [],
   emoji: {},
+  defaultExternalAccounts: new Map(),
   videoChatProvider: null,
   mandatoryTopics: false,
   messageContentDeleteLimitSeconds: null,
@@ -118,6 +120,11 @@ export default (
         nonActiveUsers: action.data.realm_non_active_users,
         filters: action.data.realm_filters,
         emoji: convertRealmEmoji(action.data.realm_emoji),
+        defaultExternalAccounts: new Map(
+          objectEntries(
+            action.data.realm_default_external_accounts,
+          ).map(([name, { url_pattern }]) => [name, { url_pattern }]),
+        ),
         videoChatProvider: getVideoChatProvider({
           availableProviders: action.data.realm_available_video_chat_providers,
           jitsiServerUrl: action.data.jitsi_server_url,
