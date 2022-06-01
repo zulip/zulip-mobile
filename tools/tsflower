@@ -89,7 +89,8 @@ write_patches()
     local commit_range="${1:-upstream..tsflower}"
     rm -f "${patch_dir}"/*.patch
     git -c diff.noprefix=false \
-        format-patch --quiet --no-thread --no-numbered --zero-commit \
+        format-patch --quiet --zero-commit \
+        --no-thread --no-numbered --keep-subject \
         -o "${patch_dir}" "${commit_range}"
 }
 
@@ -167,7 +168,7 @@ EOF
     git commit -am 'tsflower: Revert patches'
 
     git checkout --quiet -B "${branchname}"
-    git am --quiet --whitespace=nowarn "${patch_dir}"/*.patch
+    git am --quiet --whitespace=nowarn --keep "${patch_dir}"/*.patch
 
     git checkout --quiet "${basebranch}"
     echo "Running TsFlower to regenerate type definitions from upstream..."
