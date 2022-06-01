@@ -19,6 +19,7 @@ import ActivityText from '../title/ActivityText';
 import { doNarrow } from '../actions';
 import { getUserIsActive, getUserForId } from '../users/userSelectors';
 import { nowInTimeZone } from '../utils/date';
+import CustomProfileFields from './CustomProfileFields';
 
 const styles = createStyleSheet({
   pmButton: {
@@ -81,6 +82,9 @@ export default function AccountDetailsScreen(props: Props): Node {
           <ZulipText style={globalStyles.largerText} text={localTime} />
         </View>
       )}
+      <View style={styles.itemWrapper}>
+        <CustomProfileFields user={user} />
+      </View>
       {!isActive && (
         <ZulipTextIntl style={styles.deactivatedText} text="(This user has been deactivated)" />
       )}

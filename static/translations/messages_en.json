@@ -186,6 +186,7 @@
   "Send private message": "Send private message",
   "View private messages": "View private messages",
   "(This user has been deactivated)": "(This user has been deactivated)",
+  "(unknown user)": "(unknown user)",
   "Forgot password?": "Forgot password?",
   "Members": "Members",
   "Recipients": "Recipients",
