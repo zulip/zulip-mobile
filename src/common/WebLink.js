@@ -3,12 +3,13 @@
 import React from 'react';
 import type { Node } from 'react';
 
+import type { LocalizableText } from '../types';
 import ZulipTextIntl from './ZulipTextIntl';
 import { openLinkEmbedded } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
-  label: string,
+  label: LocalizableText,
   url: URL,
 |}>;
 
