@@ -140,7 +140,26 @@ check_branch_unused()
 
 unpack()
 {
-    local branchname="${1:-tsflower}"
+    local branchname=
+    local shortcut=
+    while (( $# )); do
+        case "$1" in
+            -s | --shortcut)
+                shortcut=1; shift;;
+            -*)
+                echo >&2 "tools/tsflower unpack: bad option: $1"
+                return 1;;
+            *)
+                if [ -n "${branchname}" ]; then
+                    echo >&2 "tools/tsflower unpack: too many arguments"
+                    return 1
+                fi
+                branchname="$1"
+                shift;;
+        esac
+    done
+    branchname="${branchname:-tsflower}"
+
     local basebranch="${branchname}-base"
 
     check_no_uncommitted_changes
@@ -170,10 +189,12 @@ EOF
     git checkout --quiet -B "${branchname}"
     git am --quiet --whitespace=nowarn --keep "${patch_dir}"/*.patch
 
-    git checkout --quiet "${basebranch}"
-    echo "Running TsFlower to regenerate type definitions from upstream..."
-    run_only
-    git commit --allow-empty -am 'tsflower: Regenerate from upstream'
+    if [ -z "${shortcut}" ]; then
+        git checkout --quiet "${basebranch}"
+        echo "Running TsFlower to regenerate type definitions from upstream..."
+        run_only
+        git commit --allow-empty -am 'tsflower: Regenerate from upstream'
+    fi
 
     echo
     echo "Base branch '${basebranch}':"
@@ -185,19 +206,22 @@ EOF
     git log --oneline --reverse --boundary --decorate-refs=refs/ \
         "${basebranch}".."${branchname}"
 
-    echo
-    echo "Attempting rebase of '${branchname}' onto '${basebranch}'..."
-    git checkout --quiet "${branchname}"
-    if ! git rebase "${basebranch}"; then
-        cat >&2 <<EOF
+    if [ -z "${shortcut}" ]; then
+        echo
+        echo "Attempting rebase of '${branchname}' onto '${basebranch}'..."
+        git checkout --quiet "${branchname}"
+        if ! git rebase "${basebranch}"; then
+            cat >&2 <<EOF
 
 tools/tsflower: Rebase stopped.
 After you resolve the issue and complete the rebase,
 you can re-pack the revised branch into patches with:
     $ tools/tsflower pack
 EOF
-        return 1
+            return 1
+        fi
     fi
+
     cat >&2 <<EOF
 
 Check that Flow passes, and make commits for any needed fixes.
@@ -266,6 +290,6 @@ case "${1:-}" in
     apply-patches) apply_patches;;
     unapply-patches) unapply_patches;;
     write-patches) write_patches "${2:-}";;
-    unpack) unpack "${2:-}";;
+    unpack) unpack "${@:2}";;
     pack) pack;;
 esac
