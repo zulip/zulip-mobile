@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+root_dir=$(git rev-parse --show-toplevel)
+
 this_dir=${BASH_SOURCE[0]%/*}
 . "${this_dir}"/lib/eslintignore.sh
 
@@ -42,7 +44,7 @@ fi
 
 prettier-eslint \
     --write \
-    --eslint-config-path ./tools/formatting.eslintrc.yaml \
+    --eslint-config-path "${root_dir}"/tools/formatting.eslintrc.yaml \
     --log-level=warn \
     "${files[@]}"
 eslint --no-eslintrc -c tools/formatting.eslintrc.yaml --fix "${files[@]}"

@@ -256,7 +256,7 @@ run_prettier() {
     prettier-eslint \
        ${fix:+--write} \
       --list-different \
-      --eslint-config-path ./tools/formatting.eslintrc.yaml \
+      --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
       "${patterns[@]}"
 }
 

@@ -122,7 +122,7 @@ run_only()
         node_modules/"${package}"/lib/typescript/src \
         types/"${package}"
     "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
         -- types/"${package}"/**/*.js.flow
 
     for package in @react-navigation/{routers,core,native,stack,bottom-tabs,material-top-tabs}; do
@@ -138,7 +138,7 @@ run_only()
 export * from './lib/typescript/src/index.js.flow';"
     done
     "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
         -- types/@react-navigation/**/*.js.flow
 
     package=react-native-tab-view
@@ -151,7 +151,7 @@ export * from './lib/typescript/src/index.js.flow';"
 export * from './lib/typescript/src/index.js.flow';"
     rm -rf "${rootdir}"/types/"${package}"/lib/typescript/example/
     "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
         -- types/"${package}"/**/*.js.flow
 }
 
