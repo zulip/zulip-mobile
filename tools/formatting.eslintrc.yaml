@@ -2,7 +2,7 @@
 # we can follow each Prettier run with a streamlined (and faster) ESLint run
 # that uses only these rules.
 
-parser: babel-eslint
+parser: "@babel/eslint-parser"
 
 plugins:
   - flowtype

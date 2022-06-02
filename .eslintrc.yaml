@@ -20,7 +20,7 @@
 #     $ git diff --no-index /tmp/{foo,bar}.json
 
 
-parser: babel-eslint
+parser: "@babel/eslint-parser"
 
 extends:
   - airbnb
