@@ -34,7 +34,7 @@ type ScrubbedInboundEventItem = {|
  * it's visible.
  */
 const placeholdersDivTagFromContent = (content: string): string | null => {
-  const match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+  const match = /<div id="message-loading" class="(?:hidden)?">/.exec(content);
   return match !== null ? match[0] : null;
 };
 

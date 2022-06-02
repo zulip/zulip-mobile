@@ -63,7 +63,7 @@ var compiledWebviewJs = (function (exports) {
   });
 
   const placeholdersDivTagFromContent = content => {
-    const match = new RegExp('<div id="message-loading" class="(?:hidden)?">').exec(content);
+    const match = /<div id="message-loading" class="(?:hidden)?">/.exec(content);
     return match !== null ? match[0] : null;
   };
 
