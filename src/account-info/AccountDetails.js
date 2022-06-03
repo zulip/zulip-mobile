@@ -11,11 +11,8 @@ import { useSelector } from '../react-redux';
 import UserAvatar from '../common/UserAvatar';
 import ComponentList from '../common/ComponentList';
 import ZulipText from '../common/ZulipText';
-import { getOwnUser } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
-import ActivityText from '../title/ActivityText';
-import { nowInTimeZone } from '../utils/date';
 
 const componentStyles = createStyleSheet({
   componentListItem: {
@@ -43,24 +40,10 @@ type Props = $ReadOnly<{|
 export default function AccountDetails(props: Props): Node {
   const { user } = props;
 
-  const ownUser = useSelector(getOwnUser);
   const userStatusText = useSelector(state => getUserStatus(state, props.user.user_id).status_text);
   const userStatusEmoji = useSelector(
     state => getUserStatus(state, props.user.user_id).status_emoji,
   );
-
-  const isSelf = user.user_id === ownUser.user_id;
-
-  let localTime: string | null = null;
-  // See comments at CrossRealmBot and User at src/api/modelTypes.js.
-  if (user.timezone !== '' && user.timezone !== undefined) {
-    try {
-      localTime = `${nowInTimeZone(user.timezone)} Local time`;
-    } catch {
-      // The set of timezone names in the tz database is subject to change over
-      // time. Handle unrecognized timezones by quietly discarding them.
-    }
-  }
 
   return (
     <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
@@ -96,16 +79,6 @@ export default function AccountDetails(props: Props): Node {
           />
         )}
       </View>
-      {!isSelf && (
-        <View>
-          <ActivityText style={styles.largerText} user={user} />
-        </View>
-      )}
-      {!isSelf && localTime !== null && (
-        <View>
-          <ZulipText style={styles.largerText} text={localTime} />
-        </View>
-      )}
     </ComponentList>
   );
 }
