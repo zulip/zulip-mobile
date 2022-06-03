@@ -47,7 +47,8 @@ import { addToOutbox, sendOutbox } from '../outbox/outboxActions';
 import { startEventPolling } from '../events/eventActions';
 import { logout } from '../account/accountActions';
 import { ZulipVersion } from '../utils/zulipVersion';
-import { getAllUsersById, getHaveServerData, getOwnUserId } from '../users/userSelectors';
+import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import { getHaveServerData } from '../haveServerDataSelectors';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
 

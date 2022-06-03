@@ -2,7 +2,7 @@
 import React, { type ComponentType, type ElementConfig, useRef } from 'react';
 
 import { connectGlobal } from './react-redux';
-import { getHaveServerDataGlobal } from './selectors';
+import { getHaveServerDataGlobal } from './haveServerDataSelectors';
 import FullScreenLoading from './common/FullScreenLoading';
 
 /**
