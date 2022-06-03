@@ -1,8 +1,18 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
 
-import type { PerAccountState, UserOrBot, Selector, User, UserId } from '../types';
+import type {
+  CustomProfileField,
+  PerAccountState,
+  UserOrBot,
+  Selector,
+  User,
+  UserId,
+} from '../types';
+import type { RealmState } from '../reduxTypes';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
+import * as logging from '../utils/logging';
+import { ensureUnreachable } from '../generics';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -169,3 +179,122 @@ const getActiveUsersById: Selector<Map<UserId, UserOrBot>> = createSelector(
 // the `User` type definition.
 export const getUserIsActive = (state: PerAccountState, userId: UserId): boolean =>
   !!getActiveUsersById(state).get(userId);
+
+/** A user's value for a custom profile field, put into meaningful form. */
+export type CustomProfileFieldValue =
+  | { +displayType: 'text', +text: string }
+  | { +displayType: 'link', +text: string, +url: void | URL }
+  | { +displayType: 'users', +userIds: $ReadOnlyArray<UserId> };
+
+function interpretCustomProfileField(
+  realmDefaultExternalAccounts: $ElementType<RealmState, 'defaultExternalAccounts'>,
+  realmField: CustomProfileField,
+  profileData: $ElementType<UserOrBot, 'profile_data'>,
+): void | CustomProfileFieldValue {
+  const userFieldData = profileData?.[realmField.id.toString()];
+  if (!userFieldData) {
+    return undefined;
+  }
+
+  const { value } = userFieldData;
+  const { type } = realmField;
+  switch (type) {
+    // In general this part of the API is not documented up to Zulip's
+    // normal standards.  Some discussion here:
+    //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1387379
+
+    case 1: // CustomProfileFieldType.ShortText
+    case 2: // CustomProfileFieldType.LongText
+      // The web client appears to treat these two cases identically.
+      // So we do the same.
+      return { displayType: 'text', text: value };
+
+    case 3: {
+      // CustomProfileFieldType.Choice
+      // TODO(server): This isn't really documented.  But see chat thread:
+      //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1383005
+      const choices = JSON.parse(realmField.field_data);
+      return { displayType: 'text', text: choices[value].text };
+    }
+
+    case 4: {
+      // CustomProfileFieldType.Date
+      // TODO(server): The value's format is undocumented, but empirically
+      //   it's a date in ISO format, like 2000-01-01.
+      // That's readable as is, but:
+      // TODO format this date using user's locale.
+      return { displayType: 'text', text: value };
+    }
+
+    case 5: // CustomProfileFieldType.Link
+      // This isn't real clearly documented; but the `value` is just the URL.
+      return { displayType: 'link', text: value, url: new URL(value) };
+
+    case 7: {
+      // CustomProfileFieldType.ExternalAccount
+      // TODO(server): This is undocumented.  See chat thread:
+      //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/external.20account.20custom.20profile.20fields/near/1387213
+      const realmData: { subtype: string, url_pattern?: string } = JSON.parse(
+        realmField.field_data,
+      );
+      const { subtype, url_pattern } = realmData;
+      const pattern = url_pattern ?? realmDefaultExternalAccounts.get(subtype)?.url_pattern;
+      const url = pattern == null ? undefined : new URL(pattern.replace('%(username)s', value));
+      if (!url) {
+        logging.warn(
+          `Missing url_pattern for custom profile field of type ExternalAccount, subtype '${subtype}'`,
+        );
+      }
+      return { displayType: 'link', text: value, url };
+    }
+
+    case 6: {
+      // CustomProfileFieldType.User
+      // TODO(server): This is completely undocumented.  The key to
+      //   reverse-engineering it was:
+      //   https://github.com/zulip/zulip/blob/18230fcd9/static/js/settings_account.js#L247
+      const userIds: $ReadOnlyArray<UserId> = JSON.parse(value);
+      return { displayType: 'users', userIds };
+    }
+
+    default:
+      ensureUnreachable(type);
+      logging.warn(`Invalid custom profile field type: ${type}`);
+      return undefined;
+  }
+}
+
+/**
+ * The given user's values for custom profile fields, interpreted to make usable.
+ *
+ * These are in the order a client is expected to present them in.  Any
+ * fields that are configured on the realm but that the user has no chosen
+ * value for are omitted.
+ *
+ * This selector does no caching.  Meant for use inside `React.useMemo`.
+ */
+export function getCustomProfileFieldsForUser(
+  realm: RealmState,
+  user: UserOrBot,
+): Array<{| +fieldId: number, +name: string, +value: CustomProfileFieldValue |}> {
+  const realmFields = realm.customProfileFields;
+  const realmDefaultExternalAccounts = realm.defaultExternalAccounts;
+
+  // TODO(server): The realm-wide field objects have an `order` property,
+  //   but the actual API appears to be that the fields should be shown in
+  //   the order they appear in the array (`custom_profile_fields` in the
+  //   API; our `realmFields` array here.)  See chat thread:
+  //     https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1382982
+  const fields = []; // eslint-disable-line no-shadow
+  for (const realmField of realmFields) {
+    const value = interpretCustomProfileField(
+      realmDefaultExternalAccounts,
+      realmField,
+      user.profile_data,
+    );
+    if (value) {
+      fields.push({ name: realmField.name, fieldId: realmField.id, value });
+    }
+  }
+  return fields;
+}
