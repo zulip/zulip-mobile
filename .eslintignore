@@ -7,7 +7,6 @@
 types/@react-navigation
 types/react-intl.js.flow
 types/@react-native-community/netinfo/**
-types/react-native-safe-area-context/**
 types/@sentry/react-native.js.flow
 types/expo-web-browser/**
 types/react-native-webview.js.flow

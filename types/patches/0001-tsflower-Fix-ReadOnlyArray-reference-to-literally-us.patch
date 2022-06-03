@@ -16,24 +16,24 @@ mechanism.
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/types/react-native-safe-area-context/SafeArea.types.js.flow b/types/react-native-safe-area-context/SafeArea.types.js.flow
-index cfa057969..16677dd3c 100644
+index f3c41af41..e31ab1a65 100644
 --- a/types/react-native-safe-area-context/SafeArea.types.js.flow
 +++ b/types/react-native-safe-area-context/SafeArea.types.js.flow
 @@ -9,7 +9,6 @@ import type {
- } from "tsflower/subst/react-native";
+ } from 'tsflower/subst/react-native';
  
- import type { ReactNode as $tsflower_subst$React$ReactNode } from "tsflower/subst/react";
--import type { ReadonlyArray } from "tsflower/subst/lib";
- import * as React from "react";
- import "react-native";
- export type Edge = "top" | "right" | "bottom" | "left";
+ import type { ReactNode as $tsflower_subst$React$ReactNode } from 'tsflower/subst/react';
+-import type { ReadonlyArray } from 'tsflower/subst/lib';
+ import * as React from 'react';
+ import 'react-native';
+ export type Edge = 'top' | 'right' | 'bottom' | 'left';
 @@ -45,6 +44,6 @@ export interface NativeSafeAreaProviderProps {
  export type NativeSafeAreaViewProps = $tsflower_subst$RN$ViewProps & {
-     children?: $tsflower_subst$React$ReactNode,
-     mode?: "padding" | "margin",
--    edges?: ReadonlyArray<Edge>,
-+    edges?: $ReadOnlyArray<Edge>,
-     ...
+   children?: $tsflower_subst$React$ReactNode,
+   mode?: 'padding' | 'margin',
+-  edges?: ReadonlyArray<Edge>,
++  edges?: $ReadOnlyArray<Edge>,
+   ...
  };
 -- 
 2.30.2
