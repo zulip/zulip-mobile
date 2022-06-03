@@ -9,6 +9,7 @@ import { useSelector } from '../react-redux';
 import { getRealm, getRealmUrl } from '../selectors';
 import { Role } from '../api/permissionsTypes';
 import {
+  getCanCreatePublicStreams,
   getCanCreateWebPublicStreams,
   getOwnUserRole,
   roleIsAtLeast,
@@ -20,7 +21,10 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
-import type { CreateWebPublicStreamPolicyT } from '../api/permissionsTypes';
+import type {
+  CreatePublicOrPrivateStreamPolicyT,
+  CreateWebPublicStreamPolicyT,
+} from '../api/permissionsTypes';
 import type { LocalizableText } from '../types';
 
 type PropsBase = $ReadOnly<{|
@@ -89,6 +93,38 @@ function explainCreateWebPublicStreamPolicy(
   };
 }
 
+function explainCreatePublicStreamPolicy(
+  policy: CreatePublicOrPrivateStreamPolicyT,
+  realmName: string,
+): LocalizableText {
+  return {
+    text: (() => {
+      switch (policy) {
+        // FlowIssue: sad that we end up having to write numeric literals here :-/
+        //   But the most important thing to get from the type-checker here is
+        //   that the ensureUnreachable works -- that ensures that when we add a
+        //   new possible value, we'll add a case for it here.  Couldn't find a
+        //   cleaner way to write this that still accomplished that. Discussion:
+        //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
+        case 2: // CreatePublicOrPrivateStreamPolicy.AdminOrAbove
+          return '{realmName} only allows organization administrators or owners to make public streams.';
+        case 4: // CreatePublicOrPrivateStreamPolicy.ModeratorOrAbove
+          return '{realmName} only allows organization moderators, administrators, or owners to make public streams.';
+        case 3: // CreatePublicOrPrivateStreamPolicy.FullMemberOrAbove
+          return '{realmName} only allows full organization members, moderators, administrators, or owners to make public streams.';
+        case 1: // CreatePublicOrPrivateStreamPolicy.MemberOrAbove
+          return '{realmName} only allows organization members, moderators, administrators, or owners to make public streams.';
+        default: {
+          ensureUnreachable(policy);
+          // (Unreachable as long as the cases are exhaustive.)
+          return '';
+        }
+      }
+    })(),
+    values: { realmName },
+  };
+}
+
 /**
  * Most user-facing strings come from stream_privacy_policy_values in
  * static/js/stream_data.js. The ones in `disabledIfNotInitialValue` are the
@@ -96,11 +132,13 @@ function explainCreateWebPublicStreamPolicy(
  */
 function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
   const {
+    createPublicStreamPolicy,
     webPublicStreamsEnabled,
     enableSpectatorAccess,
     createWebPublicStreamPolicy,
     name: realmName,
   } = useSelector(getRealm);
+  const canCreatePublicStreams = useSelector(getCanCreatePublicStreams);
   const canCreateWebPublicStreams = useSelector(getCanCreateWebPublicStreams);
   const ownUserRole = useSelector(getOwnUserRole);
   const realmUrl = useSelector(getRealmUrl);
@@ -147,6 +185,29 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
           title: 'Public',
           subtitle:
             'Organization members can join (guests must be invited by a subscriber); organization members can view complete message history without joining',
+
+          // See comment where we use this.
+          disabledIfNotInitialValue: (() => {
+            if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
+              return {
+                title: 'Insufficient permission',
+                message: 'Only organization administrators and owners can edit streams.',
+              };
+            }
+
+            return (
+              !canCreatePublicStreams && {
+                title: 'Insufficient permission',
+                message: explainCreatePublicStreamPolicy(createPublicStreamPolicy, realmName),
+                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
+                  ? {
+                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
+                      text: 'Configure permissions',
+                    }
+                  : undefined,
+              }
+            );
+          })(),
         },
         {
           key: 'invite-only-public-history',
@@ -180,6 +241,8 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
         }),
     [
       initialValue,
+      canCreatePublicStreams,
+      createPublicStreamPolicy,
       webPublicStreamsEnabled,
       canCreateWebPublicStreams,
       createWebPublicStreamPolicy,
