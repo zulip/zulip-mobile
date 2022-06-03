@@ -6,6 +6,9 @@ parser: babel-eslint
 
 plugins:
   - flowtype
+  - import
+  - jest
+  - react
 
 rules:
   # Disallow tucking a condition or loop body in at the end of a line, like
