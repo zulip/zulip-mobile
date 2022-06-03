@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { ScrollView, View, Alert } from 'react-native';
 
+import { type UserId } from '../api/idTypes';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
@@ -21,6 +22,7 @@ import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
 import { getIdentity } from '../account/accountsSelectors';
+import { navigateToAccountDetails } from '../nav/navActions';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -41,6 +43,19 @@ function SetStatusButton(props: {||}) {
       text="Set a status"
       onPress={() => {
         NavigationService.dispatch(navigateToUserStatus());
+      }}
+    />
+  );
+}
+
+function ProfileButton(props: {| +ownUserId: UserId |}) {
+  return (
+    <ZulipButton
+      style={styles.button}
+      secondary
+      text="Full profile"
+      onPress={() => {
+        NavigationService.dispatch(navigateToAccountDetails(props.ownUserId));
       }}
     />
   );
@@ -112,10 +127,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
- * This is similar to `AccountDetails` but used to show the current users account.
- * It does not have a "Send private message" but has "Switch account" and "Log out" buttons.
- *
- * The user can still open `AccountDetails` on themselves via the (i) icon in a chat screen.
+ * The profile/settings/account screen we offer among the main tabs of the app.
  */
 export default function ProfileScreen(props: Props): Node {
   const ownUser = useSelector(getOwnUser);
@@ -126,6 +138,9 @@ export default function ProfileScreen(props: Props): Node {
       <AwayStatusSwitch />
       <View style={styles.buttonRow}>
         <SetStatusButton />
+      </View>
+      <View style={styles.buttonRow}>
+        <ProfileButton ownUserId={ownUser.user_id} />
       </View>
       <View style={styles.buttonRow}>
         <SettingsButton />
