@@ -2,6 +2,75 @@
 set -euo pipefail
 shopt -s globstar
 
+usage() {
+    cat >&2 <<EOF
+usage: tools/tsflower SUBCOMMAND [ARGS...]
+
+This tool runs TsFlower to generate Flow type definitions for
+some of our dependencies using TS type definitions from upstream.
+It also manages a stack of our own patches to the generated output.
+
+Subcommands include:
+
+  run - Rerun TsFlower, and reapply patches
+  check - Check definitions up to date; used by \`tools/test tsflower\`
+  unpack - Turn patches into a Git branch for editing, and rerun TsFlower
+  pack - Turn a Git branch back into an updated set of patches
+  help - Print this help
+
+
+Workflow for revising the type definitions or patch stack:
+
+  1. Run \`tools/tsflower unpack -s\` to unpack patches into a
+     Git branch.  (The \`-s\` skips rerunning TsFlower.)
+
+  2. Make desired changes and commit them, or use \`git rebase -i\`.
+
+  3. Run \`tools/tsflower pack\` to re-pack the revised branch
+     into patches.  This returns to your original branch, with the
+     type definitions and patches updated to reflect your changes.
+
+  4. Commit your changes.
+
+
+Workflow for updating dependencies, full version:
+
+  1. Update \`package.json\` and run \`yarn\` as usual.  Commit
+     the results (though the commit may not yet be mergeable.)
+
+  2. Run \`tools/tsflower unpack\` to unpack patches into a Git
+     branch, rerun TsFlower, and attempt to rebase them on the
+     updated definitions.
+
+  3. Resolve any rebase conflicts to complete the rebase.
+
+  4. Check that Flow passes; make any needed fixes and commit them.
+
+  5. Run \`tools/tsflower pack\` as above.
+
+  6. Commit your changes, and squash them into the commit that
+     updated \`package.json\` and \`yarn.lock\`.
+
+  7. Run \`tools/test\` to confirm the tests pass.  In particular
+     this will run \`tools/tsflower check\`.
+
+
+Workflow for updating dependencies, fast path:
+
+  1. As above.
+
+  2-5. Run \`tools/tsflower run\` to rerun TsFlower and re-apply
+     patches.  If the dependency update didn't affect anything
+     the patches touch, this should succeed.
+
+     If this doesn't work, or if there are Flow errors, use the
+     full workflow above with \`unpack\` and \`pack\`.
+
+  6-7. As above.
+
+EOF
+}
+
 this_file=$(readlink -f "$0")
 rootdir=${this_file%/*/*}
 
@@ -292,4 +361,6 @@ case "${1:-}" in
     write-patches) write_patches "${2:-}";;
     unpack) unpack "${@:2}";;
     pack) pack;;
+    help | --help) usage;;
+    '' | *) usage; exit 2;;
 esac
