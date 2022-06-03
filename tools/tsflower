@@ -120,6 +120,9 @@ run_only()
     "${bindir}"/tsflower tree \
         node_modules/"${package}"/lib/typescript/src \
         types/"${package}"
+    "${bindir}"/prettier-eslint --write --log-level silent \
+        --eslint-config-path ./tools/formatting.eslintrc.yaml \
+        -- types/"${package}"/**/*.js.flow
 }
 
 apply_patches()
