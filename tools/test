@@ -113,18 +113,41 @@ PATH=node_modules/.bin:"$PATH"
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js() {
+    local file_pattern='^src/.*\.js$'
     case "$files" in
         all)
             echo src/
             ;;
         branch)
-            tools/info changed-files | grep '^src/.*\.js$' || :
+            tools/info changed-files | grep -E "${file_pattern}" || :
             ;;
         diff:*)
             local commitish
             commitish="${files#diff:}"
             git diff --name-only --diff-filter=d "$commitish" \
-                | grep '^src/.*\.js$' || :
+                | grep -E "${file_pattern}" || :
+            ;;
+    esac
+}
+
+# Intersect $files with the set of our JS and .js.flow files in src/ and types/.
+#
+# Prints a list of newline-terminated paths; either files, or
+# directories meaning their whole subtrees.
+files_js_jsflow() {
+    local file_pattern='^(src|types)/.*\.js(\.flow)?$'
+    case "$files" in
+        all)
+            echo src/ types/
+            ;;
+        branch)
+            tools/info changed-files | grep -E "${file_pattern}" || :
+            ;;
+        diff:*)
+            local commitish
+            commitish="${files#diff:}"
+            git diff --name-only --diff-filter=d "$commitish" \
+                | grep -E "${file_pattern}" || :
             ;;
     esac
 }
@@ -290,7 +313,7 @@ for suite in "${suites[@]}"; do
             run_jest
             ;;
         prettier)
-            run_prettier $(files_js)
+            run_prettier $(files_js_jsflow)
             ;;
         deps)
             run_deps
