@@ -32,7 +32,7 @@ export default (
     //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/PATCH.20.2Fstreams.2F.7Bstream_id.7D/near/1383984
     history_public_to_subscribers?: $PropertyType<Stream, 'history_public_to_subscribers'>,
 
-    // Doesn't take the same special values as Stream.is_announcement_only!
+    // Doesn't take the same special values as Stream.message_retention_days!
     //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
     // TODO(server-3.0): New in FL 17
     message_retention_days?:

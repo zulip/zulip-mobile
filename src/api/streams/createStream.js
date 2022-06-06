@@ -28,7 +28,7 @@ export default (
     // TODO(server-3.0): New in FL 1; for older servers, pass is_announcement_only.
     stream_post_policy?: $PropertyType<Stream, 'stream_post_policy'>,
 
-    // Doesn't take the same special values as Stream.is_announcement_only!
+    // Doesn't take the same special values as Stream.message_retention_days!
     //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
     // TODO(server-3.0): New in FL 17
     message_retention_days?:
