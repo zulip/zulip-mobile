@@ -655,15 +655,59 @@ export type Submessage = $ReadOnly<{|
  * `Message`: `PmMessage` and `StreamMessage`.
  */
 type MessageBase = $ReadOnly<{|
-  /** Our own flag; if true, really type `Outbox`. */
-  isOutbox?: false,
+  //
+  // Properties on `event.message` in `message` events. Order follows the
+  // doc: https://zulip.com/api/get-events#message
+  //
 
   /**
-   * These don't appear in `message` events, but they appear in a `/message`
-   * response when a search is involved.
+   * Present under EVENT_NEW_MESSAGE and under MESSAGE_FETCH_COMPLETE,
+   * and in `state.messages`, all as an AvatarURL, because we
+   * translate into that form at the edge.
+   *
+   * For how it appears at the edge (and how we translate) see
+   * AvatarURL.fromUserOrBotData.
    */
-  match_content?: string,
-  match_subject?: string,
+  avatar_url: AvatarURL,
+
+  client: string,
+  content: string,
+  content_type: 'text/html',
+  // display_recipient handled on PmMessage and StreamMessage separately
+  edit_history: $ReadOnlyArray<MessageEdit>,
+  id: number,
+  is_me_message: boolean,
+  last_edit_timestamp?: number,
+  reactions: $ReadOnlyArray<Reaction>,
+
+  /** Deprecated; a server implementation detail not useful in a client. */
+  // recipient_id: number,
+
+  sender_email: string,
+  sender_full_name: string,
+  sender_id: UserId,
+  sender_realm_str: string,
+
+  // Don't use. Likely removed everywhere in FL 26, but the changelog only
+  // mentions GET /messages: https://zulip.com/api/changelog#changes-in-zulip-31
+  // TODO(server-3.1): Remove.
+  sender_short_name?: string,
+
+  // stream_id handled on StreamMessage
+  // subject handled on StreamMessage
+
+  /** Servers <1.9.0 omit this; when omitted, equivalent to empty array. */
+  // TODO(server-1.9): Make required.
+  submessages?: $ReadOnlyArray<Submessage>,
+
+  timestamp: number,
+
+  // topic_links handled on StreamMessage
+  // type handled on PmMessage and StreamMessage separately
+
+  //
+  // Special-case properties; see comments
+  //
 
   /**
    * The `flags` story is a bit complicated:
@@ -677,44 +721,15 @@ type MessageBase = $ReadOnly<{|
    */
   flags?: $ReadOnlyArray<string>,
 
+  /** Our own flag; if true, really type `Outbox`. */
+  isOutbox?: false,
+
   /**
-   * Present under EVENT_NEW_MESSAGE and under MESSAGE_FETCH_COMPLETE,
-   * and in `state.messages`, all as an AvatarURL, because we
-   * translate into that form at the edge.
-   *
-   * For how it appears at the edge (and how we translate) see
-   * AvatarURL.fromUserOrBotData.
+   * These don't appear in `message` events, but they appear in a `/message`
+   * response when a search is involved.
    */
-  avatar_url: AvatarURL,
-
-  // The rest are believed to really appear in `message` events.
-
-  client: string,
-  content: string,
-  content_type: 'text/html',
-  edit_history: $ReadOnlyArray<MessageEdit>,
-  id: number,
-  is_me_message: boolean,
-  last_edit_timestamp?: number,
-  reactions: $ReadOnlyArray<Reaction>,
-  sender_email: string,
-  sender_full_name: string,
-  sender_id: UserId,
-  sender_realm_str: string,
-
-  // Don't use. Likely removed everywhere in FL 26, but the changelog only
-  // mentions GET /messages: https://zulip.com/api/changelog#changes-in-zulip-31
-  // TODO(server-3.1): Remove.
-  sender_short_name?: string,
-
-  /** Servers <1.9.0 omit this; when omitted, equivalent to empty array. */
-  // TODO(server-1.9): Make required.
-  submessages?: $ReadOnlyArray<Submessage>,
-
-  timestamp: number,
-
-  /** Deprecated; a server implementation detail not useful in a client. */
-  // recipient_id: number,
+  match_content?: string,
+  match_subject?: string,
 |}>;
 
 export type PmMessage = $ReadOnly<{|
