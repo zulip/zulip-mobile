@@ -23,6 +23,7 @@ type Props<UserT> = $ReadOnly<{|
   showEmail?: boolean,
   unreadCount?: number,
   onPress?: UserT => void,
+  size?: 'large' | 'medium',
 |}>;
 
 /**
@@ -38,7 +39,14 @@ type Props<UserT> = $ReadOnly<{|
 export function UserItemRaw<
   UserT: $ReadOnly<{ user_id: UserId, email: string, full_name: string, ... }>,
 >(props: Props<UserT>): Node {
-  const { user, isSelected = false, onPress, unreadCount, showEmail = false } = props;
+  const {
+    user,
+    isSelected = false,
+    onPress,
+    unreadCount,
+    showEmail = false,
+    size = 'large',
+  } = props;
   const _ = useContext(TranslationContext);
   const isMuted = useSelector(getMutedUsers).has(user.user_id);
   const userStatusEmoji = useSelector(state => getUserStatus(state, user.user_id)).status_emoji;
@@ -52,12 +60,20 @@ export function UserItemRaw<
   const styles = React.useMemo(
     () =>
       createStyleSheet({
-        wrapper: globalStyles.listItem,
+        wrapper:
+          size === 'large'
+            ? globalStyles.listItem
+            : {
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 8,
+                paddingHorizontal: 8,
+              },
         selectedRow: {
           backgroundColor: BRAND_COLOR,
         },
         text: {
-          marginLeft: 16,
+          marginLeft: size === 'large' ? 16 : 8,
         },
         textWrapper: {
           flexShrink: 1,
@@ -74,14 +90,15 @@ export function UserItemRaw<
           minWidth: 4,
         },
       }),
-    [],
+    [size],
   );
 
   return (
     <Touchable onPress={onPress && handlePress}>
       <View style={[styles.wrapper, isSelected && styles.selectedRow]}>
         <UserAvatarWithPresenceById
-          size={48}
+          // At size medium, keep just big enough for a 48px touch target.
+          size={size === 'large' ? 48 : 32}
           userId={user.user_id}
           isMuted={isMuted}
           onPress={onPress && handlePress}
@@ -107,7 +124,8 @@ export function UserItemRaw<
             <Emoji
               code={userStatusEmoji.emoji_code}
               type={emojiTypeFromReactionType(userStatusEmoji.reaction_type)}
-              size={24}
+              // 15 is the fontSize in the user's name.
+              size={size === 'large' ? 24 : 15}
             />
           </View>
         )}
