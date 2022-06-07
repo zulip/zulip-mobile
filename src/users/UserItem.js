@@ -17,29 +17,6 @@ import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import Emoji from '../emoji/Emoji';
 
-const componentStyles = createStyleSheet({
-  selectedRow: {
-    backgroundColor: BRAND_COLOR,
-  },
-  text: {
-    marginLeft: 16,
-  },
-  textWrapper: {
-    flexShrink: 1,
-  },
-  selectedText: {
-    color: 'white',
-  },
-  textEmail: {
-    fontSize: 10,
-    color: 'hsl(0, 0%, 60%)',
-  },
-  spacer: {
-    flex: 1,
-    minWidth: 4,
-  },
-});
-
 type Props<UserT> = $ReadOnly<{|
   user: UserT,
   isSelected?: boolean,
@@ -71,6 +48,33 @@ export function UserItemRaw<
       onPress(user);
     }
   }, [onPress, user]);
+
+  const componentStyles = React.useMemo(
+    () =>
+      createStyleSheet({
+        selectedRow: {
+          backgroundColor: BRAND_COLOR,
+        },
+        text: {
+          marginLeft: 16,
+        },
+        textWrapper: {
+          flexShrink: 1,
+        },
+        selectedText: {
+          color: 'white',
+        },
+        textEmail: {
+          fontSize: 10,
+          color: 'hsl(0, 0%, 60%)',
+        },
+        spacer: {
+          flex: 1,
+          minWidth: 4,
+        },
+      }),
+    [],
+  );
 
   return (
     <Touchable onPress={onPress && handlePress}>
