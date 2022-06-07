@@ -49,7 +49,7 @@ export function UserItemRaw<
     }
   }, [onPress, user]);
 
-  const componentStyles = React.useMemo(
+  const styles = React.useMemo(
     () =>
       createStyleSheet({
         wrapper: globalStyles.listItem,
@@ -79,27 +79,23 @@ export function UserItemRaw<
 
   return (
     <Touchable onPress={onPress && handlePress}>
-      <View style={[componentStyles.wrapper, isSelected && componentStyles.selectedRow]}>
+      <View style={[styles.wrapper, isSelected && styles.selectedRow]}>
         <UserAvatarWithPresenceById
           size={48}
           userId={user.user_id}
           isMuted={isMuted}
           onPress={onPress && handlePress}
         />
-        <View style={componentStyles.textWrapper}>
+        <View style={styles.textWrapper}>
           <ZulipText
-            style={[componentStyles.text, isSelected && componentStyles.selectedText]}
+            style={[styles.text, isSelected && styles.selectedText]}
             text={isMuted ? _('Muted user') : user.full_name}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
           {showEmail && !isMuted && (
             <ZulipText
-              style={[
-                componentStyles.text,
-                componentStyles.textEmail,
-                isSelected && componentStyles.selectedText,
-              ]}
+              style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
               text={user.email}
               numberOfLines={1}
               ellipsizeMode="tail"
@@ -115,7 +111,7 @@ export function UserItemRaw<
             />
           </View>
         )}
-        <View style={componentStyles.spacer} />
+        <View style={styles.spacer} />
         <UnreadCount count={unreadCount} inverse={isSelected} />
       </View>
     </Touchable>
