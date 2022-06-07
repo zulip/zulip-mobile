@@ -428,6 +428,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add waitingPeriodThreshold to state.realm.
   '46': dropCache,
 
+  // Add waitingPeriodThreshold to state.realm.
+  '47': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

@@ -342,6 +342,7 @@ export type PerAccountSettingsState = $ReadOnly<{
   offlineNotification: boolean,
   onlineNotification: boolean,
   streamNotification: boolean,
+  displayEmojiReactionUsers: boolean,
   ...
 }>;
 

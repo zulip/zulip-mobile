@@ -40,7 +40,7 @@ describe('settingsReducer', () => {
       });
     });
 
-    test('changes value of all notification settings (modern, with user_settings)', () => {
+    test('changes value of all per-account settings (modern, with user_settings)', () => {
       expect(
         settingsReducer(
           deepFreeze({
@@ -48,6 +48,7 @@ describe('settingsReducer', () => {
             offlineNotification: false,
             onlineNotification: false,
             streamNotification: false,
+            displayEmojiReactionUsers: false,
           }),
           eg.mkActionRegisterComplete({
             user_settings: {
@@ -57,6 +58,7 @@ describe('settingsReducer', () => {
               enable_offline_push_notifications: true,
               enable_online_push_notifications: true,
               enable_stream_push_notifications: true,
+              display_emoji_reaction_users: true,
             },
           }),
         ),
@@ -65,6 +67,7 @@ describe('settingsReducer', () => {
         offlineNotification: true,
         onlineNotification: true,
         streamNotification: true,
+        displayEmojiReactionUsers: true,
       });
     });
   });
@@ -204,6 +207,14 @@ describe('settingsReducer', () => {
 
       describe('streamNotification / enable_stream_push_notifications', () => {
         const check = mkCheck('streamNotification', 'enable_stream_push_notifications');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
+
+      describe('displayEmojiReactionUsers / display_emoji_reaction_users', () => {
+        const check = mkCheck('displayEmojiReactionUsers', 'display_emoji_reaction_users');
         check(true, true);
         check(true, false);
         check(false, true);

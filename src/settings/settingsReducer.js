@@ -27,6 +27,7 @@ const initialState: SettingsState = {
   offlineNotification: true,
   onlineNotification: true,
   streamNotification: false,
+  displayEmojiReactionUsers: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
@@ -40,6 +41,9 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
           offlineNotification: data.user_settings.enable_offline_push_notifications,
           onlineNotification: data.user_settings.enable_online_push_notifications,
           streamNotification: data.user_settings.enable_stream_push_notifications,
+
+          // TODO(server-6.0): Remove fallback.
+          displayEmojiReactionUsers: data.user_settings.display_emoji_reaction_users ?? false,
         };
       } else {
         // Fall back to InitialDataUpdateDisplaySettings for servers that
@@ -94,6 +98,10 @@ export default (state: SettingsState = initialState, action: Action): SettingsSt
               case 'enable_stream_push_notifications': {
                 // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
                 return { ...state, streamNotification: (value: boolean) };
+              }
+              case 'display_emoji_reaction_users': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, displayEmojiReactionUsers: (value: boolean) };
               }
 
               default:
