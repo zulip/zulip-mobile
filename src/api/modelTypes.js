@@ -693,7 +693,6 @@ type MessageBase = $ReadOnly<{|
   content: string,
   content_type: 'text/html',
   edit_history: $ReadOnlyArray<MessageEdit>,
-  gravatar_hash: string,
   id: number,
   is_me_message: boolean,
   last_edit_timestamp?: number,
