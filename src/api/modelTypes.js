@@ -568,10 +568,29 @@ export type MessageEdit = $ReadOnly<{|
   prev_content?: string,
   prev_rendered_content?: string,
   prev_rendered_content_version?: number,
-  // TODO(server-5.0): Say "topic", not "subject"
+  prev_stream?: number,
+
+  // New in FL 118, replacing `prev_subject`.
+  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
+  //   only present if topic was changed.
+  prev_topic?: string,
+
+  // TODO(server-5.0): Replaced in FL 118 by `prev_topic`.
   prev_subject?: string,
+
+  // New in FL 118.
+  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
+  //   only present if stream was changed.
+  stream?: number,
+
   timestamp: number,
-  user_id: UserId,
+
+  // New in FL 118.
+  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
+  //   only present if topic was changed.
+  topic?: number,
+
+  user_id: UserId | null,
 |}>;
 
 /** A user, as seen in the `display_recipient` of a PM `Message`. */
@@ -658,6 +677,7 @@ type MessageBase = $ReadOnly<{|
   //
   // Properties on `event.message` in `message` events. Order follows the
   // doc: https://zulip.com/api/get-events#message
+  // See comment on Message for how up-to-date these are.
   //
 
   /**
@@ -697,6 +717,8 @@ type MessageBase = $ReadOnly<{|
   // subject handled on StreamMessage
 
   /** Servers <1.9.0 omit this; when omitted, equivalent to empty array. */
+  // The doc is wrong to say this is (string)[]; see
+  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60.2Esubmessages.60.20on.20message.20objects/near/1389473
   // TODO(server-1.9): Make required.
   submessages?: $ReadOnlyArray<Submessage>,
 
@@ -802,6 +824,7 @@ export type StreamMessage = $ReadOnly<{|
   // want in our internal model to canonicalize it to the newest form (with
   // the name topic_links rather than subject_links, and newest type.)
   // TODO(server-4.0): Changed in feat. 46 to array-of-objects shape, from $ReadOnlyArray<string>
+  // TODO(server-3.0): New in FL 1, replacing subject_links.
   topic_links?: $ReadOnlyArray<{| +text: string, +url: string |}> | $ReadOnlyArray<string>,
 
   // TODO(server-3.0): Replaced in feat. 1 by topic_links
@@ -817,10 +840,6 @@ export type StreamMessage = $ReadOnly<{|
  * this type may not quite represent that.  Any differences should
  * definitely be commented, and perhaps refactored.
  *
- * The server's behavior here is undocumented and the source is very
- * complex; this is naturally a place where a large fraction of all the
- * features of Zulip have to appear.
- *
  * Major appearances of this type include
  *  * `message: Message` on a server event of type `message`, and our
  *    `EVENT_NEW_MESSAGE` Redux action for the event;
@@ -828,28 +847,14 @@ export type StreamMessage = $ReadOnly<{|
  *    and our resulting `MESSAGE_FETCH_COMPLETE` Redux action;
  *  * `messages: Map<number, Message>` in our global Redux state.
  *
- * References include:
- *  * the two example events at https://zulip.com/api/get-events
- *  * `process_message_event` in zerver/tornado/event_queue.py; the call
- *    `client.add_event(user_event)` makes the final determination of what
- *    goes into the event, so `message_dict` is the final value of `message`
- *  * `MessageDict.wide_dict` and its helpers in zerver/lib/message.py;
- *    via `do_send_messages` in `zerver/lib/actions.py`, these supply most
- *    of the data ultimately handled by `process_message_event`
- *  * `messages_for_ids` and its helpers in zerver/lib/message.py; via
- *    `get_messages_backend`, these supply the data ultimately returned by
- *    `/messages`
- *  * the `Message` and `AbstractMessage` models in zerver/models.py, but
- *    with caution; many fields are adjusted between the DB row and the event
- *  * empirical study looking at Redux events logged [to the
- *    console](docs/howto/debugging.md).
- *
  * See also `Outbox`, which is deliberately similar so that we can use
  * the type `Message | Outbox` in many places.
  *
  * See also `MessagesState` for discussion of how we fetch and store message
  * data.
  */
+// Up-to-date with the `message` event doc to FL 132:
+//   https://zulip.com/api/get-events#message
 export type Message = PmMessage | StreamMessage;
 
 //
