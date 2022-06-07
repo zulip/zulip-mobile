@@ -10,14 +10,23 @@ import { EventTypes } from '../api/eventTypes';
 import { ensureUnreachable } from '../types';
 
 const initialState: SettingsState = {
+  //
+  // GlobalSettingsState
+  //
+
   language: 'en',
   theme: 'default',
+  browser: 'default',
+  experimentalFeaturesEnabled: false,
+  doNotMarkMessagesAsRead: false,
+
+  //
+  // PerAccountSettingsState
+  //
+
   offlineNotification: true,
   onlineNotification: true,
-  experimentalFeaturesEnabled: false,
   streamNotification: false,
-  browser: 'default',
-  doNotMarkMessagesAsRead: false,
 };
 
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
