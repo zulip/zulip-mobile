@@ -9,7 +9,7 @@ import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
-import styles, { createStyleSheet, BRAND_COLOR } from '../styles';
+import globalStyles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
@@ -52,6 +52,7 @@ export function UserItemRaw<
   const componentStyles = React.useMemo(
     () =>
       createStyleSheet({
+        wrapper: globalStyles.listItem,
         selectedRow: {
           backgroundColor: BRAND_COLOR,
         },
@@ -78,7 +79,7 @@ export function UserItemRaw<
 
   return (
     <Touchable onPress={onPress && handlePress}>
-      <View style={[styles.listItem, isSelected && componentStyles.selectedRow]}>
+      <View style={[componentStyles.wrapper, isSelected && componentStyles.selectedRow]}>
         <UserAvatarWithPresenceById
           size={48}
           userId={user.user_id}
