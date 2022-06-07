@@ -701,7 +701,11 @@ type MessageBase = $ReadOnly<{|
   sender_full_name: string,
   sender_id: UserId,
   sender_realm_str: string,
-  sender_short_name: string,
+
+  // Don't use. Likely removed everywhere in FL 26, but the changelog only
+  // mentions GET /messages: https://zulip.com/api/changelog#changes-in-zulip-31
+  // TODO(server-3.1): Remove.
+  sender_short_name?: string,
 
   /** Servers <1.9.0 omit this; when omitted, equivalent to empty array. */
   // TODO(server-1.9): Make required.

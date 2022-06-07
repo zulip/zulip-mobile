@@ -416,7 +416,6 @@ const messagePropertiesFromSender = (user: User) => {
     sender_full_name,
     sender_id,
     sender_realm_str: 'zulip',
-    sender_short_name: '',
   });
 };
 
