@@ -656,7 +656,7 @@ export type Submessage = $ReadOnly<{|
  */
 type MessageBase = $ReadOnly<{|
   /** Our own flag; if true, really type `Outbox`. */
-  isOutbox: false,
+  isOutbox?: false,
 
   /**
    * These don't appear in `message` events, but they appear in a `/message`

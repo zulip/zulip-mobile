@@ -128,9 +128,10 @@ const copyToClipboard = {
   title: 'Copy to clipboard',
   errorMessage: 'Failed to copy message to clipboard',
   action: async ({ _, auth, message }) => {
-    const rawMessage = message.isOutbox
-      ? message.markdownContent
-      : (await api.getRawMessageContent(auth, message.id)).raw_content;
+    const rawMessage =
+      message.isOutbox === true
+        ? message.markdownContent
+        : (await api.getRawMessageContent(auth, message.id)).raw_content;
     Clipboard.setString(rawMessage);
     showToast(_('Message copied'));
   },
@@ -140,7 +141,7 @@ const editMessage = {
   title: 'Edit message',
   errorMessage: 'Failed to edit message',
   action: async ({ message, startEditMessage, auth }) => {
-    if (message.isOutbox) {
+    if (message.isOutbox === true) {
       logging.warn('Attempted "Edit message" for outbox message');
       return;
     }
@@ -158,7 +159,7 @@ const deleteMessage = {
   title: 'Delete message',
   errorMessage: 'Failed to delete message',
   action: async ({ auth, message, dispatch }) => {
-    if (message.isOutbox) {
+    if (message.isOutbox === true) {
       dispatch(deleteOutboxMessage(message.timestamp));
     } else {
       await api.deleteMessage(auth, message.id);
@@ -546,7 +547,7 @@ export const constructMessageActionButtons = (args: {|
   const { ownUser, flags } = backgroundData;
   const buttons = [];
 
-  if (message.isOutbox) {
+  if (message.isOutbox === true) {
     buttons.push(copyToClipboard);
     buttons.push(shareMessage);
     buttons.push(deleteMessage);

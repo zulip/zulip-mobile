@@ -75,7 +75,7 @@ const messageBody = (
   const content = match_content ?? message.content;
   return template`\
 $!${processAlertWords(content, id, alertWords, flags)}
-$!${isOutbox ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
+$!${isOutbox === true ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
 $!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}`;
 };
