@@ -121,8 +121,7 @@ describe('getCanCreatePublicStreams', () => {
       invariant(newState !== undefined, 'expected newState');
 
       if (waitingPeriodPassed !== undefined) {
-        // TODO: Figure out how to jest.mock this or something instead.
-
+        // TODO(?): jest.mock getHasUserPassedWaitingPeriod instead (how?)
         const daysToAdd =
           getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2);
         jest.setSystemTime(Date.parse(getOwnUser(newState).date_joined) + daysToAdd * 86400_000);
@@ -206,8 +205,7 @@ describe('getCanCreatePrivateStreams', () => {
       invariant(newState !== undefined, 'expected newState');
 
       if (waitingPeriodPassed !== undefined) {
-        // TODO: Figure out how to jest.mock this or something instead.
-
+        // TODO(?): jest.mock getHasUserPassedWaitingPeriod instead (how?)
         const daysToAdd =
           getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2);
         jest.setSystemTime(Date.parse(getOwnUser(newState).date_joined) + daysToAdd * 86400_000);
