@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import addDays from 'date-fns/addDays';
 
 import { getOwnUser, tryGetActiveAccountState, getRealm } from '../selectors';
 import {
@@ -123,12 +122,10 @@ describe('getCanCreatePublicStreams', () => {
 
       if (waitingPeriodPassed !== undefined) {
         // TODO: Figure out how to jest.mock this or something instead.
-        jest.setSystemTime(
-          addDays(
-            new Date(getOwnUser(newState).date_joined),
-            getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2),
-          ),
-        );
+
+        const daysToAdd =
+          getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2);
+        jest.setSystemTime(Date.parse(getOwnUser(newState).date_joined) + daysToAdd * 86400_000);
       }
 
       expect(getCanCreatePublicStreams(newState)).toBe(expected);
@@ -210,12 +207,10 @@ describe('getCanCreatePrivateStreams', () => {
 
       if (waitingPeriodPassed !== undefined) {
         // TODO: Figure out how to jest.mock this or something instead.
-        jest.setSystemTime(
-          addDays(
-            new Date(getOwnUser(newState).date_joined),
-            getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2),
-          ),
-        );
+
+        const daysToAdd =
+          getRealm(newState).waitingPeriodThreshold + (waitingPeriodPassed ? 2 : -2);
+        jest.setSystemTime(Date.parse(getOwnUser(newState).date_joined) + daysToAdd * 86400_000);
       }
 
       expect(getCanCreatePrivateStreams(newState)).toBe(expected);
