@@ -6,9 +6,13 @@ import { View, Alert } from 'react-native';
 import type { Privacy } from './streamsActions';
 import { ensureUnreachable } from '../types';
 import { useSelector } from '../react-redux';
-import { getRealm, getOwnUser, getRealmUrl } from '../selectors';
+import { getRealm, getRealmUrl } from '../selectors';
 import { Role } from '../api/permissionsTypes';
-import { getCanCreateWebPublicStreams } from '../permissionSelectors';
+import {
+  getCanCreateWebPublicStreams,
+  getOwnUserRole,
+  roleIsAtLeast,
+} from '../permissionSelectors';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import Input from '../common/Input';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
@@ -66,7 +70,7 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
     name: realmName,
   } = useSelector(getRealm);
   const canCreateWebPublicStreams = useSelector(getCanCreateWebPublicStreams);
-  const { role } = useSelector(getOwnUser);
+  const ownUserRole = useSelector(getOwnUserRole);
   const realmUrl = useSelector(getRealmUrl);
 
   return useMemo(
@@ -93,18 +97,16 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                     //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
                     case 6: // CreateWebPublicStreamPolicy.Nobody
                       return {
-                        text:
-                          role === Role.Admin || role === Role.Owner
-                            ? '{realmName} does not allow anybody to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
-                            : '{realmName} does not allow anybody to make web-public streams.',
+                        text: roleIsAtLeast(ownUserRole, Role.Admin)
+                          ? '{realmName} does not allow anybody to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
+                          : '{realmName} does not allow anybody to make web-public streams.',
                         values: { realmName, realmUrl: realmUrl.toString() },
                       };
                     case 7: // CreateWebPublicStreamPolicy.OwnerOnly
                       return {
-                        text:
-                          role === Role.Admin
-                            ? '{realmName} only allows organization owners to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
-                            : '{realmName} only allows organization owners to make web-public streams.',
+                        text: roleIsAtLeast(ownUserRole, Role.Admin)
+                          ? '{realmName} only allows organization owners to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
+                          : '{realmName} only allows organization owners to make web-public streams.',
                         values: { realmName, realmUrl: realmUrl.toString() },
                       };
                     case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
@@ -127,10 +129,9 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                     }
                   }
                 })(),
-                learnMoreUrl:
-                  role === Role.Admin || role === Role.Owner
-                    ? new URL('/help/configure-who-can-create-streams', realmUrl)
-                    : undefined,
+                learnMoreUrl: roleIsAtLeast(ownUserRole, Role.Admin)
+                  ? new URL('/help/configure-who-can-create-streams', realmUrl)
+                  : undefined,
               },
             },
         {
@@ -177,7 +178,7 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
       enableSpectatorAccess,
       realmName,
       realmUrl,
-      role,
+      ownUserRole,
     ],
   );
 }
