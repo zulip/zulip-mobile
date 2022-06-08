@@ -15,7 +15,7 @@ import * as api from '../api';
 import { delay } from '../utils/async';
 import { streamNarrow } from '../utils/narrow';
 import { getAuth, getCanCreateStreams, getStreams } from '../selectors';
-import { doNarrow, navigateToCreateStream } from '../actions';
+import { doNarrow } from '../actions';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from '../streams/StreamItem';
 import { getSubscriptionsById } from './subscriptionSelectors';
@@ -79,7 +79,7 @@ export default function StreamListCard(props: Props): Node {
           text="Create new stream"
           onPress={() =>
             delay(() => {
-              navigation.dispatch(navigateToCreateStream());
+              navigation.push('create-stream');
             })
           }
         />

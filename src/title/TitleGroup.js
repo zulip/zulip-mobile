@@ -9,7 +9,6 @@ import { getMutedUsers, getOwnUserId } from '../selectors';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
 import styles, { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
-import { navigateToAccountDetails } from '../nav/navActions';
 import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
@@ -35,7 +34,7 @@ export default function TitleGroup(props: Props): Node {
         <View key={userId} style={componentStyles.titleAvatar}>
           <UserAvatarWithPresenceById
             onPress={() => {
-              navigation.dispatch(navigateToAccountDetails(userId));
+              navigation.push('account-details', { userId });
             }}
             size={32}
             userId={userId}

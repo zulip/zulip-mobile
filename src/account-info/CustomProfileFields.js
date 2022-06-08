@@ -15,7 +15,6 @@ import {
 } from '../users/userSelectors';
 import UserItem from '../users/UserItem';
 import { useNavigation } from '../react-navigation';
-import { navigateToAccountDetails } from '../nav/navActions';
 
 /* eslint-disable no-shadow */
 
@@ -30,7 +29,7 @@ function CustomProfileFieldUser(props: {| +userId: UserId |}): React.Node {
   const navigation = useNavigation();
   const onPress = React.useCallback(
     (user: UserOrBot) => {
-      navigation.dispatch(navigateToAccountDetails(user.user_id));
+      navigation.push('account-details', { userId: user.user_id });
     },
     [navigation],
   );

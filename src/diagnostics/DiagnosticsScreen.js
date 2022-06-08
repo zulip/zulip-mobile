@@ -11,12 +11,6 @@ import NestedNavRow from '../common/NestedNavRow';
 import OptionDivider from '../common/OptionDivider';
 import Screen from '../common/Screen';
 import ZulipText from '../common/ZulipText';
-import {
-  navigateToDebug,
-  navigateToStorage,
-  navigateToTiming,
-  navigateToVariables,
-} from '../actions';
 
 const styles = createStyleSheet({
   versionLabel: {
@@ -39,25 +33,25 @@ export default class DiagnosticsScreen extends PureComponent<Props> {
         <NestedNavRow
           label="Variables"
           onPress={() => {
-            this.props.navigation.dispatch(navigateToVariables());
+            this.props.navigation.push('variables');
           }}
         />
         <NestedNavRow
           label="Timing"
           onPress={() => {
-            this.props.navigation.dispatch(navigateToTiming());
+            this.props.navigation.push('timing');
           }}
         />
         <NestedNavRow
           label="Storage"
           onPress={() => {
-            this.props.navigation.dispatch(navigateToStorage());
+            this.props.navigation.push('storage');
           }}
         />
         <NestedNavRow
           label="Debug"
           onPress={() => {
-            this.props.navigation.dispatch(navigateToDebug());
+            this.props.navigation.push('debug');
           }}
         />
       </Screen>

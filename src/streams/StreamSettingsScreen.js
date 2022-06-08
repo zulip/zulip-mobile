@@ -14,7 +14,6 @@ import { getSettings } from '../directSelectors';
 import { getAuth, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
-import { navigateToEditStream, navigateToStreamSubscribers } from '../actions';
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
@@ -52,11 +51,11 @@ export default function StreamSettingsScreen(props: Props): Node {
   );
 
   const handlePressEdit = useCallback(() => {
-    navigation.dispatch(navigateToEditStream(stream.stream_id));
+    navigation.push('edit-stream', { streamId: stream.stream_id });
   }, [navigation, stream.stream_id]);
 
   const handlePressEditSubscribers = useCallback(() => {
-    navigation.dispatch(navigateToStreamSubscribers(stream.stream_id));
+    navigation.push('invite-users', { streamId: stream.stream_id });
   }, [navigation, stream.stream_id]);
 
   const handlePressSubscribe = useCallback(() => {

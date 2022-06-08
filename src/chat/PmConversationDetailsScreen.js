@@ -10,7 +10,6 @@ import type { UserOrBot } from '../types';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
 import Screen from '../common/Screen';
 import UserItem from '../users/UserItem';
-import { navigateToAccountDetails } from '../actions';
 import { getOwnUserId } from '../selectors';
 
 type Props = $ReadOnly<{|
@@ -25,7 +24,7 @@ export default function PmConversationDetailsScreen(props: Props): Node {
 
   const handlePress = useCallback(
     (user: UserOrBot) => {
-      navigation.dispatch(navigateToAccountDetails(user.user_id));
+      navigation.push('account-details', { userId: user.user_id });
     },
     [navigation],
   );

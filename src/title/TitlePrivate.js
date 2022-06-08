@@ -12,7 +12,6 @@ import ViewPlaceholder from '../common/ViewPlaceholder';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { tryGetUserForId } from '../users/userSelectors';
-import { navigateToAccountDetails } from '../nav/navActions';
 import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
@@ -40,7 +39,7 @@ export default function TitlePrivate(props: Props): Node {
         if (!user) {
           return;
         }
-        navigation.dispatch(navigateToAccountDetails(user.user_id));
+        navigation.push('account-details', { userId: user.user_id });
       }}
       style={componentStyles.outer}
     >

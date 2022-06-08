@@ -32,7 +32,7 @@ import ZulipButton from '../common/ZulipButton';
 import RealmInfo from './RealmInfo';
 import { encodeParamsForUrl } from '../utils/url';
 import * as webAuth from './webAuth';
-import { loginSuccess, navigateToDevAuth, navigateToPasswordAuth } from '../actions';
+import { loginSuccess } from '../actions';
 import IosCompliantAppleAuthButton from './IosCompliantAppleAuthButton';
 import { openLinkEmbedded } from '../utils/openLink';
 
@@ -251,18 +251,16 @@ class AuthScreenInner extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    this.props.navigation.dispatch(navigateToDevAuth({ realm: this.props.realm }));
+    this.props.navigation.push('dev-auth', { realm: this.props.realm });
   };
 
   handlePassword = () => {
     const { serverSettings } = this.props.route.params;
     const { realm } = this.props;
-    this.props.navigation.dispatch(
-      navigateToPasswordAuth({
-        realm,
-        requireEmailFormat: serverSettings.require_email_format_usernames,
-      }),
-    );
+    this.props.navigation.push('password-auth', {
+      realm,
+      requireEmailFormat: serverSettings.require_email_format_usernames,
+    });
   };
 
   handleNativeAppleAuth = async () => {

@@ -10,7 +10,7 @@ import { useDispatch } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import { TopTabButton, TopTabButtonGeneral } from '../nav/TopTabButton';
 import UnreadCards from '../unread/UnreadCards';
-import { doNarrow, navigateToSearch } from '../actions';
+import { doNarrow } from '../actions';
 import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import LoadingBanner from '../common/LoadingBanner';
@@ -62,7 +62,7 @@ export default function HomeScreen(props: Props): Node {
         <TopTabButton
           name="search"
           onPress={() => {
-            navigation.dispatch(navigateToSearch());
+            navigation.push('search-messages');
           }}
         />
       </View>

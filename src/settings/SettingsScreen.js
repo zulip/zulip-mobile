@@ -16,13 +16,7 @@ import {
   IconLanguage,
   IconMoreHorizontal,
 } from '../common/Icons';
-import {
-  setGlobalSettings,
-  navigateToNotifications,
-  navigateToLanguage,
-  navigateToDiagnostics,
-  navigateToLegal,
-} from '../actions';
+import { setGlobalSettings } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
 
 type Props = $ReadOnly<{|
@@ -64,28 +58,28 @@ export default function SettingsScreen(props: Props): Node {
         Icon={IconNotifications}
         label="Notifications"
         onPress={() => {
-          navigation.dispatch(navigateToNotifications());
+          navigation.push('notifications');
         }}
       />
       <NestedNavRow
         Icon={IconLanguage}
         label="Language"
         onPress={() => {
-          navigation.dispatch(navigateToLanguage());
+          navigation.push('language');
         }}
       />
       <NestedNavRow
         Icon={IconDiagnostics}
         label="Diagnostics"
         onPress={() => {
-          navigation.dispatch(navigateToDiagnostics());
+          navigation.push('diagnostics');
         }}
       />
       <NestedNavRow
         Icon={IconMoreHorizontal}
         label="Legal"
         onPress={() => {
-          navigation.dispatch(navigateToLegal());
+          navigation.push('legal');
         }}
       />
     </Screen>

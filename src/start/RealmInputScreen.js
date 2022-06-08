@@ -13,7 +13,6 @@ import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
-import { navigateToAuth } from '../actions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -60,7 +59,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
     });
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
-      this.props.navigation.dispatch(navigateToAuth(serverSettings));
+      this.props.navigation.push('auth', { serverSettings });
       Keyboard.dismiss();
     } catch (errorIllTyped) {
       const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470

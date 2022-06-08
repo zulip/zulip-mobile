@@ -17,13 +17,7 @@ import NavBarBackButton from './NavBarBackButton';
 import { getStreamColorForNarrow } from '../subscriptions/subscriptionSelectors';
 import { foregroundColorFromBackground } from '../utils/color';
 import { caseNarrowDefault, streamIdOfNarrow, streamNarrow } from '../utils/narrow';
-import {
-  navigateToStream,
-  navigateToAccountDetails,
-  navigateToPmConversationDetails,
-  navigateToTopicList,
-  doNarrow,
-} from '../actions';
+import { doNarrow } from '../actions';
 import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 import { useNavigation } from '../react-navigation';
@@ -42,7 +36,7 @@ function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Nod
       name="list"
       color={color}
       onPress={() => {
-        navigation.dispatch(navigateToTopicList(streamIdOfNarrow(narrow)));
+        navigation.push('topic-list', { streamId: streamIdOfNarrow(narrow) });
       }}
     />
   );
@@ -73,7 +67,7 @@ function InfoNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node
       name="info"
       color={color}
       onPress={() => {
-        navigation.dispatch(navigateToStream(streamIdOfNarrow(narrow)));
+        navigation.push('stream-settings', { streamId: streamIdOfNarrow(narrow) });
       }}
     />
   );
@@ -87,7 +81,7 @@ function InfoNavButtonPrivate(props: {| +color: string, +userId: UserId |}): Nod
       name="info"
       color={color}
       onPress={() => {
-        navigation.dispatch(navigateToAccountDetails(userId));
+        navigation.push('account-details', { userId });
       }}
     />
   );
@@ -101,7 +95,7 @@ function InfoNavButtonGroup(props: {| +color: string, +userIds: PmKeyRecipients 
       name="info"
       color={color}
       onPress={() => {
-        navigation.dispatch(navigateToPmConversationDetails(userIds));
+        navigation.push('pm-conversation-details', { recipients: userIds });
       }}
     />
   );

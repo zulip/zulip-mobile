@@ -10,18 +10,12 @@ import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
-import {
-  logout,
-  navigateToAccountPicker,
-  navigateToUserStatus,
-  navigateToSettings,
-} from '../actions';
+import { logout } from '../actions';
 import { tryStopNotifications } from '../notification/notifTokens';
 import AccountDetails from './AccountDetails';
 import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
 import { getIdentity } from '../account/accountsSelectors';
-import { navigateToAccountDetails } from '../nav/navActions';
 import { useNavigation } from '../react-navigation';
 
 const styles = createStyleSheet({
@@ -43,7 +37,7 @@ function SetStatusButton(props: {||}) {
       secondary
       text="Set a status"
       onPress={() => {
-        navigation.dispatch(navigateToUserStatus());
+        navigation.push('user-status');
       }}
     />
   );
@@ -57,7 +51,7 @@ function ProfileButton(props: {| +ownUserId: UserId |}) {
       secondary
       text="Full profile"
       onPress={() => {
-        navigation.dispatch(navigateToAccountDetails(props.ownUserId));
+        navigation.push('account-details', { userId: props.ownUserId });
       }}
     />
   );
@@ -71,7 +65,7 @@ function SettingsButton(props: {||}) {
       secondary
       text="Settings"
       onPress={() => {
-        navigation.dispatch(navigateToSettings());
+        navigation.push('settings');
       }}
     />
   );
@@ -85,7 +79,7 @@ function SwitchAccountButton(props: {||}) {
       secondary
       text="Switch account"
       onPress={() => {
-        navigation.dispatch(navigateToAccountPicker());
+        navigation.push('account-pick');
       }}
     />
   );

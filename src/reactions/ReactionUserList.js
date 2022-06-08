@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 
 import type { UserId, UserOrBot } from '../types';
 import UserItem from '../users/UserItem';
-import { navigateToAccountDetails } from '../actions';
 import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
@@ -30,7 +29,7 @@ export default function ReactionUserList(props: Props): Node {
           key={item}
           userId={item}
           onPress={(user: UserOrBot) => {
-            navigation.dispatch(navigateToAccountDetails(user.user_id));
+            navigation.push('account-details', { userId: user.user_id });
           }}
         />
       )}

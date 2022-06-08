@@ -14,7 +14,6 @@ import LoadingBanner from '../common/LoadingBanner';
 import { IconPeople, IconPerson } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
-import { navigateToCreateGroup, navigateToUsersScreen } from '../actions';
 
 const styles = createStyleSheet({
   container: {
@@ -57,7 +56,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New PM"
           onPress={() => {
-            setTimeout(() => navigation.dispatch(navigateToUsersScreen()));
+            setTimeout(() => navigation.push('users'));
           }}
         />
         <ZulipButton
@@ -66,7 +65,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New group PM"
           onPress={() => {
-            setTimeout(() => navigation.dispatch(navigateToCreateGroup()));
+            setTimeout(() => navigation.push('create-group'));
           }}
         />
       </View>

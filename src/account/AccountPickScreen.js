@@ -16,12 +16,7 @@ import Logo from '../common/Logo';
 import Screen from '../common/Screen';
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountList from './AccountList';
-import {
-  navigateToRealmInputScreen,
-  accountSwitch,
-  removeAccount,
-  navigateToAuth,
-} from '../actions';
+import { accountSwitch, removeAccount } from '../actions';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import { showErrorAlert } from '../utils/info';
 
@@ -46,7 +41,7 @@ export default function AccountPickScreen(props: Props): Node {
       } else {
         try {
           const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
-          navigation.dispatch(navigateToAuth(serverSettings));
+          navigation.push('auth', { serverSettings });
         } catch {
           // TODO: show specific error message from error object
           showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
@@ -100,7 +95,7 @@ export default function AccountPickScreen(props: Props): Node {
         <ZulipButton
           text="Add new account"
           onPress={() => {
-            navigation.dispatch(navigateToRealmInputScreen());
+            navigation.push('realm-input', { initial: undefined });
           }}
         />
       </Centerer>
