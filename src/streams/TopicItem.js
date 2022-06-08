@@ -24,6 +24,7 @@ import {
 } from '../selectors';
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
+import { getOwnUserRole } from '../permissionSelectors';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -76,6 +77,7 @@ export default function TopicItem(props: Props): Node {
     subscriptions: getSubscriptionsById(state),
     unread: getUnread(state),
     ownUser: getOwnUser(state),
+    ownUserRole: getOwnUserRole(state),
     flags: getFlags(state),
     zulipFeatureLevel: getZulipFeatureLevel(state),
   }));

@@ -35,6 +35,8 @@ import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getUserStatuses } from '../user-statuses/userStatusesModel';
 import { type UserStatusesState } from '../user-statuses/userStatusesCore';
+import { type RoleT } from '../api/permissionsTypes';
+import { getOwnUserRole } from '../permissionSelectors';
 
 /**
  * Data about the user, the realm, and all known messages.
@@ -56,6 +58,7 @@ export type BackgroundData = $ReadOnly<{|
   allUsersById: Map<UserId, UserOrBot>,
   mutedUsers: MutedUsersState,
   ownUser: User,
+  ownUserRole: RoleT,
   streams: Map<number, Stream>,
   subscriptions: Map<number, Subscription>,
   unread: UnreadState,
@@ -86,6 +89,7 @@ export const getBackgroundData = (
   allUsersById: getAllUsersById(state),
   mutedUsers: getMutedUsers(state),
   ownUser: getOwnUser(state),
+  ownUserRole: getOwnUserRole(state),
   streams: getStreamsById(state),
   subscriptions: getSubscriptionsById(state),
   unread: getUnread(state),

@@ -26,6 +26,7 @@ import { getMute } from '../mute/muteModel';
 import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
+import { getOwnUserRole } from '../permissionSelectors';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
@@ -57,6 +58,7 @@ export default function TitleStream(props: Props): Node {
     subscriptions: getSubscriptionsById(state),
     unread: getUnread(state),
     ownUser: getOwnUser(state),
+    ownUserRole: getOwnUserRole(state),
     flags: getFlags(state),
     userSettingStreamNotification: getSettings(state).streamNotification,
     zulipFeatureLevel: getZulipFeatureLevel(state),

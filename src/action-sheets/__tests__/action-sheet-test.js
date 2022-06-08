@@ -11,6 +11,7 @@ import {
 } from '../index';
 import { makeUnreadState } from '../../unread/__tests__/unread-testlib';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
+import { Role } from '../../api/permissionsTypes';
 
 const buttonTitles = buttons => buttons.map(button => button.title);
 
@@ -102,13 +103,13 @@ describe('constructTopicActionButtons', () => {
   });
 
   test('show deleteTopic', () => {
-    const ownUser = { ...eg.selfUser, is_admin: true };
-    expect(titles({ ...eg.plusBackgroundData, ownUser })).toContain('Delete topic');
+    expect(titles({ ...eg.plusBackgroundData, ownUserRole: Role.Admin })).toContain('Delete topic');
   });
 
   test('hide deleteTopic', () => {
-    const ownUser = { ...eg.selfUser, is_admin: false };
-    expect(titles({ ...eg.plusBackgroundData, ownUser })).not.toContain('Delete topic');
+    expect(titles({ ...eg.plusBackgroundData, ownUserRole: Role.Member })).not.toContain(
+      'Delete topic',
+    );
   });
 
   test('show unmuteStream', () => {

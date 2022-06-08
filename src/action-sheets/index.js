@@ -49,6 +49,8 @@ import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
 import { getStreamTopicUrl, getStreamUrl } from '../utils/internalLinks';
 import { reactionTypeFromEmojiType } from '../emoji/data';
+import { Role, type RoleT } from '../api/permissionsTypes';
+import { roleIsAtLeast } from '../permissionSelectors';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -479,7 +481,7 @@ export const constructStreamActionButtons = (args: {|
 export const constructTopicActionButtons = (args: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
-    ownUser: User,
+    ownUserRole: RoleT,
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ...
@@ -488,7 +490,7 @@ export const constructTopicActionButtons = (args: {|
   topic: string,
 |}): Button<TopicArgs>[] => {
   const { backgroundData, streamId, topic } = args;
-  const { mute, ownUser, subscriptions, unread } = backgroundData;
+  const { mute, ownUserRole, subscriptions, unread } = backgroundData;
 
   const buttons = [];
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
@@ -505,8 +507,7 @@ export const constructTopicActionButtons = (args: {|
   } else {
     buttons.push(unresolveTopic);
   }
-  // $FlowFixMe[cannot-read]: We'll fix this soon.
-  if (ownUser.is_admin) {
+  if (roleIsAtLeast(ownUserRole, Role.Admin)) {
     buttons.push(deleteTopic);
   }
   const sub = subscriptions.get(streamId);
@@ -666,6 +667,7 @@ export const showTopicActionSheet = (args: {|
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
+    ownUserRole: RoleT,
     zulipFeatureLevel: number,
     ...
   }>,
