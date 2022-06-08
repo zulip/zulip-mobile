@@ -109,53 +109,62 @@ check_no_uncommitted_changes()
     fi
 }
 
+run_on_package()
+{
+    # TODO(tsflower): put all this into a tsflower command
+    local package="$1"
+    local src="${rootdir}"/node_modules/"${package}"
+    local dest="${rootdir}"/types/"${package}"
+
+    rm -f "${dest}"/**/*.js.flow
+
+    "${bindir}"/tsflower tree "${src}" "${dest}"
+
+    local index="${dest}"/index.js.flow
+    if ! [ -e "${index}" ]; then
+        local typeref
+        typeref=$(jq .types -r "${src}"/package.json)
+        local at="@"
+        echo >"${index}" "\
+/* ${at}flow
+ * ${at}generated
+ */
+export * from './${typeref%.d.ts}.js.flow';"
+    fi
+}
+
+format_dir()
+{
+    local dir="$1"
+    "${bindir}"/prettier-eslint --write --log-level silent \
+        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
+        -- "${dir}"/**/*.js.flow
+}
+
 run_only()
 {
     local package
-    local at="@"
     # TODO get list of packages from data... better yet, make it
     #   one tsflower command, reading a TsFlower config file
 
     package=react-native-safe-area-context
-    rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
-    "${bindir}"/tsflower tree {node_modules,types}/"${package}"
-    echo >"${rootdir}"/types/"${package}"/index.js.flow "\
-/* ${at}flow
- * ${at}generated
- */
-export * from './lib/typescript/src/index.js.flow';"
-    "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
-        -- types/"${package}"/**/*.js.flow
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
 
     for package in @react-navigation/{routers,core,native,stack,bottom-tabs,material-top-tabs}; do
-        # TODO(tsflower): make this whole loop body one command (well,
-        #   not deleting node_modules, but skipping it in the first place)
-        rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
-        "${bindir}"/tsflower tree {node_modules,types}/"${package}"
+        run_on_package "${package}"
+        # TODO(tsflower): skip node_modules when acting on package,
+        #   so we don't have to delete it here
         rm -rf "${rootdir}"/types/"${package}"/node_modules/
-        echo >"${rootdir}"/types/"${package}"/index.js.flow "\
-/* ${at}flow
- * ${at}generated
- */
-export * from './lib/typescript/src/index.js.flow';"
     done
-    "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
-        -- types/@react-navigation/**/*.js.flow
+    format_dir "${rootdir}"/types/@react-navigation
 
     package=react-native-tab-view
-    rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
-    "${bindir}"/tsflower tree {node_modules,types}/"${package}"
-    echo >"${rootdir}"/types/"${package}"/index.js.flow "\
-/* ${at}flow
- * ${at}generated
- */
-export * from './lib/typescript/src/index.js.flow';"
+    run_on_package "${package}"
+    # TODO: Send r-n-tab-view a .npmignore patch to stop shipping this directory.
+    #   Also perhaps give TsFlower a way to tell it things to skip.
     rm -rf "${rootdir}"/types/"${package}"/lib/typescript/example/
-    "${bindir}"/prettier-eslint --write --log-level silent \
-        --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
-        -- types/"${package}"/**/*.js.flow
+    format_dir "${rootdir}"/types/"${package}"
 }
 
 apply_patches()
