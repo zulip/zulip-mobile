@@ -62,6 +62,7 @@ export type BackgroundData = $ReadOnly<{|
   theme: ThemeName,
   twentyFourHourTime: boolean,
   userSettingStreamNotification: boolean,
+  displayEmojiReactionUsers: boolean,
   userStatuses: UserStatusesState,
   zulipFeatureLevel: number,
 |}>;
@@ -91,6 +92,7 @@ export const getBackgroundData = (
   theme: globalSettings.theme,
   twentyFourHourTime: getRealm(state).twentyFourHourTime,
   userSettingStreamNotification: getSettings(state).streamNotification,
+  displayEmojiReactionUsers: getSettings(state).displayEmojiReactionUsers,
   userStatuses: getUserStatuses(state),
   zulipFeatureLevel: getZulipFeatureLevel(state),
 });
