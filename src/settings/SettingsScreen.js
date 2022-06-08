@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
-import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
@@ -27,7 +27,7 @@ import {
 import { shouldUseInAppBrowser } from '../utils/openLink';
 
 type Props = $ReadOnly<{|
-  navigation: MainTabsNavigationProp<'settings'>,
+  navigation: AppNavigationProp<'settings'>,
   route: RouteProp<'settings', void>,
 |}>;
 
