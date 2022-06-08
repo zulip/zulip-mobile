@@ -41,10 +41,11 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 };
 
 const messageReactionAsHtml = (
+  backgroundData: BackgroundData,
   reaction: AggregatedReaction,
-  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
-): string =>
-  template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
+): string => {
+  const { allImageEmojiById } = backgroundData;
+  return template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
         data-name="${reaction.name}"
         data-code="${reaction.code}"
         data-type="${reaction.type}">$!${
@@ -52,32 +53,32 @@ const messageReactionAsHtml = (
       ? template`<img src="${allImageEmojiById[reaction.code].source_url}"/>`
       : codeToEmojiMap[reaction.code]
   }&nbsp;${reaction.count}</span>`;
+};
 
 const messageReactionListAsHtml = (
+  backgroundData: BackgroundData,
   reactions: $ReadOnlyArray<Reaction>,
-  ownUserId: UserId,
-  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
 ): string => {
+  const { ownUser } = backgroundData;
+
   if (reactions.length === 0) {
     return '';
   }
-  const htmlList = aggregateReactions(reactions, ownUserId).map(r =>
-    messageReactionAsHtml(r, allImageEmojiById),
+  const htmlList = aggregateReactions(reactions, ownUser.user_id).map(r =>
+    messageReactionAsHtml(backgroundData, r),
   );
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
-const messageBody = (
-  { alertWords, flags, ownUser, allImageEmojiById }: BackgroundData,
-  message: Message | Outbox,
-) => {
+const messageBody = (backgroundData: BackgroundData, message: Message | Outbox) => {
+  const { alertWords, flags } = backgroundData;
   const { id, isOutbox, last_edit_timestamp, match_content, reactions } = (message: MessageLike);
   const content = match_content ?? message.content;
   return template`\
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox === true ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(reactions, ownUser.user_id, allImageEmojiById)}`;
+$!${messageReactionListAsHtml(backgroundData, reactions)}`;
 };
 
 /**
