@@ -4,7 +4,6 @@ import React from 'react';
 import type { Node } from 'react';
 import { Text, View } from 'react-native';
 
-import * as NavigationService from '../nav/NavigationService';
 import type { UserId } from '../types';
 import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
@@ -14,6 +13,7 @@ import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { tryGetUserForId } from '../users/userSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
+import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
   userId: UserId,
@@ -29,6 +29,7 @@ const componentStyles = createStyleSheet({
 export default function TitlePrivate(props: Props): Node {
   const { userId, color } = props;
   const user = useSelector(state => tryGetUserForId(state, userId));
+  const navigation = useNavigation();
   if (!user) {
     return null;
   }
@@ -39,7 +40,7 @@ export default function TitlePrivate(props: Props): Node {
         if (!user) {
           return;
         }
-        NavigationService.dispatch(navigateToAccountDetails(user.user_id));
+        navigation.dispatch(navigateToAccountDetails(user.user_id));
       }}
       style={componentStyles.outer}
     >

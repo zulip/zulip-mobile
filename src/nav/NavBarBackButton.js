@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 
 import { navigateBack } from '../actions';
 import NavButton from './NavButton';
-import * as NavigationService from './NavigationService';
+import { useNavigation } from '../react-navigation';
 
 /**
  * The button for the start of the app bar, to return to previous screen.
@@ -26,13 +26,14 @@ export default function NavBarBackButton(props: {| +color?: string |}): Node {
   const { color } = props;
   const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
 
+  const navigation = useNavigation();
   return (
     <NavButton
       name={iconName}
       accessibilityLabel="Navigate up"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateBack());
+        navigation.dispatch(navigateBack());
       }}
     />
   );

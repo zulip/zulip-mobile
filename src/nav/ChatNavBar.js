@@ -24,12 +24,13 @@ import {
   navigateToTopicList,
   doNarrow,
 } from '../actions';
-import * as NavigationService from './NavigationService';
 import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
+import { useNavigation } from '../react-navigation';
 
 function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
+  const navigation = useNavigation();
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   if (!isNarrowValid) {
@@ -41,7 +42,7 @@ function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Nod
       name="list"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateToTopicList(streamIdOfNarrow(narrow)));
+        navigation.dispatch(navigateToTopicList(streamIdOfNarrow(narrow)));
       }}
     />
   );
@@ -60,6 +61,7 @@ function ExtraNavButtonTopic(props: {| +color: string, +narrow: Narrow |}): Node
 
 function InfoNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
+  const navigation = useNavigation();
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   if (!isNarrowValid) {
@@ -71,7 +73,7 @@ function InfoNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node
       name="info"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateToStream(streamIdOfNarrow(narrow)));
+        navigation.dispatch(navigateToStream(streamIdOfNarrow(narrow)));
       }}
     />
   );
@@ -79,12 +81,13 @@ function InfoNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node
 
 function InfoNavButtonPrivate(props: {| +color: string, +userId: UserId |}): Node {
   const { color, userId } = props;
+  const navigation = useNavigation();
   return (
     <NavButton
       name="info"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateToAccountDetails(userId));
+        navigation.dispatch(navigateToAccountDetails(userId));
       }}
     />
   );
@@ -92,12 +95,13 @@ function InfoNavButtonPrivate(props: {| +color: string, +userId: UserId |}): Nod
 
 function InfoNavButtonGroup(props: {| +color: string, +userIds: PmKeyRecipients |}): Node {
   const { color, userIds } = props;
+  const navigation = useNavigation();
   return (
     <NavButton
       name="info"
       color={color}
       onPress={() => {
-        NavigationService.dispatch(navigateToPmConversationDetails(userIds));
+        navigation.dispatch(navigateToPmConversationDetails(userIds));
       }}
     />
   );

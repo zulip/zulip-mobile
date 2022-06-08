@@ -8,7 +8,6 @@ import PhotoView from 'react-native-photo-view';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
-import * as NavigationService from '../nav/NavigationService';
 import type { Message } from '../types';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
@@ -21,6 +20,7 @@ import { createStyleSheet } from '../styles';
 import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import ZulipStatusBar from '../common/ZulipStatusBar';
+import { useNavigation } from '../react-navigation';
 
 const styles = createStyleSheet({
   img: {
@@ -46,6 +46,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function Lightbox(props: Props): Node {
+  const navigation = useNavigation();
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
@@ -102,7 +103,7 @@ export default function Lightbox(props: Props): Node {
         >
           <LightboxHeader
             onPressBack={() => {
-              NavigationService.dispatch(navigateBack());
+              navigation.dispatch(navigateBack());
             }}
             timestamp={message.timestamp}
             avatarUrl={message.avatar_url}

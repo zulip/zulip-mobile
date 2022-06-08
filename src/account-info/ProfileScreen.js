@@ -7,7 +7,6 @@ import { type UserId } from '../api/idTypes';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
-import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
@@ -23,6 +22,7 @@ import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { navigateToAccountDetails } from '../nav/navActions';
+import { useNavigation } from '../react-navigation';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -36,52 +36,56 @@ const styles = createStyleSheet({
 });
 
 function SetStatusButton(props: {||}) {
+  const navigation = useNavigation();
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Set a status"
       onPress={() => {
-        NavigationService.dispatch(navigateToUserStatus());
+        navigation.dispatch(navigateToUserStatus());
       }}
     />
   );
 }
 
 function ProfileButton(props: {| +ownUserId: UserId |}) {
+  const navigation = useNavigation();
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Full profile"
       onPress={() => {
-        NavigationService.dispatch(navigateToAccountDetails(props.ownUserId));
+        navigation.dispatch(navigateToAccountDetails(props.ownUserId));
       }}
     />
   );
 }
 
 function SettingsButton(props: {||}) {
+  const navigation = useNavigation();
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Settings"
       onPress={() => {
-        NavigationService.dispatch(navigateToSettings());
+        navigation.dispatch(navigateToSettings());
       }}
     />
   );
 }
 
 function SwitchAccountButton(props: {||}) {
+  const navigation = useNavigation();
   return (
     <ZulipButton
       style={styles.button}
       secondary
       text="Switch account"
       onPress={() => {
-        NavigationService.dispatch(navigateToAccountPicker());
+        navigation.dispatch(navigateToAccountPicker());
       }}
     />
   );

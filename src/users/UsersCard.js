@@ -3,13 +3,13 @@
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
 
-import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { pm1to1NarrowFromUser } from '../utils/narrow';
 import UserList from './UserList';
 import { getUsers, getPresence } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
+import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
   filter: string,
@@ -21,12 +21,13 @@ export default function UsersCard(props: Props): Node {
   const users = useSelector(getUsers);
   const presences = useSelector(getPresence);
 
+  const navigation = useNavigation();
   const handleUserNarrow = useCallback(
     (user: UserOrBot) => {
-      NavigationService.dispatch(navigateBack());
+      navigation.dispatch(navigateBack());
       dispatch(doNarrow(pm1to1NarrowFromUser(user)));
     },
-    [dispatch],
+    [dispatch, navigation],
   );
 
   return (

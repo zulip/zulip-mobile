@@ -8,7 +8,6 @@ import * as api from '../api';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useGlobalSelector, useGlobalDispatch } from '../react-redux';
 import { getAccountStatuses } from '../selectors';
 import Centerer from '../common/Centerer';
@@ -47,14 +46,14 @@ export default function AccountPickScreen(props: Props): Node {
       } else {
         try {
           const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
-          NavigationService.dispatch(navigateToAuth(serverSettings));
+          navigation.dispatch(navigateToAuth(serverSettings));
         } catch {
           // TODO: show specific error message from error object
           showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
         }
       }
     },
-    [accounts, _, dispatch],
+    [accounts, dispatch, navigation, _],
   );
 
   const handleAccountRemove = useCallback(
@@ -101,7 +100,7 @@ export default function AccountPickScreen(props: Props): Node {
         <ZulipButton
           text="Add new account"
           onPress={() => {
-            NavigationService.dispatch(navigateToRealmInputScreen());
+            navigation.dispatch(navigateToRealmInputScreen());
           }}
         />
       </Centerer>

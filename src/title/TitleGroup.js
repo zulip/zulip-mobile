@@ -6,11 +6,11 @@ import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
 import { getMutedUsers, getOwnUserId } from '../selectors';
-import * as NavigationService from '../nav/NavigationService';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
 import styles, { createStyleSheet } from '../styles';
 import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { navigateToAccountDetails } from '../nav/navActions';
+import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
   recipients: PmKeyRecipients,
@@ -27,6 +27,7 @@ export default function TitleGroup(props: Props): Node {
   const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);
   const userIds = pmUiRecipientsFromKeyRecipients(recipients, ownUserId);
+  const navigation = useNavigation();
 
   return (
     <View style={styles.navWrapper}>
@@ -34,7 +35,7 @@ export default function TitleGroup(props: Props): Node {
         <View key={userId} style={componentStyles.titleAvatar}>
           <UserAvatarWithPresenceById
             onPress={() => {
-              NavigationService.dispatch(navigateToAccountDetails(userId));
+              navigation.dispatch(navigateToAccountDetails(userId));
             }}
             size={32}
             userId={userId}
