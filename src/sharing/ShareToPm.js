@@ -97,6 +97,7 @@ export default class ShareToPm extends React.Component<Props, State> {
 
     return (
       <ShareWrapper
+        navigation={this.props.navigation}
         getValidationErrors={this.getValidationErrors}
         sharedData={sharedData}
         sendTo={sendTo}

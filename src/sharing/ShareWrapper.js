@@ -13,7 +13,6 @@ import Input from '../common/Input';
 import ZulipButton from '../common/ZulipButton';
 import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import { TranslationContext } from '../boot/TranslationProvider';
-import * as NavigationService from '../nav/NavigationService';
 import { navigateBack, replaceWithChat } from '../nav/navActions';
 import { showToast, showErrorAlert } from '../utils/info';
 import { getAuth, getOwnUserId } from '../selectors';
@@ -22,6 +21,7 @@ import { streamNarrow, pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { ensureUnreachable } from '../generics';
 import { IconAttachment, IconCancel } from '../common/Icons';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -69,6 +69,7 @@ export type ValidationError =
   | 'message-empty';
 
 type OuterProps = $ReadOnly<{|
+  navigation: AppNavigationMethods,
   children: Node,
   getValidationErrors: (message: string) => $ReadOnlyArray<ValidationError>,
   sendTo: SendTo,
@@ -198,7 +199,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
     // it from its parameter (just like `onShareSuccess` does) and not from
     // the props.  That's because the props may have changed since the
     // actual send request we just made.
-    NavigationService.dispatch(navigateBack());
+    this.props.navigation.dispatch(navigateBack());
   };
 
   onShareSuccess = sendTo => {
@@ -208,14 +209,14 @@ class ShareWrapperInner extends React.Component<Props, State> {
         const { ownUserId } = this.props;
         const recipients = pmKeyRecipientsFromIds(selectedRecipients, ownUserId);
         const narrow = pmNarrowFromRecipients(recipients);
-        NavigationService.dispatch(replaceWithChat(narrow));
+        this.props.navigation.dispatch(replaceWithChat(narrow));
         break;
       }
 
       case 'stream': {
         const { streamId } = sendTo;
         const narrow = streamNarrow(streamId);
-        NavigationService.dispatch(replaceWithChat(narrow));
+        this.props.navigation.dispatch(replaceWithChat(narrow));
         break;
       }
 

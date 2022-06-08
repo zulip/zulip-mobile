@@ -18,7 +18,6 @@ import { fetchTopicsForStream } from '../topics/topicActions';
 import ShareWrapper from './ShareWrapper';
 
 type OuterProps = $ReadOnly<{|
-  // These should be passed from React Navigation
   navigation: SharingNavigationProp<'share-to-stream'>,
   route: RouteProp<'share-to-stream', {| sharedData: SharedData |}>,
 |}>;
@@ -157,6 +156,7 @@ class ShareToStreamInner extends React.Component<Props, State> {
 
     return (
       <ShareWrapper
+        navigation={this.props.navigation}
         sharedData={sharedData}
         getValidationErrors={this.getValidationErrors}
         sendTo={sendTo}
