@@ -10,7 +10,6 @@ import * as NavigationService from './NavigationService';
 import type { Message, Narrow, UserId, EmojiType } from '../types';
 import type { PmKeyRecipients } from '../utils/recipient';
 import type { SharedData } from '../sharing/types';
-import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 
 // TODO: Probably just do a StackActions.pop()?
 export const navigateBack = (): StackActionType => {
@@ -48,30 +47,9 @@ export const navigateToChat = (narrow: Narrow): NavigationAction =>
 export const replaceWithChat = (narrow: Narrow): NavigationAction =>
   StackActions.replace('chat', { narrow, editMessage: null });
 
-export const navigateToUsersScreen = (): NavigationAction => StackActions.push('users');
-
-export const navigateToSearch = (): NavigationAction => StackActions.push('search-messages');
-
 export const navigateToEmojiPicker = (
   onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,
 ): NavigationAction => StackActions.push('emoji-picker', { onPressEmoji });
-
-export const navigateToAuth = (serverSettings: ApiResponseServerSettings): NavigationAction =>
-  StackActions.push('auth', { serverSettings });
-
-export const navigateToDevAuth = (args: {| realm: URL |}): NavigationAction =>
-  StackActions.push('dev-auth', { realm: args.realm });
-
-export const navigateToPasswordAuth = (args: {|
-  realm: URL,
-  requireEmailFormat: boolean,
-|}): NavigationAction =>
-  StackActions.push('password-auth', {
-    realm: args.realm,
-    requireEmailFormat: args.requireEmailFormat,
-  });
-
-export const navigateToAccountPicker = (): NavigationAction => StackActions.push('account-pick');
 
 export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
   StackActions.push('account-details', { userId });
@@ -79,52 +57,16 @@ export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
 export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): NavigationAction =>
   StackActions.push('pm-conversation-details', { recipients });
 
-export const navigateToRealmInputScreen = (): NavigationAction =>
-  StackActions.push('realm-input', { initial: undefined });
-
 export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
   StackActions.push('lightbox', { src, message });
 
-export const navigateToLanguage = (): NavigationAction => StackActions.push('language');
-
-export const navigateToCreateGroup = (): NavigationAction => StackActions.push('create-group');
-
-export const navigateToDiagnostics = (): NavigationAction => StackActions.push('diagnostics');
-
-export const navigateToVariables = (): NavigationAction => StackActions.push('variables');
-
-export const navigateToTiming = (): NavigationAction => StackActions.push('timing');
-
-export const navigateToStorage = (): NavigationAction => StackActions.push('storage');
-
-export const navigateToDebug = (): NavigationAction => StackActions.push('debug');
-
 export const navigateToStream = (streamId: number): NavigationAction =>
   StackActions.push('stream-settings', { streamId });
-
-export const navigateToTopicList = (streamId: number): NavigationAction =>
-  StackActions.push('topic-list', { streamId });
-
-export const navigateToCreateStream = (): NavigationAction => StackActions.push('create-stream');
-
-export const navigateToEditStream = (streamId: number): NavigationAction =>
-  StackActions.push('edit-stream', { streamId });
-
-export const navigateToStreamSubscribers = (streamId: number): NavigationAction =>
-  StackActions.push('invite-users', { streamId });
-
-export const navigateToNotifications = (): NavigationAction => StackActions.push('notifications');
 
 export const navigateToMessageReactionScreen = (
   messageId: number,
   reactionName?: string,
 ): NavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
 
-export const navigateToLegal = (): NavigationAction => StackActions.push('legal');
-
-export const navigateToUserStatus = (): NavigationAction => StackActions.push('user-status');
-
 export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
   StackActions.push('sharing', { sharedData });
-
-export const navigateToSettings = (): NavigationAction => StackActions.push('settings');
