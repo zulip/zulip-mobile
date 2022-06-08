@@ -5,7 +5,6 @@ import { Keyboard } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
 import ErrorMsg from '../common/ErrorMsg';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -61,7 +60,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
     });
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
-      NavigationService.dispatch(navigateToAuth(serverSettings));
+      this.props.navigation.dispatch(navigateToAuth(serverSettings));
       Keyboard.dismiss();
     } catch (errorIllTyped) {
       const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470

@@ -6,7 +6,6 @@ import { nativeApplicationVersion } from 'expo-application';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import NestedNavRow from '../common/NestedNavRow';
 import OptionDivider from '../common/OptionDivider';
@@ -40,25 +39,25 @@ export default class DiagnosticsScreen extends PureComponent<Props> {
         <NestedNavRow
           label="Variables"
           onPress={() => {
-            NavigationService.dispatch(navigateToVariables());
+            this.props.navigation.dispatch(navigateToVariables());
           }}
         />
         <NestedNavRow
           label="Timing"
           onPress={() => {
-            NavigationService.dispatch(navigateToTiming());
+            this.props.navigation.dispatch(navigateToTiming());
           }}
         />
         <NestedNavRow
           label="Storage"
           onPress={() => {
-            NavigationService.dispatch(navigateToStorage());
+            this.props.navigation.dispatch(navigateToStorage());
           }}
         />
         <NestedNavRow
           label="Debug"
           onPress={() => {
-            NavigationService.dispatch(navigateToDebug());
+            this.props.navigation.dispatch(navigateToDebug());
           }}
         />
       </Screen>

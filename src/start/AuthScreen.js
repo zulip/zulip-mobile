@@ -13,7 +13,6 @@ import type {
 } from '../api/settings/getServerSettings';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import isAppOwnDomain from '../isAppOwnDomain';
 import type { Dispatch } from '../types';
 import {
@@ -252,13 +251,13 @@ class AuthScreenInner extends PureComponent<Props> {
   };
 
   handleDevAuth = () => {
-    NavigationService.dispatch(navigateToDevAuth({ realm: this.props.realm }));
+    this.props.navigation.dispatch(navigateToDevAuth({ realm: this.props.realm }));
   };
 
   handlePassword = () => {
     const { serverSettings } = this.props.route.params;
     const { realm } = this.props;
-    NavigationService.dispatch(
+    this.props.navigation.dispatch(
       navigateToPasswordAuth({
         realm,
         requireEmailFormat: serverSettings.require_email_format_usernames,
