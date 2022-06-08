@@ -309,10 +309,16 @@ export type RealmState = {|
   //
 
   +canCreateStreams: boolean,
-  +isAdmin: boolean,
-  +isOwner: boolean,
-  +isModerator: boolean,
-  +isGuest: boolean,
+
+  // Deprecated; these don't have events to update them. Use getOwnUserRole,
+  // which uses the self-user's live-updating `role` property when
+  // available.
+  // TODO(server-4.0): Remove these and rely on self-user's `role`.
+  -isAdmin: boolean,
+  -isOwner: boolean,
+  -isModerator: boolean,
+  -isGuest: boolean,
+
   +user_id: UserId | void,
   +email: string | void,
   +crossRealmBots: $ReadOnlyArray<CrossRealmBot>,

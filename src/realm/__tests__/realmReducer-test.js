@@ -217,6 +217,12 @@ describe('realmReducer', () => {
   });
 
   describe('EVENT', () => {
+    // TODO(server-4.0): Remove when deprecated properties are removed
+    type ReadableRealmState = $Rest<
+      RealmState,
+      {| isOwner: mixed, isAdmin: mixed, isModerator: mixed, isGuest: mixed |},
+    >;
+
     describe('type `custom_profile_fields`', () => {
       const mkState = fields =>
         deepFreeze({ ...eg.plusReduxState.realm, customProfileFields: fields });
@@ -258,7 +264,7 @@ describe('realmReducer', () => {
     describe('type `user_settings`, op `update`', () => {
       const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
 
-      const mkCheck = <S: $Keys<RealmState>, E: $Keys<UserSettings>>(
+      const mkCheck = <S: $Keys<ReadableRealmState>, E: $Keys<UserSettings>>(
         statePropertyName: S,
         eventPropertyName: E,
       ): (($ElementType<RealmState, S>, $ElementType<UserSettings, E>) => void) => (
@@ -301,7 +307,7 @@ describe('realmReducer', () => {
     describe('type `realm`, op `update_dict`', () => {
       const eventCommon = { id: 0, type: EventTypes.realm, op: 'update_dict', property: 'default' };
 
-      const mkCheck = <S: $Keys<RealmState>, E: $Keys<RealmDataForUpdate>>(
+      const mkCheck = <S: $Keys<ReadableRealmState>, E: $Keys<RealmDataForUpdate>>(
         statePropertyName: S,
         eventPropertyName: E,
       ): (($ElementType<RealmState, S>, $ElementType<RealmDataForUpdate, E>) => void) => (

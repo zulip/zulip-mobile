@@ -21,6 +21,8 @@ export function getOwnUserRole(state: PerAccountState): RoleT {
   }
 
   // Servers don't send events to update these.
+  /* $FlowIgnore[cannot-read]: Write-only markers are so we don't read these
+     properties except for in this one spot, where we use them as a fallback. */
   const { isOwner, isAdmin, isModerator, isGuest } = getRealm(state);
 
   if (isOwner) {
