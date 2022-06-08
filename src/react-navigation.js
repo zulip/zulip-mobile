@@ -26,15 +26,9 @@ import type { AppNavigationMethods } from './nav/AppNavigator';
  * @param {RouteParams} - The type to use for `props.route.params`.
  */
 export type RouteProp<+RouteName: string, +RouteParams: { ... } | void> = {|
-  ...Route<RouteName>,
+  ...$Exact<Route<RouteName>>,
   +params: RouteParams,
-|} /* FlowIssue: This intersection seems redundant -- the first operand
-        should already be a subtype of the second.  But (once we switch to
-        react-navigation types generated from upstream) it fixes a bunch of
-        puzzling errors. */ & {
-  +params: RouteParams,
-  ...
-};
+|};
 
 /**
  * The type of the route params on the given screen component.
