@@ -1,4 +1,4 @@
 /* @flow
  * @generated
  */
-export * from './lib/typescript/src/index.js.flow';
+export * from './lib/typescript/index.js.flow';

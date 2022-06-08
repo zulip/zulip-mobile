@@ -13,14 +13,14 @@ TS references to `ReadonlyArray` to simply use the name
 `$ReadOnlyArray` directly, instead of using its general "subst"
 mechanism.
 ---
- .../lib/typescript/src/SafeArea.types.js.flow                  | 3 +--
+ .../lib/typescript/SafeArea.types.js.flow                      | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
-index f3c41af41..e31ab1a65 100644
---- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
-+++ types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
-@@ -9,7 +9,6 @@ import type {
+diff --git types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
+index c1d8cbafe..88ba6cc09 100644
+--- types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
+@@ -7,7 +7,6 @@ import type {
  } from 'tsflower/subst/react-native';
  
  import type { ReactNode as $tsflower_subst$React$ReactNode } from 'tsflower/subst/react';
@@ -28,14 +28,13 @@ index f3c41af41..e31ab1a65 100644
  import * as React from 'react';
  import 'react-native';
  export type Edge = 'top' | 'right' | 'bottom' | 'left';
-@@ -45,6 +44,6 @@ export interface NativeSafeAreaProviderProps {
- export type NativeSafeAreaViewProps = $tsflower_subst$RN$ViewProps & {
-   children?: $tsflower_subst$React$ReactNode,
-   mode?: 'padding' | 'margin',
--  edges?: ReadonlyArray<Edge>,
-+  edges?: $ReadOnlyArray<Edge>,
-   ...
- };
+@@ -42,5 +41,5 @@ export interface NativeSafeAreaProviderProps extends $tsflower_subst$RN$ViewProp
+ export interface NativeSafeAreaViewProps extends $tsflower_subst$RN$ViewProps {
+   children?: $tsflower_subst$React$ReactNode;
+   mode?: 'padding' | 'margin';
+-  edges?: ReadonlyArray<Edge>;
++  edges?: $ReadOnlyArray<Edge>;
+ }
 -- 
 2.32.0
 

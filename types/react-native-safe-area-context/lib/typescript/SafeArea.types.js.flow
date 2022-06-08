@@ -3,8 +3,6 @@
  */
 import type {
   NativeSyntheticEvent as $tsflower_subst$RN$NativeSyntheticEvent,
-  StyleProp as $tsflower_subst$RN$StyleProp,
-  ViewStyle as $tsflower_subst$RN$ViewStyle,
   ViewProps as $tsflower_subst$RN$ViewProps,
 } from 'tsflower/subst/react-native';
 
@@ -35,13 +33,15 @@ export interface Metrics {
 export type InsetChangedEvent = $tsflower_subst$RN$NativeSyntheticEvent<Metrics>;
 export type InsetChangeNativeCallback = (event: InsetChangedEvent) => void;
 
-export interface NativeSafeAreaProviderProps {
-  children?: $tsflower_subst$React$ReactNode;
-  style?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>;
-  onInsetsChange: InsetChangeNativeCallback;
-}
+export type NativeSafeAreaProviderProps = {
+  ...$tsflower_subst$RN$ViewProps,
+  children?: $tsflower_subst$React$ReactNode,
+  onInsetsChange: InsetChangeNativeCallback,
+  ...
+};
 
-export type NativeSafeAreaViewProps = $tsflower_subst$RN$ViewProps & {
+export type NativeSafeAreaViewProps = {
+  ...$tsflower_subst$RN$ViewProps,
   children?: $tsflower_subst$React$ReactNode,
   mode?: 'padding' | 'margin',
   edges?: $ReadOnlyArray<Edge>,

@@ -5,8 +5,6 @@ import { Platform, UIManager } from 'react-native';
 import 'react-native-url-polyfill/auto';
 // $FlowFixMe[untyped-import]
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-// $FlowFixMe[untyped-import]
-import { enableScreens } from 'react-native-screens';
 
 import RootErrorBoundary from './RootErrorBoundary';
 import ZulipNavigationContainer from './nav/ZulipNavigationContainer';
@@ -21,8 +19,6 @@ import { initializeSentry } from './sentry';
 import ZulipSafeAreaProvider from './boot/ZulipSafeAreaProvider';
 
 initializeSentry();
-
-enableScreens();
 
 // $FlowFixMe[prop-missing]
 console.disableYellowBox = true; // eslint-disable-line

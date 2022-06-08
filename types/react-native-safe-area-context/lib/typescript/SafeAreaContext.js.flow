@@ -11,31 +11,29 @@ import type {
   Consumer as $tsflower_subst$React$Consumer,
 } from 'tsflower/subst/react';
 
-import type {
-  StyleProp as $tsflower_subst$RN$StyleProp,
-  ViewStyle as $tsflower_subst$RN$ViewStyle,
-} from 'tsflower/subst/react-native';
-
+import type { ViewProps as $tsflower_subst$RN$ViewProps } from 'tsflower/subst/react-native';
 import * as React from 'react';
 import 'react-native';
 import { type EdgeInsets, type Metrics, type Rect } from './SafeArea.types';
 declare export var SafeAreaInsetsContext: $tsflower_subst$React$Context<EdgeInsets | null>;
 declare export var SafeAreaFrameContext: $tsflower_subst$React$Context<Rect | null>;
 
-export interface SafeAreaViewProps {
-  children?: $tsflower_subst$React$ReactNode;
-  initialMetrics?: Metrics | null;
-  initialSafeAreaInsets?: EdgeInsets | null;
-  style?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>;
-}
+export type SafeAreaProviderProps = {
+  ...$tsflower_subst$RN$ViewProps,
+  children?: $tsflower_subst$React$ReactNode,
+  initialMetrics?: Metrics | null,
+  initialSafeAreaInsets?: EdgeInsets | null,
+  ...
+};
 
-declare export function SafeAreaProvider(SafeAreaViewProps): $tsflower_subst$React$JSX$Element;
+declare export function SafeAreaProvider(SafeAreaProviderProps): $tsflower_subst$React$JSX$Element;
 declare export function useSafeAreaInsets(): EdgeInsets;
 declare export function useSafeAreaFrame(): Rect;
+export type WithSafeAreaInsetsProps = { insets: EdgeInsets, ... };
 declare export function withSafeAreaInsets<T>(
-  WrappedComponent: React.ComponentType<T>,
+  WrappedComponent: React.ComponentType<T & WithSafeAreaInsetsProps>,
 ): $tsflower_subst$React$ForwardRefExoticComponent<
-  $tsflower_subst$React$PropsWithoutRef<T> & $tsflower_subst$React$RefAttributes<T>,
+  $tsflower_subst$React$PropsWithoutRef<T> & $tsflower_subst$React$RefAttributes<mixed>,
 >;
 declare export function useSafeArea(): EdgeInsets;
 declare export var SafeAreaConsumer: $tsflower_subst$React$Consumer<EdgeInsets | null>;
