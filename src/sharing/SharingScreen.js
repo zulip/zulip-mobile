@@ -6,10 +6,8 @@ import {
   type MaterialTopTabNavigationProp,
 } from '@react-navigation/material-top-tabs';
 
-import type { GlobalParamList } from '../nav/globalTypes';
 import type { RouteParamsOf, RouteProp } from '../react-navigation';
-
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
@@ -30,9 +28,14 @@ export type SharingNavigatorParamList = {|
 
 export type SharingNavigationProp<
   +RouteName: $Keys<SharingNavigatorParamList> = $Keys<SharingNavigatorParamList>,
-> = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
+> =
+  // Screens on this navigator will get a `navigation` prop that reflects
+  // this navigator itself…
+  MaterialTopTabNavigationProp<SharingNavigatorParamList, RouteName> &
+    // … plus the methods it gets from its parent navigator.
+    AppNavigationMethods;
 
-const Tab = createMaterialTopTabNavigator<GlobalParamList>();
+const Tab = createMaterialTopTabNavigator<SharingNavigatorParamList>();
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'sharing'>,

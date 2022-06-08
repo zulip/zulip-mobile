@@ -10,8 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import { getUnreadHuddlesTotal, getUnreadPmsTotal } from '../selectors';
 import { useSelector } from '../react-redux';
-import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { GlobalParamList } from '../nav/globalTypes';
+import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigator';
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import StreamTabsScreen from './StreamTabsScreen';
@@ -31,10 +30,15 @@ export type MainTabsNavigatorParamList = {|
 
 export type MainTabsNavigationProp<
   +RouteName: $Keys<MainTabsNavigatorParamList> = $Keys<MainTabsNavigatorParamList>,
-> = BottomTabNavigationProp<GlobalParamList, RouteName>;
+> =
+  // Screens on this navigator will get a `navigation` prop that reflects
+  // this navigator itself…
+  BottomTabNavigationProp<MainTabsNavigatorParamList, RouteName> &
+    // … plus the methods it gets from its parent navigator.
+    AppNavigationMethods;
 
 const Tab = createBottomTabNavigator<
-  GlobalParamList,
+  MainTabsNavigatorParamList,
   MainTabsNavigatorParamList,
   MainTabsNavigationProp<>,
 >();

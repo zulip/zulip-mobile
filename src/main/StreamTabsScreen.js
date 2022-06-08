@@ -10,10 +10,10 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import { createStyleSheet } from '../styles';
 import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
-import type { GlobalParamList } from '../nav/globalTypes';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import SubscriptionsCard from '../streams/SubscriptionsCard';
 import StreamListCard from '../subscriptions/StreamListCard';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
 export type StreamTabsNavigatorParamList = {|
   +subscribed: RouteParamsOf<typeof SubscriptionsCard>,
@@ -22,9 +22,14 @@ export type StreamTabsNavigatorParamList = {|
 
 export type StreamTabsNavigationProp<
   +RouteName: $Keys<StreamTabsNavigatorParamList> = $Keys<StreamTabsNavigatorParamList>,
-> = MaterialTopTabNavigationProp<GlobalParamList, RouteName>;
+> =
+  // Screens on this navigator will get a `navigation` prop that reflects
+  // this navigator itself…
+  MaterialTopTabNavigationProp<StreamTabsNavigatorParamList, RouteName> &
+    // … plus the methods it gets from its parent navigator.
+    AppNavigationMethods;
 
-const Tab = createMaterialTopTabNavigator<GlobalParamList>();
+const Tab = createMaterialTopTabNavigator<StreamTabsNavigatorParamList>();
 
 const styles = createStyleSheet({
   tab: {
