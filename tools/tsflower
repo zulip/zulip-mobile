@@ -302,6 +302,23 @@ unpack()
 
     check_no_uncommitted_changes
 
+    if git ls-files --others --exclude-standard -- 'types/*.js.flow' \
+            | grep -q .; then
+        cat >&2 <<EOF
+There are untracked type definitions in types/:
+
+EOF
+        git status >&2 --short --untracked-files=normal -- 'types/*.js.flow'
+        cat >&2 <<EOF
+
+Doing nothing, to avoid losing your work.
+Either remove them:
+            git clean -ix 'types/*.js.flow'
+or ignore them, by adding to \`.gitignore\` or your \`.git/info/exclude\`.
+EOF
+        return 1
+    fi
+
     if ! check_branch_unused "${branchname}" \
             || ! check_branch_unused "${basebranch}"; then
         cat >&2 <<EOF
@@ -331,7 +348,8 @@ EOF
         git checkout --quiet "${basebranch}"
         echo "Running TsFlower to regenerate type definitions from upstream..."
         run_only
-        git commit --allow-empty -am 'tsflower: Regenerate from upstream'
+        git add -- 'types/*.js.flow'
+        git commit --allow-empty -m 'tsflower: Regenerate from upstream'
     fi
 
     echo
