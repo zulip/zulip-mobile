@@ -12,7 +12,7 @@ import { BRAND_COLOR, createStyleSheet } from '../styles';
 import Touchable from './Touchable';
 import ZulipTextIntl from './ZulipTextIntl';
 import { IconRight } from './Icons';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
 type Item<TKey> = $ReadOnly<{|
   key: TKey,
@@ -33,7 +33,7 @@ type Props<TItemKey> = $ReadOnly<{|
    *
    * Pass this down from props or `useNavigation`.
    */
-  navigation: AppNavigationProp<>,
+  navigation: AppNavigationMethods,
 
   /** What the setting is about, e.g., "Theme". */
   label: LocalizableText,

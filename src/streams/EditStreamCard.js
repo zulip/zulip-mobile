@@ -13,7 +13,7 @@ import {
   getOwnUserRole,
   roleIsAtLeast,
 } from '../permissionSelectors';
-import type { AppNavigationProp } from '../nav/AppNavigator';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 import Input from '../common/Input';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -22,7 +22,7 @@ import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 
 type PropsBase = $ReadOnly<{|
-  navigation: AppNavigationProp<'edit-stream' | 'create-stream'>,
+  navigation: AppNavigationMethods,
 
   initialValues: {|
     name: string,
