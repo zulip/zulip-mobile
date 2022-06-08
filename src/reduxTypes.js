@@ -275,54 +275,54 @@ export type VideoChatProvider = $ReadOnly<{| name: 'jitsi_meet', jitsiServerUrl:
  * @prop canCreateStreams
  * @prop isAdmin
  */
-export type RealmState = $ReadOnly<{|
+export type RealmState = {|
   //
   // InitialDataCustomProfileFields
   //
 
-  customProfileFields: $ReadOnlyArray<CustomProfileField>,
+  +customProfileFields: $ReadOnlyArray<CustomProfileField>,
 
   //
   // InitialDataRealm
   //
 
-  name: string,
-  description: string,
-  nonActiveUsers: $ReadOnlyArray<User>,
-  filters: $ReadOnlyArray<RealmFilter>,
-  emoji: RealmEmojiById,
-  defaultExternalAccounts: Map<string, {| +url_pattern: string |}>,
-  videoChatProvider: VideoChatProvider | null,
-  mandatoryTopics: boolean,
-  messageContentDeleteLimitSeconds: number | null,
-  messageContentEditLimitSeconds: number,
-  pushNotificationsEnabled: boolean,
-  createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
-  createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
-  webPublicStreamsEnabled: boolean,
-  createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
-  enableSpectatorAccess: boolean,
-  waitingPeriodThreshold: number,
+  +name: string,
+  +description: string,
+  +nonActiveUsers: $ReadOnlyArray<User>,
+  +filters: $ReadOnlyArray<RealmFilter>,
+  +emoji: RealmEmojiById,
+  +defaultExternalAccounts: Map<string, {| +url_pattern: string |}>,
+  +videoChatProvider: VideoChatProvider | null,
+  +mandatoryTopics: boolean,
+  +messageContentDeleteLimitSeconds: number | null,
+  +messageContentEditLimitSeconds: number,
+  +pushNotificationsEnabled: boolean,
+  +createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
+  +createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
+  +webPublicStreamsEnabled: boolean,
+  +createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
+  +enableSpectatorAccess: boolean,
+  +waitingPeriodThreshold: number,
 
   //
   // InitialDataRealmUser
   //
 
-  canCreateStreams: boolean,
-  isAdmin: boolean,
-  isOwner: boolean,
-  isModerator: boolean,
-  isGuest: boolean,
-  user_id: UserId | void,
-  email: string | void,
-  crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
+  +canCreateStreams: boolean,
+  +isAdmin: boolean,
+  +isOwner: boolean,
+  +isModerator: boolean,
+  +isGuest: boolean,
+  +user_id: UserId | void,
+  +email: string | void,
+  +crossRealmBots: $ReadOnlyArray<CrossRealmBot>,
 
   //
   // InitialDataUserSettings
   //
 
-  twentyFourHourTime: boolean,
-|}>;
+  +twentyFourHourTime: boolean,
+|};
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should
 // only apply the device level, not within the app. See
