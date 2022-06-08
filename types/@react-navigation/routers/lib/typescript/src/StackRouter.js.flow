@@ -60,13 +60,13 @@ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<Par
 };
 
 export type StackActionHelpers<ParamList: ParamListBase> = {
-  // prettier-ignore
   replace<RouteName: $Keys<ParamList>>(
-    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
+    name: RouteName,
+    params: $ElementType<ParamList, RouteName>,
   ): void,
-  // prettier-ignore
   push<RouteName: $Keys<ParamList>>(
-    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
+    name: RouteName,
+    params: $ElementType<ParamList, RouteName>,
   ): void,
   pop(count?: number): void,
   popToTop(): void,

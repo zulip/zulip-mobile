@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Wed, 8 Jun 2022 10:44:44 -0700
+Subject: [adhoc] rnav: Manually implement conditionals in function param lists
+
+In Flow, this conditional is completely unnecessary: if a function
+accepts void/undefined in its last parameter, then callers can omit
+that parameter just fine.
+
+That makes this a case that TsFlower could potentially just handle
+automatically, if it turns out to keep coming up in practice.
+---
+ .../routers/lib/typescript/src/StackRouter.js.flow        | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+index cce94da4b..5d79cf4a3 100644
+--- types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+@@ -60,13 +60,13 @@ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<Par
+ };
+ 
+ export type StackActionHelpers<ParamList: ParamListBase> = {
+-  // prettier-ignore
+   replace<RouteName: $Keys<ParamList>>(
+-    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
++    name: RouteName,
++    params: $ElementType<ParamList, RouteName>,
+   ): void,
+-  // prettier-ignore
+   push<RouteName: $Keys<ParamList>>(
+-    ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
++    name: RouteName,
++    params: $ElementType<ParamList, RouteName>,
+   ): void,
+   pop(count?: number): void,
+   popToTop(): void,
+-- 
+2.32.0
+
