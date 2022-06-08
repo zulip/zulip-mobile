@@ -118,9 +118,12 @@ run_only()
 
     package=react-native-safe-area-context
     rm -f "${rootdir}"/types/"${package}"/**/*.js.flow
-    "${bindir}"/tsflower tree \
-        node_modules/"${package}"/lib/typescript/src \
-        types/"${package}"
+    "${bindir}"/tsflower tree {node_modules,types}/"${package}"
+    echo >"${rootdir}"/types/"${package}"/index.js.flow "\
+/* ${at}flow
+ * ${at}generated
+ */
+export * from './lib/typescript/src/index.js.flow';"
     "${bindir}"/prettier-eslint --write --log-level silent \
         --eslint-config-path "${rootdir}"/tools/formatting.eslintrc.yaml \
         -- types/"${package}"/**/*.js.flow
