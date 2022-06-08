@@ -169,13 +169,9 @@ export type User = {|
   // FL 121. The doc wrongly says it always appears. See
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
-  // TODO(server-3.0): New in FL 8
-  +is_owner?: boolean,
-
+  +is_owner?: boolean, // TODO(server-3.0): New in FL 8
   +is_admin: boolean,
-
-  // TODO(server-1.9): New in commit d5df0377c; if absent, treat as false.
-  +is_guest?: boolean,
+  +is_guest?: boolean, // TODO(server-1.9): New; if absent, treat as false.
 
   // TODO(server-5.0): New in FL 73
   +is_billing_admin?: boolean,
@@ -255,13 +251,9 @@ export type CrossRealmBot = {|
   // FL 121. The doc wrongly says it always appears. See
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
-  // TODO(server-3.0): New in FL 8
-  +is_owner?: boolean,
-
+  +is_owner?: boolean, // TODO(server-3.0): New in FL 8
   +is_admin: boolean,
-
-  // TODO(server-1.9): New in commit d5df0377c; if absent, treat as false.
-  +is_guest?: boolean,
+  +is_guest?: boolean, // TODO(server-1.9): New; if absent, treat as false.
 
   // TODO(server-5.0): New in FL 73
   +is_billing_admin?: boolean,
