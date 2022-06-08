@@ -6,10 +6,12 @@ import type { Node } from 'react';
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
 import { getIdentity, getServerVersion } from '../account/accountsSelectors';
-import { getIsAdmin, getSession, getGlobalSettings } from '../directSelectors';
+import { getSession, getGlobalSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { ZulipVersion } from '../utils/zulipVersion';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 /**
  * The oldest version we currently support.
@@ -55,7 +57,7 @@ export default function ServerCompatBanner(props: Props): Node {
   );
   const zulipVersion = useSelector(getServerVersion);
   const realm = useSelector(state => getIdentity(state).realm);
-  const isAdmin = useSelector(getIsAdmin);
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const settings = useGlobalSelector(getGlobalSettings);
 
   let visible = false;
@@ -66,7 +68,7 @@ export default function ServerCompatBanner(props: Props): Node {
     // don't show
   } else {
     visible = true;
-    text = isAdmin
+    text = isAtLeastAdmin
       ? {
           text:
             '{realm} is running Zulip Server {serverVersion}, which is unsupported. Please upgrade your server as soon as possible.',

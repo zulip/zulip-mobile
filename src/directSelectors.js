@@ -98,8 +98,5 @@ export const getRawRealmEmoji = (state: PerAccountState): RealmEmojiById => stat
 export const getNonActiveUsers = (state: PerAccountState): $ReadOnlyArray<User> =>
   state.realm.nonActiveUsers;
 
-// $FlowFixMe[cannot-read] - We'll remove this soon.
-export const getIsAdmin = (state: PerAccountState): boolean => state.realm.isAdmin;
-
 export const getVideoChatProvider = (state: PerAccountState): VideoChatProvider | null =>
   state.realm.videoChatProvider;

@@ -12,7 +12,7 @@ import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { getSettings } from '../directSelectors';
-import { getAuth, getIsAdmin, getStreamForId } from '../selectors';
+import { getAuth, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import { navigateToEditStream, navigateToStreamSubscribers } from '../actions';
@@ -20,6 +20,8 @@ import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 import getIsNotificationEnabled from './getIsNotificationEnabled';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'stream-settings'>,
@@ -28,7 +30,7 @@ type Props = $ReadOnly<{|
 
 export default function StreamSettingsScreen(props: Props): Node {
   const auth = useSelector(getAuth);
-  const isAdmin = useSelector(getIsAdmin);
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
   const subscription = useSelector(state =>
     getSubscriptionsById(state).get(props.route.params.streamId),
@@ -98,7 +100,7 @@ export default function StreamSettingsScreen(props: Props): Node {
         </>
       )}
       <View style={styles.padding}>
-        {isAdmin && (
+        {isAtLeastAdmin && (
           // TODO: Group all the stream's attributes together (name,
           //   description, policies, etc.), with an associated "Edit"
           //   button that gives a UI for changing those attributes. For the

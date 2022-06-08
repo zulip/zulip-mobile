@@ -7,9 +7,11 @@ import subWeeks from 'date-fns/subWeeks';
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
 import { getIdentity, getAccount } from '../account/accountsSelectors';
-import { getIsAdmin, getRealm, getGlobalSettings } from '../directSelectors';
+import { getRealm, getGlobalSettings } from '../directSelectors';
 import { dismissServerPushSetupNotice } from '../account/accountActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 type Props = $ReadOnly<{|
   isDismissable?: boolean,
@@ -37,7 +39,7 @@ export default function PushNotifsSetupBanner(props: Props): Node {
   );
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
   const realm = useSelector(state => getIdentity(state).realm);
-  const isAdmin = useSelector(getIsAdmin);
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const settings = useGlobalSelector(getGlobalSettings);
 
   let visible = false;
@@ -54,7 +56,7 @@ export default function PushNotifsSetupBanner(props: Props): Node {
     // don't show
   } else {
     visible = true;
-    text = isAdmin
+    text = isAtLeastAdmin
       ? {
           text:
             'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',

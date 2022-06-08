@@ -34,7 +34,6 @@ import AnnouncementOnly from '../message/AnnouncementOnly';
 import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
-  getIsAdmin,
   getStreamInNarrow,
   getStreamsById,
   getVideoChatProvider,
@@ -49,6 +48,8 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import * as api from '../api';
 import { ensureUnreachable } from '../generics';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 /* eslint-disable no-shadow */
 
@@ -183,7 +184,7 @@ export default function ComposeBox(props: Props): Node {
   const auth = useSelector(getAuth);
   const ownUserId = useSelector(getOwnUserId);
   const allUsersById = useSelector(getAllUsersById);
-  const isAdmin = useSelector(getIsAdmin);
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const isAnnouncementOnly = useSelector(state =>
     getIsActiveStreamAnnouncementOnly(state, props.narrow),
   );
@@ -594,7 +595,7 @@ export default function ComposeBox(props: Props): Node {
 
   if (!isSubscribed) {
     return <NotSubscribed narrow={narrow} />;
-  } else if (isAnnouncementOnly && !isAdmin) {
+  } else if (isAnnouncementOnly && !isAtLeastAdmin) {
     return <AnnouncementOnly />;
   }
 

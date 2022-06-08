@@ -25,7 +25,6 @@ import {
   getLastMessageId,
   getCaughtUpForNarrow,
   getFetchingForNarrow,
-  getIsAdmin,
   getIdentity,
   getStreamsById,
 } from '../selectors';
@@ -51,6 +50,8 @@ import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import { getHaveServerData } from '../haveServerDataSelectors';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 const messageFetchStart = (
   narrow: Narrow,
@@ -285,7 +286,7 @@ export const registerAbort = (reason: RegisterAbortReason): ThunkAction<Promise<
         const realmStr = getIdentity(getState()).realm.toString();
         switch (reason) {
           case 'server':
-            return getIsAdmin(getState())
+            return roleIsAtLeast(getOwnUserRole(getState()), Role.Admin)
               ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
               : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
           case 'network':
