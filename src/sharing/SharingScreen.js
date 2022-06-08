@@ -8,7 +8,6 @@ import {
 
 import type { RouteParamsOf, RouteProp } from '../react-navigation';
 import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
 import { materialTopTabNavigatorConfig } from '../styles/tabs';
@@ -51,6 +50,7 @@ const styles = createStyleSheet({
 
 export default function SharingScreen(props: Props): Node {
   const { params } = props.route;
+  const { navigation } = props;
   const hasAuth = useGlobalSelector(getHasAuth);
 
   useEffect(() => {
@@ -58,9 +58,9 @@ export default function SharingScreen(props: Props): Node {
       // If there is no active logged-in account, abandon the sharing attempt,
       // and present the account picker screen to the user.
       // TODO(?): Offer to come back and finish the share after auth
-      NavigationService.dispatch(resetToAccountPicker());
+      navigation.dispatch(resetToAccountPicker());
     }
-  }, [hasAuth]);
+  }, [hasAuth, navigation]);
 
   return (
     <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>

@@ -6,7 +6,6 @@ import { View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
-import * as NavigationService from '../nav/NavigationService';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
@@ -40,6 +39,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function StreamListCard(props: Props): Node {
+  const { navigation } = props;
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
   const canCreateStreams = useSelector(getCanCreateStreams);
@@ -79,7 +79,7 @@ export default function StreamListCard(props: Props): Node {
           text="Create new stream"
           onPress={() =>
             delay(() => {
-              NavigationService.dispatch(navigateToCreateStream());
+              navigation.dispatch(navigateToCreateStream());
             })
           }
         />

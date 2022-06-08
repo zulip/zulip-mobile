@@ -4,7 +4,6 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import Screen from '../common/Screen';
@@ -19,6 +18,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function InviteUsersScreen(props: Props): Node {
+  const { navigation } = props;
   const auth = useSelector(getAuth);
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
 
@@ -29,9 +29,9 @@ export default function InviteUsersScreen(props: Props): Node {
       const recipients = selected.map(user => user.email);
       // This still uses a stream name (#3918) because the API method does; see there.
       api.subscriptionAdd(auth, [{ name: stream.name }], recipients);
-      NavigationService.dispatch(navigateBack());
+      navigation.dispatch(navigateBack());
     },
-    [auth, stream],
+    [auth, navigation, stream.name],
   );
 
   return (

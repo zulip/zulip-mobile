@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import type { UserOrBot } from '../types';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
@@ -20,12 +19,16 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function PmConversationDetailsScreen(props: Props): Node {
+  const { navigation } = props;
   const { recipients } = props.route.params;
   const ownUserId = useSelector(getOwnUserId);
 
-  const handlePress = useCallback((user: UserOrBot) => {
-    NavigationService.dispatch(navigateToAccountDetails(user.user_id));
-  }, []);
+  const handlePress = useCallback(
+    (user: UserOrBot) => {
+      navigation.dispatch(navigateToAccountDetails(user.user_id));
+    },
+    [navigation],
+  );
 
   return (
     <Screen title="Recipients" scrollEnabled={false}>

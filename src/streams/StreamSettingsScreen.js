@@ -5,7 +5,6 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useSelector } from '../react-redux';
 import { delay } from '../utils/async';
 import SwitchRow from '../common/SwitchRow';
@@ -29,6 +28,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function StreamSettingsScreen(props: Props): Node {
+  const { navigation } = props;
   const auth = useSelector(getAuth);
   const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
@@ -52,12 +52,12 @@ export default function StreamSettingsScreen(props: Props): Node {
   );
 
   const handlePressEdit = useCallback(() => {
-    NavigationService.dispatch(navigateToEditStream(stream.stream_id));
-  }, [stream]);
+    navigation.dispatch(navigateToEditStream(stream.stream_id));
+  }, [navigation, stream.stream_id]);
 
   const handlePressEditSubscribers = useCallback(() => {
-    NavigationService.dispatch(navigateToStreamSubscribers(stream.stream_id));
-  }, [stream]);
+    navigation.dispatch(navigateToStreamSubscribers(stream.stream_id));
+  }, [navigation, stream.stream_id]);
 
   const handlePressSubscribe = useCallback(() => {
     // This still uses a stream name (#3918) because the API method does; see there.

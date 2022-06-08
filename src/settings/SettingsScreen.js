@@ -5,7 +5,6 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import NestedNavRow from '../common/NestedNavRow';
@@ -38,6 +37,7 @@ export default function SettingsScreen(props: Props): Node {
     state => getGlobalSettings(state).doNotMarkMessagesAsRead,
   );
   const dispatch = useDispatch();
+  const { navigation } = props;
 
   const handleThemeChange = useCallback(() => {
     dispatch(setGlobalSettings({ theme: theme === 'default' ? 'night' : 'default' }));
@@ -64,28 +64,28 @@ export default function SettingsScreen(props: Props): Node {
         Icon={IconNotifications}
         label="Notifications"
         onPress={() => {
-          NavigationService.dispatch(navigateToNotifications());
+          navigation.dispatch(navigateToNotifications());
         }}
       />
       <NestedNavRow
         Icon={IconLanguage}
         label="Language"
         onPress={() => {
-          NavigationService.dispatch(navigateToLanguage());
+          navigation.dispatch(navigateToLanguage());
         }}
       />
       <NestedNavRow
         Icon={IconDiagnostics}
         label="Diagnostics"
         onPress={() => {
-          NavigationService.dispatch(navigateToDiagnostics());
+          navigation.dispatch(navigateToDiagnostics());
         }}
       />
       <NestedNavRow
         Icon={IconMoreHorizontal}
         label="Legal"
         onPress={() => {
-          NavigationService.dispatch(navigateToLegal());
+          navigation.dispatch(navigateToLegal());
         }}
       />
     </Screen>

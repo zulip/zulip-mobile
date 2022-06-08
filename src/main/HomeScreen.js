@@ -6,7 +6,6 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
-import * as NavigationService from '../nav/NavigationService';
 import { useDispatch } from '../react-redux';
 import { HOME_NARROW, MENTIONED_NARROW, STARRED_NARROW } from '../utils/narrow';
 import { TopTabButton, TopTabButtonGeneral } from '../nav/TopTabButton';
@@ -35,6 +34,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function HomeScreen(props: Props): Node {
+  const { navigation } = props;
   const dispatch = useDispatch();
 
   return (
@@ -62,7 +62,7 @@ export default function HomeScreen(props: Props): Node {
         <TopTabButton
           name="search"
           onPress={() => {
-            NavigationService.dispatch(navigateToSearch());
+            navigation.dispatch(navigateToSearch());
           }}
         />
       </View>

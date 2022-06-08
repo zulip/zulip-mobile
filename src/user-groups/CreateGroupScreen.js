@@ -4,7 +4,6 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import type { UserOrBot } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import Screen from '../common/Screen';
@@ -20,6 +19,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function CreateGroupScreen(props: Props): Node {
+  const { navigation } = props;
   const dispatch = useDispatch();
   const ownUserId = useSelector(getOwnUserId);
 
@@ -27,10 +27,10 @@ export default function CreateGroupScreen(props: Props): Node {
 
   const handleCreateGroup = useCallback(
     (selected: $ReadOnlyArray<UserOrBot>) => {
-      NavigationService.dispatch(navigateBack());
+      navigation.dispatch(navigateBack());
       dispatch(doNarrow(pmNarrowFromRecipients(pmKeyRecipientsFromUsers(selected, ownUserId))));
     },
-    [dispatch, ownUserId],
+    [dispatch, navigation, ownUserId],
   );
 
   return (

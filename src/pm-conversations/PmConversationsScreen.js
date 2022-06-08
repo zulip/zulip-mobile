@@ -6,7 +6,6 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
-import * as NavigationService from '../nav/NavigationService';
 import { ThemeContext, createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -45,6 +44,7 @@ type Props = $ReadOnly<{|
  * The "PMs" page in the main tabs navigation.
  * */
 export default function PmConversationsScreen(props: Props): Node {
+  const { navigation } = props;
   const conversations = useSelector(getRecentConversations);
   const context = useContext(ThemeContext);
 
@@ -57,7 +57,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New PM"
           onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToUsersScreen()));
+            setTimeout(() => navigation.dispatch(navigateToUsersScreen()));
           }}
         />
         <ZulipButton
@@ -66,7 +66,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New group PM"
           onPress={() => {
-            setTimeout(() => NavigationService.dispatch(navigateToCreateGroup()));
+            setTimeout(() => navigation.dispatch(navigateToCreateGroup()));
           }}
         />
       </View>

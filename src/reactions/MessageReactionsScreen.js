@@ -6,7 +6,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
 import { useSelector } from '../react-redux';
@@ -40,6 +39,7 @@ type Props = $ReadOnly<{|
  * screen first appears.
  */
 export default function MessageReactionsScreen(props: Props): Node {
+  const { navigation } = props;
   const { messageId, reactionName } = props.route.params;
   const message = useSelector(state => state.messages.get(messageId));
   const ownUserId = useSelector(getOwnUserId);
@@ -59,9 +59,9 @@ export default function MessageReactionsScreen(props: Props): Node {
     if (prevMessage !== undefined && message === undefined) {
       // The message was present, but got purged (currently only caused by a
       // REGISTER_COMPLETE following a dead event queue), so go back.
-      NavigationService.dispatch(navigateBack());
+      navigation.dispatch(navigateBack());
     }
-  }, [prevMessage, message]);
+  }, [prevMessage, message, navigation]);
 
   const content: Node = (() => {
     if (message === undefined) {
