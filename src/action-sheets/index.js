@@ -505,6 +505,7 @@ export const constructTopicActionButtons = (args: {|
   } else {
     buttons.push(unresolveTopic);
   }
+  // $FlowFixMe[cannot-read]: We'll fix this soon.
   if (ownUser.is_admin) {
     buttons.push(deleteTopic);
   }

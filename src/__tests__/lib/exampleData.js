@@ -851,7 +851,10 @@ export const action = Object.freeze({
       can_create_web_public_streams: false,
       can_subscribe_other_users: false,
       can_invite_others_to_realm: false,
+
+      // $FlowIgnore[cannot-read]: Faithfully representing what servers send
       is_admin: selfUser.is_admin,
+
       is_owner: false,
       is_billing_admin: selfUser.is_billing_admin,
       is_moderator: false,
