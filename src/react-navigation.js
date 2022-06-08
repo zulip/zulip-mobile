@@ -5,13 +5,9 @@
  */
 
 import { type ElementConfig } from 'react';
-import {
-  useNavigation as useNavigationInner,
-  type Route,
-  type NavigationProp,
-} from '@react-navigation/native';
+import { useNavigation as useNavigationInner, type Route } from '@react-navigation/native';
 
-import type { GlobalParamList } from './nav/globalTypes';
+import type { AppNavigationMethods } from './nav/AppNavigator';
 
 /**
  * A type to use for the `route` prop on a screen component.
@@ -81,14 +77,20 @@ export type RouteParamsOf<-C> = $NonMaybeType<ElementConfig<C>['route']>['params
 /**
  * Exactly like `useNavigation` upstream, but more typed.
  *
- * In particular, we use our `GlobalParamList` type.
+ * In particular, this provides a type that should be accurate when used on
+ * any screen in the app, with methods only for using the app's main
+ * navigator (which is an ancestor of all our other navigators.)
+ *
+ * This doesn't describe parts of the returned object that will exist only
+ * when on a particular navigator.  If we start needing those, we can make
+ * type-wrappers for them too.
  */
-export function useNavigation(): NavigationProp<GlobalParamList> {
+export function useNavigation(): AppNavigationMethods {
   // The upstream type sure isn't very informative: it lets us do this.
   return useNavigationInner<empty>();
   // The intended way to call it looks to be like this:
-  //     useNavigationInner<NavigationProp<GlobalParamList>>()
-  // But that gives a large number of puzzling errors.  And the one thing it
+  //     useNavigationInner<AppNavigationMethods>()
+  // But that gives a number of puzzling errors.  And the one thing it
   // actually does with the type argument is to determine the return type,
   // anyway.  We know what that should be, so just handle it ourselves.
 }

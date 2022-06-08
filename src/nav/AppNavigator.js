@@ -7,6 +7,13 @@ import {
   type StackNavigationProp,
   TransitionPresets,
 } from '@react-navigation/stack';
+import type { StackActionHelpers } from '@react-navigation/native';
+import type {
+  NavigationHelpers,
+  EventConsumer,
+  EventMapCore,
+} from '@react-navigation/core/lib/typescript/src/types';
+import type { NavigationState } from '@react-navigation/routers';
 
 import type { RouteParamsOf } from '../react-navigation';
 import { useGlobalSelector } from '../react-redux';
@@ -82,9 +89,45 @@ export type AppNavigatorParamList = {|
   +'selectable-options': RouteParamsOf<typeof SelectableOptionsScreen>,
 |};
 
+/**
+ * A common supertype for navigation props in this and descendant navigators.
+ *
+ * In particular this contains methods like `push`, with all the main
+ * navigator's routes available, and `addListener` with the events that
+ * aren't specific to the stack navigator.
+ */
+export type AppNavigationMethods =
+  // The parent navigator's "helper" methods (like `push`) are available on
+  // child navigators too.  So we include the stack-specific methods:
+  StackActionHelpers<AppNavigatorParamList> &
+    // … as well as the general ones that exist on any kind of navigator.
+    NavigationHelpers<AppNavigatorParamList> &
+    // On the other hand, the *events* available on the child navigator are
+    // apparently only those of the child, not the parent.  (In particular
+    // this is encoded in upstream's `CompositeNavigationProp` type:
+    //   https://github.com/zulip/zulip-mobile/pull/5408#discussion_r894932407
+    // .)  So for what's available everywhere, we just have the general
+    // events that exist on any kind of navigator.
+    EventConsumer<EventMapCore<NavigationState<AppNavigatorParamList>>>;
+
+/**
+ * The type of the `navigation` prop for screens in this navigator.
+ */
 export type AppNavigationProp<
   +RouteName: $Keys<AppNavigatorParamList> = $Keys<AppNavigatorParamList>,
-> = StackNavigationProp<GlobalParamList, RouteName>;
+> = StackNavigationProp<AppNavigatorParamList, RouteName> &
+  // Intersecting with the methods type should be redundant -- the
+  // StackNavigationProp type should already be a subtype of it.  But when
+  // we check that below, we'd get puzzling errors.  (Probably the variance,
+  // or in/exactness, of one of the underlying type definitions isn't right:
+  //   https://github.com/zulip/zulip-mobile/pull/5408#discussion_r894934679
+  // .) So add it explicitly.
+  AppNavigationMethods;
+
+// Confirm that this navigator's screens' navigation props will be valid
+// as the methods type.
+// eslint-disable-next-line
+(n: AppNavigationProp<>): AppNavigationMethods => n;
 
 const Stack = createStackNavigator<GlobalParamList>();
 
