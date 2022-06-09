@@ -39,9 +39,29 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Users' custom profile fields are now shown in the profile view. These can
+  include pronouns, social-media usernames, favorite dates, etc. (#2900)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Upgraded to React Native v0.66! (#5231)
+
+* We now maintain React Navigation's type definitions as patched
+  translations of the TypeScript definitions upstream, using TsFlower.
+  (#5391)
+
+* Synced `Message` type with the API doc at FL 132. (#5401)
+
+* Resolved issues: #2900, #5391, #5231
+
 
 ## 27.186 (2022-05-25)
-
 
 ### Highlights for users, vs. v27.183 (last prod release)
 
