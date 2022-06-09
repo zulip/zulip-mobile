@@ -16,10 +16,10 @@ mechanism.
  types/react-native-safe-area-context/SafeArea.types.js.flow | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/types/react-native-safe-area-context/SafeArea.types.js.flow b/types/react-native-safe-area-context/SafeArea.types.js.flow
+diff --git types/react-native-safe-area-context/SafeArea.types.js.flow types/react-native-safe-area-context/SafeArea.types.js.flow
 index f3c41af41..e31ab1a65 100644
---- a/types/react-native-safe-area-context/SafeArea.types.js.flow
-+++ b/types/react-native-safe-area-context/SafeArea.types.js.flow
+--- types/react-native-safe-area-context/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/SafeArea.types.js.flow
 @@ -9,7 +9,6 @@ import type {
  } from 'tsflower/subst/react-native';
  

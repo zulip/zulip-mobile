@@ -15,10 +15,10 @@ them unconditionally.
  .../core/lib/typescript/src/types.js.flow            | 12 +++++++++---
  1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index cb0af945e..4d918550e 100644
---- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -65,17 +65,23 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
    +type: EventName,
    +target?: string,

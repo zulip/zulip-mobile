@@ -11,10 +11,10 @@ that I hoped it might resolve.)
  .../@react-navigation/routers/lib/typescript/src/types.js.flow  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/types.js.flow types/@react-navigation/routers/lib/typescript/src/types.js.flow
 index a194fa5fa..ea0e29c32 100644
---- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -7,7 +7,7 @@ export type CommonNavigationAction = CommonActions.Action;
  type NavigationRoute<ParamList: ParamListBase, RouteName: $Keys<ParamList>> = Route<
    Extract<RouteName, string>,

@@ -13,10 +13,10 @@ Rather than to the upper bound on ParamList.
  .../lib/typescript/src/navigators/createStackNavigator.js.flow  | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 index 29d53b3ff..def19204a 100644
---- a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-+++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 @@ -24,7 +24,7 @@ declare var _default: <
    ParamList: { +[key: string]: { ... } | void },
  >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<
@@ -26,10 +26,10 @@ index 29d53b3ff..def19204a 100644
    MaterialTopTabNavigationOptions,
    MaterialTopTabNavigationEventMap,
    typeof MaterialTopTabNavigator,
-diff --git a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+diff --git types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 index 1842836b1..3c2939d32 100644
---- a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
-+++ b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+--- types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
++++ types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 @@ -24,7 +24,7 @@ declare var _default: <
    ParamList: { +[key: string]: { ... } | void },
  >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<

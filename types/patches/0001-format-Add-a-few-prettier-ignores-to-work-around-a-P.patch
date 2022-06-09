@@ -12,10 +12,10 @@ Discussion with a reduced repro of the Prettier bug:
  .../routers/lib/typescript/src/TabRouter.js.flow                | 1 +
  3 files changed, 4 insertions(+)
 
-diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index 086c12609..b6145283b 100644
---- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -150,6 +150,7 @@ type NavigationHelpersCommon<
    State: NavigationState<> = NavigationState<>,
  > = {
@@ -24,10 +24,10 @@ index 086c12609..b6145283b 100644
    navigate<RouteName: $Keys<ParamList>>(
      ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
-diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 index 179e34e09..3bd89b8ce 100644
---- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 @@ -58,9 +58,11 @@ export type StackNavigationState<ParamList: ParamListBase> = NavigationState<Par
  };
  
@@ -40,10 +40,10 @@ index 179e34e09..3bd89b8ce 100644
    push<RouteName: $Keys<ParamList>>(
      ...args: $FlowFixMe /*  undefined extends ParamList[RouteName] ? [RouteName] | [RouteName, ParamList[RouteName]] : [RouteName, ParamList[RouteName]] */ /* tsflower-unimplemented: ConditionalType */
    ): void,
-diff --git a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 index fd281a865..4fa8ed1ca 100644
---- a/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/TabRouter.js.flow
 @@ -41,6 +41,7 @@ export type TabNavigationState<ParamList: ParamListBase> = $Diff<
  };
  

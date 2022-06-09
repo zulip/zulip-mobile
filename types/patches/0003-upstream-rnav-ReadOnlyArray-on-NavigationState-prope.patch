@@ -8,10 +8,10 @@ I believe this could be expressed upstream, with `readonly Foo[]`.
  .../routers/lib/typescript/src/types.js.flow                | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/types.js.flow types/@react-navigation/routers/lib/typescript/src/types.js.flow
 index 574ad164b..65d187165 100644
---- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -12,9 +12,9 @@ type NavigationRoute<ParamList: ParamListBase, RouteName: $Keys<ParamList>> = Ro
  export type NavigationState<ParamList: ParamListBase = ParamListBase> = Readonly<{
    key: string,

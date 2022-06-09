@@ -33,10 +33,10 @@ References:
  types/@react-navigation/core/lib/typescript/src/types.js.flow | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index 4d918550e..58cf56a85 100644
---- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -24,7 +24,7 @@ import {
  export type DefaultNavigatorOptions<
    ScreenOptions: { ... },

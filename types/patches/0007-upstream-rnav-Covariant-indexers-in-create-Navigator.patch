@@ -12,10 +12,10 @@ Content-Transfer-Encoding: 8bit
  .../typescript/src/navigators/createStackNavigator.js.flow    | 4 ++--
  2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 index 69f6df9c8..29d53b3ff 100644
---- a/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-+++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 @@ -21,10 +21,10 @@ type Props = DefaultNavigatorOptions<MaterialTopTabNavigationOptions> &
    MaterialTopTabNavigationConfig;
  declare function MaterialTopTabNavigator(Props): $tsflower_subst$React$JSX$Element;
@@ -29,10 +29,10 @@ index 69f6df9c8..29d53b3ff 100644
    MaterialTopTabNavigationOptions,
    MaterialTopTabNavigationEventMap,
    typeof MaterialTopTabNavigator,
-diff --git a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+diff --git types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 index 7a17b58e6..1842836b1 100644
---- a/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
-+++ b/types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
+--- types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
++++ types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 @@ -21,10 +21,10 @@ type Props = DefaultNavigatorOptions<StackNavigationOptions> &
    StackNavigationConfig;
  declare function StackNavigator(Props): $tsflower_subst$React$JSX$Element;

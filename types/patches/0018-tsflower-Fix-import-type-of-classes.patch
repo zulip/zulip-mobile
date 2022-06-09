@@ -42,10 +42,10 @@ value binding and doesn't also have a type binding.)
  .../material-top-tabs/lib/typescript/src/types.js.flow          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
 index 1c02714a5..0dd4c30b6 100644
---- a/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
 @@ -11,7 +11,7 @@ import type {
  } from 'tsflower/subst/react-native';
  

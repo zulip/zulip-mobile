@@ -24,10 +24,10 @@ case.  For example, our `typesEquivalent` in src/generics.js.
  .../stack/lib/typescript/src/types.js.flow                | 2 +-
  2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index b6145283b..e3dd9a0d0 100644
---- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -181,7 +181,7 @@ type NavigationHelpersCommon<
  
  export type NavigationHelpers<
@@ -59,10 +59,10 @@ index b6145283b..e3dd9a0d0 100644
  > = {
    render(): $tsflower_subst$React$JSX$Element,
    options: ScreenOptions,
-diff --git a/types/@react-navigation/stack/lib/typescript/src/types.js.flow b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/stack/lib/typescript/src/types.js.flow types/@react-navigation/stack/lib/typescript/src/types.js.flow
 index 946df1eb6..94ea2dee5 100644
---- a/types/@react-navigation/stack/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/stack/lib/typescript/src/types.js.flow
+--- types/@react-navigation/stack/lib/typescript/src/types.js.flow
++++ types/@react-navigation/stack/lib/typescript/src/types.js.flow
 @@ -43,7 +43,7 @@ export type StackNavigationHelpers = NavigationHelpers<ParamListBase, StackNavig
    StackActionHelpers<ParamListBase>;
  export type StackNavigationProp<

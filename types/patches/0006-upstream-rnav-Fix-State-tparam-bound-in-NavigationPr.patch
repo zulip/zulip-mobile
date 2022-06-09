@@ -9,10 +9,10 @@ not some other.
  types/@react-navigation/core/lib/typescript/src/types.js.flow | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index e3dd9a0d0..41f13ea18 100644
---- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -202,7 +202,7 @@ export type NavigationContainerProps = {
  export type NavigationProp<
    ParamList: ParamListBase,

@@ -14,10 +14,10 @@ this.  (Maybe someday TypeScript will have exact object types.)
  .../routers/lib/typescript/src/StackRouter.js.flow           | 5 +++--
  2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
 index dcd559b0a..054215538 100644
---- a/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/CommonActions.js.flow
 @@ -10,7 +10,7 @@ type ResetState =
        ...
      });
@@ -37,10 +37,10 @@ index dcd559b0a..054215538 100644
  
  declare export function goBack(): Action;
  
-diff --git a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 index 3bd89b8ce..d7bdf0f5e 100644
---- a/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/StackRouter.js.flow
 @@ -12,7 +12,7 @@ import {
    type ParamListBase,
  } from './types';

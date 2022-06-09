@@ -7,10 +7,10 @@ Subject: [upstream] rnav: Covariant indexer in ParamListBase
  .../@react-navigation/routers/lib/typescript/src/types.js.flow  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+diff --git types/@react-navigation/routers/lib/typescript/src/types.js.flow types/@react-navigation/routers/lib/typescript/src/types.js.flow
 index 65d187165..a194fa5fa 100644
---- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-+++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
+--- types/@react-navigation/routers/lib/typescript/src/types.js.flow
++++ types/@react-navigation/routers/lib/typescript/src/types.js.flow
 @@ -70,7 +70,7 @@ export type Route<RouteName: string, Params: { ... } | void = { ... } | void> =
      params: Readonly<Params>;
  }> */ /* tsflower-unimplemented: ConditionalType */;
