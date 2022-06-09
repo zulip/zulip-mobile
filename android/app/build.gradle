@@ -134,8 +134,8 @@ android {
         applicationId "com.zulipmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 186
-        versionName "27.186"
+        versionCode 187
+        versionName "27.187"
     }
     signingConfigs {
         // The RN v0.60 template app suggests configuring a debug

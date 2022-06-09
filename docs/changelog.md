@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.187 (2022-06-09)
+
 ### Highlights for users
 
 * Users' custom profile fields are now shown in the profile view. These can
