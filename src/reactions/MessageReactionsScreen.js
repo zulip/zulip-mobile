@@ -55,28 +55,28 @@ type Props = $ReadOnly<{|
  * screen first appears.
  */
 function MessageReactionsScreenInner(props: Props): Node {
+  const { message, route, ownUserId } = props;
+  const { reactionName } = route.params;
+
   useEffect(() => {
-    if (props.message === undefined) {
-      const { messageId } = props.route.params;
+    if (message === undefined) {
+      const { messageId } = route.params;
       logging.warn(
         'MessageReactionsScreen unexpectedly created without props.message; '
           + 'message with messageId is missing in state.messages',
         { messageId },
       );
     }
-  }, [props.message, props.route.params]);
+  }, [message, route.params]);
 
-  const prevMessage = usePrevious(props.message);
+  const prevMessage = usePrevious(message);
   useEffect(() => {
-    if (prevMessage !== undefined && props.message === undefined) {
+    if (prevMessage !== undefined && message === undefined) {
       // The message was present, but got purged (currently only caused by a
       // REGISTER_COMPLETE following a dead event queue), so go back.
       NavigationService.dispatch(navigateBack());
     }
-  }, [prevMessage, props.message]);
-
-  const { message, route, ownUserId } = props;
-  const { reactionName } = route.params;
+  }, [prevMessage, message]);
 
   const content: Node = (() => {
     if (message === undefined) {
