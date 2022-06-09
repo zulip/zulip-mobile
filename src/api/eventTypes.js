@@ -175,16 +175,16 @@ export type StreamUpdateEvent =
   | {| ...StreamUpdateEventBase<'name'> |}
   | {|
       ...StreamUpdateEventBase<'description'>,
-      +rendered_description: $PropertyType<Stream, 'rendered_description'>,
+      +rendered_description: Stream['rendered_description'],
     |}
   // TODO(server-4.0): New in FL 30.
   | {| ...StreamUpdateEventBase<'date_created'> |}
   | {|
       ...StreamUpdateEventBase<'invite_only'>,
-      +history_public_to_subscribers: $PropertyType<Stream, 'history_public_to_subscribers'>,
+      +history_public_to_subscribers: Stream['history_public_to_subscribers'],
 
       // TODO(server-5.0): New in FL 71.
-      +is_web_public?: $PropertyType<Stream, 'is_web_public'>,
+      +is_web_public?: Stream['is_web_public'],
     |}
   | {| ...StreamUpdateEventBase<'rendered_description'> |}
   | {| ...StreamUpdateEventBase<'is_web_public'> |}
@@ -357,10 +357,10 @@ type PersonCommon =
   | SubsetProperties<UserOrBot, {| +user_id: mixed, +is_billing_admin: mixed |}>
   | SubsetProperties<UserOrBot, {| +user_id: mixed, +delivery_email: mixed |}>
   | {|
-      +user_id: $PropertyType<UserOrBot, 'user_id'>,
+      +user_id: UserOrBot['user_id'],
       +custom_profile_field: {| +id: number, +value: string | null, +rendered_value?: string |},
     |}
-  | {| +user_id: $PropertyType<UserOrBot, 'user_id'>, +new_email: string |};
+  | {| +user_id: UserOrBot['user_id'], +new_email: string |};
 
 /**
  * A realm_user update event, straight from the server.

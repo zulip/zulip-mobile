@@ -76,10 +76,7 @@ export type RouteProp<+RouteName: string, +RouteParams: { ... } | void> = {|
 // $NonMaybeType will also eliminate: the navigator will never be interested
 // in passing one of those values anyway, so as far as it's concerned the
 // type expected for `route` might as well exclude them.)
-export type RouteParamsOf<-C> = $PropertyType<
-  $NonMaybeType<$PropertyType<ElementConfig<C>, 'route'>>,
-  'params',
->;
+export type RouteParamsOf<-C> = $NonMaybeType<ElementConfig<C>['route']>['params'];
 
 /**
  * Exactly like `useNavigation` upstream, but more typed.

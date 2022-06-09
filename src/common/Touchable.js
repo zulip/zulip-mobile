@@ -9,7 +9,7 @@ import { HIGHLIGHT_COLOR } from '../styles';
 type Props = $ReadOnly<{|
   accessibilityLabel?: string,
   style?: ViewStyleProp,
-  hitSlop?: $PropertyType<ElementConfig<typeof View>, 'hitSlop'>,
+  hitSlop?: ElementConfig<typeof View>['hitSlop'],
   children: Node,
   onPress?: () => void | Promise<void>,
   onLongPress?: () => void,

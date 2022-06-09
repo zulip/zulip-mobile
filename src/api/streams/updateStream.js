@@ -16,21 +16,21 @@ export default (
     // TODO(#4659): Once we pass the feature level to API methods, this one
     //   should encapsulate a switch at FL 64 related to these two parameters.
     //   See call sites.
-    description?: $PropertyType<Stream, 'description'>,
-    new_name?: $PropertyType<Stream, 'name'>,
+    description?: Stream['description'],
+    new_name?: Stream['name'],
 
     // controls the invite_only property
-    is_private?: $PropertyType<Stream, 'invite_only'>,
+    is_private?: Stream['invite_only'],
 
     // TODO(server-5.0): New in FL 98.
-    is_web_public?: $PropertyType<Stream, 'is_web_public'>,
+    is_web_public?: Stream['is_web_public'],
 
     // TODO(server-3.0): New in FL 1; for older servers, pass is_announcement_only.
-    stream_post_policy?: $PropertyType<Stream, 'stream_post_policy'>,
+    stream_post_policy?: Stream['stream_post_policy'],
 
     // N.B.: Don't pass this without also passing is_web_public; see
     //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/PATCH.20.2Fstreams.2F.7Bstream_id.7D/near/1383984
-    history_public_to_subscribers?: $PropertyType<Stream, 'history_public_to_subscribers'>,
+    history_public_to_subscribers?: Stream['history_public_to_subscribers'],
 
     // Doesn't take the same special values as Stream.message_retention_days!
     //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
@@ -44,6 +44,6 @@ export default (
       | 'forever',
 
     // TODO(server-3.0): Replaced in FL 1 by 'stream_post_policy'.
-    is_announcement_only?: $PropertyType<Stream, 'is_announcement_only'>,
+    is_announcement_only?: Stream['is_announcement_only'],
   |}>,
 ): Promise<ApiResponse> => apiPatch(auth, `streams/${id}`, params);

@@ -413,7 +413,7 @@ export type MessageListElement =
 //   type [number, number] with its two members marked as covariant. Flow
 //   has no syntax for that yet.
 // eslint-disable-next-line no-unused-expressions
-(k: $PropertyType<MessageListElement, 'key'>): $ReadOnlyArray<number> => k;
+(k: MessageListElement['key']): $ReadOnlyArray<number> => k;
 
 export type TimingItemType = {|
   text: string,

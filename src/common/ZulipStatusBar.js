@@ -11,7 +11,7 @@ import { useGlobalSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getGlobalSession, getGlobalSettings } from '../selectors';
 
-type BarStyle = $PropertyType<React$ElementConfig<typeof StatusBar>, 'barStyle'>;
+type BarStyle = React$ElementConfig<typeof StatusBar>['barStyle'];
 
 export const getStatusBarColor = (backgroundColor: string | void, theme: ThemeName): string =>
   backgroundColor ?? (theme === 'night' ? 'hsl(212, 28%, 18%)' : 'white');

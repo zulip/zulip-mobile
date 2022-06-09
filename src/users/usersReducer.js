@@ -50,7 +50,7 @@ export default (
                     profile_data: (() => {
                       if (person.custom_profile_field.value !== null) {
                         return {
-                          ...(user.profile_data: $PropertyType<User, 'profile_data'>),
+                          ...(user.profile_data: User['profile_data']),
                           [person.custom_profile_field.id]: ({
                             value: person.custom_profile_field.value,
                             rendered_value: person.custom_profile_field.rendered_value,
@@ -61,7 +61,7 @@ export default (
                             // anything with `any`. Remove when doing so
                             // doesn't stop Flow from catching something
                             // wrong on `value` or `rendered_value`.
-                          }: $Values<$NonMaybeType<$PropertyType<User, 'profile_data'>>>),
+                          }: $Values<$NonMaybeType<User['profile_data']>>),
                         };
                       } else {
                         // eslint-disable-next-line no-unused-vars

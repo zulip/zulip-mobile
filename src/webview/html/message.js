@@ -183,7 +183,7 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnly
   Object.keys(flags).filter(key => flags[key][id]);
 
 const senderEmojiStatus = (
-  emoji: $PropertyType<UserStatus, 'status_emoji'>,
+  emoji: UserStatus['status_emoji'],
   allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
 ): string =>
   emoji

@@ -146,9 +146,9 @@ interface DisplayNamesOptions {
 }
 interface DisplayNamesResolvedOptions {
   locale: string;
-  style: $NonMaybeType<$PropertyType<DisplayNamesOptions, 'style'>>;
-  type: $NonMaybeType<$PropertyType<DisplayNamesOptions, 'type'>>;
-  fallback: $NonMaybeType<$PropertyType<DisplayNamesOptions, 'fallback'>>;
+  style: $NonMaybeType<DisplayNamesOptions['style']>;
+  type: $NonMaybeType<DisplayNamesOptions['type']>;
+  fallback: $NonMaybeType<DisplayNamesOptions['fallback']>;
 }
 interface ElementPart {
   type: 'element';
@@ -218,7 +218,7 @@ declare export var FormattedDate: React$StatelessFunctionalComponent<
 declare export var FormattedDateParts: React$StatelessFunctionalComponent<
   FormatDateOptions & {
     value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-    children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
+    children(val: $Call<Intl$DateTimeFormat['formatToParts'], mixed[]>): React$Element<React$ElementType> | null,
     ...
   }, >;
 declare export var FormattedDisplayName: React$StatelessFunctionalComponent<
@@ -250,7 +250,7 @@ declare export var FormattedNumber: React$StatelessFunctionalComponent<
       ...
     }, >;
 declare export var FormattedNumberParts: React$StatelessFunctionalComponent<
-  $PropertyType<Formatter, 'formatNumber'> & {
+  Formatter['formatNumber'] & {
       // Param type of our IntlShape.formatNumber, alias of our
       // IntlFormatters.formatNumber
     value: number,
@@ -258,7 +258,7 @@ declare export var FormattedNumberParts: React$StatelessFunctionalComponent<
     // Callers will get a Flow error until Flow adds a built-in
     // definition for Intl.NumberFormat.prototype.formatToParts():
     //   https://github.com/facebook/flow/issues/8859
-    children(val: $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
+    children(val: $Call<Intl$NumberFormat['formatToParts'], mixed[]>): React$Element<React$ElementType> | null,
     ...
   }, >;
 declare export var FormattedPlural: React$StatelessFunctionalComponent<WithIntlProps<Props_2>> & {
@@ -287,7 +287,7 @@ declare export var FormattedTime: React$StatelessFunctionalComponent<
 declare export var FormattedTimeParts: React$StatelessFunctionalComponent<
   FormatDateOptions & {
     value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
-    children(val: $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>): React$Element<React$ElementType> | null,
+    children(val: $Call<Intl$DateTimeFormat['formatToParts'], mixed[]>): React$Element<React$ElementType> | null,
     ...
   }, >;
 type Formatter = {
@@ -393,11 +393,11 @@ export interface IntlFormatters<T = React$Node, R = T> {
   formatDateToParts(
     value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
     opts?: FormatDateOptions,
-  ): $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>;
+  ): $Call<Intl$DateTimeFormat['formatToParts'], mixed[]>;
   formatTimeToParts(
     value: Date | number | string, // Param of Intl.DateTimeFormat.prototype.format(), or `string`
     opts?: FormatDateOptions,
-  ): $Call<$PropertyType<Intl$DateTimeFormat, 'formatToParts'>, mixed[]>;
+  ): $Call<Intl$DateTimeFormat['formatToParts'], mixed[]>;
   formatRelativeTime(
     value: number, // First param of our RelativeTimeFormat.prototype.format()
     unit?: FormattableUnit, // Second param of our RelativeTimeFormat.prototype.format()
@@ -414,11 +414,11 @@ export interface IntlFormatters<T = React$Node, R = T> {
     // Callers will get a Flow error until Flow adds a built-in
     // definition for Intl.NumberFormat.prototype.formatToParts():
     //   https://github.com/facebook/flow/issues/8859
-  ): $Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>;
+  ): $Call<Intl$NumberFormat['formatToParts'], mixed[]>;
   formatPlural(
     value: number, // Param of Intl.PluralRules.prototype.select()
     opts?: FormatPluralOptions,
-  ): $Call<<R>((...args: $FlowFixMe[]) => R) => R, $PropertyType<typeof Intl.PluralRules, 'select'>>;
+  ): $Call<<R>((...args: $FlowFixMe[]) => R) => R, typeof Intl.PluralRules['select']>;
   formatMessage(
     descriptor: MessageDescriptor,
     // The `+` was added to make the properties covariant rather
@@ -836,7 +836,7 @@ declare var PART_TYPE: {|
 type PluralElement = {
   options: {| [key: ValidPluralRule]: PluralOrSelectOption |},
   offset: number,
-  pluralType: $PropertyType<Intl$PluralRulesOptions, 'type'>,
+  pluralType: Intl$PluralRulesOptions['type'],
   ...
 } & BaseElement<typeof TYPE.plural>;
 interface PluralOrSelectOption {
@@ -939,7 +939,7 @@ type RelativeTimeFormatNumberPart = {
   // Callers will get a Flow error until Flow adds a built-in
   // definition for Intl.NumberFormat.prototype.formatToParts():
   //   https://github.com/facebook/flow/issues/8859
-} & $ElementType<$Call<$PropertyType<Intl$NumberFormat, 'formatToParts'>, mixed[]>, number>;
+} & $ElementType<$Call<Intl$NumberFormat['formatToParts'], mixed[]>, number>;
 type RelativeTimeLocaleData = LocaleData<LocaleFieldsData>;
 interface ResolvedIntlListFormatOptions {
   /**

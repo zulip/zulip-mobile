@@ -24,111 +24,111 @@ export type RealmDataForUpdate = $ReadOnly<{
   //
 
   add_custom_emoji_policy:
-    $PropertyType<InitialDataRealm, 'realm_add_custom_emoji_policy'>,
+    InitialDataRealm['realm_add_custom_emoji_policy'],
   allow_community_topic_editing: // deprecated
-    $PropertyType<InitialDataRealm, 'realm_allow_community_topic_editing'>,
+    InitialDataRealm['realm_allow_community_topic_editing'],
   allow_edit_history:
-    $PropertyType<InitialDataRealm, 'realm_allow_edit_history'>,
+    InitialDataRealm['realm_allow_edit_history'],
   allow_message_editing:
-    $PropertyType<InitialDataRealm, 'realm_allow_message_editing'>,
+    InitialDataRealm['realm_allow_message_editing'],
   authentication_methods:
-    $PropertyType<InitialDataRealm, 'realm_authentication_methods'>,
+    InitialDataRealm['realm_authentication_methods'],
   bot_creation_policy:
-    $PropertyType<InitialDataRealm, 'realm_bot_creation_policy'>,
+    InitialDataRealm['realm_bot_creation_policy'],
   community_topic_editing_limit_seconds:
-    $PropertyType<InitialDataRealm, 'realm_community_topic_editing_limit_seconds'>,
+    InitialDataRealm['realm_community_topic_editing_limit_seconds'],
   create_private_stream_policy:
-    $PropertyType<InitialDataRealm, 'realm_create_private_stream_policy'>,
+    InitialDataRealm['realm_create_private_stream_policy'],
   create_public_stream_policy:
-    $PropertyType<InitialDataRealm, 'realm_create_public_stream_policy'>,
+    InitialDataRealm['realm_create_public_stream_policy'],
   create_web_public_stream_policy:
-    $PropertyType<InitialDataRealm, 'realm_create_web_public_stream_policy'>,
+    InitialDataRealm['realm_create_web_public_stream_policy'],
   create_stream_policy: // deprecated
-    $PropertyType<InitialDataRealm, 'realm_create_stream_policy'>,
+    InitialDataRealm['realm_create_stream_policy'],
   default_code_block_language:
-    $PropertyType<InitialDataRealm, 'realm_default_code_block_language'>,
+    InitialDataRealm['realm_default_code_block_language'],
   default_language:
-    $PropertyType<InitialDataRealm, 'realm_default_language'>,
+    InitialDataRealm['realm_default_language'],
   description:
-    $PropertyType<InitialDataRealm, 'realm_description'>,
+    InitialDataRealm['realm_description'],
   digest_emails_enabled:
-    $PropertyType<InitialDataRealm, 'realm_digest_emails_enabled'>,
+    InitialDataRealm['realm_digest_emails_enabled'],
   digest_weekday:
-    $PropertyType<InitialDataRealm, 'realm_digest_weekday'>,
+    InitialDataRealm['realm_digest_weekday'],
   disallow_disposable_email_addresses:
-    $PropertyType<InitialDataRealm, 'realm_disallow_disposable_email_addresses'>,
+    InitialDataRealm['realm_disallow_disposable_email_addresses'],
   edit_topic_policy:
-    $PropertyType<InitialDataRealm, 'realm_edit_topic_policy'>,
+    InitialDataRealm['realm_edit_topic_policy'],
   email_address_visibility:
-    $PropertyType<InitialDataRealm, 'realm_email_address_visibility'>,
+    InitialDataRealm['realm_email_address_visibility'],
   email_changes_disabled:
-    $PropertyType<InitialDataRealm, 'realm_email_changes_disabled'>,
+    InitialDataRealm['realm_email_changes_disabled'],
   emails_restricted_to_domains:
-    $PropertyType<InitialDataRealm, 'realm_emails_restricted_to_domains'>,
+    InitialDataRealm['realm_emails_restricted_to_domains'],
   enable_spectator_access:
-    $PropertyType<InitialDataRealm, 'realm_enable_spectator_access'>,
+    InitialDataRealm['realm_enable_spectator_access'],
   giphy_rating:
-    $PropertyType<InitialDataRealm, 'realm_giphy_rating'>,
+    InitialDataRealm['realm_giphy_rating'],
   icon_source:
-    $PropertyType<InitialDataRealm, 'realm_icon_source'>,
+    InitialDataRealm['realm_icon_source'],
   icon_url:
-    $PropertyType<InitialDataRealm, 'realm_icon_url'>,
+    InitialDataRealm['realm_icon_url'],
   inline_image_preview:
-    $PropertyType<InitialDataRealm, 'realm_inline_image_preview'>,
+    InitialDataRealm['realm_inline_image_preview'],
   inline_url_embed_preview:
-    $PropertyType<InitialDataRealm, 'realm_inline_url_embed_preview'>,
+    InitialDataRealm['realm_inline_url_embed_preview'],
   invite_by_admins_only: // deprecated
-    $PropertyType<InitialDataRealm, 'realm_invite_by_admins_only'>,
+    InitialDataRealm['realm_invite_by_admins_only'],
   invite_required:
-    $PropertyType<InitialDataRealm, 'realm_invite_required'>,
+    InitialDataRealm['realm_invite_required'],
   invite_to_realm_policy:
-    $PropertyType<InitialDataRealm, 'realm_invite_to_realm_policy'>,
+    InitialDataRealm['realm_invite_to_realm_policy'],
   invite_to_stream_policy:
-    $PropertyType<InitialDataRealm, 'realm_invite_to_stream_policy'>,
+    InitialDataRealm['realm_invite_to_stream_policy'],
   logo_source:
-    $PropertyType<InitialDataRealm, 'realm_logo_source'>,
+    InitialDataRealm['realm_logo_source'],
   logo_url:
-    $PropertyType<InitialDataRealm, 'realm_logo_url'>,
+    InitialDataRealm['realm_logo_url'],
   mandatory_topics:
-    $PropertyType<InitialDataRealm, 'realm_mandatory_topics'>,
+    InitialDataRealm['realm_mandatory_topics'],
   message_content_allowed_in_email_notifications:
-    $PropertyType<InitialDataRealm, 'realm_message_content_allowed_in_email_notifications'>,
+    InitialDataRealm['realm_message_content_allowed_in_email_notifications'],
   message_content_delete_limit_seconds:
-    $PropertyType<InitialDataRealm, 'realm_message_content_delete_limit_seconds'>,
+    InitialDataRealm['realm_message_content_delete_limit_seconds'],
   message_content_edit_limit_seconds:
-    $PropertyType<InitialDataRealm, 'realm_message_content_edit_limit_seconds'>,
+    InitialDataRealm['realm_message_content_edit_limit_seconds'],
   move_messages_between_streams_policy:
-    $PropertyType<InitialDataRealm, 'realm_move_messages_between_streams_policy'>,
+    InitialDataRealm['realm_move_messages_between_streams_policy'],
   name:
-    $PropertyType<InitialDataRealm, 'realm_name'>,
+    InitialDataRealm['realm_name'],
   name_changes_disabled:
-    $PropertyType<InitialDataRealm, 'realm_name_changes_disabled'>,
+    InitialDataRealm['realm_name_changes_disabled'],
   night_logo_source:
-    $PropertyType<InitialDataRealm, 'realm_night_logo_source'>,
+    InitialDataRealm['realm_night_logo_source'],
   night_logo_url:
-    $PropertyType<InitialDataRealm, 'realm_night_logo_url'>,
+    InitialDataRealm['realm_night_logo_url'],
   notifications_stream_id:
-    $PropertyType<InitialDataRealm, 'realm_notifications_stream_id'>,
+    InitialDataRealm['realm_notifications_stream_id'],
   plan_type:
-    $PropertyType<InitialDataRealm, 'realm_plan_type'>,
+    InitialDataRealm['realm_plan_type'],
   presence_disabled:
-    $PropertyType<InitialDataRealm, 'realm_presence_disabled'>,
+    InitialDataRealm['realm_presence_disabled'],
   private_message_policy:
-    $PropertyType<InitialDataRealm, 'realm_private_message_policy'>,
+    InitialDataRealm['realm_private_message_policy'],
   send_welcome_emails:
-    $PropertyType<InitialDataRealm, 'realm_send_welcome_emails'>,
+    InitialDataRealm['realm_send_welcome_emails'],
   signup_notifications_stream_id:
-    $PropertyType<InitialDataRealm, 'realm_signup_notifications_stream_id'>,
+    InitialDataRealm['realm_signup_notifications_stream_id'],
   user_group_edit_policy:
-    $PropertyType<InitialDataRealm, 'realm_user_group_edit_policy'>,
+    InitialDataRealm['realm_user_group_edit_policy'],
   video_chat_provider:
-    $PropertyType<InitialDataRealm, 'realm_video_chat_provider'>,
+    InitialDataRealm['realm_video_chat_provider'],
   waiting_period_threshold:
-    $PropertyType<InitialDataRealm, 'realm_waiting_period_threshold'>,
+    InitialDataRealm['realm_waiting_period_threshold'],
   want_advertise_in_communities_directory:
-    $PropertyType<InitialDataRealm, 'realm_want_advertise_in_communities_directory'>,
+    InitialDataRealm['realm_want_advertise_in_communities_directory'],
   wildcard_mention_policy:
-    $PropertyType<InitialDataRealm, 'realm_wildcard_mention_policy'>,
+    InitialDataRealm['realm_wildcard_mention_policy'],
 
   //
   // Keep alphabetical by the InitialDataRealm property. So by

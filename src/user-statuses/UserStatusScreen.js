@@ -74,12 +74,11 @@ type Props = $ReadOnly<{|
   route: RouteProp<'user-status', void>,
 |}>;
 
-const statusTextFromInputValue = (v: string): $PropertyType<UserStatus, 'status_text'> =>
-  v.trim() || null;
+const statusTextFromInputValue = (v: string): UserStatus['status_text'] => v.trim() || null;
 
-const inputValueFromStatusText = (t: $PropertyType<UserStatus, 'status_text'>): string => t ?? '';
+const inputValueFromStatusText = (t: UserStatus['status_text']): string => t ?? '';
 
-const statusEmojiFromInputValue = (v: EmojiInputValue): $PropertyType<UserStatus, 'status_emoji'> =>
+const statusEmojiFromInputValue = (v: EmojiInputValue): UserStatus['status_emoji'] =>
   v
     ? {
         emoji_name: v.name,
@@ -88,7 +87,7 @@ const statusEmojiFromInputValue = (v: EmojiInputValue): $PropertyType<UserStatus
       }
     : null;
 
-const inputValueFromStatusEmoji = (e: $PropertyType<UserStatus, 'status_emoji'>): EmojiInputValue =>
+const inputValueFromStatusEmoji = (e: UserStatus['status_emoji']): EmojiInputValue =>
   e
     ? {
         type: emojiTypeFromReactionType(e.reaction_type),

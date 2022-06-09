@@ -187,19 +187,19 @@ export const makeCrossRealmBot = (
     bot_type: 1,
   });
 
-export const userStatusEmojiUnicode: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+export const userStatusEmojiUnicode: UserStatus['status_emoji'] = deepFreeze({
   reaction_type: 'unicode_emoji',
   emoji_code: '1f44d',
   emoji_name: 'thumbs_up',
 });
 
-export const userStatusEmojiZulipExtra: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+export const userStatusEmojiZulipExtra: UserStatus['status_emoji'] = deepFreeze({
   reaction_type: 'zulip_extra_emoji',
   emoji_code: 'zulip',
   emoji_name: 'zulip',
 });
 
-export const userStatusEmojiRealm: $PropertyType<UserStatus, 'status_emoji'> = deepFreeze({
+export const userStatusEmojiRealm: UserStatus['status_emoji'] = deepFreeze({
   reaction_type: 'realm_emoji',
   emoji_code: '80',
   emoji_name: 'github_parrot',
@@ -983,7 +983,7 @@ export const action = Object.freeze({
  */
 export const mkActionRegisterComplete = (extra: {|
   ...$Rest<InitialData, { ... }>,
-  unread_msgs?: $Rest<$PropertyType<InitialData, 'unread_msgs'>, { ... }>,
+  unread_msgs?: $Rest<InitialData['unread_msgs'], { ... }>,
 |}): PerAccountAction => {
   const { unread_msgs, ...rest } = extra;
   return deepFreeze({

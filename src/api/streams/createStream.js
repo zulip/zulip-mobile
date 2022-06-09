@@ -16,17 +16,17 @@ export default (
   streamAttributes: $ReadOnly<{|
     // Ordered by their appearance in the doc.
 
-    name: $PropertyType<Stream, 'name'>,
-    description?: $PropertyType<Stream, 'description'>,
-    invite_only?: $PropertyType<Stream, 'invite_only'>,
+    name: Stream['name'],
+    description?: Stream['description'],
+    invite_only?: Stream['invite_only'],
 
     // TODO(server-5.0): New in FL 98
-    is_web_public?: $PropertyType<Stream, 'is_web_public'>,
+    is_web_public?: Stream['is_web_public'],
 
-    history_public_to_subscribers?: $PropertyType<Stream, 'history_public_to_subscribers'>,
+    history_public_to_subscribers?: Stream['history_public_to_subscribers'],
 
     // TODO(server-3.0): New in FL 1; for older servers, pass is_announcement_only.
-    stream_post_policy?: $PropertyType<Stream, 'stream_post_policy'>,
+    stream_post_policy?: Stream['stream_post_policy'],
 
     // Doesn't take the same special values as Stream.message_retention_days!
     //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/message_retention_days/near/1367895
@@ -42,7 +42,7 @@ export default (
     // TODO(server-3.0): Replaced in FL 1 by 'stream_post_policy'.
     // Commented out because this isn't actually in the doc. It probably
     // exists though? Copied from api.updateStream.
-    // is_announcement_only?: $PropertyType<Stream, 'is_announcement_only'>,
+    // is_announcement_only?: Stream['is_announcement_only'],
   |}>,
   options?: $ReadOnly<{|
     // TODO(server-3.0): Send numeric user IDs (#3764), not emails.

@@ -68,7 +68,7 @@ describe('usersReducer', () => {
     // Tell ESLint to recognize `check` as a helper function that runs
     // assertions.
     /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
-    const check = <P: $PropertyType<RealmUserUpdateEvent, 'person'>>(
+    const check = <P: RealmUserUpdateEvent['person']>(
       personMaybeWithoutId: $Rest<P, {| user_id?: mixed |}>,
       expectedUser?: User,
     ) => {

@@ -122,21 +122,21 @@ declare module "prettier" {
 
   declare export type CursorOptions = {|
     cursorOffset: number,
-    printWidth?: $PropertyType<Options, "printWidth">,
-    tabWidth?: $PropertyType<Options, "tabWidth">,
-    useTabs?: $PropertyType<Options, "useTabs">,
-    semi?: $PropertyType<Options, "semi">,
-    singleQuote?: $PropertyType<Options, "singleQuote">,
-    trailingComma?: $PropertyType<Options, "trailingComma">,
-    bracketSpacing?: $PropertyType<Options, "bracketSpacing">,
-    jsxBracketSameLine?: $PropertyType<Options, "jsxBracketSameLine">,
-    arrowParens?: $PropertyType<Options, "arrowParens">,
-    parser?: $PropertyType<Options, "parser">,
-    filepath?: $PropertyType<Options, "filepath">,
-    requirePragma?: $PropertyType<Options, "requirePragma">,
-    insertPragma?: $PropertyType<Options, "insertPragma">,
-    proseWrap?: $PropertyType<Options, "proseWrap">,
-    plugins?: $PropertyType<Options, "plugins">
+    printWidth?: Options["printWidth"],
+    tabWidth?: Options["tabWidth"],
+    useTabs?: Options["useTabs"],
+    semi?: Options["semi"],
+    singleQuote?: Options["singleQuote"],
+    trailingComma?: Options["trailingComma"],
+    bracketSpacing?: Options["bracketSpacing"],
+    jsxBracketSameLine?: Options["jsxBracketSameLine"],
+    arrowParens?: Options["arrowParens"],
+    parser?: Options["parser"],
+    filepath?: Options["filepath"],
+    requirePragma?: Options["requirePragma"],
+    insertPragma?: Options["insertPragma"],
+    proseWrap?: Options["proseWrap"],
+    plugins?: Options["plugins"]
   |};
 
   declare export type CursorResult = {|
