@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import React, { useEffect } from 'react';
-import type { Node, ComponentType } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -9,8 +9,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import * as NavigationService from '../nav/NavigationService';
 import * as logging from '../utils/logging';
 import ReactionUserList from './ReactionUserList';
-import { connect } from '../react-redux';
-import type { Dispatch, Message, UserId } from '../types';
+import { useSelector } from '../react-redux';
 import Screen from '../common/Screen';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipText from '../common/ZulipText';
@@ -29,23 +28,9 @@ type NavParamList = {| +[name: string]: void |};
 
 const Tab = createMaterialTopTabNavigator<NavParamList>();
 
-type OuterProps = $ReadOnly<{|
-  // These should be passed from React Navigation
+type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'message-reactions'>,
   route: RouteProp<'message-reactions', {| reactionName?: string, messageId: number |}>,
-|}>;
-
-type SelectorProps = $ReadOnly<{|
-  message: Message | void,
-  ownUserId: UserId,
-|}>;
-
-type Props = $ReadOnly<{|
-  ...OuterProps,
-
-  // from `connect`
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
@@ -54,20 +39,20 @@ type Props = $ReadOnly<{|
  * The `reactionName` nav-prop controls what reaction is focused when the
  * screen first appears.
  */
-function MessageReactionsScreenInner(props: Props): Node {
-  const { message, route, ownUserId } = props;
-  const { reactionName } = route.params;
+export default function MessageReactionsScreen(props: Props): Node {
+  const { messageId, reactionName } = props.route.params;
+  const message = useSelector(state => state.messages.get(messageId));
+  const ownUserId = useSelector(getOwnUserId);
 
   useEffect(() => {
     if (message === undefined) {
-      const { messageId } = route.params;
       logging.warn(
         'MessageReactionsScreen unexpectedly created without props.message; '
           + 'message with messageId is missing in state.messages',
         { messageId },
       );
     }
-  }, [message, route.params]);
+  }, [message, messageId]);
 
   const prevMessage = usePrevious(message);
   useEffect(() => {
@@ -137,13 +122,3 @@ function MessageReactionsScreenInner(props: Props): Node {
     </Screen>
   );
 }
-
-const MessageReactionsScreen: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
-  (state, props) => ({
-    // message *can* be undefined; see componentDidUpdate for explanation and handling.
-    message: state.messages.get(props.route.params.messageId),
-    ownUserId: getOwnUserId(state),
-  }),
-)(MessageReactionsScreenInner);
-
-export default MessageReactionsScreen;
