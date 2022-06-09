@@ -45,7 +45,7 @@ It doesn't include
 ### Highlights for users
 
 * Users' custom profile fields are now shown in the profile view. These can
-  include pronouns, social-media usernames, favorite dates, etc. (#2900)
+  include pronouns, social-media usernames, job titles, etc. (#2900)
 
 Plus, like every release, other fixes and improvements for your Zulip
 experience.
