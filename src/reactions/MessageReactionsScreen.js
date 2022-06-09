@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useEffect } from 'react';
 import type { Node, ComponentType } from 'react';
 import { View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -21,6 +21,7 @@ import { materialTopTabNavigatorConfig } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import { navigateBack } from '../nav/navActions';
+import { usePrevious } from '../reactUtils';
 
 // The tab navigator we make here has a dynamic set of route names, but they
 // all take `void` for parameters.
@@ -53,92 +54,88 @@ type Props = $ReadOnly<{|
  * The `reactionName` nav-prop controls what reaction is focused when the
  * screen first appears.
  */
-class MessageReactionsScreenInner extends PureComponent<Props> {
-  componentDidMount() {
-    if (this.props.message === undefined) {
-      const { messageId } = this.props.route.params;
+function MessageReactionsScreenInner(props: Props): Node {
+  useEffect(() => {
+    if (props.message === undefined) {
+      const { messageId } = props.route.params;
       logging.warn(
         'MessageReactionsScreen unexpectedly created without props.message; '
           + 'message with messageId is missing in state.messages',
         { messageId },
       );
     }
-  }
+  }, [props.message, props.route.params]);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.message !== undefined && this.props.message === undefined) {
+  const prevMessage = usePrevious(props.message);
+  useEffect(() => {
+    if (prevMessage !== undefined && props.message === undefined) {
       // The message was present, but got purged (currently only caused by a
       // REGISTER_COMPLETE following a dead event queue), so go back.
       NavigationService.dispatch(navigateBack());
     }
-  }
+  }, [prevMessage, props.message]);
 
-  render() {
-    const { message, route, ownUserId } = this.props;
-    const { reactionName } = route.params;
+  const { message, route, ownUserId } = props;
+  const { reactionName } = route.params;
 
-    const content: Node = (() => {
-      if (message === undefined) {
-        return <View style={styles.flexed} />;
-      } else if (message.reactions.length === 0) {
-        return (
-          <View style={[styles.flexed, styles.center]}>
-            <ZulipTextIntl style={styles.largerText} text="No reactions" />
-          </View>
-        );
-      } else {
-        const aggregatedReactions = aggregateReactions(message.reactions, ownUserId);
+  const content: Node = (() => {
+    if (message === undefined) {
+      return <View style={styles.flexed} />;
+    } else if (message.reactions.length === 0) {
+      return (
+        <View style={[styles.flexed, styles.center]}>
+          <ZulipTextIntl style={styles.largerText} text="No reactions" />
+        </View>
+      );
+    } else {
+      const aggregatedReactions = aggregateReactions(message.reactions, ownUserId);
 
-        return (
-          <View style={styles.flexed}>
-            <Tab.Navigator
-              backBehavior="none"
-              // The user may have originally navigated here to look at a reaction
-              // that's since been removed.  Ignore the nav hint in that case.
-              initialRouteName={
-                aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
-              }
-              {...materialTopTabNavigatorConfig()}
-              swipeEnabled
-            >
-              {
-                // Generate tabs for the reaction list. The tabs depend
-                // on the distinct reactions on the message.
-              }
-              {aggregatedReactions.map(aggregatedReaction => (
-                // Each tab corresponds to an aggregated reaction, and has a user list.
-                <Tab.Screen
-                  key={aggregatedReaction.name}
-                  name={aggregatedReaction.name}
-                  component={() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
-                  options={{
-                    tabBarLabel: () => (
-                      <View style={styles.row}>
-                        <Emoji
-                          code={aggregatedReaction.code}
-                          type={emojiTypeFromReactionType(aggregatedReaction.type)}
-                        />
-                        <ZulipText
-                          style={styles.paddingLeft}
-                          text={`${aggregatedReaction.count}`}
-                        />
-                      </View>
-                    ),
-                  }}
-                />
-              ))}
-            </Tab.Navigator>
-          </View>
-        );
-      }
-    })();
+      return (
+        <View style={styles.flexed}>
+          <Tab.Navigator
+            backBehavior="none"
+            // The user may have originally navigated here to look at a reaction
+            // that's since been removed.  Ignore the nav hint in that case.
+            initialRouteName={
+              aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
+            }
+            {...materialTopTabNavigatorConfig()}
+            swipeEnabled
+          >
+            {
+              // Generate tabs for the reaction list. The tabs depend
+              // on the distinct reactions on the message.
+            }
+            {aggregatedReactions.map(aggregatedReaction => (
+              // Each tab corresponds to an aggregated reaction, and has a user list.
+              <Tab.Screen
+                key={aggregatedReaction.name}
+                name={aggregatedReaction.name}
+                component={() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
+                options={{
+                  tabBarLabel: () => (
+                    <View style={styles.row}>
+                      <Emoji
+                        code={aggregatedReaction.code}
+                        type={emojiTypeFromReactionType(aggregatedReaction.type)}
+                      />
+                      <ZulipText style={styles.paddingLeft} text={`${aggregatedReaction.count}`} />
+                    </View>
+                  ),
+                }}
+              />
+            ))}
+          </Tab.Navigator>
+        </View>
+      );
+    }
+  })();
 
-    return (
-      <Screen title="Reactions" scrollEnabled={false}>
-        {content}
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Reactions" scrollEnabled={false}>
+      {content}
+    </Screen>
+  );
 }
 
 const MessageReactionsScreen: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
