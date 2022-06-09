@@ -192,7 +192,17 @@ write_patches()
 
     rm -f "${patch_dir}"/*.patch
 
-    git -c diff.noprefix=false \
+    local format_patch_config=(
+        # Prefix the paths with a/ and b/ (expected by `git am`).
+        # This is the default, but explicitly override user config.
+        -c diff.noprefix=false
+
+        # Merge the context of hunks that nearly touch.  (Can make
+        # diffs a bit more readable; more importantly, override user
+        # config with some consistent value for reproducibility.)
+        -c diff.interHunkContext=6
+    )
+    git "${format_patch_config[@]}" \
         format-patch --quiet --zero-commit \
         --no-thread --no-numbered --keep-subject \
         -o "${patch_dir}" "${commit_range}"

@@ -59,7 +59,7 @@ diff --git a/types/@react-navigation/native/lib/typescript/src/useLinking.js.flo
 index 66bfb1f4d..19a797a4a 100644
 --- a/types/@react-navigation/native/lib/typescript/src/useLinking.js.flow
 +++ b/types/@react-navigation/native/lib/typescript/src/useLinking.js.flow
-@@ -16,33 +16,14 @@ declare export default function useLinking(
+@@ -16,70 +16,32 @@ declare export default function useLinking(
  ): {
    getInitialState: () => PromiseLike<
      | (Partial<
@@ -101,7 +101,10 @@ index 66bfb1f4d..19a797a4a 100644
        > &
          Readonly<{
            stale?: true | void,
-@@ -53,33 +34,14 @@ declare export default function useLinking(
+           routes: $tsflower_import_type$_$_40_react_2d_navigation_2f_core$PartialRoute<
+             $tsflower_import_type$_$_40_react_2d_navigation_2f_core$Route<string, { ... } | void>,
+           >[],
+           ...
          }> & {
            state?:
              | (Partial<
@@ -147,7 +150,7 @@ diff --git a/types/@react-navigation/native/lib/typescript/src/useLinking.native
 index 66bfb1f4d..19a797a4a 100644
 --- a/types/@react-navigation/native/lib/typescript/src/useLinking.native.js.flow
 +++ b/types/@react-navigation/native/lib/typescript/src/useLinking.native.js.flow
-@@ -16,33 +16,14 @@ declare export default function useLinking(
+@@ -16,70 +16,32 @@ declare export default function useLinking(
  ): {
    getInitialState: () => PromiseLike<
      | (Partial<
@@ -189,7 +192,10 @@ index 66bfb1f4d..19a797a4a 100644
        > &
          Readonly<{
            stale?: true | void,
-@@ -53,33 +34,14 @@ declare export default function useLinking(
+           routes: $tsflower_import_type$_$_40_react_2d_navigation_2f_core$PartialRoute<
+             $tsflower_import_type$_$_40_react_2d_navigation_2f_core$Route<string, { ... } | void>,
+           >[],
+           ...
          }> & {
            state?:
              | (Partial<

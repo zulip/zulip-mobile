@@ -28,7 +28,7 @@ diff --git a/types/@react-navigation/routers/lib/typescript/src/types.js.flow b/
 index 6a0de188b..2bef8a174 100644
 --- a/types/@react-navigation/routers/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/routers/lib/typescript/src/types.js.flow
-@@ -56,9 +56,9 @@ export type PartialState<+State: NavigationState<>> = Partial<
+@@ -56,19 +56,19 @@ export type PartialState<+State: NavigationState<>> = Partial<
  export type Route<+RouteName: string, +Params: { ... } | void = { ... } | void> = $ReadOnly<{
    key: string,
    name: RouteName,
@@ -40,7 +40,9 @@ index 6a0de188b..2bef8a174 100644
      /**
       * Params for this route
       * /
-@@ -68,7 +68,7 @@ export type Route<+RouteName: string, +Params: { ... } | void = { ... } | void>
+     params?: Readonly<Params>;
+ }> : Readonly<{
+     /**
       * Params for this route
       * /
      params: Readonly<Params>;

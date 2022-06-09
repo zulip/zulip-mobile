@@ -48,7 +48,7 @@ index 41f13ea18..ccdd92d43 100644
    State: NavigationState<> = NavigationState<>,
  > = {
    dispatch(action: NavigationAction | ((state: State) => NavigationAction)): void,
-@@ -200,8 +200,8 @@ export type NavigationContainerProps = {
+@@ -200,19 +200,19 @@ export type NavigationContainerProps = {
  };
  
  export type NavigationProp<
@@ -59,7 +59,10 @@ index 41f13ea18..ccdd92d43 100644
    State: NavigationState<ParamList> = NavigationState<ParamList>,
    ScreenOptions: { ... } = { ... },
    EventMap: EventMapBase = EventMapBase,
-@@ -212,7 +212,7 @@ export type NavigationProp<
+ > = NavigationHelpersCommon<ParamList, State> & {
+   setParams(params: Partial<$ElementType<ParamList, RouteName>>): void,
+   setOptions(options: Partial<ScreenOptions>): void,
+   ...
  } & EventConsumer<EventMap & EventMapCore<State>> &
    PrivateValueStore<ParamList, RouteName, EventMap>;
  

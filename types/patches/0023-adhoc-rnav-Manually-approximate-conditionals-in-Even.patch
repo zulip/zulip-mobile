@@ -19,7 +19,7 @@ diff --git a/types/@react-navigation/core/lib/typescript/src/types.js.flow b/typ
 index cb0af945e..4d918550e 100644
 --- a/types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ b/types/@react-navigation/core/lib/typescript/src/types.js.flow
-@@ -65,7 +65,11 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
+@@ -65,17 +65,23 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
    +type: EventName,
    +target?: string,
    ...
@@ -32,7 +32,8 @@ index cb0af945e..4d918550e 100644
      /**
       * Whether `event.preventDefault()` was called on this event object.
       * /
-@@ -74,8 +78,10 @@ export type EventArg<EventName: string, CanPreventDefault: boolean | void = fals
+     readonly defaultPrevented: boolean;
+     /**
       * Prevent the default action which happens on this event.
       * /
      preventDefault(): void;
