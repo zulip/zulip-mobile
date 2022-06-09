@@ -291,7 +291,7 @@ export type RouteConfig<
         ...
       }) => ScreenListeners<State, EventMap>),
   getId?: ({ params: $ElementType<ParamList, RouteName>, ... }) => string | void,
-  initialParams?: Partial<$ElementType<ParamList, RouteName>>,
+  initialParams?: $ElementType<ParamList, RouteName>,
   ...
 } & (
   | {

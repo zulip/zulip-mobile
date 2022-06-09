@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Wed, 8 Jun 2022 14:40:53 -0700
+Subject: [upstream?] rnav: Can initialParams really be partial?
+
+If true, that'd mean that a screen could never actually count on
+getting the route params its type says it should get.  Right?
+
+Even if upstream really does want this API, I'm pretty sure *we*
+don't want it.  We can eliminate it by tightening this type here.
+---
+ types/@react-navigation/core/lib/typescript/src/types.js.flow | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
+index b1232ee31..b48b4f6fb 100644
+--- types/@react-navigation/core/lib/typescript/src/types.js.flow
++++ types/@react-navigation/core/lib/typescript/src/types.js.flow
+@@ -291,7 +291,7 @@ export type RouteConfig<
+         ...
+       }) => ScreenListeners<State, EventMap>),
+   getId?: ({ params: $ElementType<ParamList, RouteName>, ... }) => string | void,
+-  initialParams?: Partial<$ElementType<ParamList, RouteName>>,
++  initialParams?: $ElementType<ParamList, RouteName>,
+   ...
+ } & (
+   | {
+-- 
+2.32.0
+
