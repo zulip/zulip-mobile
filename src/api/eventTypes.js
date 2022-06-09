@@ -167,7 +167,7 @@ type StreamUpdateEventBase<K: $Keys<Stream>> = $ReadOnly<{|
   stream_id: number,
   name: string,
   property: K,
-  value: $ElementType<Stream, K>,
+  value: Stream[K],
 |}>;
 
 // https://zulip.com/api/get-events#stream-update
@@ -260,7 +260,7 @@ export type RealmUpdateEvent = $ReadOnly<{|
 
   // TODO(flow): `property` and `value` should correspond
   property: $Keys<RealmDataForUpdate>,
-  value: $ElementType<RealmDataForUpdate, $Keys<RealmDataForUpdate>>,
+  value: RealmDataForUpdate[$Keys<RealmDataForUpdate>],
 
   extra_data: { +upload_quota?: number, ... },
 |}>;

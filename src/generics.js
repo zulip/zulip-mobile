@@ -172,7 +172,7 @@ export type ReadWrite<T: $ReadOnly<{ ... }>> = $Diff<T, {||}>;
 // $Diff and other "type destructors", which as of 2020-08 the Flow team is
 // taking up as a priority:
 //   https://github.com/facebook/flow/issues/7886#issuecomment-669977952
-export type SubsetProperties<T, U> = $ObjMapi<U, <K, V>(K) => $ElementType<T, K>>;
+export type SubsetProperties<T, U> = $ObjMapi<U, <K, V>(K) => T[K]>;
 
 /**
  * Assert a contradiction, statically.  Do nothing at runtime.

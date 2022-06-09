@@ -104,7 +104,7 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
     navigation.navigate({
       name: 'selectable-options',
       key: screenKey,
-      params: (screenParams: $ElementType<GlobalParamList, 'selectable-options'>),
+      params: (screenParams: GlobalParamList['selectable-options']),
     });
   }, [navigation, screenKey, screenParams]);
 

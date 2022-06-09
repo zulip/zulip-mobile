@@ -216,7 +216,7 @@ export default function ChatScreen(props: Props): Node {
               initialScrollMessageId={
                 firstUnreadIdInNarrow
                 // `messages` might be empty
-                ?? (messages[messages.length - 1]: $ElementType<typeof messages, number> | void)?.id
+                ?? (messages[messages.length - 1]: (typeof messages)[number] | void)?.id
                 ?? null
               }
               showMessagePlaceholders={showMessagePlaceholders}

@@ -939,7 +939,7 @@ type RelativeTimeFormatNumberPart = {
   // Callers will get a Flow error until Flow adds a built-in
   // definition for Intl.NumberFormat.prototype.formatToParts():
   //   https://github.com/facebook/flow/issues/8859
-} & $ElementType<$Call<Intl$NumberFormat['formatToParts'], mixed[]>, number>;
+} & $Call<Intl$NumberFormat['formatToParts'], mixed[]>[number];
 type RelativeTimeLocaleData = LocaleData<LocaleFieldsData>;
 interface ResolvedIntlListFormatOptions {
   /**

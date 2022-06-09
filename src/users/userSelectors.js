@@ -187,9 +187,9 @@ export type CustomProfileFieldValue =
   | { +displayType: 'users', +userIds: $ReadOnlyArray<UserId> };
 
 function interpretCustomProfileField(
-  realmDefaultExternalAccounts: $ElementType<RealmState, 'defaultExternalAccounts'>,
+  realmDefaultExternalAccounts: RealmState['defaultExternalAccounts'],
   realmField: CustomProfileField,
-  profileData: $ElementType<UserOrBot, 'profile_data'>,
+  profileData: UserOrBot['profile_data'],
 ): void | CustomProfileFieldValue {
   const userFieldData = profileData?.[realmField.id.toString()];
   if (!userFieldData) {

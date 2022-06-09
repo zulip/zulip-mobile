@@ -268,7 +268,7 @@ describe('realmReducer', () => {
         <S: $Keys<ReadableRealmState>, E: $Keys<UserSettings>>(
           statePropertyName: S,
           eventPropertyName: E,
-        ): (($ElementType<RealmState, S>, $ElementType<UserSettings, E>) => void) =>
+        ): ((RealmState[S], UserSettings[E]) => void) =>
         (initialStateValue, eventValue) => {
           /* prettier-ignore */ // (wants to wrap the name weirdly)
           test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
@@ -310,7 +310,7 @@ describe('realmReducer', () => {
         <S: $Keys<ReadableRealmState>, E: $Keys<RealmDataForUpdate>>(
           statePropertyName: S,
           eventPropertyName: E,
-        ): (($ElementType<RealmState, S>, $ElementType<RealmDataForUpdate, E>) => void) =>
+        ): ((RealmState[S], RealmDataForUpdate[E]) => void) =>
         (initialStateValue, eventValue) => {
           /* prettier-ignore */ // (wants to wrap the name weirdly)
           test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {

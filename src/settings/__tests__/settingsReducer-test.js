@@ -166,7 +166,7 @@ describe('settingsReducer', () => {
         <S: $Keys<SettingsState>, E: $Keys<UserSettings>>(
           statePropertyName: S,
           eventPropertyName: E,
-        ): (($ElementType<SettingsState, S>, $ElementType<UserSettings, E>) => void) =>
+        ): ((SettingsState[S], UserSettings[E]) => void) =>
         (initialStateValue, eventValue) => {
           test(`${initialStateValue.toString()} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
             const initialState = { ...baseState };
