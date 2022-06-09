@@ -23,5 +23,5 @@ index e3dd9a0d0..41f13ea18 100644
    EventMap: EventMapBase = EventMapBase,
  > = NavigationHelpersCommon<ParamList, State> & {
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

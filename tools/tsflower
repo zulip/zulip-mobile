@@ -189,11 +189,23 @@ unapply_patches()
 write_patches()
 {
     local commit_range="${1:-upstream..tsflower}"
+
     rm -f "${patch_dir}"/*.patch
+
     git -c diff.noprefix=false \
         format-patch --quiet --zero-commit \
         --no-thread --no-numbered --keep-subject \
         -o "${patch_dir}" "${commit_range}"
+
+    # `git format-patch` writes the Git version number at the end.
+    # For reproducibility, normalize that to an arbitrary (realistic) value.
+    perl -i -0pe '
+        s< ^        # beginning of a line (with "m" flag below)
+           2 \. .*  # a 2.x version number (in case a future 3.x
+                    #   actually makes a difference here)
+           \n\n \Z  # end of line, blank line, end of file
+         ><2.32.0\n\n>xm
+      ' "${patch_dir}"/*.patch
 }
 
 check_consistent()

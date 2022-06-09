@@ -169,5 +169,5 @@ index da137e97a..fa014c506 100644
  export type StackNavigationHelpers = NavigationHelpers<ParamListBase, StackNavigationEventMap> &
    StackActionHelpers<ParamListBase>;
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

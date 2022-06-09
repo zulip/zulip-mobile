@@ -61,5 +61,5 @@ index 3bd89b8ce..d7bdf0f5e 100644
  export type StackRouterOptions = DefaultRouterOptions<>;
  export type StackNavigationState<ParamList: ParamListBase> = NavigationState<ParamList> & {
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

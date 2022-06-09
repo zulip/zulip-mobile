@@ -36,5 +36,5 @@ index fecf4f88b..ef52d077f 100644
      theme?: Theme | void,
      linking?: LinkingOptions | void,
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

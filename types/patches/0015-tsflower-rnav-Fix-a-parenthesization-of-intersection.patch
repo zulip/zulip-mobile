@@ -81,5 +81,5 @@ index 1421d39dd..cb0af945e 100644
  export type NavigationContainerEventMap = {|
    state: {| data: { state: NavigationState<> | PartialState<NavigationState<>> | void, ... } |},
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

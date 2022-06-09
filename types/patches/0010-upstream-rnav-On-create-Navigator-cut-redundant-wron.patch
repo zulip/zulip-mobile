@@ -53,5 +53,5 @@ index 3c2939d32..f96ddf688 100644
  declare var _default: <
    ParamList: { +[key: string]: { ... } | void },
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 

@@ -25,5 +25,5 @@ index a194fa5fa..ea0e29c32 100644
  export type NavigationState<ParamList: ParamListBase = ParamListBase> = Readonly<{
    key: string,
 -- 
-2.32.0 (Apple Git-132)
+2.32.0
 
