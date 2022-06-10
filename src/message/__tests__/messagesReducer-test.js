@@ -347,13 +347,6 @@ describe('messagesReducer', () => {
         content: '<p>Old content</p>',
         subject: 'Old topic',
         last_edit_timestamp: 123,
-        edit_history: [
-          {
-            prev_subject: 'Old topic',
-            timestamp: 123,
-            user_id: eg.otherUser.user_id,
-          },
-        ],
       });
       const message1New = {
         ...message1Old,
