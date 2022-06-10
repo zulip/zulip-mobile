@@ -207,9 +207,9 @@ export const userStatusEmojiRealm: UserStatus['status_emoji'] = deepFreeze({
 
 export const realm: URL = new URL('https://zulip.example.org');
 
-export const zulipVersion: ZulipVersion = new ZulipVersion('2.1.0-234-g7c3acf4');
-
-export const zulipFeatureLevel = 1;
+/** These may be raised but should not be lowered. */
+export const recentZulipVersion: ZulipVersion = new ZulipVersion('6.0-dev-511-g7a3abcc7ef');
+export const recentZulipFeatureLevel = 132;
 
 export const makeAccount = (
   args: {|
@@ -230,8 +230,8 @@ export const makeAccount = (
     email = user.email,
     realm: realmInner = realm,
     apiKey = randString() + randString(),
-    zulipFeatureLevel: zulipFeatureLevelInner = zulipFeatureLevel,
-    zulipVersion: zulipVersionInner = zulipVersion,
+    zulipFeatureLevel: zulipFeatureLevelInner = recentZulipFeatureLevel,
+    zulipVersion: zulipVersionInner = recentZulipVersion,
     ackedPushToken = null,
     lastDismissedServerPushSetupNotice = null,
   } = args;
@@ -637,8 +637,8 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
       ...selfAuth,
       userId: selfUser.user_id,
       ackedPushToken: null,
-      zulipVersion,
-      zulipFeatureLevel,
+      zulipVersion: recentZulipVersion,
+      zulipFeatureLevel: recentZulipFeatureLevel,
       lastDismissedServerPushSetupNotice: null,
     },
   ],
@@ -716,8 +716,8 @@ export const action = Object.freeze({
       last_event_id: 34,
       msg: '',
       queue_id: '1',
-      zulip_feature_level: 1,
-      zulip_version: zulipVersion.raw(),
+      zulip_feature_level: recentZulipFeatureLevel,
+      zulip_version: recentZulipVersion.raw(),
 
       // InitialDataAlertWords
       alert_words: [],
