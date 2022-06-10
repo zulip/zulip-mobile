@@ -627,7 +627,11 @@ export type MessageSnapshot = $ReadOnly<{|
 |}>;
 
 /**
- * Found in the history within a `Message` object.
+ * Found in the history within a `Message` object, from servers with FL 118+.
+ *
+ * Servers older than 118 send edit-history data in a different shape that's
+ * awkward to work with. In that case we drop the data on the floor, not
+ * storing it in Redux, so we can focus on handling the new, better shape.
  *
  * See also `MessageSnapshot`.
  */
@@ -636,27 +640,10 @@ export type MessageEdit = $ReadOnly<{|
   prev_rendered_content?: string,
   prev_rendered_content_version?: number,
   prev_stream?: number,
-
-  // New in FL 118, replacing `prev_subject`.
-  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
-  //   only present if topic was changed.
   prev_topic?: string,
-
-  // TODO(server-5.0): Replaced in FL 118 by `prev_topic`.
-  prev_subject?: string,
-
-  // New in FL 118.
-  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
-  //   only present if stream was changed.
   stream?: number,
-
   timestamp: number,
-
-  // New in FL 118.
-  // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
-  //   only present if topic was changed.
   topic?: string,
-
   user_id: UserId | null,
 |}>;
 
@@ -761,7 +748,11 @@ type MessageBase = $ReadOnly<{|
   content: string,
   content_type: 'text/html',
   // display_recipient handled on PmMessage and StreamMessage separately
-  edit_history: $ReadOnlyArray<MessageEdit>,
+
+  // Optional because we only store it in Redux if it's coming from a server
+  // with FL >=118; see comment on MessageEdit.
+  edit_history: $ReadOnlyArray<MessageEdit> | null,
+
   id: number,
   is_me_message: boolean,
   last_edit_timestamp?: number,

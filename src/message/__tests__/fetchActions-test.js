@@ -246,6 +246,7 @@ describe('fetchActions', () => {
       ...message1,
       reactions: [],
       avatar_url: null, // Null in server data will be transformed to a GravatarURL
+      edit_history: [],
     };
 
     const baseState = eg.reduxStatePlus({

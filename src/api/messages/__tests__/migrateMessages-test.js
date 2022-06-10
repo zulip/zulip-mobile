@@ -23,9 +23,21 @@ const serverMessage: ServerMessage = {
   ...eg.streamMessage(),
   reactions: [serverReaction],
   avatar_url: null,
+  edit_history: [
+    {
+      prev_content: 'foo',
+      prev_rendered_content: '<p>foo</p>',
+      prev_stream: eg.stream.stream_id,
+      prev_topic: 'bar',
+      stream: eg.otherStream.stream_id,
+      timestamp: 0,
+      topic: 'bar!',
+      user_id: eg.selfUser.user_id,
+    },
+  ],
 };
 
-describe('migrateMessages', () => {
+describe('recent server', () => {
   const input: $ReadOnlyArray<ServerMessage> = [serverMessage];
 
   const expectedOutput: $ReadOnlyArray<Message> = [
@@ -40,6 +52,9 @@ describe('migrateMessages', () => {
         },
       ],
       avatar_url: GravatarURL.validateAndConstructInstance({ email: serverMessage.sender_email }),
+      edit_history:
+        // $FlowIgnore[incompatible-cast] - See MessageEdit type
+        (serverMessage.edit_history: Message['edit_history']),
     },
   ];
 
@@ -56,4 +71,32 @@ describe('migrateMessages', () => {
   test('Converts avatar_url correctly', () => {
     expect(actualOutput.map(m => m.avatar_url)).toEqual(expectedOutput.map(m => m.avatar_url));
   });
+
+  test('Keeps edit_history', () => {
+    expect(actualOutput.map(m => m.edit_history)).toEqual(expectedOutput.map(m => m.edit_history));
+  });
+});
+
+describe('drops edit_history from pre-118 server', () => {
+  expect(
+    migrateMessages(
+      [
+        {
+          ...serverMessage,
+          edit_history: [
+            {
+              prev_content: 'foo',
+              prev_rendered_content: '<p>foo</p>',
+              prev_stream: eg.stream.stream_id,
+              prev_subject: 'bar',
+              timestamp: 0,
+              user_id: eg.selfUser.user_id,
+            },
+          ],
+        },
+      ],
+      identityOfAuth(eg.selfAuth),
+      117,
+    ).map(m => m.edit_history),
+  ).toEqual([null]);
 });

@@ -42,7 +42,18 @@ describe('eventToAction', () => {
       ...eg.streamMessage(),
       reactions: [],
       avatar_url: null,
-      edit_history: [],
+      edit_history: [
+        {
+          prev_content: 'foo',
+          prev_rendered_content: '<p>foo</p>',
+          prev_stream: eg.stream.stream_id,
+          prev_topic: 'bar',
+          stream: eg.otherStream.stream_id,
+          timestamp: 0,
+          topic: 'bar!',
+          user_id: eg.selfUser.user_id,
+        },
+      ],
       flags: undefined,
     };
 
@@ -62,6 +73,44 @@ describe('eventToAction', () => {
 
       test('Converts avatar_url', () => {
         expect(action.message.avatar_url).toBeInstanceOf(AvatarURL);
+      });
+
+      test('Keeps edit_history', () => {
+        expect(action.message.edit_history).not.toBeNull();
+        expect(action.message.edit_history).toEqual(serverMessage.edit_history);
+      });
+    });
+
+    describe('edit_history for FL <118', () => {
+      const serverMessageInner = {
+        ...serverMessage,
+        edit_history: [
+          {
+            prev_content: 'foo',
+            prev_rendered_content: '<p>foo</p>',
+            prev_stream: eg.stream.stream_id,
+            prev_subject: 'bar',
+            timestamp: 0,
+            user_id: eg.selfUser.user_id,
+          },
+        ],
+      };
+      const event = { type: 'message', message: serverMessageInner };
+      const action = eventToAction(
+        eg.reduxStatePlus({
+          accounts: [{ ...eg.plusReduxState.accounts[0], zulipFeatureLevel: 117 }],
+        }),
+        event,
+      );
+
+      test('EVENT_NEW_MESSAGE produced', () => {
+        expect(actionMatchesType(action, EVENT_NEW_MESSAGE)).toBeTrue();
+      });
+
+      invariant(actionMatchesType(action, EVENT_NEW_MESSAGE), 'EVENT_NEW_MESSAGE produced');
+
+      test('edit_history dropped', () => {
+        expect(action.message.edit_history).toBeNull();
       });
     });
   });

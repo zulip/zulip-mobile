@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { EventTypes, type EventType, type RealmUserUpdateEventRaw } from '../api/eventTypes';
 import * as logging from '../utils/logging';
-import type { PerAccountState, EventAction } from '../types';
+import type { PerAccountState, EventAction, Message } from '../types';
 import {
   EVENT_ALERT_WORDS,
   EVENT_NEW_MESSAGE,
@@ -33,7 +33,7 @@ import {
 } from '../actionConstants';
 import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
-import { getRealmUrl } from '../account/accountsSelectors';
+import { getRealmUrl, getZulipFeatureLevel } from '../account/accountsSelectors';
 import { messageMoved } from '../api/misc';
 import { ensureUnreachable } from '../generics';
 
@@ -90,6 +90,7 @@ const actionTypeOfEventType = {
 // This FlowFixMe is because this function encodes a large number of
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: PerAccountState, event: $FlowFixMe): EventAction | null => {
+  const zulipFeatureLevel = getZulipFeatureLevel(state);
   const type = (event.type: EventType);
   switch (type) {
     // For reference on each type of event, see:
@@ -116,6 +117,11 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
             userId: event.message.sender_id,
             realm: getRealmUrl(state),
           }),
+          edit_history:
+            // Why FL 118 condition? See MessageEdit type.
+            zulipFeatureLevel >= 118
+              ? (event.message.edit_history: $NonMaybeType<Message['edit_history']>)
+              : null,
         },
         local_message_id: event.local_message_id,
         caughtUp: state.caughtUp,
