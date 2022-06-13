@@ -68,6 +68,10 @@ const eventUpdateMessageFlags = (state, action, ownUserId) => {
       }
     }
 
+    // TODO This re-sorting is pretty overkill; only the conversations we
+    //   actually touched need it.  But rather than add complications to the
+    //   `addItemsTo…` system to support that, let's spend that effort
+    //   instead to finally rip that system out in favor of Immutable.js.
     return newState.map(({ sender_id, unread_message_ids }) => ({
       sender_id,
       unread_message_ids: [...unread_message_ids].sort((a, b) => a - b),
