@@ -129,7 +129,6 @@
   "resolutions": {
     "jest-expo/react-test-renderer": "17.0.2",
     "prettier-eslint-cli/prettier-eslint": "^15.0.0",
-    "react-native/use-subscription": ">=1.0.0 <1.6.0",
-    "sqlite3/**/node-gyp": "^8"
+    "react-native/use-subscription": ">=1.0.0 <1.6.0"
   }
 }
