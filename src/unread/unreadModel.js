@@ -250,7 +250,10 @@ function streamsReducer(
           return state;
         }
 
-        let newlyUnreadState = Immutable.Map();
+        let newlyUnreadState: Immutable.Map<
+          number,
+          Immutable.Map<string, Immutable.List<number>>,
+        > = Immutable.Map();
 
         for (const id of action.messages) {
           const message = message_details.get(id);
@@ -272,15 +275,10 @@ function streamsReducer(
         newlyUnreadState = newlyUnreadState.map(e => e.map(messages => messages.sort()));
 
         return state.mergeWith(
-          (
-            oldTopicsMap: Immutable.Map<string, Immutable.List<number>>,
-            newTopicsMap: Immutable.Map<string, Immutable.List<number>>,
-          ) =>
+          (oldTopicsMap, newTopicsMap) =>
             oldTopicsMap.mergeWith(
-              (
-                oldUnreadMessages: Immutable.List<number>,
-                newUnreadMessages: Immutable.List<number>,
-              ) => oldUnreadMessages.concat(newUnreadMessages).sort(),
+              (oldUnreadMessages, newUnreadMessages) =>
+                oldUnreadMessages.concat(newUnreadMessages).sort(),
               newTopicsMap,
             ),
           newlyUnreadState,
