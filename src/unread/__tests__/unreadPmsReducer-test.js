@@ -275,7 +275,7 @@ describe('unreadPmsReducer', () => {
       const initialState = deepFreeze([
         {
           sender_id: eg.otherUser.user_id,
-          unread_message_ids: [1, 3],
+          unread_message_ids: [1, 3, 100],
         },
       ]);
 
@@ -297,7 +297,7 @@ describe('unreadPmsReducer', () => {
       const expectedState = deepFreeze([
         {
           sender_id: eg.otherUser.user_id,
-          unread_message_ids: [1, 3, 5, 6],
+          unread_message_ids: [1, 3, 5, 6, 100],
         },
         {
           sender_id: eg.selfUser.user_id,
