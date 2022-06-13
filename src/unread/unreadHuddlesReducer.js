@@ -14,6 +14,7 @@ import {
 import { pmUnreadsKeyFromMessage, recipientsOfPrivateMessage } from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
+import type { PerAccountState } from '../reduxTypes';
 
 const initialState: UnreadHuddlesState = NULL_ARRAY;
 
@@ -57,6 +58,7 @@ const eventUpdateMessageFlags = (state, action) => {
 export default (
   state: UnreadHuddlesState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
+  globalState: PerAccountState,
 ): UnreadHuddlesState => {
   switch (action.type) {
     case LOGOUT:

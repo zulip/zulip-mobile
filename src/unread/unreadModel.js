@@ -329,7 +329,7 @@ export const reducer = (
     // Probably first push this four-part data structure down through the
     // `switch` statement, and the other logic that's duplicated between them.
     pms: unreadPmsReducer(state?.pms, action, globalState),
-    huddles: unreadHuddlesReducer(state?.huddles, action),
+    huddles: unreadHuddlesReducer(state?.huddles, action, globalState),
     mentions: unreadMentionsReducer(state?.mentions, action),
   };
 

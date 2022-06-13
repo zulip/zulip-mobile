@@ -24,7 +24,7 @@ describe('unreadHuddlesReducer', () => {
 
       const expectedState = [];
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -55,7 +55,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -80,7 +80,7 @@ describe('unreadHuddlesReducer', () => {
 
       const action = eg.mkActionEventNewMessage(message2);
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -96,7 +96,7 @@ describe('unreadHuddlesReducer', () => {
 
       const action = eg.mkActionEventNewMessage(streamMessage);
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -116,7 +116,7 @@ describe('unreadHuddlesReducer', () => {
 
       const action = eg.mkActionEventNewMessage(message2, { ownUserId: selfUser.user_id });
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -144,7 +144,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -175,7 +175,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -195,7 +195,7 @@ describe('unreadHuddlesReducer', () => {
         op: 'add',
       };
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -222,7 +222,7 @@ describe('unreadHuddlesReducer', () => {
         op: 'add',
       });
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -256,7 +256,7 @@ describe('unreadHuddlesReducer', () => {
         },
       ];
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -279,7 +279,7 @@ describe('unreadHuddlesReducer', () => {
         op: 'remove',
       });
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(initialState);
     });
@@ -302,7 +302,7 @@ describe('unreadHuddlesReducer', () => {
         op: 'add',
       });
 
-      const actualState = unreadHuddlesReducer(initialState, action);
+      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
 
       expect(actualState).toBe(NULL_ARRAY);
     });
