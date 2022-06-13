@@ -261,11 +261,11 @@ describe('unreadHuddlesReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when operation is "remove" do nothing', () => {
+    test('when operation is "remove", add to unreads', () => {
       const initialState = deepFreeze([
         {
           user_ids_string: '0,1,2',
-          unread_message_ids: [1, 2, 3, 4, 5],
+          unread_message_ids: [1, 2, 3, 4, 100],
         },
       ]);
 
@@ -274,14 +274,34 @@ describe('unreadHuddlesReducer', () => {
         type: EVENT_UPDATE_MESSAGE_FLAGS,
         all: false,
         allMessages: eg.makeMessagesState([]),
-        messages: [1, 2],
+        messages: [10, 11, 12],
         flag: 'read',
         op: 'remove',
+        message_details: new Map([
+          [10, { type: 'private', user_ids: [1, 2].map(makeUserId) }],
+          [11, { type: 'private', user_ids: [1, 2].map(makeUserId) }],
+          [12, { type: 'private', user_ids: [1, 2, 3].map(makeUserId) }],
+        ]),
       });
 
-      const actualState = unreadHuddlesReducer(initialState, action, eg.plusReduxState);
+      const expectedState = [
+        {
+          user_ids_string: '0,1,2',
+          unread_message_ids: [1, 2, 3, 4, 10, 11, 100],
+        },
+        {
+          user_ids_string: '0,1,2,3',
+          unread_message_ids: [12],
+        },
+      ];
 
-      expect(actualState).toBe(initialState);
+      const actualState = unreadHuddlesReducer(
+        initialState,
+        action,
+        eg.reduxStatePlus({ realm: { ...eg.plusReduxState.realm, user_id: makeUserId(0) } }),
+      );
+
+      expect(actualState).toEqual(expectedState);
     });
 
     test('when "all" is true reset state', () => {

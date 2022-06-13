@@ -297,6 +297,8 @@ export const pmKeyRecipientsFromUsers = (
  *  * `pmKeyRecipientsFromMessage`, which we use for other data structures.
  *  * `pmUnreadsKeyFromPmKeyIds`, for getting one of these keys given what
  *    we use for other data structures.
+ *  * `pmUnreadsKeyFromOtherUsers`, for getting one of these keys from still
+ *    another form of input.
  *  * `UnreadState`, the type of `state.unread`, which is the data structure
  *    these keys appear in.
  *
@@ -338,6 +340,9 @@ export const pmUnreadsKeyFromMessage = (message: PmMessage, ownUserId?: UserId):
  * Careful: This is a *string key*. Don't === against numeric `.sender_id`s
  * in UnreadPmsState. You won't find the object you're looking for, and Flow
  * won't complain.
+ *
+ * See also `pmUnreadsKeyFromOtherUsers` for getting one of these keys from
+ * still another form of input.
  */
 // See comment on pmUnreadsKeyFromMessage for details on this form.
 export const pmUnreadsKeyFromPmKeyIds = (userIds: PmKeyRecipients, ownUserId: UserId): string => {
@@ -349,6 +354,32 @@ export const pmUnreadsKeyFromPmKeyIds = (userIds: PmKeyRecipients, ownUserId: Us
     // A group PM.  Our main "key" form includes just the other users;
     //   this form includes all users.
     return [...userIds, ownUserId].sort((a, b) => a - b).join(',');
+  }
+};
+
+/**
+ * The key for a PM thread in "unreads" data, given the set of non-self users.
+ *
+ * This produces the same key string that `pmUnreadsKeyFromMessage` would
+ * give, given the list of all users in the thread other than the self user.
+ *
+ * See also `pmUnreadsKeyFromPmKeyIds` for getting one of these keys from
+ * still another form of input.
+ */
+// See comment on pmUnreadsKeyFromMessage for details on this form.
+export const pmUnreadsKeyFromOtherUsers = (
+  userIds: $ReadOnlyArray<UserId>,
+  ownUserId: UserId,
+): string => {
+  if (userIds.length === 0) {
+    // Self-PM.
+    return ownUserId.toString();
+  } else if (userIds.length === 1) {
+    // Non-self 1:1 PM.
+    return userIds[0].toString();
+  } else {
+    // Group PM.
+    return [ownUserId, ...userIds].sort((a, b) => a - b).join(',');
   }
 };
 

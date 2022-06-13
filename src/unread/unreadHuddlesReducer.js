@@ -11,10 +11,16 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
 } from '../actionConstants';
-import { pmUnreadsKeyFromMessage, recipientsOfPrivateMessage } from '../utils/recipient';
+import {
+  pmUnreadsKeyFromMessage,
+  pmUnreadsKeyFromOtherUsers,
+  recipientsOfPrivateMessage,
+} from '../utils/recipient';
 import { addItemsToHuddleArray, removeItemsDeeply } from './unreadHelpers';
 import { NULL_ARRAY } from '../nullObjects';
+import * as logging from '../utils/logging';
 import type { PerAccountState } from '../reduxTypes';
+import { getOwnUserId } from '../users/userSelectors';
 
 const initialState: UnreadHuddlesState = NULL_ARRAY;
 
@@ -37,7 +43,7 @@ const eventNewMessage = (state, action) => {
   return addItemsToHuddleArray(state, [message.id], pmUnreadsKeyFromMessage(message));
 };
 
-const eventUpdateMessageFlags = (state, action) => {
+const eventUpdateMessageFlags = (state, action, ownUserId) => {
   if (action.flag !== 'read') {
     return state;
   }
@@ -49,7 +55,30 @@ const eventUpdateMessageFlags = (state, action) => {
   if (action.op === 'add') {
     return removeItemsDeeply(state, action.messages);
   } else if (action.op === 'remove') {
-    // we do not support that operation
+    const { message_details } = action;
+    if (message_details === undefined) {
+      logging.warn('Got update_message_flags/remove/read event without message_details.');
+      return state;
+    }
+
+    let newState = state;
+
+    for (const id of action.messages) {
+      const message = message_details.get(id);
+      if (message && message.type === 'private' && message.user_ids.length >= 2) {
+        const unreadsKey = pmUnreadsKeyFromOtherUsers(message.user_ids, ownUserId);
+        newState = addItemsToHuddleArray(newState, [id], unreadsKey);
+      }
+    }
+
+    // TODO This re-sorting is pretty overkill; only the conversations we
+    //   actually touched need it.  But rather than add complications to the
+    //   `addItemsTo…` system to support that, let's spend that effort
+    //   instead to finally rip that system out in favor of Immutable.js.
+    return newState.map(({ user_ids_string, unread_message_ids }) => ({
+      user_ids_string,
+      unread_message_ids: [...unread_message_ids].sort((a, b) => a - b),
+    }));
   }
 
   return state;
@@ -75,7 +104,7 @@ export default (
       return removeItemsDeeply(state, action.messageIds);
 
     case EVENT_UPDATE_MESSAGE_FLAGS:
-      return eventUpdateMessageFlags(state, action);
+      return eventUpdateMessageFlags(state, action, getOwnUserId(globalState));
 
     default:
       return state;

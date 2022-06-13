@@ -60,6 +60,9 @@ const eventUpdateMessageFlags = (state, action, ownUserId) => {
       const message = message_details.get(id);
 
       if (message && message.type === 'private') {
+        // This logic corresponds to pmUnreadsKeyFromOtherUsers, except that
+        // the latter returns a string (for the sake of group PMs) and our
+        // data structure here wants a UserId.
         if (message.user_ids.length === 1) {
           newState = addItemsToPmArray(newState, [id], message.user_ids[0]);
         } else if (message.user_ids.length === 0) {
