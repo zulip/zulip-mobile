@@ -6,26 +6,26 @@ import type { ServerMessage, ServerReaction } from '../getMessages';
 import type { Message } from '../../modelTypes';
 import { GravatarURL } from '../../../utils/avatar';
 
+const reactingUser = eg.makeUser();
+
+const serverReaction: ServerReaction = {
+  emoji_name: '+1',
+  reaction_type: 'unicode_emoji',
+  emoji_code: '1f44d',
+  user: {
+    email: reactingUser.email,
+    full_name: reactingUser.full_name,
+    id: reactingUser.user_id,
+  },
+};
+
+const serverMessage: ServerMessage = {
+  ...eg.streamMessage(),
+  reactions: [serverReaction],
+  avatar_url: null,
+};
+
 describe('migrateMessages', () => {
-  const reactingUser = eg.makeUser();
-
-  const serverReaction: ServerReaction = {
-    emoji_name: '+1',
-    reaction_type: 'unicode_emoji',
-    emoji_code: '1f44d',
-    user: {
-      email: reactingUser.email,
-      full_name: reactingUser.full_name,
-      id: reactingUser.user_id,
-    },
-  };
-
-  const serverMessage: ServerMessage = {
-    ...eg.streamMessage(),
-    reactions: [serverReaction],
-    avatar_url: null,
-  };
-
   const input: $ReadOnlyArray<ServerMessage> = [serverMessage];
 
   const expectedOutput: $ReadOnlyArray<Message> = [
