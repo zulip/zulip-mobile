@@ -153,7 +153,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
     avatar_url: args.avatar_url ?? makeAvatarUrl(user_id.toString()),
     avatar_version: 0,
 
-    date_joined: `2014-04-${randInt(30).toString().padStart(2, '0')}`,
+    date_joined: `2014-04-${(randInt(30) + 1).toString().padStart(2, '0')}`,
 
     email: args.email ?? `${randName}@example.org`,
     full_name: args.full_name ?? `${randName} User`,
