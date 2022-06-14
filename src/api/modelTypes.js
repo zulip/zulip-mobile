@@ -607,6 +607,7 @@ export type Reaction = $ReadOnly<{|
  *
  * See also `MessageEdit`.
  */
+// TODO: Probably not current? Sync with the doc.
 export type MessageSnapshot = $ReadOnly<{|
   user_id: UserId,
   timestamp: number,
