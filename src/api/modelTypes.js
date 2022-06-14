@@ -654,7 +654,7 @@ export type MessageEdit = $ReadOnly<{|
   // New in FL 118.
   // TODO(server-5.0): Delete the FL 118 comment but keep this optional;
   //   only present if topic was changed.
-  topic?: number,
+  topic?: string,
 
   user_id: UserId | null,
 |}>;
