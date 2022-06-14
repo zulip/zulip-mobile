@@ -27,6 +27,7 @@ import {
   getFetchingForNarrow,
   getIdentity,
   getStreamsById,
+  getZulipFeatureLevel,
 } from '../selectors';
 import config from '../config';
 import {
@@ -120,15 +121,19 @@ export const fetchMessages =
         // to a timeout, maybe make a new action.
         // eslint-disable-next-line no-use-before-define
         await tryFetch(() =>
-          api.getMessages(getAuth(getState()), {
-            ...fetchArgs,
-            narrow: apiNarrowOfNarrow(
-              fetchArgs.narrow,
-              getAllUsersById(getState()),
-              getStreamsById(getState()),
-            ),
-            useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
-          }),
+          api.getMessages(
+            getAuth(getState()),
+            {
+              ...fetchArgs,
+              narrow: apiNarrowOfNarrow(
+                fetchArgs.narrow,
+                getAllUsersById(getState()),
+                getStreamsById(getState()),
+              ),
+              useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
+            },
+            getZulipFeatureLevel(getState()),
+          ),
         );
       dispatch(
         messageFetchComplete({
@@ -223,17 +228,22 @@ export async function fetchSomeMessageIdForConversation(
   streamId: number,
   topic: string,
   streamsById: Map<number, Stream>,
+  zulipFeatureLevel: number,
 ): Promise<number | void> {
-  const data = await api.getMessages(auth, {
-    anchor: LAST_MESSAGE_ANCHOR,
-    numBefore: 1,
-    numAfter: 0,
-    // TODO(server-2.1): These users and streams maps should go away;
-    //   cut the streamsById param from this function too.
-    // HACK: This fake, empty users map is OK because apiNarrowOfNarrow
-    //   doesn't consult the users map for topic narrows.
-    narrow: apiNarrowOfNarrow(topicNarrow(streamId, topic), new Map(), streamsById),
-  });
+  const data = await api.getMessages(
+    auth,
+    {
+      anchor: LAST_MESSAGE_ANCHOR,
+      numBefore: 1,
+      numAfter: 0,
+      // TODO(server-2.1): These users and streams maps should go away;
+      //   cut the streamsById param from this function too.
+      // HACK: This fake, empty users map is OK because apiNarrowOfNarrow
+      //   doesn't consult the users map for topic narrows.
+      narrow: apiNarrowOfNarrow(topicNarrow(streamId, topic), new Map(), streamsById),
+    },
+    zulipFeatureLevel,
+  );
   // FlowIssue: can be void because array can be empty
   const message: Message | void = data.messages[0];
   return message?.id;
@@ -372,16 +382,20 @@ export const fetchMessagesInNarrow =
 // TODO(server-2.1): Delete this.
 const fetchPrivateMessages = () => async (dispatch, getState) => {
   const auth = getAuth(getState());
-  const { messages, found_newest, found_oldest } = await api.getMessages(auth, {
-    narrow: apiNarrowOfNarrow(
-      ALL_PRIVATE_NARROW,
-      getAllUsersById(getState()),
-      getStreamsById(getState()),
-    ),
-    anchor: LAST_MESSAGE_ANCHOR,
-    numBefore: 100,
-    numAfter: 0,
-  });
+  const { messages, found_newest, found_oldest } = await api.getMessages(
+    auth,
+    {
+      narrow: apiNarrowOfNarrow(
+        ALL_PRIVATE_NARROW,
+        getAllUsersById(getState()),
+        getStreamsById(getState()),
+      ),
+      anchor: LAST_MESSAGE_ANCHOR,
+      numBefore: 100,
+      numAfter: 0,
+    },
+    getZulipFeatureLevel(getState()),
+  );
   dispatch(
     messageFetchComplete({
       messages,

@@ -43,7 +43,11 @@ describe('migrateMessages', () => {
     },
   ];
 
-  const actualOutput: $ReadOnlyArray<Message> = migrateMessages(input, identityOfAuth(eg.selfAuth));
+  const actualOutput: $ReadOnlyArray<Message> = migrateMessages(
+    input,
+    identityOfAuth(eg.selfAuth),
+    eg.recentZulipFeatureLevel,
+  );
 
   test('In reactions, replace user object with `user_id`', () => {
     expect(actualOutput.map(m => m.reactions)).toEqual(expectedOutput.map(m => m.reactions));

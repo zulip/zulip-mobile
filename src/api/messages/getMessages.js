@@ -56,6 +56,7 @@ type ServerApiResponseMessages = {|
 export const migrateMessages = (
   messages: $ReadOnlyArray<ServerMessage>,
   identity: Identity,
+  zulipFeatureLevel: number,
 ): Message[] =>
   messages.map(<M: Message>(message: ServerMessageOf<M>): M => ({
     ...message,
@@ -74,11 +75,11 @@ export const migrateMessages = (
     }),
   }));
 
-const migrateResponse = (response, identity: Identity) => {
+const migrateResponse = (response, identity: Identity, zulipFeatureLevel) => {
   const { messages, ...restResponse } = response;
   return {
     ...restResponse,
-    messages: migrateMessages(messages, identity),
+    messages: migrateMessages(messages, identity, zulipFeatureLevel),
   };
 };
 
@@ -94,6 +95,9 @@ export default async (
     numAfter: number,
     useFirstUnread?: boolean,
   |},
+
+  // TODO(#4659): Don't get this from callers.
+  zulipFeatureLevel: number,
 ): Promise<ApiResponseMessages> => {
   const { narrow, anchor, numBefore, numAfter, useFirstUnread = false } = args;
   const response: ServerApiResponseMessages = await apiGet(auth, 'messages', {
@@ -105,5 +109,5 @@ export default async (
     use_first_unread_anchor: useFirstUnread,
     client_gravatar: true,
   });
-  return migrateResponse(response, identityOfAuth(auth));
+  return migrateResponse(response, identityOfAuth(auth), zulipFeatureLevel);
 };

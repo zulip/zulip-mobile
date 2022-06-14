@@ -215,7 +215,13 @@ const toggleResolveTopic = async ({ auth, streamId, topic, _, streams, zulipFeat
   //   such a message ID through to here.  (Like web, we'll still need this
   //   for cases where we can show a topic without knowing of any message ID
   //   definitely in it, e.g. in the list of topics for a stream.)
-  const messageId = await fetchSomeMessageIdForConversation(auth, streamId, topic, streams);
+  const messageId = await fetchSomeMessageIdForConversation(
+    auth,
+    streamId,
+    topic,
+    streams,
+    zulipFeatureLevel,
+  );
   if (messageId == null) {
     // The conversation is actually empty.  This can be perfectly normal,
     // because by fetching information outside the events system we're
