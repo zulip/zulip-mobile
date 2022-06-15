@@ -40,9 +40,33 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
   return !pieces.length ? '' : template`<div class="message-tags">$!${pieces.join('')}</div>`;
 };
 
+// Like get_display_full_names in the web app's people.js, but also gives
+// "You" so callers don't have to.
+const getDisplayFullNames = (userIds, backgroundData, _) => {
+  const { allUsersById, mutedUsers, ownUser } = backgroundData;
+  return userIds.map(id => {
+    const user = allUsersById.get(id);
+    if (!user) {
+      logging.warn('render reaction: no user for ID', { id });
+      return '?';
+    }
+
+    if (id === ownUser.user_id) {
+      return _('You');
+    }
+
+    if (mutedUsers.has(id)) {
+      return _('Muted user');
+    }
+
+    return user.full_name;
+  });
+};
+
 const messageReactionAsHtml = (
   backgroundData: BackgroundData,
   reaction: AggregatedReaction,
+  shouldShowNames: boolean,
   _: GetText,
 ): string => {
   const { allImageEmojiById } = backgroundData;
@@ -53,7 +77,12 @@ const messageReactionAsHtml = (
     allImageEmojiById[reaction.code]
       ? template`<img src="${allImageEmojiById[reaction.code].source_url}"/>`
       : codeToEmojiMap[reaction.code]
-  }&nbsp;${reaction.count}</span>`;
+  }&nbsp;${
+    // The web app puts this condition in get_vote_text in its reactions.js.
+    shouldShowNames
+      ? getDisplayFullNames(reaction.users, backgroundData, _).join(', ')
+      : reaction.count
+  }</span>`;
 };
 
 const messageReactionListAsHtml = (
@@ -61,13 +90,19 @@ const messageReactionListAsHtml = (
   reactions: $ReadOnlyArray<Reaction>,
   _: GetText,
 ): string => {
-  const { ownUser } = backgroundData;
+  const { ownUser, displayEmojiReactionUsers } = backgroundData;
 
   if (reactions.length === 0) {
     return '';
   }
+
+  // See the web app's get_vote_text in its reactions.js.
+  const shouldShowNames =
+    displayEmojiReactionUsers
+    // The API lets clients choose the threshold. We use 3 like the web app.
+    && reactions.length <= 3;
   const htmlList = aggregateReactions(reactions, ownUser.user_id).map(r =>
-    messageReactionAsHtml(backgroundData, r, _),
+    messageReactionAsHtml(backgroundData, r, shouldShowNames, _),
   );
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };

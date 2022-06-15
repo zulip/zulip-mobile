@@ -418,6 +418,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     const stableSelfUser = eg.makeUser({ user_id: 1, full_name: 'Nonrandom name self User' });
     const stableOtherUser = eg.makeUser({ user_id: 2, full_name: 'Nonrandom name other User' });
     const stableThirdUser = eg.makeUser({ user_id: 3, full_name: 'Nonrandom name third User' });
+    const stableFourthUser = eg.makeUser({ user_id: 4, full_name: 'Nonrandom name fourth User' });
 
     const singleMessageSender = eg.makeUser({
       user_id: 10,
@@ -445,20 +446,118 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       });
     });
 
-    test('message with reactions', () => {
-      check({
-        narrow: HOME_NARROW,
-        messages: [
-          {
-            ...baseSingleMessage,
-            reactions: [
-              { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
-              { ...eg.zulipExtraEmojiReaction, user_id: stableSelfUser.user_id },
-              { ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id },
-              { ...eg.realmEmojiReaction, user_id: stableThirdUser.user_id },
+    describe('message with reactions', () => {
+      describe('displayEmojiReactionUsers: false', () => {
+        const state = eg.reduxStatePlus({
+          settings: { ...eg.plusReduxState.settings, displayEmojiReactionUsers: false },
+          users: [stableSelfUser, stableOtherUser, stableThirdUser],
+          realm: { ...eg.plusReduxState.realm, user_id: stableSelfUser.user_id },
+        });
+
+        test('few reactions', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [{ ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id }],
+              },
             ],
-          },
-        ],
+            state,
+          });
+        });
+
+        test('many reactions', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [
+                  { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.zulipExtraEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id },
+                  { ...eg.realmEmojiReaction, user_id: stableThirdUser.user_id },
+                ],
+              },
+            ],
+            state,
+          });
+        });
+      });
+
+      describe('displayEmojiReactionUsers: true', () => {
+        const state = eg.reduxStatePlus({
+          settings: { ...eg.plusReduxState.settings, displayEmojiReactionUsers: true },
+          users: [stableSelfUser, stableOtherUser, stableThirdUser, stableFourthUser],
+          realm: { ...eg.plusReduxState.realm, user_id: stableSelfUser.user_id },
+        });
+        test('3 votes on same emoji', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [
+                  { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.unicodeEmojiReaction, user_id: stableOtherUser.user_id },
+                  { ...eg.unicodeEmojiReaction, user_id: stableThirdUser.user_id },
+                ],
+              },
+            ],
+            state,
+          });
+        });
+        test('3 votes on multiple emoji', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [
+                  { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.zulipExtraEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id },
+                ],
+              },
+            ],
+            state,
+          });
+        });
+        test('4 votes on same emoji', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [
+                  { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.unicodeEmojiReaction, user_id: stableOtherUser.user_id },
+                  { ...eg.unicodeEmojiReaction, user_id: stableThirdUser.user_id },
+                  { ...eg.unicodeEmojiReaction, user_id: stableFourthUser.user_id },
+                ],
+              },
+            ],
+            state,
+          });
+        });
+        test('4 votes on multiple emoji', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [
+                  { ...eg.unicodeEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.zulipExtraEmojiReaction, user_id: stableSelfUser.user_id },
+                  { ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id },
+                  { ...eg.realmEmojiReaction, user_id: stableThirdUser.user_id },
+                ],
+              },
+            ],
+            state,
+          });
+        });
       });
     });
 

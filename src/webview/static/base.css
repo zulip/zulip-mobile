@@ -428,8 +428,12 @@ body {
   padding: 5px 6.5px;
   border-radius: 3px;
   border: 1px solid hsla(0, 0%, 50%, 0.75);
-  line-height: 1rem;
-  height: 1rem;
+  line-height: 1.2rem;
+
+  /* No max height. With `displayEmojiReactionUsers: true`, users' names may
+     wrap onto multiple lines. */
+  min-height: 1rem;
+
   margin: 4px 8px 4px 0;
 }
 .reaction img {
