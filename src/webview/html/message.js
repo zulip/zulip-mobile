@@ -43,6 +43,7 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 const messageReactionAsHtml = (
   backgroundData: BackgroundData,
   reaction: AggregatedReaction,
+  _: GetText,
 ): string => {
   const { allImageEmojiById } = backgroundData;
   return template`<span onClick="" class="reaction${reaction.selfReacted ? ' self-voted' : ''}"
@@ -58,6 +59,7 @@ const messageReactionAsHtml = (
 const messageReactionListAsHtml = (
   backgroundData: BackgroundData,
   reactions: $ReadOnlyArray<Reaction>,
+  _: GetText,
 ): string => {
   const { ownUser } = backgroundData;
 
@@ -65,12 +67,12 @@ const messageReactionListAsHtml = (
     return '';
   }
   const htmlList = aggregateReactions(reactions, ownUser.user_id).map(r =>
-    messageReactionAsHtml(backgroundData, r),
+    messageReactionAsHtml(backgroundData, r, _),
   );
   return template`<div class="reaction-list">$!${htmlList.join('')}</div>`;
 };
 
-const messageBody = (backgroundData: BackgroundData, message: Message | Outbox) => {
+const messageBody = (backgroundData: BackgroundData, message: Message | Outbox, _: GetText) => {
   const { alertWords, flags } = backgroundData;
   const { id, isOutbox, last_edit_timestamp, match_content, reactions } = (message: MessageLike);
   const content = match_content ?? message.content;
@@ -78,7 +80,7 @@ const messageBody = (backgroundData: BackgroundData, message: Message | Outbox) 
 $!${processAlertWords(content, id, alertWords, flags)}
 $!${isOutbox === true ? '<div class="loading-spinner outbox-spinner"></div>' : ''}
 $!${messageTagsAsHtml(!!flags.starred[id], last_edit_timestamp)}
-$!${messageReactionListAsHtml(backgroundData, reactions)}`;
+$!${messageReactionListAsHtml(backgroundData, reactions, _)}`;
 };
 
 /**
@@ -231,7 +233,7 @@ export default (
   const bodyHtml =
     message.submessages && message.submessages.length > 0
       ? widgetBody(message, backgroundData.ownUser.user_id)
-      : messageBody(backgroundData, message);
+      : messageBody(backgroundData, message, _);
 
   if (isBrief) {
     return template`\
