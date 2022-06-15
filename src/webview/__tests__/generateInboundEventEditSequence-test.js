@@ -424,7 +424,7 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
       full_name: 'Nonrandom name sender User',
     });
     const baseSingleMessage = eg.streamMessage({
-      id: -1,
+      id: 1,
       timestamp: -1,
       stream: stream1,
       sender: singleMessageSender,

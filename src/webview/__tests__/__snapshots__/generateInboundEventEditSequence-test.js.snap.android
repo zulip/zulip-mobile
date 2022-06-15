@@ -1527,18 +1527,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible all-pm
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message in unsubscribed stream 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1559,18 +1559,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with a poll 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1601,18 +1601,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: collapsed 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-collapsed=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-collapsed=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1633,18 +1633,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: force_collapse 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-force_collapse=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-force_collapse=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1665,18 +1665,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: force_expand 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-force_expand=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-force_expand=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1697,18 +1697,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: has_alert_word 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-has_alert_word=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-has_alert_word=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1729,18 +1729,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: historical 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-historical=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-historical=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1761,18 +1761,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: is_me_message 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-is_me_message=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-is_me_message=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1793,18 +1793,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: mentioned 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-mentioned=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-mentioned=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1825,18 +1825,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: read 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-read=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-read=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1857,18 +1857,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: starred 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-starred=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-starred=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1889,18 +1889,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: summarize_in_home 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-summarize_in_home=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-summarize_in_home=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1921,18 +1921,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: summarize_in_stream 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-summarize_in_stream=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-summarize_in_stream=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1953,18 +1953,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with flag: wildcard_mentioned 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\" data-wildcard_mentioned=\\"true\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\" data-wildcard_mentioned=\\"true\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -1985,18 +1985,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) message with reactions 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: white;
               background: #123456\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -2017,18 +2017,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) muted sender 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"hidden\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"hidden\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -2051,18 +2051,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) sender status emoji: none 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -2083,18 +2083,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) sender status emoji: realm 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -2115,18 +2115,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) sender status emoji: unicode 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
@@ -2147,18 +2147,18 @@ exports[`messages -> piece descriptors -> content HTML is stable/sensible other 
 `;
 
 exports[`messages -> piece descriptors -> content HTML is stable/sensible other interesting cases (single messages) sender status emoji: zulip extra 1`] = `
-"<div class=\\"msglist-element timerow\\" data-msg-id=\\"-1\\">
+"<div class=\\"msglist-element timerow\\" data-msg-id=\\"1\\">
   <div class=\\"timerow-left\\"></div>
   Dec 31, 1969
   <div class=\\"timerow-right\\"></div>
-</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"-1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
+</div><div class=\\"msglist-element header-wrapper header stream-header topic-header\\" data-msg-id=\\"1\\" data-narrow=\\"dG9waWM6MTpleGFtcGxlIHRvcGlj\\">
   <div class=\\"header stream-text\\" style=\\"color: black;
               background: hsl(0, 0%, 80%)\\" data-narrow=\\"c3RyZWFtOjE=\\">
     # stream 1
   </div>
   <div class=\\"topic-text\\">example topic</div>
   <div class=\\"topic-date\\">Dec 31, 1969</div>
-</div><div class=\\"msglist-element message message-full\\" id=\\"msg--1\\" data-msg-id=\\"-1\\" data-mute-state=\\"shown\\">
+</div><div class=\\"msglist-element message message-full\\" id=\\"msg-1\\" data-msg-id=\\"1\\" data-mute-state=\\"shown\\">
   <div class=\\"avatar\\">
     <img src=\\"https://zulip.example.org/yo/avatar-10.png\\" alt=\\"Nonrandom name sender User\\" class=\\"avatar-img\\" data-sender-id=\\"10\\">
   </div>
