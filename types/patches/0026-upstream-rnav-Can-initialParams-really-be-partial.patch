@@ -13,7 +13,7 @@ don't want it.  We can eliminate it by tightening this type here.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
-index b1232ee31..b48b4f6fb 100644
+index 58cf56a85..b5cf2cdc8 100644
 --- types/@react-navigation/core/lib/typescript/src/types.js.flow
 +++ types/@react-navigation/core/lib/typescript/src/types.js.flow
 @@ -291,7 +291,7 @@ export type RouteConfig<
