@@ -80,16 +80,16 @@ const makeTime: () => number = (() => {
  * The factory will throw if it ever runs out of integers in its set. Both
  * initialization and use should be O(1).
  */
-const makeUniqueRandInt = (itemsType: string, end: number): (() => number) => {
+const makeUniqueRandInt = (itemsType: string, end: number, start: number = 0): (() => number) => {
   // Sparse array. Pretends to be initialized to iota.
   const deck = new Array(end);
 
   return () => {
-    if (deck.length === 0) {
+    if (deck.length === start) {
       throw new Error(`ran out of ${itemsType}`);
     }
     // Perform a single step of the Fisher-Yates shuffle...
-    const leftIndex = randInt(deck.length);
+    const leftIndex = randInt(deck.length, start);
     const rightIndex = deck.length - 1;
     const leftValue = deck[leftIndex] ?? leftIndex;
     const rightValue = deck[rightIndex] ?? rightIndex;

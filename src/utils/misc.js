@@ -29,8 +29,9 @@ export function deeperMerge<K, V>(
 
 export const isValidEmailFormat = (email: string = ''): boolean => /\S+@\S+\.\S+/.test(email);
 
-/** Return an integer 0 <= N < end, roughly uniformly at random. */
-export const randInt = (end: number): number => Math.floor(Math.random() * end);
+/** Return an integer start <= N < end, roughly uniformly at random. */
+export const randInt = (end: number, start: number = 0): number =>
+  Math.floor(Math.random() * (end - start) + start);
 
 /** Return a string that's almost surely different every time. */
 export const randString = (): string => randInt(2 ** 54).toString(36);
