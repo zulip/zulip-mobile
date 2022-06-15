@@ -142,10 +142,12 @@ const makeAvatarUrl = (tag: string) =>
   // here with a full-blown URL object in the first place to prevent that.
   new UploadedAvatarURL(new URL(`https://zulip.example.org/yo/avatar-${tag}.png`));
 
+// Why start at 11? To reserve IDs 1 through 10 for use as constants in
+// snapshot tests.
 const randUserId: () => UserId = (
   mk => () =>
     makeUserId(mk())
-)(makeUniqueRandInt('user IDs', 10000));
+)(makeUniqueRandInt('user IDs', 10000, 11));
 const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
   const user_id = args.user_id != null ? makeUserId(args.user_id) : randUserId();
   const randName = randString();
@@ -288,7 +290,9 @@ export const crossRealmBot: CrossRealmBot = makeCrossRealmBot({
  * Streams and subscriptions
  */
 
-const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000);
+// Why start at 11? To reserve IDs 1 through 10 for use as constants in
+// snapshot tests.
+const randStreamId: () => number = makeUniqueRandInt('stream IDs', 1000, 11);
 export const makeStream = (
   args: {|
     stream_id?: number,
@@ -418,7 +422,9 @@ const messagePropertiesFromSender = (user: User) => {
   });
 };
 
-const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000);
+// Why start at 11? To reserve IDs 1 through 10 for use as constants in
+// snapshot tests.
+const randMessageId: () => number = makeUniqueRandInt('message ID', 10000000, 11);
 
 /**
  * A PM, by default a 1:1 from eg.otherUser to eg.selfUser.
