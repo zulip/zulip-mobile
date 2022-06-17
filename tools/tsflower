@@ -341,8 +341,10 @@ EOF
     unapply_patches
     git commit -am 'tsflower: Revert patches'
 
-    git checkout --quiet -B "${branchname}"
+    git checkout --quiet --detach
     git am --quiet --whitespace=nowarn -p0 --keep "${patch_dir}"/*.patch
+    git checkout --quiet -B "${branchname}"
+    git branch --set-upstream-to "${basebranch}"
 
     if [ -z "${shortcut}" ]; then
         git checkout --quiet "${basebranch}"
