@@ -43,7 +43,7 @@ describe('realmReducer', () => {
         defaultExternalAccounts: new Map([
           [
             'github',
-            { url_pattern: action.data.realm_default_external_accounts.github.url_pattern },
+            { url_pattern: action.data.realm_default_external_accounts?.github.url_pattern },
           ],
         ]),
         videoChatProvider: null, // update as necessary if example data changes

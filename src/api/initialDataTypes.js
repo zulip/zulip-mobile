@@ -179,7 +179,9 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_create_web_public_stream_policy?: CreateWebPublicStreamPolicyT,
 
   realm_default_code_block_language: string | null,
-  realm_default_external_accounts: {|
+
+  // TODO(server-2.1): Added in commit 2.1.0-rc1~1382.
+  realm_default_external_accounts?: {|
     +[site_name: string]: {|
       +name: string,
       +text: string,
