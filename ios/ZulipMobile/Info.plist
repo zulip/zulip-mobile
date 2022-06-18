@@ -49,13 +49,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Take a photo and upload it to a Zulip realm</string>
+	<string>By allowing camera access, you can take photos and send them in Zulip messages.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Download photos from Zulip realm</string>
+	<string>Save photos you choose from Zulip to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload photos to a Zulip realm</string>
+	<string>Choose photos from your library and send them in Zulip messages.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>zulip-icons.ttf</string>
