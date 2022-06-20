@@ -292,6 +292,10 @@ describe('messagesReducer', () => {
           ]),
         );
       });
+
+      test.todo('multiple messages moved in one event');
+
+      test.todo("edited one message's content + multiple messages moved in one event");
     });
 
     test('when a message exists in state, it is updated', () => {
