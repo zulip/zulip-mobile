@@ -760,8 +760,6 @@ type MessageBase = $ReadOnly<{|
    *
    * Missing/undefined if, at the time we added it to the state, the realm
    * didn't allow viewing edit history.
-   *
-   * Stale if the message was updated or moved after we added it to the state.
    */
   // TODO: Keep reasonably current:
   // - Use `null` for the `allow_edit_history`-false case, to distinguish it
@@ -773,7 +771,6 @@ type MessageBase = $ReadOnly<{|
   //     particular, a restart event where the server version changed, which
   //     could mean any number of subtle changes in server behavior), and do
   //     a re-fetch of server data soon after it.
-  // - Handle update-message events, writing the FL 118+ shape.
   //
   // TODO(server-5.0): Remove FL <118 condition
   //

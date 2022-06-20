@@ -223,7 +223,21 @@ describe('messagesReducer', () => {
         const newTopic = `${message.subject}abc`;
         const action = mkMoveAction({ message, subject: newTopic, edit_timestamp: 1000 });
         expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
-          eg.makeMessagesState([{ ...message, subject: newTopic, last_edit_timestamp: 1000 }]),
+          eg.makeMessagesState([
+            {
+              ...message,
+              subject: newTopic,
+              edit_history: [
+                {
+                  user_id: message.sender_id,
+                  timestamp: 1000,
+                  prev_topic: 'example topic',
+                  topic: 'example topicabc',
+                },
+              ],
+              last_edit_timestamp: 1000,
+            },
+          ]),
         );
       });
 
@@ -247,8 +261,31 @@ describe('messagesReducer', () => {
           ),
         ).toEqual(
           eg.makeMessagesState([
-            { ...message1, subject: newTopic, last_edit_timestamp: 1000 },
-            { ...message2, subject: newTopic },
+            {
+              ...message1,
+              subject: newTopic,
+              edit_history: [
+                {
+                  user_id: message1.sender_id,
+                  timestamp: 1000,
+                  prev_topic: 'some topic',
+                  topic: 'some revised topic',
+                },
+              ],
+              last_edit_timestamp: 1000,
+            },
+            {
+              ...message2,
+              subject: newTopic,
+              edit_history: [
+                {
+                  user_id: message2.sender_id,
+                  timestamp: 1000,
+                  prev_topic: 'some topic',
+                  topic: 'some revised topic',
+                },
+              ],
+            },
             message3,
           ]),
         );
@@ -267,6 +304,14 @@ describe('messagesReducer', () => {
               ...message,
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
+              edit_history: [
+                {
+                  user_id: message.sender_id,
+                  timestamp: 1000,
+                  prev_stream: message.stream_id,
+                  stream: eg.otherStream.stream_id,
+                },
+              ],
               last_edit_timestamp: 1000,
             },
           ]),
@@ -289,6 +334,16 @@ describe('messagesReducer', () => {
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
               subject: newTopic,
+              edit_history: [
+                {
+                  user_id: message.sender_id,
+                  timestamp: 1000,
+                  prev_stream: message.stream_id,
+                  stream: eg.otherStream.stream_id,
+                  prev_topic: 'example topic',
+                  topic: 'example topicabc',
+                },
+              ],
               last_edit_timestamp: 1000,
             },
           ]),
@@ -309,6 +364,14 @@ describe('messagesReducer', () => {
               ...message,
               stream_id: unknownStream.stream_id,
               display_recipient: 'unknown',
+              edit_history: [
+                {
+                  user_id: message.sender_id,
+                  timestamp: 1000,
+                  prev_stream: message.stream_id,
+                  stream: unknownStream.stream_id,
+                },
+              ],
               last_edit_timestamp: 1000,
             },
           ]),
@@ -321,6 +384,7 @@ describe('messagesReducer', () => {
         const message2 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
 
         const action = mkMoveAction({
+          user_id: eg.thirdUser.user_id,
           edit_timestamp: 1000,
           message: message0,
           message_ids: [message0.id, message1.id, message2.id],
@@ -336,27 +400,24 @@ describe('messagesReducer', () => {
             eg.plusReduxState,
           ),
         ).toEqual(
-          eg.makeMessagesState([
-            {
-              ...message0,
+          eg.makeMessagesState(
+            [{ ...message0, last_edit_timestamp: 1000 }, message1, message2].map(m => ({
+              ...m,
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
               subject: 'new topic',
-              last_edit_timestamp: 1000,
-            },
-            {
-              ...message1,
-              stream_id: eg.otherStream.stream_id,
-              display_recipient: eg.otherStream.name,
-              subject: 'new topic',
-            },
-            {
-              ...message2,
-              stream_id: eg.otherStream.stream_id,
-              display_recipient: eg.otherStream.name,
-              subject: 'new topic',
-            },
-          ]),
+              edit_history: [
+                {
+                  user_id: eg.thirdUser.user_id,
+                  timestamp: 1000,
+                  prev_stream: eg.stream.stream_id,
+                  stream: eg.otherStream.stream_id,
+                  prev_topic: 'old topic',
+                  topic: 'new topic',
+                },
+              ],
+            })),
+          ),
         );
       });
 
@@ -370,6 +431,7 @@ describe('messagesReducer', () => {
         const message2 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
 
         const action = mkMoveAction({
+          user_id: eg.thirdUser.user_id,
           edit_timestamp: 1000,
 
           // content edit (to apply to just one message)
@@ -401,20 +463,37 @@ describe('messagesReducer', () => {
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
               subject: 'new topic',
+              edit_history: [
+                {
+                  user_id: eg.thirdUser.user_id,
+                  timestamp: 1000,
+                  prev_content: 'Old content',
+                  prev_rendered_content: '<p>Old content</p>',
+                  prev_rendered_content_version: 1,
+                  prev_stream: eg.stream.stream_id,
+                  stream: eg.otherStream.stream_id,
+                  prev_topic: 'old topic',
+                  topic: 'new topic',
+                },
+              ],
               last_edit_timestamp: 1000,
             },
-            {
-              ...message1,
+            ...[message1, message2].map(m => ({
+              ...m,
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
               subject: 'new topic',
-            },
-            {
-              ...message2,
-              stream_id: eg.otherStream.stream_id,
-              display_recipient: eg.otherStream.name,
-              subject: 'new topic',
-            },
+              edit_history: [
+                {
+                  user_id: eg.thirdUser.user_id,
+                  timestamp: 1000,
+                  prev_stream: eg.stream.stream_id,
+                  stream: eg.otherStream.stream_id,
+                  prev_topic: 'old topic',
+                  topic: 'new topic',
+                },
+              ],
+            })),
           ]),
         );
       });
@@ -428,6 +507,15 @@ describe('messagesReducer', () => {
         ...message3Old,
         content: '<p>New content</p>',
         last_edit_timestamp: 123,
+        edit_history: [
+          {
+            prev_content: message3Old.content,
+            prev_rendered_content: message3Old.content,
+            prev_rendered_content_version: 1,
+            timestamp: 123,
+            user_id: message3Old.sender_id,
+          },
+        ],
       };
 
       const prevState = eg.makeMessagesState([message1, message2, message3Old]);
@@ -456,6 +544,14 @@ describe('messagesReducer', () => {
         ...message1Old,
         subject: 'New topic',
         last_edit_timestamp: 123,
+        edit_history: [
+          {
+            prev_topic: message1Old.subject,
+            timestamp: 123,
+            topic: 'New topic',
+            user_id: message1Old.sender_id,
+          },
+        ],
       };
       const prevState = eg.makeMessagesState([message1Old]);
       const action = mkMoveAction({
@@ -479,6 +575,17 @@ describe('messagesReducer', () => {
         content: '<p>New content</p>',
         subject: 'New updated topic',
         last_edit_timestamp: 456,
+        edit_history: [
+          {
+            prev_content: message1Old.content,
+            prev_rendered_content: message1Old.content,
+            prev_rendered_content_version: 1,
+            prev_topic: message1Old.subject,
+            timestamp: 456,
+            topic: 'New updated topic',
+            user_id: message1Old.sender_id,
+          },
+        ],
       };
 
       const prevState = eg.makeMessagesState([message1Old]);
@@ -547,6 +654,137 @@ describe('messagesReducer', () => {
       expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
         eg.makeMessagesState([messageAfter]),
       );
+    });
+
+    describe('edit_history not covered above', () => {
+      describe('sequential updates', () => {
+        const initialContent = 'Old content';
+        const initialRenderedContent = `<p>${initialContent}</p>`;
+        const initialTopic = 'Old topic';
+
+        const afterNoUpdates = eg.streamMessage({
+          content: initialRenderedContent,
+          subject: initialTopic,
+          edit_history: undefined,
+        });
+
+        const senderId = afterNoUpdates.sender_id;
+
+        const update1Content = 'New content';
+        const update1RenderedContent = `<p>${update1Content}</p>`;
+        const update1Topic = 'New updated topic';
+
+        const update1Action = mkMoveAction({
+          edit_timestamp: 456,
+          message: afterNoUpdates,
+          orig_content: initialContent,
+          orig_rendered_content: initialRenderedContent,
+          rendered_content: update1RenderedContent,
+          content: update1Content,
+          subject: update1Topic,
+          prev_rendered_content_version: 1,
+        });
+
+        const afterUpdate1 = {
+          ...afterNoUpdates,
+          content: update1RenderedContent,
+          subject: update1Topic,
+          last_edit_timestamp: 456,
+          edit_history: [
+            {
+              prev_content: initialContent,
+              prev_rendered_content: initialRenderedContent,
+              prev_rendered_content_version: 1,
+              prev_topic: initialTopic,
+              timestamp: 456,
+              topic: update1Topic,
+              user_id: senderId,
+            },
+          ],
+        };
+
+        const update2Content = 'New content 2';
+        const update2RenderedContent = `<p>${update2Content}</p>`;
+        const update2Topic = 'New updated topic 2';
+
+        const update2Action = mkMoveAction({
+          edit_timestamp: 567,
+          message: afterUpdate1,
+          orig_content: update1Content,
+          orig_rendered_content: update1RenderedContent,
+          rendered_content: update2RenderedContent,
+          content: update2Content,
+          subject: update2Topic,
+          prev_rendered_content_version: 1,
+        });
+
+        const afterUpdate2 = {
+          ...afterUpdate1,
+          content: update2RenderedContent,
+          subject: update2Topic,
+          last_edit_timestamp: 567,
+          edit_history: [
+            {
+              prev_content: update1Content,
+              prev_rendered_content: update1RenderedContent,
+              prev_rendered_content_version: 1,
+              prev_topic: update1Topic,
+              timestamp: 567,
+              topic: update2Topic,
+              user_id: senderId,
+            },
+            {
+              prev_content: initialContent,
+              prev_rendered_content: initialRenderedContent,
+              prev_rendered_content_version: 1,
+              prev_topic: initialTopic,
+              timestamp: 456,
+              topic: update1Topic,
+              user_id: senderId,
+            },
+          ],
+        };
+
+        test('on never-edited message, or one received with realm_allow_edit_history: false, creates one-item array', () => {
+          expect(
+            messagesReducer(
+              eg.makeMessagesState([afterNoUpdates]),
+              update1Action,
+              eg.plusReduxState,
+            ),
+          ).toEqual(eg.makeMessagesState([afterUpdate1]));
+        });
+
+        test('on once-edited message, adds item at start of array', () => {
+          expect(
+            messagesReducer(eg.makeMessagesState([afterUpdate1]), update2Action, eg.plusReduxState),
+          ).toEqual(eg.makeMessagesState([afterUpdate2]));
+        });
+      });
+
+      // TODO(server-5.0): Simplify away.
+      test("don't touch it if we dropped it because server was FL <118", () => {
+        const message1Old = eg.streamMessage({
+          content: '<p>Old content</p>',
+          subject: 'Old topic',
+          edit_history: null,
+        });
+        const prevState = eg.makeMessagesState([message1Old]);
+        const action = mkMoveAction({
+          edit_timestamp: 456,
+          message: message1Old,
+          orig_content: message1Old.content,
+          orig_rendered_content: message1Old.content,
+          rendered_content: '<p>New content</p>',
+          content: 'New content',
+          subject: 'New updated topic',
+          prev_rendered_content_version: 1,
+        });
+        const newState = messagesReducer(prevState, action, eg.plusReduxState);
+        const newMessage = newState.get(message1Old.id);
+        expect(newMessage).not.toBeUndefined();
+        expect(newState.get(message1Old.id)?.edit_history).toBe(null);
+      });
     });
   });
 

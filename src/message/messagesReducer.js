@@ -3,7 +3,13 @@
 import omit from 'lodash.omit';
 import Immutable from 'immutable';
 
-import type { MessagesState, Message, PerAccountApplicableAction, PerAccountState } from '../types';
+import type {
+  MessagesState,
+  Message,
+  PerAccountApplicableAction,
+  PerAccountState,
+  UpdateMessageEvent,
+} from '../types';
 import {
   REGISTER_COMPLETE,
   LOGOUT,
@@ -20,6 +26,9 @@ import {
 import { getNarrowsForMessage, keyFromNarrow } from '../utils/narrow';
 import * as logging from '../utils/logging';
 import { getStreamsById } from '../selectors';
+import type { MessageEdit } from '../api/modelTypes';
+import type { ReadWrite } from '../generics';
+import type { MessageMove } from '../api/misc';
 
 const initialState: MessagesState = Immutable.Map([]);
 
@@ -62,6 +71,65 @@ const eventNewMessage = (state, action) => {
   // include it in `state.narrows`.
 
   return state.set(action.message.id, omit(action.message, 'flags'));
+};
+
+const editHistory = <M: Message>(args: {|
+  oldMessage: M,
+  event: UpdateMessageEvent,
+  move: MessageMove | null,
+  shouldApplyContentChanges: boolean,
+|}) => {
+  const { oldMessage, event, move, shouldApplyContentChanges } = args;
+  if (oldMessage.edit_history === null) {
+    // We ignored a maybe-interesting `edit_history` when we learned about
+    // the message because the value wouldn't have been in a nice shape; see
+    // Message['edit_history']. Keep ignoring it; don't give it a partial
+    // value, such as a one-item array based on this edit, which would be
+    // corrupt.
+    // TODO(server-5.0): Simplify away.
+    return null;
+  }
+
+  if (
+    event.rendering_only === true
+    // TODO(server-5.0): Simplify away these two checks
+    || event.edit_timestamp === undefined
+    || event.user_id === undefined
+  ) {
+    // See doc:
+    //   https://zulip.com/api/get-events#update_message
+    // > […] the event does not reflect a user-generated edit and does not
+    // > modify the message history.
+    return oldMessage.edit_history;
+  }
+
+  const newEntry: ReadWrite<MessageEdit> = {
+    timestamp: event.edit_timestamp,
+    user_id: event.user_id,
+  };
+
+  if (
+    shouldApplyContentChanges
+    && event.message_id === oldMessage.id
+    && event.orig_content != null
+  ) {
+    newEntry.prev_content = event.orig_content;
+    newEntry.prev_rendered_content = event.orig_rendered_content;
+    newEntry.prev_rendered_content_version = event.prev_rendered_content_version;
+  }
+
+  if (move) {
+    if (move.orig_stream_id !== move.new_stream_id) {
+      newEntry.prev_stream = move.orig_stream_id;
+      newEntry.stream = move.new_stream_id;
+    }
+    if (move.orig_topic !== move.new_topic) {
+      newEntry.prev_topic = move.orig_topic;
+      newEntry.topic = move.new_topic;
+    }
+  }
+
+  return [newEntry, ...(oldMessage.edit_history ?? [])];
 };
 
 export default (
@@ -161,8 +229,12 @@ export default (
               ? oldMessage.last_edit_timestamp
               : event.edit_timestamp,
 
-          // TODO(#3408): Update edit_history, too.  This is OK for now
-          //   because we don't actually have any UI to expose it: #4134.
+          edit_history: editHistory<M>({
+            oldMessage,
+            event,
+            move,
+            shouldApplyContentChanges: true,
+          }),
         };
       });
 
@@ -200,9 +272,27 @@ export default (
                 return oldMessage;
               }
 
-              // TODO(#3408): Update edit_history, too.  This is OK for now
-              //   because we don't actually have any UI to expose it: #4134.
-              return { ...oldMessage, ...update };
+              return {
+                ...oldMessage,
+                ...update,
+
+                // We already processed the message with ID
+                // `event.message_id`, above; skip it here.
+                edit_history:
+                  id === event.message_id
+                    ? oldMessage.edit_history
+                    : editHistory<M>({
+                        oldMessage,
+                        event,
+                        move,
+
+                        // See doc:
+                        //   https://zulip.com/api/get-events#update_message
+                        // > Content changes should be applied only to the single message
+                        // > indicated by `message_id`.
+                        shouldApplyContentChanges: false,
+                      }),
+              };
             });
           }
         });
