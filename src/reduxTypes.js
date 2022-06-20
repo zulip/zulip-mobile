@@ -303,6 +303,7 @@ export type RealmState = {|
   +createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
   +enableSpectatorAccess: boolean,
   +waitingPeriodThreshold: number,
+  +allowEditHistory: boolean,
 
   //
   // InitialDataRealmUser
