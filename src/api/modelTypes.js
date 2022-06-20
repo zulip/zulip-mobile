@@ -749,9 +749,38 @@ type MessageBase = $ReadOnly<{|
   content_type: 'text/html',
   // display_recipient handled on PmMessage and StreamMessage separately
 
-  // Null if it's coming from a server with FL <118; see comment on
-  // MessageEdit.
-  edit_history: $ReadOnlyArray<MessageEdit> | null,
+  /**
+   * A possibly incomplete view of the message's edit history.
+   *
+   * This is null if it's coming from a server with FL <118; see comment on
+   * MessageEdit.
+   *
+   * Missing/undefined if the message had no edit history when we added it
+   * to the state.
+   *
+   * Missing/undefined if, at the time we added it to the state, the realm
+   * didn't allow viewing edit history.
+   *
+   * Stale if the message was updated or moved after we added it to the state.
+   */
+  // TODO: Keep reasonably current:
+  // - Use `null` for the `allow_edit_history`-false case, to distinguish it
+  //   from the message-never-edited case. (Handle everywhere we add/update
+  //   Messages in Redux: the get-messages response, new-message events,
+  //   update-message events.)
+  // - Handle changes to the allow_edit_history setting:
+  //   - Treat an allow_edit_history change similar to a restart event (in
+  //     particular, a restart event where the server version changed, which
+  //     could mean any number of subtle changes in server behavior), and do
+  //     a re-fetch of server data soon after it.
+  // - Handle update-message events, writing the FL 118+ shape.
+  //
+  // TODO(server-5.0): Remove FL <118 condition
+  //
+  // (Why optional and `| void`? We convert missing to undefined at the
+  // edge, while doing the FL <118 condition, but that's incidental and
+  // could easily change.)
+  edit_history?: $ReadOnlyArray<MessageEdit> | null | void,
 
   id: number,
   is_me_message: boolean,

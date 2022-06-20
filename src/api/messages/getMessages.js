@@ -62,7 +62,7 @@ type ServerMessageOf<M: Message> = $ReadOnly<{|
   ...$Exact<M>,
   avatar_url: string | null,
   reactions: $ReadOnlyArray<ServerReaction>,
-  edit_history: $ReadOnlyArray<ServerMessageEdit>,
+  edit_history?: $ReadOnlyArray<ServerMessageEdit>,
 |}>;
 
 export type ServerMessage = ServerMessageOf<PmMessage> | ServerMessageOf<StreamMessage>;
@@ -99,8 +99,8 @@ export const migrateMessages = (
     edit_history:
       /* eslint-disable operator-linebreak */
       zulipFeatureLevel >= 118
-        ? // $FlowIgnore[prop-missing] - See MessageEdit type
-          (message.edit_history: $ReadOnlyArray<MessageEdit>)
+        ? // $FlowIgnore[incompatible-cast] - See MessageEdit type
+          (message.edit_history: $ReadOnlyArray<MessageEdit> | void)
         : null,
   }));
 
