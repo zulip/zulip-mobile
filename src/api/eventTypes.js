@@ -298,16 +298,18 @@ export type UserSettingsUpdateEvent = $ReadOnly<{|
  *
  * See also `messageMoved` in `misc.js`.
  */
-// This is current to feature level 109.
+// This is current to feature level 132.
 // NB if this ever gains a feature of moving PMs, `messageMoved` needs updating.
 export type UpdateMessageEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.update_message,
 
-  // Future servers might send `null` here:
-  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.60update_message.60.20event/near/1309241
-  // TODO(server-5.0): Update this and/or simplify.
+  // Before FL 114, can be absent with the same meaning as null.
+  // TODO(server-5.0): Make required.
   user_id?: UserId | null,
+
+  // TODO(server-5.0): New in FL 114. On old servers, infer from `user_id`.
+  rendering_only?: boolean,
 
   // Any content changes apply to just message_id.
   message_id: number,
@@ -320,9 +322,16 @@ export type UpdateMessageEvent = $ReadOnly<{|
   message_ids: $ReadOnlyArray<number>,
 
   flags: $ReadOnlyArray<string>,
+
+  // TODO(server-5.0): Always present as of FL 114; make required.
   edit_timestamp?: number,
+
   stream_name?: string,
+
+  // As of FL 112, present for all stream-message updates.
+  // TODO(server-5.0): Remove comment but keep optional; absent for PMs.
   stream_id?: number,
+
   new_stream_id?: number,
   propagate_mode?: PropagateMode,
   orig_subject?: string,
