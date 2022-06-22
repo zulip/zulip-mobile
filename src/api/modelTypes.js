@@ -749,8 +749,8 @@ type MessageBase = $ReadOnly<{|
   content_type: 'text/html',
   // display_recipient handled on PmMessage and StreamMessage separately
 
-  // Optional because we only store it in Redux if it's coming from a server
-  // with FL >=118; see comment on MessageEdit.
+  // Null if it's coming from a server with FL <118; see comment on
+  // MessageEdit.
   edit_history: $ReadOnlyArray<MessageEdit> | null,
 
   id: number,

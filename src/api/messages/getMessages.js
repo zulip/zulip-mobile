@@ -2,7 +2,7 @@
 import type { Auth, ApiResponseSuccess } from '../transportTypes';
 import type { Identity } from '../../types';
 import type { Message, ApiNarrow } from '../apiTypes';
-import type { PmMessage, StreamMessage, Reaction, UserId } from '../modelTypes';
+import type { PmMessage, StreamMessage, Reaction, UserId, MessageEdit } from '../modelTypes';
 import { apiGet } from '../apiFetch';
 import { identityOfAuth } from '../../account/accountMisc';
 import { AvatarURL } from '../../utils/avatar';
@@ -99,8 +99,8 @@ export const migrateMessages = (
     edit_history:
       /* eslint-disable operator-linebreak */
       zulipFeatureLevel >= 118
-        ? // $FlowIgnore[incompatible-cast] - See MessageEdit type
-          (message.edit_history: Message['edit_history'])
+        ? // $FlowIgnore[prop-missing] - See MessageEdit type
+          (message.edit_history: $ReadOnlyArray<MessageEdit>)
         : null,
   }));
 
