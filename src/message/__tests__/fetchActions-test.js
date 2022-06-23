@@ -29,6 +29,7 @@ const mockStore = configureStore([thunk]);
 const narrow = streamNarrow(eg.stream.stream_id);
 const streamNarrowStr = keyFromNarrow(narrow);
 
+// $FlowFixMe[cannot-write]
 global.FormData = class FormData {};
 
 const BORING_RESPONSE = JSON.stringify({
