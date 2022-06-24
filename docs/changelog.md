@@ -39,8 +39,53 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs. v27.186 (last prod release)
+
+* Users' custom profile fields are now shown in the profile view. These can
+  include pronouns, social-media usernames, job titles, etc. (#2900)
+* Support for a new display setting, to be released in Zulip Server 6:
+  "Display names of reacting users when few users have reacted to a
+  message." (#5348)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs. v27.187 (last beta release)
+
+* Fixed a regression in v27.187 that prevented the app from working with
+  Zulip Server versions before 2.1. (Note that those versions are officially
+  unsupported. Affected users should still get their server upgraded.)
+  (#5418)
+* Support for a new display setting, to be released in Zulip Server 6:
+  "Display names of reacting users when few users have reacted to a
+  message." (#5348)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Fixed a flake in waitingPeriodThreshold tests. (#5404)
+
+* Fixed a flake in message-list-diffing tests. (#5414)
+
+* Removed most definitions in navActions.js, to help reduce our use of the
+  deprecated NavigationService approach. (#4417)
+
+* Replaced our uses of Flow's $PropertyType and $ElementType with the new,
+  more concise index-access syntax. (PR #5406)
+
+* We're now running the latest versions of ESLint and Prettier. (PR #5393)
+
+* Resolved issues: #5348, #5418, #4139, #5414, #5404, #4417, PR #5393, #4254
+
 
 ## 27.187 (2022-06-09)
+
+This was a beta-only release.
+
 
 ### Highlights for users
 
