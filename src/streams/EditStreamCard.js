@@ -94,7 +94,7 @@ function explainCreateWebPublicStreamPolicy(
  * static/js/stream_data.js. The ones in `disabledIfNotInitialValue` are the
  * exception; I made them up.
  */
-function useStreamPrivacyOptions(initialValue: Privacy) {
+function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
   const {
     webPublicStreamsEnabled,
     enableSpectatorAccess,
@@ -117,16 +117,30 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                 'Organization members can join (guests must be invited by a subscriber); anyone on the Internet can view complete message history without creating an account',
 
               // See comment where we use this.
-              disabledIfNotInitialValue: !canCreateWebPublicStreams && {
-                title: 'Insufficient permission',
-                message: explainCreateWebPublicStreamPolicy(createWebPublicStreamPolicy, realmName),
-                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
-                  ? {
-                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
-                      text: 'Configure permissions',
-                    }
-                  : undefined,
-              },
+              disabledIfNotInitialValue: (() => {
+                if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
+                  return {
+                    title: 'Insufficient permission',
+                    message: 'Only organization administrators and owners can edit streams.',
+                  };
+                }
+
+                return (
+                  !canCreateWebPublicStreams && {
+                    title: 'Insufficient permission',
+                    message: explainCreateWebPublicStreamPolicy(
+                      createWebPublicStreamPolicy,
+                      realmName,
+                    ),
+                    learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
+                      ? {
+                          url: new URL('/help/configure-who-can-create-streams', realmUrl),
+                          text: 'Configure permissions',
+                        }
+                      : undefined,
+                  }
+                );
+              })(),
             },
         {
           key: 'public',
@@ -173,6 +187,7 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
       realmName,
       realmUrl,
       ownUserRole,
+      isNewStream,
     ],
   );
 }
@@ -241,7 +256,7 @@ export default function EditStreamCard(props: Props): Node {
     }
   }, [props, navigation, initialValues, name, description, privacy]);
 
-  const privacyOptions = useStreamPrivacyOptions(props.initialValues.privacy);
+  const privacyOptions = useStreamPrivacyOptions(props.initialValues.privacy, isNewStream);
 
   return (
     <View>
