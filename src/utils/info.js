@@ -1,5 +1,4 @@
 /* @flow strict-local */
-import invariant from 'invariant';
 import { Alert } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
@@ -13,20 +12,23 @@ export const showToast = (message: string) => {
 export const showErrorAlert = (
   title: string,
   message?: string,
-  learnMoreUrl?: URL,
 
-  // Required if learnMoreUrl passed (used to open the link)
-  globalSettings?: GlobalSettingsState,
+  learnMoreButton?: {|
+    url: URL,
+    text?: string,
+
+    // Needed by openLinkWithUserPreference
+    globalSettings: GlobalSettingsState,
+  |},
 ): void => {
-  // TODO: Translate button text
-
   const buttons = [];
-  if (learnMoreUrl) {
-    invariant(globalSettings !== undefined, 'learnMoreUrl is passed; globalSettings should be too');
+  if (learnMoreButton) {
+    const { url, text, globalSettings } = learnMoreButton;
     buttons.push({
-      text: 'Learn more',
+      // TODO: Translate default text
+      text: text ?? 'Learn more',
       onPress: () => {
-        openLinkWithUserPreference(learnMoreUrl.toString(), globalSettings);
+        openLinkWithUserPreference(url.toString(), globalSettings);
       },
     });
   }

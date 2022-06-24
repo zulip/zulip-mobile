@@ -186,8 +186,7 @@ export default function StreamItem(props: Props): Node {
                       showErrorAlert(
                         _('Cannot subscribe to stream'),
                         _('Stream #{name} is private.', { name }),
-                        new URL('/help/stream-permissions', realmUrl),
-                        globalSettings,
+                        { url: new URL('/help/stream-permissions', realmUrl), globalSettings },
                       );
                       return;
                     }

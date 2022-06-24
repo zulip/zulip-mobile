@@ -125,8 +125,10 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                     }
                   }
                 })(),
-                learnMoreUrl: roleIsAtLeast(ownUserRole, Role.Admin)
-                  ? new URL('/help/configure-who-can-create-streams', realmUrl)
+                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
+                  ? {
+                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
+                    }
                   : undefined,
               },
             },

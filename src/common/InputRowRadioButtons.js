@@ -22,7 +22,10 @@ type Item<TKey> = $ReadOnly<{|
     | {|
         +title: LocalizableText,
         +message?: LocalizableText,
-        +learnMoreUrl?: URL,
+        +learnMoreButton?: {|
+          +url: URL,
+          +text?: LocalizableText,
+        |},
       |}
     | false,
 |}>;

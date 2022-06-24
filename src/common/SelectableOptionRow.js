@@ -27,7 +27,10 @@ type Props<TItemKey: string | number> = $ReadOnly<{|
     | {|
         +title: LocalizableText,
         +message?: LocalizableText,
-        +learnMoreUrl?: URL,
+        +learnMoreButton?: {|
+          +url: URL,
+          +text?: LocalizableText,
+        |},
       |}
     | false,
   selected: boolean,
@@ -107,12 +110,15 @@ export default function SelectableOptionRow<TItemKey: string | number>(
     <Touchable
       onPress={() => {
         if (disabled) {
-          const { title, message, learnMoreUrl } = disabled; // eslint-disable-line no-shadow
+          const { title, message, learnMoreButton } = disabled; // eslint-disable-line no-shadow
           showErrorAlert(
             _(title),
             message != null ? _(message) : undefined,
-            learnMoreUrl,
-            globalSettings,
+            learnMoreButton && {
+              url: learnMoreButton.url,
+              text: learnMoreButton.text != null ? _(learnMoreButton.text) : undefined,
+              globalSettings,
+            },
           );
           return;
         }
