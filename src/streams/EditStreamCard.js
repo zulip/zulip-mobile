@@ -95,17 +95,13 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                     //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
                     case 6: // CreateWebPublicStreamPolicy.Nobody
                       return {
-                        text: roleIsAtLeast(ownUserRole, Role.Admin)
-                          ? '{realmName} does not allow anybody to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
-                          : '{realmName} does not allow anybody to make web-public streams.',
-                        values: { realmName, realmUrl: realmUrl.toString() },
+                        text: '{realmName} does not allow anybody to make web-public streams.',
+                        values: { realmName },
                       };
                     case 7: // CreateWebPublicStreamPolicy.OwnerOnly
                       return {
-                        text: roleIsAtLeast(ownUserRole, Role.Admin)
-                          ? '{realmName} only allows organization owners to make web-public streams. To change this setting, please open {realmUrl} in your browser.'
-                          : '{realmName} only allows organization owners to make web-public streams.',
-                        values: { realmName, realmUrl: realmUrl.toString() },
+                        text: '{realmName} only allows organization owners to make web-public streams.',
+                        values: { realmName },
                       };
                     case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
                       return {
@@ -128,6 +124,7 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
                 learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
                   ? {
                       url: new URL('/help/configure-who-can-create-streams', realmUrl),
+                      text: 'Configure permissions',
                     }
                   : undefined,
               },
