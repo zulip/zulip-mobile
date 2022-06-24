@@ -85,42 +85,32 @@ function useStreamPrivacyOptions(initialValue: Privacy) {
               // See comment where we use this.
               disabledIfNotInitialValue: !canCreateWebPublicStreams && {
                 title: 'Insufficient permission',
-                message: (() => {
-                  switch (createWebPublicStreamPolicy) {
-                    // FlowIssue: sad that we end up having to write numeric literals here :-/
-                    //   But the most important thing to get from the type-checker here is
-                    //   that the ensureUnreachable works -- that ensures that when we add a
-                    //   new possible value, we'll add a case for it here.  Couldn't find a
-                    //   cleaner way to write this that still accomplished that. Discussion:
-                    //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
-                    case 6: // CreateWebPublicStreamPolicy.Nobody
-                      return {
-                        text: '{realmName} does not allow anybody to make web-public streams.',
-                        values: { realmName },
-                      };
-                    case 7: // CreateWebPublicStreamPolicy.OwnerOnly
-                      return {
-                        text: '{realmName} only allows organization owners to make web-public streams.',
-                        values: { realmName },
-                      };
-                    case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
-                      return {
-                        text: '{realmName} only allows organization administrators or owners to make web-public streams.',
-                        values: { realmName },
-                      };
-                    case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
-                      return {
-                        text: '{realmName} only allows organization moderators, administrators, or owners to make web-public streams.',
-                        values: { realmName },
-                      };
-                    default: {
-                      ensureUnreachable(createWebPublicStreamPolicy);
-
-                      // (Unreachable as long as the cases are exhaustive.)
-                      return '';
+                message: {
+                  text: (() => {
+                    switch (createWebPublicStreamPolicy) {
+                      // FlowIssue: sad that we end up having to write numeric literals here :-/
+                      //   But the most important thing to get from the type-checker here is
+                      //   that the ensureUnreachable works -- that ensures that when we add a
+                      //   new possible value, we'll add a case for it here.  Couldn't find a
+                      //   cleaner way to write this that still accomplished that. Discussion:
+                      //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
+                      case 6: // CreateWebPublicStreamPolicy.Nobody
+                        return '{realmName} does not allow anybody to make web-public streams.';
+                      case 7: // CreateWebPublicStreamPolicy.OwnerOnly
+                        return '{realmName} only allows organization owners to make web-public streams.';
+                      case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
+                        return '{realmName} only allows organization administrators or owners to make web-public streams.';
+                      case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
+                        return '{realmName} only allows organization moderators, administrators, or owners to make web-public streams.';
+                      default: {
+                        ensureUnreachable(createWebPublicStreamPolicy);
+                        // (Unreachable as long as the cases are exhaustive.)
+                        return '';
+                      }
                     }
-                  }
-                })(),
+                  })(),
+                  values: { realmName },
+                },
                 learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
                   ? {
                       url: new URL('/help/configure-who-can-create-streams', realmUrl),
