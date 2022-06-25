@@ -48,8 +48,9 @@ ios/**/*.h diff=objc
 
 # FORMATTING
 
-# Maintain LF (Unix-style) newlines in text files.
+# Maintain LF (Unix-style) newlines in text files…
 * text=auto eol=lf
+# … except Windows batch files get CRLF (Windows-style) newlines instead.
 *.bat eol=crlf
 
 # Make sure various media files never get somehow auto-detected as text
