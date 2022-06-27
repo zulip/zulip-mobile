@@ -20,7 +20,7 @@ export default function StoreProvider(props: Props): Node {
       timing.end('Store hydration');
     });
 
-    const unsubscribeStoreObserver = observeStore(
+    return observeStore(
       store,
       // onChange will fire when this value changes
       state => {
@@ -40,8 +40,6 @@ export default function StoreProvider(props: Props): Node {
         logging.setTagsFromServerVersion(zulipVersion);
       },
     );
-
-    return () => unsubscribeStoreObserver();
   }, []);
 
   return <Provider store={store}>{props.children}</Provider>;
