@@ -178,6 +178,31 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
   const ownUserRole = useSelector(getOwnUserRole);
   const realmUrl = useSelector(getRealmUrl);
 
+  const shouldDisableIfNotInitialValue = useCallback(
+    <T: mixed>(canCreate: boolean, explainPolicy: (T, string) => LocalizableText, policy: T) => {
+      if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
+        return {
+          title: 'Insufficient permission',
+          message: 'Only organization administrators and owners can edit streams.',
+        };
+      }
+
+      return (
+        !canCreate && {
+          title: 'Insufficient permission',
+          message: explainPolicy(policy, realmName),
+          learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
+            ? {
+                url: new URL('/help/configure-who-can-create-streams', realmUrl),
+                text: 'Configure permissions',
+              }
+            : undefined,
+        }
+      );
+    },
+    [isNewStream, ownUserRole, realmName, realmUrl],
+  );
+
   return useMemo(
     () =>
       [
@@ -188,119 +213,44 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
               title: 'Web-public',
               subtitle:
                 'Organization members can join (guests must be invited by a subscriber); anyone on the Internet can view complete message history without creating an account',
-
-              // See comment where we use this.
-              disabledIfNotInitialValue: (() => {
-                if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
-                  return {
-                    title: 'Insufficient permission',
-                    message: 'Only organization administrators and owners can edit streams.',
-                  };
-                }
-
-                return (
-                  !canCreateWebPublicStreams && {
-                    title: 'Insufficient permission',
-                    message: explainCreateWebPublicStreamPolicy(
-                      createWebPublicStreamPolicy,
-                      realmName,
-                    ),
-                    learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
-                      ? {
-                          url: new URL('/help/configure-who-can-create-streams', realmUrl),
-                          text: 'Configure permissions',
-                        }
-                      : undefined,
-                  }
-                );
-              })(),
+              disabledIfNotInitialValue: shouldDisableIfNotInitialValue(
+                canCreateWebPublicStreams,
+                explainCreateWebPublicStreamPolicy,
+                createWebPublicStreamPolicy,
+              ),
             },
         {
           key: 'public',
           title: 'Public',
           subtitle:
             'Organization members can join (guests must be invited by a subscriber); organization members can view complete message history without joining',
-
-          // See comment where we use this.
-          disabledIfNotInitialValue: (() => {
-            if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
-              return {
-                title: 'Insufficient permission',
-                message: 'Only organization administrators and owners can edit streams.',
-              };
-            }
-
-            return (
-              !canCreatePublicStreams && {
-                title: 'Insufficient permission',
-                message: explainCreatePublicStreamPolicy(createPublicStreamPolicy, realmName),
-                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
-                  ? {
-                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
-                      text: 'Configure permissions',
-                    }
-                  : undefined,
-              }
-            );
-          })(),
+          disabledIfNotInitialValue: shouldDisableIfNotInitialValue(
+            canCreatePublicStreams,
+            explainCreatePublicStreamPolicy,
+            createPublicStreamPolicy,
+          ),
         },
         {
           key: 'invite-only-public-history',
           title: 'Private, shared history',
           subtitle:
             'Must be invited by a subscriber; new subscribers can view complete message history; hidden from non-administrator users',
-
-          // See comment where we use this.
-          disabledIfNotInitialValue: (() => {
-            if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
-              return {
-                title: 'Insufficient permission',
-                message: 'Only organization administrators and owners can edit streams.',
-              };
-            }
-
-            return (
-              !canCreatePrivateStreams && {
-                title: 'Insufficient permission',
-                message: explainCreatePrivateStreamPolicy(createPrivateStreamPolicy, realmName),
-                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
-                  ? {
-                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
-                      text: 'Configure permissions',
-                    }
-                  : undefined,
-              }
-            );
-          })(),
+          disabledIfNotInitialValue: shouldDisableIfNotInitialValue(
+            canCreatePrivateStreams,
+            explainCreatePrivateStreamPolicy,
+            createPrivateStreamPolicy,
+          ),
         },
         {
           key: 'invite-only',
           title: 'Private, protected history',
           subtitle:
             'Must be invited by a subscriber; new subscribers can only see messages sent after they join; hidden from non-administrator users',
-
-          // See comment where we use this.
-          disabledIfNotInitialValue: (() => {
-            if (!isNewStream && !roleIsAtLeast(ownUserRole, Role.Admin)) {
-              return {
-                title: 'Insufficient permission',
-                message: 'Only organization administrators and owners can edit streams.',
-              };
-            }
-
-            return (
-              !canCreatePrivateStreams && {
-                title: 'Insufficient permission',
-                message: explainCreatePrivateStreamPolicy(createPrivateStreamPolicy, realmName),
-                learnMoreButton: roleIsAtLeast(ownUserRole, Role.Admin)
-                  ? {
-                      url: new URL('/help/configure-who-can-create-streams', realmUrl),
-                      text: 'Configure permissions',
-                    }
-                  : undefined,
-              }
-            );
-          })(),
+          disabledIfNotInitialValue: shouldDisableIfNotInitialValue(
+            canCreatePrivateStreams,
+            explainCreatePrivateStreamPolicy,
+            createPrivateStreamPolicy,
+          ),
         },
       ]
         .filter(Boolean)
@@ -322,6 +272,7 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
         }),
     [
       initialValue,
+      shouldDisableIfNotInitialValue,
       canCreatePublicStreams,
       createPublicStreamPolicy,
       canCreatePrivateStreams,
@@ -330,10 +281,6 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
       canCreateWebPublicStreams,
       createWebPublicStreamPolicy,
       enableSpectatorAccess,
-      realmName,
-      realmUrl,
-      ownUserRole,
-      isNewStream,
     ],
   );
 }
