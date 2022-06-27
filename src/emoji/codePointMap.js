@@ -312,7 +312,6 @@ export const unicodeCodeByName: {| [name: string]: string |} = {
   confetti: '1f38a',
   confounded: '1f616',
   confused: '1f615',
-  congratulations: '1f389',
   construction: '1f3d7',
   construction_worker: '1f477',
   construction_zone: '1f6a7',
