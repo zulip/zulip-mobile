@@ -348,11 +348,14 @@ export type LocalizableReactText =
  *
  * Alternatively, for when `context` is already in use: use `withGetText`
  * and then say `const { _ } = this.props`.
- *
- * @prop intl - The full react-intl API, for more complex situations.
  */
 export type GetText = {|
   (message: string, values?: {| +[string]: MessageFormatPrimitiveValue |}): string,
+
+  /** Convenient in contexts where callers pass `LocalizableText`. */
+  (message: LocalizableText): string,
+
+  /** The full react-intl API, for more complex situations. */
   intl: IntlShape,
 |};
 
