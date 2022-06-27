@@ -62,15 +62,10 @@ export default function Input(props: Props): Node {
   const themeContext = useContext(ThemeContext);
   const _ = useContext(TranslationContext);
 
-  const fullPlaceholder =
-    typeof placeholder === 'object' /* force linebreak */
-      ? placeholder
-      : { text: placeholder, values: undefined };
-
   return (
     <TextInput
       style={[componentStyles.input, { color: themeContext.color }, style]}
-      placeholder={_(fullPlaceholder.text, fullPlaceholder.values)}
+      placeholder={_(placeholder)}
       placeholderTextColor={HALF_COLOR}
       underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
       onFocus={handleFocus}

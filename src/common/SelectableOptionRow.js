@@ -109,17 +109,8 @@ export default function SelectableOptionRow<TItemKey: string | number>(
         if (disabled) {
           const { title, message, learnMoreUrl } = disabled; // eslint-disable-line no-shadow
           showErrorAlert(
-            typeof title === 'string' ? _(title) : _(title.text, title.values),
-            (() => {
-              switch (typeof message) {
-                case 'undefined':
-                  return undefined;
-                case 'string':
-                  return _(message);
-                default:
-                  return _(message.text, message.values);
-              }
-            })(),
+            _(title),
+            message != null ? _(message) : undefined,
             learnMoreUrl,
             globalSettings,
           );
