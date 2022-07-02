@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.189 (2022-07-01)
+
 ### Highlights for users
 
 * Fixed a bug where reacting to a message with 🎉 would sometimes fail.
