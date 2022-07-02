@@ -39,6 +39,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed a bug where reacting to a message with 🎉 would sometimes fail.
+  (#5430)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Upgraded to React Native v0.67! (#5232)
+
+* Removed the brittle `needsInitialFetch` subsystem. (PR #5300)
+
+* Resolved issues: #5427, #5430, #5232
+
 
 ## 27.188 (2022-06-23)
 
