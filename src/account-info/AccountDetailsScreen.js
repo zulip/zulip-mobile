@@ -24,6 +24,7 @@ import CustomProfileFields from './CustomProfileFields';
 const styles = createStyleSheet({
   pmButton: {
     marginHorizontal: 16,
+    marginBottom: 16,
   },
   deactivatedText: {
     textAlign: 'center',
