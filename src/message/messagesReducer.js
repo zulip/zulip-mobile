@@ -81,12 +81,17 @@ const editHistory = <M: Message>(args: {|
 |}) => {
   const { oldMessage, event, move, shouldApplyContentChanges } = args;
   if (oldMessage.edit_history === null) {
-    // We ignored a maybe-interesting `edit_history` when we learned about
-    // the message because the value wouldn't have been in a nice shape; see
-    // Message['edit_history']. Keep ignoring it; don't give it a partial
-    // value, such as a one-item array based on this edit, which would be
-    // corrupt.
-    // TODO(server-5.0): Simplify away.
+    // Either:
+    // - we dropped edit_history because the server was old and the value
+    //   wouldn't have been in a nice shape, or
+    // - the realm is set to not allow viewing edit history
+    //
+    // (See Message['edit_history'].) Keep maintaining nothing here; don't
+    // write a partial value, such as a one-item array based on this edit,
+    // which would be corrupt.
+    //
+    // TODO(server-5.0): Simplify away the FL condition; keep the
+    //   allowEditHistory condition.
     return null;
   }
 

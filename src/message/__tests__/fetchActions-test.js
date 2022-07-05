@@ -254,6 +254,10 @@ describe('fetchActions', () => {
       narrows: Immutable.Map({
         [streamNarrowStr]: [message1.id],
       }),
+      realm: {
+        ...eg.plusReduxState.realm,
+        allowEditHistory: true, // TODO: test with this `false`
+      },
     });
 
     describe('success', () => {

@@ -62,6 +62,7 @@ describe('recent server', () => {
     input,
     identityOfAuth(eg.selfAuth),
     eg.recentZulipFeatureLevel,
+    true,
   );
 
   test('In reactions, replace user object with `user_id`', () => {
@@ -72,8 +73,16 @@ describe('recent server', () => {
     expect(actualOutput.map(m => m.avatar_url)).toEqual(expectedOutput.map(m => m.avatar_url));
   });
 
-  test('Keeps edit_history', () => {
+  test('Keeps edit_history, if allowEditHistory is true', () => {
     expect(actualOutput.map(m => m.edit_history)).toEqual(expectedOutput.map(m => m.edit_history));
+  });
+
+  test('Drops edit_history, if allowEditHistory is false', () => {
+    expect(
+      migrateMessages(input, identityOfAuth(eg.selfAuth), eg.recentZulipFeatureLevel, false).map(
+        m => m.edit_history,
+      ),
+    ).toEqual(expectedOutput.map(m => null));
   });
 });
 
@@ -97,6 +106,7 @@ describe('drops edit_history from pre-118 server', () => {
       ],
       identityOfAuth(eg.selfAuth),
       117,
+      true,
     ).map(m => m.edit_history),
   ).toEqual([null]);
 });

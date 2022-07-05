@@ -79,6 +79,7 @@ export const migrateMessages = (
   messages: $ReadOnlyArray<ServerMessage>,
   identity: Identity,
   zulipFeatureLevel: number,
+  allowEditHistory: boolean,
 ): Message[] =>
   messages.map(<M: Message>(message: ServerMessageOf<M>): M => ({
     ...message,
@@ -95,20 +96,22 @@ export const migrateMessages = (
         user_id: user.id,
       };
     }),
+
+    // Why condition on allowEditHistory? See MessageBase['edit_history'].
     // Why FL 118 condition? See MessageEdit type.
     edit_history:
       /* eslint-disable operator-linebreak */
-      zulipFeatureLevel >= 118
+      allowEditHistory && zulipFeatureLevel >= 118
         ? // $FlowIgnore[incompatible-cast] - See MessageEdit type
           (message.edit_history: $ReadOnlyArray<MessageEdit> | void)
         : null,
   }));
 
-const migrateResponse = (response, identity: Identity, zulipFeatureLevel) => {
+const migrateResponse = (response, identity: Identity, zulipFeatureLevel, allowEditHistory) => {
   const { messages, ...restResponse } = response;
   return {
     ...restResponse,
-    messages: migrateMessages(messages, identity, zulipFeatureLevel),
+    messages: migrateMessages(messages, identity, zulipFeatureLevel, allowEditHistory),
   };
 };
 
@@ -127,6 +130,9 @@ export default async (
 
   // TODO(#4659): Don't get this from callers.
   zulipFeatureLevel: number,
+
+  // TODO(#4659): Don't get this from callers?
+  allowEditHistory: boolean,
 ): Promise<ApiResponseMessages> => {
   const { narrow, anchor, numBefore, numAfter, useFirstUnread = false } = args;
   const response: ServerApiResponseMessages = await apiGet(auth, 'messages', {
@@ -138,5 +144,5 @@ export default async (
     use_first_unread_anchor: useFirstUnread,
     client_gravatar: true,
   });
-  return migrateResponse(response, identityOfAuth(auth), zulipFeatureLevel);
+  return migrateResponse(response, identityOfAuth(auth), zulipFeatureLevel, allowEditHistory);
 };

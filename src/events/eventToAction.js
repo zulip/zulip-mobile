@@ -31,6 +31,7 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
 } from '../actionConstants';
+import { getRealm } from '../selectors';
 import { getOwnUserId, tryGetUserForId } from '../users/userSelectors';
 import { AvatarURL } from '../utils/avatar';
 import { getRealmUrl, getZulipFeatureLevel } from '../account/accountsSelectors';
@@ -91,6 +92,8 @@ const actionTypeOfEventType = {
 // assumptions about the events the server sends, and doesn't check them.
 export default (state: PerAccountState, event: $FlowFixMe): EventAction | null => {
   const zulipFeatureLevel = getZulipFeatureLevel(state);
+  const allowEditHistory = getRealm(state).allowEditHistory;
+
   const type = (event.type: EventType);
   switch (type) {
     // For reference on each type of event, see:
@@ -118,8 +121,9 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
             realm: getRealmUrl(state),
           }),
           edit_history:
+            // Why condition on allowEditHistory? See MessageBase['edit_history'].
             // Why FL 118 condition? See MessageEdit type.
-            zulipFeatureLevel >= 118
+            allowEditHistory && zulipFeatureLevel >= 118
               ? (event.message.edit_history: $ReadOnlyArray<MessageEdit> | void)
               : null,
         },

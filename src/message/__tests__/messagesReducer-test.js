@@ -745,7 +745,7 @@ describe('messagesReducer', () => {
           ],
         };
 
-        test('on never-edited message, or one received with realm_allow_edit_history: false, creates one-item array', () => {
+        test('on never-edited message, creates one-item array', () => {
           expect(
             messagesReducer(
               eg.makeMessagesState([afterNoUpdates]),
@@ -762,8 +762,7 @@ describe('messagesReducer', () => {
         });
       });
 
-      // TODO(server-5.0): Simplify away.
-      test("don't touch it if we dropped it because server was FL <118", () => {
+      test("don't touch it if we dropped it", () => {
         const message1Old = eg.streamMessage({
           content: '<p>Old content</p>',
           subject: 'Old topic',

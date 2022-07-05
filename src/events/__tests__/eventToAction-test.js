@@ -75,9 +75,25 @@ describe('eventToAction', () => {
         expect(action.message.avatar_url).toBeInstanceOf(AvatarURL);
       });
 
-      test('Keeps edit_history', () => {
+      test('Keeps edit_history if allowEditHistory is true', () => {
+        // eslint-disable-next-line no-shadow
+        const action = eventToAction(
+          eg.reduxStatePlus({ realm: { ...eg.plusReduxState.realm, allowEditHistory: true } }),
+          event,
+        );
+        invariant(actionMatchesType(action, EVENT_NEW_MESSAGE), 'EVENT_NEW_MESSAGE produced');
         expect(action.message.edit_history).not.toBeNull();
         expect(action.message.edit_history).toEqual(serverMessage.edit_history);
+      });
+
+      test('Drops edit_history if allowEditHistory is false', () => {
+        // eslint-disable-next-line no-shadow
+        const action = eventToAction(
+          eg.reduxStatePlus({ realm: { ...eg.plusReduxState.realm, allowEditHistory: false } }),
+          event,
+        );
+        invariant(actionMatchesType(action, EVENT_NEW_MESSAGE), 'EVENT_NEW_MESSAGE produced');
+        expect(action.message.edit_history).toBeNull();
       });
     });
 

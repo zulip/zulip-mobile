@@ -14,6 +14,7 @@ import * as api from '../api';
 import { Server5xxError, NetworkError } from '../api/apiErrors';
 import {
   getAuth,
+  getRealm,
   getSession,
   getFirstMessageId,
   getLastMessageId,
@@ -113,6 +114,7 @@ export const fetchMessages =
               useFirstUnread: fetchArgs.anchor === FIRST_UNREAD_ANCHOR, // TODO: don't use this; see #4203
             },
             getZulipFeatureLevel(getState()),
+            getRealm(getState()).allowEditHistory,
           ),
         );
       dispatch(
@@ -223,6 +225,7 @@ export async function fetchSomeMessageIdForConversation(
       narrow: apiNarrowOfNarrow(topicNarrow(streamId, topic), new Map(), streamsById),
     },
     zulipFeatureLevel,
+    false, // chosen arbitrarily; irrelevant to this function's task
   );
   // FlowIssue: can be void because array can be empty
   const message: Message | void = data.messages[0];
@@ -308,6 +311,7 @@ export const fetchPrivateMessages =
         numAfter: 0,
       },
       getZulipFeatureLevel(getState()),
+      getRealm(getState()).allowEditHistory,
     );
     dispatch(
       messageFetchComplete({
