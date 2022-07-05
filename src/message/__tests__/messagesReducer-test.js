@@ -315,9 +315,109 @@ describe('messagesReducer', () => {
         );
       });
 
-      test.todo('multiple messages moved in one event');
+      test('multiple messages moved in one event', () => {
+        const message0 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
+        const message1 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
+        const message2 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
 
-      test.todo("edited one message's content + multiple messages moved in one event");
+        const action = mkMoveAction({
+          edit_timestamp: 1000,
+          message: message0,
+          message_ids: [message0.id, message1.id, message2.id],
+          propagate_mode: 'change_later',
+          new_stream_id: eg.otherStream.stream_id,
+          subject: 'new topic',
+        });
+
+        expect(
+          messagesReducer(
+            eg.makeMessagesState([message0, message1, message2]),
+            action,
+            eg.plusReduxState,
+          ),
+        ).toEqual(
+          eg.makeMessagesState([
+            {
+              ...message0,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+              last_edit_timestamp: 1000,
+            },
+            {
+              ...message1,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+            },
+            {
+              ...message2,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+            },
+          ]),
+        );
+      });
+
+      test("edited one message's content + multiple messages moved in one event", () => {
+        const message0 = eg.streamMessage({
+          stream: eg.stream,
+          subject: 'old topic',
+          content: '<p>Old content</p>',
+        });
+        const message1 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
+        const message2 = eg.streamMessage({ stream: eg.stream, subject: 'old topic' });
+
+        const action = mkMoveAction({
+          edit_timestamp: 1000,
+
+          // content edit (to apply to just one message)
+          message: message0,
+          orig_content: 'Old content',
+          orig_rendered_content: '<p>Old content</p>',
+          prev_rendered_content_version: 1,
+          content: 'New content',
+          rendered_content: '<p>New content</p>',
+
+          // move (to apply to all messages in `message_ids`)
+          message_ids: [message0.id, message1.id, message2.id],
+          propagate_mode: 'change_later',
+          new_stream_id: eg.otherStream.stream_id,
+          subject: 'new topic',
+        });
+
+        expect(
+          messagesReducer(
+            eg.makeMessagesState([message0, message1, message2]),
+            action,
+            eg.plusReduxState,
+          ),
+        ).toEqual(
+          eg.makeMessagesState([
+            {
+              ...message0,
+              content: '<p>New content</p>',
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+              last_edit_timestamp: 1000,
+            },
+            {
+              ...message1,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+            },
+            {
+              ...message2,
+              stream_id: eg.otherStream.stream_id,
+              display_recipient: eg.otherStream.name,
+              subject: 'new topic',
+            },
+          ]),
+        );
+      });
     });
 
     test('when a message exists in state, it is updated', () => {
