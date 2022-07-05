@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
 
-import type { Submessage, UserId } from '../../types';
+import type { Submessage } from '../../types';
 import messagesReducer from '../messagesReducer';
 import { FIRST_UNREAD_ANCHOR } from '../../anchor';
 import {
@@ -165,17 +165,20 @@ describe('messagesReducer', () => {
 
   describe('EVENT_UPDATE_MESSAGE', () => {
     const mkAction = args => {
-      const { message, ...restArgs } = args;
-      // Include a user_id just if there's an edit_timestamp.  (Actual
-      // update_message events have both for normal edits, and neither for
-      // stealth server-edits.)
-      const forEdit: { user_id?: UserId } =
-        restArgs.edit_timestamp != null ? { user_id: message.sender_id } : Object.freeze({});
+      const {
+        message,
+        rendering_only = false,
+        user_id = message.sender_id,
+        edit_timestamp = message.timestamp + 1,
+        ...restArgs
+      } = args;
       return eg.mkActionEventUpdateMessage({
-        ...forEdit,
+        rendering_only,
         message_id: message.id,
         message_ids: [message.id],
         propagate_mode: 'change_one',
+        user_id,
+        edit_timestamp,
         is_me_message: false,
         ...restArgs,
       });
@@ -403,7 +406,7 @@ describe('messagesReducer', () => {
         // edit_history still empty
       };
       const action = mkAction({
-        // no edit_timestamp, no user_id
+        rendering_only: true,
         message,
         orig_content: message.content,
         orig_rendered_content: message.content,
@@ -431,6 +434,7 @@ describe('messagesReducer', () => {
         // undefined from action.edit_timestamp
       };
       const action = mkAction({
+        rendering_only: true,
         message,
         orig_content: message.content,
         orig_rendered_content: message.content,
