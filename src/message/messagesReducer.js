@@ -150,7 +150,17 @@ export default (
         return {
           ...(oldMessage: M),
           content: event.rendered_content ?? oldMessage.content,
-          last_edit_timestamp: event.edit_timestamp ?? oldMessage.last_edit_timestamp,
+
+          // Don't update last_edit_timestamp if it's a rendering-only
+          // event. How do we know if it is? From newer servers,
+          // rendering_only will be true; from older servers, edit_timestamp
+          // will be missing.
+          // TODO(server-5.0): Simplify away edit_timestamp-missing condition
+          last_edit_timestamp:
+            event.rendering_only === true || event.edit_timestamp == null
+              ? oldMessage.last_edit_timestamp
+              : event.edit_timestamp,
+
           // TODO(#3408): Update edit_history, too.  This is OK for now
           //   because we don't actually have any UI to expose it: #4134.
         };
