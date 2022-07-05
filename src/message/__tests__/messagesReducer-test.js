@@ -216,9 +216,9 @@ describe('messagesReducer', () => {
       test('edited topic', () => {
         const message = eg.streamMessage();
         const newTopic = `${message.subject}abc`;
-        const action = mkMoveAction({ message, subject: newTopic });
+        const action = mkMoveAction({ message, subject: newTopic, edit_timestamp: 1000 });
         expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
-          eg.makeMessagesState([{ ...message, subject: newTopic }]),
+          eg.makeMessagesState([{ ...message, subject: newTopic, last_edit_timestamp: 1000 }]),
         );
       });
 
@@ -232,6 +232,7 @@ describe('messagesReducer', () => {
           message: message1,
           message_ids: [message1.id, message2.id],
           subject: newTopic,
+          edit_timestamp: 1000,
         });
         expect(
           messagesReducer(
@@ -241,7 +242,7 @@ describe('messagesReducer', () => {
           ),
         ).toEqual(
           eg.makeMessagesState([
-            { ...message1, subject: newTopic },
+            { ...message1, subject: newTopic, last_edit_timestamp: 1000 },
             { ...message2, subject: newTopic },
             message3,
           ]),
@@ -250,13 +251,18 @@ describe('messagesReducer', () => {
 
       test('new stream', () => {
         const message = eg.streamMessage();
-        const action = mkMoveAction({ message, new_stream_id: eg.otherStream.stream_id });
+        const action = mkMoveAction({
+          message,
+          new_stream_id: eg.otherStream.stream_id,
+          edit_timestamp: 1000,
+        });
         expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
           eg.makeMessagesState([
             {
               ...message,
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
+              last_edit_timestamp: 1000,
             },
           ]),
         );
@@ -269,6 +275,7 @@ describe('messagesReducer', () => {
           message,
           new_stream_id: eg.otherStream.stream_id,
           subject: newTopic,
+          edit_timestamp: 1000,
         });
         expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
           eg.makeMessagesState([
@@ -277,6 +284,7 @@ describe('messagesReducer', () => {
               stream_id: eg.otherStream.stream_id,
               display_recipient: eg.otherStream.name,
               subject: newTopic,
+              last_edit_timestamp: 1000,
             },
           ]),
         );
@@ -285,10 +293,19 @@ describe('messagesReducer', () => {
       test('new, unknown stream', () => {
         const message = eg.streamMessage();
         const unknownStream = eg.makeStream();
-        const action = mkMoveAction({ message, new_stream_id: unknownStream.stream_id });
+        const action = mkMoveAction({
+          message,
+          new_stream_id: unknownStream.stream_id,
+          edit_timestamp: 1000,
+        });
         expect(messagesReducer(eg.makeMessagesState([message]), action, eg.plusReduxState)).toEqual(
           eg.makeMessagesState([
-            { ...message, stream_id: unknownStream.stream_id, display_recipient: 'unknown' },
+            {
+              ...message,
+              stream_id: unknownStream.stream_id,
+              display_recipient: 'unknown',
+              last_edit_timestamp: 1000,
+            },
           ]),
         );
       });
