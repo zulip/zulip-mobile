@@ -168,6 +168,8 @@ describe('messagesReducer', () => {
       const {
         message,
         rendering_only = false,
+        message_ids = [message.id],
+        propagate_mode = 'change_one',
         user_id = message.sender_id,
         edit_timestamp = message.timestamp + 1,
         ...restArgs
@@ -175,8 +177,8 @@ describe('messagesReducer', () => {
       return eg.mkActionEventUpdateMessage({
         rendering_only,
         message_id: message.id,
-        message_ids: [message.id],
-        propagate_mode: 'change_one',
+        message_ids,
+        propagate_mode,
         user_id,
         edit_timestamp,
         is_me_message: false,
