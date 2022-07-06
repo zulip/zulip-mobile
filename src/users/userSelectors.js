@@ -285,8 +285,17 @@ export function getCustomProfileFieldsForUser(
   //   the order they appear in the array (`custom_profile_fields` in the
   //   API; our `realmFields` array here.)  See chat thread:
   //     https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1382982
+  //
+  // We go on to put at the start of the list any fields that are marked for
+  // displaying in the "profile summary".  (Possibly they should be at the
+  // start of the list in the first place, but make sure just in case.)
+  const sortedRealmFields = [
+    ...realmFields.filter(f => f.display_in_profile_summary),
+    ...realmFields.filter(f => !f.display_in_profile_summary),
+  ];
+
   const fields = [];
-  for (const realmField of realmFields) {
+  for (const realmField of sortedRealmFields) {
     const value = interpretCustomProfileField(
       realmDefaultExternalAccounts,
       realmField,

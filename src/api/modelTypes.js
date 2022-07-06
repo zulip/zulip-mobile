@@ -81,6 +81,7 @@ export type CustomProfileField = {|
    * it's a string, one serializing a JSON object.
    */
   +field_data: string,
+  +display_in_profile_summary?: true,
 |};
 
 export type ImageEmojiType = $ReadOnly<{|

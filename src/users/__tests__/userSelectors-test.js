@@ -247,6 +247,36 @@ describe('getCustomProfileFieldsForUser', () => {
     ]);
   });
 
+  test('put highlighted fields first', () => {
+    expect(
+      getCustomProfileFieldsForUser(
+        mkRealm([
+          { id: 1, name: 'name one', type: CustomProfileFieldType.ShortText },
+          {
+            id: 2,
+            name: 'name two',
+            type: CustomProfileFieldType.ShortText,
+          },
+          {
+            id: 3,
+            name: 'name three',
+            type: CustomProfileFieldType.ShortText,
+            display_in_profile_summary: true,
+          },
+        ]),
+        mkUser({
+          '1': { value: 'value one' },
+          '2': { value: 'value two' },
+          '3': { value: 'value three' },
+        }),
+      ),
+    ).toEqual([
+      { fieldId: 3, name: 'name three', value: { displayType: 'text', text: 'value three' } },
+      { fieldId: 1, name: 'name one', value: { displayType: 'text', text: 'value one' } },
+      { fieldId: 2, name: 'name two', value: { displayType: 'text', text: 'value two' } },
+    ]);
+  });
+
   test('omit unset fields', () => {
     expect(
       getCustomProfileFieldsForUser(
