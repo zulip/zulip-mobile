@@ -310,6 +310,33 @@ describe('unreadPmsReducer', () => {
       expect(actualState).toStrictEqual(expectedState);
     });
 
+    test('on "remove", drop any duplicates', () => {
+      const initialState = deepFreeze([
+        { sender_id: eg.otherUser.user_id, unread_message_ids: [1, 3] },
+      ]);
+
+      const action = deepFreeze({
+        id: 1,
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: eg.makeMessagesState([]),
+        messages: [1, 4],
+        flag: 'read',
+        op: 'remove',
+        message_details: new Map([
+          [1, { type: 'private', user_ids: [eg.otherUser.user_id] }],
+          [4, { type: 'private', user_ids: [eg.otherUser.user_id] }],
+        ]),
+      });
+
+      const expectedState = deepFreeze([
+        { sender_id: eg.otherUser.user_id, unread_message_ids: [1, 3, 4] },
+      ]);
+
+      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
+      expect(actualState).toStrictEqual(expectedState);
+    });
+
     test('when "all" is true reset state', () => {
       const initialState = deepFreeze([
         {

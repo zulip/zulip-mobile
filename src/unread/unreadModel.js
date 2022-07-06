@@ -145,6 +145,52 @@ function updateAllAndPrune<K, V>(
   });
 }
 
+/**
+ * The union of sets, represented as sorted lists.
+ *
+ * The inputs must be sorted (by `<`) and without duplicates (by `===`).
+ *
+ * The output will contain all the elements found in either input, again
+ * sorted and without duplicates.
+ */
+// TODO: This implementation is Θ(n log n), because it repeatedly looks up
+//   elements by numerical index.  It would be nice to instead use cursors
+//   within the tree to get an O(n) implementation.
+export function setUnion<T: number>(
+  xs: Immutable.List<T>,
+  ys: Immutable.List<T>,
+): Immutable.List<T> {
+  // TODO: Perhaps build a List directly, with setSize up front.
+  const result = [];
+  let i = 0;
+  let x = xs.get(i++);
+  let j = 0;
+  let y = ys.get(j++);
+  while (x !== undefined && y !== undefined) {
+    if (x < y) {
+      result.push(x);
+      x = xs.get(i++);
+    } else if (x !== y) {
+      result.push(y);
+      y = ys.get(j++);
+    } else {
+      // x === y
+      result.push(x);
+      x = xs.get(i++);
+      y = ys.get(j++);
+    }
+  }
+  while (x !== undefined) {
+    result.push(x);
+    x = xs.get(i++);
+  }
+  while (y !== undefined) {
+    result.push(y);
+    y = ys.get(j++);
+  }
+  return Immutable.List(result);
+}
+
 function deleteMessagesIn(
   state: UnreadStreamsState,
   streamId: number,
@@ -269,16 +315,16 @@ function streamsReducer(
           }
         }
 
-        // We sort below, but that doesn't catch messages that are in the
-        // newlyUnreadState but not the existing state, so we sort here as
-        // well.
+        // We rely in `setUnion` below on these being sorted.  Even if we
+        // didn't, and sorted there, it wouldn't catch messages that are in
+        // newlyUnreadState but not the existing state.  So sort here too.
         newlyUnreadState = newlyUnreadState.map(e => e.map(messages => messages.sort()));
 
         return state.mergeWith(
           (oldTopicsMap, newTopicsMap) =>
             oldTopicsMap.mergeWith(
               (oldUnreadMessages, newUnreadMessages) =>
-                oldUnreadMessages.concat(newUnreadMessages).sort(),
+                setUnion(oldUnreadMessages, newUnreadMessages),
               newTopicsMap,
             ),
           newlyUnreadState,

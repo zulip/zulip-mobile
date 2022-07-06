@@ -2,10 +2,29 @@
 import Immutable from 'immutable';
 
 import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
-import { reducer } from '../unreadModel';
+import { reducer, setUnion } from '../unreadModel';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 import { initialState, makeUnreadState } from './unread-testlib';
+
+describe('setUnion', () => {
+  for (const [desc, xs, ys] of ([
+    ['empty', [], []],
+    ['nonempty, empty', [1, 2], []],
+    ['empty, nonempty', [], [1, 2]],
+    ['in order', [1, 2], [3, 4]],
+    ['reversed', [3, 4], [1, 2]],
+    ['interleaved', [1, 3], [2, 4]],
+    ['all dupes', [1, 2], [1, 2]],
+    ['some dupes', [1, 2], [2, 3]],
+    ['comparison is numeric, not lexicographic', [11], [2]],
+  ]: [string, number[], number[]][])) {
+    test(desc, () => {
+      const expected = [...new Set([...xs, ...ys])].sort((a, b) => a - b);
+      expect(setUnion(Immutable.List(xs), Immutable.List(ys)).toArray()).toEqual(expected);
+    });
+  }
+});
 
 // These are the tests corresponding to unreadStreamsReducer-test.js.
 // Ultimately we'll want to flip this way of organizing the tests, and
@@ -349,6 +368,24 @@ describe('stream substate', () => {
               ['baz', [7]],
             ]),
           ],
+        ]),
+      );
+    });
+
+    test('on "remove", drop any duplicates', () => {
+      const action = mkAction({
+        messages: [2, 6],
+        op: 'remove',
+        message_details: new Map([
+          [2, messageDetailsEntry(123, 'foo')],
+          [6, messageDetailsEntry(123, 'foo')],
+        ]),
+      });
+      const newState = reducer(baseState, action, eg.plusReduxState);
+      expect(summary(newState)).toEqual(
+        Immutable.Map([
+          [123, Immutable.Map([['foo', [1, 2, 3, 6]]])],
+          [234, Immutable.Map([['bar', [4, 5]]])],
         ]),
       );
     });

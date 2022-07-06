@@ -304,6 +304,36 @@ describe('unreadHuddlesReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
+    test('on "remove", drop any duplicates', () => {
+      const initialState = deepFreeze([
+        { user_ids_string: '0,1,2', unread_message_ids: [1, 2, 3, 4] },
+      ]);
+
+      const action = deepFreeze({
+        id: 1,
+        type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: false,
+        allMessages: eg.makeMessagesState([]),
+        messages: [2, 10],
+        flag: 'read',
+        op: 'remove',
+        message_details: new Map([
+          [2, { type: 'private', user_ids: [1, 2].map(makeUserId) }],
+          [10, { type: 'private', user_ids: [1, 2].map(makeUserId) }],
+        ]),
+      });
+
+      const expectedState = [{ user_ids_string: '0,1,2', unread_message_ids: [1, 2, 3, 4, 10] }];
+
+      const actualState = unreadHuddlesReducer(
+        initialState,
+        action,
+        eg.reduxStatePlus({ realm: { ...eg.plusReduxState.realm, user_id: makeUserId(0) } }),
+      );
+
+      expect(actualState).toEqual(expectedState);
+    });
+
     test('when "all" is true reset state', () => {
       const initialState = deepFreeze([
         {
