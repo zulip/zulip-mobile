@@ -311,7 +311,7 @@ PODS:
     - RCTTypeSafety
     - React
     - ReactCommon/turbomodule/core
-  - react-native-simple-toast (1.1.3):
+  - react-native-simple-toast (1.1.4):
     - React-Core
     - Toast (~> 4.0.0)
   - react-native-webview (11.22.2):
@@ -710,7 +710,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
-  react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
+  react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-webview: 159034a856a6e95995f5bf2eed40d70b103d6572
   React-perflogger: 0afaf2f01a47fd0fc368a93bfbb5bd3b26db6e7f
   React-RCTActionSheet: 59f35c4029e0b532fc42114241a06e170b7431a2
