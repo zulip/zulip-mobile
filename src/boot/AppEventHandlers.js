@@ -129,7 +129,10 @@ class AppEventHandlersInner extends PureComponent<Props> {
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);
 
     AppState.addEventListener('memoryWarning', this.handleMemoryWarning);
+
+    // The listener doesn't seem to fire in RN's "Debug with Chrome" mode.
     ScreenOrientation.addOrientationChangeListener(this.handleOrientationChange);
+
     this.notificationListener.start();
     this.shareListener.start();
   }
