@@ -8,7 +8,6 @@
 #import <React/RCTLog.h>
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
-#import <EXScreenOrientation/EXScreenOrientationViewController.h>
 
 #ifdef FB_SONARKIT_ENABLED
   #import <FlipperKit/FlipperClient.h>
@@ -39,8 +38,8 @@
 
   RCTSetLogThreshold(RCTLogLevelError);
 
-  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+  RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [self.reactDelegate createRootViewWithBridge:bridge
                                                       moduleName:@"ZulipMobile"
                                                initialProperties:nil];
 
@@ -49,7 +48,7 @@
   rootView.loadingView = loadingView;
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController =  [[EXScreenOrientationViewController alloc] initWithDefaultScreenOrientationMask:UIInterfaceOrientationMaskAll];
+  UIViewController *rootViewController = [self.reactDelegate createRootViewController];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];

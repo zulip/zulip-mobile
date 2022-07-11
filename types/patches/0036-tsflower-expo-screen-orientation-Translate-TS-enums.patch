@@ -61,7 +61,7 @@ index a714391d8..487278d38 100644
  declare export function addOrientationChangeListener(
    listener: OrientationChangeListener,
 diff --git types/expo-screen-orientation/build/ScreenOrientation.types.js.flow types/expo-screen-orientation/build/ScreenOrientation.types.js.flow
-index 76e6c2641..fce818edd 100644
+index ec7bf0644..88cbbc96d 100644
 --- types/expo-screen-orientation/build/ScreenOrientation.types.js.flow
 +++ types/expo-screen-orientation/build/ScreenOrientation.types.js.flow
 @@ -1,141 +1,138 @@
@@ -122,7 +122,7 @@ index 76e6c2641..fce818edd 100644
   * An enum whose values can be passed to the [`lockAsync`](#screenorientationlockasyncorientationlock)
   * method.
   * > __Note:__ `OrientationLock.ALL` and `OrientationLock.PORTRAIT` are invalid on devices which
-  * don't support `OrientationLock.PORTRAIT_DOWN`.
+  * > don't support `OrientationLock.PORTRAIT_DOWN`.
 - * /
 -export declare enum OrientationLock {
 -    /**
@@ -237,7 +237,7 @@ index 76e6c2641..fce818edd 100644
  /**
   * An enum representing the lock policies that can be applied on the web platform, modelled after
   * the [W3C specification](https://w3c.github.io/screen-orientation/#dom-orientationlocktype).
-  * These values can be applied through the [`lockPlatformAsync`](#screenorientationlockplatformasyncplatforminfo)
+  * These values can be applied through the [`lockPlatformAsync`](#screenorientationlockplatformasyncoptions)
   * method.
 - * /
 -export declare enum WebOrientationLock {

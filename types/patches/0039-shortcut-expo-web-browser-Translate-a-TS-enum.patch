@@ -29,7 +29,7 @@ index 506ab86a1..969ce710d 100644
  declare export function warmUpAsync(browserPackage?: string): Promise<WebBrowserWarmUpResult>;
  declare export function mayInitWithUrlAsync(url: string, browserPackage?: string): Promise<WebBrowserMayInitWithUrlResult>;
 diff --git types/expo-web-browser/build/WebBrowser.types.js.flow types/expo-web-browser/build/WebBrowser.types.js.flow
-index 803676488..c4e0fdeb0 100644
+index 64c9d2f3a..f75c4860b 100644
 --- types/expo-web-browser/build/WebBrowser.types.js.flow
 +++ types/expo-web-browser/build/WebBrowser.types.js.flow
 @@ -31,25 +31,24 @@ export type WebBrowserCustomTabsResults = {
@@ -40,30 +40,30 @@ index 803676488..c4e0fdeb0 100644
 -/* 
 -export declare enum WebBrowserResultType {
 -    /**
--     * iOS only.
+-     * @platform ios
 -     * /
 -    CANCEL = "cancel",
 -    /**
--     * iOS only.
+-     * @platform ios
 -     * /
 -    DISMISS = "dismiss",
 -    /**
--     * Android only.
+-     * @platform android
 -     * /
 -    OPENED = "opened",
 -    LOCKED = "locked"
 -} */
 +declare export var WebBrowserResultType: {|
 +  /**
-+   * iOS only.
++   * @platform ios
 +   */
 +  +CANCEL: 'cancel',
 +  /**
-+   * iOS only.
++   * @platform ios
 +   */
 +  +DISMISS: 'dismiss',
 +  /**
-+   * Android only.
++   * @platform android
 +   */
 +  +OPENED: 'opened',
 +  +LOCKED: 'locked',

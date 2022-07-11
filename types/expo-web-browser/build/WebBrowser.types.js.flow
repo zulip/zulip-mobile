@@ -33,15 +33,15 @@ export type WebBrowserCustomTabsResults = {
 
 declare export var WebBrowserResultType: {|
   /**
-   * iOS only.
+   * @platform ios
    */
   +CANCEL: 'cancel',
   /**
-   * iOS only.
+   * @platform ios
    */
   +DISMISS: 'dismiss',
   /**
-   * Android only.
+   * @platform android
    */
   +OPENED: 'opened',
   +LOCKED: 'locked',
