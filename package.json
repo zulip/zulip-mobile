@@ -102,6 +102,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "expo-cli": "^5.4.12",
     "flow-bin": "^0.162.0",
     "flow-coverage-report": "^0.8.0",
     "flow-typed": "^3.3.1",

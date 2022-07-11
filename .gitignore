@@ -71,6 +71,9 @@ android/build/
 # CocoaPods
 /ios/Pods
 
+# Expo
+.expo/
+
 # Transifex, for a maintainer syncing translations up and down
 /.transifexrc
 
