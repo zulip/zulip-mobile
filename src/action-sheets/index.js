@@ -272,8 +272,8 @@ const deleteTopic = {
         _('Are you sure you want to delete the topic “{topic}”?', { topic }),
         _('This will also delete all messages in the topic.'),
         [
-          { text: _('Delete topic'), onPress: () => resolve(true), style: 'destructive' },
           { text: _('Cancel'), onPress: () => resolve(false), style: 'cancel' },
+          { text: _('Confirm'), onPress: () => resolve(true), style: 'destructive' },
         ],
         { cancelable: true },
       );

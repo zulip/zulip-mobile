@@ -315,7 +315,7 @@ export default function EditStreamCard(props: Props): Node {
           [
             { text: _('Cancel'), style: 'cancel' },
             {
-              text: _('Discard'),
+              text: _('Confirm'),
               style: 'destructive',
 
               onPress: () => navigation.dispatch(e.data.action),

@@ -1,9 +1,9 @@
 {
+  "Confirm": "Confirm",
   "Configure permissions": "Configure permissions",
   "You": "You",
   "Discard changes?": "Discard changes?",
   "You have unsaved changes. Leave without saving?": "You have unsaved changes. Leave without saving?",
-  "Discard": "Discard",
   "Who can access the stream?": "Who can access the stream?",
   "Cannot apply requested settings": "Cannot apply requested settings",
   "Insufficient permission": "Insufficient permission",
@@ -327,7 +327,6 @@
   "Attachment": "Attachment",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
-  "Remove account": "Remove account",
   "Search topics": "Search topics",
   "Copy link to topic": "Copy link to topic",
   "Failed to copy topic link": "Failed to copy topic link",

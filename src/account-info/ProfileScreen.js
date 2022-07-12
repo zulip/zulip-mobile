@@ -105,7 +105,7 @@ function LogoutButton(props: {||}) {
           [
             { text: _('Cancel'), style: 'cancel' },
             {
-              text: _('Log out'),
+              text: _('Confirm'),
               style: 'destructive',
               onPress: () => {
                 dispatch(tryStopNotifications());

@@ -63,7 +63,7 @@ export default function AccountPickScreen(props: Props): Node {
         [
           { text: _('Cancel'), style: 'cancel' },
           {
-            text: _('Remove account'),
+            text: _('Confirm'),
             style: 'destructive',
             onPress: () => {
               dispatch(removeAccount(index));
