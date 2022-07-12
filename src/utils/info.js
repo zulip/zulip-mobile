@@ -2,7 +2,7 @@
 import { Alert } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
-import type { GlobalSettingsState } from '../types';
+import type { GlobalSettingsState, GetText, LocalizableText } from '../types';
 import { openLinkWithUserPreference } from './openLink';
 
 export const showToast = (message: string) => {
@@ -45,4 +45,27 @@ export const showErrorAlert = (
   });
 
   Alert.alert(title, message, buttons, { cancelable: true });
+};
+
+export const showConfirmationDialog = (args: {|
+  +destructive?: true,
+  +title: LocalizableText,
+  +message: LocalizableText,
+  +learnMoreButton?: LearnMoreButton,
+  +onPressConfirm: () => void,
+  +onPressCancel?: () => void,
+  +_: GetText,
+|}) => {
+  const { destructive, title, message, learnMoreButton, onPressConfirm, onPressCancel, _ } = args;
+
+  const buttons = [];
+  if (learnMoreButton) {
+    buttons.push(makeLearnMoreButton(learnMoreButton));
+  }
+  buttons.push(
+    { text: _('Cancel'), style: 'cancel', onPress: onPressCancel },
+    { text: _('Confirm'), style: destructive ? 'destructive' : 'default', onPress: onPressConfirm },
+  );
+
+  Alert.alert(_(title), _(message), buttons, { cancelable: true });
 };

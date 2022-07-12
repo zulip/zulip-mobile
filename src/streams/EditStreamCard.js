@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useState, useCallback, useMemo, useEffect, useContext } from 'react';
 import type { Node } from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 
 import type { Privacy } from './streamsActions';
 import { ensureUnreachable } from '../types';
@@ -27,6 +27,7 @@ import type {
   CreateWebPublicStreamPolicyT,
 } from '../api/permissionsTypes';
 import type { LocalizableText } from '../types';
+import { showConfirmationDialog } from '../utils/info';
 
 type PropsBase = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -309,20 +310,13 @@ export default function EditStreamCard(props: Props): Node {
 
         e.preventDefault();
 
-        Alert.alert(
-          _('Discard changes?'),
-          _('You have unsaved changes. Leave without saving?'),
-          [
-            { text: _('Cancel'), style: 'cancel' },
-            {
-              text: _('Confirm'),
-              style: 'destructive',
-
-              onPress: () => navigation.dispatch(e.data.action),
-            },
-          ],
-          { cancelable: true },
-        );
+        showConfirmationDialog({
+          destructive: true,
+          title: 'Discard changes?',
+          message: 'You have unsaved changes. Leave without saving?',
+          onPressConfirm: () => navigation.dispatch(e.data.action),
+          _,
+        });
       }),
     [_, areInputsTouched, navigation, awaitingUserInput],
   );

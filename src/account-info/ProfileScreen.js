@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useContext } from 'react';
 import type { Node } from 'react';
-import { ScrollView, View, Alert } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { type UserId } from '../api/idTypes';
@@ -18,6 +18,7 @@ import AwayStatusSwitch from './AwayStatusSwitch';
 import { getOwnUser } from '../users/userSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { useNavigation } from '../react-navigation';
+import { showConfirmationDialog } from '../utils/info';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -96,25 +97,19 @@ function LogoutButton(props: {||}) {
       secondary
       text="Log out"
       onPress={() => {
-        Alert.alert(
-          _('Log out?'),
-          _('This will log out {email} on {realmUrl} from the mobile app on this device.', {
-            email: identity.email,
-            realmUrl: identity.realm.toString(),
-          }),
-          [
-            { text: _('Cancel'), style: 'cancel' },
-            {
-              text: _('Confirm'),
-              style: 'destructive',
-              onPress: () => {
-                dispatch(tryStopNotifications());
-                dispatch(logout());
-              },
-            },
-          ],
-          { cancelable: true },
-        );
+        showConfirmationDialog({
+          destructive: true,
+          title: 'Log out?',
+          message: {
+            text: 'This will log out {email} on {realmUrl} from the mobile app on this device.',
+            values: { email: identity.email, realmUrl: identity.realm.toString() },
+          },
+          onPressConfirm: () => {
+            dispatch(tryStopNotifications());
+            dispatch(logout());
+          },
+          _,
+        });
       }}
     />
   );

@@ -31,7 +31,7 @@ import { pmUiRecipientsFromKeyRecipients } from '../utils/recipient';
 import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
-import { showToast } from '../utils/info';
+import { showConfirmationDialog, showToast } from '../utils/info';
 import {
   doNarrow,
   deleteOutboxMessage,
@@ -268,18 +268,17 @@ const deleteTopic = {
   errorMessage: 'Failed to delete topic',
   action: async ({ streamId, topic, dispatch, _ }) => {
     const confirmed = await new Promise((resolve, reject) => {
-      Alert.alert(
-        _('Delete topic', { topic }),
-        _(
-          'Deleting a topic will immediately remove it and its messages for everyone. Other users may find this confusing, especially if they had received an email or push notification related to the deleted messages.\n\nAre you sure you want to permanently delete “{topic}”?',
-          { topic },
-        ),
-        [
-          { text: _('Cancel'), onPress: () => resolve(false), style: 'cancel' },
-          { text: _('Confirm'), onPress: () => resolve(true), style: 'destructive' },
-        ],
-        { cancelable: true },
-      );
+      showConfirmationDialog({
+        destructive: true,
+        title: 'Delete topic',
+        message: {
+          text: 'Deleting a topic will immediately remove it and its messages for everyone. Other users may find this confusing, especially if they had received an email or push notification related to the deleted messages.\n\nAre you sure you want to permanently delete “{topic}”?',
+          values: { topic },
+        },
+        onPressConfirm: () => resolve(true),
+        onPressCancel: () => resolve(false),
+        _,
+      });
     });
     if (confirmed) {
       await dispatch(deleteMessagesForTopic(streamId, topic));

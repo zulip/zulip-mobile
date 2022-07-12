@@ -2,7 +2,6 @@
 
 import React, { useContext, useCallback } from 'react';
 import type { Node } from 'react';
-import { Alert } from 'react-native';
 
 import * as api from '../api';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -18,7 +17,7 @@ import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountList from './AccountList';
 import { accountSwitch, removeAccount } from '../actions';
 import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
-import { showErrorAlert } from '../utils/info';
+import { showConfirmationDialog, showErrorAlert } from '../utils/info';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,
@@ -54,24 +53,18 @@ export default function AccountPickScreen(props: Props): Node {
   const handleAccountRemove = useCallback(
     (index: number) => {
       const { realm, email } = accounts[index];
-      Alert.alert(
-        _('Remove account?'),
-        _('This will make the mobile app on this device forget {email} on {realmUrl}.', {
-          realmUrl: realm.toString(),
-          email,
-        }),
-        [
-          { text: _('Cancel'), style: 'cancel' },
-          {
-            text: _('Confirm'),
-            style: 'destructive',
-            onPress: () => {
-              dispatch(removeAccount(index));
-            },
-          },
-        ],
-        { cancelable: true },
-      );
+      showConfirmationDialog({
+        destructive: true,
+        title: 'Remove account?',
+        message: {
+          text: 'This will make the mobile app on this device forget {email} on {realmUrl}.',
+          values: { realmUrl: realm.toString(), email },
+        },
+        onPressConfirm: () => {
+          dispatch(removeAccount(index));
+        },
+        _,
+      });
     },
     [accounts, _, dispatch],
   );
