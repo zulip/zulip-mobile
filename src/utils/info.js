@@ -37,7 +37,12 @@ export const showErrorAlert = (
   if (learnMoreButton) {
     buttons.push(makeLearnMoreButton(learnMoreButton));
   }
-  buttons.push({ text: 'OK', onPress: () => {} });
+  buttons.push({
+    // TODO: translate
+    text: 'OK',
+
+    onPress: () => {},
+  });
 
   Alert.alert(title, message, buttons, { cancelable: true });
 };
