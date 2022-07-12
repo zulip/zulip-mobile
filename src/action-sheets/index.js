@@ -269,8 +269,11 @@ const deleteTopic = {
   action: async ({ streamId, topic, dispatch, _ }) => {
     const confirmed = await new Promise((resolve, reject) => {
       Alert.alert(
-        _('Are you sure you want to delete the topic “{topic}”?', { topic }),
-        _('This will also delete all messages in the topic.'),
+        _('Delete topic', { topic }),
+        _(
+          'Deleting a topic will immediately remove it and its messages for everyone. Other users may find this confusing, especially if they had received an email or push notification related to the deleted messages.\n\nAre you sure you want to permanently delete “{topic}”?',
+          { topic },
+        ),
         [
           { text: _('Cancel'), onPress: () => resolve(false), style: 'cancel' },
           { text: _('Confirm'), onPress: () => resolve(true), style: 'destructive' },
