@@ -309,10 +309,15 @@ rules:
   react/prop-types: off  # We handle this better with types.
   react/require-default-props: off  # We handle this better with types.
 
+  react/no-unstable-nested-components:
+    - error
+    # Avoid some regressions in clarity:
+    #   https://github.com/zulip/zulip-mobile/pull/5393#discussion_r893924345
+    - allowAsProps: true
+
   # These could be good to fix.
   react/prefer-stateless-function: off
   react/sort-comp: off
-  react/no-unstable-nested-components: off
 
 
   #
