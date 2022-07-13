@@ -49,7 +49,14 @@ export const showErrorAlert = (
 
 export const showConfirmationDialog = (args: {|
   +destructive?: true,
+
+  /**
+   * As in the web app, very brief, sentence case, no question mark
+   *
+   * E.g., "Delete topic".
+   */
   +title: LocalizableText,
+
   +message: LocalizableText,
   +learnMoreButton?: LearnMoreButton,
   +onPressConfirm: () => void,

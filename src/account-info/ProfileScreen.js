@@ -99,7 +99,7 @@ function LogoutButton(props: {||}) {
       onPress={() => {
         showConfirmationDialog({
           destructive: true,
-          title: 'Log out?',
+          title: 'Log out',
           message: {
             text: 'This will log out {email} on {realmUrl} from the mobile app on this device.',
             values: { email: identity.email, realmUrl: identity.realm.toString() },

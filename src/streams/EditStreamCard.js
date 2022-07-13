@@ -312,7 +312,7 @@ export default function EditStreamCard(props: Props): Node {
 
         showConfirmationDialog({
           destructive: true,
-          title: 'Discard changes?',
+          title: 'Discard changes',
           message: 'You have unsaved changes. Leave without saving?',
           onPressConfirm: () => navigation.dispatch(e.data.action),
           _,

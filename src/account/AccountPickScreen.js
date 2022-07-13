@@ -55,7 +55,7 @@ export default function AccountPickScreen(props: Props): Node {
       const { realm, email } = accounts[index];
       showConfirmationDialog({
         destructive: true,
-        title: 'Remove account?',
+        title: 'Remove account',
         message: {
           text: 'This will make the mobile app on this device forget {email} on {realmUrl}.',
           values: { realmUrl: realm.toString(), email },
