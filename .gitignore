@@ -4,7 +4,10 @@
 
 # Xcode
 #
-build/
+
+# Changed from just build/ in the RN template app.
+ios/build/
+
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -29,6 +32,9 @@ android/.idea/*
 !android/.idea/codeStyles/
 .gradle
 local.properties
+
+# Changed from just build/ (under "Xcode") in the RN template app.
+android/app/build/
 
 ### ^
 ### The portion of this file above this line comes from RN upstream's
