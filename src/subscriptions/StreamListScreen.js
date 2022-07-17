@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
-import type { StreamTabsNavigationProp } from '../main/StreamTabsScreen';
+import type { AppNavigationProp } from '../nav/AppNavigator';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
@@ -19,6 +19,7 @@ import { doNarrow } from '../actions';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from '../streams/StreamItem';
 import { getSubscriptionsById } from './subscriptionSelectors';
+import ModalNavBar from '../nav/ModalNavBar';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -34,11 +35,11 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  navigation: StreamTabsNavigationProp<'allStreams'>,
-  route: RouteProp<'allStreams', void>,
+  navigation: AppNavigationProp<'all-streams'>,
+  route: RouteProp<'all-streams', void>,
 |}>;
 
-export default function StreamListCard(props: Props): Node {
+export default function StreamListScreen(props: Props): Node {
   const { navigation } = props;
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
@@ -71,6 +72,7 @@ export default function StreamListCard(props: Props): Node {
 
   return (
     <View style={styles.wrapper}>
+      <ModalNavBar canGoBack title="All streams" />
       <LoadingBanner />
       {canCreateStreams && (
         <ZulipButton
