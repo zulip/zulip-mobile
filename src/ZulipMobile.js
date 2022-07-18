@@ -3,12 +3,10 @@ import React from 'react';
 import type { Node } from 'react';
 import { Platform, UIManager } from 'react-native';
 import 'react-native-url-polyfill/auto';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 // $FlowFixMe[untyped-import]
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import RootErrorBoundary from './RootErrorBoundary';
-import { BRAND_COLOR } from './styles';
 import ZulipNavigationContainer from './nav/ZulipNavigationContainer';
 import StoreProvider from './boot/StoreProvider';
 import StoreHydratedGate from './boot/StoreHydratedGate';
@@ -18,6 +16,7 @@ import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import AppDataFetcher from './boot/AppDataFetcher';
 import { initializeSentry } from './sentry';
+import ZulipSafeAreaProvider from './boot/ZulipSafeAreaProvider';
 
 initializeSentry();
 
@@ -52,13 +51,7 @@ export default function ZulipMobile(): Node {
     <RootErrorBoundary>
       <CompatibilityChecker>
         <StoreProvider>
-          <SafeAreaProvider
-            style={{
-              // While waiting for the safe-area insets, this will
-              // show. Best for it not to be a white flicker.
-              backgroundColor: BRAND_COLOR,
-            }}
-          >
+          <ZulipSafeAreaProvider>
             <StoreHydratedGate>
               <AppEventHandlers>
                 <AppDataFetcher>
@@ -72,7 +65,7 @@ export default function ZulipMobile(): Node {
                 </AppDataFetcher>
               </AppEventHandlers>
             </StoreHydratedGate>
-          </SafeAreaProvider>
+          </ZulipSafeAreaProvider>
         </StoreProvider>
       </CompatibilityChecker>
     </RootErrorBoundary>
