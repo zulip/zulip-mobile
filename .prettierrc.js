@@ -10,7 +10,12 @@ module.exports = {
   // jsxBracketSameLine: true,
 
   printWidth: 100,
-  parser: 'babel-flow',
+
+  // Changed to "flow" just because Flow claims it's necessary for
+  // formatting Flow enums. Unconfirmed…but it doesn't seem to hurt. Doc:
+  //   https://flow.org/en/docs/enums/enabling-enums/#toc-upgrade-tooling
+  parser: 'flow',
+
   singleQuote: true,
   trailingComma: 'all',
   arrowParens: 'avoid',
