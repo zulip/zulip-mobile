@@ -13,5 +13,15 @@ module.exports = {
     // @babel/reset-env, but that doesn't get used as a base plugin; see a
     // comment on that issue explaining why.
     '@babel/plugin-proposal-numeric-separator',
+
+    // Flow enums:
+    //   https://flow.org/en/docs/enums/enabling-enums/#toc-enable-enums
+    [
+      '@babel/plugin-syntax-flow',
+      // Required by 'transform-flow-enums':
+      //   https://www.npmjs.com/package/babel-plugin-transform-flow-enums
+      { enums: true }
+    ],
+    'transform-flow-enums'
   ],
 };

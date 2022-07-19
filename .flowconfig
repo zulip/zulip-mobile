@@ -122,5 +122,7 @@ module.file_ext=.ios.js
 ; we're error-free!
 exact_by_default=true
 
+enums=true
+
 [version]
 ^0.162.0
