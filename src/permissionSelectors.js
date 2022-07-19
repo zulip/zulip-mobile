@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { PerAccountState, UserId } from './types';
 import { ensureUnreachable } from './types';
-import { Role, type RoleT } from './api/permissionsTypes';
+import { Role, type RoleT, CreateWebPublicStreamPolicy } from './api/permissionsTypes';
 import { getRealm, getOwnUser, getUserForId } from './selectors';
 
 const { Guest, Member, Moderator, Admin, Owner } = Role;
@@ -164,25 +164,13 @@ export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
   }
 
   switch (createWebPublicStreamPolicy) {
-    // FlowIssue: sad that we end up having to write numeric literals here :-/
-    //   But the most important thing to get from the type-checker here is
-    //   that the ensureUnreachable works -- that ensures that when we add a
-    //   new possible value, we'll add a case for it here.  Couldn't find a
-    //   cleaner way to write this that still accomplished that. Discussion:
-    //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
-    case 6: // CreateWebPublicStreamPolicy.Nobody
+    case CreateWebPublicStreamPolicy.Nobody:
       return false;
-    case 7: // CreateWebPublicStreamPolicy.OwnerOnly
+    case CreateWebPublicStreamPolicy.OwnerOnly:
       return roleIsAtLeast(role, Owner);
-    case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
+    case CreateWebPublicStreamPolicy.AdminOrAbove:
       return roleIsAtLeast(role, Admin);
-    case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
+    case CreateWebPublicStreamPolicy.ModeratorOrAbove:
       return roleIsAtLeast(role, Moderator);
-    default: {
-      ensureUnreachable(createWebPublicStreamPolicy);
-
-      // (Unreachable as long as the cases are exhaustive.)
-      return false;
-    }
   }
 }

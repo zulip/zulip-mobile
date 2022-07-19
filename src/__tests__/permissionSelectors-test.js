@@ -9,7 +9,6 @@ import {
   CreatePublicOrPrivateStreamPolicy,
   type CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicy,
-  type CreateWebPublicStreamPolicyT,
 } from '../api/permissionsTypes';
 import {
   getHasUserPassedWaitingPeriod,
@@ -301,7 +300,7 @@ describe('getCanCreateWebPublicStreams', () => {
       role,
       expected,
     }: {
-      policy: CreateWebPublicStreamPolicyT,
+      policy: CreateWebPublicStreamPolicy,
       role: RoleT,
       expected: boolean,
     }) => {

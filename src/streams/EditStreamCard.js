@@ -7,7 +7,11 @@ import type { Privacy } from './streamsActions';
 import { ensureUnreachable } from '../types';
 import { useSelector } from '../react-redux';
 import { getRealm, getRealmUrl } from '../selectors';
-import { Role } from '../api/permissionsTypes';
+import {
+  Role,
+  type CreatePublicOrPrivateStreamPolicyT,
+  CreateWebPublicStreamPolicy,
+} from '../api/permissionsTypes';
 import {
   getCanCreatePublicStreams,
   getCanCreatePrivateStreams,
@@ -22,10 +26,6 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import ZulipButton from '../common/ZulipButton';
 import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
-import type {
-  CreatePublicOrPrivateStreamPolicyT,
-  CreateWebPublicStreamPolicyT,
-} from '../api/permissionsTypes';
 import type { LocalizableText } from '../types';
 import { showConfirmationDialog } from '../utils/info';
 
@@ -64,31 +64,20 @@ type PropsCreateStream = $ReadOnly<{|
 type Props = $ReadOnly<PropsEditStream | PropsCreateStream>;
 
 function explainCreateWebPublicStreamPolicy(
-  policy: CreateWebPublicStreamPolicyT,
+  policy: CreateWebPublicStreamPolicy,
   realmName: string,
 ): LocalizableText {
   return {
     text: (() => {
       switch (policy) {
-        // FlowIssue: sad that we end up having to write numeric literals here :-/
-        //   But the most important thing to get from the type-checker here is
-        //   that the ensureUnreachable works -- that ensures that when we add a
-        //   new possible value, we'll add a case for it here.  Couldn't find a
-        //   cleaner way to write this that still accomplished that. Discussion:
-        //     https://github.com/zulip/zulip-mobile/pull/5384#discussion_r875147220
-        case 6: // CreateWebPublicStreamPolicy.Nobody
+        case CreateWebPublicStreamPolicy.Nobody:
           return '{realmName} does not allow anybody to make web-public streams.';
-        case 7: // CreateWebPublicStreamPolicy.OwnerOnly
+        case CreateWebPublicStreamPolicy.OwnerOnly:
           return '{realmName} only allows organization owners to make web-public streams.';
-        case 2: // CreateWebPublicStreamPolicy.AdminOrAbove
+        case CreateWebPublicStreamPolicy.AdminOrAbove:
           return '{realmName} only allows organization administrators or owners to make web-public streams.';
-        case 4: // CreateWebPublicStreamPolicy.ModeratorOrAbove
+        case CreateWebPublicStreamPolicy.ModeratorOrAbove:
           return '{realmName} only allows organization moderators, administrators, or owners to make web-public streams.';
-        default: {
-          ensureUnreachable(policy);
-          // (Unreachable as long as the cases are exhaustive.)
-          return '';
-        }
       }
     })(),
     values: { realmName },

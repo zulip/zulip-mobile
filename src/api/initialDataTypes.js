@@ -18,7 +18,7 @@ import type {
 } from './apiTypes';
 import type {
   CreatePublicOrPrivateStreamPolicyT,
-  CreateWebPublicStreamPolicyT,
+  CreateWebPublicStreamPolicy,
 } from './permissionsTypes';
 
 /*
@@ -176,7 +176,7 @@ export type InitialDataRealm = $ReadOnly<{|
 
   // TODO(server-5.0): Added in feat. 103; when absent, treat as
   //   CreateWebPublicStreamPolicy.Nobody.
-  realm_create_web_public_stream_policy?: CreateWebPublicStreamPolicyT,
+  realm_create_web_public_stream_policy?: CreateWebPublicStreamPolicy,
 
   realm_default_code_block_language: string | null,
 

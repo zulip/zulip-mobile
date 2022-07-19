@@ -26,7 +26,7 @@ import type {
   UserId,
   UserPresence,
   CreatePublicOrPrivateStreamPolicyT,
-  CreateWebPublicStreamPolicyT,
+  CreateWebPublicStreamPolicy,
 } from './api/apiTypes';
 import type {
   PerAccountSessionState,
@@ -302,7 +302,7 @@ export type RealmState = {|
   +createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
   +createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
   +webPublicStreamsEnabled: boolean,
-  +createWebPublicStreamPolicy: CreateWebPublicStreamPolicyT,
+  +createWebPublicStreamPolicy: CreateWebPublicStreamPolicy,
   +enableSpectatorAccess: boolean,
   +waitingPeriodThreshold: number,
   +allowEditHistory: boolean,

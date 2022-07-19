@@ -20,6 +20,15 @@ import { CustomProfileFieldType } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
 
+const labelFromValue = value =>
+  /* $FlowFixMe[incompatible-use] - CreateWebPublicStreamPolicy is a
+     Flow enum. Values are numbers, so they do have .toString…but
+     Flow reasonably hides that detail from consumers. For
+     CreateWebPublicStreamPolicy, it would actually be better to use
+     CreateWebPublicStreamPolicy.getName(initialStateValue), if we
+     find a nice way to write that with type checking. */
+  value?.toString() ?? '[nullish]';
+
 describe('realmReducer', () => {
   describe('REGISTER_COMPLETE', () => {
     test('updates as appropriate on a boring but representative REGISTER_COMPLETE', () => {
@@ -289,8 +298,7 @@ describe('realmReducer', () => {
           eventPropertyName: E,
         ): ((RealmState[S], UserSettings[E]) => void) =>
         (initialStateValue, eventValue) => {
-          /* prettier-ignore */ // (wants to wrap the name weirdly)
-          test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+          test(`${labelFromValue(initialStateValue)} → ${labelFromValue(eventValue)}`, () => {
             const initialState = { ...eg.plusReduxState.realm };
             // $FlowFixMe[prop-missing]
             // $FlowFixMe[class-object-subtyping]
@@ -331,8 +339,7 @@ describe('realmReducer', () => {
           eventPropertyName: E,
         ): ((RealmState[S], RealmDataForUpdate[E]) => void) =>
         (initialStateValue, eventValue) => {
-          /* prettier-ignore */ // (wants to wrap the name weirdly)
-          test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
+          test(`${labelFromValue(initialStateValue)} → ${labelFromValue(eventValue)}`, () => {
             const initialState = { ...eg.plusReduxState.realm };
             // $FlowFixMe[prop-missing]
             // $FlowFixMe[class-object-subtyping]
