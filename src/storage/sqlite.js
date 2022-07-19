@@ -10,7 +10,7 @@ import invariant from 'invariant';
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-void */
-/* eslint-disable flowtype/type-id-match */
+/* eslint-disable ft-flow/type-id-match */
 
 type SQLArgument = number | string;
 

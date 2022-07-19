@@ -27,7 +27,7 @@ export type * from './idTypes';
  * CustomProfileFieldTypeValues for a list of values.
  */
 // This is an enum; see discussion on other enums.
-// eslint-disable-next-line flowtype/type-id-match
+// eslint-disable-next-line ft-flow/type-id-match
 export type CustomProfileFieldTypeT = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 /**

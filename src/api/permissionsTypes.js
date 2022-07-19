@@ -11,7 +11,7 @@ import { objectValues } from '../flowPonyfill';
 // Or we could leapfrog TS and make this a Flow enum:
 //   https://flow.org/en/docs/enums/
 // (TS has its own enums, but they are a mess.)
-// eslint-disable-next-line flowtype/type-id-match
+// eslint-disable-next-line ft-flow/type-id-match
 export type RoleT = 100 | 200 | 300 | 400 | 600;
 
 /**
@@ -49,7 +49,7 @@ export const RoleValues: $ReadOnlyArray<RoleT> = objectValues(Role);
  *
  * For the policy for web-public streams, see CreateWebPublicStreamPolicyT.
  */
-// eslint-disable-next-line flowtype/type-id-match
+// eslint-disable-next-line ft-flow/type-id-match
 export type CreatePublicOrPrivateStreamPolicyT = 1 | 2 | 3 | 4;
 
 /**
@@ -94,7 +94,7 @@ export const CreatePublicOrPrivateStreamPolicyValues: $ReadOnlyArray<CreatePubli
 // Or we could leapfrog TS and make this a Flow enum:
 //   https://flow.org/en/docs/enums/
 // (TS has its own enums, but they are a mess.)
-// eslint-disable-next-line flowtype/type-id-match
+// eslint-disable-next-line ft-flow/type-id-match
 export type CreateWebPublicStreamPolicyT = 2 | 4 | 6 | 7;
 
 /**

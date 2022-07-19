@@ -5,7 +5,7 @@
 parser: "@babel/eslint-parser"
 
 plugins:
-  - flowtype
+  - ft-flow
   - import
   - jest
   - react

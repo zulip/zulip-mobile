@@ -30,7 +30,7 @@ extends:
 
 plugins:
   - jest
-  - flowtype
+  - ft-flow
   # - react-native  # see commented-out rules config below
 
 env:
@@ -321,28 +321,28 @@ rules:
 
   #
   # ================================================================
-  # Flow; plugin `flowtype`.
+  # Flow; plugin `ft-flow`.
   #
 
-  flowtype/boolean-style: [error, boolean]
-  flowtype/define-flow-type: warn
-  flowtype/delimiter-dangle: off
-  flowtype/no-dupe-keys: error
-  flowtype/no-primitive-constructor-types: error
-  flowtype/no-types-missing-file-annotation: error
-  ################# flowtype/no-weak-types: error
-  # flowtype/require-parameter-type: error
-  flowtype/require-readonly-react-props: error
-  # flowtype/require-return-type: [error, always, {annotateUndefined: never}]
-  flowtype/require-valid-file-annotation: error
-  flowtype/semi: [error, always]
-  flowtype/space-before-generic-bracket: [error, never]
-  flowtype/space-before-type-colon: [error, never]
+  ft-flow/boolean-style: [error, boolean]
+  ft-flow/define-flow-type: warn
+  ft-flow/delimiter-dangle: off
+  ft-flow/no-dupe-keys: error
+  ft-flow/no-primitive-constructor-types: error
+  ft-flow/no-types-missing-file-annotation: error
+  ################# ft-flow/no-weak-types: error
+  # ft-flow/require-parameter-type: error
+  ft-flow/require-readonly-react-props: error
+  # ft-flow/require-return-type: [error, always, {annotateUndefined: never}]
+  ft-flow/require-valid-file-annotation: error
+  ft-flow/semi: [error, always]
+  ft-flow/space-before-generic-bracket: [error, never]
+  ft-flow/space-before-type-colon: [error, never]
   # For more formatting rules, see tools/formatting.eslintrc.yaml.
-  flowtype/type-id-match: [error, '^([A-Z][a-z0-9]+)+$']
-  flowtype/union-intersection-spacing: [error, always]
-  flowtype/use-flow-type: warn
-  flowtype/valid-syntax: warn
+  ft-flow/type-id-match: [error, '^([A-Z][a-z0-9]+)+$']
+  ft-flow/union-intersection-spacing: [error, always]
+  ft-flow/use-flow-type: warn
+  ft-flow/valid-syntax: warn
 
 overrides:
 

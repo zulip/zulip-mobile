@@ -1,5 +1,5 @@
 /* @flow strict */
-/* eslint-disable flowtype/type-id-match */
+/* eslint-disable ft-flow/type-id-match */
 
 /**
  * Type of a round-trip-capable JSONable object.

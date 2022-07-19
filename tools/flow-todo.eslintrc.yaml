@@ -1,12 +1,12 @@
 parser: babel-eslint
 plugins:
-  - flowtype
+  - ft-flow
 rules:
-  flowtype/no-weak-types: error
-  flowtype/require-parameter-type:
+  ft-flow/no-weak-types: error
+  ft-flow/require-parameter-type:
     - error
     - excludeArrowFunctions: true
-  flowtype/require-return-type:
+  ft-flow/require-return-type:
     - error
     - always
     - excludeArrowFunctions: true
