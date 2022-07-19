@@ -291,26 +291,26 @@ describe('realmReducer', () => {
         (initialStateValue, eventValue) => {
           /* prettier-ignore */ // (wants to wrap the name weirdly)
           test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
-          const initialState = { ...eg.plusReduxState.realm };
-          // $FlowFixMe[prop-missing]
-          // $FlowFixMe[class-object-subtyping]
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
-           right kind of value for its chosen key. */
-          initialState[statePropertyName] = initialStateValue;
+            const initialState = { ...eg.plusReduxState.realm };
+            // $FlowFixMe[prop-missing]
+            // $FlowFixMe[class-object-subtyping]
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+               right kind of value for its chosen key. */
+            initialState[statePropertyName] = initialStateValue;
 
-          const expectedState = { ...initialState };
-          // $FlowFixMe[prop-missing]
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
-           right kind of value for its chosen key. */
-          expectedState[statePropertyName] = eventValue;
+            const expectedState = { ...initialState };
+            // $FlowFixMe[prop-missing]
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+               right kind of value for its chosen key. */
+            expectedState[statePropertyName] = eventValue;
 
-          expect(
-            realmReducer(initialState, {
-              type: EVENT,
-              event: { ...eventCommon, property: eventPropertyName, value: eventValue },
-            }),
-          ).toEqual(expectedState);
-        });
+            expect(
+              realmReducer(initialState, {
+                type: EVENT,
+                event: { ...eventCommon, property: eventPropertyName, value: eventValue },
+              }),
+            ).toEqual(expectedState);
+          });
         };
 
       describe('twentyFourHourTime / twenty_four_hour_time', () => {
@@ -333,29 +333,29 @@ describe('realmReducer', () => {
         (initialStateValue, eventValue) => {
           /* prettier-ignore */ // (wants to wrap the name weirdly)
           test(`${initialStateValue?.toString() ?? '[nullish]'} → ${eventValue?.toString() ?? '[nullish]'}`, () => {
-          const initialState = { ...eg.plusReduxState.realm };
-          // $FlowFixMe[prop-missing]
-          // $FlowFixMe[class-object-subtyping]
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
-           right kind of value for its chosen key. */
-          initialState[statePropertyName] = initialStateValue;
+            const initialState = { ...eg.plusReduxState.realm };
+            // $FlowFixMe[prop-missing]
+            // $FlowFixMe[class-object-subtyping]
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+               right kind of value for its chosen key. */
+            initialState[statePropertyName] = initialStateValue;
 
-          const expectedState = { ...initialState };
-          /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
-           right kind of value for its chosen key. */
-          expectedState[statePropertyName] = eventValue;
+            const expectedState = { ...initialState };
+            /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
+               right kind of value for its chosen key. */
+            expectedState[statePropertyName] = eventValue;
 
-          expect(
-            realmReducer(initialState, {
-              type: EVENT,
-              event: {
-                ...eventCommon,
-                // $FlowFixMe[invalid-computed-prop]
-                data: { [eventPropertyName]: eventValue },
-              },
-            }),
-          ).toEqual(expectedState);
-        });
+            expect(
+              realmReducer(initialState, {
+                type: EVENT,
+                event: {
+                  ...eventCommon,
+                  // $FlowFixMe[invalid-computed-prop]
+                  data: { [eventPropertyName]: eventValue },
+                },
+              }),
+            ).toEqual(expectedState);
+          });
         };
 
       describe('name / name', () => {
