@@ -1,4 +1,4 @@
-parser: "@babel/eslint-parser"
+parser: hermes-eslint
 plugins:
   - ft-flow
 rules:

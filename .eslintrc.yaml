@@ -20,7 +20,7 @@
 #     $ git diff --no-index /tmp/{foo,bar}.json
 
 
-parser: "@babel/eslint-parser"
+parser: "hermes-eslint"
 
 extends:
   - airbnb
@@ -74,6 +74,14 @@ rules:
   # Our settings for a rule supersede Airbnb's, so we duplicate some
   # of Airbnb's settings where we don't want a full repeal.
   #
+
+  # With hermes-eslint for `parser`, above, this rule can analyze Flow
+  # types. It would fire on global types like $ReadOnly, for which it
+  # doesn't see a declaration. We could find out how to teach the rule that
+  # these types are globally defined…or just turn the rule off, because it's
+  # redundant with Flow (specifically `Flow(cannot-resolve-name)`, I think):
+  #   https://github.com/flow-typed/eslint-plugin-ft-flow/issues/33#issue-1274050123
+  no-undef: off # https://eslint.org/docs/latest/rules/no-undef
 
   # Tricky-looking code.  These are all sometimes perfectly legitimate.
   no-bitwise: off
@@ -284,6 +292,13 @@ rules:
   # React; plugin `react`.
   #
 
+  # These two are workarounds to suppress no-unused-vars when the parser
+  # doesn't understand JSX. Our parser (hermes-eslint, set above) does, so
+  # they're unnecessary:
+  #   https://github.com/flow-typed/eslint-plugin-ft-flow/issues/33#issue-1274050123
+  react/jsx-uses-react: off # https://github.com/jsx-eslint/eslint-plugin-react/blob/v7.30.0/docs/rules/jsx-uses-react.md
+  react/jsx-uses-vars: off # https://github.com/jsx-eslint/eslint-plugin-react/blob/v7.30.0/docs/rules/jsx-uses-vars.md
+
   react/jsx-filename-extension: off  # Like RN upstream, we call the files *.js.
 
   react/destructuring-assignment: off  # The opposite is often much cleaner.
@@ -324,8 +339,18 @@ rules:
   # Flow; plugin `ft-flow`.
   #
 
+
+  # These two are workarounds to suppress no-undef and no-unused-vars,
+  # respectively, when the parser doesn't understand Flow types. Our parser
+  # (hermes-eslint, set above) does, so they're unnecessary:
+  #   https://github.com/flow-typed/eslint-plugin-ft-flow/issues/33#issue-1274050123
+  # In fact, linting breaks if I leave define-flow-type on with this parser:
+  #   TypeError: globalScope.__defineGeneric is not a function
+  # (See commit message for full error output.)
+  ft-flow/define-flow-type: off # https://github.com/flow-typed/eslint-plugin-ft-flow/tree/v2.0.1#define-flow-type
+  ft-flow/use-flow-type: off # https://github.com/flow-typed/eslint-plugin-ft-flow/tree/v2.0.1#use-flow-type
+
   ft-flow/boolean-style: [error, boolean]
-  ft-flow/define-flow-type: warn
   ft-flow/delimiter-dangle: off
   ft-flow/no-dupe-keys: error
   ft-flow/no-primitive-constructor-types: error
@@ -341,7 +366,6 @@ rules:
   # For more formatting rules, see tools/formatting.eslintrc.yaml.
   ft-flow/type-id-match: [error, '^([A-Z][a-z0-9]+)+$']
   ft-flow/union-intersection-spacing: [error, always]
-  ft-flow/use-flow-type: warn
   ft-flow/valid-syntax: warn
 
 overrides:

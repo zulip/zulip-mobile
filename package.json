@@ -105,6 +105,7 @@
     "flow-bin": "^0.162.0",
     "flow-coverage-report": "^0.8.0",
     "flow-typed": "^3.3.1",
+    "hermes-eslint": "^0.9.0",
     "immutable-devtools": "^0.1.5",
     "jest": "^26.6.3",
     "jest-cli": "^26.4.1",
@@ -127,6 +128,7 @@
     "yarn-deduplicate": "^3.0.0"
   },
   "resolutions": {
+    "hermes-parser": ">=0.4.8",
     "jest-expo/react-test-renderer": "17.0.2",
     "prettier-eslint-cli/prettier-eslint": "^15.0.0",
     "react-native/use-subscription": ">=1.0.0 <1.6.0"

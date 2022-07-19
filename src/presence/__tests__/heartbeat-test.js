@@ -46,7 +46,6 @@ describe('Heartbeat', () => {
       return this.heartbeat.isActive();
     }
 
-    // eslint-disable-next-line no-use-before-define
     static getExtant(): $ReadOnlyArray<JestHeartbeatHelper> {
       return this._currentHeartbeats;
     }
