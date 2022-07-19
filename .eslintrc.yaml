@@ -234,6 +234,12 @@ rules:
   # Imports; plugin `import`.
   #
 
+  # Issue with Flow enums:
+  #   https://github.com/import-js/eslint-plugin-import/issues/2073
+  # Turn off; seems like this rule's purpose is covered by Flow; discussion:
+  #   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20enums/near/1406529
+  import/named: off # https://github.com/import-js/eslint-plugin-import/blob/v2.26.0/docs/rules/named.md
+
   import/prefer-default-export: off
 
   # Compare these two rules with the override below.
