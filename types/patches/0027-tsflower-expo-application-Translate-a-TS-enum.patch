@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Wed, 20 Jul 2022 14:43:41 -0700
+Subject: [tsflower] expo-application: Translate a TS enum
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Alas, we thought we'd be able to translate these to Flow enums --
+  https://flow.org/en/docs/enums/
+--but we can't.
+
+Naturally, TypeScript doesn't know anything about Flow enums. So, if
+we look at the plain JavaScript compiled from a TypeScript enum by
+the TypeScript compiler, we shouldn't expect it to conform to the
+Flow enum spec. Let's look at the compiled JavaScript for
+ApplicationReleaseType, in
+  node_modules/expo-application/build/Application.js:
+
+```
+// @docsMissing
+export var ApplicationReleaseType;
+(function (ApplicationReleaseType) {
+    ApplicationReleaseType[ApplicationReleaseType["UNKNOWN"] = 0] = "UNKNOWN";
+    ApplicationReleaseType[ApplicationReleaseType["SIMULATOR"] = 1] = "SIMULATOR";
+    ApplicationReleaseType[ApplicationReleaseType["ENTERPRISE"] = 2] = "ENTERPRISE";
+    ApplicationReleaseType[ApplicationReleaseType["DEVELOPMENT"] = 3] = "DEVELOPMENT";
+    ApplicationReleaseType[ApplicationReleaseType["AD_HOC"] = 4] = "AD_HOC";
+    ApplicationReleaseType[ApplicationReleaseType["APP_STORE"] = 5] = "APP_STORE";
+})(ApplicationReleaseType || (ApplicationReleaseType = {}));
+```
+
+From that, it sure seems like if we try to call
+`ApplicationReleaseType.cast(…)`, or
+`ApplicationReleaseType.getName(…)`, or something [1], it'll fail.
+And it does. Ah, well.
+
+The Flow type we've written doesn't describe all the quirky behavior
+of this TS enum. In particular, it only maps names to values, and
+not values to names. (If you squint hard enough at the JS above,
+you'll see that it's doing both.) When TsFlower eventually grows the
+ability to translate TS enum definitions, perhaps it should model
+that quirk.
+
+[1] https://flow.org/en/docs/enums/using-enums/#toc-methods
+---
+ .../build/Application.js.flow                 | 21 +++++++++----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
+diff --git types/expo-application/build/Application.js.flow types/expo-application/build/Application.js.flow
+index abc16b8c1..c194fc086 100644
+--- types/expo-application/build/Application.js.flow
++++ types/expo-application/build/Application.js.flow
+@@ -9,18 +9,17 @@ declare export var androidId: string | null;
+ declare export function getInstallReferrerAsync(): Promise<string>;
+ declare export function getIosIdForVendorAsync(): Promise<string | null>;
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum ApplicationReleaseType {
+-    UNKNOWN = 0,
+-    SIMULATOR = 1,
+-    ENTERPRISE = 2,
+-    DEVELOPMENT = 3,
+-    AD_HOC = 4,
+-    APP_STORE = 5
+-} */
++declare export var ApplicationReleaseType: {|
++  +UNKNOWN: 0,
++  +SIMULATOR: 1,
++  +ENTERPRISE: 2,
++  +DEVELOPMENT: 3,
++  +AD_HOC: 4,
++  +APP_STORE: 5,
++|};
++export type ApplicationReleaseTypeT = $Values<typeof ApplicationReleaseType>;
+ 
+-declare export function getIosApplicationReleaseTypeAsync(): Promise<ApplicationReleaseType>;
++declare export function getIosApplicationReleaseTypeAsync(): Promise<ApplicationReleaseTypeT>;
+ declare export function getIosPushNotificationServiceEnvironmentAsync(): Promise<string>;
+ declare export function getInstallationTimeAsync(): Promise<Date>;
+ declare export function getLastUpdateTimeAsync(): Promise<Date>;
+-- 
+2.32.0
+

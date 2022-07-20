@@ -147,6 +147,14 @@ run_only()
     # TODO get list of packages from data... better yet, make it
     #   one tsflower command, reading a TsFlower config file
 
+    package=expo-application
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
+    package=expo-screen-orientation
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
     package=react-native-safe-area-context
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"

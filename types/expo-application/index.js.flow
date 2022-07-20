@@ -1,0 +1,4 @@
+/* @flow
+ * @generated
+ */
+export * from './build/Application.js.flow';

@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Wed, 20 Jul 2022 15:46:32 -0700
+Subject: [tsflower] expo-screen-orientation: Fix export { ... } of types
+
+---
+ .../build/ScreenOrientation.js.flow           | 26 ++++++++++---------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+diff --git types/expo-screen-orientation/build/ScreenOrientation.js.flow types/expo-screen-orientation/build/ScreenOrientation.js.flow
+index 487278d38..839e07b75 100644
+--- types/expo-screen-orientation/build/ScreenOrientation.js.flow
++++ types/expo-screen-orientation/build/ScreenOrientation.js.flow
+@@ -5,32 +5,34 @@ import { type Subscription } from 'expo-modules-core';
+ 
+ import {
+   Orientation,
+-  type OrientationT,
+-  type OrientationChangeEvent,
+-  type OrientationChangeListener,
++  type OrientationT as OrientationT_,
++  type OrientationChangeEvent as OrientationChangeEvent_,
++  type OrientationChangeListener as OrientationChangeListener_,
+   OrientationLock,
+-  type OrientationLockT,
+-  type PlatformOrientationInfo,
++  type OrientationLockT as OrientationLockT_,
++  type PlatformOrientationInfo as PlatformOrientationInfo_,
+   WebOrientationLock,
+   WebOrientation,
+   SizeClassIOS,
+-  type ScreenOrientationInfo,
++  type ScreenOrientationInfo as ScreenOrientationInfo_,
+ } from './ScreenOrientation.types';
+ 
+ export {
+   Orientation,
+-  OrientationT,
+   OrientationLock,
+-  OrientationLockT,
+-  PlatformOrientationInfo,
+-  OrientationChangeListener,
+-  OrientationChangeEvent,
+   WebOrientationLock,
+   WebOrientation,
+   SizeClassIOS,
+-  ScreenOrientationInfo,
+   Subscription,
+ };
++
++export type OrientationT = OrientationT_;
++export type OrientationLockT = OrientationLockT_;
++export type PlatformOrientationInfo = PlatformOrientationInfo_;
++export type OrientationChangeListener = OrientationChangeListener_;
++export type OrientationChangeEvent = OrientationChangeEvent_;
++export type ScreenOrientationInfo = ScreenOrientationInfo_;
++
+ declare export function lockAsync(orientationLock: OrientationLockT): Promise<void>;
+ declare export function lockPlatformAsync(options: PlatformOrientationInfo): Promise<void>;
+ declare export function unlockAsync(): Promise<void>;
+-- 
+2.32.0
+
