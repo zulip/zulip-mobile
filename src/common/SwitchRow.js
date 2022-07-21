@@ -19,6 +19,12 @@ const componentStyles = createStyleSheet({
   container: {
     height: 56,
   },
+  icon: {
+    marginVertical: 8,
+    textAlign: 'center',
+    marginLeft: 8,
+    marginRight: 16,
+  },
 });
 
 /**
@@ -31,7 +37,7 @@ export default function SwitchRow(props: Props): Node {
 
   return (
     <View style={[componentStyles.container, styles.listItem]}>
-      {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
+      {!!Icon && <Icon size={24} style={[componentStyles.icon, { color: themeContext.color }]} />}
       <ZulipTextIntl text={label} style={styles.flexed} />
       <View style={styles.rightItem}>
         <ZulipSwitch value={value} onValueChange={onValueChange} />

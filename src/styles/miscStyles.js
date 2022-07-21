@@ -9,12 +9,6 @@ export const statics = {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  settingsIcon: {
-    marginVertical: 8,
-    textAlign: 'center',
-    marginLeft: 8,
-    marginRight: 16,
-  },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',

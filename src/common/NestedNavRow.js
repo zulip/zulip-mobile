@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -8,7 +8,7 @@ import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
-import styles, { ThemeContext } from '../styles';
+import globalStyles, { ThemeContext, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
   Icon?: SpecificIconType,
@@ -29,13 +29,35 @@ export default function NestedNavRow(props: Props): Node {
 
   const themeContext = useContext(ThemeContext);
 
+  const styles = useMemo(
+    () =>
+      createStyleSheet({
+        iconFromProps: {
+          marginVertical: 8,
+          textAlign: 'center',
+          marginLeft: 8,
+          marginRight: 16,
+        },
+        iconRightFacingArrow: {
+          marginVertical: 8,
+          textAlign: 'center',
+          marginLeft: 8,
+          marginRight: 16,
+        },
+      }),
+    [],
+  );
+
   return (
     <Touchable onPress={onPress}>
-      <View style={styles.listItem}>
-        {!!Icon && <Icon size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />}
+      <View style={globalStyles.listItem}>
+        {!!Icon && <Icon size={24} style={[styles.iconFromProps, { color: themeContext.color }]} />}
         <ZulipTextIntl text={label} />
-        <View style={styles.rightItem}>
-          <IconRight size={24} style={[styles.settingsIcon, { color: themeContext.color }]} />
+        <View style={globalStyles.rightItem}>
+          <IconRight
+            size={24}
+            style={[styles.iconRightFacingArrow, { color: themeContext.color }]}
+          />
         </View>
       </View>
     </Touchable>
