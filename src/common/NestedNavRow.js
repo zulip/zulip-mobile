@@ -32,14 +32,17 @@ export default function NestedNavRow(props: Props): Node {
   const styles = useMemo(
     () =>
       createStyleSheet({
+        container: {
+          // Minimum touch target height (and width):
+          //   https://material.io/design/usability/accessibility.html#layout-and-typography
+          minHeight: 48,
+        },
         iconFromProps: {
-          marginVertical: 8,
           textAlign: 'center',
           marginLeft: 8,
           marginRight: 16,
         },
         iconRightFacingArrow: {
-          marginVertical: 8,
           textAlign: 'center',
           marginLeft: 8,
           marginRight: 16,
@@ -50,7 +53,7 @@ export default function NestedNavRow(props: Props): Node {
 
   return (
     <Touchable onPress={onPress}>
-      <View style={globalStyles.listItem}>
+      <View style={[styles.container, globalStyles.listItem]}>
         {!!Icon && <Icon size={24} style={[styles.iconFromProps, { color: themeContext.color }]} />}
         <ZulipTextIntl text={label} />
         <View style={globalStyles.rightItem}>
