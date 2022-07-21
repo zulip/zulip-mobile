@@ -17,10 +17,12 @@ type Props = $ReadOnly<{|
 
 const componentStyles = createStyleSheet({
   container: {
-    height: 56,
+    // For uniformity with other rows this might share a screen with, e.g.,
+    // NestedNavRow on the settings screen. See height-related attributes on
+    // those rows.
+    minHeight: 48,
   },
   icon: {
-    marginVertical: 8,
     textAlign: 'center',
     marginLeft: 8,
     marginRight: 16,
