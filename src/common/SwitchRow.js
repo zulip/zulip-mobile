@@ -24,8 +24,7 @@ const componentStyles = createStyleSheet({
   },
   icon: {
     textAlign: 'center',
-    marginLeft: 8,
-    marginRight: 16,
+    marginRight: 8,
   },
 });
 
