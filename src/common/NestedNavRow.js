@@ -39,13 +39,11 @@ export default function NestedNavRow(props: Props): Node {
         },
         iconFromProps: {
           textAlign: 'center',
-          marginLeft: 8,
-          marginRight: 16,
+          marginRight: 8,
         },
         iconRightFacingArrow: {
           textAlign: 'center',
           marginLeft: 8,
-          marginRight: 16,
         },
       }),
     [],
