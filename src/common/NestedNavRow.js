@@ -14,6 +14,10 @@ type Props = $ReadOnly<{|
   Icon?: SpecificIconType,
   label: LocalizableReactText,
 
+  // TODO: Should we make this unconfigurable? Should we have two reusable
+  //   components, with and without this?
+  labelBoldUppercase?: true,
+
   /** Use this to navigate to a "nested" screen. */
   onPress: () => void,
 |}>;
@@ -25,7 +29,7 @@ type Props = $ReadOnly<{|
  * selectable option row instead, use `SelectableOptionRow`.
  */
 export default function NestedNavRow(props: Props): Node {
-  const { label, onPress, Icon } = props;
+  const { label, labelBoldUppercase, onPress, Icon } = props;
 
   const themeContext = useContext(ThemeContext);
 
@@ -42,20 +46,23 @@ export default function NestedNavRow(props: Props): Node {
           marginRight: 8,
           color: themeContext.color,
         },
+        label: {
+          ...(labelBoldUppercase ? { textTransform: 'uppercase', fontWeight: '500' } : undefined),
+        },
         iconRightFacingArrow: {
           textAlign: 'center',
           marginLeft: 8,
           color: themeContext.color,
         },
       }),
-    [themeContext],
+    [themeContext, labelBoldUppercase],
   );
 
   return (
     <Touchable onPress={onPress}>
       <View style={[styles.container, globalStyles.listItem]}>
         {!!Icon && <Icon size={24} style={styles.iconFromProps} />}
-        <ZulipTextIntl text={label} />
+        <ZulipTextIntl style={styles.label} text={label} />
         <View style={globalStyles.rightItem}>
           <IconRight size={24} style={styles.iconRightFacingArrow} />
         </View>
