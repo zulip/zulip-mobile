@@ -14,7 +14,7 @@ type Props = $ReadOnly<{|
   Icon?: SpecificIconType,
   label: LocalizableReactText,
 
-  // Use this to navigate to a "nested" screen.
+  /** Use this to navigate to a "nested" screen. */
   onPress: () => void,
 |}>;
 
