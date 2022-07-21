@@ -40,25 +40,24 @@ export default function NestedNavRow(props: Props): Node {
         iconFromProps: {
           textAlign: 'center',
           marginRight: 8,
+          color: themeContext.color,
         },
         iconRightFacingArrow: {
           textAlign: 'center',
           marginLeft: 8,
+          color: themeContext.color,
         },
       }),
-    [],
+    [themeContext],
   );
 
   return (
     <Touchable onPress={onPress}>
       <View style={[styles.container, globalStyles.listItem]}>
-        {!!Icon && <Icon size={24} style={[styles.iconFromProps, { color: themeContext.color }]} />}
+        {!!Icon && <Icon size={24} style={styles.iconFromProps} />}
         <ZulipTextIntl text={label} />
         <View style={globalStyles.rightItem}>
-          <IconRight
-            size={24}
-            style={[styles.iconRightFacingArrow, { color: themeContext.color }]}
-          />
+          <IconRight size={24} style={styles.iconRightFacingArrow} />
         </View>
       </View>
     </Touchable>
