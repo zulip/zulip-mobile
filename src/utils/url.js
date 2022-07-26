@@ -96,7 +96,6 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
  *
  * (If relative, we assume callers want to treat it relative to the realm.)
  */
-// TODO: Careful! Gives a false positive and false negatives; see comments.
 // TODO: reimplement using URL object (not just for the realm)
 export const isUrlOnRealm = (
   /**
@@ -107,21 +106,11 @@ export const isUrlOnRealm = (
 
   realm: URL,
 ): boolean =>
-  url.startsWith('/')
+  isUrlRelative(url)
   // TODO: False negative: an absolute URL that matches the realm, but only
   //   case-insensitively. Hopefully servers don't send URLs like that…but
   //   we might as well fix.
-  || url.startsWith(realm.toString())
-  // TODO: False positive: an "absolute-URL string"
-  //     ( https://url.spec.whatwg.org/#absolute-url-string )
-  //   with an unexpected scheme, like "ftp:" or "instagram-stories:"
-  //     ( https://developers.facebook.com/docs/instagram/sharing-to-stories/#allow-listing-instagram-s-custom-url-scheme ).
-  // TODO: False negative: a "path-relative-scheme-less-URL string"
-  //     ( https://url.spec.whatwg.org/#path-relative-scheme-less-url-string )
-  //   that happens to start with "http" or "www", case-insensitively. But
-  //   we don't expect URLs like that to come from the server; see
-  //     https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Interpreting.20links.20in.20messages/near/1410915 .
-  || !/^(http|www.)/i.test(url);
+  || url.startsWith(realm.toString());
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: new URL(uri, auth.realm).toString(),
