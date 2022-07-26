@@ -75,6 +75,18 @@ rules:
   # of Airbnb's settings where we don't want a full repeal.
   #
 
+  # When switching on a Flow-enum value, we want to omit a `default` case
+  # when Flow says the `case`s are exhaustive. See discussion:
+  #   https://github.com/zulip/zulip-mobile/pull/5444#discussion_r928049374
+  default-case: off
+
+  # When switching on a Flow-enum value, we want to omit a `default` case
+  # when Flow says the `case`s are exhaustive. And if each `case` has a
+  # `return` statement, then any return statement after the `switch` will be
+  # unreachable. This rule would have us write one anyway. See discussion:
+  #   https://github.com/zulip/zulip-mobile/pull/5444#discussion_r928049374
+  consistent-return: off
+
   # With hermes-eslint for `parser`, above, this rule can analyze Flow
   # types. It would fire on global types like $ReadOnly, for which it
   # doesn't see a declaration. We could find out how to teach the rule that

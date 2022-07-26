@@ -66,7 +66,6 @@ export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean
 
   const [result, setResult] = useState<boolean>(false);
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (value) {
       const id = setTimeout(() => setResult(true), duration);
