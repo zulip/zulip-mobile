@@ -1,13 +1,6 @@
 /* @flow strict-local */
 import base64 from 'base-64';
-import {
-  getResource,
-  isUrlOnRealm,
-  parseProtocol,
-  isUrlAbsolute,
-  isUrlRelative,
-  isUrlPathAbsolute,
-} from '../url';
+import { getResource, isUrlOnRealm, isUrlAbsolute, isUrlRelative, isUrlPathAbsolute } from '../url';
 import type { Auth } from '../../types';
 
 const urlClassifierCases = {
@@ -134,32 +127,5 @@ describe('isUrlOnRealm', () => {
     expect(isUrlOnRealm('https://demo.example/', realm)).toBeFalse();
     expect(isUrlOnRealm('//demo.example/', realm)).toBeFalse();
     expect(isUrlOnRealm(' https://demo.example/', realm)).toBeFalse();
-  });
-});
-
-describe('parseProtocol', () => {
-  test('rejects strings that have no http/https protocol', () => {
-    expect(parseProtocol('')).toEqual([null, '']);
-    expect(parseProtocol('chat.zulip.com')).toEqual([null, 'chat.zulip.com']);
-    expect(parseProtocol('ftp://chat.zulip.com')).toEqual([null, 'ftp://chat.zulip.com']);
-    expect(parseProtocol('localhost:9991')).toEqual([null, 'localhost:9991']);
-  });
-
-  test('accepts strings that include the http/https protocol', () => {
-    expect(parseProtocol('http://chat.zulip.com')).toEqual(['http://', 'chat.zulip.com']);
-    expect(parseProtocol('https://chat.zulip.com')).toEqual(['https://', 'chat.zulip.com']);
-    expect(parseProtocol('http://localhost:9991')).toEqual(['http://', 'localhost:9991']);
-  });
-
-  test('rejects strings that include a bogus http/https protocol indicator', () => {
-    expect(parseProtocol('chat.zulip.com/http://')).toEqual([null, 'chat.zulip.com/http://']);
-    expect(parseProtocol('example.net/https://')).toEqual([null, 'example.net/https://']);
-  });
-
-  test('accepts strings that include spaces before the protocol', () => {
-    expect(parseProtocol('   https://chat.zulip.com')).toEqual(['https://', 'chat.zulip.com']);
-    expect(parseProtocol('\t http://example.net')).toEqual(['http://', 'example.net']);
-    // non-breaking space
-    expect(parseProtocol('\xA0http://example.org')).toEqual(['http://', 'example.org']);
   });
 });

@@ -127,30 +127,6 @@ export const getResource = (
 ): {| uri: string, headers?: {| [string]: string |} |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
-export type Protocol = 'https://' | 'http://';
-
-const protocolRegex = /^\s*((?:http|https):\/\/)(.*)$/;
-
-// Split a (possible) URL into protocol and non-protocol parts.
-// The former will be null if no recognized protocol is a component
-// of the string.
-//
-// Ignores initial spaces.
-/** PRIVATE -- exported only for testing */
-export const parseProtocol = (value: string): [Protocol | null, string] => {
-  const match = protocolRegex.exec(value);
-
-  if (match) {
-    const [, protocol, rest] = match;
-    if (protocol === 'http://' || protocol === 'https://') {
-      return [protocol, rest];
-    } else {
-      throw new Error(`impossible match: protocol = '${escape(protocol)}'`);
-    }
-  }
-  return [null, value];
-};
-
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
 export const isUrlAnImage = (url: string): boolean =>
