@@ -22,7 +22,13 @@ export const doNarrow =
   };
 
 export const messageLinkPress =
-  (href: string): ThunkAction<Promise<void>> =>
+  (
+    /**
+     * A "valid URL string" as defined by the URL standard:
+     *   https://url.spec.whatwg.org/#url-writing
+     */
+    href: string,
+  ): ThunkAction<Promise<void>> =>
   async (dispatch, getState, { getGlobalSettings }) => {
     const state = getState();
     const auth = getAuth(state);

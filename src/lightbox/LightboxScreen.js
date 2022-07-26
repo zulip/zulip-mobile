@@ -20,7 +20,20 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'lightbox'>,
-  route: RouteProp<'lightbox', {| src: string, message: Message |}>,
+  route: RouteProp<
+    'lightbox',
+    {|
+      /**
+       * The location of the image, for presentation in the lightbox.
+       *
+       * Must be a "valid URL string" as defined by the URL standard:
+       *   https://url.spec.whatwg.org/#url-writing
+       */
+      src: string,
+
+      message: Message,
+    |},
+  >,
 |}>;
 
 export default function LightboxScreen(props: Props): Node {

@@ -57,8 +57,17 @@ export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
 export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): NavigationAction =>
   StackActions.push('pm-conversation-details', { recipients });
 
-export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
-  StackActions.push('lightbox', { src, message });
+export const navigateToLightbox = (
+  /**
+   * The location of the image, for presentation in the lightbox.
+   *
+   * Must be a "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
+  src: string,
+
+  message: Message,
+): NavigationAction => StackActions.push('lightbox', { src, message });
 
 export const navigateToStream = (streamId: number): NavigationAction =>
   StackActions.push('stream-settings', { streamId });

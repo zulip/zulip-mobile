@@ -72,7 +72,15 @@ type WebViewOutboundEventNarrow = {|
 
 type WebViewOutboundEventImage = {|
   type: 'image',
+
+  /**
+   * The location of the image.
+   *
+   * Must be a "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
   src: string,
+
   messageId: number,
 |};
 
@@ -87,7 +95,13 @@ type WebViewOutboundEventReaction = {|
 
 type WebViewOutboundEventUrl = {|
   type: 'url',
+
+  /**
+   * A "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
   href: string,
+
   messageId: number,
 |};
 
@@ -197,7 +211,18 @@ const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
   api.queueMarkAsRead(auth, unreadMessageIds);
 };
 
-const handleImage = (props: Props, src: string, messageId: number) => {
+const handleImage = (
+  props: Props,
+  /**
+   * The location of the image, for presentation in the lightbox.
+   *
+   * Must be a "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
+  src: string,
+
+  messageId: number,
+) => {
   const message = props.messages.find(x => x.id === messageId);
   if (message && message.isOutbox !== true) {
     NavigationService.dispatch(navigateToLightbox(src, message));

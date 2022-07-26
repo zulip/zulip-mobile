@@ -91,10 +91,37 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   }
 };
 
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-export const isUrlOnRealm = (url: string, realm: URL): boolean =>
-  url.startsWith('/') || url.startsWith(realm.toString()) || !/^(http|www.)/i.test(url);
+/**
+ * True if the URL is relative, or if it's absolute and on the realm.
+ *
+ * (If relative, we assume callers want to treat it relative to the realm.)
+ */
+// TODO: Careful! Gives a false positive and false negatives; see comments.
+// TODO: reimplement using URL object (not just for the realm)
+export const isUrlOnRealm = (
+  /**
+   * A "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
+  url: string,
+
+  realm: URL,
+): boolean =>
+  url.startsWith('/')
+  // TODO: False negative: an absolute URL that matches the realm, but only
+  //   case-insensitively. Hopefully servers don't send URLs like that…but
+  //   we might as well fix.
+  || url.startsWith(realm.toString())
+  // TODO: False positive: an "absolute-URL string"
+  //     ( https://url.spec.whatwg.org/#absolute-url-string )
+  //   with an unexpected scheme, like "ftp:" or "instagram-stories:"
+  //     ( https://developers.facebook.com/docs/instagram/sharing-to-stories/#allow-listing-instagram-s-custom-url-scheme ).
+  // TODO: False negative: a "path-relative-scheme-less-URL string"
+  //     ( https://url.spec.whatwg.org/#path-relative-scheme-less-url-string )
+  //   that happens to start with "http" or "www", case-insensitively. But
+  //   we don't expect URLs like that to come from the server; see
+  //     https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Interpreting.20links.20in.20messages/near/1410915 .
+  || !/^(http|www.)/i.test(url);
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: new URL(uri, auth.realm).toString(),
@@ -106,7 +133,14 @@ const getResourceNoAuth = (uri: string) => ({
 });
 
 export const getResource = (
+  /**
+   * The location of the resource.
+   *
+   * Must be a "valid URL string" as defined by the URL standard:
+   *   https://url.spec.whatwg.org/#url-writing
+   */
   uri: string,
+
   auth: Auth,
 ): {| uri: string, headers?: {| [string]: string |} |} =>
   isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);

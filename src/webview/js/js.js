@@ -859,7 +859,13 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   ) {
     sendMessage({
       type: 'image',
+
+      // The server is responsible for sending a "valid URL string" as
+      // defined by the URL standard:
+      //   https://url.spec.whatwg.org/#url-writing
+      // We trust that it does.
       src: requireAttribute(inlineImageLink, 'href'), // TODO: should be `src` / `data-src-fullsize`.
+
       messageId: getMessageIdFromElement(inlineImageLink),
     });
     return;
@@ -910,7 +916,13 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
   if (closestA) {
     sendMessage({
       type: 'url',
+
+      // The server is responsible for sending a "valid URL string" as
+      // defined by the URL standard:
+      //   https://url.spec.whatwg.org/#url-writing
+      // We trust that it does.
       href: requireAttribute(closestA, 'href'),
+
       messageId: getMessageIdFromElement(closestA),
     });
     return;
