@@ -8,8 +8,10 @@ import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById, getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
-import { isUrlOnRealm } from '../utils/url';
+import { isUrlOnRealm, tryParseUrl } from '../utils/url';
 import { getOwnUserId } from '../users/userSelectors';
+import { getRealmUrl } from '../account/accountsSelectors';
+import * as logging from '../utils/logging';
 
 /**
  * Navigate to the given narrow.
@@ -32,9 +34,18 @@ export const messageLinkPress =
   async (dispatch, getState, { getGlobalSettings }) => {
     const state = getState();
     const auth = getAuth(state);
+    const realmUrl = getRealmUrl(state);
     const streamsById = getStreamsById(state);
     const streamsByName = getStreamsByName(state);
     const ownUserId = getOwnUserId(state);
+
+    const parsedUrl = tryParseUrl(href, realmUrl);
+    if (!parsedUrl) {
+      logging.error("A link in a message was pressed, and it doesn't parse as a URL.");
+      return;
+    }
+    // TODO: Stop using `href` after this point.
+
     const narrow = getNarrowFromLink(href, auth.realm, streamsById, streamsByName, ownUserId);
     // TODO: In some cases getNarrowFromLink successfully parses the link, but
     //   finds it points somewhere we can't see: in particular, to a stream
@@ -44,7 +55,7 @@ export const messageLinkPress =
     if (narrow) {
       const anchor = getMessageIdFromLink(href, auth.realm);
       dispatch(doNarrow(narrow, anchor));
-    } else if (!isUrlOnRealm(href, auth.realm)) {
+    } else if (!isUrlOnRealm(parsedUrl, auth.realm)) {
       openLinkWithUserPreference(href, getGlobalSettings());
     } else {
       const url =

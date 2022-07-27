@@ -91,26 +91,10 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   }
 };
 
-/**
- * True if the URL is relative, or if it's absolute and on the realm.
- *
- * (If relative, we assume callers want to treat it relative to the realm.)
- */
-// TODO: reimplement using URL object (not just for the realm)
-export const isUrlOnRealm = (
-  /**
-   * A "valid URL string" as defined by the URL standard:
-   *   https://url.spec.whatwg.org/#url-writing
-   */
-  url: string,
-
-  realm: URL,
-): boolean =>
-  isUrlRelative(url)
-  // TODO: False negative: an absolute URL that matches the realm, but only
-  //   case-insensitively. Hopefully servers don't send URLs like that…but
-  //   we might as well fix.
-  || url.startsWith(realm.toString());
+// TODO: As of writing, we use this same check in 5 or so other places.
+//   Probably should consolidate those so they call this function, or else
+//   dissolve this function.
+export const isUrlOnRealm = (url: URL, realm: URL): boolean => url.origin === realm.origin;
 
 const getResourceWithAuth = (uri: URL, auth: Auth) => ({
   uri: uri.toString(),
@@ -127,10 +111,7 @@ export const getResource = (
 
   auth: Auth,
 ): {| uri: string, headers?: {| [string]: string |} |} =>
-  // TODO: isUrlOnRealm will take a URL soon; when it does, simplify.
-  isUrlOnRealm(uri.toString(), auth.realm)
-    ? getResourceWithAuth(uri, auth)
-    : getResourceNoAuth(uri);
+  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
