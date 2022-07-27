@@ -23,13 +23,8 @@ type Props = $ReadOnly<{|
   route: RouteProp<
     'lightbox',
     {|
-      /**
-       * The location of the image, for presentation in the lightbox.
-       *
-       * Must be a "valid URL string" as defined by the URL standard:
-       *   https://url.spec.whatwg.org/#url-writing
-       */
-      src: string,
+      /** The location of the image, for presentation in the lightbox. */
+      src: URL,
 
       message: Message,
     |},

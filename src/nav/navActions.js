@@ -58,13 +58,8 @@ export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): Na
   StackActions.push('pm-conversation-details', { recipients });
 
 export const navigateToLightbox = (
-  /**
-   * The location of the image, for presentation in the lightbox.
-   *
-   * Must be a "valid URL string" as defined by the URL standard:
-   *   https://url.spec.whatwg.org/#url-writing
-   */
-  src: string,
+  /** The location of the image, for presentation in the lightbox. */
+  src: URL,
 
   message: Message,
 ): NavigationAction => StackActions.push('lightbox', { src, message });

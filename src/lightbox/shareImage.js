@@ -10,6 +10,7 @@ import { openLinkEmbedded } from '../utils/openLink';
 import * as logging from '../utils/logging';
 
 // TODO(i18n): Wire up toasts for translation.
+// TODO: Take a URL object for `url`.
 export default async (url: string, auth: Auth) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
 

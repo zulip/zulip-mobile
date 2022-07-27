@@ -74,7 +74,7 @@ describe('getResource', () => {
         Authorization: `Basic ${authEncoded}`,
       },
     };
-    const resource = getResource('https://example.com/img.gif', auth);
+    const resource = getResource(new URL('https://example.com/img.gif'), auth);
     expect(resource).toEqual(expectedResult);
   });
 
@@ -93,7 +93,7 @@ describe('getResource', () => {
         Authorization: `Basic ${authEncoded}`,
       },
     };
-    const resource = getResource('/img.gif', exampleAuth);
+    const resource = getResource(new URL('/img.gif', exampleAuth.realm), exampleAuth);
     expect(resource).toEqual(expectedResult);
   });
 
@@ -101,7 +101,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://another.com/img.gif',
     };
-    const resource = getResource('https://another.com/img.gif', exampleAuth);
+    const resource = getResource(new URL('https://another.com/img.gif'), exampleAuth);
     expect(resource).toEqual(expectedResult);
   });
 });

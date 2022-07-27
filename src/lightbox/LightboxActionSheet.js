@@ -8,24 +8,24 @@ import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
 
 type DownloadImageType = {|
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ShareLinkType = {|
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ExecuteActionSheetActionType = {|
   title: string,
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ButtonProps = {|
   auth: Auth,
-  src: string,
+  src: URL,
 |};
 
 type ButtonType = {|
@@ -34,13 +34,13 @@ type ButtonType = {|
 |};
 
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
-  const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
+  const tempUrl = await api.tryGetFileTemporaryUrl(src.toString(), auth);
   if (tempUrl === null) {
-    openLinkEmbedded(new URL(src, auth.realm).toString());
+    openLinkEmbedded(src.toString());
     return;
   }
 
-  const fileName = src.split('/').pop();
+  const fileName = src.toString().split('/').pop(); // TODO: simplify?
   try {
     await downloadImage(tempUrl, fileName, auth);
     showToast('Download complete');
@@ -50,11 +50,11 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
 };
 
 const shareLink = ({ src, auth }: ShareLinkType) => {
-  share(new URL(src, auth.realm).toString());
+  share(src.toString());
 };
 
 const shareImageDirectly = ({ src, auth }: DownloadImageType) => {
-  shareImage(src, auth);
+  shareImage(src.toString(), auth);
 };
 
 const actionSheetButtons: $ReadOnlyArray<ButtonType> = [

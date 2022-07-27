@@ -10,7 +10,7 @@ import type { ShowActionSheetWithOptions } from '../action-sheets';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { pmKeyRecipientsFromMessage } from '../utils/recipient';
-import { isUrlAnImage } from '../utils/url';
+import { isUrlAnImage, tryParseUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
@@ -224,8 +224,15 @@ const handleImage = (
   messageId: number,
 ) => {
   const message = props.messages.find(x => x.id === messageId);
+
+  const parsedSrc = tryParseUrl(src, props.backgroundData.auth.realm);
+  if (!parsedSrc) {
+    logging.error("An image in a message was pressed, and its URL doesn't parse.");
+    return;
+  }
+
   if (message && message.isOutbox !== true) {
-    NavigationService.dispatch(navigateToLightbox(src, message));
+    NavigationService.dispatch(navigateToLightbox(parsedSrc, message));
   }
 };
 

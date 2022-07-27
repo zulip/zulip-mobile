@@ -112,27 +112,25 @@ export const isUrlOnRealm = (
   //   we might as well fix.
   || url.startsWith(realm.toString());
 
-const getResourceWithAuth = (uri: string, auth: Auth) => ({
-  uri: new URL(uri, auth.realm).toString(),
+const getResourceWithAuth = (uri: URL, auth: Auth) => ({
+  uri: uri.toString(),
   headers: getAuthHeaders(auth),
 });
 
-const getResourceNoAuth = (uri: string) => ({
-  uri,
+const getResourceNoAuth = (uri: URL) => ({
+  uri: uri.toString(),
 });
 
 export const getResource = (
-  /**
-   * The location of the resource.
-   *
-   * Must be a "valid URL string" as defined by the URL standard:
-   *   https://url.spec.whatwg.org/#url-writing
-   */
-  uri: string,
+  /** The location of the resource. */
+  uri: URL,
 
   auth: Auth,
 ): {| uri: string, headers?: {| [string]: string |} |} =>
-  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
+  // TODO: isUrlOnRealm will take a URL soon; when it does, simplify.
+  isUrlOnRealm(uri.toString(), auth.realm)
+    ? getResourceWithAuth(uri, auth)
+    : getResourceNoAuth(uri);
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
