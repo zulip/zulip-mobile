@@ -111,9 +111,7 @@ describe('isUrlOnRealm', () => {
 
   test('when link is on realm, return true', () => {
     expect(isUrlOnRealm('/#narrow/stream/jest', realm)).toBe(true);
-
     expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', realm)).toBe(true);
-
     expect(isUrlOnRealm('#narrow/#near/1', realm)).toBe(true);
 
     // This is actually a valid relative URL! Taken literally, relative to
