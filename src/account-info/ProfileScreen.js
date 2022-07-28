@@ -2,6 +2,7 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { ScrollView, View, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { type UserId } from '../api/idTypes';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -131,22 +132,24 @@ export default function ProfileScreen(props: Props): Node {
   const ownUser = useSelector(getOwnUser);
 
   return (
-    <ScrollView>
-      <AccountDetails user={ownUser} />
-      <AwayStatusSwitch />
-      <View style={styles.buttonRow}>
-        <SetStatusButton />
-      </View>
-      <View style={styles.buttonRow}>
-        <ProfileButton ownUserId={ownUser.user_id} />
-      </View>
-      <View style={styles.buttonRow}>
-        <SettingsButton />
-      </View>
-      <View style={styles.buttonRow}>
-        <SwitchAccountButton />
-        <LogoutButton />
-      </View>
-    </ScrollView>
+    <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
+      <ScrollView>
+        <AccountDetails user={ownUser} />
+        <AwayStatusSwitch />
+        <View style={styles.buttonRow}>
+          <SetStatusButton />
+        </View>
+        <View style={styles.buttonRow}>
+          <ProfileButton ownUserId={ownUser.user_id} />
+        </View>
+        <View style={styles.buttonRow}>
+          <SettingsButton />
+        </View>
+        <View style={styles.buttonRow}>
+          <SwitchAccountButton />
+          <LogoutButton />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
@@ -48,7 +49,11 @@ export default function PmConversationsScreen(props: Props): Node {
   const context = useContext(ThemeContext);
 
   return (
-    <View style={[styles.container, { backgroundColor: context.backgroundColor }]}>
+    <SafeAreaView
+      mode="padding"
+      edges={['top']}
+      style={[styles.container, { backgroundColor: context.backgroundColor }]}
+    >
       <View style={styles.row}>
         <ZulipButton
           secondary
@@ -75,6 +80,6 @@ export default function PmConversationsScreen(props: Props): Node {
       ) : (
         <PmConversationList conversations={conversations} />
       )}
-    </View>
+    </SafeAreaView>
   );
 }

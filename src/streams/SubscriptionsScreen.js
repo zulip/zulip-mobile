@@ -94,7 +94,9 @@ export default function SubscriptionsScreen(props: Props): Node {
 
   return (
     <View style={styles.container}>
+      {/* Consumes the top inset. */}
       <ModalNavBar canGoBack={false} title="Streams" />
+
       <LoadingBanner />
       {subscriptions.length === 0 ? (
         <SearchEmptyState text="No streams found" />

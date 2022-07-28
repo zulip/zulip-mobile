@@ -3,6 +3,7 @@
 import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from './MainTabsScreen';
@@ -38,7 +39,7 @@ export default function HomeScreen(props: Props): Node {
   const dispatch = useDispatch();
 
   return (
-    <View style={styles.wrapper}>
+    <SafeAreaView mode="padding" edges={['top']} style={styles.wrapper}>
       <View style={styles.iconList}>
         <TopTabButton
           name="globe"
@@ -70,6 +71,6 @@ export default function HomeScreen(props: Props): Node {
       <ServerPushSetupBanner />
       <LoadingBanner />
       <UnreadCards />
-    </View>
+    </SafeAreaView>
   );
 }
