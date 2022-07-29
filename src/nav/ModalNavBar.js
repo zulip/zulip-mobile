@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { LocalizableReactText } from '../types';
-import styles, { ThemeContext, NAVBAR_SIZE } from '../styles';
+import globalStyles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import NavBarBackButton from './NavBarBackButton';
 
@@ -32,11 +32,17 @@ export default function ModalNavBar(props: Props): Node {
 
   const { canGoBack, title } = props;
   const { backgroundColor } = useContext(ThemeContext);
-  const textStyle = [
-    styles.navTitle,
-    { flex: 1 },
-    canGoBack ? { marginStart: 20, marginEnd: 8 } : { marginHorizontal: 8 },
-  ];
+
+  const styles = useMemo(
+    () => ({
+      text: [
+        globalStyles.navTitle,
+        { flex: 1 },
+        canGoBack ? { marginStart: 20, marginEnd: 8 } : { marginHorizontal: 8 },
+      ],
+    }),
+    [canGoBack],
+  );
 
   return (
     <SafeAreaView
@@ -53,7 +59,7 @@ export default function ModalNavBar(props: Props): Node {
       }}
     >
       {canGoBack && <NavBarBackButton />}
-      <ZulipTextIntl style={textStyle} text={title} numberOfLines={1} ellipsizeMode="tail" />
+      <ZulipTextIntl style={styles.text} text={title} numberOfLines={1} ellipsizeMode="tail" />
     </SafeAreaView>
   );
 }
