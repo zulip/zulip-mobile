@@ -29,11 +29,19 @@ export default function ModalSearchNavBar(props: Props): Node {
   const styles = useMemo(
     () => ({
       safeAreaView: {
-        minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
         borderBottomWidth: 1,
         backgroundColor,
         paddingHorizontal: 4,
+      },
+      contentArea: {
+        // We should really be able to put this in styles.safeAreaView, and
+        // it should control the height of the "content area" of that view,
+        // excluding padding. But SafeAreaView seems to take `height` and
+        // `minHeight` as controlling the height of everything including the
+        // automatic vertical padding. So, we've added this separate View.
+        minHeight: NAVBAR_SIZE,
+
         flexDirection: 'row',
         alignItems: 'center',
       },
@@ -43,18 +51,21 @@ export default function ModalSearchNavBar(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
-      {canGoBack && (
-        <>
-          <NavBarBackButton />
-          <View style={{ width: 20 }} />
-        </>
-      )}
-      <SearchInput
-        autoFocus={autoFocus}
-        onChangeText={searchBarOnChange}
-        onSubmitEditing={searchBarOnSubmit}
-        placeholder={placeholder}
-      />
+      {/* See comment on styles.contentArea.minHeight. */}
+      <View style={styles.contentArea}>
+        {canGoBack && (
+          <>
+            <NavBarBackButton />
+            <View style={{ width: 20 }} />
+          </>
+        )}
+        <SearchInput
+          autoFocus={autoFocus}
+          onChangeText={searchBarOnChange}
+          onSubmitEditing={searchBarOnSubmit}
+          placeholder={placeholder}
+        />
+      </View>
     </SafeAreaView>
   );
 }
