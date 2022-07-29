@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,11 +25,10 @@ export default function ModalSearchNavBar(props: Props): Node {
 
   const { autoFocus, searchBarOnChange, canGoBack = true, searchBarOnSubmit, placeholder } = props;
   const { backgroundColor } = useContext(ThemeContext);
-  return (
-    <SafeAreaView
-      mode="padding"
-      edges={['top', 'right', 'left']}
-      style={{
+
+  const styles = useMemo(
+    () => ({
+      safeAreaView: {
         minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
         borderBottomWidth: 1,
@@ -37,8 +36,13 @@ export default function ModalSearchNavBar(props: Props): Node {
         paddingHorizontal: 4,
         flexDirection: 'row',
         alignItems: 'center',
-      }}
-    >
+      },
+    }),
+    [backgroundColor],
+  );
+
+  return (
+    <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
       {canGoBack && (
         <>
           <NavBarBackButton />
