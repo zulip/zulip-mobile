@@ -40,15 +40,7 @@ export default function ModalNavBar(props: Props): Node {
         { flex: 1 },
         canGoBack ? { marginStart: 20, marginEnd: 8 } : { marginHorizontal: 8 },
       ],
-    }),
-    [canGoBack],
-  );
-
-  return (
-    <SafeAreaView
-      mode="padding"
-      edges={['top', 'right', 'left']}
-      style={{
+      safeAreaView: {
         minHeight: NAVBAR_SIZE,
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
         borderBottomWidth: 1,
@@ -56,8 +48,13 @@ export default function ModalNavBar(props: Props): Node {
         paddingHorizontal: 4,
         flexDirection: 'row',
         alignItems: 'center',
-      }}
-    >
+      },
+    }),
+    [canGoBack, backgroundColor],
+  );
+
+  return (
+    <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
       {canGoBack && <NavBarBackButton />}
       <ZulipTextIntl style={styles.text} text={title} numberOfLines={1} ellipsizeMode="tail" />
     </SafeAreaView>
