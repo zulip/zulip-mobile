@@ -2,18 +2,12 @@
 import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { Image } from 'react-native';
-import { createIconSet } from 'react-native-vector-icons';
 
 import type { EmojiType } from '../types';
 import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
 import { getAllImageEmojiByCode } from './emojiSelectors';
-import { codeToEmojiMap } from './data';
-
-/* $FlowFixMe[incompatible-call]: `createIconSet` is mistyped
-  upstream; elements of `glyphMap` may be either `number` or `string`.
-  */
-const UnicodeEmoji = createIconSet(codeToEmojiMap);
+import UnicodeEmoji from './UnicodeEmoji';
 
 type Props = $ReadOnly<{|
   type: EmojiType,
@@ -41,8 +35,6 @@ export default function Emoji(props: Props): Node {
       // noticeably faded; not sure how. See a screenshot of the faded
       // appearance at
       //   https://github.com/zulip/zulip-mobile/pull/5277#issuecomment-1062504604
-      // and the doc for this property at
-      //   https://github.com/oblador/react-native-vector-icons#properties
       color={color}
       name={code}
       size={size}
