@@ -13,7 +13,6 @@ import { useSelector } from '../react-redux';
 import Input from '../common/Input';
 import EmojiInput from './EmojiInput';
 import type { Value as EmojiInputValue } from './EmojiInput';
-import { unicodeCodeByName } from '../emoji/codePointMap';
 import {
   emojiTypeFromReactionType,
   reactionTypeFromEmojiType,
@@ -34,16 +33,13 @@ type StatusSuggestion = [
 ];
 
 const statusSuggestions: $ReadOnlyArray<StatusSuggestion> = [
-  ['working_on_it', 'Busy'],
-  ['calendar', 'In a meeting'],
-  ['bus', 'Commuting'],
-  ['sick', 'Out sick'],
-  ['palm_tree', 'Vacationing'],
-  ['house', 'Working remotely'],
-].map(([emoji_name, status_text]) => [
-  { emoji_name, emoji_code: unicodeCodeByName[emoji_name], reaction_type: 'unicode_emoji' },
-  status_text,
-]);
+  [{ emoji_name: 'working_on_it', emoji_code: '1f6e0', reaction_type: 'unicode_emoji' }, 'Busy'],
+  [{ emoji_name: 'calendar', emoji_code: '1f4c5', reaction_type: 'unicode_emoji' }, 'In a meeting'],
+  [{ emoji_name: 'bus', emoji_code: '1f68c', reaction_type: 'unicode_emoji' }, 'Commuting'],
+  [{ emoji_name: 'sick', emoji_code: '1f912', reaction_type: 'unicode_emoji' }, 'Out sick'],
+  [{ emoji_name: 'palm_tree', emoji_code: '1f334', reaction_type: 'unicode_emoji' }, 'Vacationing'],
+  [{ emoji_name: 'house', emoji_code: '1f3e0', reaction_type: 'unicode_emoji' }, 'Working remotely'], // prettier-ignore
+];
 
 const styles = createStyleSheet({
   inputRow: {
