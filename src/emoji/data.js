@@ -20,8 +20,6 @@ import { objectEntries } from '../flowPonyfill';
 import { tryFetch } from '../message/fetchActions';
 import { TimeoutError } from '../utils/async';
 
-const unicodeEmojiNames = Object.keys(unicodeCodeByName);
-
 const refreshServerEmojiData = (data: ServerEmojiData): PerAccountAction => ({
   type: REFRESH_SERVER_EMOJI_DATA,
   data,
@@ -94,7 +92,7 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
     .join('');
 
 export const codeToEmojiMap: {| [string]: string |} = objectFromEntries<string, string>(
-  unicodeEmojiNames.map(name => {
+  Object.keys(unicodeCodeByName).map(name => {
     const code = unicodeCodeByName[name];
     const displayCode = override[code] || code;
     return [code, parseUnicodeEmojiCode(displayCode)];
