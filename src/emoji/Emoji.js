@@ -27,5 +27,5 @@ export default function Emoji(props: Props): Node {
   if (imageEmoji) {
     return <Image style={componentStyles.image} source={{ uri: imageEmoji.source_url }} />;
   }
-  return <UnicodeEmoji name={code} size={size} />;
+  return <UnicodeEmoji code={code} size={size} />;
 }

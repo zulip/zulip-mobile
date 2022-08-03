@@ -6,12 +6,12 @@ import { ThemeContext } from '../styles';
 import { codeToEmojiMap } from './data';
 
 type Props = $ReadOnly<{|
-  name: string,
+  code: string,
   size: number,
 |}>;
 
 export default function UnicodeEmoji(props: Props): Node {
-  const { name, size } = props;
+  const { code, size } = props;
   const { color } = useContext(ThemeContext);
 
   const style = useMemo(
@@ -33,7 +33,7 @@ export default function UnicodeEmoji(props: Props): Node {
 
   return (
     <Text selectable={false} allowFontScaling={false} style={style}>
-      {codeToEmojiMap[name] || '?'}
+      {codeToEmojiMap[code] || '?'}
     </Text>
   );
 }
