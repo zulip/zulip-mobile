@@ -75,7 +75,19 @@ const unicodeEmojiObjects: $ReadOnlyArray<EmojiForShared> = objectEntries(unicod
   }),
 );
 
-export const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
+/**
+ * Convert a Unicode emoji's `emoji_code` into the actual Unicode codepoints.
+ */
+// Implemented to follow the comment on emoji_code in
+//   https://github.com/zulip/zulip/blob/main/zerver/models.py :
+//
+// > * For Unicode emoji, [emoji_code is] a dash-separated hex encoding of
+// >   the sequence of Unicode codepoints that define this emoji in the
+// >   Unicode specification.  For examples, see "non_qualified" or
+// >   "unified" in the following data, with "non_qualified" taking
+// >   precedence when both present:
+// >   https://raw.githubusercontent.com/iamcal/emoji-data/master/emoji_pretty.json
+const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
   code
     .split('-')
     .map(hex => String.fromCodePoint(parseInt(hex, 16)))
