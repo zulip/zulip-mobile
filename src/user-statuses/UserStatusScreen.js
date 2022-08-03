@@ -28,17 +28,17 @@ import { Icon } from '../common/Icons';
 import * as api from '../api';
 
 type StatusSuggestion = [
-  $ReadOnly<{| emoji_name: string, emoji_code: string, reaction_type: 'unicode_emoji' |}>,
   string,
+  $ReadOnly<{| emoji_name: string, emoji_code: string, reaction_type: 'unicode_emoji' |}>,
 ];
 
 const statusSuggestions: $ReadOnlyArray<StatusSuggestion> = [
-  [{ emoji_name: 'working_on_it', emoji_code: '1f6e0', reaction_type: 'unicode_emoji' }, 'Busy'],
-  [{ emoji_name: 'calendar', emoji_code: '1f4c5', reaction_type: 'unicode_emoji' }, 'In a meeting'],
-  [{ emoji_name: 'bus', emoji_code: '1f68c', reaction_type: 'unicode_emoji' }, 'Commuting'],
-  [{ emoji_name: 'sick', emoji_code: '1f912', reaction_type: 'unicode_emoji' }, 'Out sick'],
-  [{ emoji_name: 'palm_tree', emoji_code: '1f334', reaction_type: 'unicode_emoji' }, 'Vacationing'],
-  [{ emoji_name: 'house', emoji_code: '1f3e0', reaction_type: 'unicode_emoji' }, 'Working remotely'], // prettier-ignore
+  ['Busy', { emoji_name: 'working_on_it', emoji_code: '1f6e0', reaction_type: 'unicode_emoji' }],
+  ['In a meeting', { emoji_name: 'calendar', emoji_code: '1f4c5', reaction_type: 'unicode_emoji' }],
+  ['Commuting', { emoji_name: 'bus', emoji_code: '1f68c', reaction_type: 'unicode_emoji' }],
+  ['Out sick', { emoji_name: 'sick', emoji_code: '1f912', reaction_type: 'unicode_emoji' }],
+  ['Vacationing', { emoji_name: 'palm_tree', emoji_code: '1f334', reaction_type: 'unicode_emoji' }],
+  ['Working remotely', { emoji_name: 'house', emoji_code: '1f3e0', reaction_type: 'unicode_emoji' }], // prettier-ignore
 ];
 
 const styles = createStyleSheet({
@@ -169,7 +169,7 @@ export default function UserStatusScreen(props: Props): Node {
         data={statusSuggestions}
         keyboardShouldPersistTaps="always"
         keyExtractor={(item, index) => index.toString() /* list is constant; index OK */}
-        renderItem={({ item: [emoji, text], index }) => {
+        renderItem={({ item: [text, emoji], index }) => {
           const translatedText = _(text);
           return (
             <SelectableOptionRow
