@@ -41,7 +41,7 @@ export default function HomeScreen(props: Props): Node {
     <View style={styles.wrapper}>
       <View style={styles.iconList}>
         <TopTabButton
-          name="globe"
+          name="align-left"
           onPress={() => {
             dispatch(doNarrow(HOME_NARROW));
           }}
