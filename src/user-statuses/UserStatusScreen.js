@@ -178,7 +178,7 @@ export default function UserStatusScreen(props: Props): Node {
                 serverSupportsEmojiStatus
                   ? {
                       text: '{_}',
-                      values: { _: `${codeToEmojiMap[emoji.emoji_code]} ${translatedText}` },
+                      values: { _: `${codeToEmojiMap[emoji.emoji_code] ?? '?'} ${translatedText}` },
                     }
                   : text
               }

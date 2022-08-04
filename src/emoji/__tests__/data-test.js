@@ -7,7 +7,7 @@ describe('codeToEmojiMap', () => {
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = (emojiCode, string1, string2) => {
     expect(string1).toEqual(string2);
-    expect(codeToEmojiMap[emojiCode]).toEqual(string1);
+    expect(codeToEmojiMap[emojiCode] ?? '?').toEqual(string1);
   };
 
   test('works for some single-codepoint emoji', () => {

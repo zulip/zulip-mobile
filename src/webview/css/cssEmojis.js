@@ -2,7 +2,7 @@
 import { codeToEmojiMap, availableUnicodeEmojiCodes } from '../../emoji/data';
 
 const codeToCss = (code: string): string =>
-  `.emoji-${code}:before { content: '${codeToEmojiMap[code]}'; }`;
+  `.emoji-${code}:before { content: '${codeToEmojiMap[code] ?? '?'}'; }`;
 
 // TODO(#2956): Have caller pass available codes from server data instead.
 const chunks = [];
