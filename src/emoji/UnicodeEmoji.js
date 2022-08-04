@@ -33,7 +33,7 @@ export default function UnicodeEmoji(props: Props): Node {
 
   return (
     <Text selectable={false} allowFontScaling={false} style={style}>
-      {codeToEmojiMap[code] || '?'}
+      {codeToEmojiMap[code] ?? '?'}
     </Text>
   );
 }
