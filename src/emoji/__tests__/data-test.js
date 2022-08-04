@@ -1,13 +1,13 @@
 /* @flow strict-local */
-import { codeToEmojiMap, getFilteredEmojis } from '../data';
+import { displayCharacterForUnicodeEmojiCode, getFilteredEmojis } from '../data';
 
-describe('codeToEmojiMap', () => {
+describe('displayCharacterForUnicodeEmojiCode', () => {
   // Tell ESLint to recognize `check` as a helper function that runs
   // assertions.
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = (emojiCode, string1, string2) => {
     expect(string1).toEqual(string2);
-    expect(codeToEmojiMap[emojiCode] ?? '?').toEqual(string1);
+    expect(displayCharacterForUnicodeEmojiCode(emojiCode)).toEqual(string1);
   };
 
   test('works for some single-codepoint emoji', () => {

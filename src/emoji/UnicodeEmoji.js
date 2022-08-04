@@ -3,7 +3,7 @@ import React, { useContext, useMemo, type Node } from 'react';
 import { Text } from 'react-native';
 
 import { ThemeContext } from '../styles';
-import { codeToEmojiMap } from './data';
+import { displayCharacterForUnicodeEmojiCode } from './data';
 
 type Props = $ReadOnly<{|
   code: string,
@@ -33,7 +33,7 @@ export default function UnicodeEmoji(props: Props): Node {
 
   return (
     <Text selectable={false} allowFontScaling={false} style={style}>
-      {codeToEmojiMap[code] ?? '?'}
+      {displayCharacterForUnicodeEmojiCode(code)}
     </Text>
   );
 }

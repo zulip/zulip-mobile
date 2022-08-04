@@ -23,7 +23,7 @@ import type {
 import type { BackgroundData } from '../backgroundData';
 import { shortTime } from '../../utils/date';
 import aggregateReactions from '../../reactions/aggregateReactions';
-import { codeToEmojiMap } from '../../emoji/data';
+import { displayCharacterForUnicodeEmojiCode } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
 import * as logging from '../../utils/logging';
 import { getUserStatusFromModel } from '../../user-statuses/userStatusesCore';
@@ -76,7 +76,7 @@ const messageReactionAsHtml = (
         data-type="${reaction.type}">$!${
     allImageEmojiById[reaction.code]
       ? template`<img src="${allImageEmojiById[reaction.code].source_url}"/>`
-      : codeToEmojiMap[reaction.code] ?? '?'
+      : displayCharacterForUnicodeEmojiCode(reaction.code)
   }&nbsp;${
     // The web app puts this condition in get_vote_text in its reactions.js.
     shouldShowNames
@@ -231,7 +231,7 @@ const senderEmojiStatus = (
   src="${allImageEmojiById[emoji.emoji_code].source_url}"
 />`
       : template`\
-<span class="status-emoji">$!${codeToEmojiMap[emoji.emoji_code] ?? '?'}</span>`
+<span class="status-emoji">$!${displayCharacterForUnicodeEmojiCode(emoji.emoji_code)}</span>`
     : '';
 
 /**

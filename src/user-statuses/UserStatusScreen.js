@@ -16,7 +16,7 @@ import type { Value as EmojiInputValue } from './EmojiInput';
 import {
   emojiTypeFromReactionType,
   reactionTypeFromEmojiType,
-  codeToEmojiMap,
+  displayCharacterForUnicodeEmojiCode,
 } from '../emoji/data';
 import SelectableOptionRow from '../common/SelectableOptionRow';
 import Screen from '../common/Screen';
@@ -178,7 +178,11 @@ export default function UserStatusScreen(props: Props): Node {
                 serverSupportsEmojiStatus
                   ? {
                       text: '{_}',
-                      values: { _: `${codeToEmojiMap[emoji.emoji_code] ?? '?'} ${translatedText}` },
+                      values: {
+                        _: `${displayCharacterForUnicodeEmojiCode(
+                          emoji.emoji_code,
+                        )} ${translatedText}`,
+                      },
                     }
                   : text
               }
