@@ -789,6 +789,7 @@ export const action = Object.freeze({
       realm_email_auth_enabled: true,
       realm_email_changes_disabled: true,
       realm_emails_restricted_to_domains: false,
+      realm_enable_read_receipts: false,
       realm_enable_spectator_access: true,
       realm_giphy_rating: 3,
       realm_icon_source: 'U',
@@ -828,6 +829,10 @@ export const action = Object.freeze({
       realm_want_advertise_in_communities_directory: false,
       realm_wildcard_mention_policy: 3,
       server_avatar_changes_disabled: false,
+      server_emoji_data_url: new URL(
+        '/static/generated/emoji/emoji_api.7820ba9750aa.json',
+        selfAccount.realm,
+      ).toString(),
       server_generation: 3,
       server_inline_image_preview: true,
       server_inline_url_embed_preview: true,
