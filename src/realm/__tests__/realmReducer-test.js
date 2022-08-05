@@ -218,10 +218,20 @@ describe('realmReducer', () => {
   });
 
   describe('EVENT', () => {
-    // TODO(server-4.0): Remove when deprecated properties are removed
-    type ReadableRealmState = $Rest<
+    /**
+     * The part of RealmState that we expect to test EVENT actions on.
+     */
+    type EventUpdatableRealmState = $Rest<
       RealmState,
-      {| isOwner: mixed, isAdmin: mixed, isModerator: mixed, isGuest: mixed |},
+      {|
+        // TODO(server-4.0): Remove these four deprecated properties.
+        isOwner: mixed,
+        isAdmin: mixed,
+        isModerator: mixed,
+        isGuest: mixed,
+
+        // Incomplete; add others as needed to satisfy Flow.
+      |},
     >;
 
     describe('type `custom_profile_fields`', () => {
@@ -266,7 +276,7 @@ describe('realmReducer', () => {
       const eventCommon = { id: 0, type: EventTypes.user_settings, op: 'update' };
 
       const mkCheck =
-        <S: $Keys<ReadableRealmState>, E: $Keys<UserSettings>>(
+        <S: $Keys<EventUpdatableRealmState>, E: $Keys<UserSettings>>(
           statePropertyName: S,
           eventPropertyName: E,
         ): ((RealmState[S], UserSettings[E]) => void) =>
@@ -308,7 +318,7 @@ describe('realmReducer', () => {
       const eventCommon = { id: 0, type: EventTypes.realm, op: 'update_dict', property: 'default' };
 
       const mkCheck =
-        <S: $Keys<ReadableRealmState>, E: $Keys<RealmDataForUpdate>>(
+        <S: $Keys<EventUpdatableRealmState>, E: $Keys<RealmDataForUpdate>>(
           statePropertyName: S,
           eventPropertyName: E,
         ): ((RealmState[S], RealmDataForUpdate[E]) => void) =>
