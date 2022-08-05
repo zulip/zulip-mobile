@@ -79,6 +79,12 @@ describe('realmReducer', () => {
         /* $FlowIgnore[incompatible-use] - testing modern servers, which
            send user_settings. */
         twentyFourHourTime: action.data.user_settings.twenty_four_hour_time,
+
+        //
+        // Misc.: Not in the /register response. (These should be unchanged.)
+        //
+
+        serverEmojiData: eg.baseReduxState.realm.serverEmojiData,
       });
     });
   });
@@ -229,6 +235,8 @@ describe('realmReducer', () => {
         isAdmin: mixed,
         isModerator: mixed,
         isGuest: mixed,
+
+        serverEmojiData: mixed,
 
         // Incomplete; add others as needed to satisfy Flow.
       |},

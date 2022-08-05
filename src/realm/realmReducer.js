@@ -19,6 +19,7 @@ import {
   EVENT,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
+  REFRESH_SERVER_EMOJI_DATA,
 } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
 import { objectEntries } from '../flowPonyfill';
@@ -71,6 +72,12 @@ const initialState = {
   //
 
   twentyFourHourTime: false,
+
+  //
+  // Misc.: Not in the /register response.
+  //
+
+  serverEmojiData: null,
 };
 
 const convertRealmEmoji = (data): RealmEmojiById =>
@@ -106,6 +113,8 @@ export default (
 
     case REGISTER_COMPLETE: {
       return {
+        ...state,
+
         //
         // InitialDataCustomProfileFields
         //
@@ -178,6 +187,12 @@ export default (
           ?? (action.data.twenty_four_hour_time: boolean),
       };
     }
+
+    case REFRESH_SERVER_EMOJI_DATA:
+      return {
+        ...state,
+        serverEmojiData: action.data,
+      };
 
     // TODO on RealmUserUpdateEvent for self: update email, isAdmin, etc.
 

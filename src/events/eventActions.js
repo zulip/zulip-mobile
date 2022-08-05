@@ -29,6 +29,7 @@ import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversation
 import { sendOutbox } from '../outbox/outboxActions';
 import { initNotifications } from '../notification/notifTokens';
 import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
+import { maybeRefreshServerEmojiData } from '../emoji/data';
 
 const registerStart = (): PerAccountAction => ({
   type: REGISTER_START,
@@ -193,6 +194,28 @@ export const registerAndStartPolling =
     if (!serverVersion.isAtLeast(MIN_RECENTPMS_SERVER_VERSION)) {
       dispatch(fetchPrivateMessages());
     }
+
+    // We can think of this as part of "register" because it fetches data
+    // that *would've* been in the /register response, except that we pulled
+    // it out to its own endpoint as part of a caching strategy, because the
+    // data changes infrequently.
+    //
+    // It's fine not to set the payload in Redux atomically with the
+    // "proper" /register data in registerComplete. That's because:
+    //   - It's not designed to get updated by events, since the data only
+    //     changes on a server restart. So #5434 can't be active; that's
+    //     "Handle event-vs-fetch races soundly."
+    //   - There aren't any dependencies between the /register payload and
+    //     this payload, in either direction. (E.g., key-value lookups.)
+    //   - While it's possible for the first refreshServerEmojiData to
+    //     arrive very late or not at all, following a registerComplete,
+    //     Flow will help us ensure that we fail gracefully with a fallback
+    //     during the time that the data is missing. During that time, we'll
+    //     act just the same as we do for pre-6.0 servers, which don't offer
+    //     the endpoint.
+    //
+    // TODO(server-6.0): Change or remove "pre-6.0" comment above.
+    dispatch(maybeRefreshServerEmojiData(initData.server_emoji_data_url));
   };
 
 /**

@@ -37,6 +37,7 @@ import type { MuteState } from './mute/muteModelTypes';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
 import type { UserStatusesState } from './user-statuses/userStatusesCore';
+import type { ServerEmojiData } from './api/modelTypes';
 
 export type { MuteState } from './mute/muteModelTypes';
 export type { UserStatusesState } from './user-statuses/userStatusesCore';
@@ -330,6 +331,18 @@ export type RealmState = {|
   //
 
   +twentyFourHourTime: boolean,
+
+  //
+  // Misc.: Not in the /register response.
+  //
+
+  /**
+   * Our most recent read of the server_emoji_data_url data, if any.
+   *
+   * We check for changes in the data after every /register; see comment
+   * where we dispatch maybeRefreshServerEmojiData.
+   */
+  +serverEmojiData: ServerEmojiData | null,
 |};
 
 // TODO: Stop using the 'default' name. Any 'default' semantics should

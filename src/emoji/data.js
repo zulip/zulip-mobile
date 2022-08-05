@@ -1,13 +1,71 @@
 /* @flow strict-local */
 import * as typeahead from '@zulip/shared/js/typeahead';
 
-import type { EmojiType, ReactionType, EmojiForShared } from '../types';
+import * as api from '../api';
+import * as logging from '../utils/logging';
+import type {
+  ThunkAction,
+  PerAccountAction,
+  ServerEmojiData,
+  EmojiType,
+  ReactionType,
+  EmojiForShared,
+} from '../types';
+import { tryParseUrl } from '../utils/url';
+import { REFRESH_SERVER_EMOJI_DATA } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import { objectEntries } from '../flowPonyfill';
+import { tryFetch } from '../message/fetchActions';
+import { TimeoutError } from '../utils/async';
 
 const unicodeEmojiNames = Object.keys(unicodeCodeByName);
+
+const refreshServerEmojiData = (data: ServerEmojiData): PerAccountAction => ({
+  type: REFRESH_SERVER_EMOJI_DATA,
+  data,
+});
+
+export const maybeRefreshServerEmojiData =
+  (server_emoji_data_url: string | void): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    if (server_emoji_data_url === undefined) {
+      // The server is too old to support this feature.
+      // TODO(server-6.0): Simplify away; should always be present.
+      return;
+    }
+    const parsedUrl = tryParseUrl(server_emoji_data_url);
+    if (!parsedUrl) {
+      logging.error('Invalid URL at server_emoji_data_url in /register response');
+      return;
+    }
+
+    let data = undefined;
+    try {
+      data = await tryFetch(() => api.fetchServerEmojiData(parsedUrl), true);
+    } catch (errorIllTyped) {
+      const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+      if (!(e instanceof Error)) {
+        logging.error('Unexpected non-error thrown from api.fetchServerEmojiData');
+        return;
+      }
+
+      if (e instanceof TimeoutError) {
+        // Probably not a bug in client code; no need to log. Bad Internet
+        // connection, probably, or the server's been giving 5xx errors,
+        // which server admins should track.
+        return;
+      }
+
+      // Likely client bug.
+      logging.error(e);
+      return;
+    }
+
+    dispatch(refreshServerEmojiData(data));
+  };
 
 const unicodeEmojiObjects: $ReadOnlyArray<EmojiForShared> = objectEntries(unicodeCodeByName).map(
   ([name, code]) => ({
