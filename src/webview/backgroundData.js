@@ -37,6 +37,7 @@ import { getUserStatuses } from '../user-statuses/userStatusesModel';
 import { type UserStatusesState } from '../user-statuses/userStatusesCore';
 import { type RoleT } from '../api/permissionsTypes';
 import { getOwnUserRole } from '../permissionSelectors';
+import type { ServerEmojiData } from '../api/modelTypes';
 
 /**
  * Data about the user, the realm, and all known messages.
@@ -68,6 +69,7 @@ export type BackgroundData = $ReadOnly<{|
   displayEmojiReactionUsers: boolean,
   userStatuses: UserStatusesState,
   zulipFeatureLevel: number,
+  serverEmojiData: ServerEmojiData | null,
 |}>;
 
 // TODO: Ideally this ought to be a caching selector that doesn't change
@@ -99,4 +101,5 @@ export const getBackgroundData = (
   displayEmojiReactionUsers: getSettings(state).displayEmojiReactionUsers,
   userStatuses: getUserStatuses(state),
   zulipFeatureLevel: getZulipFeatureLevel(state),
+  serverEmojiData: getRealm(state).serverEmojiData,
 });

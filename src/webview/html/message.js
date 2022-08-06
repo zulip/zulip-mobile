@@ -75,7 +75,7 @@ const messageReactionAsHtml = (
         data-type="${reaction.type}">$!${
     allImageEmojiById[reaction.code]
       ? template`<img src="${allImageEmojiById[reaction.code].source_url}"/>`
-      : displayCharacterForUnicodeEmojiCode(reaction.code)
+      : displayCharacterForUnicodeEmojiCode(reaction.code, backgroundData.serverEmojiData)
   }&nbsp;${
     // The web app puts this condition in get_vote_text in its reactions.js.
     shouldShowNames
@@ -230,7 +230,10 @@ const senderEmojiStatus = (
   src="${backgroundData.allImageEmojiById[emoji.emoji_code].source_url}"
 />`
       : template`\
-<span class="status-emoji">$!${displayCharacterForUnicodeEmojiCode(emoji.emoji_code)}</span>`
+<span class="status-emoji">$!${displayCharacterForUnicodeEmojiCode(
+          emoji.emoji_code,
+          backgroundData.serverEmojiData,
+        )}</span>`
     : '';
 
 /**

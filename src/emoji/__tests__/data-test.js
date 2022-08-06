@@ -7,7 +7,7 @@ describe('displayCharacterForUnicodeEmojiCode', () => {
   /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
   const check = (emojiCode, string1, string2) => {
     expect(string1).toEqual(string2);
-    expect(displayCharacterForUnicodeEmojiCode(emojiCode)).toEqual(string1);
+    expect(displayCharacterForUnicodeEmojiCode(emojiCode, null)).toEqual(string1);
   };
 
   test('works for some single-codepoint emoji', () => {

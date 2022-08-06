@@ -4,6 +4,8 @@ import { Text } from 'react-native';
 
 import { ThemeContext } from '../styles';
 import { displayCharacterForUnicodeEmojiCode } from './data';
+import { useSelector } from '../react-redux';
+import { getRealm } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   code: string,
@@ -13,6 +15,7 @@ type Props = $ReadOnly<{|
 export default function UnicodeEmoji(props: Props): Node {
   const { code, size } = props;
   const { color } = useContext(ThemeContext);
+  const serverEmojiData = useSelector(state => getRealm(state).serverEmojiData);
 
   const style = useMemo(
     () => ({
@@ -33,7 +36,7 @@ export default function UnicodeEmoji(props: Props): Node {
 
   return (
     <Text selectable={false} allowFontScaling={false} style={style}>
-      {displayCharacterForUnicodeEmojiCode(code)}
+      {displayCharacterForUnicodeEmojiCode(code, serverEmojiData)}
     </Text>
   );
 }

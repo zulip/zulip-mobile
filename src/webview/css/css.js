@@ -4,6 +4,7 @@ import type { ThemeName } from '../../types';
 import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
 import cssNight from './cssNight';
+import type { ServerEmojiData } from '../../api/modelTypes';
 
 /**
  * Fix KaTeX frac-line elements disappearing.
@@ -22,13 +23,13 @@ const katexFraclineHackStyle = `<style id="katex-frac-line-hack">
 .katex .mfrac .frac-line { border-bottom-width: 1px !important; }
 </style>`;
 
-export default (theme: ThemeName): string => `
+export default (theme: ThemeName, serverEmojiData: ServerEmojiData | null): string => `
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>
 ${theme === 'night' ? cssNight : ''}
 ${cssPygments(theme === 'night')}
-${cssEmojis}
+${cssEmojis(serverEmojiData)}
 </style>
 <style id="style-hide-js-error-plain">
 #js-error-plain, #js-error-plain-dummy {

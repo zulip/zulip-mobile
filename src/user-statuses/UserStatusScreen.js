@@ -26,6 +26,7 @@ import { getUserStatus } from './userStatusesModel';
 import type { UserStatus } from '../api/modelTypes';
 import { Icon } from '../common/Icons';
 import * as api from '../api';
+import { getRealm } from '../directSelectors';
 
 type StatusSuggestion = [
   string,
@@ -98,6 +99,8 @@ export default function UserStatusScreen(props: Props): Node {
   // TODO(server-5.0): Cut conditionals on emoji-status support (emoji
   //   supported as of FL 86: https://zulip.com/api/changelog )
   const serverSupportsEmojiStatus = useSelector(getZulipFeatureLevel) >= 86;
+
+  const serverEmojiData = useSelector(state => getRealm(state).serverEmojiData);
 
   const _ = useContext(TranslationContext);
   const auth = useSelector(getAuth);
@@ -181,6 +184,7 @@ export default function UserStatusScreen(props: Props): Node {
                       values: {
                         _: `${displayCharacterForUnicodeEmojiCode(
                           emoji.emoji_code,
+                          serverEmojiData,
                         )} ${translatedText}`,
                       },
                     }

@@ -4,6 +4,7 @@ import type { Auth, ThemeName } from '../../types';
 import css from '../css/css';
 import htmlBody from './htmlBody';
 import script from '../js/script';
+import type { ServerEmojiData } from '../../api/modelTypes';
 
 type InitOptionsType = {|
   scrollMessageId: number | null,
@@ -44,9 +45,10 @@ export default (
   content: string,
   theme: ThemeName,
   initOptions: InitOptionsType,
+  serverEmojiData: ServerEmojiData | null,
 ): string => template`
 $!${script(initOptions.scrollMessageId, initOptions.auth, initOptions.doNotMarkMessagesAsRead)}
-$!${css(theme)}
+$!${css(theme, serverEmojiData)}
 
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <body style="overflow-x: hidden;">

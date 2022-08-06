@@ -162,12 +162,17 @@ class MessageListInner extends Component<Props> {
       )
       .join('');
     const { auth, theme } = backgroundData;
-    const html: string = getHtml(contentHtml, theme, {
-      scrollMessageId: initialScrollMessageId,
-      auth,
-      showMessagePlaceholders,
-      doNotMarkMessagesAsRead,
-    });
+    const html: string = getHtml(
+      contentHtml,
+      theme,
+      {
+        scrollMessageId: initialScrollMessageId,
+        auth,
+        showMessagePlaceholders,
+        doNotMarkMessagesAsRead,
+      },
+      backgroundData.serverEmojiData,
+    );
 
     /**
      * Effective URL of the MessageList webview.
