@@ -25,7 +25,7 @@ import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
 import { foregroundColorFromBackground } from '../utils/color';
-import { IconPlus, IconDone } from '../common/Icons';
+import { IconPlus, IconDone, IconCaretUp, IconCaretDown } from '../common/Icons';
 import StreamIcon from './StreamIcon';
 import { useNavigation } from '../react-navigation';
 
@@ -33,13 +33,14 @@ type Props = $ReadOnly<{|
   name: string,
   streamId: number,
   description?: string,
+  handleExpandCollapse?: (id: number) => void,
+  isCollapsed?: boolean,
   isMuted: boolean,
   isPrivate: boolean,
   isSubscribed?: boolean,
   isWebPublic: boolean | void,
   color?: string,
   backgroundColor?: string,
-
   unreadCount?: number,
   iconSize: number,
   offersSubscribeButton?: boolean,
@@ -77,6 +78,8 @@ export default function StreamItem(props: Props): Node {
     description,
     color,
     backgroundColor,
+    handleExpandCollapse,
+    isCollapsed,
     isPrivate,
     isMuted,
     isWebPublic,
@@ -107,6 +110,11 @@ export default function StreamItem(props: Props): Node {
 
   const styles = useMemo(
     () => ({
+      listItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingRight: 16,
+      },
       description: {
         opacity: 0.75,
         fontSize: 12,
@@ -119,13 +127,29 @@ export default function StreamItem(props: Props): Node {
       muted: {
         opacity: 0.5,
       },
+      collapseIcon: {
+        marginRight: 8,
+      },
+      pressable: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 0,
+      },
     }),
     [],
   );
 
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
-  const wrapperStyle = [globalStyles.listItem, { backgroundColor }, isMuted && styles.muted];
+  const wrapperStyle = [
+    handleExpandCollapse ? styles.listItem : globalStyles.listItem,
+    { backgroundColor },
+    isMuted && styles.muted,
+  ];
   const iconColor =
     color !== undefined
       ? color
@@ -150,6 +174,15 @@ export default function StreamItem(props: Props): Node {
       }}
     >
       <View style={wrapperStyle}>
+        {handleExpandCollapse && (
+          <Pressable style={styles.pressable} onPress={() => handleExpandCollapse(streamId)}>
+            {isCollapsed === false ? (
+              <IconCaretUp style={styles.collapseIcon} size={20} color={iconColor} />
+            ) : (
+              <IconCaretDown style={styles.collapseIcon} size={20} color={iconColor} />
+            )}
+          </Pressable>
+        )}
         <StreamIcon
           size={iconSize}
           color={iconColor}

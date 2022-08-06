@@ -1,9 +1,10 @@
 /* @flow strict-local */
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
+import Immutable from 'immutable';
 import { useDispatch, useSelector } from '../react-redux';
 import SearchEmptyState from '../common/SearchEmptyState';
 import PmConversationList from '../pm-conversations/PmConversationList';
@@ -59,6 +60,14 @@ export default function UnreadCards(props: Props): Node {
     ...unreadStreamsAndTopics,
   ];
 
+  const [collapsedStreamIds, setCollapsedStreamIds] = useState(Immutable.Set<number>());
+
+  const handleExpandCollapse = (id: number) => {
+    setCollapsedStreamIds(
+      collapsedStreamIds.has(id) ? collapsedStreamIds.delete(id) : collapsedStreamIds.add(id),
+    );
+  };
+
   if (unreadStreamsAndTopics.length === 0 && conversations.length === 0) {
     return <SearchEmptyState text="No unread messages" />;
   }
@@ -77,6 +86,8 @@ export default function UnreadCards(props: Props): Node {
             streamId={section.streamId}
             name={section.streamName}
             iconSize={16}
+            isCollapsed={collapsedStreamIds.has(section.streamId)}
+            handleExpandCollapse={handleExpandCollapse}
             isMuted={section.isMuted}
             isPrivate={section.isPrivate}
             isWebPublic={section.isWebPublic}
@@ -91,7 +102,7 @@ export default function UnreadCards(props: Props): Node {
       renderItem={({ item, section }) =>
         section.key === 'private' ? (
           <PmConversationList {...item} />
-        ) : (
+        ) : collapsedStreamIds.has(section.streamId) ? null : (
           <TopicItem
             streamId={section.streamId}
             name={item.topic}

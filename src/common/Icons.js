@@ -86,6 +86,9 @@ export const IconDiagnostics: SpecificIconType = makeIcon(Feather, 'activity');
 export const IconNotifications: SpecificIconType = makeIcon(Feather, 'bell');
 export const IconLanguage: SpecificIconType = makeIcon(Feather, 'globe');
 export const IconSettings: SpecificIconType = makeIcon(Feather, 'settings');
+// collapsible stream icons
+export const IconCaretUp: SpecificIconType = makeIcon(MaterialIcon, 'expand-less');
+export const IconCaretDown: SpecificIconType = makeIcon(MaterialIcon, 'expand-more');
 
 // InputRowRadioButtons depends on this being square.
 export const IconRight: SpecificIconType = makeIcon(Feather, 'chevron-right');
