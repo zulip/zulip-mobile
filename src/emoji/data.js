@@ -16,7 +16,7 @@ import { REFRESH_SERVER_EMOJI_DATA } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
 import { unicodeCodeByName, override } from './codePointMap';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
-import { objectEntries } from '../flowPonyfill';
+import { objectEntries, objectValues } from '../flowPonyfill';
 import { tryFetch } from '../message/fetchActions';
 import { TimeoutError } from '../utils/async';
 
@@ -91,12 +91,13 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
     .map(hex => String.fromCodePoint(parseInt(hex, 16)))
     .join('');
 
+export const availableUnicodeEmojiCodes: Set<string> = new Set(objectValues(unicodeCodeByName));
+
 export const codeToEmojiMap: {| [string]: string |} = objectFromEntries<string, string>(
-  Object.keys(unicodeCodeByName).map(name => {
-    const code = unicodeCodeByName[name];
-    const displayCode = override[code] ?? code;
-    return [code, parseUnicodeEmojiCode(displayCode)];
-  }),
+  [...availableUnicodeEmojiCodes].map(code => [
+    code,
+    parseUnicodeEmojiCode(override[code] ?? code),
+  ]),
 );
 
 // TODO(?): Stop having distinct `EmojiType` and `ReactionType`; confusing?
