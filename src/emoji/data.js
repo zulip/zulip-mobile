@@ -92,13 +92,15 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
 
 export const availableUnicodeEmojiCodes: Set<string> = new Set(objectValues(unicodeCodeByName));
 
+const applyOverride = (code: string): string => override[code] ?? code;
+
 /**
  * From a Unicode emoji's `emoji_code`, give the actual character, like ✅.
  *
  * If the character isn't found, falls back to '?'.
  */
 export const displayCharacterForUnicodeEmojiCode = (code: string): string =>
-  availableUnicodeEmojiCodes.has(code) ? parseUnicodeEmojiCode(override[code] ?? code) : '?';
+  availableUnicodeEmojiCodes.has(code) ? parseUnicodeEmojiCode(applyOverride(code)) : '?';
 
 // TODO(?): Stop having distinct `EmojiType` and `ReactionType`; confusing?
 //   https://github.com/zulip/zulip-mobile/pull/5269#discussion_r818320669
