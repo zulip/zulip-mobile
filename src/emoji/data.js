@@ -94,7 +94,7 @@ const parseUnicodeEmojiCode = (code: string): string /* force line */ =>
 export const codeToEmojiMap: {| [string]: string |} = objectFromEntries<string, string>(
   Object.keys(unicodeCodeByName).map(name => {
     const code = unicodeCodeByName[name];
-    const displayCode = override[code] || code;
+    const displayCode = override[code] ?? code;
     return [code, parseUnicodeEmojiCode(displayCode)];
   }),
 );
