@@ -8,6 +8,7 @@
  * convenience -- but we're generally pretty consistent about it.
  */
 
+import fetchServerEmojiData from './fetchServerEmojiData';
 import queueMarkAsRead from './queueMarkAsRead';
 import checkCompatibility from './checkCompatibility';
 import devFetchApiKey from './devFetchApiKey';
@@ -55,6 +56,7 @@ import updateUserStatus from './users/updateUserStatus';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 
 export {
+  fetchServerEmojiData,
   queueMarkAsRead,
   checkCompatibility,
   devFetchApiKey,

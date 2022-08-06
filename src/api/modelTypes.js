@@ -101,6 +101,24 @@ export type RealmEmojiById = $ReadOnly<{|
 |}>;
 
 /**
+ * The server's record of available Unicode emojis, with primary names and
+ *   aliases.
+ *
+ * See `server_emoji_data_url` at https://zulip.com/api/register-queue.
+ */
+export type ServerEmojiData = {|
+  +code_to_names: Map<
+    // `emoji_code` for an available Unicode emoji: a "dash-separated hex
+    // encoding of the sequence of Unicode codepoints that define this emoji
+    // in the Unicode specification."
+    string,
+    // `emoji_name`s for the Unicode emoji. The canonical name appears
+    // first, followed by any aliases.
+    $ReadOnlyArray<string>,
+  >,
+|};
+
+/**
  * The only way servers before feature level 54 represent linkifiers.
  */
 // TODO(server-4.0): Delete this.
