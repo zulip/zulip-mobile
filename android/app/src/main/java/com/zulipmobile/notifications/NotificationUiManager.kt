@@ -108,8 +108,7 @@ internal fun onReceived(context: Context, mapData: Map<String, String>) {
 private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // We have an FCM message telling us that some Zulip messages were read
     // and should no longer appear as notifications.  We'll remove their
-    // conversations' notifications, if appropriate, and then the whole
-    // notification group if it's now empty.
+    // conversations' notifications, if appropriate.
 
     // There may be a lot of messages mentioned here, across a lot of
     // conversations.  But they'll all be for one identity, so they'll
@@ -121,7 +120,6 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
     // they're read, so we wait until we're ready to remove the whole
     // conversation's notification.
     // See: https://github.com/zulip/zulip-mobile/pull/4842#pullrequestreview-725817909
-    var haveRemaining = false
     for (statusBarNotification in context.notificationManager.activeNotifications) {
         // The StatusBarNotification object describes an active notification in the UI.
         // Its relationship to the Notification and to our metadata is a bit confusing:
@@ -136,26 +134,13 @@ private fun removeNotification(context: Context, fcmMessage: RemoveFcmMessage) {
         // Don't act on notifications that are for other Zulip accounts/identities.
         if (notification.group != groupKey) continue;
 
-        // Don't act on the summary notification for the group.
-        if (statusBarNotification.tag == groupKey) continue;
-
         val lastMessageId = notification.extras.getInt("lastZulipMessageId")
         if (fcmMessage.messageIds.contains(lastMessageId)) {
             // The latest Zulip message in this conversation was read.
             // That's our cue to cancel the notification for the conversation.
             NotificationManagerCompat.from(context)
                 .cancel(statusBarNotification.tag, statusBarNotification.id)
-        } else {
-            // This notification is for another conversation that's still unread.
-            // We won't cancel the summary notification.
-            haveRemaining = true
         }
-    }
-
-    if (!haveRemaining) {
-        // The notification group is now empty; it had no notifications we didn't
-        // just cancel, except the summary notification.  Cancel that one too.
-        NotificationManagerCompat.from(context).cancel(groupKey, NOTIFICATION_ID)
     }
 }
 
@@ -345,31 +330,10 @@ private fun updateNotification(
         setAutoCancel(true)
     }.build()
 
-    val summaryNotification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
-        setGroup(groupKey)
-        setGroupSummary(true)
-
-        color = context.getColor(R.color.brandColor)
-        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
-
-        // For the summary we use an "inbox-style" notification, as recommended here:
-        //   https://developer.android.com/training/notify-user/group#set_a_group_summary
-        setStyle(NotificationCompat.InboxStyle()
-            // TODO(#5115): Use the org's friendly name instead of its URL.
-            .setSummaryText(fcmMessage.identity.realmUri.toString())
-            // TODO: Use addLine and setBigContentTitle to add some summary info when collapsed?
-            //   (See example in the linked doc.)
-        )
-
-        // TODO Does this do something useful?  There isn't a way to open these summary notifs.
-        setAutoCancel(true)
-    }.build()
-
     NotificationManagerCompat.from(context).apply {
         // This posts the notifications.  If there is an existing notification
         // with the same tag and ID as one of these calls to `notify`, this will
         // replace it with the updated notification we've just constructed.
-        notify(groupKey, NOTIFICATION_ID, summaryNotification)
         notify(conversationKey, NOTIFICATION_ID, notification)
     }
 }
