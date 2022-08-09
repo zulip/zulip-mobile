@@ -50,6 +50,7 @@ import * as api from '../api';
 import { ensureUnreachable } from '../generics';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
+import type { KeyPressEvent } from "react-native/Libraries/Components/TextInput/TextInput";
 
 /* eslint-disable no-shadow */
 
@@ -197,6 +198,7 @@ export default function ComposeBox(props: Props): Node {
   const mentionWarnings = React.useRef<React$ElementRef<typeof MentionWarnings> | null>(null);
 
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
+  const inputEnterKeyTimeoutId = useRef<?TimeoutID>(null);
 
   // TODO(#5141): Encapsulate this in a nice, plain action-sheet pattern
   //   instead of setting it all over the place
@@ -527,6 +529,14 @@ export default function ComposeBox(props: Props): Node {
     messageInputState,
   ]);
 
+  const handleMessageKeyPress = useCallback((e: KeyPressEvent) => {
+    if (e.nativeEvent.key === 'Enter') {
+      clearTimeout(inputEnterKeyTimeoutId.current);
+      inputEnterKeyTimeoutId.current = setTimeout(handleSubmit, FOCUS_DEBOUNCE_TIME_MS);
+    }
+  }, [handleSubmit]
+  );
+
   const inputMarginPadding = useMemo(
     () => ({
       paddingHorizontal: 8,
@@ -681,6 +691,7 @@ export default function ComposeBox(props: Props): Node {
             onBlur={handleMessageBlur}
             onFocus={handleMessageFocus}
             onTouchStart={handleInputTouchStart}
+            onKeyPress={handleMessageKeyPress}
           />
         </View>
         <View style={styles.submitButtonContainer}>
