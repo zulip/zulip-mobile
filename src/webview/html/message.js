@@ -15,7 +15,6 @@ import type {
   MessageMessageListElement,
   Reaction,
   SubmessageData,
-  ImageEmojiType,
   UserId,
   WidgetData,
   UserStatus,
@@ -221,14 +220,14 @@ export const flagsStateToStringList = (flags: FlagsState, id: number): $ReadOnly
 
 const senderEmojiStatus = (
   emoji: UserStatus['status_emoji'],
-  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
+  backgroundData: BackgroundData,
 ): string =>
   emoji
-    ? allImageEmojiById[emoji.emoji_code]
+    ? backgroundData.allImageEmojiById[emoji.emoji_code]
       ? template`\
 <img
   class="status-emoji"
-  src="${allImageEmojiById[emoji.emoji_code].source_url}"
+  src="${backgroundData.allImageEmojiById[emoji.emoji_code].source_url}"
 />`
       : template`\
 <span class="status-emoji">$!${displayCharacterForUnicodeEmojiCode(emoji.emoji_code)}</span>`
@@ -293,7 +292,7 @@ $!${divOpenHtml}
   <div class="name-and-status-emoji" data-sender-id="${sender_id}">
     ${sender_full_name}$!${senderEmojiStatus(
     getUserStatusFromModel(backgroundData.userStatuses, sender_id).status_emoji,
-    backgroundData.allImageEmojiById,
+    backgroundData,
   )}
   </div>
   <div class="static-timestamp">${messageTime}</div>
