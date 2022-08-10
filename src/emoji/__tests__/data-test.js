@@ -27,7 +27,7 @@ describe('displayCharacterForUnicodeEmojiCode', () => {
 });
 
 describe('getFilteredEmojis', () => {
-  const names = query => getFilteredEmojis(query, []).map(e => e.emoji_name);
+  const names = query => getFilteredEmojis(query, [], null).map(e => e.emoji_name);
 
   test('empty query returns many emojis', () => {
     // 1400 so that we don't have to change the test every time we change the
@@ -91,13 +91,13 @@ describe('getFilteredEmojis', () => {
 
   test('search in realm emojis as well', () => {
     const emoji = { emoji_type: 'image', emoji_code: '654', emoji_name: 'qwerty' };
-    expect(getFilteredEmojis('qwerty', [emoji])).toEqual([emoji]);
+    expect(getFilteredEmojis('qwerty', [emoji], null)).toEqual([emoji]);
   });
 
   test('remove duplicates', () => {
     expect(names('dog')).toEqual(['dog', 'dogi', 'hotdog']);
     const emoji = { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' };
-    expect(getFilteredEmojis('dog', [emoji])).toEqual([
+    expect(getFilteredEmojis('dog', [emoji], null)).toEqual([
       { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' },
       { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi' },
       { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },

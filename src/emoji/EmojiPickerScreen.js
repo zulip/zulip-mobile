@@ -12,6 +12,7 @@ import { getFilteredEmojis } from './data';
 import { getActiveImageEmoji } from '../selectors';
 import type { EmojiType } from '../types';
 import { useSelector } from '../react-redux';
+import { getRealm } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'emoji-picker'>,
@@ -45,6 +46,7 @@ export default function EmojiPickerScreen(props: Props): Node {
   const { onPressEmoji } = route.params;
 
   const activeImageEmoji = useSelector(getActiveImageEmoji);
+  const serverEmojiData = useSelector(state => getRealm(state).serverEmojiData);
 
   const [filter, setFilter] = useState<string>('');
 
@@ -60,7 +62,7 @@ export default function EmojiPickerScreen(props: Props): Node {
     [onPressEmoji, navigation],
   );
 
-  const filteredEmojis = getFilteredEmojis(filter, activeImageEmoji);
+  const filteredEmojis = getFilteredEmojis(filter, activeImageEmoji, serverEmojiData);
 
   return (
     <Screen search autoFocus scrollEnabled={false} searchBarOnChange={handleInputChange}>

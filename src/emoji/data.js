@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import * as typeahead from '@zulip/shared/js/typeahead';
+import { defaultMemoize } from 'reselect';
 
 import * as api from '../api';
 import * as logging from '../utils/logging';
@@ -64,13 +65,31 @@ export const maybeRefreshServerEmojiData =
     dispatch(refreshServerEmojiData(data));
   };
 
-const unicodeEmojiObjects: $ReadOnlyArray<EmojiForShared> = objectEntries(unicodeCodeByName).map(
-  ([name, code]) => ({
-    emoji_type: 'unicode',
-    emoji_name: name,
-    emoji_code: code,
-  }),
-);
+const getUnicodeEmojiObjects = (
+  serverEmojiData: ServerEmojiData | null,
+): $ReadOnlyArray<EmojiForShared> => {
+  if (!serverEmojiData) {
+    return objectEntries(unicodeCodeByName).map(([name, code]) => ({
+      emoji_type: 'unicode',
+      emoji_name: name,
+      emoji_code: code,
+    }));
+  }
+
+  const result = [];
+  for (const [code, names] of serverEmojiData.code_to_names.entries()) {
+    result.push(
+      ...names.map(name => ({
+        emoji_type: 'unicode',
+        emoji_name: name,
+        emoji_code: code,
+      })),
+    );
+  }
+  return result;
+};
+
+const getUnicodeEmojiObjectsMemoized = defaultMemoize(getUnicodeEmojiObjects);
 
 /**
  * Convert a Unicode emoji's `emoji_code` into the actual Unicode codepoints.
@@ -139,11 +158,12 @@ export const emojiTypeFromReactionType = (reactionType: ReactionType): EmojiType
 export const getFilteredEmojis = (
   query: string,
   activeImageEmoji: $ReadOnlyArray<EmojiForShared>,
+  serverEmojiData: ServerEmojiData | null,
 ): $ReadOnlyArray<EmojiForShared> => {
   const matcher = typeahead.get_emoji_matcher(query);
   const allMatchingEmoji: Map<string, EmojiForShared> = new Map();
 
-  for (const emoji of unicodeEmojiObjects) {
+  for (const emoji of getUnicodeEmojiObjectsMemoized(serverEmojiData)) {
     // TODO(shared): Use shared version of this feature too, once it exists.
     //   See PR: https://github.com/zulip/zulip/pull/21778
     //   and issue: https://github.com/zulip/zulip/issues/21714
