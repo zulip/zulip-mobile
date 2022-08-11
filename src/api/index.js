@@ -30,6 +30,7 @@ import deleteMessage from './messages/deleteMessage';
 import deleteTopic from './messages/deleteTopic';
 import getRawMessageContent from './messages/getRawMessageContent';
 import getMessages from './messages/getMessages';
+import getSingleMessage from './messages/getSingleMessage';
 import getMessageHistory from './messages/getMessageHistory';
 import messagesFlags from './messages/messagesFlags';
 import sendMessage from './messages/sendMessage';
@@ -78,6 +79,7 @@ export {
   deleteTopic,
   getRawMessageContent,
   getMessages,
+  getSingleMessage,
   getMessageHistory,
   messagesFlags,
   sendMessage,
