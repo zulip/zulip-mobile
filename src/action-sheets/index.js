@@ -77,6 +77,12 @@ type TopicArgs = {
   zulipFeatureLevel: number,
   dispatch: Dispatch,
   _: GetText,
+  startEditTopic: (
+    streamId: number,
+    topic: string,
+    streamsById: Map<number, Stream>,
+    _: GetText,
+  ) => Promise<void>,
   ...
 };
 
@@ -249,6 +255,14 @@ const toggleResolveTopic = async ({ auth, streamId, topic, _, streams, zulipFeat
       send_notification_to_new_thread: true,
     }),
   });
+};
+
+const editTopic = {
+  title: 'Edit topic',
+  errorMessage: 'Failed to resolve topic',
+  action: ({ streamId, topic, streams, _, startEditTopic }) => {
+    startEditTopic(streamId, topic, streams, _);
+  },
 };
 
 const resolveTopic = {
@@ -505,6 +519,7 @@ export const constructTopicActionButtons = (args: {|
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
   }
+  buttons.push(editTopic);
   if (isTopicMuted(streamId, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
@@ -666,6 +681,12 @@ export const showTopicActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
+    startEditTopic: (
+      streamId: number,
+      topic: string,
+      streamsById: Map<number, Stream>,
+      _: GetText,
+    ) => Promise<void>,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{

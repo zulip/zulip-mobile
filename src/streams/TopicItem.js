@@ -25,6 +25,7 @@ import {
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
+import { useTopicModalHandler } from '../boot/TopicModalProvider';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -70,6 +71,7 @@ export default function TopicItem(props: Props): Node {
     useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
   const dispatch = useDispatch();
+  const { startEditTopic } = useTopicModalHandler();
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
     mute: getMute(state),
@@ -88,7 +90,7 @@ export default function TopicItem(props: Props): Node {
       onLongPress={() => {
         showTopicActionSheet({
           showActionSheetWithOptions,
-          callbacks: { dispatch, _ },
+          callbacks: { dispatch, startEditTopic, _ },
           backgroundData,
           streamId,
           topic: name,

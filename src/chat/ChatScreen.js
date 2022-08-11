@@ -30,6 +30,7 @@ import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
 import { useConditionalEffect } from '../reactUtils';
+import { useTopicModalHandler } from '../boot/TopicModalProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -127,6 +128,7 @@ const useMessagesWithFetch = args => {
 export default function ChatScreen(props: Props): Node {
   const { route, navigation } = props;
   const { backgroundColor } = React.useContext(ThemeContext);
+  const { startEditTopic } = useTopicModalHandler();
 
   const { narrow, editMessage } = route.params;
   const setEditMessage = useCallback(
@@ -221,6 +223,7 @@ export default function ChatScreen(props: Props): Node {
               }
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
+              startEditTopic={startEditTopic}
             />
           );
         }

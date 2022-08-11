@@ -14,6 +14,7 @@ import type {
   MessageListElement,
   UserOrBot,
   EditMessage,
+  Stream,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { connect } from '../react-redux';
@@ -45,6 +46,12 @@ type OuterProps = $ReadOnly<{|
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  startEditTopic: (
+    streamId: number,
+    topic: string,
+    streamsById: Map<number, Stream>,
+    _: GetText,
+  ) => Promise<void>,
 |}>;
 
 type SelectorProps = {|
@@ -153,6 +160,7 @@ class MessageListInner extends Component<Props> {
       doNotMarkMessagesAsRead,
       _,
     } = this.props;
+
     const contentHtml = messageListElementsForShownMessages
       .map(element =>
         messageListElementHtml({
@@ -291,7 +299,6 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
     // they should probably turn into a `connectGlobal` call.
     const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
     const debug = getDebug(assumeSecretlyGlobalState(state));
-
     return {
       backgroundData: getBackgroundData(state, globalSettings, debug),
       fetching: getFetchingForNarrow(state, props.narrow),

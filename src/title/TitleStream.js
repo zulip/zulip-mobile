@@ -27,6 +27,7 @@ import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
+import { useTopicModalHandler } from '../boot/TopicModalProvider';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
@@ -67,6 +68,7 @@ export default function TitleStream(props: Props): Node {
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
+  const { startEditTopic } = useTopicModalHandler();
 
   return (
     <TouchableWithoutFeedback
@@ -75,7 +77,7 @@ export default function TitleStream(props: Props): Node {
           ? () => {
               showTopicActionSheet({
                 showActionSheetWithOptions,
-                callbacks: { dispatch, _ },
+                callbacks: { dispatch, startEditTopic, _ },
                 backgroundData,
                 streamId: stream.stream_id,
                 topic: topicOfNarrow(narrow),
