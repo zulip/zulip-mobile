@@ -62,6 +62,8 @@ type ServerMessageOf<M: Message> = $ReadOnly<{|
   ...$Exact<M>,
   avatar_url: string | null,
   reactions: $ReadOnlyArray<ServerReaction>,
+
+  // Unlike Message['edit_history'], this can't be `null`.
   edit_history?: $ReadOnlyArray<ServerMessageEdit>,
 |}>;
 
