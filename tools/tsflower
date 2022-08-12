@@ -159,6 +159,13 @@ run_only()
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
 
+    package=expo-web-browser
+    run_on_package "${package}"
+    # TODO(tsflower): skip node_modules when acting on package,
+    #   so we don't have to delete it here
+    rm -rf "${rootdir}"/types/"${package}"/node_modules/
+    format_dir "${rootdir}"/types/"${package}"
+
     package=react-native-safe-area-context
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
