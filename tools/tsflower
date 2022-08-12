@@ -151,6 +151,10 @@ run_only()
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
 
+    package=expo-modules-core
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
     package=expo-screen-orientation
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"

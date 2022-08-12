@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Mon, 25 Jul 2022 15:49:39 -0700
+Subject: [tsflower] expo-modules-core: Fill in RN's NativeEventEmitter
+
+---
+ types/expo-modules-core/build/EventEmitter.js.flow | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git types/expo-modules-core/build/EventEmitter.js.flow types/expo-modules-core/build/EventEmitter.js.flow
+index e8e1eae94..d6a70cac4 100644
+--- types/expo-modules-core/build/EventEmitter.js.flow
++++ types/expo-modules-core/build/EventEmitter.js.flow
+@@ -16,7 +16,11 @@ export type Subscription = { remove: () => void, ... };
+ declare export class EventEmitter {
+   _listenerCount: number;
+   _nativeModule: NativeModule;
+-  _eventEmitter: NativeEventEmitter;
++
++  // TODO[tsflower]: From @types/react-native; add to subst/react-native.
++  //   PR: https://github.com/gnprice/tsflower/pull/1
++  _eventEmitter: NativeEventEmitter<{| +[string]: mixed |}>;
++
+   constructor(nativeModule: NativeModule): any;
+   addListener<T>(eventName: string, listener: (event: T) => void): Subscription;
+   removeAllListeners(eventName: string): void;
+-- 
+2.32.0
+
