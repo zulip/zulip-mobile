@@ -5,6 +5,7 @@ import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
+import { ensureUnreachable } from '../generics';
 
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
@@ -160,6 +161,11 @@ export const getNarrowFromLink = (
   ownUserId: UserId,
 ): Narrow | null => {
   const type = getLinkType(url, realm);
+
+  if (type === 'non-narrow') {
+    return null;
+  }
+
   const paths = getPathsFromUrl(url, realm);
 
   switch (type) {
@@ -186,7 +192,10 @@ export const getNarrowFromLink = (
       } catch {
         return null;
       }
+    case 'home':
+      return null; // TODO(?): Give HOME_NARROW
     default:
+      ensureUnreachable(type);
       return null;
   }
 };
