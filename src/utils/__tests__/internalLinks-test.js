@@ -170,7 +170,7 @@ describe('isNarrowLink', () => {
 describe('isMessageLink', () => {
   test('only in-app link containing "near/<message-id>" is a message link', () => {
     expect(isMessageLink('https://example.com/#narrow/stream/jest', realm)).toBe(false);
-    expect(isMessageLink('https://example.com/#narrow/#near/1', realm)).toBe(true);
+    expect(isMessageLink('https://example.com/#narrow/near/1', realm)).toBe(true);
   });
 });
 
