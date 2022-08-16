@@ -7,17 +7,29 @@ import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from
 import { pmKeyRecipientsFromIds } from './recipient';
 import { ensureUnreachable } from '../generics';
 
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-const getPathsFromUrl = (url: string, realm: URL) => {
-  const paths = url.split(realm.toString()).pop().split('#narrow/').pop()
+/**
+ * For narrow URL https://zulip.example/#narrow/foo/bar, split the part of
+ *   the hash after #narrow/ to give ['foo', 'bar'].
+ *
+ * The passed `url` must appear to be a link to a Zulip narrow on the given
+ * `realm`. In particular, `isNarrowLink(url, realm)` must be true.
+ *
+ * If `url` ends with a slash, the returned array won't have '' as its last
+ * element; that element is removed.
+ */
+// TODO: Take a URL object for `url` instead of a string.
+// TODO: Parse into an array of objects with { negated, operator, operand },
+//   like the web app's parse_narrow in static/js/hash_util.js.
+// TODO(#3757): Use @zulip/shared for that parsing.
+const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
+  const result = url.split(realm.toString()).pop().split('#narrow/').pop()
 .split('/');
 
-  if (paths[paths.length - 1] === '') {
+  if (result[result.length - 1] === '') {
     // url ends with /
-    paths.splice(-1, 1);
+    result.splice(-1, 1);
   }
-  return paths;
+  return result;
 };
 
 /**
@@ -58,28 +70,33 @@ export const getLinkType = (url: string, realm: URL): LinkType => {
     return 'non-narrow';
   }
 
-  const paths = getPathsFromUrl(url, realm);
+  // isNarrowLink(…) is true, by early return above, so this call is OK.
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   if (
-    (paths.length === 2 && paths[0] === 'pm-with')
-    || (paths.length === 4 && paths[0] === 'pm-with' && paths[2] === 'near')
+    (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
+    || (hashSegments.length === 4 && hashSegments[0] === 'pm-with' && hashSegments[2] === 'near')
   ) {
     return 'pm';
   }
 
   if (
-    (paths.length === 4 || paths.length === 6)
-    && paths[0] === 'stream'
-    && (paths[2] === 'subject' || paths[2] === 'topic')
+    (hashSegments.length === 4 || hashSegments.length === 6)
+    && hashSegments[0] === 'stream'
+    && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
   ) {
     return 'topic';
   }
 
-  if (paths.length === 2 && paths[0] === 'stream') {
+  if (hashSegments.length === 2 && hashSegments[0] === 'stream') {
     return 'stream';
   }
 
-  if (paths.length === 2 && paths[0] === 'is' && /^(private|starred|mentioned)/i.test(paths[1])) {
+  if (
+    hashSegments.length === 2
+    && hashSegments[0] === 'is'
+    && /^(private|starred|mentioned)/i.test(hashSegments[1])
+  ) {
     return 'special';
   }
 
@@ -166,7 +183,8 @@ export const getNarrowFromLink = (
     return null;
   }
 
-  const paths = getPathsFromUrl(url, realm);
+  // isNarrowLink(…) is true, by early return above, so this call is OK.
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   switch (type) {
     case 'pm': {
@@ -175,20 +193,20 @@ export const getNarrowFromLink = (
       //   group PM conversation excludes self, so it's unusable for anyone
       //   else.  In particular this will foil you if, say, you try to give
       //   someone else in the conversation a link to a particular message.
-      const ids = parsePmOperand(paths[1]);
+      const ids = parsePmOperand(hashSegments[1]);
       return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
     }
     case 'topic': {
-      const stream = parseStreamOperand(paths[1], streamsById, streamsByName);
-      return stream && topicNarrow(stream.stream_id, parseTopicOperand(paths[3]));
+      const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
+      return stream && topicNarrow(stream.stream_id, parseTopicOperand(hashSegments[3]));
     }
     case 'stream': {
-      const stream = parseStreamOperand(paths[1], streamsById, streamsByName);
+      const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
       return stream && streamNarrow(stream.stream_id);
     }
     case 'special':
       try {
-        return specialNarrow(paths[1]);
+        return specialNarrow(hashSegments[1]);
       } catch {
         return null;
       }
@@ -209,12 +227,13 @@ export const getNarrowFromLink = (
  * 10 or 100 times per user action.
  */
 export const getMessageIdFromLink = (url: string, realm: URL): number => {
-  const paths = getPathsFromUrl(url, realm);
+  // isNarrowLink(…) is true, by jsdoc, so this call is OK.
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
-  // TODO: Very wrong; inspect `paths` for this, not all of `url`.
+  // TODO: Very wrong; inspect `hashSegments` for this, not all of `url`.
   const isMessageLink = url.includes('near');
 
-  return isMessageLink ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
+  return isMessageLink ? parseInt(hashSegments[hashSegments.lastIndexOf('near') + 1], 10) : 0;
 };
 
 export const getStreamTopicUrl = (
