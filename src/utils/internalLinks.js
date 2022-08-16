@@ -13,7 +13,7 @@ const getPathsFromUrl = (url: string, realm: URL) => {
   const paths = url.split(realm.toString()).pop().split('#narrow/').pop()
 .split('/');
 
-  if (paths.length > 0 && paths[paths.length - 1] === '') {
+  if (paths[paths.length - 1] === '') {
     // url ends with /
     paths.splice(-1, 1);
   }
