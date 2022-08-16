@@ -4,7 +4,6 @@ import type { Stream } from '../../types';
 import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
 import {
   isNarrowLink,
-  isMessageLink,
   getLinkType,
   getNarrowFromLink,
   getMessageIdFromLink,
@@ -165,13 +164,6 @@ describe('isNarrowLink', () => {
       expect(isNarrowLink(url, realm_ ?? realm)).toBe(expected);
     });
   }
-});
-
-describe('isMessageLink', () => {
-  test('only in-app link containing "near/<message-id>" is a message link', () => {
-    expect(isMessageLink('https://example.com/#narrow/stream/jest', realm)).toBe(false);
-    expect(isMessageLink('https://example.com/#narrow/near/1', realm)).toBe(true);
-  });
 });
 
 describe('getLinkType', () => {
@@ -429,6 +421,11 @@ describe('getNarrowFromLink', () => {
 describe('getMessageIdFromLink', () => {
   test('not message link', () => {
     expect(getMessageIdFromLink('https://example.com/#narrow/is/private', realm)).toBe(0);
+    expect(getMessageIdFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(0);
+  });
+
+  test('`near` is the only operator', () => {
+    expect(getMessageIdFromLink('https://example.com/#narrow/near/1', realm)).toBe(1);
   });
 
   test('when link is a group link, return anchor message id', () => {

@@ -41,18 +41,6 @@ export const isNarrowLink = (url: string, realm: URL): boolean => {
   );
 };
 
-/**
- * PRIVATE -- exported only for tests.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
- */
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-export const isMessageLink = (url: string, realm: URL): boolean =>
-  isNarrowLink(url, realm) && url.includes('near');
-
 type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
@@ -213,7 +201,12 @@ export const getNarrowFromLink = (
 export const getMessageIdFromLink = (url: string, realm: URL): number => {
   const paths = getPathsFromUrl(url, realm);
 
-  return isMessageLink(url, realm) ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
+  const isMessageLink =
+    isNarrowLink(url, realm)
+    // TODO: Very wrong; inspect `paths` for this, not all of `url`.
+    && url.includes('near');
+
+  return isMessageLink ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
 
 export const getStreamTopicUrl = (
