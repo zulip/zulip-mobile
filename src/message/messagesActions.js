@@ -36,6 +36,7 @@ export const messageLinkPress =
     //   perhaps give an error instead of falling back to opening in browser,
     //   which should be futile.
     if (narrow) {
+      // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
       const anchor = getMessageIdFromLink(href, auth.realm);
       dispatch(doNarrow(narrow, anchor));
     } else if (!isUrlOnRealm(href, auth.realm)) {

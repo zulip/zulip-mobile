@@ -192,7 +192,8 @@ export const getNarrowFromLink = (
 };
 
 /**
- * TODO write jsdoc
+ * From a URL and realm with `isNarrowLink(url, realm) === true`, give
+ *   message_id if the URL ends in /near/{message_id}, otherwise give zero.
  *
  * This performs a call to `new URL` and therefore may take a fraction of a
  * millisecond.  Avoid using in a context where it might be called more than
@@ -201,10 +202,8 @@ export const getNarrowFromLink = (
 export const getMessageIdFromLink = (url: string, realm: URL): number => {
   const paths = getPathsFromUrl(url, realm);
 
-  const isMessageLink =
-    isNarrowLink(url, realm)
-    // TODO: Very wrong; inspect `paths` for this, not all of `url`.
-    && url.includes('near');
+  // TODO: Very wrong; inspect `paths` for this, not all of `url`.
+  const isMessageLink = url.includes('near');
 
   return isMessageLink ? parseInt(paths[paths.lastIndexOf('near') + 1], 10) : 0;
 };
