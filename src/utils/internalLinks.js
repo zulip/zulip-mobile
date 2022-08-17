@@ -16,13 +16,18 @@ import { ensureUnreachable } from '../generics';
  *
  * If `url` ends with a slash, the returned array won't have '' as its last
  * element; that element is removed.
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
  */
-// TODO: Take a URL object for `url` instead of a string.
+// TODO: Take a URL object for `url` instead of a string, and remove
+//   performance warning in the jsdoc.
 // TODO: Parse into an array of objects with { negated, operator, operand },
 //   like the web app's parse_narrow in static/js/hash_util.js.
 // TODO(#3757): Use @zulip/shared for that parsing.
 const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
-  const result = url.split('#narrow/').pop().split('/');
+  const result = new URL(url, realm).hash.split('#narrow/').pop().split('/');
 
   if (result[result.length - 1] === '') {
     // url ends with /
