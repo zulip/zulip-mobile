@@ -227,7 +227,7 @@ export const getNarrowFromLink = (
 
 /**
  * From a URL and realm with `isNarrowLink(url, realm) === true`, give
- *   message_id if the URL ends in /near/{message_id}, otherwise give zero.
+ *   message_id if the URL has /near/{message_id}, otherwise give zero.
  *
  * This performs a call to `new URL` and therefore may take a fraction of a
  * millisecond.  Avoid using in a context where it might be called more than
@@ -237,10 +237,24 @@ export const getMessageIdFromLink = (url: string, realm: URL): number => {
   // isNarrowLink(…) is true, by jsdoc, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
-  // TODO: Very wrong; inspect `hashSegments` for this, not all of `url`.
-  const isMessageLink = url.includes('near');
+  // This and nearOperandIndex can simplify when we rename/repurpose
+  //   getHashSegmentsFromNarrowLink so it gives an array of
+  //   { negated, operator, operand } objects; see TODO there.
+  const nearOperatorIndex = hashSegments.findIndex(
+    (str, i) =>
+      // This is a segment where we expect an operator to be specified.
+      i % 2 === 0
+      // The operator is 'near' and its meaning is not negated (`str` does
+      // not start with "-").
+      && str === 'near',
+  );
+  if (nearOperatorIndex < 0) {
+    return 0;
+  }
 
-  return isMessageLink ? parseInt(hashSegments[hashSegments.lastIndexOf('near') + 1], 10) : 0;
+  // We expect an operand to directly follow its operator.
+  const nearOperandIndex = nearOperatorIndex + 1;
+  return parseInt(hashSegments[nearOperandIndex], 10);
 };
 
 export const getStreamTopicUrl = (
