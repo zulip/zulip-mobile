@@ -27,7 +27,10 @@ import { ensureUnreachable } from '../generics';
 //   like the web app's parse_narrow in static/js/hash_util.js.
 // TODO(#3757): Use @zulip/shared for that parsing.
 const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
-  const result = new URL(url, realm).hash.split('#narrow/').pop().split('/');
+  const result = new URL(url, realm).hash
+    .split('/')
+    // Remove the first item, "#narrow".
+    .slice(1);
 
   if (result[result.length - 1] === '') {
     // url ends with /
