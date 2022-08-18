@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useCallback, useRef, useMemo, useEffect } from 'react';
+import React, { useCallback, useRef, useMemo, useEffect, useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import invariant from 'invariant';
@@ -8,11 +8,12 @@ import { CommonActions } from '@react-navigation/native';
 import type { LocalizableText } from '../types';
 import type { GlobalParamList } from '../nav/globalTypes';
 import { randString } from '../utils/misc';
-import { BRAND_COLOR, createStyleSheet } from '../styles';
+import { createStyleSheet } from '../styles';
 import Touchable from './Touchable';
 import ZulipTextIntl from './ZulipTextIntl';
 import { IconRight } from './Icons';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
+import { ThemeContext } from '../styles/theme';
 
 type Item<TKey> = $ReadOnly<{|
   key: TKey,
@@ -128,6 +129,7 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
   // It'll also be its width.
   const kRightArrowIconSize = 24;
 
+  const themeData = useContext(ThemeContext);
   const styles = useMemo(
     () =>
       createStyleSheet({
@@ -164,7 +166,7 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
           <ZulipTextIntl text={selectedItem.title} style={styles.valueTitle} />
         </View>
         <View style={styles.iconRightWrapper}>
-          <IconRight size={kRightArrowIconSize} color={BRAND_COLOR} />
+          <IconRight size={kRightArrowIconSize} color={themeData.color} />
         </View>
       </View>
     </Touchable>
