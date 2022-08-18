@@ -35,8 +35,9 @@ import { handleWebViewOutboundEvent } from './handleOutboundEvents';
 import { base64Utf8Encode } from '../utils/encoding';
 import * as logging from '../utils/logging';
 import { tryParseUrl } from '../utils/url';
-import { caseNarrow } from '../utils/narrow';
+import { caseNarrow, isConversationNarrow } from '../utils/narrow';
 import { type BackgroundData, getBackgroundData } from './backgroundData';
+import { ensureUnreachable } from '../generics';
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -300,7 +301,20 @@ const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
       ),
       typingUsers: getCurrentTypingUsers(state, props.narrow),
       doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow) || globalSettings.doNotMarkMessagesAsRead,
+        !marksMessagesAsRead(props.narrow)
+        || (() => {
+          switch (globalSettings.markMessagesReadOnScroll) {
+            case 'always':
+              return false;
+            case 'never':
+              return true;
+            case 'conversation-views-only':
+              return !isConversationNarrow(props.narrow);
+            default:
+              ensureUnreachable(globalSettings.markMessagesReadOnScroll);
+              return false;
+          }
+        })(),
     };
   },
 )(connectActionSheet(withGetText(MessageListInner)));

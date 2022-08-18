@@ -18,8 +18,8 @@ type Props = $ReadOnly<{|
 const componentStyles = createStyleSheet({
   container: {
     // For uniformity with other rows this might share a screen with, e.g.,
-    // NestedNavRow on the settings screen. See height-related attributes on
-    // those rows.
+    // NestedNavRow and InputRowRadioButtons on the settings screen. See
+    // height-related attributes on those rows.
     minHeight: 48,
   },
   icon: {

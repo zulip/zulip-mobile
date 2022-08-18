@@ -18,7 +18,7 @@ const initialState: SettingsState = {
   theme: 'default',
   browser: 'default',
   experimentalFeaturesEnabled: false,
-  doNotMarkMessagesAsRead: false,
+  markMessagesReadOnScroll: 'always',
 
   //
   // PerAccountSettingsState

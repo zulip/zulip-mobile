@@ -84,10 +84,27 @@ describe('migrations', () => {
     },
   };
 
+  // What `base` becomes after migrations up through 52.
+  const base52 = {
+    ...base37,
+    migrations: { version: 52 },
+    settings: {
+      language: 'en',
+      theme: 'default',
+      offlineNotification: true,
+      onlineNotification: true,
+      experimentalFeaturesEnabled: false,
+      streamNotification: false,
+      browser: 'default',
+      // renamed/retyped from boolean doNotMarkMessagesAsRead
+      markMessagesReadOnScroll: 'always',
+    },
+  };
+
   // What `base` becomes after all migrations.
   const endBase = {
-    ...base37,
-    migrations: { version: 51 },
+    ...base52,
+    migrations: { version: 52 },
   };
 
   for (const [desc, before, after] of [
@@ -206,12 +223,12 @@ describe('migrations', () => {
     [
       'check 37 with setting already false',
       { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: false } },
-      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: false } },
+      { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'always' } },
     ],
     [
       'check 37 with setting already true',
       { ...base15, settings: { ...base15.settings, doNotMarkMessagesAsRead: true } },
-      { ...endBase, settings: { ...endBase.settings, doNotMarkMessagesAsRead: true } },
+      { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'never' } },
     ],
     [
       'check 38',
@@ -240,6 +257,24 @@ describe('migrations', () => {
         ...endBase,
         drafts: { 'topic:8:stuff': 'text', 'stream:8': 'more text', 'pm:12': 'pm text' },
       },
+    ],
+    [
+      'check 52 with old setting false',
+      {
+        ...base37,
+        migrations: { version: 51 },
+        settings: { ...base37.settings, doNotMarkMessagesAsRead: false },
+      },
+      { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'always' } },
+    ],
+    [
+      'check 52 with old setting true',
+      {
+        ...base37,
+        migrations: { version: 51 },
+        settings: { ...base37.settings, doNotMarkMessagesAsRead: true },
+      },
+      { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'never' } },
     ],
   ]) {
     /* eslint-disable no-loop-func */

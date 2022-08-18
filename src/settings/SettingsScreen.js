@@ -8,6 +8,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import NestedNavRow from '../common/NestedNavRow';
+import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import {
@@ -27,8 +28,8 @@ type Props = $ReadOnly<{|
 export default function SettingsScreen(props: Props): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
-  const doNotMarkMessagesAsRead = useGlobalSelector(
-    state => getGlobalSettings(state).doNotMarkMessagesAsRead,
+  const markMessagesReadOnScroll = useGlobalSelector(
+    state => getGlobalSettings(state).markMessagesReadOnScroll,
   );
   const dispatch = useDispatch();
   const { navigation } = props;
@@ -47,11 +48,23 @@ export default function SettingsScreen(props: Props): Node {
           dispatch(setGlobalSettings({ browser: value ? 'embedded' : 'external' }));
         }}
       />
-      <SwitchRow
-        label="Do not mark messages read on scroll"
-        value={doNotMarkMessagesAsRead}
+      <InputRowRadioButtons
+        navigation={navigation}
+        label="Mark messages as read on scroll"
+        description="When scrolling through messages, should they automatically be marked as read?"
+        valueKey={markMessagesReadOnScroll}
+        items={[
+          { key: 'always', title: 'Always' },
+          { key: 'never', title: 'Never' },
+          {
+            key: 'conversation-views-only',
+            title: 'Only in conversation views',
+            subtitle:
+              'Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.',
+          },
+        ]}
         onValueChange={value => {
-          dispatch(setGlobalSettings({ doNotMarkMessagesAsRead: value }));
+          dispatch(setGlobalSettings({ markMessagesReadOnScroll: value }));
         }}
       />
       <NestedNavRow

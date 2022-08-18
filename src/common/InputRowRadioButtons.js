@@ -58,7 +58,7 @@ type Props<TItemKey> = $ReadOnly<{|
 |}>;
 
 /**
- * A form-input row for the user to make a choice, radio-button style.
+ * An input row for the user to make a choice, radio-button style.
  *
  * Shows the current value (the selected item), represented as the item's
  * `.title`. When tapped, opens the selectable-options screen, where the

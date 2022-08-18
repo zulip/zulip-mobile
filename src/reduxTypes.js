@@ -397,7 +397,7 @@ export type GlobalSettingsState = $ReadOnly<{
 
   // Possibly this should be per-account.  If so it should probably be put
   // on the server, so it can also be cross-device for the account.
-  doNotMarkMessagesAsRead: boolean,
+  markMessagesReadOnScroll: 'always' | 'never' | 'conversation-views-only',
 
   ...
 }>;
