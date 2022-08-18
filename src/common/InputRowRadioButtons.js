@@ -138,6 +138,10 @@ export default function InputRowRadioButtons<TItemKey: string>(props: Props<TIte
           alignItems: 'center',
           paddingVertical: 8,
           paddingHorizontal: 16,
+
+          // Minimum touch target height (and width):
+          //   https://material.io/design/usability/accessibility.html#layout-and-typography
+          minHeight: 48,
         },
         textWrapper: {
           flex: 1,
