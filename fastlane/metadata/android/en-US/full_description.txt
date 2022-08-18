@@ -1,0 +1,7 @@
+The Zulip mobile app.
+
+Zulip is a team chat product for enterprises, open-source projects, working groups, and communities. Zulip’s unique threading model allows everyone to stay involved, even those that spend most of their day away from chat. https://zulipchat.com/why-zulip
+
+Like everything Zulip, this app is 100% free and open-source software: https://github.com/zulip/zulip-mobile . Thank you to the hundreds of contributors who have made Zulip what it is!
+
+Please send questions, comments, and bug reports to support@zulipchat.com, or tweet @zulip.
