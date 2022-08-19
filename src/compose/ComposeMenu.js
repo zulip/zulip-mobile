@@ -17,6 +17,7 @@ import { IconImage, IconCamera, IconAttach, IconVideo } from '../common/Icons';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 import { ThemeContext } from '../styles/theme';
 import type { SpecificIconType } from '../common/Icons';
+import { androidSdkVersion } from '../reactNativeUtils';
 
 export type Attachment = {|
   +name: string | null,
@@ -71,6 +72,21 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 
   return nameWithoutPrefix;
 };
+
+// From the doc:
+//   https://github.com/react-native-image-picker/react-native-image-picker/tree/v4.10.2#options
+// > Only iOS version >= 14 & Android version >= 13 support [multi-select]
+//
+// Older versions of react-native-image-picker claim to support multi-select
+// on older Android versions; we tried that and it gave a bad experience,
+// like a generic file picker that wasn't dedicated to handling images well:
+//   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Android.20select.20multiple.20photos/near/1423109
+//
+// But multi-select on iOS and on Android 13+ seem to work well.
+const kShouldOfferImageMultiselect =
+  Platform.OS === 'ios'
+  // Android 13
+  || androidSdkVersion() >= 33;
 
 type MenuButtonProps = $ReadOnly<{|
   onPress: () => void | Promise<void>,
@@ -142,13 +158,13 @@ export default function ComposeMenu(props: Props): Node {
         return;
       }
 
+      // This will have length one for single-select payloads, or more than
+      // one for multi-select. So we'll treat `assets` uniformly: expect it
+      // to have length >= 1, and loop over it, even if that means just one
+      // iteration.
       const { assets } = response;
 
-      // TODO: support sending multiple files; see library's docs for how to
-      // let `assets` have more than one item in `response`.
-      const firstAsset = assets && assets[0];
-
-      if (!firstAsset) {
+      if (!assets || !assets[0]) {
         // TODO: See if we these unexpected situations actually happen. …Ah,
         //   yep, reportedly (and we've seen in Sentry):
         //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
@@ -159,22 +175,39 @@ export default function ComposeMenu(props: Props): Node {
         return;
       }
 
-      const { uri, fileName } = firstAsset;
+      const attachments = [];
+      let numMalformed = 0;
+      assets.forEach((asset, i) => {
+        const { uri, fileName } = asset;
 
-      if (uri == null || fileName == null) {
-        // TODO: See if these unexpected situations actually happen.
-        showErrorAlert(_('Error'), _('Failed to attach your file.'));
-        logging.error(
-          'First (should be only) asset returned from image picker had nullish `url` and/or `fileName`',
-          {
+        if (uri == null || fileName == null) {
+          // TODO: See if these unexpected situations actually happen.
+          logging.error('An asset returned from image picker had nullish `url` and/or `fileName`', {
             'uri == null': uri == null,
             'fileName == null': fileName == null,
-          },
-        );
-        return;
+            i,
+          });
+          numMalformed++;
+          return;
+        }
+
+        attachments.push({ name: chooseUploadImageFilename(uri, fileName), url: uri });
+      });
+
+      if (numMalformed > 0) {
+        if (assets.length === 1 && numMalformed === 1) {
+          showErrorAlert(_('Error'), _('Failed to attach your file.'));
+          return;
+        } else if (assets.length === numMalformed) {
+          showErrorAlert(_('Error'), _('Failed to attach your files.'));
+          return;
+        } else {
+          showErrorAlert(_('Error'), _('Failed to attach some of your files.'));
+          // no return; `attachments` will have some items that we can insert
+        }
       }
 
-      insertAttachments([{ name: chooseUploadImageFilename(uri, fileName), url: uri }]);
+      insertAttachments(attachments);
     },
     [_, insertAttachments],
   );
@@ -187,6 +220,14 @@ export default function ComposeMenu(props: Props): Node {
 
         quality: 1.0,
         includeBase64: false,
+
+        // From the doc: "[U]se `0` to allow any number of files"
+        //   https://github.com/react-native-image-picker/react-native-image-picker/tree/v4.10.2#options
+        //
+        // Between single- and multi-select, we expect the payload passed to
+        // handleImagePickerResponse to differ only in the length of the
+        // `assets` array (one item vs. multiple).
+        selectionLimit: kShouldOfferImageMultiselect ? 0 : 1,
       },
       handleImagePickerResponse,
     );

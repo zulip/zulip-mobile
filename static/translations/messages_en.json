@@ -24,6 +24,8 @@
   "No one has read this message yet.": "No one has read this message yet.",
   "Confirm": "Confirm",
   "Failed to attach your file.": "Failed to attach your file.",
+  "Failed to attach your files.": "Failed to attach your files.",
+  "Failed to attach some of your files.": "Failed to attach some of your files.",
   "Configure permissions": "Configure permissions",
   "You": "You",
   "Discard changes": "Discard changes",
