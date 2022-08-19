@@ -91,10 +91,26 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
   }
 };
 
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-export const isUrlOnRealm = (url: string, realm: URL): boolean =>
-  url.startsWith('/') || url.startsWith(realm.toString()) || !/^(http|www.)/i.test(url);
+/**
+ * Test if the given URL string resolves on the realm, with realm as base.
+ *
+ * DEPRECATED because URL strings are complicated.  Callers should construct
+ *   a URL object before this point, and use the same URL object both for
+ *   asking any questions like this one and for subsequently making any
+ *   network requests.
+ *
+ * This returns true just if `new URL(url, realm)` gives a URL that is
+ * within the same Zulip realm.
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
+ */
+// TODO: Take a URL object instead of a string, and remove warnings in jsdoc.
+export const isUrlOnRealm = (url: string, realm: URL): boolean => {
+  const parsedUrl = tryParseUrl(url, realm);
+  return parsedUrl ? parsedUrl.origin === realm.origin : false;
+};
 
 const getResourceWithAuth = (uri: string, auth: Auth) => ({
   uri: new URL(uri, auth.realm).toString(),

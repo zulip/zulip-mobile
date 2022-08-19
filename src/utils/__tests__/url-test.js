@@ -118,16 +118,22 @@ describe('isUrlOnRealm', () => {
 
   test('when link is on realm, return true', () => {
     expect(isUrlOnRealm('/#narrow/stream/jest', realm)).toBe(true);
-
     expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', realm)).toBe(true);
-
     expect(isUrlOnRealm('#narrow/#near/1', realm)).toBe(true);
+
+    // Absolutizes to https://example.com/www.google.com
+    expect(isUrlOnRealm('www.google.com', realm)).toBeTrue();
+
+    expect(isUrlOnRealm('https://example.com', realm)).toBeTrue();
+    expect(isUrlOnRealm('https://example.com/', realm)).toBeTrue();
+    expect(isUrlOnRealm('https://example.com/foo/bar.baz', realm)).toBeTrue();
   });
 
-  test('when link is on not realm, return false', () => {
-    expect(isUrlOnRealm('https://demo.example.com', realm)).toBe(false);
-
-    expect(isUrlOnRealm('www.google.com', realm)).toBe(false);
+  test('when link is not on realm, return false', () => {
+    expect(isUrlOnRealm('https://demo.example.com/', realm)).toBeFalse();
+    expect(isUrlOnRealm('https://demo.example/', realm)).toBeFalse();
+    expect(isUrlOnRealm('//demo.example/', realm)).toBeFalse();
+    expect(isUrlOnRealm(' https://demo.example/', realm)).toBeFalse();
   });
 });
 
