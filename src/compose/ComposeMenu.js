@@ -146,18 +146,29 @@ export default function ComposeMenu(props: Props): Node {
       // let `assets` have more than one item in `response`.
       const firstAsset = response.assets && response.assets[0];
 
-      const { uri, fileName } = firstAsset ?? {};
-
-      if (!firstAsset || uri == null || fileName == null) {
+      if (!firstAsset) {
         // TODO: See if we these unexpected situations actually happen. …Ah,
         //   yep, reportedly (and we've seen in Sentry):
         //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
         showErrorAlert(_('Error'), _('Failed to attach your file.'));
-        logging.error('Unexpected response from image picker', {
-          '!firstAsset': !firstAsset,
-          'uri == null': uri == null,
-          'fileName == null': fileName == null,
+        logging.error('Image picker response gave falsy `assets` or falsy `assets[0]`', {
+          '!assets': !response.assets,
         });
+        return;
+      }
+
+      const { uri, fileName } = firstAsset;
+
+      if (uri == null || fileName == null) {
+        // TODO: See if these unexpected situations actually happen.
+        showErrorAlert(_('Error'), _('Failed to attach your file.'));
+        logging.error(
+          'First (should be only) asset returned from image picker had nullish `url` and/or `fileName`',
+          {
+            'uri == null': uri == null,
+            'fileName == null': fileName == null,
+          },
+        );
         return;
       }
 
