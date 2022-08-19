@@ -1,14 +1,14 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
-import type { ComponentType } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
+import type { Node } from 'react';
 import { Platform, View, Alert, Linking } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
+import { useDispatch } from '../react-redux';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
-import type { Dispatch, Narrow, GetText } from '../types';
-import { connect } from '../react-redux';
+import type { Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import {
@@ -23,22 +23,12 @@ import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 
-type OuterProps = $ReadOnly<{|
+type Props = $ReadOnly<{|
   expanded: boolean,
   destinationNarrow: Narrow,
   insertAttachment: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
   onExpandContract: () => void,
-|}>;
-
-type SelectorProps = $ReadOnly<{||}>;
-
-type Props = $ReadOnly<{|
-  ...OuterProps,
-
-  // from `connect`
-  ...SelectorProps,
-  dispatch: Dispatch,
 |}>;
 
 /**
@@ -84,75 +74,78 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
   return nameWithoutPrefix;
 };
 
-class ComposeMenuInner extends PureComponent<Props> {
-  static contextType = TranslationContext;
-  context: GetText;
+export default function ComposeMenu(props: Props): Node {
+  const { destinationNarrow, insertAttachment, expanded, insertVideoCallLink, onExpandContract } =
+    props;
 
-  handleImagePickerResponse = response => {
-    const { dispatch, destinationNarrow } = this.props;
-    const _ = this.context;
+  const dispatch = useDispatch();
+  const _ = useContext(TranslationContext);
 
-    if (response.didCancel === true) {
-      return;
-    }
-
-    const errorCode = response.errorCode;
-    if (errorCode != null) {
-      if (Platform.OS === 'ios' && errorCode === 'permission') {
-        // iOS has a quirk where it will only request the native
-        // permission-request alert once, the first time the app wants to
-        // use a protected resource. After that, the only way the user can
-        // grant it is in Settings.
-        Alert.alert(
-          _('Permissions needed'),
-          _('To upload an image, please grant Zulip additional permissions in Settings.'),
-          [
-            { text: _('Cancel'), style: 'cancel' },
-            {
-              text: _('Open settings'),
-              onPress: () => {
-                Linking.openSettings();
-              },
-              style: 'default',
-            },
-          ],
-        );
-      } else if (errorCode === 'camera_unavailable') {
-        showErrorAlert(_('Error'), _('Camera unavailable.'));
-      } else {
-        const { errorMessage } = response;
-        showErrorAlert(_('Error'), errorMessage);
-        logging.error('Unexpected error from image picker', {
-          errorCode,
-          errorMessage: errorMessage ?? '[nullish]',
-        });
+  const handleImagePickerResponse = useCallback(
+    response => {
+      if (response.didCancel === true) {
+        return;
       }
-      return;
-    }
 
-    // TODO: support sending multiple files; see library's docs for how to
-    // let `assets` have more than one item in `response`.
-    const firstAsset = response.assets && response.assets[0];
+      const errorCode = response.errorCode;
+      if (errorCode != null) {
+        if (Platform.OS === 'ios' && errorCode === 'permission') {
+          // iOS has a quirk where it will only request the native
+          // permission-request alert once, the first time the app wants to
+          // use a protected resource. After that, the only way the user can
+          // grant it is in Settings.
+          Alert.alert(
+            _('Permissions needed'),
+            _('To upload an image, please grant Zulip additional permissions in Settings.'),
+            [
+              { text: _('Cancel'), style: 'cancel' },
+              {
+                text: _('Open settings'),
+                onPress: () => {
+                  Linking.openSettings();
+                },
+                style: 'default',
+              },
+            ],
+          );
+        } else if (errorCode === 'camera_unavailable') {
+          showErrorAlert(_('Error'), _('Camera unavailable.'));
+        } else {
+          const { errorMessage } = response;
+          showErrorAlert(_('Error'), errorMessage);
+          logging.error('Unexpected error from image picker', {
+            errorCode,
+            errorMessage: errorMessage ?? '[nullish]',
+          });
+        }
+        return;
+      }
 
-    const { uri, fileName } = firstAsset ?? {};
+      // TODO: support sending multiple files; see library's docs for how to
+      // let `assets` have more than one item in `response`.
+      const firstAsset = response.assets && response.assets[0];
 
-    if (!firstAsset || uri == null || fileName == null) {
-      // TODO: See if we these unexpected situations actually happen. …Ah,
-      //   yep, reportedly (and we've seen in Sentry):
-      //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
-      showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
-      logging.error('Unexpected response from image picker', {
-        '!firstAsset': !firstAsset,
-        'uri == null': uri == null,
-        'fileName == null': fileName == null,
-      });
-      return;
-    }
+      const { uri, fileName } = firstAsset ?? {};
 
-    dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
-  };
+      if (!firstAsset || uri == null || fileName == null) {
+        // TODO: See if we these unexpected situations actually happen. …Ah,
+        //   yep, reportedly (and we've seen in Sentry):
+        //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
+        showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
+        logging.error('Unexpected response from image picker', {
+          '!firstAsset': !firstAsset,
+          'uri == null': uri == null,
+          'fileName == null': fileName == null,
+        });
+        return;
+      }
 
-  handleImagePicker = () => {
+      dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+    },
+    [_, destinationNarrow, dispatch],
+  );
+
+  const handleImagePicker = useCallback(() => {
     launchImageLibrary(
       {
         // TODO(#3624): Try 'mixed', to allow both photos and videos
@@ -161,13 +154,11 @@ class ComposeMenuInner extends PureComponent<Props> {
         quality: 1.0,
         includeBase64: false,
       },
-      this.handleImagePickerResponse,
+      handleImagePickerResponse,
     );
-  };
+  }, [handleImagePickerResponse]);
 
-  handleCameraCapture = async () => {
-    const _ = this.context;
-
+  const handleCameraCapture = useCallback(async () => {
     if (Platform.OS === 'android') {
       // On Android ≤9, in order to save the captured photo to storage, we
       // have to put up a scary permission request. We don't have to do that
@@ -194,12 +185,11 @@ class ComposeMenuInner extends PureComponent<Props> {
 
         includeBase64: false,
       },
-      this.handleImagePickerResponse,
+      handleImagePickerResponse,
     );
-  };
+  }, [_, handleImagePickerResponse]);
 
-  handleFilesPicker = async () => {
-    const _ = this.context;
+  const handleFilesPicker = useCallback(async () => {
     // Defer import to here, to avoid an obnoxious import-time warning
     // from this library when in the test environment.
     const DocumentPicker = (await import('react-native-document-picker')).default;
@@ -216,76 +206,54 @@ class ComposeMenuInner extends PureComponent<Props> {
       return;
     }
 
-    this.props.insertAttachment(response);
-  };
+    insertAttachment(response);
+  }, [_, insertAttachment]);
 
-  styles = createStyleSheet({
-    composeMenu: {
-      flexDirection: 'row',
-      overflow: 'hidden',
-    },
-    expandButton: {
-      padding: 12,
-      color: BRAND_COLOR,
-    },
-    composeMenuButton: {
-      padding: 12,
-      marginRight: -8,
-      color: BRAND_COLOR,
-    },
-  });
+  const styles = useMemo(
+    () =>
+      createStyleSheet({
+        composeMenu: {
+          flexDirection: 'row',
+          overflow: 'hidden',
+        },
+        expandButton: {
+          padding: 12,
+          color: BRAND_COLOR,
+        },
+        composeMenuButton: {
+          padding: 12,
+          marginRight: -8,
+          color: BRAND_COLOR,
+        },
+      }),
+    [],
+  );
 
-  render() {
-    const { expanded, insertVideoCallLink, onExpandContract } = this.props;
-    const numIcons =
-      2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
+  const numIcons = 2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
-    return (
-      <View style={this.styles.composeMenu}>
-        <AnimatedComponent
-          stylePropertyName="width"
-          fullValue={40 * numIcons}
-          useNativeDriver={false}
-          visible={expanded}
-        >
-          <View style={this.styles.composeMenu}>
-            {Platform.OS === 'android' && (
-              <IconAttach
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={this.handleFilesPicker}
-              />
-            )}
-            <IconImage
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleImagePicker}
-            />
-            <IconCamera
-              style={this.styles.composeMenuButton}
-              size={24}
-              onPress={this.handleCameraCapture}
-            />
-            {insertVideoCallLink !== null ? (
-              <IconVideo
-                style={this.styles.composeMenuButton}
-                size={24}
-                onPress={insertVideoCallLink}
-              />
-            ) : null}
-          </View>
-        </AnimatedComponent>
-        {!expanded && (
-          <IconPlusCircle style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-        {expanded && (
-          <IconLeft style={this.styles.expandButton} size={24} onPress={onExpandContract} />
-        )}
-      </View>
-    );
-  }
+  return (
+    <View style={styles.composeMenu}>
+      <AnimatedComponent
+        stylePropertyName="width"
+        fullValue={40 * numIcons}
+        useNativeDriver={false}
+        visible={expanded}
+      >
+        <View style={styles.composeMenu}>
+          {Platform.OS === 'android' && (
+            <IconAttach style={styles.composeMenuButton} size={24} onPress={handleFilesPicker} />
+          )}
+          <IconImage style={styles.composeMenuButton} size={24} onPress={handleImagePicker} />
+          <IconCamera style={styles.composeMenuButton} size={24} onPress={handleCameraCapture} />
+          {insertVideoCallLink !== null ? (
+            <IconVideo style={styles.composeMenuButton} size={24} onPress={insertVideoCallLink} />
+          ) : null}
+        </View>
+      </AnimatedComponent>
+      {!expanded && (
+        <IconPlusCircle style={styles.expandButton} size={24} onPress={onExpandContract} />
+      )}
+      {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
+    </View>
+  );
 }
-
-const ComposeMenu: ComponentType<OuterProps> = connect<SelectorProps, _, _>()(ComposeMenuInner);
-
-export default ComposeMenu;
