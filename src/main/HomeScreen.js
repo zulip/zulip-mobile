@@ -16,7 +16,7 @@ import { BRAND_COLOR, createStyleSheet } from '../styles';
 import LoadingBanner from '../common/LoadingBanner';
 import ServerCompatBanner from '../common/ServerCompatBanner';
 import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
-import { Icon } from '../common/Icons';
+import { IconAllMessages } from '../common/Icons';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -46,12 +46,7 @@ export default function HomeScreen(props: Props): Node {
             dispatch(doNarrow(HOME_NARROW));
           }}
         >
-          <Icon
-            size={24}
-            style={{ textAlign: 'center' }}
-            color={BRAND_COLOR}
-            name="globe"
-          />
+          <IconAllMessages size={24} style={{ textAlign: 'center' }} color={BRAND_COLOR} />
         </TopTabButtonGeneral>
         <TopTabButton
           name="star"
