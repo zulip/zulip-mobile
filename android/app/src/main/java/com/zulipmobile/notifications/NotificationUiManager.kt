@@ -288,6 +288,26 @@ private fun updateNotification(
     }.build()
     messagingStyle.addMessage(fcmMessage.content, fcmMessage.timeMs, sender)
 
+
+    // See these sections in the Android docs:
+    //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
+    //   https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
+    //
+    // * From the doc on `PendingIntent.getActivity` at
+    //     https://developer.android.com/reference/android/app/PendingIntent#getActivity(android.content.Context,%20int,%20android.content.Intent,%20int)
+    //   > Note that the activity will be started outside of the context of an
+    //   > existing activity, so you must use the Intent.FLAG_ACTIVITY_NEW_TASK
+    //   > launch flag in the Intent.
+    //
+    // * The flag FLAG_ACTIVITY_CLEAR_TOP is mentioned as being what the
+    //   notification manager does; so use that.  It has no effect as long
+    //   as we only have one activity; but if we add more, it will destroy
+    //   all the activities on top of the target one.
+    //
+    // *  These flags get created up here so that we can use them for both
+    //    the notification and the summary notification.
+    val intentFlags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
     val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
         setGroup(groupKey)
 
@@ -323,23 +343,7 @@ private fun updateNotification(
         setContentIntent(
             PendingIntent.getActivity(context, 0,
                 Intent(Intent.ACTION_VIEW, intentUrl, context, MainActivity::class.java)
-                    .setFlags(
-                        // See these sections in the Android docs:
-                        //   https://developer.android.com/guide/components/activities/tasks-and-back-stack#TaskLaunchModes
-                        //   https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
-                        //
-                        // * From the doc on `PendingIntent.getActivity` at
-                        //     https://developer.android.com/reference/android/app/PendingIntent#getActivity(android.content.Context,%20int,%20android.content.Intent,%20int)
-                        //   > Note that the activity will be started outside of the context of an
-                        //   > existing activity, so you must use the Intent.FLAG_ACTIVITY_NEW_TASK
-                        //   > launch flag in the Intent.
-                        //
-                        // * The flag FLAG_ACTIVITY_CLEAR_TOP is mentioned as being what the
-                        //   notification manager does; so use that.  It has no effect as long
-                        //   as we only have one activity; but if we add more, it will destroy
-                        //   all the activities on top of the target one.
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    )
+                    .setFlags(intentFlags)
                     .putExtra(EXTRA_NOTIFICATION_DATA, bundleOf(*fcmMessage.dataForOpen())),
                 PendingIntent.FLAG_IMMUTABLE))
         setAutoCancel(true)
@@ -361,7 +365,11 @@ private fun updateNotification(
             //   (See example in the linked doc.)
         )
 
-        // TODO Does this do something useful?  There isn't a way to open these summary notifs.
+        setContentIntent(
+            PendingIntent.getActivity(context, 0,
+                Intent(context, MainActivity::class.java)
+                    .setFlags(intentFlags),
+                PendingIntent.FLAG_IMMUTABLE))
         setAutoCancel(true)
     }.build()
 
