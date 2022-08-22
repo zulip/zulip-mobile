@@ -549,6 +549,7 @@ export default function ComposeBox(props: Props): Node {
         flexDirection: 'row',
         alignItems: 'flex-end',
         flexShrink: 1,
+        backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
       },
       composeText: {
         flex: 1,
@@ -593,9 +594,6 @@ export default function ComposeBox(props: Props): Node {
   }
 
   const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
-  const style = {
-    backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
-  };
 
   const SubmitButtonIcon = isEditing ? IconDone : IconSend;
   const submitButtonDisabled = validationErrors.length > 0;
@@ -620,7 +618,7 @@ export default function ComposeBox(props: Props): Node {
       <SafeAreaView
         mode="padding"
         edges={['bottom']}
-        style={[styles.composeBox, style]}
+        style={styles.composeBox}
         onLayout={handleLayoutChange}
       >
         <ComposeMenu
