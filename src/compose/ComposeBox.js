@@ -10,7 +10,6 @@ import React, {
   forwardRef,
 } from 'react';
 import { Platform, View } from 'react-native';
-import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import invariant from 'invariant';
@@ -73,6 +72,7 @@ import useUncontrolledInput from '../useUncontrolledInput';
 import { tryFetch } from '../message/fetchActions';
 import { getMessageUrl } from '../utils/internalLinks';
 import * as logging from '../utils/logging';
+import type { Attachment } from './ComposeMenu';
 
 /* eslint-disable no-shadow */
 
@@ -320,7 +320,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
 
   const [numUploading, setNumUploading] = useState<number>(0);
   const insertAttachments = useCallback(
-    async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
+    async (attachments: $ReadOnlyArray<Attachment>) => {
       setNumUploading(n => n + 1);
       try {
         const fileNames: string[] = [];
@@ -338,7 +338,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           const placeholder = placeholders[i];
           let response = null;
           try {
-            response = await api.uploadFile(auth, attachments[i].uri, fileName);
+            response = await api.uploadFile(auth, attachments[i].url, fileName);
           } catch {
             showToast(_('Failed to upload file: {fileName}', { fileName }));
             setMessageInputValue(state =>

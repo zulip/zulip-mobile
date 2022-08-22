@@ -20,9 +20,14 @@ import { androidEnsureStoragePermission } from '../lightbox/download';
 import { ThemeContext } from '../styles/theme';
 import type { SpecificIconType } from '../common/Icons';
 
+export type Attachment = {|
+  +name: string | null,
+  +url: string,
+|};
+
 type Props = $ReadOnly<{|
   destinationNarrow: Narrow,
-  insertAttachments: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
+  insertAttachments: ($ReadOnlyArray<Attachment>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
 |}>;
 
@@ -221,7 +226,7 @@ export default function ComposeMenu(props: Props): Node {
       return;
     }
 
-    insertAttachments(response);
+    insertAttachments(response.map(a => ({ name: a.name, url: a.uri })));
   }, [_, insertAttachments]);
 
   const styles = useMemo(
