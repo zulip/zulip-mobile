@@ -451,8 +451,7 @@ export default function ComposeBox(props: Props): Node {
     return narrow;
   }, [isEditing, narrow, topicInputState.value]);
 
-  // TODO: This can just be `const validationErrors: $ReadOnlyArray<ValidationError>`
-  const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
+  const validationErrors = useMemo(() => {
     const { value: messageInputValue } = messageInputState;
 
     const result = [];
@@ -478,7 +477,6 @@ export default function ComposeBox(props: Props): Node {
 
   const handleSubmit = useCallback(() => {
     const { value: messageInputValue } = messageInputState;
-    const validationErrors = getValidationErrors();
 
     if (validationErrors.length > 0) {
       const msg = validationErrors
@@ -515,7 +513,7 @@ export default function ComposeBox(props: Props): Node {
     dispatch(sendTypingStop(destinationNarrow));
   }, [
     destinationNarrow,
-    getValidationErrors,
+    validationErrors,
     _,
     dispatch,
     isEditing,
@@ -600,7 +598,7 @@ export default function ComposeBox(props: Props): Node {
   };
 
   const SubmitButtonIcon = isEditing ? IconDone : IconSend;
-  const submitButtonDisabled = getValidationErrors().length > 0;
+  const submitButtonDisabled = validationErrors.length > 0;
 
   return (
     <View style={styles.wrapper}>
