@@ -142,9 +142,11 @@ export default function ComposeMenu(props: Props): Node {
         return;
       }
 
+      const { assets } = response;
+
       // TODO: support sending multiple files; see library's docs for how to
       // let `assets` have more than one item in `response`.
-      const firstAsset = response.assets && response.assets[0];
+      const firstAsset = assets && assets[0];
 
       if (!firstAsset) {
         // TODO: See if we these unexpected situations actually happen. …Ah,
@@ -152,7 +154,7 @@ export default function ComposeMenu(props: Props): Node {
         //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
         showErrorAlert(_('Error'), _('Failed to attach your file.'));
         logging.error('Image picker response gave falsy `assets` or falsy `assets[0]`', {
-          '!assets': !response.assets,
+          '!assets': !assets,
         });
         return;
       }
