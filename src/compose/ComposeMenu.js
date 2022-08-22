@@ -22,7 +22,7 @@ import type { SpecificIconType } from '../common/Icons';
 
 type Props = $ReadOnly<{|
   destinationNarrow: Narrow,
-  insertAttachment: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
+  insertAttachments: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
 |}>;
 
@@ -95,7 +95,7 @@ function MenuButton(props: MenuButtonProps) {
 }
 
 export default function ComposeMenu(props: Props): Node {
-  const { destinationNarrow, insertAttachment, insertVideoCallLink } = props;
+  const { destinationNarrow, insertAttachments, insertVideoCallLink } = props;
 
   const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
@@ -221,8 +221,8 @@ export default function ComposeMenu(props: Props): Node {
       return;
     }
 
-    insertAttachment(response);
-  }, [_, insertAttachment]);
+    insertAttachments(response);
+  }, [_, insertAttachments]);
 
   const styles = useMemo(
     () =>

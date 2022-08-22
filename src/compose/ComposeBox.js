@@ -319,7 +319,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   );
 
   const [numUploading, setNumUploading] = useState<number>(0);
-  const insertAttachment = useCallback(
+  const insertAttachments = useCallback(
     async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
       setNumUploading(n => n + 1);
       try {
@@ -744,7 +744,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           />
           <ComposeMenu
             destinationNarrow={destinationNarrow}
-            insertAttachment={insertAttachment}
+            insertAttachments={insertAttachments}
             insertVideoCallLink={
               videoChatProvider !== null ? () => insertVideoCallLink(videoChatProvider) : null
             }
