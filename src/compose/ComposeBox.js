@@ -55,7 +55,7 @@ import { Role } from '../api/permissionsTypes';
 
 type Props = $ReadOnly<{|
   /** The narrow shown in the message list.  Must be a conversation or stream. */
-  // In particular `getDestinationNarrow` makes assumptions about the narrow
+  // In particular `destinationNarrow` makes assumptions about the narrow
   // (and other code might too.)
   narrow: Narrow,
 
@@ -441,8 +441,7 @@ export default function ComposeBox(props: Props): Node {
     setIsMenuExpanded(false);
   }, []);
 
-  // TODO: This can just be `const destinationNarrow: Narrow`
-  const getDestinationNarrow = useCallback((): Narrow => {
+  const destinationNarrow = useMemo(() => {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
       const topic = topicInputState.value.trim() || apiConstants.NO_TOPIC_TOPIC;
@@ -454,7 +453,6 @@ export default function ComposeBox(props: Props): Node {
 
   // TODO: This can just be `const validationErrors: $ReadOnlyArray<ValidationError>`
   const getValidationErrors = useCallback((): $ReadOnlyArray<ValidationError> => {
-    const destinationNarrow = getDestinationNarrow();
     const { value: messageInputValue } = messageInputState;
 
     const result = [];
@@ -476,11 +474,10 @@ export default function ComposeBox(props: Props): Node {
     }
 
     return result;
-  }, [getDestinationNarrow, mandatoryTopics, numUploading, messageInputState]);
+  }, [destinationNarrow, mandatoryTopics, numUploading, messageInputState]);
 
   const handleSubmit = useCallback(() => {
     const { value: messageInputValue } = messageInputState;
-    const destinationNarrow = getDestinationNarrow();
     const validationErrors = getValidationErrors();
 
     if (validationErrors.length > 0) {
@@ -517,7 +514,7 @@ export default function ComposeBox(props: Props): Node {
 
     dispatch(sendTypingStop(destinationNarrow));
   }, [
-    getDestinationNarrow,
+    destinationNarrow,
     getValidationErrors,
     _,
     dispatch,
@@ -629,7 +626,7 @@ export default function ComposeBox(props: Props): Node {
         onLayout={handleLayoutChange}
       >
         <ComposeMenu
-          destinationNarrow={getDestinationNarrow()}
+          destinationNarrow={destinationNarrow}
           expanded={isMenuExpanded}
           insertAttachment={insertAttachment}
           insertVideoCallLink={
