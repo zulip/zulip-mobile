@@ -279,7 +279,7 @@ export default function ComposeBox(props: Props): Node {
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
 
-  const getCanSelectTopic = useCallback(() => {
+  const canSelectTopic = useMemo(() => {
     if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
@@ -646,7 +646,7 @@ export default function ComposeBox(props: Props): Node {
               // (https://stackoverflow.com/a/49817873), which doesn't work
               // either. However, a combinarion of the two of them seems to
               // work.
-              !getCanSelectTopic() && { position: 'absolute', transform: [{ scale: 0 }] },
+              !canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] },
             ]}
             autoCapitalize="none"
             underlineColorAndroid="transparent"
