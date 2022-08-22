@@ -8,14 +8,12 @@ import DocumentPicker from 'react-native-document-picker';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-import { useDispatch } from '../react-redux';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { createStyleSheet } from '../styles';
 import { IconImage, IconCamera, IconAttach, IconVideo } from '../common/Icons';
-import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 import { ThemeContext } from '../styles/theme';
 import type { SpecificIconType } from '../common/Icons';
@@ -100,9 +98,8 @@ function MenuButton(props: MenuButtonProps) {
 }
 
 export default function ComposeMenu(props: Props): Node {
-  const { destinationNarrow, insertAttachments, insertVideoCallLink } = props;
+  const { insertAttachments, insertVideoCallLink } = props;
 
-  const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
 
   const handleImagePickerResponse = useCallback(
@@ -155,7 +152,7 @@ export default function ComposeMenu(props: Props): Node {
         // TODO: See if we these unexpected situations actually happen. …Ah,
         //   yep, reportedly (and we've seen in Sentry):
         //   https://github.com/react-native-image-picker/react-native-image-picker/issues/1945
-        showErrorAlert(_('Error'), _('Something went wrong, and your message was not sent.'));
+        showErrorAlert(_('Error'), _('Failed to attach your file.'));
         logging.error('Unexpected response from image picker', {
           '!firstAsset': !firstAsset,
           'uri == null': uri == null,
@@ -164,9 +161,9 @@ export default function ComposeMenu(props: Props): Node {
         return;
       }
 
-      dispatch(uploadFile(destinationNarrow, uri, chooseUploadImageFilename(uri, fileName)));
+      insertAttachments([{ name: chooseUploadImageFilename(uri, fileName), url: uri }]);
     },
-    [_, destinationNarrow, dispatch],
+    [_, insertAttachments],
   );
 
   const handleImagePicker = useCallback(() => {

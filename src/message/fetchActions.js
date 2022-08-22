@@ -33,7 +33,6 @@ import {
 import { FIRST_UNREAD_ANCHOR, LAST_MESSAGE_ANCHOR } from '../anchor';
 import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '../utils/narrow';
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
-import { addToOutbox } from '../outbox/outboxActions';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import type { ServerSettings } from '../api/settings/getServerSettings';
 
@@ -389,16 +388,6 @@ export async function tryFetch<T>(
     throw e;
   }
 }
-
-export const uploadFile =
-  (destinationNarrow: Narrow, uri: string, name: string): ThunkAction<Promise<void>> =>
-  async (dispatch, getState) => {
-    const auth = getAuth(getState());
-    const response = await api.uploadFile(auth, uri, name);
-    const messageToSend = `[${name}](${response.uri})`;
-
-    dispatch(addToOutbox(destinationNarrow, messageToSend));
-  };
 
 export async function fetchServerSettings(realm: URL): Promise<
   | {| +type: 'success', +value: ServerSettings |}
