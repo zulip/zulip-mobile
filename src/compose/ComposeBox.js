@@ -544,6 +544,7 @@ export default function ComposeBox(props: Props): Node {
         position: 'absolute',
         bottom: 0,
         width: '100%',
+        marginBottom: height,
       },
       composeBox: {
         flexDirection: 'row',
@@ -580,7 +581,7 @@ export default function ComposeBox(props: Props): Node {
         backgroundColor,
       },
     }),
-    [inputMarginPadding, backgroundColor],
+    [inputMarginPadding, backgroundColor, height],
   );
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
@@ -601,7 +602,7 @@ export default function ComposeBox(props: Props): Node {
   return (
     <View style={styles.wrapper}>
       <MentionWarnings narrow={narrow} stream={stream} ref={mentionWarnings} />
-      <View style={[styles.autocompleteWrapper, { marginBottom: height }]}>
+      <View style={styles.autocompleteWrapper}>
         <TopicAutocomplete
           isFocused={focusState.topic}
           narrow={narrow}
