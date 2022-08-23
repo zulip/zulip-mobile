@@ -574,6 +574,18 @@ export default function ComposeBox(props: Props): Node {
         borderRadius: 5,
         marginBottom: 8,
         ...inputMarginPadding,
+        backgroundColor,
+
+        // This is a really dumb hack to work around
+        // https://github.com/facebook/react-native/issues/16405.
+        // Someone suggests in that thread that { position: absolute,
+        // zIndex: -1 } will work, which it does not (the border of the
+        // TextInput is still visible, even with very negative zIndex
+        // values). Someone else suggests { transform: [{scale: 0}] }
+        // (https://stackoverflow.com/a/49817873), which doesn't work
+        // either. However, a combinarion of the two of them seems to
+        // work.
+        ...(!canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] }),
       },
       composeTextInput: {
         borderWidth: 0,
@@ -584,7 +596,7 @@ export default function ComposeBox(props: Props): Node {
         backgroundColor,
       },
     }),
-    [inputMarginPadding, backgroundColor, height, submitButtonDisabled],
+    [inputMarginPadding, backgroundColor, height, submitButtonDisabled, canSelectTopic],
   );
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
@@ -635,20 +647,7 @@ export default function ComposeBox(props: Props): Node {
         />
         <View style={styles.composeText}>
           <Input
-            style={[
-              styles.topicInput,
-              { backgroundColor },
-              // This is a really dumb hack to work around
-              // https://github.com/facebook/react-native/issues/16405.
-              // Someone suggests in that thread that { position: absolute,
-              // zIndex: -1 } will work, which it does not (the border of the
-              // TextInput is still visible, even with very negative zIndex
-              // values). Someone else suggests { transform: [{scale: 0}] }
-              // (https://stackoverflow.com/a/49817873), which doesn't work
-              // either. However, a combinarion of the two of them seems to
-              // work.
-              !canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] },
-            ]}
+            style={styles.topicInput}
             autoCapitalize="none"
             underlineColorAndroid="transparent"
             placeholder="Topic"
