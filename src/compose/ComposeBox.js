@@ -2,6 +2,7 @@
 import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { Platform, View } from 'react-native';
+import type { SelectionChangeEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -156,13 +157,10 @@ const useUncontrolledInput = (args: {|
       onChangeText: useCallback((value: string) => {
         setState(state => ({ ...state, value }));
       }, []),
-      onSelectionChange: useCallback(
-        (event: { +nativeEvent: { +selection: InputSelection, ... }, ... }) => {
-          const { selection } = event.nativeEvent;
-          setState(state => ({ ...state, selection }));
-        },
-        [],
-      ),
+      onSelectionChange: useCallback((event: SelectionChangeEvent) => {
+        const { selection } = event.nativeEvent;
+        setState(state => ({ ...state, selection }));
+      }, []),
     },
   ];
 };
