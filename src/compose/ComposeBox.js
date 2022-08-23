@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Node } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, TextInput } from 'react-native';
 import type { SelectionChangeEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
@@ -110,11 +110,7 @@ const useUncontrolledInput = (args: {|
 |}) => {
   const { initialValue = '', initialSelection = { start: 0, end: 0 } } = args;
 
-  // We should replace the fixme with
-  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
-  // would make `.current` be `any(implicit)`, which we don't want;
-  // this is probably down to bugs in Flow's special support for React.
-  const ref = React.useRef<$FlowFixMe | null>(null);
+  const ref = useRef<React$ElementRef<typeof TextInput> | null>(null);
 
   const [state, setState] = useState<{|
     value: string,
