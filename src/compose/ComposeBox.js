@@ -88,7 +88,7 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-type InputState = {| value: string, selection: {| +start: number, +end: number |} |};
+type InputState = {| +value: string, +selection: {| +start: number, +end: number |} |};
 
 /**
  * State management for an Input component that doesn't get passed `value`
@@ -107,8 +107,8 @@ type InputState = {| value: string, selection: {| +start: number, +end: number |
  *   onChangeText, onSelectionChange.
  */
 const useUncontrolledInput = (initialState: {|
-  value?: InputState['value'],
-  selection?: InputState['selection'],
+  +value?: InputState['value'],
+  +selection?: InputState['selection'],
 |}) => {
   const ref = useRef<React$ElementRef<typeof TextInput> | null>(null);
 
