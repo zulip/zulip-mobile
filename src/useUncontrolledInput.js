@@ -1,7 +1,7 @@
 /* @flow strict-local */
 /* eslint-disable no-shadow */
 
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { TextInput } from 'react-native';
 import type { SelectionChangeEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
@@ -70,19 +70,18 @@ export default (initialState: {|
     throw new Error('unimplemented!');
   }, []);
 
-  return [
-    ref,
-    state,
-    setValue,
-    setSelection,
-    {
-      onChangeText: useCallback((value: string) => {
+  const inputCallbacks = useMemo(
+    () => ({
+      onChangeText: (value: string) => {
         setState(state => ({ ...state, value }));
-      }, []),
-      onSelectionChange: useCallback((event: SelectionChangeEvent) => {
+      },
+      onSelectionChange: (event: SelectionChangeEvent) => {
         const { selection } = event.nativeEvent;
         setState(state => ({ ...state, selection }));
-      }, []),
-    },
-  ];
+      },
+    }),
+    [],
+  );
+
+  return [ref, state, setValue, setSelection, inputCallbacks];
 };
