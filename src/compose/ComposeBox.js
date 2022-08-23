@@ -9,7 +9,7 @@ import invariant from 'invariant';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
-import { ThemeContext, BRAND_COLOR } from '../styles';
+import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
 import type { Narrow, InputSelection, VideoChatProvider } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -537,65 +537,66 @@ export default function ComposeBox(props: Props): Node {
 
   const { backgroundColor } = useContext(ThemeContext);
   const styles = useMemo(
-    () => ({
-      wrapper: {
-        flexShrink: 1,
-        maxHeight: '60%',
-      },
-      autocompleteWrapper: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-        marginBottom: height,
-      },
-      composeBox: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        flexShrink: 1,
-        backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
-      },
-      composeText: {
-        flex: 1,
-        paddingVertical: 8,
-      },
-      submitButtonContainer: {
-        padding: 8,
-      },
-      submitButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: BRAND_COLOR,
-        borderRadius: 32,
-        padding: 8,
-        opacity: submitButtonDisabled ? 0.25 : 1,
-      },
-      topicInput: {
-        borderWidth: 0,
-        borderRadius: 5,
-        marginBottom: 8,
-        ...inputMarginPadding,
-        backgroundColor,
+    () =>
+      createStyleSheet({
+        wrapper: {
+          flexShrink: 1,
+          maxHeight: '60%',
+        },
+        autocompleteWrapper: {
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+          marginBottom: height,
+        },
+        composeBox: {
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          flexShrink: 1,
+          backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
+        },
+        composeText: {
+          flex: 1,
+          paddingVertical: 8,
+        },
+        submitButtonContainer: {
+          padding: 8,
+        },
+        submitButton: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: BRAND_COLOR,
+          borderRadius: 32,
+          padding: 8,
+          opacity: submitButtonDisabled ? 0.25 : 1,
+        },
+        topicInput: {
+          borderWidth: 0,
+          borderRadius: 5,
+          marginBottom: 8,
+          ...inputMarginPadding,
+          backgroundColor,
 
-        // This is a really dumb hack to work around
-        // https://github.com/facebook/react-native/issues/16405.
-        // Someone suggests in that thread that { position: absolute,
-        // zIndex: -1 } will work, which it does not (the border of the
-        // TextInput is still visible, even with very negative zIndex
-        // values). Someone else suggests { transform: [{scale: 0}] }
-        // (https://stackoverflow.com/a/49817873), which doesn't work
-        // either. However, a combinarion of the two of them seems to
-        // work.
-        ...(!canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] }),
-      },
-      composeTextInput: {
-        borderWidth: 0,
-        borderRadius: 5,
-        fontSize: 15,
-        flexShrink: 1,
-        ...inputMarginPadding,
-        backgroundColor,
-      },
-    }),
+          // This is a really dumb hack to work around
+          // https://github.com/facebook/react-native/issues/16405.
+          // Someone suggests in that thread that { position: absolute,
+          // zIndex: -1 } will work, which it does not (the border of the
+          // TextInput is still visible, even with very negative zIndex
+          // values). Someone else suggests { transform: [{scale: 0}] }
+          // (https://stackoverflow.com/a/49817873), which doesn't work
+          // either. However, a combinarion of the two of them seems to
+          // work.
+          ...(!canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] }),
+        },
+        composeTextInput: {
+          borderWidth: 0,
+          borderRadius: 5,
+          fontSize: 15,
+          flexShrink: 1,
+          ...inputMarginPadding,
+          backgroundColor,
+        },
+      }),
     [inputMarginPadding, backgroundColor, height, submitButtonDisabled, canSelectTopic],
   );
 
