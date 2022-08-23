@@ -475,6 +475,8 @@ export default function ComposeBox(props: Props): Node {
     return result;
   }, [destinationNarrow, mandatoryTopics, numUploading, messageInputState]);
 
+  const submitButtonDisabled = validationErrors.length > 0;
+
   const handleSubmit = useCallback(() => {
     const { value: messageInputValue } = messageInputState;
 
@@ -565,6 +567,7 @@ export default function ComposeBox(props: Props): Node {
         backgroundColor: BRAND_COLOR,
         borderRadius: 32,
         padding: 8,
+        opacity: submitButtonDisabled ? 0.25 : 1,
       },
       topicInput: {
         borderWidth: 0,
@@ -581,7 +584,7 @@ export default function ComposeBox(props: Props): Node {
         backgroundColor,
       },
     }),
-    [inputMarginPadding, backgroundColor, height],
+    [inputMarginPadding, backgroundColor, height, submitButtonDisabled],
   );
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
@@ -597,7 +600,6 @@ export default function ComposeBox(props: Props): Node {
   const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
 
   const SubmitButtonIcon = isEditing ? IconDone : IconSend;
-  const submitButtonDisabled = validationErrors.length > 0;
 
   return (
     <View style={styles.wrapper}>
@@ -691,7 +693,7 @@ export default function ComposeBox(props: Props): Node {
             hitSlop={submitButtonHitSlop}
           >
             <Touchable
-              style={[styles.submitButton, { opacity: submitButtonDisabled ? 0.25 : 1 }]}
+              style={styles.submitButton}
               onPress={handleSubmit}
               accessibilityLabel={isEditing ? _('Save message') : _('Send message')}
               hitSlop={submitButtonHitSlop}
