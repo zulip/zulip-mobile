@@ -11,7 +11,7 @@ import invariant from 'invariant';
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
 import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
-import type { Narrow, InputSelection, VideoChatProvider } from '../types';
+import type { Narrow, VideoChatProvider } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
@@ -88,6 +88,8 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+type InputState = {| value: string, selection: {| +start: number, +end: number |} |};
+
 /**
  * State management for an Input component that doesn't get passed `value`
  *   or `selection`, i.e., an uncontrolled Input.
@@ -104,20 +106,16 @@ function randomInt(min, max) {
  * - Two callbacks that should be passed directly to the TextInput as props:
  *   onChangeText, onSelectionChange.
  */
-const useUncontrolledInput = (args: {|
-  initialValue?: string,
-  initialSelection?: InputSelection,
+const useUncontrolledInput = (initialState: {|
+  value?: InputState['value'],
+  selection?: InputState['selection'],
 |}) => {
-  const { initialValue = '', initialSelection = { start: 0, end: 0 } } = args;
-
   const ref = useRef<React$ElementRef<typeof TextInput> | null>(null);
 
-  const [state, setState] = useState<{|
-    value: string,
-    selection: InputSelection,
-  |}>({
-    value: initialValue,
-    selection: initialSelection,
+  const [state, setState] = useState<InputState>({
+    value: '', // default value
+    selection: { start: 0, end: 0 }, // default value
+    ...initialState,
   });
 
   const setValueWasCalled = useRef<boolean>(false);
@@ -219,7 +217,7 @@ export default function ComposeBox(props: Props): Node {
     setTopicInputSelection /* eslint-disable-line no-unused-vars */,
     topicInputCallbacks,
   ] = useUncontrolledInput({
-    initialValue: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
+    value: initialTopic ?? (isTopicNarrow(narrow) ? topicOfNarrow(narrow) : ''),
   });
 
   const [
@@ -228,10 +226,7 @@ export default function ComposeBox(props: Props): Node {
     setMessageInputValue,
     setMessageInputSelection /* eslint-disable-line no-unused-vars */,
     messageInputCallbacks,
-  ] = useUncontrolledInput({
-    initialValue: initialMessage ?? '',
-    initialSelection: { start: 0, end: 0 },
-  });
+  ] = useUncontrolledInput({ value: initialMessage ?? '', selection: { start: 0, end: 0 } });
 
   useEffect(
     () => () => {
