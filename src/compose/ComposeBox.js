@@ -109,7 +109,16 @@ type InputState = {| +value: string, +selection: {| +start: number, +end: number
 const useUncontrolledInput = (initialState: {|
   +value?: InputState['value'],
   +selection?: InputState['selection'],
-|}) => {
+|}): ([
+  {| current: React$ElementRef<typeof TextInput> | null |},
+  InputState,
+  ((InputState => InputState['value']) | InputState['value']) => void,
+  ((InputState => InputState['selection']) | InputState['selection']) => void,
+  {|
+    +onChangeText: string => void,
+    +onSelectionChange: SelectionChangeEvent => void,
+  |},
+]) => {
   const ref = useRef<React$ElementRef<typeof TextInput> | null>(null);
 
   const [state, setState] = useState<InputState>({
