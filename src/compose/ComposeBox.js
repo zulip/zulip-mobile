@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Node } from 'react';
-import { Platform, View, TextInput } from 'react-native';
-import type { SelectionChangeEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
+import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -51,6 +50,7 @@ import * as api from '../api';
 import { ensureUnreachable } from '../generics';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
+import useUncontrolledInput from '../useUncontrolledInput';
 
 /* eslint-disable no-shadow */
 
@@ -87,86 +87,6 @@ const FOCUS_DEBOUNCE_TIME_MS = 16;
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
-type InputState = {| +value: string, +selection: {| +start: number, +end: number |} |};
-
-/**
- * State management for an Input component that doesn't get passed `value`
- *   or `selection`, i.e., an uncontrolled Input.
- *
- * For background on the concept, see
- *   https://reactjs.org/docs/uncontrolled-components.html
- * and our #2738 for the performance concerns that led us to use this in the
- * compose box.
- *
- * Returns:
- * - A ref to use for the TextInput
- * - The value and selection state
- * - Functions to set the value and selection
- * - Two callbacks that should be passed directly to the TextInput as props:
- *   onChangeText, onSelectionChange.
- */
-const useUncontrolledInput = (initialState: {|
-  +value?: InputState['value'],
-  +selection?: InputState['selection'],
-|}): ([
-  {| current: React$ElementRef<typeof TextInput> | null |},
-  InputState,
-  ((InputState => InputState['value']) | InputState['value']) => void,
-  ((InputState => InputState['selection']) | InputState['selection']) => void,
-  {|
-    +onChangeText: string => void,
-    +onSelectionChange: SelectionChangeEvent => void,
-  |},
-]) => {
-  const ref = useRef<React$ElementRef<typeof TextInput> | null>(null);
-
-  const [state, setState] = useState<InputState>({
-    value: '', // default value
-    selection: { start: 0, end: 0 }, // default value
-    ...initialState,
-  });
-
-  const setValueWasCalled = useRef<boolean>(false);
-  const setValue = useCallback(updater => {
-    setValueWasCalled.current = true;
-    setState(state => ({
-      ...state,
-      value: typeof updater === 'function' ? updater(state) : updater,
-    }));
-  }, []);
-  const prevValue = usePrevious(state.value);
-  useEffect(() => {
-    if (prevValue !== state.value && setValueWasCalled.current) {
-      // If the state change was requested from the JavaScript side, i.e.,
-      // not in response to a native-props change caused by the user's input
-      // device, update the native props.
-      ref.current?.setNativeProps({ text: state.value });
-      setValueWasCalled.current = false;
-    }
-  });
-
-  const setSelection = useCallback(() => {
-    // TODO: Implement
-    throw new Error('unimplemented!');
-  }, []);
-
-  return [
-    ref,
-    state,
-    setValue,
-    setSelection,
-    {
-      onChangeText: useCallback((value: string) => {
-        setState(state => ({ ...state, value }));
-      }, []),
-      onSelectionChange: useCallback((event: SelectionChangeEvent) => {
-        const { selection } = event.nativeEvent;
-        setState(state => ({ ...state, selection }));
-      }, []),
-    },
-  ];
-};
 
 export default function ComposeBox(props: Props): Node {
   const {
