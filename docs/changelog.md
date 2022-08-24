@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.190 (2022-08-23)
+
 * Fixed an issue where a crafted, malformed image link in a message
   sent by an authenticated user could lead to credential disclosure if
   a user taps on the image to expand it.  (CVE-2022-35962)
