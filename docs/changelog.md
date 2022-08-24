@@ -39,6 +39,19 @@ It doesn't include
 
 ## Unreleased
 
+* Fixed an issue where a crafted, malformed image link in a message
+  sent by an authenticated user could lead to credential disclosure if
+  a user taps on the image to expand it.  (CVE-2022-35962)
+
+This issue was discovered internally by the Zulip developers, and the
+vulnerability has likely not been exploited in the wild prior to this
+disclosure.  In particular, an analysis of all messages on Zulip Cloud
+found none that could have exploited the issue.
+
+Zulip Cloud has already been updated to make the issue impossible to
+exploit there.  Zulip server administrators should do the same by
+upgrading to Zulip Server 5.6 or later.
+
 
 ## 27.189 (2022-07-01)
 
