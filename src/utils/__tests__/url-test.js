@@ -66,22 +66,16 @@ describe('getResource', () => {
     email: 'johndoe@example.com',
   };
 
-  test('when uri contains domain, do not change, add auth headers', () => {
+  test('when uri is on realm, add auth headers', () => {
     const expectedHeaders = {
       Authorization: `Basic ${base64.encode(`${auth.email}:${auth.apiKey}`)}`,
     };
 
-    const resource = getResource('https://example.com/img.gif', auth);
-    expect(resource).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
-  });
+    const resource1 = getResource('https://example.com/img.gif', auth);
+    expect(resource1).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
 
-  test('when uri does not contain domain, append realm, add auth headers', () => {
-    const expectedHeaders = {
-      Authorization: `Basic ${base64.encode(`${auth.email}:${auth.apiKey}`)}`,
-    };
-
-    const resource = getResource('/img.gif', auth);
-    expect(resource).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
+    const resource2 = getResource('/img.gif', auth);
+    expect(resource2).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
   });
 
   test('when uri is on different domain than realm, do not include auth headers', () => {
