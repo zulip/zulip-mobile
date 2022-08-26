@@ -1,0 +1,181 @@
+#!/usr/bin/env node
+
+// TODO: Type-check this file
+
+// Sadly our auto-format doesn't seem to run eslint on this file; give in to
+// Prettier here.
+// TODO: debug
+/* eslint-disable operator-linebreak */
+
+const fs = require('fs');
+const path = require('path');
+const { namedTypes: n, visit } = require('ast-types');
+const flowParser = require('flow-parser');
+const { parse } = require('recast');
+
+const messages_en = require('../static/translations/messages_en.json');
+
+/**
+ * Make a list of files that might contain UI strings, by recursing in src/.
+ */
+function getPossibleUiStringFilePaths() {
+  const result = [];
+  const kSrcDirName = 'src/';
+  function walk(dir, _dirName = '') {
+    let dirent;
+    // eslint-disable-next-line no-cond-assign
+    while ((dirent = dir.readSync())) {
+      // To reduce false negatives, `continue` when nothing in `dirent` can
+      // cause UI strings to appear in the app.
+
+      if (dirent.isFile()) {
+        if (!dirent.name.endsWith('.js')) {
+          // Non-JS code, and Flow type definitions in .js.flow files.
+          continue;
+        }
+
+        result.push(path.join(kSrcDirName, _dirName, dirent.name));
+      } else if (dirent.isDirectory()) {
+        const subdirName = path.join(_dirName, dirent.name);
+
+        // e.g., …/__tests__ and …/__flow-tests__
+        if (subdirName.endsWith('tests__')) {
+          // Test code.
+          continue;
+        }
+
+        walk(fs.opendirSync(path.join(kSrcDirName, subdirName)), subdirName);
+      } else {
+        // Something we don't expect to find under src/, probably containing
+        // no UI strings. (symlinks? fifos, sockets, devices??)
+        continue;
+      }
+    }
+  }
+  walk(fs.opendirSync(kSrcDirName));
+  return result;
+}
+
+const parseOptions = {
+  parser: {
+    parse(src) {
+      return flowParser.parse(src, {
+        // Comments can't cause UI strings to appear in the app; ignore them.
+        all_comments: false,
+        comments: false,
+
+        // We use Flow enums; the parser shouldn't crash on them.
+        enums: true,
+
+        // Set `tokens: true` just to work around a mysterious error.
+        //
+        // From the doc for this option:
+        //
+        // > include a list of all parsed tokens in a top-level tokens
+        // > property
+        //
+        // We don't actually want this list of tokens. String literals do
+        // get represented in the list, but as tokens, i.e., meaningful
+        // chunks of the literal source code. They come with surrounding
+        // quotes, escape syntax, etc:
+        //
+        //   'doesn\'t'
+        //   "doesn't"
+        //
+        // What we really want is the *value* of a string literal:
+        //
+        //   doesn't
+        //
+        // and we get that from the AST.
+        //
+        // Anyway, we set `true` for this because otherwise I've been seeing
+        // `parse` throw an error:
+        //
+        //   Error: Line 72: Invalid regular expression: missing /
+        //
+        // TODO: Debug and/or file an issue upstream.
+        tokens: true,
+      });
+    },
+  },
+};
+
+/**
+ * Look at all given files and collect all strings that might be UI strings.
+ *
+ * The result will include non-UI strings because we can't realistically
+ * filter them all out. That means, when the caller checks messages_en
+ * against these strings, it could get false negatives: perhaps messages_en
+ * has a string 'message-empty' (why would it, though), and that string
+ * won't be flagged because it appears as an enum value in ComposeBox.
+ *
+ * To reduce these false negatives, we filter out low-hanging fruit, like
+ * the string 'foo' in `import Foo from 'foo'`.
+ */
+function getPossibleUiStrings(possibleUiStringFilePaths) {
+  const result = new Set();
+  possibleUiStringFilePaths.forEach(filePath => {
+    const source = fs.readFileSync(filePath).toString();
+    const ast = parse(source, parseOptions);
+
+    visit(ast, {
+      // Find nodes with type "Literal" in the AST.
+      /* eslint-disable no-shadow */
+      visitLiteral(path) {
+        const { value } = path.value;
+
+        if (
+          // (Non-string literals include numbers, booleans, etc.)
+          typeof value === 'string' &&
+          // This string isn't like 'react' in `import React from 'react'`.
+          !n.ImportDeclaration.check(path.parent.value)
+        ) {
+          result.add(value);
+        }
+
+        // A literal is always a leaf, right? No need to call this.traverse.
+        return false;
+      },
+
+      // Find nodes with type "TemplateLiteral" in the AST. We sometimes use
+      // template literals in UI strings for readability.
+      /* eslint-disable no-shadow */
+      visitTemplateLiteral(path) {
+        if (
+          // Translatable UI strings are unlikely to contain
+          // sub-expressions.
+          //
+          // Also, if a template literal has nontrivial sub-expressions, we
+          // can't reasonably interpret them here anyway.
+          path.value.quasis.length === 1 &&
+          path.value.expressions.length === 0
+        ) {
+          result.add(path.value.quasis[0].value.cooked);
+        }
+
+        return this.traverse(path);
+      },
+    });
+  });
+  return result;
+}
+
+function main() {
+  const possibleUiStrings = getPossibleUiStrings(getPossibleUiStringFilePaths());
+
+  // Check each key ("message ID" in formatjs's lingo) against
+  // possibleUiStrings, and make a list of any that aren't found.
+  const danglingMessageIds = Object.keys(messages_en).filter(
+    messageId => !possibleUiStrings.has(messageId),
+  );
+
+  if (danglingMessageIds.length > 0) {
+    console.error(
+      "Found message IDs in static/translations/messages_en.json that don't seem to be used in the app:",
+    );
+    console.error(danglingMessageIds);
+    process.exit(1);
+  }
+}
+
+main();
