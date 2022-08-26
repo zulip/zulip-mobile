@@ -60,12 +60,13 @@ describe('isUrlPathAbsolute', () => {
 });
 
 describe('getResource', () => {
+  const auth: Auth = {
+    realm: new URL('https://example.com/'),
+    apiKey: 'someApiKey',
+    email: 'johndoe@example.com',
+  };
+
   test('when uri contains domain, do not change, add auth headers', () => {
-    const auth: Auth = {
-      realm: new URL('https://example.com/'),
-      apiKey: 'someApiKey',
-      email: 'johndoe@example.com',
-    };
     const authEncoded = base64.encode(`${auth.email}:${auth.apiKey}`);
 
     const expectedResult = {
@@ -78,14 +79,8 @@ describe('getResource', () => {
     expect(resource).toEqual(expectedResult);
   });
 
-  const exampleAuth: Auth = {
-    realm: new URL('https://example.com'),
-    email: 'nobody@example.org',
-    apiKey: 'someApiKey',
-  };
-
   test('when uri does not contain domain, append realm, add auth headers', () => {
-    const authEncoded = base64.encode(`${exampleAuth.email}:${exampleAuth.apiKey}`);
+    const authEncoded = base64.encode(`${auth.email}:${auth.apiKey}`);
 
     const expectedResult = {
       uri: 'https://example.com/img.gif',
@@ -93,7 +88,7 @@ describe('getResource', () => {
         Authorization: `Basic ${authEncoded}`,
       },
     };
-    const resource = getResource('/img.gif', exampleAuth);
+    const resource = getResource('/img.gif', auth);
     expect(resource).toEqual(expectedResult);
   });
 
@@ -101,7 +96,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://another.com/img.gif',
     };
-    const resource = getResource('https://another.com/img.gif', exampleAuth);
+    const resource = getResource('https://another.com/img.gif', auth);
     expect(resource).toEqual(expectedResult);
   });
 });
