@@ -94,25 +94,9 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
 };
 
 /**
- * Test if the given URL string resolves on the realm, with realm as base.
- *
- * DEPRECATED because URL strings are complicated.  Callers should construct
- *   a URL object before this point, and use the same URL object both for
- *   asking any questions like this one and for subsequently making any
- *   network requests.
- *
- * This returns true just if `new URL(url, realm)` gives a URL that is
- * within the same Zulip realm.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
+ * Test if the given URL is within the given realm.
  */
-// TODO: Take a URL object instead of a string, and remove warnings in jsdoc.
-export const isUrlOnRealm = (url: string, realm: URL): boolean => {
-  const parsedUrl = tryParseUrl(url, realm);
-  return parsedUrl ? parsedUrl.origin === realm.origin : false;
-};
+export const isUrlOnRealm = (url: URL, realm: URL): boolean => url.origin === realm.origin;
 
 const getResourceWithAuth = (url: URL, auth: Auth) => ({
   uri: url.toString(),
@@ -135,9 +119,7 @@ const getResourceNoAuth = (url: URL) => ({
  * > source | Object | same as source for other React images
  */
 export const getResource = (url: URL, auth: Auth): ImageSource =>
-  isUrlOnRealm(url.toString(), auth.realm)
-    ? getResourceWithAuth(url, auth)
-    : getResourceNoAuth(url);
+  isUrlOnRealm(url, auth.realm) ? getResourceWithAuth(url, auth) : getResourceNoAuth(url);
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 

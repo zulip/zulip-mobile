@@ -9,7 +9,7 @@ import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
 import { getStreamsById, getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
-import { isUrlOnRealm } from '../utils/url';
+import { isUrlOnRealm, tryParseUrl } from '../utils/url';
 import { getOwnUserId } from '../users/userSelectors';
 import {
   isTopicNarrow,
@@ -211,6 +211,9 @@ const doNarrowNearLink =
     dispatch(doNarrow(adjustedNarrow, nearOperand));
   };
 
+/**
+ * Handle a link tap that isn't an image we want to show in the lightbox.
+ */
 export const messageLinkPress =
   (href: string): ThunkAction<Promise<void>> =>
   async (dispatch, getState, { getGlobalSettings }) => {
@@ -220,6 +223,10 @@ export const messageLinkPress =
     const streamsByName = getStreamsByName(state);
     const ownUserId = getOwnUserId(state);
     const narrow = getNarrowFromLink(href, auth.realm, streamsById, streamsByName, ownUserId);
+
+    const parsedUrl = tryParseUrl(href, auth.realm);
+    // TODO: Replace all uses of `href` below with `parsedUrl`.
+
     // TODO: In some cases getNarrowFromLink successfully parses the link, but
     //   finds it points somewhere we can't see: in particular, to a stream
     //   that's hidden from our user (perhaps doesn't exist.)  For those,
@@ -234,7 +241,7 @@ export const messageLinkPress =
       }
 
       await dispatch(doNarrowNearLink(narrow, nearOperand));
-    } else if (!isUrlOnRealm(href, auth.realm)) {
+    } else if (!parsedUrl || !isUrlOnRealm(parsedUrl, auth.realm)) {
       openLinkWithUserPreference(href, getGlobalSettings());
     } else {
       const url =

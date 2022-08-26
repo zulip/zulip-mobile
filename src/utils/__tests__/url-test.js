@@ -88,22 +88,18 @@ describe('isUrlOnRealm', () => {
   const realm = new URL('https://example.com');
 
   test('when link is on realm, return true', () => {
-    expect(isUrlOnRealm('/#narrow/stream/jest', realm)).toBe(true);
-    expect(isUrlOnRealm('https://example.com/#narrow/stream/jest', realm)).toBe(true);
-    expect(isUrlOnRealm('#narrow/#near/1', realm)).toBe(true);
+    expect(isUrlOnRealm(new URL('/#narrow/stream/jest', realm), realm)).toBe(true);
+    expect(isUrlOnRealm(new URL('#narrow/#near/1', realm), realm)).toBe(true);
 
-    // Absolutizes to https://example.com/www.google.com
-    expect(isUrlOnRealm('www.google.com', realm)).toBeTrue();
+    // https://example.com/www.google.com
+    expect(isUrlOnRealm(new URL('www.google.com', realm), realm)).toBeTrue();
 
-    expect(isUrlOnRealm('https://example.com', realm)).toBeTrue();
-    expect(isUrlOnRealm('https://example.com/', realm)).toBeTrue();
-    expect(isUrlOnRealm('https://example.com/foo/bar.baz', realm)).toBeTrue();
+    expect(isUrlOnRealm(realm, realm)).toBeTrue();
+    expect(isUrlOnRealm(new URL('/foo/bar.baz', realm), realm)).toBeTrue();
   });
 
   test('when link is not on realm, return false', () => {
-    expect(isUrlOnRealm('https://demo.example.com/', realm)).toBeFalse();
-    expect(isUrlOnRealm('https://demo.example/', realm)).toBeFalse();
-    expect(isUrlOnRealm('//demo.example/', realm)).toBeFalse();
-    expect(isUrlOnRealm(' https://demo.example/', realm)).toBeFalse();
+    expect(isUrlOnRealm(new URL('https://demo.example.com/'), realm)).toBeFalse();
+    expect(isUrlOnRealm(new URL('https://demo.example/'), realm)).toBeFalse();
   });
 });
