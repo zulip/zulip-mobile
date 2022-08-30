@@ -184,6 +184,10 @@ run_only()
     #   Also perhaps give TsFlower a way to tell it things to skip.
     rm -rf "${rootdir}"/types/"${package}"/lib/typescript/example/
     format_dir "${rootdir}"/types/"${package}"
+
+    # Remove all *.web.js.flow files. We don't use RN for the web.
+    # TODO(tsflower): When tsflower supports skipping files, simplify away.
+    rm -f "${rootdir}"/types/**/*.web.js.flow
 }
 
 apply_patches()
