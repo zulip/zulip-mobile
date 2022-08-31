@@ -40,6 +40,7 @@ const statusSuggestions: $ReadOnlyArray<StatusSuggestion> = [
   ['Out sick', { emoji_name: 'sick', emoji_code: '1f912', reaction_type: 'unicode_emoji' }],
   ['Vacationing', { emoji_name: 'palm_tree', emoji_code: '1f334', reaction_type: 'unicode_emoji' }],
   ['Working remotely', { emoji_name: 'house', emoji_code: '1f3e0', reaction_type: 'unicode_emoji' }], // prettier-ignore
+  ['At the office', { emoji_name: 'office', emoji_code: '1f3e2', reaction_type: 'unicode_emoji' }],
 ];
 
 const styles = createStyleSheet({
