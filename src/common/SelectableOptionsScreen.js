@@ -78,7 +78,9 @@ LogBox.ignoreLogs([/selectable-options > params\.onRequestSelectionChange \(Func
 // If we need separate components dedicated to checkboxes and radio buttons,
 // we can split this. Currently it's up to the caller to enforce the
 // radio-button invariant (exactly one item selected) if they want to.
-export default function SelectableOptionsScreen<TItemKey: string>(props: Props<TItemKey>): Node {
+export default function SelectableOptionsScreen<TItemKey: string | number>(
+  props: Props<TItemKey>,
+): Node {
   const { route } = props;
   const { title, description, items, onRequestSelectionChange } = route.params;
 

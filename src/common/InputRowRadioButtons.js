@@ -68,7 +68,9 @@ type Props<TItemKey> = $ReadOnly<{|
 // represented by IconRight. NestedNavRow would probably be the wrong
 // abstraction, though, because it isn't an imput component; it doesn't have
 // a value to display.
-export default function InputRowRadioButtons<TItemKey: string>(props: Props<TItemKey>): Node {
+export default function InputRowRadioButtons<TItemKey: string | number>(
+  props: Props<TItemKey>,
+): Node {
   const { navigation, label, description, valueKey, items, onValueChange } = props;
 
   const screenKey: string = useRef(`selectable-options-${randString()}`).current;
