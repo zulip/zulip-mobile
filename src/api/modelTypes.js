@@ -750,6 +750,21 @@ export type Submessage = $ReadOnly<{|
 |}>;
 
 /**
+ * A flag that can be set on a message for a user.
+ *
+ * See:
+ *   https://zulip.com/api/update-message-flags#available-flags
+ */
+export type UserMessageFlag =
+  | 'read'
+  | 'starred'
+  | 'collapsed'
+  | 'mentioned'
+  | 'wildcard_mentioned'
+  | 'has_alert_word'
+  | 'historical';
+
+/**
  * Properties in common among the two different flavors of a
  * `Message`: `PmMessage` and `StreamMessage`.
  */
@@ -845,7 +860,7 @@ type MessageBase = $ReadOnly<{|
    *  * Absent in the Redux `state.messages`; we move the information to a
    *    separate subtree `state.flags`.
    */
-  flags?: $ReadOnlyArray<string>,
+  flags?: $ReadOnlyArray<UserMessageFlag>,
 
   /** Our own flag; if true, really type `Outbox`. */
   isOutbox?: false,

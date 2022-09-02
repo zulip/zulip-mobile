@@ -20,6 +20,7 @@ import type {
   PropagateMode,
   Stream,
   UserId,
+  UserMessageFlag,
   UserPresence,
   UserStatusUpdate,
 } from './modelTypes';
@@ -106,7 +107,7 @@ export type MessageEvent = $ReadOnly<{|
   message: Message,
 
   /** See the same-named property on `Message`. */
-  flags?: $ReadOnlyArray<string>,
+  flags?: $ReadOnlyArray<UserMessageFlag>,
 
   /**
    * When the message was sent by this client (with `queue_id` this queue),
@@ -335,7 +336,7 @@ export type UpdateMessageEvent = $ReadOnly<{|
   //   guarantee of that in the API nor, apparently, in the implementation.
   message_ids: $ReadOnlyArray<number>,
 
-  flags: $ReadOnlyArray<string>,
+  flags: $ReadOnlyArray<UserMessageFlag>,
 
   // TODO(server-5.0): Always present as of FL 114; make required.
   edit_timestamp?: number,

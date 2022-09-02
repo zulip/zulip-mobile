@@ -60,6 +60,7 @@ import {
   DISMISS_SERVER_COMPAT_NOTICE,
 } from './actionConstants';
 
+import type { UserMessageFlag } from './api/modelTypes';
 import type {
   CustomProfileFieldsEvent,
   MessageEvent,
@@ -413,7 +414,7 @@ type EventUpdateMessageFlagsAction = $ReadOnly<{|
   type: typeof EVENT_UPDATE_MESSAGE_FLAGS,
   all: boolean,
   allMessages: MessagesState,
-  flag: string,
+  flag: UserMessageFlag,
   messages: $ReadOnlyArray<number>,
   op: 'add' | 'remove',
   message_details?: Map<number, UpdateMessageFlagsMessageDetails>,

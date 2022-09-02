@@ -13,6 +13,7 @@ import {
   ACCOUNT_SWITCH,
 } from '../actionConstants';
 import { deeperMerge } from '../utils/misc';
+import type { UserMessageFlag } from '../api/modelTypes';
 
 type ReadWriteFlagsState = $Rest<ReadWrite<$ObjMap<FlagsState, <V>(V) => ReadWrite<V>>>, { ... }>;
 type ReadWritePerFlagState = $Values<ReadWriteFlagsState>;
@@ -35,7 +36,7 @@ const initialState = {
 const addFlagsForMessages = (
   state: FlagsState,
   messages: $ReadOnlyArray<number>,
-  flags: $ReadOnlyArray<string>,
+  flags: $ReadOnlyArray<UserMessageFlag>,
 ): FlagsState => {
   if (messages.length === 0 || flags.length === 0) {
     return state;
@@ -117,7 +118,7 @@ const eventUpdateMessageFlags = (state, action) => {
       // know about. After all, we can't have any code intending to do
       // anything with them. Flow should be complaining here:
       //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20spread.20bug/near/1318081
-      return { ...state, [action.flag]: {} };
+      return { ...state, [(action.flag: string)]: {} };
     }
   }
 

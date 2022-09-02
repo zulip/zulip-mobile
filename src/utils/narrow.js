@@ -12,6 +12,7 @@ import {
   pmKeyRecipientsFor1to1,
   makePmKeyRecipients_UNSAFE,
 } from './recipient';
+import type { UserMessageFlag } from '../api/modelTypes';
 
 /* eslint-disable no-use-before-define */
 
@@ -461,7 +462,7 @@ export const apiNarrowOfNarrow = (
  */
 export const isMessageInNarrow = (
   message: Message | Outbox,
-  flags: $ReadOnlyArray<string>,
+  flags: $ReadOnlyArray<UserMessageFlag>,
   narrow: Narrow,
   ownUserId: UserId,
 ): boolean =>
@@ -524,7 +525,7 @@ export const showComposeBoxOnNarrow = (narrow: Narrow): boolean =>
 export const getNarrowsForMessage = (
   message: Message | Outbox,
   ownUserId: UserId,
-  flags: $ReadOnlyArray<string>,
+  flags: $ReadOnlyArray<UserMessageFlag>,
 ): $ReadOnlyArray<Narrow> => {
   const result = [];
 

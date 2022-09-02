@@ -129,17 +129,23 @@ export type FetchingState = $ReadOnly<{|
  * `state.messages`.
  */
 export type FlagsState = $ReadOnly<{|
+  // Flags that are currently documented in the API:
+  //   https://zulip.com/api/update-message-flags#available-flags
+  // i.e., those found in `UserMessageFlag`.
   read: {| +[messageId: number]: true |},
   starred: {| +[messageId: number]: true |},
   collapsed: {| +[messageId: number]: true |},
   mentioned: {| +[messageId: number]: true |},
   wildcard_mentioned: {| +[messageId: number]: true |},
+  has_alert_word: {| +[messageId: number]: true |},
+  historical: {| +[messageId: number]: true |},
+
+  // Flags not documented in the API.
+  // TODO(server): Do these ever exist?  Did they use to and get removed?
   summarize_in_home: {| +[messageId: number]: true |},
   summarize_in_stream: {| +[messageId: number]: true |},
   force_expand: {| +[messageId: number]: true |},
   force_collapse: {| +[messageId: number]: true |},
-  has_alert_word: {| +[messageId: number]: true |},
-  historical: {| +[messageId: number]: true |},
   is_me_message: {| +[messageId: number]: true |},
 |}>;
 
