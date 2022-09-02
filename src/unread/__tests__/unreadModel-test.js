@@ -294,7 +294,7 @@ describe('stream substate', () => {
     });
 
     test('when operation is "add" but flag is not "read" do not mutate state', () => {
-      const action = mkAction({ messages: [1, 2, 3], flag: 'star' });
+      const action = mkAction({ messages: [1, 2, 3], flag: 'starred' });
       expect(reducer(initialState, action, eg.plusReduxState)).toBe(initialState);
     });
 

@@ -97,7 +97,7 @@ describe('unreadMentionsReducer', () => {
         all: false,
         allMessages: Immutable.Map(),
         messages: [1, 2, 3],
-        flag: 'star',
+        flag: 'starred',
         op: 'add',
       };
 
