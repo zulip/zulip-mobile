@@ -39,6 +39,38 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* The "Mark messages as read on scroll" setting has a new option: "Only in
+  conversation views". (#5241)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We now respect new servers' "mark as unread" events. (#5361)
+
+* For the set of available Unicode emoji, we now use the new
+  `server_emoji_data_url`, present in the `/register` response since server
+  feature level 140. (PR #5460, PR #5464)
+
+* Updated confirmation dialogs to better align with the web app. (PR #5439)
+
+* Upgraded to Expo SDK 44! (PR #5441)
+
+* Enabled `react-native-screens`. (#4111)
+
+* Enabled a new Flow feature: enums! (PR #5444)
+
+* Continued to develop our `tsflower` workflow. (PRs #5442, #5478)
+
+* Added "fastlane" metadata, used by F-Droid. (PR #5462)
+
+* Resolved issues: #5241, #5444, #5439, #5411, #5464, #5462, #5448, #5361,
+  #4111, #5424, #5431, #5435
+
 
 ## 27.190 (2022-08-23)
 
