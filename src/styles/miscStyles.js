@@ -12,10 +12,8 @@ export const statics = {
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   flexed: {
     flex: 1,
