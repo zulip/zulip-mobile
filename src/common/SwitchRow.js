@@ -17,6 +17,11 @@ type Props = $ReadOnly<{|
 
 const componentStyles = createStyleSheet({
   container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+
     // For uniformity with other rows this might share a screen with, e.g.,
     // NestedNavRow and InputRowRadioButtons on the settings screen. See
     // height-related attributes on those rows.
@@ -37,7 +42,7 @@ export default function SwitchRow(props: Props): Node {
   const themeContext = useContext(ThemeContext);
 
   return (
-    <View style={[componentStyles.container, styles.listItem]}>
+    <View style={componentStyles.container}>
       {!!Icon && <Icon size={24} style={[componentStyles.icon, { color: themeContext.color }]} />}
       <ZulipTextIntl text={label} style={styles.flexed} />
       <View style={styles.rightItem}>
