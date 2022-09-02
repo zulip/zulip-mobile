@@ -37,12 +37,15 @@ import type { MuteState } from './mute/muteModelTypes';
 import type { PmConversationsState } from './pm-conversations/pmConversationsModel';
 import type { UnreadState } from './unread/unreadModelTypes';
 import type { UserStatusesState } from './user-statuses/userStatusesCore';
-import type { ServerEmojiData } from './api/modelTypes';
+import type { ServerEmojiData, UserMessageFlag } from './api/modelTypes';
 import type { EmailAddressVisibility } from './api/permissionsTypes';
+import { typesEquivalent } from './generics';
 
 export type { MuteState } from './mute/muteModelTypes';
 export type { UserStatusesState } from './user-statuses/userStatusesCore';
 export type * from './actionTypes';
+
+/* eslint-disable no-unused-expressions */
 
 /**
  * The list of known accounts, with the active account first.
@@ -129,9 +132,6 @@ export type FetchingState = $ReadOnly<{|
  * `state.messages`.
  */
 export type FlagsState = $ReadOnly<{|
-  // Flags that are currently documented in the API:
-  //   https://zulip.com/api/update-message-flags#available-flags
-  // i.e., those found in `UserMessageFlag`.
   read: {| +[messageId: number]: true |},
   starred: {| +[messageId: number]: true |},
   collapsed: {| +[messageId: number]: true |},
@@ -139,17 +139,11 @@ export type FlagsState = $ReadOnly<{|
   wildcard_mentioned: {| +[messageId: number]: true |},
   has_alert_word: {| +[messageId: number]: true |},
   historical: {| +[messageId: number]: true |},
-
-  // Flags not documented in the API.
-  // TODO(server): Do these ever exist?  Did they use to and get removed?
-  summarize_in_home: {| +[messageId: number]: true |},
-  summarize_in_stream: {| +[messageId: number]: true |},
-  force_expand: {| +[messageId: number]: true |},
-  force_collapse: {| +[messageId: number]: true |},
-  is_me_message: {| +[messageId: number]: true |},
 |}>;
 
-export type FlagName = $Keys<FlagsState>;
+// The flags in FlagsState correspond with those in the server API,
+// as expressed by UserMessageFlag.
+typesEquivalent<$Keys<FlagsState>, UserMessageFlag>();
 
 /**
  * A map with all messages we've stored locally, indexed by ID.
@@ -427,7 +421,7 @@ export type SettingsState = $ReadOnly<{|
 // As part of letting GlobalState freely convert to PerAccountState,
 // we'll want the same for SettingsState.  (This is also why
 // PerAccountSettingsState is inexact.)
-(s: SettingsState): PerAccountSettingsState => s; // eslint-disable-line no-unused-expressions
+(s: SettingsState): PerAccountSettingsState => s;
 
 export type StreamsState = $ReadOnlyArray<Stream>;
 
@@ -587,7 +581,7 @@ export function dubJointState(state: GlobalState): GlobalState & PerAccountState
 type NonMaybeProperties<O: { ... }> = $ObjMap<O, <V>(V) => $NonMaybeType<V>>;
 type NonMaybeGlobalState = NonMaybeProperties<GlobalState>;
 // This function definition will fail typechecking if GlobalState is wrong.
-(s: GlobalState): NonMaybeGlobalState => s; // eslint-disable-line no-unused-expressions
+(s: GlobalState): NonMaybeGlobalState => s;
 
 /** A per-account selector returning TResult, with extra parameter TParam. */
 // Seems like this should be OutputSelector... but for whatever reason,
@@ -632,7 +626,6 @@ export interface GlobalDispatch {
 // specific account), but for now it needs none.
 export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState) => T;
 
-/* eslint-disable no-unused-expressions */
 // The two pairs of dispatch/thunk-action types aren't interchangeable,
 // in either direction.
 //   $FlowExpectedError[incompatible-return]

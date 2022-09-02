@@ -466,6 +466,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add emailAddressVisibility to state.realm
   '54': dropCache,
 
+  // Drop old never-used message flags from state.flags.
+  '55': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

@@ -323,13 +323,8 @@ describe('flagsReducer', () => {
         collapsed: { 1: true },
         mentioned: { 1: true },
         wildcard_mentioned: { 1: true },
-        summarize_in_home: { 1: true },
-        summarize_in_stream: { 1: true },
-        force_expand: { 1: true },
-        force_collapse: { 1: true },
         has_alert_word: { 1: true },
         historical: { 1: true },
-        is_me_message: { 1: true },
       });
 
       const action = deepFreeze({
@@ -342,13 +337,8 @@ describe('flagsReducer', () => {
         collapsed: {},
         mentioned: {},
         wildcard_mentioned: {},
-        summarize_in_home: {},
-        summarize_in_stream: {},
-        force_expand: {},
-        force_collapse: {},
         has_alert_word: {},
         historical: {},
-        is_me_message: {},
       };
 
       const actualState = flagsReducer(prevState, action);
