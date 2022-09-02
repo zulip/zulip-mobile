@@ -11,7 +11,7 @@ export type ApiResponseMessagesFlags = {|
 export default (
   auth: Auth,
   messageIds: $ReadOnlyArray<number>,
-  op: string,
+  op: 'add' | 'remove',
   flag: UserMessageFlag,
 ): Promise<ApiResponseMessagesFlags> =>
   apiPost(auth, 'messages/flags', { messages: JSON.stringify(messageIds), flag, op });
