@@ -77,43 +77,44 @@ type ServerApiResponseMessages = {|
 |};
 
 /** Exported for tests only. */
-export const migrateMessages = (
-  messages: $ReadOnlyArray<ServerMessage>,
+export const migrateMessage = <M: Message>(
+  message: ServerMessageOf<M>,
   identity: Identity,
   zulipFeatureLevel: number,
   allowEditHistory: boolean,
-): Message[] =>
-  messages.map(<M: Message>(message: ServerMessageOf<M>): M => ({
-    ...message,
-    avatar_url: AvatarURL.fromUserOrBotData({
-      rawAvatarUrl: message.avatar_url,
-      email: message.sender_email,
-      userId: message.sender_id,
-      realm: identity.realm,
-    }),
-    reactions: message.reactions.map(reaction => {
-      const { user, ...restReaction } = reaction;
-      return {
-        ...restReaction,
-        user_id: user.id,
-      };
-    }),
+): M => ({
+  ...message,
+  avatar_url: AvatarURL.fromUserOrBotData({
+    rawAvatarUrl: message.avatar_url,
+    email: message.sender_email,
+    userId: message.sender_id,
+    realm: identity.realm,
+  }),
+  reactions: message.reactions.map(reaction => {
+    const { user, ...restReaction } = reaction;
+    return {
+      ...restReaction,
+      user_id: user.id,
+    };
+  }),
 
-    // Why condition on allowEditHistory? See MessageBase['edit_history'].
-    // Why FL 118 condition? See MessageEdit type.
-    edit_history:
-      /* eslint-disable operator-linebreak */
-      allowEditHistory && zulipFeatureLevel >= 118
-        ? // $FlowIgnore[incompatible-cast] - See MessageEdit type
-          (message.edit_history: $ReadOnlyArray<MessageEdit> | void)
-        : null,
-  }));
+  // Why condition on allowEditHistory? See MessageBase['edit_history'].
+  // Why FL 118 condition? See MessageEdit type.
+  edit_history:
+    /* eslint-disable operator-linebreak */
+    allowEditHistory && zulipFeatureLevel >= 118
+      ? // $FlowIgnore[incompatible-cast] - See MessageEdit type
+        (message.edit_history: $ReadOnlyArray<MessageEdit> | void)
+      : null,
+});
 
 const migrateResponse = (response, identity: Identity, zulipFeatureLevel, allowEditHistory) => {
   const { messages, ...restResponse } = response;
   return {
     ...restResponse,
-    messages: migrateMessages(messages, identity, zulipFeatureLevel, allowEditHistory),
+    messages: messages.map(<M: Message>(message: ServerMessageOf<M>): M =>
+      migrateMessage(message, identity, zulipFeatureLevel, allowEditHistory),
+    ),
   };
 };
 

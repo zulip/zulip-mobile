@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import { migrateMessages } from '../getMessages';
+import { migrateMessage } from '../getMessages';
 import { identityOfAuth } from '../../../account/accountMisc';
 import * as eg from '../../../__tests__/lib/exampleData';
 import type { ServerMessage, ServerReaction } from '../getMessages';
@@ -38,27 +38,25 @@ const serverMessage: ServerMessage = {
 };
 
 describe('recent server', () => {
-  const input: $ReadOnlyArray<ServerMessage> = [serverMessage];
+  const input: ServerMessage = serverMessage;
 
-  const expectedOutput: $ReadOnlyArray<Message> = [
-    {
-      ...serverMessage,
-      reactions: [
-        {
-          user_id: reactingUser.user_id,
-          emoji_name: serverReaction.emoji_name,
-          reaction_type: serverReaction.reaction_type,
-          emoji_code: serverReaction.emoji_code,
-        },
-      ],
-      avatar_url: GravatarURL.validateAndConstructInstance({ email: serverMessage.sender_email }),
-      edit_history:
-        // $FlowIgnore[incompatible-cast] - See MessageEdit type
-        (serverMessage.edit_history: Message['edit_history']),
-    },
-  ];
+  const expectedOutput: Message = {
+    ...serverMessage,
+    reactions: [
+      {
+        user_id: reactingUser.user_id,
+        emoji_name: serverReaction.emoji_name,
+        reaction_type: serverReaction.reaction_type,
+        emoji_code: serverReaction.emoji_code,
+      },
+    ],
+    avatar_url: GravatarURL.validateAndConstructInstance({ email: serverMessage.sender_email }),
+    edit_history:
+      // $FlowIgnore[incompatible-cast] - See MessageEdit type
+      (serverMessage.edit_history: Message['edit_history']),
+  };
 
-  const actualOutput: $ReadOnlyArray<Message> = migrateMessages(
+  const actualOutput: Message = migrateMessage<Message>(
     input,
     identityOfAuth(eg.selfAuth),
     eg.recentZulipFeatureLevel,
@@ -66,47 +64,44 @@ describe('recent server', () => {
   );
 
   test('In reactions, replace user object with `user_id`', () => {
-    expect(actualOutput.map(m => m.reactions)).toEqual(expectedOutput.map(m => m.reactions));
+    expect(actualOutput.reactions).toEqual(expectedOutput.reactions);
   });
 
   test('Converts avatar_url correctly', () => {
-    expect(actualOutput.map(m => m.avatar_url)).toEqual(expectedOutput.map(m => m.avatar_url));
+    expect(actualOutput.avatar_url).toEqual(expectedOutput.avatar_url);
   });
 
   test('Keeps edit_history, if allowEditHistory is true', () => {
-    expect(actualOutput.map(m => m.edit_history)).toEqual(expectedOutput.map(m => m.edit_history));
+    expect(actualOutput.edit_history).toEqual(expectedOutput.edit_history);
   });
 
   test('Drops edit_history, if allowEditHistory is false', () => {
     expect(
-      migrateMessages(input, identityOfAuth(eg.selfAuth), eg.recentZulipFeatureLevel, false).map(
-        m => m.edit_history,
-      ),
-    ).toEqual(expectedOutput.map(m => null));
+      migrateMessage<Message>(input, identityOfAuth(eg.selfAuth), eg.recentZulipFeatureLevel, false)
+        .edit_history,
+    ).toEqual(null);
   });
 });
 
 describe('drops edit_history from pre-118 server', () => {
   expect(
-    migrateMessages(
-      [
-        {
-          ...serverMessage,
-          edit_history: [
-            {
-              prev_content: 'foo',
-              prev_rendered_content: '<p>foo</p>',
-              prev_stream: eg.stream.stream_id,
-              prev_subject: 'bar',
-              timestamp: 0,
-              user_id: eg.selfUser.user_id,
-            },
-          ],
-        },
-      ],
+    migrateMessage<Message>(
+      {
+        ...serverMessage,
+        edit_history: [
+          {
+            prev_content: 'foo',
+            prev_rendered_content: '<p>foo</p>',
+            prev_stream: eg.stream.stream_id,
+            prev_subject: 'bar',
+            timestamp: 0,
+            user_id: eg.selfUser.user_id,
+          },
+        ],
+      },
       identityOfAuth(eg.selfAuth),
       117,
       true,
-    ).map(m => m.edit_history),
-  ).toEqual([null]);
+    ).edit_history,
+  ).toEqual(null);
 });
