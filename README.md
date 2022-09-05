@@ -17,7 +17,8 @@ Release versions of the app are available here:
   on the Google Play Store
   * Or if you don't use Google Play, you can [download an
     APK](https://github.com/zulip/zulip-mobile/releases/latest)
-    from the official build we post on GitHub.
+    from the official build we post on GitHub, or get the app
+    [on F-Droid](https://f-droid.org/packages/com.zulipmobile/).
 
 You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
