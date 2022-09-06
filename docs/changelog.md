@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.191 (2022-09-06)
+
 ### Highlights for users
 
 * The "Mark messages as read on scroll" setting has a new option: "Only in
