@@ -6,5 +6,7 @@
     <string>app-store</string>
     <key>destination</key>
     <string>upload</string>
+    <key>signingStyle</key>
+    <string>manual</string>
 </dict>
 </plist>
