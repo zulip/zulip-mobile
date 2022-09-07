@@ -99,6 +99,10 @@ export type CustomProfileFieldsEvent = {|
 export type MessageEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.message,
+
+  // TODO: This doesn't describe what we get from the server (see, e.g.,
+  //   avatar_url). Write a type that does; perhaps it can go in
+  //   rawModelTypes.js.
   message: Message,
 
   /** See the same-named property on `Message`. */
