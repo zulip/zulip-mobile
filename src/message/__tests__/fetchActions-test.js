@@ -355,19 +355,10 @@ describe('fetchActions', () => {
       test("rejects when validation-at-the-edge can't handle data, dispatches MESSAGE_FETCH_ERROR", async () => {
         // This validation is done in `migrateMessages`.
         //
-        // TODO: See if we can mock `migrateMessages` to throw an
-        // error unconditionally. We don't want to care specifically
-        // how the data is malformed. Making this mock isn't
-        // straightforward, in part because Jest wants you to mock
-        // entire modules. `migrateMessages`'s caller is in the
-        // same file as `migrateMessages`; it doesn't import it. So we
-        // can't intercept such an import and have it give amock.
-        //
-        // For now, we simulate #4156, a real-life problem that a user
-        // at server commit 0af2f9d838 ran into [1], by having
-        // `user` be missing on reactions on a message.
-        //
-        // [1] https://github.com/zulip/zulip-mobile/issues/4156#issuecomment-655905093
+        // Simulate #4156, a real-life problem that a user at server commit
+        // 0af2f9d838 ran into [1], by having `user` be missing on reactions
+        // on a message:
+        //   https://github.com/zulip/zulip-mobile/issues/4156#issuecomment-655905093
         const store = mockStore<GlobalState, Action>(baseState);
 
         // Missing `user` (and `user_id`, for good measure), to
