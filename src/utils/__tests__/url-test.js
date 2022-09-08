@@ -71,11 +71,8 @@ describe('getResource', () => {
       Authorization: `Basic ${base64.encode(`${auth.email}:${auth.apiKey}`)}`,
     };
 
-    const resource1 = getResource(new URL('https://example.com/img.gif'), auth);
-    expect(resource1).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
-
-    const resource2 = getResource(new URL('/img.gif', auth.realm), auth);
-    expect(resource2).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
+    const resource = getResource(new URL('https://example.com/img.gif'), auth);
+    expect(resource).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
   });
 
   test('when uri is on different domain than realm, do not include auth headers', () => {
