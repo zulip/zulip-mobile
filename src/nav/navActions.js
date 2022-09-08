@@ -57,7 +57,7 @@ export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
 export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): NavigationAction =>
   StackActions.push('pm-conversation-details', { recipients });
 
-export const navigateToLightbox = (src: string, message: Message): NavigationAction =>
+export const navigateToLightbox = (src: URL, message: Message): NavigationAction =>
   StackActions.push('lightbox', { src, message });
 
 export const navigateToStream = (streamId: number): NavigationAction =>

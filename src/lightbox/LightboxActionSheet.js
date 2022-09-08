@@ -6,27 +6,26 @@ import shareImage from './shareImage';
 import { showToast } from '../utils/info';
 import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
-import { tryParseUrl } from '../utils/url';
 
 type DownloadImageType = {|
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ShareLinkType = {|
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ExecuteActionSheetActionType = {|
   title: string,
-  src: string,
+  src: URL,
   auth: Auth,
 |};
 
 type ButtonProps = {|
   auth: Auth,
-  src: string,
+  src: URL,
 |};
 
 type ButtonType = {|
@@ -38,14 +37,13 @@ type ButtonType = {|
  * Download directly if possible, else open browser for the user to download there.
  */
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
-  const parsedSrc = tryParseUrl(src, auth.realm);
-  const tempUrl = parsedSrc ? await api.tryGetFileTemporaryUrl(parsedSrc, auth) : null;
+  const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
-    openLinkEmbedded(new URL(src, auth.realm).toString());
+    openLinkEmbedded(src.toString());
     return;
   }
 
-  const fileName = src.split('/').pop();
+  const fileName = src.pathname.split('/').pop();
   try {
     await downloadImage(tempUrl.toString(), fileName, auth);
     showToast('Download complete');
@@ -55,7 +53,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
 };
 
 const shareLink = ({ src, auth }: ShareLinkType) => {
-  share(new URL(src, auth.realm).toString());
+  share(src.toString());
 };
 
 const shareImageDirectly = ({ src, auth }: DownloadImageType) => {

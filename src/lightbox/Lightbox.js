@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { useState, useCallback, useEffect, useContext, useRef, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import { View, Dimensions, LayoutAnimation } from 'react-native';
 // $FlowFixMe[untyped-import]
@@ -12,7 +12,7 @@ import type { Message } from '../types';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getAuth, getGlobalSession } from '../selectors';
-import { getResource, tryParseUrl } from '../utils/url';
+import { getResource } from '../utils/url';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -21,8 +21,6 @@ import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useNavigation } from '../react-navigation';
-import { showErrorAlert } from '../utils/info';
-import { TranslationContext } from '../boot/TranslationProvider';
 
 const styles = createStyleSheet({
   img: {
@@ -43,13 +41,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  src: string,
+  src: URL,
   message: Message,
 |}>;
 
 export default function Lightbox(props: Props): Node {
   const navigation = useNavigation();
-  const _ = useContext(TranslationContext);
 
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
@@ -71,17 +68,7 @@ export default function Lightbox(props: Props): Node {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
 
-  // TODO: Instead, parse earlier and make `src` be a URL object
-  const parsedSrc = useMemo(() => tryParseUrl(src, auth.realm), [src, auth.realm]);
-  const resource = parsedSrc ? getResource(parsedSrc, auth) : null;
-  const hasHandledMissingResource = useRef(false);
-  useEffect(() => {
-    if (resource == null && !hasHandledMissingResource.current) {
-      showErrorAlert(_('Cannot open image'), _('Invalid image URL.'));
-      navigation.goBack();
-      hasHandledMissingResource.current = true;
-    }
-  }, [resource, navigation, _]);
+  const resource = getResource(src, auth);
 
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
@@ -93,25 +80,21 @@ export default function Lightbox(props: Props): Node {
     <>
       <ZulipStatusBar hidden={!headerFooterVisible} backgroundColor="black" />
       <View style={styles.container}>
-        {resource != null ? (
-          <PhotoView
-            source={resource}
-            style={[styles.img, { width: windowWidth }]}
-            // Doesn't seem to do anything on iOS:
-            //   https://github.com/alwx/react-native-photo-view/issues/62
-            //   https://github.com/alwx/react-native-photo-view/issues/98
-            // TODO: Figure out how to make it work.
-            resizeMode="contain"
-            // Android already doesn't show any scrollbars; these two
-            // iOS-only props let us hide them on iOS.
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            onTap={handleImagePress}
-            onViewTap={handleImagePress}
-          />
-        ) : (
-          <View style={[styles.img, { width: windowWidth }]} />
-        )}
+        <PhotoView
+          source={resource}
+          style={[styles.img, { width: windowWidth }]}
+          // Doesn't seem to do anything on iOS:
+          //   https://github.com/alwx/react-native-photo-view/issues/62
+          //   https://github.com/alwx/react-native-photo-view/issues/98
+          // TODO: Figure out how to make it work.
+          resizeMode="contain"
+          // Android already doesn't show any scrollbars; these two
+          // iOS-only props let us hide them on iOS.
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          onTap={handleImagePress}
+          onViewTap={handleImagePress}
+        />
         <View
           style={[
             styles.overlay,

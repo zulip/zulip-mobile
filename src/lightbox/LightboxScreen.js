@@ -20,7 +20,7 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'lightbox'>,
-  route: RouteProp<'lightbox', {| src: string, message: Message |}>,
+  route: RouteProp<'lightbox', {| src: URL, message: Message |}>,
 |}>;
 
 export default function LightboxScreen(props: Props): Node {

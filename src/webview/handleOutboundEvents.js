@@ -6,9 +6,9 @@ import * as api from '../api';
 import config from '../config';
 import type { UserId } from '../types';
 import type { JSONableDict } from '../utils/jsonable';
-import { showToast } from '../utils/info';
+import { showErrorAlert, showToast } from '../utils/info';
 import { pmKeyRecipientsFromMessage } from '../utils/recipient';
-import { isUrlAnImage } from '../utils/url';
+import { isUrlAnImage, tryParseUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
@@ -183,10 +183,21 @@ const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
   api.queueMarkAsRead(auth, unreadMessageIds);
 };
 
+/**
+ * Handle tapping an image or link for which we want to open the lightbox.
+ */
 const handleImage = (props: Props, src: string, messageId: number) => {
+  const { _ } = props;
+
+  const parsedSrc = tryParseUrl(src, props.backgroundData.auth.realm);
+  if (!parsedSrc) {
+    showErrorAlert(_('Cannot open image'), _('Invalid image URL.'));
+    return;
+  }
+
   const message = props.messages.find(x => x.id === messageId);
   if (message && message.isOutbox !== true) {
-    NavigationService.dispatch(navigateToLightbox(src, message));
+    NavigationService.dispatch(navigateToLightbox(parsedSrc, message));
   }
 };
 

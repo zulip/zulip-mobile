@@ -8,16 +8,13 @@ import { showToast } from '../utils/info';
 import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
 import * as logging from '../utils/logging';
-import { tryParseUrl } from '../utils/url';
 
 /**
  * Share natively if possible, else open browser for the user to share there.
  */
 // TODO(i18n): Wire up toasts for translation.
-export default async (url: string, auth: Auth) => {
-  const parsedUrl = tryParseUrl(url, auth.realm);
-
-  const tempUrl = parsedUrl ? await api.tryGetFileTemporaryUrl(parsedUrl, auth) : null;
+export default async (url: URL, auth: Auth) => {
+  const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
 
   if (tempUrl === null) {
     // Open the file in a browser and invite the user to use the browser's
@@ -31,11 +28,11 @@ export default async (url: string, auth: Auth) => {
     //
     // TODO(?): Could find a better way to convey this.
     showToast('Please share the image from your browser');
-    openLinkEmbedded(new URL(url, auth.realm).toString());
+    openLinkEmbedded(url.toString());
     return;
   }
 
-  const fileName = url.split('/').pop();
+  const fileName = url.pathname.split('/').pop();
   if (Platform.OS === 'android') {
     try {
       const res: $FlowFixMe = await downloadFileToCache(tempUrl.toString(), fileName);
@@ -47,7 +44,7 @@ export default async (url: string, auth: Auth) => {
   } else {
     try {
       const uri = await downloadImage(tempUrl.toString(), fileName, auth);
-      await Share.share({ url: uri, message: url });
+      await Share.share({ url: uri, message: (url.toString(): string) });
     } catch (error) {
       showToast('Share failed');
       logging.error(error);
