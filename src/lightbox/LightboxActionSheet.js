@@ -33,6 +33,9 @@ type ButtonType = {|
   onPress: (props: ButtonProps) => void | Promise<void>,
 |};
 
+/**
+ * Download directly if possible, else open browser for the user to download there.
+ */
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {

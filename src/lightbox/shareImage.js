@@ -9,6 +9,9 @@ import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
 import * as logging from '../utils/logging';
 
+/**
+ * Share natively if possible, else open browser for the user to share there.
+ */
 // TODO(i18n): Wire up toasts for translation.
 export default async (url: string, auth: Auth) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
