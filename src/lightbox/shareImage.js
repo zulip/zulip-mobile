@@ -32,7 +32,7 @@ export default async (url: string, auth: Auth) => {
   const fileName = url.split('/').pop();
   if (Platform.OS === 'android') {
     try {
-      const res: $FlowFixMe = await downloadFileToCache(tempUrl, fileName);
+      const res: $FlowFixMe = await downloadFileToCache(tempUrl.toString(), fileName);
       await ShareFileAndroid.shareFile(res.path());
     } catch (error) {
       showToast('Share failed');
@@ -40,7 +40,7 @@ export default async (url: string, auth: Auth) => {
     }
   } else {
     try {
-      const uri = await downloadImage(tempUrl, fileName, auth);
+      const uri = await downloadImage(tempUrl.toString(), fileName, auth);
       await Share.share({ url: uri, message: url });
     } catch (error) {
       showToast('Share failed');

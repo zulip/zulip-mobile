@@ -42,7 +42,7 @@ const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
 
   const fileName = src.split('/').pop();
   try {
-    await downloadImage(tempUrl, fileName, auth);
+    await downloadImage(tempUrl.toString(), fileName, auth);
     showToast('Download complete');
   } catch (error) {
     showToast(error.message);
