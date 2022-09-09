@@ -26,5 +26,7 @@ type ApiResponseTempFileUrl = {|
  *    by the Zulip server to us in the message containing the file.
  *    It is a string of the form `/user_uploads/{realm_id_str}/{filename}`.
  */
-export default (auth: Auth, filePath: string): Promise<ApiResponseTempFileUrl> =>
-  apiGet(auth, filePath);
+export default async (auth: Auth, filePath: string): Promise<URL> => {
+  const response: ApiResponseTempFileUrl = await apiGet(auth, filePath);
+  return new URL(response.url, auth.realm);
+};
