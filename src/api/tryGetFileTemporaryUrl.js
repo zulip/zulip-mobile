@@ -7,8 +7,7 @@ import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
  * Like getFileTemporaryUrl, but on error returns null instead of throwing.
  *
  * Validates `href` to give getFileTemporaryUrl the kind of input it expects
- * (but imperfectly; see implementation TODO) and returns null if validation
- * fails.
+ * and returns null if validation fails.
  */
 export default async (href: string, auth: Auth): Promise<URL | null> => {
   // TODO: Have this function take this parsed form instead of raw string.
@@ -35,15 +34,17 @@ export default async (href: string, auth: Auth): Promise<URL | null> => {
   //   https://url.spec.whatwg.org/#url-writing
   const { pathname } = parsedUrl;
 
+  if (!/^\/user_uploads\/[0-9]+\/.+$/.test(pathname)) {
+    return null;
+  }
+
   try {
     return await getFileTemporaryUrl(
       auth,
 
       // This param wants a "'path-absolute-URL string' […] meant for the
-      // realm, of the form `/user_uploads/{realm_id_str}/{filename}".
-      //
-      // TODO: Check that `pathname` is specifically of the form
-      //   `/user_uploads/{realm_id_str}/{filename}`.
+      // realm, of the form `/user_uploads/{realm_id_str}/{filename}". See
+      // above for how we ensure that.
       pathname,
     );
   } catch {
