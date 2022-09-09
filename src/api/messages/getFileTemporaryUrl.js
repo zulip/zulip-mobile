@@ -22,11 +22,18 @@ type ApiResponseTempFileUrl = {|
  * under the name `get_file_temporary_url`.
  *
  * @param auth Authentication info of the current user.
- * @param filePath The partial location of the uploaded file, as provided
- *    by the Zulip server to us in the message containing the file.
- *    It is a string of the form `/user_uploads/{realm_id_str}/{filename}`.
+ * @param filePath The location of the uploaded file, as a
+ *    "path-absolute-URL string"
+ *    (https://url.spec.whatwg.org/#path-absolute-url-string) meant for the
+ *    realm, of the form `/user_uploads/{realm_id_str}/{filename}`.
  */
 export default async (auth: Auth, filePath: string): Promise<URL> => {
-  const response: ApiResponseTempFileUrl = await apiGet(auth, filePath);
+  const response: ApiResponseTempFileUrl = await apiGet(
+    auth,
+
+    // Remove leading slash so apiGet doesn't duplicate it.
+    filePath.substring(1),
+  );
+
   return new URL(response.url, auth.realm);
 };
