@@ -169,4 +169,18 @@ describe('constructMessageActionButtons', () => {
     const flags = { ...eg.plusBackgroundData.flags, starred: { [message.id]: true } };
     expect(titles({ ...eg.plusBackgroundData, flags }, message)).toContain('Unstar message');
   });
+
+  describe('viewReadReceipts', () => {
+    test('show if read receipts enabled for org', () => {
+      expect(
+        titles({ ...eg.plusBackgroundData, enableReadReceipts: true }, eg.streamMessage()),
+      ).toContain('View read receipts');
+    });
+
+    test('hide if read receipts not enabled for org', () => {
+      expect(
+        titles({ ...eg.plusBackgroundData, enableReadReceipts: false }, eg.streamMessage()),
+      ).not.toContain('View read receipts');
+    });
+  });
 });

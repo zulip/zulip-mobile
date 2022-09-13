@@ -53,6 +53,7 @@ import UserStatusScreen from '../user-statuses/UserStatusScreen';
 import SharingScreen from '../sharing/SharingScreen';
 import SelectableOptionsScreen from '../common/SelectableOptionsScreen';
 import StreamListScreen from '../subscriptions/StreamListScreen';
+import ReadReceiptsScreen from '../message/ReadReceiptsScreen';
 import { useHaveServerDataGate } from '../withHaveServerDataGate';
 
 export type AppNavigatorParamList = {|
@@ -89,6 +90,7 @@ export type AppNavigatorParamList = {|
   +sharing: RouteParamsOf<typeof SharingScreen>,
   +settings: RouteParamsOf<typeof SettingsScreen>,
   +'selectable-options': RouteParamsOf<typeof SelectableOptionsScreen>,
+  +'read-receipts': RouteParamsOf<typeof ReadReceiptsScreen>,
 |};
 
 /**
@@ -197,6 +199,7 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="legal" component={useHaveServerDataGate(LegalScreen)} />
       <Stack.Screen name="user-status" component={useHaveServerDataGate(UserStatusScreen)} />
       <Stack.Screen name="settings" component={useHaveServerDataGate(SettingsScreen)} />
+      <Stack.Screen name="read-receipts" component={useHaveServerDataGate(ReadReceiptsScreen)} />
 
       {/* These screens do not expect server data in order to function
           normally. */}

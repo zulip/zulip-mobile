@@ -31,7 +31,7 @@ import { pmUiRecipientsFromKeyRecipients } from '../utils/recipient';
 import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
-import { showConfirmationDialog, showToast } from '../utils/info';
+import { showConfirmationDialog, showErrorAlert, showToast } from '../utils/info';
 import {
   doNarrow,
   deleteOutboxMessage,
@@ -42,6 +42,7 @@ import {
 import {
   navigateToMessageReactionScreen,
   navigateToPmConversationDetails,
+  navigateToReadReceiptsScreen,
 } from '../nav/navActions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
@@ -51,6 +52,7 @@ import { getStreamTopicUrl, getStreamUrl } from '../utils/internalLinks';
 import { reactionTypeFromEmojiType } from '../emoji/data';
 import { Role, type RoleT } from '../api/permissionsTypes';
 import { roleIsAtLeast } from '../permissionSelectors';
+import { kNotificationBotEmail } from '../api/constants';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -433,6 +435,34 @@ const showReactions = {
   },
 };
 
+const viewReadReceipts = {
+  title: 'View read receipts',
+  errorMessage: 'Failed to show read receipts',
+  action: ({ message, _ }) => {
+    // Notification Bot messages about resolved/unresolved topics have
+    // confusing read receipts. Because those messages are immediately
+    // marked as read for all non-participants in the thread, it looks
+    // like many people have immediately read the message. So, disable
+    // showing read receipts for messages sent by Notification Bot. See
+    //   https://github.com/zulip/zulip/issues/22905 .
+    if (message.sender_email === kNotificationBotEmail) {
+      // We might instead have handled this in the read-receipts screen by
+      // showing this message there. But it's awkward code-wise to make that
+      // screen sometimes skip the API call, api.getReadReceipts. And it's
+      // nice to skip that API call because it lets the server add a
+      // server-side check for this, if it wants, without fear of breaking
+      // mobile releases that haven't adapted.
+      showErrorAlert(
+        _('Read receipts'),
+        _('Read receipts are not available for Notification Bot messages.'),
+      );
+      return;
+    }
+
+    NavigationService.dispatch(navigateToReadReceiptsScreen(message.id));
+  },
+};
+
 const cancel: Button<{ ... }> = {
   title: 'Cancel',
   errorMessage: 'Failed to hide menu',
@@ -594,6 +624,9 @@ export const constructMessageActionButtons = (args: {|
     buttons.push(unstarMessage);
   } else {
     buttons.push(starMessage);
+  }
+  if (backgroundData.enableReadReceipts) {
+    buttons.push(viewReadReceipts);
   }
   buttons.push(cancel);
   return buttons;

@@ -68,5 +68,8 @@ export const navigateToMessageReactionScreen = (
   reactionName?: string,
 ): NavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
 
+export const navigateToReadReceiptsScreen = (messageId: number): NavigationAction =>
+  StackActions.push('read-receipts', { messageId });
+
 export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
   StackActions.push('sharing', { sharedData });
