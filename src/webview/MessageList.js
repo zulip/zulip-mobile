@@ -19,6 +19,7 @@ import type {
 } from '../types';
 import { ThemeContext } from '../styles';
 import { useSelector, useDispatch, useGlobalSelector } from '../react-redux';
+import { useNavigation } from '../react-navigation';
 import {
   getCurrentTypingUsers,
   getDebug,
@@ -246,6 +247,8 @@ export default function MessageList(outerProps: OuterProps): React.Node {
 
   const props = useMessageListProps(outerProps);
 
+  const navigation = useNavigation();
+
   const theme = React.useContext(ThemeContext);
 
   const webviewRef = React.useRef<React$ElementRef<typeof WebView> | null>(null);
@@ -310,7 +313,7 @@ export default function MessageList(outerProps: OuterProps): React.Node {
         // (The distinction may not matter much here in practice.  But a
         // nice bonus of this way is that we avoid re-renders of
         // SinglePageWebView, potentially a helpful optimization.)
-        handleWebViewOutboundEvent(propsRef.current, eventData);
+        handleWebViewOutboundEvent(propsRef.current, navigation, eventData);
       }
     },
     [sendInboundEvents],

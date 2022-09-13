@@ -25,6 +25,7 @@ import {
 import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
+import { useNavigation } from '../react-navigation';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -69,6 +70,7 @@ export default function TopicItem(props: Props): Node {
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
@@ -88,7 +90,7 @@ export default function TopicItem(props: Props): Node {
       onLongPress={() => {
         showTopicActionSheet({
           showActionSheetWithOptions,
-          callbacks: { dispatch, _ },
+          callbacks: { dispatch, navigation, _ },
           backgroundData,
           streamId,
           topic: name,

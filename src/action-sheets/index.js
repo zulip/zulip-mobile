@@ -54,6 +54,7 @@ import { reactionTypeFromEmojiType } from '../emoji/data';
 import { Role, type RoleT } from '../api/permissionsTypes';
 import { roleIsAtLeast } from '../permissionSelectors';
 import { kNotificationBotEmail } from '../api/constants';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -67,6 +68,7 @@ type StreamArgs = {
   subscriptions: Map<number, Subscription>,
   streams: Map<number, Stream>,
   dispatch: Dispatch,
+  navigation: AppNavigationMethods,
   _: GetText,
   ...
 };
@@ -79,12 +81,14 @@ type TopicArgs = {
   streams: Map<number, Stream>,
   zulipFeatureLevel: number,
   dispatch: Dispatch,
+  navigation: AppNavigationMethods,
   _: GetText,
   ...
 };
 
 type PmArgs = {
   pmKeyRecipients: PmKeyRecipients,
+  navigation: AppNavigationMethods,
   _: GetText,
   ...
 };
@@ -98,9 +102,10 @@ type MessageArgs = {
   streams: Map<number, Stream>,
   zulipFeatureLevel: number,
   dispatch: Dispatch,
-  _: GetText,
   startEditMessage: (editMessage: EditMessage) => void,
   setDoNotMarkMessagesAsRead: boolean => void,
+  navigation: AppNavigationMethods,
+  _: GetText,
   ...
 };
 
@@ -791,6 +796,7 @@ export const showMessageActionSheet = (args: {|
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
+    navigation: AppNavigationMethods,
     _: GetText,
     setDoNotMarkMessagesAsRead: boolean => void,
   |},
@@ -820,6 +826,7 @@ export const showTopicActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
+    navigation: AppNavigationMethods,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{
@@ -851,6 +858,7 @@ export const showStreamActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
+    navigation: AppNavigationMethods,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{
@@ -876,6 +884,7 @@ export const showStreamActionSheet = (args: {|
 export const showPmConversationActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
+    navigation: AppNavigationMethods,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{ ownUser: User, allUsersById: Map<UserId, UserOrBot>, ... }>,

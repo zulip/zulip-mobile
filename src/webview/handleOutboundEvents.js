@@ -29,6 +29,7 @@ import {
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
 import type { Props } from './MessageList';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
 type WebViewOutboundEventReady = {|
   type: 'ready',
@@ -206,8 +207,9 @@ const handleLongPress = (args: {|
   target: 'message' | 'header' | 'link',
   messageId: number,
   href: string | null,
+  navigation: AppNavigationMethods,
 |}) => {
-  const { props, target, messageId, href } = args;
+  const { props, target, messageId, href, navigation } = args;
 
   if (href !== null) {
     const url = new URL(href, props.backgroundData.auth.realm).toString();
@@ -234,7 +236,7 @@ const handleLongPress = (args: {|
     if (message.type === 'stream') {
       showTopicActionSheet({
         showActionSheetWithOptions,
-        callbacks: { dispatch, _ },
+        callbacks: { dispatch, navigation, _ },
         backgroundData,
         streamId: message.stream_id,
         topic: message.subject,
@@ -242,7 +244,7 @@ const handleLongPress = (args: {|
     } else if (message.type === 'private') {
       showPmConversationActionSheet({
         showActionSheetWithOptions,
-        callbacks: { _ },
+        callbacks: { navigation, _ },
         backgroundData,
         pmKeyRecipients: pmKeyRecipientsFromMessage(message, backgroundData.ownUser.user_id),
       });
@@ -250,7 +252,7 @@ const handleLongPress = (args: {|
   } else if (target === 'message') {
     showMessageActionSheet({
       showActionSheetWithOptions,
-      callbacks: { dispatch, startEditMessage, setDoNotMarkMessagesAsRead, _ },
+      callbacks: { dispatch, startEditMessage, setDoNotMarkMessagesAsRead, navigation, _ },
       backgroundData,
       message,
       narrow,
@@ -258,7 +260,11 @@ const handleLongPress = (args: {|
   }
 };
 
-export const handleWebViewOutboundEvent = (props: Props, event: WebViewOutboundEvent) => {
+export const handleWebViewOutboundEvent = (
+  props: Props,
+  navigation: AppNavigationMethods,
+  event: WebViewOutboundEvent,
+) => {
   switch (event.type) {
     case 'ready':
       // handled by caller
@@ -288,6 +294,7 @@ export const handleWebViewOutboundEvent = (props: Props, event: WebViewOutboundE
         target: event.target,
         messageId: event.messageId,
         href: event.href,
+        navigation,
       });
       break;
 

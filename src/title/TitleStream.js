@@ -27,6 +27,7 @@ import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
+import { useNavigation } from '../react-navigation';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
@@ -50,6 +51,7 @@ const componentStyles = createStyleSheet({
 export default function TitleStream(props: Props): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const stream = useSelector(state => getStreamInNarrow(state, narrow));
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
@@ -75,7 +77,7 @@ export default function TitleStream(props: Props): Node {
           ? () => {
               showTopicActionSheet({
                 showActionSheetWithOptions,
-                callbacks: { dispatch, _ },
+                callbacks: { dispatch, navigation, _ },
                 backgroundData,
                 streamId: stream.stream_id,
                 topic: topicOfNarrow(narrow),
@@ -84,7 +86,7 @@ export default function TitleStream(props: Props): Node {
           : () => {
               showStreamActionSheet({
                 showActionSheetWithOptions,
-                callbacks: { dispatch, _ },
+                callbacks: { dispatch, navigation, _ },
                 backgroundData,
                 streamId: stream.stream_id,
               });

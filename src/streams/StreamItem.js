@@ -33,6 +33,7 @@ import UnreadCount from '../common/UnreadCount';
 import { foregroundColorFromBackground } from '../utils/color';
 import { IconPlus, IconDone } from '../common/Icons';
 import StreamIcon from './StreamIcon';
+import { useNavigation } from '../react-navigation';
 
 const componentStyles = createStyleSheet({
   description: {
@@ -114,6 +115,7 @@ export default function StreamItem(props: Props): Node {
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
   const _ = useContext(TranslationContext);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
@@ -144,7 +146,7 @@ export default function StreamItem(props: Props): Node {
       onLongPress={() => {
         showStreamActionSheet({
           showActionSheetWithOptions,
-          callbacks: { dispatch, _ },
+          callbacks: { dispatch, navigation, _ },
           backgroundData,
           streamId,
         });
