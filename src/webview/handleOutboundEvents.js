@@ -201,12 +201,14 @@ const handleImage = (props: Props, src: string, messageId: number) => {
   }
 };
 
-const handleLongPress = (
+const handleLongPress = (args: {|
   props: Props,
   target: 'message' | 'header' | 'link',
   messageId: number,
   href: string | null,
-) => {
+|}) => {
+  const { props, target, messageId, href } = args;
+
   if (href !== null) {
     const url = new URL(href, props.backgroundData.auth.realm).toString();
     Clipboard.setString(url);
@@ -281,7 +283,12 @@ export const handleWebViewOutboundEvent = (props: Props, event: WebViewOutboundE
       break;
 
     case 'longPress':
-      handleLongPress(props, event.target, event.messageId, event.href);
+      handleLongPress({
+        props,
+        target: event.target,
+        messageId: event.messageId,
+        href: event.href,
+      });
       break;
 
     case 'url':
