@@ -55,6 +55,7 @@ import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
 import updateUserStatus from './users/updateUserStatus';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
+import getReadReceipts from './messages/getReadReceipts';
 
 export {
   fetchServerEmojiData,
@@ -104,4 +105,5 @@ export {
   getUserProfile,
   updateUserStatus,
   getFileTemporaryUrl,
+  getReadReceipts,
 };
