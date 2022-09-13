@@ -7,8 +7,7 @@ import {
 } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
-import type { Message, Narrow, UserId, EmojiType } from '../types';
-import type { PmKeyRecipients } from '../utils/recipient';
+import type { Message, Narrow, UserId } from '../types';
 import type { SharedData } from '../sharing/types';
 
 // TODO: Probably just do a StackActions.pop()?
@@ -47,29 +46,16 @@ export const navigateToChat = (narrow: Narrow): NavigationAction =>
 export const replaceWithChat = (narrow: Narrow): NavigationAction =>
   StackActions.replace('chat', { narrow, editMessage: null });
 
-export const navigateToEmojiPicker = (
-  onPressEmoji: ({| +type: EmojiType, +code: string, +name: string |}) => void,
-): NavigationAction => StackActions.push('emoji-picker', { onPressEmoji });
-
 export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
   StackActions.push('account-details', { userId });
 
-export const navigateToPmConversationDetails = (recipients: PmKeyRecipients): NavigationAction =>
-  StackActions.push('pm-conversation-details', { recipients });
-
 export const navigateToLightbox = (src: URL, message: Message): NavigationAction =>
   StackActions.push('lightbox', { src, message });
-
-export const navigateToStream = (streamId: number): NavigationAction =>
-  StackActions.push('stream-settings', { streamId });
 
 export const navigateToMessageReactionScreen = (
   messageId: number,
   reactionName?: string,
 ): NavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
-
-export const navigateToReadReceiptsScreen = (messageId: number): NavigationAction =>
-  StackActions.push('read-receipts', { messageId });
 
 export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
   StackActions.push('sharing', { sharedData });

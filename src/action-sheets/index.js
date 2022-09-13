@@ -3,7 +3,6 @@ import { Clipboard, Share, Alert } from 'react-native';
 import invariant from 'invariant';
 import * as resolved_topic from '@zulip/shared/js/resolved_topic';
 
-import * as NavigationService from '../nav/NavigationService';
 import type {
   Auth,
   Dispatch,
@@ -33,18 +32,7 @@ import type { PmKeyRecipients } from '../utils/recipient';
 import { isTopicMuted } from '../mute/muteModel';
 import * as api from '../api';
 import { showConfirmationDialog, showErrorAlert, showToast } from '../utils/info';
-import {
-  doNarrow,
-  deleteOutboxMessage,
-  navigateToEmojiPicker,
-  navigateToStream,
-  fetchSomeMessageIdForConversation,
-} from '../actions';
-import {
-  navigateToMessageReactionScreen,
-  navigateToPmConversationDetails,
-  navigateToReadReceiptsScreen,
-} from '../nav/navActions';
+import { doNarrow, deleteOutboxMessage, fetchSomeMessageIdForConversation } from '../actions';
 import { deleteMessagesForTopic } from '../topics/topicActions';
 import * as logging from '../utils/logging';
 import { getUnreadCountForTopic } from '../unread/unreadModel';
@@ -407,8 +395,8 @@ const copyLinkToStream = {
 const showStreamSettings = {
   title: 'Stream settings',
   errorMessage: 'Failed to show stream settings',
-  action: ({ streamId }) => {
-    NavigationService.dispatch(navigateToStream(streamId));
+  action: ({ streamId, navigation }) => {
+    navigation.push('stream-settings', { streamId });
   },
 };
 
@@ -469,8 +457,8 @@ const disableNotifications = {
 const seePmConversationDetails = {
   title: 'See details',
   errorMessage: 'Failed to show details',
-  action: async ({ pmKeyRecipients }) => {
-    NavigationService.dispatch(navigateToPmConversationDetails(pmKeyRecipients));
+  action: async ({ pmKeyRecipients, navigation }) => {
+    navigation.push('pm-conversation-details', { recipients: pmKeyRecipients });
   },
 };
 
@@ -503,32 +491,32 @@ const shareMessage = {
 const addReaction = {
   title: 'Add a reaction',
   errorMessage: 'Failed to add reaction',
-  action: ({ auth, message, _ }) => {
-    NavigationService.dispatch(
-      navigateToEmojiPicker(({ code, name, type }) => {
+  action: ({ auth, message, navigation, _ }) => {
+    navigation.push('emoji-picker', {
+      onPressEmoji: ({ code, name, type }) => {
         api
           .emojiReactionAdd(auth, message.id, reactionTypeFromEmojiType(type, name), code, name)
           .catch(err => {
             logging.error('Error adding reaction emoji', err);
             showToast(_('Failed to add reaction'));
           });
-      }),
-    );
+      },
+    });
   },
 };
 
 const showReactions = {
   title: 'See who reacted',
   errorMessage: 'Failed to show reactions',
-  action: ({ message }) => {
-    NavigationService.dispatch(navigateToMessageReactionScreen(message.id));
+  action: ({ message, navigation }) => {
+    navigation.push('message-reactions', { messageId: message.id });
   },
 };
 
 const viewReadReceipts = {
   title: 'View read receipts',
   errorMessage: 'Failed to show read receipts',
-  action: ({ message, _ }) => {
+  action: ({ message, navigation, _ }) => {
     // Notification Bot messages about resolved/unresolved topics have
     // confusing read receipts. Because those messages are immediately
     // marked as read for all non-participants in the thread, it looks
@@ -549,7 +537,7 @@ const viewReadReceipts = {
       return;
     }
 
-    NavigationService.dispatch(navigateToReadReceiptsScreen(message.id));
+    navigation.push('read-receipts', { messageId: message.id });
   },
 };
 
