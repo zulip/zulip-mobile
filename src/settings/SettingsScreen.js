@@ -60,7 +60,7 @@ export default function SettingsScreen(props: Props): Node {
             key: 'conversation-views-only',
             title: 'Only in conversation views',
             subtitle:
-              'Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.',
+              'Messages will be automatically marked as read only when viewing a single topic or private message conversation.',
           },
         ]}
         onValueChange={value => {
