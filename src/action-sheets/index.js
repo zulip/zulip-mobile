@@ -18,6 +18,7 @@ import type {
   UserOrBot,
   EditMessage,
   Stream,
+  LocalizableText,
 } from '../types';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import {
@@ -102,7 +103,7 @@ type Button<-Args: { ... }> = {|
 
   /** The label for the button. */
   // This UI string should be represented in messages_en.json.
-  +title: string,
+  +title: LocalizableText,
 
   /** The title of the alert-box that will be displayed if the
    * callback throws. */
@@ -111,7 +112,7 @@ type Button<-Args: { ... }> = {|
   // has one.
   //
   // This UI string should be represented in messages_en.json.
-  +errorMessage: string,
+  +errorMessage: LocalizableText,
 |};
 
 //
