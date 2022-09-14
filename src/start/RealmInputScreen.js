@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -11,8 +11,10 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import SmartUrlInput from '../common/SmartUrlInput';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
-import { tryParseUrl } from '../utils/url';
+import WebLink from '../common/WebLink';
 import * as api from '../api';
+import ZulipText from '../common/ZulipText';
+import { tryParseUrl } from '../utils/url';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -83,6 +85,7 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
       input: { marginTop: 16, marginBottom: 8 },
       hintText: { paddingLeft: 2, fontSize: 12 },
       button: { marginTop: 8 },
+      newOrgText: { marginTop: 20, textAlign: 'center' }
     };
 
     return (
@@ -114,6 +117,12 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
           onPress={this.tryRealm}
           disabled={urlFromInputValue(realmInputValue) === undefined}
         />
+        <View style={styles.linksTouchable}>
+          <ZulipText style={styles.newOrgText}>
+            <ZulipText text="Don't have a zulip organisation? " />
+            <WebLink label={{ text: '{_}', values: { _: 'create one' } }} url={new URL('https://zulip.com/new/')} />
+          </ZulipText>
+        </View>
       </Screen>
     );
   }
