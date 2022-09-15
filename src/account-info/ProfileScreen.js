@@ -19,6 +19,7 @@ import { getOwnUser } from '../users/userSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import { useNavigation } from '../react-navigation';
 import { showConfirmationDialog } from '../utils/info';
+import OfflineNotice from '../common/OfflineNotice';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -128,6 +129,7 @@ export default function ProfileScreen(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
+      <OfflineNotice />
       <ScrollView>
         <AccountDetails user={ownUser} />
         <AwayStatusSwitch />

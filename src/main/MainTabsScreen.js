@@ -15,7 +15,6 @@ import HomeScreen from './HomeScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
 import { IconInbox, IconStream, IconPeople } from '../common/Icons';
 import OwnAvatar from '../common/OwnAvatar';
-import OfflineNotice from '../common/OfflineNotice';
 import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 import SubscriptionsScreen from '../streams/SubscriptionsScreen';
@@ -54,7 +53,6 @@ export default function MainTabsScreen(props: Props): Node {
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
-      <OfflineNotice />
       <Tab.Navigator {...bottomTabNavigatorConfig()} lazy={false} backBehavior="none">
         <Tab.Screen
           name="home"

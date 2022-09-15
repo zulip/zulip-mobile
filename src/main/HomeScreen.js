@@ -17,6 +17,7 @@ import { BRAND_COLOR, createStyleSheet } from '../styles';
 import LoadingBanner from '../common/LoadingBanner';
 import ServerCompatBanner from '../common/ServerCompatBanner';
 import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
+import OfflineNotice from '../common/OfflineNotice';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -40,6 +41,7 @@ export default function HomeScreen(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={styles.wrapper}>
+      <OfflineNotice />
       <View style={styles.iconList}>
         <TopTabButton
           name="globe"
