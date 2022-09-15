@@ -68,7 +68,7 @@ export function useDebugAssertConstant<T>(value: T) {
  * that in particular this hook gets called again) whenever `value` will
  * have changed; for example, by using a prop or a `useState` value.
  */
-export const useHasNotChangedForMs = (value: mixed, duration: number): boolean => {
+export function useHasNotChangedForMs(value: mixed, duration: number): boolean {
   useDebugAssertConstant(duration);
 
   const [result, setResult] = useState(false);
@@ -92,7 +92,7 @@ export const useHasNotChangedForMs = (value: mixed, duration: number): boolean =
   ]);
 
   return result;
-};
+}
 
 /**
  * True just when `value` has been true continuously for the past `duration`.
