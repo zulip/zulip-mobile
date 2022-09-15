@@ -306,6 +306,7 @@ export type RealmState = {|
   +enableSpectatorAccess: boolean,
   +waitingPeriodThreshold: number,
   +allowEditHistory: boolean,
+  +enableReadReceipts: boolean,
 
   //
   // InitialDataRealmUser

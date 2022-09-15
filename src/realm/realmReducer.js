@@ -53,6 +53,7 @@ const initialState = {
   enableSpectatorAccess: false,
   waitingPeriodThreshold: 90,
   allowEditHistory: false,
+  enableReadReceipts: false,
 
   //
   // InitialDataRealmUser
@@ -160,6 +161,7 @@ export default (
         enableSpectatorAccess: action.data.realm_enable_spectator_access ?? false,
         waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
         allowEditHistory: action.data.realm_allow_edit_history,
+        enableReadReceipts: action.data.realm_enable_read_receipts ?? false,
 
         //
         // InitialDataRealmUser
@@ -259,6 +261,9 @@ export default (
             }
             if (data.allow_edit_history !== undefined) {
               result.allowEditHistory = data.allow_edit_history;
+            }
+            if (data.enable_read_receipts !== undefined) {
+              result.enableReadReceipts = data.enable_read_receipts;
             }
 
             return result;

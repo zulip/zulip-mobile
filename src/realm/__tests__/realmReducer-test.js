@@ -67,6 +67,7 @@ describe('realmReducer', () => {
         enableSpectatorAccess: action.data.realm_enable_spectator_access,
         waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
         allowEditHistory: action.data.realm_allow_edit_history,
+        enableReadReceipts: action.data.realm_enable_read_receipts,
 
         //
         // InitialDataRealmUser
@@ -486,6 +487,14 @@ describe('realmReducer', () => {
 
       describe('allowEditHistory / allow_edit_history', () => {
         const check = mkCheck('allowEditHistory', 'allow_edit_history');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
+
+      describe('enableReadReceipts / enable_read_receipts', () => {
+        const check = mkCheck('enableReadReceipts', 'enable_read_receipts');
         check(true, true);
         check(true, false);
         check(false, true);
