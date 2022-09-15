@@ -85,7 +85,8 @@ export default class RealmInputScreen extends PureComponent<Props, State> {
       input: { marginTop: 16, marginBottom: 8 },
       hintText: { paddingLeft: 2, fontSize: 12 },
       button: { marginTop: 8 },
-      newOrgText: { marginTop: 20, textAlign: 'center' }
+      newOrgText: { marginTop: 20, textAlign: 'center' },
+      linksTouchable: { marginTop: 10 }
     };
 
     return (
