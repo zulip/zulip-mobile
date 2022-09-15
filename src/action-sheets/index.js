@@ -549,7 +549,7 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = (args: {|
-  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, ... }>,
+  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, enableReadReceipts: boolean, ... }>,
   message: Message | Outbox,
   narrow: Narrow,
 |}): Button<MessageArgs>[] => {
@@ -650,7 +650,13 @@ export const showMessageActionSheet = (args: {|
     startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
   |},
-  backgroundData: $ReadOnly<{ auth: Auth, ownUser: User, flags: FlagsState, ... }>,
+  backgroundData: $ReadOnly<{
+    auth: Auth,
+    ownUser: User,
+    flags: FlagsState,
+    enableReadReceipts: boolean,
+    ...
+  }>,
   message: Message | Outbox,
   narrow: Narrow,
 |}): void => {

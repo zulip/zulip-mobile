@@ -70,6 +70,7 @@ export type BackgroundData = $ReadOnly<{|
   userStatuses: UserStatusesState,
   zulipFeatureLevel: number,
   serverEmojiData: ServerEmojiData | null,
+  enableReadReceipts: boolean,
 |}>;
 
 // TODO: Ideally this ought to be a caching selector that doesn't change
@@ -102,4 +103,5 @@ export const getBackgroundData = (
   userStatuses: getUserStatuses(state),
   zulipFeatureLevel: getZulipFeatureLevel(state),
   serverEmojiData: getRealm(state).serverEmojiData,
+  enableReadReceipts: getRealm(state).enableReadReceipts,
 });
