@@ -19,6 +19,7 @@ import ViewPlaceholder from '../common/ViewPlaceholder';
 import ZulipText from '../common/ZulipText';
 import { isValidEmailFormat } from '../utils/misc';
 import { loginSuccess } from '../actions';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 const styles = createStyleSheet({
   linksTouchable: {
@@ -142,7 +143,9 @@ class PasswordAuthScreenInner extends PureComponent<Props, State> {
         <ErrorMsg error={error} />
         <View style={styles.linksTouchable}>
           <ZulipText style={styles.forgotPasswordText}>
-            <WebLink label="Forgot password?" url={new URL('/accounts/password/reset/', realm)} />
+            <WebLink url={new URL('/accounts/password/reset/', realm)}>
+              <ZulipTextIntl text="Forgot password?" />
+            </WebLink>
           </ZulipText>
         </View>
       </Screen>
