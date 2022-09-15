@@ -316,6 +316,14 @@ export type MessageLike =
 //   https://formatjs.io/docs/react-intl/api/#formatmessage
 type MessageFormatPrimitiveValue = string | number | boolean | null | void;
 
+// For rich text formatting:
+//   https://formatjs.io/docs/react-intl/components/#rich-text-formatting
+// Name FormatXMLElementFn found in the docs (our name follows Google's
+// style guide for camel case):
+//   https://formatjs.io/docs/react-intl/api/#formatmessage
+// Type taken by hand from TypeScript.
+type FormatXmlElementFn = (parts: $ReadOnlyArray<string | Node>) => Node;
+
 /**
  * A string to show, translated, in the UI as a plain string.
  *
@@ -334,7 +342,10 @@ export type LocalizableText =
  */
 export type LocalizableReactText =
   | string
-  | {| +text: string, +values?: {| +[string]: MessageFormatPrimitiveValue | Node |} |};
+  | {|
+      +text: string,
+      +values?: {| +[string]: MessageFormatPrimitiveValue | Node | FormatXmlElementFn |},
+    |};
 
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
