@@ -7,6 +7,12 @@ import { create, act } from 'react-test-renderer';
 import { fakeSleep } from './lib/fakeTimers';
 import { useHasStayedTrueForMs } from '../reactUtils';
 
+describe('useHasNotChangedForMs', () => {
+  // This gets indirect coverage because useHasStayedTrueForMs calls it, and
+  // that hook has good coverage, below. But:
+  // TODO: Test directly.
+});
+
 describe('useHasStayedTrueForMs', () => {
   /**
    * Simulate a mock component using the hook, and inspect hook's value.

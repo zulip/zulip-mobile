@@ -53,6 +53,48 @@ export function useDebugAssertConstant<T>(value: T) {
 }
 
 /**
+ * True just when `value` has not changed for the past `duration`.
+ *
+ * "Changed" means last render's and this render's `value`s aren't ===.
+ *
+ * When the given time has elapsed so that this hook's return value becomes
+ * true, it causes a rerender through a state update.
+ *
+ * The caller must use a constant `duration` through the lifetime of a given
+ * component instance.
+ *
+ * Note this hook doesn't (and can't) do anything to cause a rerender when
+ * `value` changes.  The caller must ensure that the component rerenders (so
+ * that in particular this hook gets called again) whenever `value` will
+ * have changed; for example, by using a prop or a `useState` value.
+ */
+export const useHasNotChangedForMs = (value: mixed, duration: number): boolean => {
+  useDebugAssertConstant(duration);
+
+  const [result, setResult] = useState(false);
+
+  useEffect(() => {
+    setResult(false);
+    const id = setTimeout(() => setResult(true), duration);
+    return () => clearTimeout(id);
+  }, [
+    // If `duration` changes, we'll tear down the old timeout and start the
+    // timer over.  That isn't really ideal behavior... but we don't
+    // actually have a use case for a dynamic `duration`, and supporting it
+    // properly would be more complex, so we've just forbidden that as part
+    // of this hook function's interface.
+    duration,
+
+    // Otherwise, trigger the effect just if React sees a change in `value`.
+    // In other words, just when last render's and this render's `value`s
+    // aren't ===.
+    value,
+  ]);
+
+  return result;
+};
+
+/**
  * True just when `value` has been true continuously for the past `duration`.
  *
  * When the given time has elapsed so that this hook's return value becomes
@@ -69,23 +111,8 @@ export function useDebugAssertConstant<T>(value: T) {
 export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean => {
   useDebugAssertConstant(duration);
 
-  const [result, setResult] = useState(false);
-
-  useEffect(() => {
-    if (value) {
-      const id = setTimeout(() => setResult(true), duration);
-      return () => clearTimeout(id);
-    } else {
-      setResult(false);
-    }
-    // If `duration` changes, we'll tear down the old timeout and start the
-    // timer over.  That isn't really ideal behavior... but we don't
-    // actually have a use case for a dynamic `duration`, and supporting it
-    // properly would be more complex, so we've just forbidden that as part
-    // of this hook function's interface.
-  }, [value, duration]);
-
-  return result;
+  const hasNotChangedForDuration = useHasNotChangedForMs(value, duration);
+  return value && hasNotChangedForDuration;
 };
 
 /**
