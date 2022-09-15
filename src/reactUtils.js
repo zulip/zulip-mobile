@@ -64,7 +64,7 @@ export function useDebugAssertConstant<T>(value: T) {
 export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean => {
   useDebugAssertConstant(duration);
 
-  const [result, setResult] = useState<boolean>(false);
+  const [result, setResult] = useState(false);
 
   useEffect(() => {
     if (value) {
