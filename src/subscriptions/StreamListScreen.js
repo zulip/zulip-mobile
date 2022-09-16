@@ -2,14 +2,14 @@
 
 import React, { useCallback, useMemo } from 'react';
 import type { Node } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 
+import Screen from '../common/Screen';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useSelector } from '../react-redux';
 import ZulipButton from '../common/ZulipButton';
-import LoadingBanner from '../common/LoadingBanner';
 import SearchEmptyState from '../common/SearchEmptyState';
 import * as api from '../api';
 import { delay } from '../utils/async';
@@ -19,12 +19,8 @@ import { doNarrow } from '../actions';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from '../streams/StreamItem';
 import { getSubscriptionsById } from './subscriptionSelectors';
-import ModalNavBar from '../nav/ModalNavBar';
 
 const styles = createStyleSheet({
-  wrapper: {
-    flex: 1,
-  },
   button: {
     margin: 16,
   },
@@ -71,9 +67,7 @@ export default function StreamListScreen(props: Props): Node {
   );
 
   return (
-    <View style={styles.wrapper}>
-      <ModalNavBar canGoBack title="All streams" />
-      <LoadingBanner />
+    <Screen scrollEnabled={false} title="All streams">
       {canCreateStreams && (
         <ZulipButton
           style={styles.button}
@@ -121,6 +115,6 @@ export default function StreamListScreen(props: Props): Node {
           )}
         />
       )}
-    </View>
+    </Screen>
   );
 }
