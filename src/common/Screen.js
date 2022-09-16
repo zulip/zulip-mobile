@@ -10,7 +10,6 @@ import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/T
 import styles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText, LocalizableReactText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
-import OfflineNotice from './OfflineNotice';
 import LoadingBanner from './LoadingBanner';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
@@ -112,7 +111,6 @@ export default function Screen(props: Props): Node {
       ) : (
         <ModalNavBar canGoBack={canGoBack} title={title} />
       )}
-      <OfflineNotice />
       {shouldShowLoadingBanner && <LoadingBanner />}
       <KeyboardAvoider
         behavior="padding"

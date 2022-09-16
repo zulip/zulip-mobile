@@ -21,7 +21,6 @@ import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import ModalNavBar from '../nav/ModalNavBar';
 import NestedNavRow from '../common/NestedNavRow';
-import OfflineNotice from '../common/OfflineNotice';
 
 const styles = createStyleSheet({
   container: {
@@ -74,8 +73,6 @@ export default function SubscriptionsScreen(props: Props): Node {
     <View style={styles.container}>
       {/* Consumes the top inset. */}
       <ModalNavBar canGoBack={false} title="Streams" />
-      <OfflineNotice />
-
       <LoadingBanner />
       {subscriptions.length === 0 ? (
         <SearchEmptyState text="No streams found" />

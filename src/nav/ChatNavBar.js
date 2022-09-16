@@ -21,6 +21,7 @@ import { doNarrow } from '../actions';
 import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 import { useNavigation } from '../react-navigation';
+import OfflineNotice from '../common/OfflineNotice';
 
 function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
@@ -191,6 +192,7 @@ export default function ChatNavBar(props: {|
           textColor={textColor}
         />
       </SafeAreaView>
+      <OfflineNotice />
     </>
   );
 }

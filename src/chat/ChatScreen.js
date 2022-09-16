@@ -9,7 +9,6 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import { ThemeContext, createStyleSheet } from '../styles';
 import type { Narrow, EditMessage } from '../types';
 import KeyboardAvoider from '../common/KeyboardAvoider';
-import OfflineNotice from '../common/OfflineNotice';
 import ChatNavBar from '../nav/ChatNavBar';
 import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
@@ -199,7 +198,6 @@ export default function ChatScreen(props: Props): Node {
   return (
     <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
       <ChatNavBar narrow={narrow} editMessage={editMessage} />
-      <OfflineNotice />
       <UnreadNotice narrow={narrow} />
       {(() => {
         if (!isNarrowValid) {

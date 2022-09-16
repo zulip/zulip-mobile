@@ -9,6 +9,7 @@ import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
 import type { LocalizableText } from '../types';
+import OfflineNotice from '../common/OfflineNotice';
 
 type Props = $ReadOnly<{|
   autoFocus: boolean,
@@ -50,22 +51,25 @@ export default function ModalSearchNavBar(props: Props): Node {
   );
 
   return (
-    <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
-      {/* See comment on styles.contentArea.minHeight. */}
-      <View style={styles.contentArea}>
-        {canGoBack && (
-          <>
-            <NavBarBackButton />
-            <View style={{ width: 20 }} />
-          </>
-        )}
-        <SearchInput
-          autoFocus={autoFocus}
-          onChangeText={searchBarOnChange}
-          onSubmitEditing={searchBarOnSubmit}
-          placeholder={placeholder}
-        />
-      </View>
-    </SafeAreaView>
+    <>
+      <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
+        {/* See comment on styles.contentArea.minHeight. */}
+        <View style={styles.contentArea}>
+          {canGoBack && (
+            <>
+              <NavBarBackButton />
+              <View style={{ width: 20 }} />
+            </>
+          )}
+          <SearchInput
+            autoFocus={autoFocus}
+            onChangeText={searchBarOnChange}
+            onSubmitEditing={searchBarOnSubmit}
+            placeholder={placeholder}
+          />
+        </View>
+      </SafeAreaView>
+      <OfflineNotice />
+    </>
   );
 }
