@@ -28,19 +28,10 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{||}>;
 
-/**
- * Shows a notice if the app is working in offline mode.
- *
- * Shows a different notice if we've taken longer than we expect to
- * determine Internet reachability. IOW, if the user sees this, there's a
- * bug.
- *
- * Shows nothing if the Internet is reachable.
- */
-export default function OfflineNotice(props: Props): Node {
+function useShouldShowUncertaintyNotice() {
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
 
-  const shouldShowUncertaintyNotice = useHasStayedTrueForMs(
+  const result = useHasStayedTrueForMs(
     // See note in `SessionState` for what this means.
     isOnline === null,
 
@@ -59,7 +50,7 @@ export default function OfflineNotice(props: Props): Node {
   );
 
   useEffect(() => {
-    if (shouldShowUncertaintyNotice) {
+    if (result) {
       NetInfo.fetch().then(state => {
         logging.warn(
           'Failed to determine Internet reachability in a reasonable time',
@@ -71,7 +62,23 @@ export default function OfflineNotice(props: Props): Node {
         );
       });
     }
-  }, [shouldShowUncertaintyNotice]);
+  }, [result]);
+
+  return result;
+}
+
+/**
+ * Shows a notice if the app is working in offline mode.
+ *
+ * Shows a different notice if we've taken longer than we expect to
+ * determine Internet reachability. IOW, if the user sees this, there's a
+ * bug.
+ *
+ * Shows nothing if the Internet is reachable.
+ */
+export default function OfflineNotice(props: Props): Node {
+  const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
+  const shouldShowUncertaintyNotice = useShouldShowUncertaintyNotice();
 
   if (shouldShowUncertaintyNotice) {
     return (
