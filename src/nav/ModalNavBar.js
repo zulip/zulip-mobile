@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { LocalizableReactText } from '../types';
@@ -42,37 +41,28 @@ export default function ModalNavBar(props: Props): Node {
         { flex: 1 },
         canGoBack ? { marginStart: 20, marginEnd: 8 } : { marginHorizontal: 8 },
       ],
-      safeAreaView: {
+      surface: {
         borderColor: 'hsla(0, 0%, 50%, 0.25)',
         borderBottomWidth: 1,
         backgroundColor,
-        paddingHorizontal: 4,
       },
       contentArea: {
-        // We should really be able to put this in styles.safeAreaView, and
-        // it should control the height of the "content area" of that view,
-        // excluding padding. But SafeAreaView seems to take `height` and
-        // `minHeight` as controlling the height of everything including the
-        // automatic vertical padding. So, we've added this separate View.
         minHeight: NAVBAR_SIZE,
-
         flexDirection: 'row',
         alignItems: 'center',
+        paddingHorizontal: 4,
       },
     }),
     [canGoBack, backgroundColor],
   );
 
   return (
-    <>
-      <SafeAreaView mode="padding" edges={['top', 'right', 'left']} style={styles.safeAreaView}>
-        {/* See comment on styles.contentArea.minHeight. */}
-        <View style={styles.contentArea}>
-          {canGoBack && <NavBarBackButton />}
-          <ZulipTextIntl style={styles.text} text={title} numberOfLines={1} ellipsizeMode="tail" />
-        </View>
-      </SafeAreaView>
+    <SafeAreaView mode="padding" edges={['top']} style={styles.surface}>
       <OfflineNotice />
-    </>
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
+        {canGoBack && <NavBarBackButton />}
+        <ZulipTextIntl style={styles.text} text={title} numberOfLines={1} ellipsizeMode="tail" />
+      </SafeAreaView>
+    </SafeAreaView>
   );
 }

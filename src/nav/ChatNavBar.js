@@ -164,6 +164,7 @@ export default function ChatNavBar(props: {|
           backgroundColor: streamColor,
         }}
       >
+        <OfflineNotice />
         {/* This SafeAreaView is the app bar:
             https://material.io/components/app-bars-top#specs */}
         <SafeAreaView
@@ -194,7 +195,6 @@ export default function ChatNavBar(props: {|
           textColor={textColor}
         />
       </SafeAreaView>
-      <OfflineNotice />
     </>
   );
 }
