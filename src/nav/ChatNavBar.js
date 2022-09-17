@@ -154,7 +154,7 @@ export default function ChatNavBar(props: {|
       <ZulipStatusBar backgroundColor={streamColor} />
       <SafeAreaView
         mode="padding"
-        edges={['top', 'right', 'left']}
+        edges={['top']}
         style={{
           borderColor:
             streamColor === undefined
@@ -164,9 +164,11 @@ export default function ChatNavBar(props: {|
           backgroundColor: streamColor,
         }}
       >
-        {/* This View is the app bar:
+        {/* This SafeAreaView is the app bar:
             https://material.io/components/app-bars-top#specs */}
-        <View
+        <SafeAreaView
+          mode="padding"
+          edges={['right', 'left']}
           style={{
             // Ideally this would be `minHeight`, like in our other app bars,
             // to smoothly accommodate large font sizes.  But we seem to have
@@ -184,7 +186,7 @@ export default function ChatNavBar(props: {|
           <View style={{ width: 20 }} />
           <Title color={textColor} narrow={narrow} editMessage={editMessage} />
           <ActionItems color={buttonColor} narrow={narrow} />
-        </View>
+        </SafeAreaView>
 
         <LoadingBanner
           spinnerColor={spinnerColor}
