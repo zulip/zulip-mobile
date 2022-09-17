@@ -1,7 +1,7 @@
 // @flow strict-local
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, Animated, LayoutAnimation, Platform, Easing } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
@@ -10,7 +10,7 @@ import type { DimensionValue } from 'react-native/Libraries/StyleSheet/StyleShee
 import * as logging from '../utils/logging';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
-import { useHasStayedTrueForMs } from '../reactUtils';
+import { useHasStayedTrueForMs, usePrevious } from '../reactUtils';
 import type { JSONableDict } from '../utils/jsonable';
 import { createStyleSheet } from '../styles';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -89,7 +89,38 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
   const shouldShowUncertaintyNotice = useShouldShowUncertaintyNotice();
-  const isNoticeVisible = isOnline === false || shouldShowUncertaintyNotice;
+
+  // Use local UI state for isNoticeVisible instead of computing directly as
+  // a `const`, so we can apply LayoutAnimation.configureNext to just the
+  // visibility state change, instead of, e.g., all layout changes
+  // potentially caused by an APP_ONLINE action.
+  const [isNoticeVisible, setIsNoticeVisible] = useState(
+    isOnline === false || shouldShowUncertaintyNotice,
+  );
+
+  useEffect(() => {
+    setIsNoticeVisible(oldValue => {
+      const newValue = isOnline === false || shouldShowUncertaintyNotice;
+      if (oldValue !== newValue) {
+        // Animate the entrance and exit of the offline notice. For how we
+        // animate OfflineNoticePlaceholder, see there.
+        //
+        // For the notice, we shouldn't be affected by the known bad
+        // interactions with react-native-screens, because the notice is
+        // rootward of all the React Navigation screens in the app. For what
+        // those bad interactions are, see the comment in ZulipMobile.js on
+        // `UIManager.setLayoutAnimationEnabledExperimental(true)`.
+        LayoutAnimation.configureNext({
+          ...LayoutAnimation.Presets.easeInEaseOut,
+
+          // Enter slowly to give bad, possibly unexpected news. Leave quickly
+          // to give good, hoped-for news.
+          duration: newValue ? 1000 : 300,
+        });
+      }
+      return newValue;
+    });
+  }, [isOnline, shouldShowUncertaintyNotice]);
 
   const styles = useMemo(
     () =>
@@ -99,6 +130,14 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
           position: 'absolute',
 
           // Whether the notice is visible or tucked away above the window.
+          //
+          // (Just as we discovered in 3fa7a7f10 with the lightbox, it seems
+          // the Animated API wouldn't let us do a translate-transform
+          // animation with a percentage; that's issue
+          //   https://github.com/facebook/react-native/issues/13107 .
+          // So we use LayoutAnimation, which is probably better anyway
+          // because it lets us animate layout changes at the native layer,
+          // and so won't drop frames when the JavaScript thread is busy.)
           ...(isNoticeVisible ? { top: 0 } : { bottom: '100%' }),
 
           zIndex: 1,
@@ -237,17 +276,60 @@ export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
   const { style: callerStyle } = props;
 
   const { isNoticeVisible, noticeContentAreaHeight } = useContext(OfflineNoticeContext);
+  const prevIsNoticeVisible = usePrevious(isNoticeVisible, isNoticeVisible);
+
+  const plainHeight = isNoticeVisible ? noticeContentAreaHeight : 0;
+  const animHeight = useRef(new Animated.Value(plainHeight)).current;
+
+  // Part of an Android workaround; see where we set the View's height.
+  useEffect(() => {
+    if (Platform.OS !== 'android' || prevIsNoticeVisible === isNoticeVisible) {
+      return;
+    }
+
+    // Should approximate OfflineNoticeProvider's animation curve.
+    const animation = Animated.timing(animHeight, {
+      toValue: plainHeight,
+      duration: isNoticeVisible ? 1000 : 300,
+      easing: Easing.inOut(t => Easing.ease(t)),
+
+      // With `true`, I get an error:
+      // - On Android: "Animated node with tag […] does not exist"
+      // - On iOS: "Style property 'height' is not supported by native
+      //   animated module".
+      useNativeDriver: false,
+    });
+
+    animation.start();
+  }, [isNoticeVisible, prevIsNoticeVisible, plainHeight, animHeight]);
 
   const style = useMemo(
     () => [
       {
-        height: isNoticeVisible ? noticeContentAreaHeight : 0,
+        height:
+          /* prettier-ignore */
+          Platform.OS === 'android'
+            // Avoid some bad interactions on Android with
+            // react-native-screens; see the comment in ZulipMobile.js on
+            // `UIManager.setLayoutAnimationEnabledExperimental(true)`. To
+            // avoid those, don't pass `plainHeight`, which would cause the
+            // resulting layout change to be animated with
+            // OfflineNoticeProvider's LayoutAnimation.configureNext call.
+            // Instead, use RN's Animated API.
+            ? animHeight
+            // Do pass `plainHeight`, to piggy-back on
+            // OfflineNoticeProvider's LayoutAnimation call. Nothing seems
+            // to break this simple use of LayoutAnimation on iOS, and it's
+            // better than Animated because Animated can drop animation
+            // frames when the CPU is busy (at least without
+            // `useNativeDriver: true`, and that doesn't support `height`).
+            : plainHeight,
         width: '100%',
         backgroundColor: 'transparent',
       },
       callerStyle,
     ],
-    [isNoticeVisible, noticeContentAreaHeight, callerStyle],
+    [plainHeight, animHeight, callerStyle],
   );
 
   return (
@@ -264,7 +346,9 @@ export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
           />
         )
       }
-      <View style={style} />
+      {/* The `Animated.View` is for the Android workaround; iOS could use a
+          regular View. See comment where we set the height attribute. */}
+      <Animated.View style={style} />
     </>
   );
 }
