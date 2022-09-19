@@ -122,8 +122,8 @@ class AppEventHandlersInner extends PureComponent<Props> {
     handleInitialShare();
 
     NetInfo.configure({
-      // This is the default, as of 6.0.0, but `OfflineNotice` depends on this
-      // value being stable.
+      // This is the default, as of 6.0.0, but `OfflineNoticeProvider`
+      // depends on this value being stable.
       reachabilityRequestTimeout: 15 * 1000,
     });
     this.netInfoDisconnectCallback = NetInfo.addEventListener(this.handleConnectivityChange);

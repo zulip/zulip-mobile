@@ -15,7 +15,7 @@ import LoadingBanner from '../common/LoadingBanner';
 import { IconPeople, IconPerson } from '../common/Icons';
 import PmConversationList from './PmConversationList';
 import { getRecentConversations } from '../selectors';
-import OfflineNotice from '../common/OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 const styles = createStyleSheet({
   container: {
@@ -55,7 +55,7 @@ export default function PmConversationsScreen(props: Props): Node {
       edges={['top']}
       style={[styles.container, { backgroundColor: context.backgroundColor }]}
     >
-      <OfflineNotice />
+      <OfflineNoticePlaceholder />
       <View style={styles.row}>
         <ZulipButton
           secondary

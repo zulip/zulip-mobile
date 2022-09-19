@@ -7,7 +7,7 @@ import type { LocalizableReactText } from '../types';
 import globalStyles, { ThemeContext, NAVBAR_SIZE } from '../styles';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import NavBarBackButton from './NavBarBackButton';
-import OfflineNotice from '../common/OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 type Props = $ReadOnly<{|
   canGoBack: boolean,
@@ -58,7 +58,7 @@ export default function ModalNavBar(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={styles.surface}>
-      <OfflineNotice />
+      <OfflineNoticePlaceholder />
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         {canGoBack && <NavBarBackButton />}
         <ZulipTextIntl style={styles.text} text={title} numberOfLines={1} ellipsizeMode="tail" />

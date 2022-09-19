@@ -9,7 +9,7 @@ import { ThemeContext, NAVBAR_SIZE } from '../styles';
 import SearchInput from '../common/SearchInput';
 import NavBarBackButton from './NavBarBackButton';
 import type { LocalizableText } from '../types';
-import OfflineNotice from '../common/OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 type Props = $ReadOnly<{|
   autoFocus: boolean,
@@ -46,7 +46,7 @@ export default function ModalSearchNavBar(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={styles.surface}>
-      <OfflineNotice />
+      <OfflineNoticePlaceholder />
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         {canGoBack && (
           <>

@@ -9,7 +9,7 @@ import { createStyleSheet } from '../styles';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { AvatarURL } from '../utils/avatar';
-import OfflineNotice from '../common/OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 const styles = createStyleSheet({
   text: {
@@ -62,7 +62,7 @@ export default function LightboxHeader(props: Props): Node {
 
   return (
     <SafeAreaView mode="padding" edges={['top']}>
-      <OfflineNotice />
+      <OfflineNoticePlaceholder />
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
         <View style={styles.text}>

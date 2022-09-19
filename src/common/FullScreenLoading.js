@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import LoadingIndicator from './LoadingIndicator';
 import ZulipStatusBar from './ZulipStatusBar';
-import OfflineNotice from './OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 const componentStyles = createStyleSheet({
   center: {
@@ -36,7 +36,7 @@ export default function FullScreenLoading(props: Props): Node {
             backgroundColor: BRAND_COLOR,
           }}
         />
-        <OfflineNotice />
+        <OfflineNoticePlaceholder />
         <LoadingIndicator color="black" size={80} showLogo />
       </View>
     </>

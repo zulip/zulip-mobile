@@ -21,7 +21,7 @@ import { doNarrow } from '../actions';
 import { isNarrowValid as getIsNarrowValid } from '../selectors';
 import NavButton from './NavButton';
 import { useNavigation } from '../react-navigation';
-import OfflineNotice from '../common/OfflineNotice';
+import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 function ExtraNavButtonStream(props: {| +color: string, +narrow: Narrow |}): Node {
   const { color, narrow } = props;
@@ -164,7 +164,7 @@ export default function ChatNavBar(props: {|
           backgroundColor: streamColor,
         }}
       >
-        <OfflineNotice />
+        <OfflineNoticePlaceholder />
         {/* This SafeAreaView is the app bar:
             https://material.io/components/app-bars-top#specs */}
         <SafeAreaView
