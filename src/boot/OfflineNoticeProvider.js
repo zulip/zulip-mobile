@@ -8,7 +8,7 @@ import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropT
 import type { DimensionValue } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import * as logging from '../utils/logging';
-import { useGlobalSelector } from '../react-redux';
+import { useDispatch, useGlobalSelector } from '../react-redux';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
 import { useHasStayedTrueForMs, usePrevious } from '../reactUtils';
 import type { JSONableDict } from '../utils/jsonable';
@@ -18,6 +18,66 @@ import type { ViewStylePropWithout } from '../reactNativeUtils';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import type { ThemeName } from '../reduxTypes';
 import { TranslationContext } from './TranslationProvider';
+import { appOnline } from '../session/sessionActions';
+
+function useUpdateSessionOnConnectivityChange() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    NetInfo.configure({
+      // This is the default, as of 6.0.0, but
+      // `useShouldShowUncertaintyNotice` depends on this value being
+      // stable.
+      reachabilityRequestTimeout: 15 * 1000,
+    });
+
+    return NetInfo.addEventListener(netInfoState => {
+      dispatch(
+        appOnline(
+          // From reading code at @react-native-community/net-info v6.0.0 (the
+          // docs and types don't really give these answers):
+          //
+          // This will be `null` on both platforms while the first known value
+          // of `true` or `false` is being shipped across the asynchronous RN
+          // bridge.
+          //
+          // On Android, it shouldn't otherwise be `null`. The value is set to the
+          // result of an Android function that only returns a boolean:
+          // https://developer.android.com/reference/android/net/NetworkInfo#isConnected()
+          //
+          // On iOS, this can also be `null` while the app asynchronously
+          // evaluates whether a network change should cause this to go from
+          // `false` to `true`. Read on for details (gathered from
+          // src/internal/internetReachability.ts in the library).
+          //
+          // 1. A request loop is started. A HEAD request is made to
+          //    https://clients3.google.com/generate_204, with a timeout of
+          //    15s (`reachabilityRequestTimeout`), to see if the Internet is
+          //    reachable.
+          //    - If the `fetch` succeeds and a 204 is received, this will be
+          //      made `true`. We'll then sleep for 60s before making the
+          //      request again.
+          //    - If the `fetch` succeeds and a 204 is not received, or if the
+          //      fetch fails, or if the timeout expires, this will be made
+          //      `false`. We'll then sleep for only 5s before making the
+          //      request again.
+          // 2. The request loop is interrupted if we get a
+          //    'netInfo.networkStatusDidChange' event from the library's
+          //    native code, signaling a change in the network state. If that
+          //    change would make `netInfoState.type` become or remain
+          //    something good (i.e., not 'none' or 'unknown'), and this
+          //    (`.isInternetReachable`) is currently `false`, then this will
+          //    be made `null`, and the request loop described above will
+          //    start again.
+          //
+          // (Several of those parameters are configurable -- timeout durations,
+          // URL, etc.)
+          netInfoState.isInternetReachable,
+        ),
+      );
+    });
+  }, [dispatch]);
+}
 
 function useShouldShowUncertaintyNotice(): boolean {
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
@@ -91,6 +151,8 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
   const _ = useContext(TranslationContext);
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
   const shouldShowUncertaintyNotice = useShouldShowUncertaintyNotice();
+
+  useUpdateSessionOnConnectivityChange();
 
   // Use local UI state for isNoticeVisible instead of computing directly as
   // a `const`, so we can apply LayoutAnimation.configureNext to just the
