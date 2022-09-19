@@ -208,8 +208,20 @@ rules:
   # [1]: https://github.com/tc39/proposal-class-fields
   no-underscore-dangle: ["error", { allowAfterThis: true } ]
 
-  # Disallow double underscores and trailing underscores.
-  id-match: ["error", "^_?([a-zA-Z0-9$]+_?)*$", { "properties": true }]
+  # Disallow names with double underscores and trailing underscores.
+  id-match:
+    - error
+    - "^_?([a-zA-Z0-9$]+_?)*$"
+    - # Don't apply to property names; see comment on no-underscore-dangle.
+      properties: true
+
+      # Only apply to declarations, not uses.  That way a local override for
+      # a given name only needs to appear once, not at each use.
+      #
+      # The docs (https://eslint.org/docs/latest/rules/id-match) say this
+      # only applies to `var`, `function`, and `class` declarations, but in
+      # fact it seems to correctly apply to `const` and other declarations.
+      onlyDeclarations: true
 
 
   #

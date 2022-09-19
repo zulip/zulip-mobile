@@ -1,5 +1,5 @@
 /* @flow strict-local */
-/* eslint-disable id-match */
+// eslint-disable-next-line id-match
 import type { ____Styles_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 import composeBoxStyles from './composeBoxStyles';
