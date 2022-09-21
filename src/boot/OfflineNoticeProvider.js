@@ -1,7 +1,7 @@
 // @flow strict-local
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { Node } from 'react';
-import { View, Animated, LayoutAnimation, Platform, Easing } from 'react-native';
+import { AccessibilityInfo, View, Animated, LayoutAnimation, Platform, Easing } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
@@ -17,6 +17,7 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import type { ViewStylePropWithout } from '../reactNativeUtils';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import type { ThemeName } from '../reduxTypes';
+import { TranslationContext } from './TranslationProvider';
 
 function useShouldShowUncertaintyNotice(): boolean {
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
@@ -87,6 +88,7 @@ const backgroundColorForTheme = (theme: ThemeName): string =>
  */
 export function OfflineNoticeProvider(props: ProviderProps): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const _ = useContext(TranslationContext);
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
   const shouldShowUncertaintyNotice = useShouldShowUncertaintyNotice();
 
@@ -120,7 +122,47 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
       }
       return newValue;
     });
-  }, [isOnline, shouldShowUncertaintyNotice]);
+  }, [isOnline, shouldShowUncertaintyNotice, _]);
+
+  // Announce connectivity changes to screen-reader users.
+  const haveAnnouncedOffline = useRef(false);
+  const haveAnnouncedUncertain = useRef(false);
+  useEffect(() => {
+    // When announcing, mention Zulip so this doesn't sound like an
+    // announcement from the OS. We don't speak for the OS, and the OS might
+    // disagree about the connectivity state, e.g., because we're wrong
+    // about Zulip's connectivity or because a connection problem somehow
+    // affects Zulip but not other apps.
+    //
+    // (The banner element shouldn't have to mention Zulip because it's
+    // already clear that it's from Zulip: it's part of the UI we draw, as
+    // traversed visually or by a screen reader. The OS should make it clear
+    // when you're traversing a given app's UI, e.g., so an app can't trick
+    // you into giving it sensitive data that you meant for the OS or
+    // another app.)
+
+    if (shouldShowUncertaintyNotice && !haveAnnouncedUncertain.current) {
+      // TODO(react-native-68): Use announceForAccessibilityWithOptions to
+      //   queue this behind any in-progress announcements
+      AccessibilityInfo.announceForAccessibility(_('Zulip’s Internet connection is uncertain.'));
+      haveAnnouncedUncertain.current = true;
+    }
+
+    if (isOnline === false && (!haveAnnouncedOffline.current || haveAnnouncedUncertain.current)) {
+      AccessibilityInfo.announceForAccessibility(_('Zulip is offline.'));
+      haveAnnouncedOffline.current = true;
+      haveAnnouncedUncertain.current = false;
+    } else if (
+      isOnline === true
+      && (haveAnnouncedOffline.current || haveAnnouncedUncertain.current)
+    ) {
+      // TODO(react-native-68): Use announceForAccessibilityWithOptions to
+      //   queue this behind any in-progress announcements
+      AccessibilityInfo.announceForAccessibility(_('Zulip is online.'));
+      haveAnnouncedOffline.current = false;
+      haveAnnouncedUncertain.current = false;
+    }
+  }, [isOnline, shouldShowUncertaintyNotice, _]);
 
   const styles = useMemo(
     () =>
@@ -208,6 +250,11 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
           // be present, with explanatory text, or absent. To make it
           // "absent" for screen readers, we make this view and its children
           // unfocusable.
+          //
+          // See also our AccessibilityInfo.announceForAccessibility call,
+          // where we announce online/offline changes so the user doesn't
+          // have to poll for the connectivity state by checking for
+          // presence/absence of this view.
           ...(isNoticeVisible
             ? {
                 // Group descendants into a single selectable component. Its
