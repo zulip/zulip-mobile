@@ -9,6 +9,7 @@ import { createStyleSheet } from '../styles';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { AvatarURL } from '../utils/avatar';
+import OfflineNotice from '../common/OfflineNotice';
 
 const styles = createStyleSheet({
   text: {
@@ -29,7 +30,7 @@ const styles = createStyleSheet({
     alignSelf: 'center',
     marginVertical: 4,
   },
-  wrapper: {
+  contentArea: {
     flex: 1,
     flexDirection: 'row',
     paddingHorizontal: 16,
@@ -60,8 +61,9 @@ export default function LightboxHeader(props: Props): Node {
   const subheader = `${displayDate} at ${time}`;
 
   return (
-    <SafeAreaView mode="padding" edges={['top', 'right', 'left']}>
-      <View style={styles.wrapper}>
+    <SafeAreaView mode="padding" edges={['top']}>
+      <OfflineNotice />
+      <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
@@ -74,7 +76,7 @@ export default function LightboxHeader(props: Props): Node {
         <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={12}>
           {({ pressed }) => <Icon size={24} color={pressed ? 'gray' : 'white'} name="x" />}
         </Pressable>
-      </View>
+      </SafeAreaView>
     </SafeAreaView>
   );
 }
