@@ -420,8 +420,8 @@ describe('getNarrowFromLink', () => {
 
 describe('getNearOperandFromLink', () => {
   test('not message link', () => {
-    expect(getNearOperandFromLink('https://example.com/#narrow/is/private', realm)).toBe(0);
-    expect(getNearOperandFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(0);
+    expect(getNearOperandFromLink('https://example.com/#narrow/is/private', realm)).toBe(null);
+    expect(getNearOperandFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(null);
   });
 
   test('`near` is the only operator', () => {

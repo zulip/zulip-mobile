@@ -38,7 +38,7 @@ export const messageLinkPress =
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
       const nearOperand = getNearOperandFromLink(href, auth.realm);
-      dispatch(doNarrow(narrow, nearOperand));
+      dispatch(doNarrow(narrow, nearOperand ?? 0));
     } else if (!isUrlOnRealm(href, auth.realm)) {
       openLinkWithUserPreference(href, getGlobalSettings());
     } else {
