@@ -254,7 +254,14 @@ export const getNearOperandFromLink = (url: string, realm: URL): number => {
 
   // We expect an operand to directly follow its operator.
   const nearOperandIndex = nearOperatorIndex + 1;
-  return parseInt(hashSegments[nearOperandIndex], 10);
+
+  const nearOperandStr = hashSegments[nearOperandIndex];
+  // Must look like a message ID
+  if (!/^[0-9]+$/.test(nearOperandStr)) {
+    return 0;
+  }
+
+  return parseInt(nearOperandStr, 10);
 };
 
 export const getStreamTopicUrl = (
