@@ -233,7 +233,7 @@ export const getNarrowFromLink = (
  * millisecond.  Avoid using in a context where it might be called more than
  * 10 or 100 times per user action.
  */
-export const getMessageIdFromLink = (url: string, realm: URL): number => {
+export const getNearOperandFromLink = (url: string, realm: URL): number => {
   // isNarrowLink(…) is true, by jsdoc, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 

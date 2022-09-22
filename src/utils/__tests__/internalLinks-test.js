@@ -6,7 +6,7 @@ import {
   isNarrowLink,
   getLinkType,
   getNarrowFromLink,
-  getMessageIdFromLink,
+  getNearOperandFromLink,
   decodeHashComponent,
 } from '../internalLinks';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -418,25 +418,25 @@ describe('getNarrowFromLink', () => {
   });
 });
 
-describe('getMessageIdFromLink', () => {
+describe('getNearOperandFromLink', () => {
   test('not message link', () => {
-    expect(getMessageIdFromLink('https://example.com/#narrow/is/private', realm)).toBe(0);
-    expect(getMessageIdFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(0);
+    expect(getNearOperandFromLink('https://example.com/#narrow/is/private', realm)).toBe(0);
+    expect(getNearOperandFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(0);
   });
 
   test('`near` is the only operator', () => {
-    expect(getMessageIdFromLink('https://example.com/#narrow/near/1', realm)).toBe(1);
+    expect(getNearOperandFromLink('https://example.com/#narrow/near/1', realm)).toBe(1);
   });
 
   test('when link is a group link, return anchor message id', () => {
     expect(
-      getMessageIdFromLink('https://example.com/#narrow/pm-with/1,3-group/near/1/', realm),
+      getNearOperandFromLink('https://example.com/#narrow/pm-with/1,3-group/near/1/', realm),
     ).toBe(1);
   });
 
   test('when link is a topic link, return anchor message id', () => {
     expect(
-      getMessageIdFromLink('https://example.com/#narrow/stream/jest/topic/test/near/1', realm),
+      getNearOperandFromLink('https://example.com/#narrow/stream/jest/topic/test/near/1', realm),
     ).toBe(1);
   });
 });

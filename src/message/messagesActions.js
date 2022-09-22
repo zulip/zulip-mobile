@@ -2,7 +2,7 @@
 import * as NavigationService from '../nav/NavigationService';
 import type { Narrow, ThunkAction } from '../types';
 import { getAuth } from '../selectors';
-import { getMessageIdFromLink, getNarrowFromLink } from '../utils/internalLinks';
+import { getNearOperandFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
@@ -37,8 +37,8 @@ export const messageLinkPress =
     //   which should be futile.
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
-      const anchor = getMessageIdFromLink(href, auth.realm);
-      dispatch(doNarrow(narrow, anchor));
+      const nearOperand = getNearOperandFromLink(href, auth.realm);
+      dispatch(doNarrow(narrow, nearOperand));
     } else if (!isUrlOnRealm(href, auth.realm)) {
       openLinkWithUserPreference(href, getGlobalSettings());
     } else {
