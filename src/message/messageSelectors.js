@@ -78,3 +78,47 @@ export const getFirstUnreadIdInNarrow: Selector<number | null, Narrow> = createS
     return firstUnread?.id ?? null;
   },
 );
+
+/**
+ * True just if we know the message has, or had, the given topic.
+ *
+ * Gives null if it doesn't have the topic now, but we can't access
+ * the message's edit history to check in the past.
+ */
+export function hasMessageEverHadTopic(message: Message, topic: string): boolean | null {
+  if (message.subject === topic) {
+    return true;
+  }
+
+  // See comments on Message['edit_history'] for the values it takes
+  // and what they mean.
+  if (message.edit_history === null) {
+    return null;
+  }
+  if (message.edit_history === undefined) {
+    return false;
+  }
+  return message.edit_history.findIndex(messageEdit => topic === messageEdit.prev_topic) >= 0;
+}
+
+/**
+ * True just if we know the message is, or was, in the given stream.
+ *
+ * Gives null if it's not in the stream now, but we can't access the
+ * message's edit history to check in the past.
+ */
+export function hasMessageEverBeenInStream(message: Message, streamId: number): boolean | null {
+  if (message.stream_id === streamId) {
+    return true;
+  }
+
+  // See comments on Message['edit_history'] for the values it takes
+  // and what they mean.
+  if (message.edit_history === null) {
+    return null;
+  }
+  if (message.edit_history === undefined) {
+    return false;
+  }
+  return message.edit_history.findIndex(messageEdit => streamId === messageEdit.prev_stream) >= 0;
+}
