@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- For reference on this file's semantics:
+           https://developer.android.com/training/articles/security-config#FileFormat -->
+    <base-config>
+        <!-- If the user has configured additional CAs on the device, trust those
+             too.  This can be useful for an internal Zulip server in a corporate
+             or institutional environment, and was a recurring user request:
+               https://github.com/zulip/zulip-mobile/issues/3312 -->
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </base-config>
+    <domain-config>
+        <!-- But revert to the default, stricter behavior — trusting only the
+             system CA list — where we know we can, which means for domains where
+             we know a legitimate cert will always come from a widely-trusted CA.
+             Specifically, we know this is the case for Zulip Cloud and other
+             domains operated by the core Zulip developers at Kandra Labs. -->
+        <domain includeSubdomains="true">zulipchat.com</domain>
+        <domain includeSubdomains="true">zulip.com</domain>
+        <domain includeSubdomains="true">zulip.org</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>
