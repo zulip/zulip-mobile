@@ -4,14 +4,14 @@ Date: Mon, 25 Jul 2022 13:56:36 -0700
 Subject: [tsflower] expo-modules-core: Fix export { ... } of types
 
 ---
- types/expo-modules-core/build/index.js.flow | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ types/expo-modules-core/build/index.js.flow | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git types/expo-modules-core/build/index.js.flow types/expo-modules-core/build/index.js.flow
-index 674f0d41a..fd089a0a7 100644
+index 6fad2cffb..8fc723ed8 100644
 --- types/expo-modules-core/build/index.js.flow
 +++ types/expo-modules-core/build/index.js.flow
-@@ -3,27 +3,30 @@
+@@ -3,9 +3,9 @@
   */
  import type { DeviceEventEmitterStatic as $tsflower_import_type$_$react_2d_native$DeviceEventEmitterStatic } from 'react-native';
  import { DeviceEventEmitter } from 'react-native';
@@ -23,11 +23,7 @@ index 674f0d41a..fd089a0a7 100644
  import { requireNativeViewManager } from './NativeViewManagerAdapter';
  import Platform from './Platform';
  import SyntheticPlatformEmitter from './SyntheticPlatformEmitter';
- import { CodedError } from './errors/CodedError';
- import { UnavailabilityError } from './errors/UnavailabilityError';
- export { default as deprecate } from './deprecate';
-+
- export {
+@@ -21,14 +21,16 @@ export {
    DeviceEventEmitter,
    EventEmitter,
    NativeModulesProxy,
@@ -43,9 +39,9 @@ index 674f0d41a..fd089a0a7 100644
 +export type ProxyNativeModule = ProxyNativeModule_;
 +export type Subscription = Subscription_;
 +
+ export * from './requireNativeModule';
  declare export var RCTDeviceEventEmitter: $tsflower_import_type$_$react_2d_native$DeviceEventEmitterStatic;
  export * from './PermissionsInterface';
- export * from './PermissionsHook';
 -- 
 2.32.0
 

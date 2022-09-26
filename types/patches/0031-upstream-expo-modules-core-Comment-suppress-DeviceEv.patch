@@ -5,11 +5,11 @@ Subject: [upstream?] expo-modules-core: Comment/suppress
  DeviceEventEmitterStatic
 
 ---
- types/expo-modules-core/build/index.js.flow | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ types/expo-modules-core/build/index.js.flow | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git types/expo-modules-core/build/index.js.flow types/expo-modules-core/build/index.js.flow
-index fd089a0a7..67d7b07ee 100644
+index 8fc723ed8..ecddc0411 100644
 --- types/expo-modules-core/build/index.js.flow
 +++ types/expo-modules-core/build/index.js.flow
 @@ -1,7 +1,11 @@
@@ -24,11 +24,12 @@ index fd089a0a7..67d7b07ee 100644
  import { DeviceEventEmitter } from 'react-native';
  import { EventEmitter, type Subscription as Subscription_ } from './EventEmitter';
  import NativeModulesProxy from './NativeModulesProxy';
-@@ -27,6 +31,8 @@ export {
- export type ProxyNativeModule = ProxyNativeModule_;
+@@ -32,6 +36,9 @@ export type ProxyNativeModule = ProxyNativeModule_;
  export type Subscription = Subscription_;
  
+ export * from './requireNativeModule';
 -declare export var RCTDeviceEventEmitter: $tsflower_import_type$_$react_2d_native$DeviceEventEmitterStatic;
++
 +// See comment on DeviceEventEmitterStatic import, above.
 +declare export var RCTDeviceEventEmitter: $FlowFixMe; // $tsflower_import_type$_$react_2d_native$DeviceEventEmitterStatic
 +

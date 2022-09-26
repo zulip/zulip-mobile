@@ -15,8 +15,12 @@ import Platform from './Platform';
 import SyntheticPlatformEmitter from './SyntheticPlatformEmitter';
 import { CodedError } from './errors/CodedError';
 import { UnavailabilityError } from './errors/UnavailabilityError';
-export { default as deprecate } from './deprecate';
 
+/* tsflower-unimplemented: ImportDeclaration with no import clause */
+/* 
+import './sweet/setUpErrorManager.fx'; */
+
+export { default as deprecate } from './deprecate';
 export {
   DeviceEventEmitter,
   EventEmitter,
@@ -30,6 +34,8 @@ export {
 
 export type ProxyNativeModule = ProxyNativeModule_;
 export type Subscription = Subscription_;
+
+export * from './requireNativeModule';
 
 // See comment on DeviceEventEmitterStatic import, above.
 declare export var RCTDeviceEventEmitter: $FlowFixMe; // $tsflower_import_type$_$react_2d_native$DeviceEventEmitterStatic

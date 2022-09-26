@@ -16,11 +16,13 @@ export type WebBrowserOpenOptions = {
     controlsColor?: string,
     dismissButtonStyle?: "done" | "close" | "cancel",
     readerMode?: boolean,
+    presentationStyle?: WebBrowserPresentationStyleT,
     windowName?: string,
     windowFeatures?: string | WebBrowserWindowFeatures,
     ...
 };
 
+export type AuthSessionOpenOptions = WebBrowserOpenOptions & { preferEphemeralSession?: boolean, ... };
 export type WebBrowserAuthSessionResult = WebBrowserRedirectResult | WebBrowserResult;
 
 export type WebBrowserCustomTabsResults = {
@@ -47,6 +49,50 @@ declare export var WebBrowserResultType: {|
   +LOCKED: 'locked',
 |}
 export type WebBrowserResultTypeT = $Values<typeof WebBrowserResultType>;
+
+/**
+ * A browser presentation style. Its values are directly mapped to the [`UIModalPresentationStyle`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621355-modalpresentationstyle).
+ *
+ * @platform ios
+ */
+declare export var WebBrowserPresentationStyle: {|
+    /**
+     * A presentation style in which the presented browser covers the screen.
+     */
+    +FULL_SCREEN: "fullScreen",
+    /**
+     * A presentation style that partially covers the underlying content.
+     */
+    +PAGE_SHEET: "pageSheet",
+    /**
+     * A presentation style that displays the browser centered in the screen.
+     */
+    +FORM_SHEET: "formSheet",
+    /**
+     * A presentation style where the browser is displayed over the app's content.
+     */
+    +CURRENT_CONTEXT: "currentContext",
+    /**
+     * A presentation style in which the browser view covers the screen.
+     */
+    +OVER_FULL_SCREEN: "overFullScreen",
+    /**
+     * A presentation style where the browser is displayed over the app's content.
+     */
+    +OVER_CURRENT_CONTEXT: "overCurrentContext",
+    /**
+     * A presentation style where the browser is displayed in a popover view.
+     */
+    +POPOVER: "popover",
+    /**
+     * The default presentation style chosen by the system.
+     * On older iOS versions, falls back to `WebBrowserPresentationStyle.FullScreen`.
+     *
+     * @platform ios 13+
+     */
+    +AUTOMATIC: "automatic"
+|}
+export type WebBrowserPresentationStyleT = $Values<typeof WebBrowserPresentationStyle>;
 
 export type WebBrowserResult = { type: WebBrowserResultTypeT, ... };
 

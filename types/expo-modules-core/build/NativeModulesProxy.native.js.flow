@@ -3,5 +3,4 @@
  */
 import { type ProxyNativeModule } from './NativeModulesProxy.types';
 declare var NativeModulesProxy: { [moduleName: string]: ProxyNativeModule, ... };
-declare export function useExpoTurboModules(state?: boolean): void;
 export default NativeModulesProxy;

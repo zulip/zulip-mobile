@@ -410,6 +410,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.zulip.Zulip;
 				PRODUCT_NAME = ZulipMobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -443,6 +444,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = org.zulip.Zulip;
 				PRODUCT_NAME = ZulipMobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
