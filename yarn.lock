@@ -13445,9 +13445,9 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
-react-native-photo-view@alwx/react-native-photo-view#c58fd6b30:
-  version "1.5.2"
-  resolved "https://codeload.github.com/alwx/react-native-photo-view/tar.gz/c58fd6b30d627fa23e39520d4fc3325ade8b0a51"
+react-native-photo-view@alwx/react-native-photo-view#91b873c85:
+  version "1.5.3"
+  resolved "https://codeload.github.com/alwx/react-native-photo-view/tar.gz/91b873c85c5c48af41b93cf6bf34e0a40502f754"
   dependencies:
     prop-types "^15.5.10"
 

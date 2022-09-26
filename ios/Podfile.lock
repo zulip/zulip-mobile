@@ -304,8 +304,8 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.0):
     - React-Core
-  - react-native-photo-view (1.5.2):
-    - React
+  - react-native-photo-view (1.5.3):
+    - React-Core
   - react-native-safe-area-context (4.4.1):
     - RCT-Folly
     - RCTRequired
@@ -709,7 +709,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 38b40d9033e4077b6c603f92f95c6d05fa7907df
   react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
-  react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
+  react-native-photo-view: ea0ec91bf5991a6843e740b1f47ab355171c996c
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581

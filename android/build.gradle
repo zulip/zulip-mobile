@@ -65,13 +65,13 @@ allprojects {
         // TODO: Get rid of this, when no deps use it.
         jcenter() {
             content {
-                // Allow jcenter for only me.relex:photodraweeview:1.0.0:
+                // Allow jcenter for only me.relex:photodraweeview:1.1.3:
                 //   https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:declaring-repository-filter
                 // Unfortunately, react-native-photo-view (which we want to
                 // stop using: #4217) still depends on this, and it's only
                 // available from jcenter.
                 // TODO(#4217): Remove this and the whole `jcenter()` block.
-                includeVersion("me.relex", "photodraweeview", "1.0.0")
+                includeVersion("me.relex", "photodraweeview", "1.1.3")
             }
         }
     }
