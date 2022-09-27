@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 // $FlowFixMe[untyped-import]
@@ -34,28 +34,26 @@ type Props = $ReadOnly<{|
  * @prop children - If provided, will render inside the component body.
  * @prop onPress - Event fired on pressing the component.
  */
-export default class GroupAvatar extends PureComponent<Props> {
-  render(): Node {
-    const { children, names, size, onPress } = this.props;
+export default function GroupAvatar(props: Props): Node {
+  const { children, names, size, onPress } = props;
 
-    const frameSize = {
-      height: size,
-      width: size,
-      borderRadius: size / 8,
-      backgroundColor: Color(colorHashFromString(names.join(', ')))
-        .lighten(0.6)
-        .hex(),
-    };
+  const frameSize = {
+    height: size,
+    width: size,
+    borderRadius: size / 8,
+    backgroundColor: Color(colorHashFromString(names.join(', ')))
+      .lighten(0.6)
+      .hex(),
+  };
 
-    const iconColor = Color(colorHashFromString(names.join(', '))).string();
+  const iconColor = Color(colorHashFromString(names.join(', '))).string();
 
-    return (
-      <Touchable onPress={onPress}>
-        <View style={[styles.frame, frameSize]}>
-          <IconGroup size={size * 0.75} color={iconColor} />
-          {children}
-        </View>
-      </Touchable>
-    );
-  }
+  return (
+    <Touchable onPress={onPress}>
+      <View style={[styles.frame, frameSize]}>
+        <IconGroup size={size * 0.75} color={iconColor} />
+        {children}
+      </View>
+    </Touchable>
+  );
 }

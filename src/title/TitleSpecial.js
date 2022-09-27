@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -19,16 +19,14 @@ type Props = $ReadOnly<{|
   color: string,
 |}>;
 
-export default class TitleSpecial extends PureComponent<Props> {
-  render(): Node {
-    const { code, color } = this.props;
-    const { name, icon } = specials[code];
+export default function TitleSpecial(props: Props): Node {
+  const { code, color } = props;
+  const { name, icon } = specials[code];
 
-    return (
-      <View style={styles.navWrapper}>
-        <Icon name={icon} size={20} color={color} style={styles.halfPaddingRight} />
-        <ZulipTextIntl style={[styles.navTitle, { flex: 1, color }]} text={name} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.navWrapper}>
+      <Icon name={icon} size={20} color={color} style={styles.halfPaddingRight} />
+      <ZulipTextIntl style={[styles.navTitle, { flex: 1, color }]} text={name} />
+    </View>
+  );
 }

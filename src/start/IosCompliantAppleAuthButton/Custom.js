@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -55,26 +55,24 @@ type Props = $ReadOnly<{|
  * IosCompliantAppleAuthButton, which controls whether the custom
  * button should be used.
  */
-export default class Custom extends PureComponent<Props> {
-  render(): Node {
-    const { style, onPress, theme } = this.props;
-    const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
-    const frameStyle = [
-      styles.frame,
-      theme === 'default' ? styles.dayFrame : styles.nightFrame,
-      style,
-    ];
-    const textStyle = [styles.text, theme === 'default' ? styles.dayText : styles.nightText];
+export default function Custom(props: Props): Node {
+  const { style, onPress, theme } = props;
+  const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
+  const frameStyle = [
+    styles.frame,
+    theme === 'default' ? styles.dayFrame : styles.nightFrame,
+    style,
+  ];
+  const textStyle = [styles.text, theme === 'default' ? styles.dayText : styles.nightText];
 
-    return (
-      <View style={frameStyle}>
-        <TouchableWithoutFeedback onPress={onPress}>
-          <View style={styles.buttonContent}>
-            <Image source={logoSource} />
-            <ZulipTextIntl style={textStyle} text="Sign in with Apple" />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-    );
-  }
+  return (
+    <View style={frameStyle}>
+      <TouchableWithoutFeedback onPress={onPress}>
+        <View style={styles.buttonContent}>
+          <Image source={logoSource} />
+          <ZulipTextIntl style={textStyle} text="Sign in with Apple" />
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+  );
 }

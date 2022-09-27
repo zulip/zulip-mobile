@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node, ElementConfig } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -51,55 +51,53 @@ type Props = $ReadOnly<{|
  * @prop [hitSlop] - Passed through; see upstream docs.
  */
 // TODO(?): Use Pressable API: https://reactnative.dev/docs/pressable
-export default class Touchable extends PureComponent<Props> {
-  render(): Node {
-    const { accessibilityLabel, style, onPress, onLongPress, hitSlop } = this.props;
-    const child: Node = React.Children.only(this.props.children);
+export default function Touchable(props: Props): Node {
+  const { accessibilityLabel, style, onPress, onLongPress, hitSlop } = props;
+  const child: Node = React.Children.only(props.children);
 
-    if (!onPress && !onLongPress) {
-      return (
-        <View
-          accessible={!!accessibilityLabel}
-          accessibilityLabel={accessibilityLabel}
-          style={style}
-          hitSlop={hitSlop}
-        >
-          {child}
-        </View>
-      );
-    }
-
-    if (Platform.OS === 'ios') {
-      // TouchableHighlight makes its own wrapper View to be the touch
-      // target, passing the `style` prop through.
-      return (
-        <TouchableHighlight
-          accessibilityLabel={accessibilityLabel}
-          underlayColor={HIGHLIGHT_COLOR}
-          style={style}
-          onPress={onPress}
-          onLongPress={onLongPress}
-          hitSlop={hitSlop}
-        >
-          {child}
-        </TouchableHighlight>
-      );
-    }
-
-    // TouchableNativeFeedback doesn't create any wrapper component -- it
-    // returns a clone of the child it's given, with added props to make it
-    // a touch target.  We make our own wrapper View, in order to provide
-    // the same interface as we do with TouchableHighlight.
+  if (!onPress && !onLongPress) {
     return (
-      <TouchableNativeFeedback
+      <View
+        accessible={!!accessibilityLabel}
         accessibilityLabel={accessibilityLabel}
-        background={TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)}
+        style={style}
+        hitSlop={hitSlop}
+      >
+        {child}
+      </View>
+    );
+  }
+
+  if (Platform.OS === 'ios') {
+    // TouchableHighlight makes its own wrapper View to be the touch
+    // target, passing the `style` prop through.
+    return (
+      <TouchableHighlight
+        accessibilityLabel={accessibilityLabel}
+        underlayColor={HIGHLIGHT_COLOR}
+        style={style}
         onPress={onPress}
         onLongPress={onLongPress}
         hitSlop={hitSlop}
       >
-        <View style={style}>{child}</View>
-      </TouchableNativeFeedback>
+        {child}
+      </TouchableHighlight>
     );
   }
+
+  // TouchableNativeFeedback doesn't create any wrapper component -- it
+  // returns a clone of the child it's given, with added props to make it
+  // a touch target.  We make our own wrapper View, in order to provide
+  // the same interface as we do with TouchableHighlight.
+  return (
+    <TouchableNativeFeedback
+      accessibilityLabel={accessibilityLabel}
+      background={TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      hitSlop={hitSlop}
+    >
+      <View style={style}>{child}</View>
+    </TouchableNativeFeedback>
+  );
 }

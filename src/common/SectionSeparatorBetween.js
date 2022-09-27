@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import SectionSeparator from './SectionSeparator';
 
@@ -13,14 +13,12 @@ type Props = $ReadOnly<{|
 |}>;
 
 /** Can be passed to RN's `SectionList` as `SectionSeparatorComponent`. */
-export default class SectionSeparatorBetween extends PureComponent<Props> {
-  render(): Node {
-    const { leadingItem, leadingSection } = this.props;
+export default function SectionSeparatorBetween(props: Props): Node {
+  const { leadingItem, leadingSection } = props;
 
-    if (leadingItem || !leadingSection || leadingSection.data.length === 0) {
-      return null;
-    }
-
-    return <SectionSeparator />;
+  if (leadingItem || !leadingSection || leadingSection.data.length === 0) {
+    return null;
   }
+
+  return <SectionSeparator />;
 }

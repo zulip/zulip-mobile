@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -29,18 +29,16 @@ type Props = $ReadOnly<{|
  *
  * @prop error - The error message string.
  */
-export default class ErrorMsg extends PureComponent<Props> {
-  render(): Node {
-    const { error } = this.props;
+export default function ErrorMsg(props: Props): Node {
+  const { error } = props;
 
-    if (!error) {
-      return null;
-    }
-
-    return (
-      <View style={styles.field}>
-        <ZulipTextIntl style={styles.error} text={error} />
-      </View>
-    );
+  if (!error) {
+    return null;
   }
+
+  return (
+    <View style={styles.field}>
+      <ZulipTextIntl style={styles.error} text={error} />
+    </View>
+  );
 }

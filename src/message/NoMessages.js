@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -51,19 +51,17 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
 |}>;
 
-export default class NoMessages extends PureComponent<Props> {
-  render(): Node {
-    const { narrow } = this.props;
+export default function NoMessages(props: Props): Node {
+  const { narrow } = props;
 
-    const message = messages.find(x => x.isFunc(narrow)) || {};
+  const message = messages.find(x => x.isFunc(narrow)) || {};
 
-    return (
-      <View style={styles.container}>
-        <ZulipTextIntl style={styles.text} text={message.text} />
-        {showComposeBoxOnNarrow(narrow) ? (
-          <ZulipTextIntl text="Why not start the conversation?" />
-        ) : null}
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <ZulipTextIntl style={styles.text} text={message.text} />
+      {showComposeBoxOnNarrow(narrow) ? (
+        <ZulipTextIntl text="Why not start the conversation?" />
+      ) : null}
+    </View>
+  );
 }

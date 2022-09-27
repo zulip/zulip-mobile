@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -24,12 +24,10 @@ type Props = $ReadOnly<{|
   narrow: Narrow,
 |}>;
 
-export default class InvalidNarrow extends PureComponent<Props> {
-  render(): Node {
-    return (
-      <View style={styles.container}>
-        <ZulipTextIntl style={styles.text} text="That conversation doesn't seem to exist." />
-      </View>
-    );
-  }
+export default function InvalidNarrow(props: Props): Node {
+  return (
+    <View style={styles.container}>
+      <ZulipTextIntl style={styles.text} text="That conversation doesn't seem to exist." />
+    </View>
+  );
 }

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -26,15 +26,13 @@ type Props = $ReadOnly<{|
   value: JSONable,
 |}>;
 
-export default class InfoItem extends PureComponent<Props> {
-  render(): Node {
-    const { label, value } = this.props;
+export default function InfoItem(props: Props): Node {
+  const { label, value } = props;
 
-    return (
-      <View style={styles.item}>
-        <ZulipText style={styles.label} text={label} />
-        <ZulipText style={styles.value} text={JSON.stringify(value)} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.item}>
+      <ZulipText style={styles.label} text={label} />
+      <ZulipText style={styles.value} text={JSON.stringify(value)} />
+    </View>
+  );
 }

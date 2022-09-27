@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -23,14 +23,12 @@ type Props = $ReadOnly<{|
   text: string,
 |}>;
 
-export default class SearchEmptyState extends PureComponent<Props> {
-  render(): Node {
-    const { text } = this.props;
+export default function SearchEmptyState(props: Props): Node {
+  const { text } = props;
 
-    return (
-      <View style={styles.container}>
-        <ZulipTextIntl style={styles.text} text={text} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <ZulipTextIntl style={styles.text} text={text} />
+    </View>
+  );
 }

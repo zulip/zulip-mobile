@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -26,15 +26,13 @@ type Props = $ReadOnly<{|
   size: number,
 |}>;
 
-export default class SizeItem extends PureComponent<Props> {
-  render(): Node {
-    const { text, size } = this.props;
+export default function SizeItem(props: Props): Node {
+  const { text, size } = props;
 
-    return (
-      <View style={styles.item}>
-        <ZulipText style={styles.key} text={text} />
-        <ZulipText style={styles.size} text={numberWithSeparators(size)} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.item}>
+      <ZulipText style={styles.key} text={text} />
+      <ZulipText style={styles.size} text={numberWithSeparators(size)} />
+    </View>
+  );
 }

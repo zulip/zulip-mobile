@@ -1,9 +1,8 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
-import type { Node, Context } from 'react';
+import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { View } from 'react-native';
 
-import type { ThemeData } from '../styles';
 import { ThemeContext, createStyleSheet } from '../styles';
 import ZulipTextIntl from './ZulipTextIntl';
 
@@ -18,16 +17,13 @@ type Props = $ReadOnly<{|
   text: string,
 |}>;
 
-export default class SectionHeader extends PureComponent<Props> {
-  static contextType: Context<ThemeData> = ThemeContext;
-  context: ThemeData;
+export default function SectionHeader(props: Props): Node {
+  const { text } = props;
+  const themeData = useContext(ThemeContext);
 
-  render(): Node {
-    const { text } = this.props;
-    return (
-      <View style={[styles.header, { backgroundColor: this.context.backgroundColor }]}>
-        <ZulipTextIntl text={text} />
-      </View>
-    );
-  }
+  return (
+    <View style={[styles.header, { backgroundColor: themeData.backgroundColor }]}>
+      <ZulipTextIntl text={text} />
+    </View>
+  );
 }

@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 
 import type { UserId } from '../types';
@@ -38,21 +38,19 @@ type Props = $ReadOnly<{|
  * @prop [size] - Sets width and height in logical pixels.
  * @prop [onPress] - Event fired on pressing the component.
  */
-export default class UserAvatarWithPresence extends PureComponent<Props> {
-  render(): Node {
-    const { avatarUrl, email, isMuted, size, onPress } = this.props;
+export default function UserAvatarWithPresence(props: Props): Node {
+  const { avatarUrl, email, isMuted, size, onPress } = props;
 
-    return (
-      <UserAvatar avatarUrl={avatarUrl} size={size} isMuted={isMuted} onPress={onPress}>
-        <PresenceStatusIndicator
-          style={styles.status}
-          email={email}
-          hideIfOffline
-          useOpaqueBackground
-        />
-      </UserAvatar>
-    );
-  }
+  return (
+    <UserAvatar avatarUrl={avatarUrl} size={size} isMuted={isMuted} onPress={onPress}>
+      <PresenceStatusIndicator
+        style={styles.status}
+        email={email}
+        hideIfOffline
+        useOpaqueBackground
+      />
+    </UserAvatar>
+  );
 }
 
 /**

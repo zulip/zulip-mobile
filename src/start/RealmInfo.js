@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View, Image } from 'react-native';
 
@@ -28,15 +28,13 @@ type Props = $ReadOnly<{|
   iconUrl: string,
 |}>;
 
-export default class RealmInfo extends PureComponent<Props> {
-  render(): Node {
-    const { name, iconUrl } = this.props;
+export default function RealmInfo(props: Props): Node {
+  const { name, iconUrl } = props;
 
-    return (
-      <View style={styles.description}>
-        {iconUrl && <Image style={styles.icon} source={{ uri: iconUrl }} />}
-        <ZulipText style={styles.name} text={name} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.description}>
+      {iconUrl && <Image style={styles.icon} source={{ uri: iconUrl }} />}
+      <ZulipText style={styles.name} text={name} />
+    </View>
+  );
 }

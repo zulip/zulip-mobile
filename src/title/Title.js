@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 
 import { caseNarrow } from '../utils/narrow';
@@ -18,26 +18,24 @@ type Props = $ReadOnly<{|
   editMessage: EditMessage | null,
 |}>;
 
-export default class Title extends PureComponent<Props> {
-  render(): Node {
-    const { narrow, color, editMessage } = this.props;
-    if (editMessage != null) {
-      return <TitlePlain text="Edit message" color={color} />;
-    }
-    return caseNarrow(narrow, {
-      home: () => <TitleSpecial code="home" color={color} />,
-      starred: () => <TitleSpecial code="starred" color={color} />,
-      mentioned: () => <TitleSpecial code="mentioned" color={color} />,
-      allPrivate: () => <TitleSpecial code="private" color={color} />,
-      stream: () => <TitleStream narrow={narrow} color={color} />,
-      topic: () => <TitleStream narrow={narrow} color={color} />,
-      pm: ids =>
-        ids.length === 1 ? (
-          <TitlePrivate userId={ids[0]} color={color} />
-        ) : (
-          <TitleGroup recipients={ids} />
-        ),
-      search: () => null,
-    });
+export default function Title(props: Props): Node {
+  const { narrow, color, editMessage } = props;
+  if (editMessage != null) {
+    return <TitlePlain text="Edit message" color={color} />;
   }
+  return caseNarrow(narrow, {
+    home: () => <TitleSpecial code="home" color={color} />,
+    starred: () => <TitleSpecial code="starred" color={color} />,
+    mentioned: () => <TitleSpecial code="mentioned" color={color} />,
+    allPrivate: () => <TitleSpecial code="private" color={color} />,
+    stream: () => <TitleStream narrow={narrow} color={color} />,
+    topic: () => <TitleStream narrow={narrow} color={color} />,
+    pm: ids =>
+      ids.length === 1 ? (
+        <TitlePrivate userId={ids[0]} color={color} />
+      ) : (
+        <TitleGroup recipients={ids} />
+      ),
+    search: () => null,
+  });
 }

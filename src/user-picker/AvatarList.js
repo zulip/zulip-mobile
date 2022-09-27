@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
@@ -12,20 +12,18 @@ type Props = $ReadOnly<{|
   onPress: UserId => void,
 |}>;
 
-export default class AvatarList extends PureComponent<Props> {
-  render(): Node {
-    const { listRef, users, onPress } = this.props;
+export default function AvatarList(props: Props): Node {
+  const { listRef, users, onPress } = props;
 
-    return (
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        initialNumToRender={20}
-        data={users}
-        ref={listRef}
-        keyExtractor={user => String(user.user_id)}
-        renderItem={({ item: user }) => <AvatarItem user={user} onPress={onPress} />}
-      />
-    );
-  }
+  return (
+    <FlatList
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      initialNumToRender={20}
+      data={users}
+      ref={listRef}
+      keyExtractor={user => String(user.user_id)}
+      renderItem={({ item: user }) => <AvatarItem user={user} onPress={onPress} />}
+    />
+  );
 }

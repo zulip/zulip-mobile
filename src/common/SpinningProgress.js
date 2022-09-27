@@ -22,25 +22,23 @@ type Props = $ReadOnly<{|
  * @prop color - The color of the circle.
  * @prop size - Diameter of the circle in pixels.
  */
-export default class SpinningProgress extends React.PureComponent<Props> {
-  render(): Node {
-    const { color, size } = this.props;
-    const style = { width: size, height: size };
-    const source = (() => {
-      switch (color) {
-        case 'white':
-          return spinningProgressWhiteImg;
-        case 'black':
-          return spinningProgressBlackImg;
-        default:
-          return spinningProgressImg;
-      }
-    })();
+export default function SpinningProgress(props: Props): Node {
+  const { color, size } = props;
+  const style = { width: size, height: size };
+  const source = (() => {
+    switch (color) {
+      case 'white':
+        return spinningProgressWhiteImg;
+      case 'black':
+        return spinningProgressBlackImg;
+      default:
+        return spinningProgressImg;
+    }
+  })();
 
-    return (
-      <AnimatedRotateComponent>
-        <Image style={style} source={source} resizeMode="contain" />
-      </AnimatedRotateComponent>
-    );
-  }
+  return (
+    <AnimatedRotateComponent>
+      <Image style={style} source={source} resizeMode="contain" />
+    </AnimatedRotateComponent>
+  );
 }

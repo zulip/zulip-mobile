@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -53,30 +53,28 @@ type Props = $ReadOnly<{|
  * @prop [timestamp]
  * @prop [onPressBack]
  */
-export default class LightboxHeader extends PureComponent<Props> {
-  render(): Node {
-    const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = this.props;
-    const displayDate = humanDate(new Date(timestamp * 1000));
-    const time = shortTime(new Date(timestamp * 1000));
-    const subheader = `${displayDate} at ${time}`;
+export default function LightboxHeader(props: Props): Node {
+  const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = props;
+  const displayDate = humanDate(new Date(timestamp * 1000));
+  const time = shortTime(new Date(timestamp * 1000));
+  const subheader = `${displayDate} at ${time}`;
 
-    return (
-      <SafeAreaView mode="padding" edges={['top', 'right', 'left']}>
-        <View style={styles.wrapper}>
-          <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
-          <View style={styles.text}>
-            <Text style={styles.name} numberOfLines={1}>
-              {senderName}
-            </Text>
-            <Text style={styles.subheader} numberOfLines={1}>
-              {subheader}
-            </Text>
-          </View>
-          <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={12}>
-            {({ pressed }) => <Icon size={24} color={pressed ? 'gray' : 'white'} name="x" />}
-          </Pressable>
+  return (
+    <SafeAreaView mode="padding" edges={['top', 'right', 'left']}>
+      <View style={styles.wrapper}>
+        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
+        <View style={styles.text}>
+          <Text style={styles.name} numberOfLines={1}>
+            {senderName}
+          </Text>
+          <Text style={styles.subheader} numberOfLines={1}>
+            {subheader}
+          </Text>
         </View>
-      </SafeAreaView>
-    );
-  }
+        <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={12}>
+          {({ pressed }) => <Icon size={24} color={pressed ? 'gray' : 'white'} name="x" />}
+        </Pressable>
+      </View>
+    </SafeAreaView>
+  );
 }

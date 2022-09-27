@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import format from 'date-fns/format';
@@ -23,20 +23,16 @@ const styles = createStyleSheet({
   },
 });
 
-export default class TimeItem extends PureComponent<TimingItemType> {
-  props: TimingItemType;
+export default function TimeItem(props: TimingItemType): Node {
+  const { text, startMs, endMs } = props;
+  const startStr = format(startMs, 'HH:mm:ss.S');
+  const durationStrMs = numberWithSeparators(endMs - startMs);
+  const timingStr = `Start: ${startStr}   Duration: ${durationStrMs} ms`;
 
-  render(): Node {
-    const { text, startMs, endMs } = this.props;
-    const startStr = format(startMs, 'HH:mm:ss.S');
-    const durationStrMs = numberWithSeparators(endMs - startMs);
-    const timingStr = `Start: ${startStr}   Duration: ${durationStrMs} ms`;
-
-    return (
-      <View style={styles.item}>
-        <ZulipText style={styles.label} text={text} />
-        <ZulipText style={styles.value} text={timingStr} />
-      </View>
-    );
-  }
+  return (
+    <View style={styles.item}>
+      <ZulipText style={styles.label} text={text} />
+      <ZulipText style={styles.value} text={timingStr} />
+    </View>
+  );
 }

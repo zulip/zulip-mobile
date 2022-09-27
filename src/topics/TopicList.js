@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
@@ -22,34 +22,32 @@ type Props = $ReadOnly<{|
   onPress: (streamId: number, topic: string) => void,
 |}>;
 
-export default class TopicList extends PureComponent<Props> {
-  render(): Node {
-    const { stream, topics, onPress } = this.props;
+export default function TopicList(props: Props): Node {
+  const { stream, topics, onPress } = props;
 
-    if (!topics) {
-      return <LoadingIndicator size={40} />;
-    }
-
-    if (topics.length === 0) {
-      return <SearchEmptyState text="No topics found" />;
-    }
-
-    return (
-      <FlatList
-        keyboardShouldPersistTaps="always"
-        style={styles.list}
-        data={topics}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => (
-          <TopicItem
-            streamId={stream.stream_id}
-            name={item.name}
-            isMuted={item.isMuted}
-            unreadCount={item.unreadCount}
-            onPress={onPress}
-          />
-        )}
-      />
-    );
+  if (!topics) {
+    return <LoadingIndicator size={40} />;
   }
+
+  if (topics.length === 0) {
+    return <SearchEmptyState text="No topics found" />;
+  }
+
+  return (
+    <FlatList
+      keyboardShouldPersistTaps="always"
+      style={styles.list}
+      data={topics}
+      keyExtractor={item => item.name}
+      renderItem={({ item }) => (
+        <TopicItem
+          streamId={stream.stream_id}
+          name={item.name}
+          isMuted={item.isMuted}
+          unreadCount={item.unreadCount}
+          onPress={onPress}
+        />
+      )}
+    />
+  );
 }

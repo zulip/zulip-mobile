@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
@@ -14,23 +14,21 @@ type Props = $ReadOnly<{|
   route: RouteProp<'variables', void>,
 |}>;
 
-export default class VariablesScreen extends PureComponent<Props> {
-  render(): Node {
-    const variables = {
-      enableReduxLogging: config.enableReduxLogging,
-      enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,
-      'process.env.NODE_ENV': process.env.NODE_ENV ?? '(not defined)',
-      'global.btoa': !!global.btoa,
-    };
+export default function VariablesScreen(props: Props): Node {
+  const variables = {
+    enableReduxLogging: config.enableReduxLogging,
+    enableReduxSlowReducerWarnings: config.enableReduxSlowReducerWarnings,
+    'process.env.NODE_ENV': process.env.NODE_ENV ?? '(not defined)',
+    'global.btoa': !!global.btoa,
+  };
 
-    return (
-      <Screen title="Variables" scrollEnabled={false}>
-        <FlatList
-          data={Object.keys(variables)}
-          keyExtractor={item => item}
-          renderItem={({ item }) => <InfoItem label={item} value={variables[item]} />}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen title="Variables" scrollEnabled={false}>
+      <FlatList
+        data={Object.keys(variables)}
+        keyExtractor={item => item}
+        renderItem={({ item }) => <InfoItem label={item} value={variables[item]} />}
+      />
+    </Screen>
+  );
 }

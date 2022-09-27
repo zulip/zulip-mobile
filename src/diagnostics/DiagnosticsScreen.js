@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { nativeApplicationVersion } from 'expo-application';
 
@@ -24,37 +24,36 @@ type Props = $ReadOnly<{|
   route: RouteProp<'diagnostics', void>,
 |}>;
 
-export default class DiagnosticsScreen extends PureComponent<Props> {
-  render(): Node {
-    return (
-      <Screen title="Diagnostics">
-        <ZulipText style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
-        <OptionDivider />
-        <NestedNavRow
-          label="Variables"
-          onPress={() => {
-            this.props.navigation.push('variables');
-          }}
-        />
-        <NestedNavRow
-          label="Timing"
-          onPress={() => {
-            this.props.navigation.push('timing');
-          }}
-        />
-        <NestedNavRow
-          label="Storage"
-          onPress={() => {
-            this.props.navigation.push('storage');
-          }}
-        />
-        <NestedNavRow
-          label="Debug"
-          onPress={() => {
-            this.props.navigation.push('debug');
-          }}
-        />
-      </Screen>
-    );
-  }
+export default function DiagnosticsScreen(props: Props): Node {
+  const { navigation } = props;
+  return (
+    <Screen title="Diagnostics">
+      <ZulipText style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
+      <OptionDivider />
+      <NestedNavRow
+        label="Variables"
+        onPress={() => {
+          navigation.push('variables');
+        }}
+      />
+      <NestedNavRow
+        label="Timing"
+        onPress={() => {
+          navigation.push('timing');
+        }}
+      />
+      <NestedNavRow
+        label="Storage"
+        onPress={() => {
+          navigation.push('storage');
+        }}
+      />
+      <NestedNavRow
+        label="Debug"
+        onPress={() => {
+          navigation.push('debug');
+        }}
+      />
+    </Screen>
+  );
 }

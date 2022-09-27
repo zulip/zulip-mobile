@@ -1,10 +1,9 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import React, { PureComponent } from 'react';
-import type { Node, Context } from 'react';
+import React, { useContext } from 'react';
+import type { Node } from 'react';
 import { Text } from 'react-native';
 
-import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -24,35 +23,28 @@ type Props = $ReadOnly<{|
  * @prop ...all other Text props - Passed through verbatim to Text.
  *   See upstream: https://reactnative.dev/docs/text
  */
-export default class ZulipText extends PureComponent<Props> {
-  static contextType: Context<ThemeData> = ThemeContext;
-  context: ThemeData;
+export default function ZulipText(props: Props): Node {
+  const { text, children, style, ...restProps } = props;
+  const themeData = useContext(ThemeContext);
 
-  render(): Node {
-    const { text, children, style, ...restProps } = this.props;
+  invariant(
+    text != null || children != null,
+    'ZulipText: `text` or `children` should be non-nullish',
+  );
+  invariant(text == null || children == null, 'ZulipText: `text` or `children` should be nullish');
 
-    invariant(
-      text != null || children != null,
-      'ZulipText: `text` or `children` should be non-nullish',
-    );
-    invariant(
-      text == null || children == null,
-      'ZulipText: `text` or `children` should be nullish',
-    );
+  // These attributes will be applied unless specifically overridden
+  // with the `style` prop -- even if this `<ZulipText />` is nested
+  // and would otherwise inherit the attributes from its ancestors.
+  const aggressiveDefaultStyle = {
+    fontSize: 15,
+    color: themeData.color,
+  };
 
-    // These attributes will be applied unless specifically overridden
-    // with the `style` prop -- even if this `<ZulipText />` is nested
-    // and would otherwise inherit the attributes from its ancestors.
-    const aggressiveDefaultStyle = {
-      fontSize: 15,
-      color: this.context.color,
-    };
-
-    return (
-      <Text style={[aggressiveDefaultStyle, style]} {...restProps}>
-        {text}
-        {children}
-      </Text>
-    );
-  }
+  return (
+    <Text style={[aggressiveDefaultStyle, style]} {...restProps}>
+      {text}
+      {children}
+    </Text>
+  );
 }

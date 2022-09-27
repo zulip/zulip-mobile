@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent, type Context } from 'react';
+import React, { type Context, useContext } from 'react';
 import type { ComponentType, ElementConfig, Node } from 'react';
 import { Text } from 'react-native';
 import { IntlProvider, IntlContext } from 'react-intl';
@@ -23,14 +23,13 @@ export const TranslationContext: Context<GetText> = React.createContext(undefine
 export function withGetText<P: { +_: GetText, ... }, C: ComponentType<P>>(
   WrappedComponent: C,
 ): ComponentType<$ReadOnly<$Exact<$Diff<ElementConfig<C>, {| _: GetText |}>>>> {
-  return class extends React.Component<$Exact<$Diff<ElementConfig<C>, {| _: GetText |}>>> {
-    render() {
-      return (
-        <TranslationContext.Consumer>
-          {_ => <WrappedComponent _={_} {...this.props} />}
-        </TranslationContext.Consumer>
-      );
-    }
+  // eslint-disable-next-line func-names
+  return function (props: $Exact<$Diff<ElementConfig<C>, {| _: GetText |}>>): Node {
+    return (
+      <TranslationContext.Consumer>
+        {_ => <WrappedComponent _={_} {...props} />}
+      </TranslationContext.Consumer>
+    );
   };
 }
 
@@ -61,19 +60,14 @@ const makeGetText = (intl: IntlShape): GetText => {
  *
  * See the `GetTypes` type for why we like the new shape.
  */
-class TranslationContextTranslator extends PureComponent<{|
-  +children: Node,
-|}> {
-  static contextType = IntlContext;
-  context: IntlShape;
+function TranslationContextTranslator(props: {| +children: Node |}): Node {
+  const intlContextValue = useContext(IntlContext);
 
-  render() {
-    return (
-      <TranslationContext.Provider value={makeGetText(this.context)}>
-        {this.props.children}
-      </TranslationContext.Provider>
-    );
-  }
+  return (
+    <TranslationContext.Provider value={makeGetText(intlContextValue)}>
+      {props.children}
+    </TranslationContext.Provider>
+  );
 }
 
 type Props = $ReadOnly<{|

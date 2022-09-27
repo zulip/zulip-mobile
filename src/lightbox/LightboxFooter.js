@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -33,20 +33,18 @@ type Props = $ReadOnly<{|
   onOptionsPress: () => void,
 |}>;
 
-export default class LightboxFooter extends PureComponent<Props> {
-  render(): Node {
-    const { displayMessage, onOptionsPress, style } = this.props;
-    return (
-      <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
-        <View style={[styles.wrapper, style]}>
-          <Text style={styles.text}>{displayMessage}</Text>
-          <Pressable style={styles.iconTouchTarget} onPress={onOptionsPress} hitSlop={12}>
-            {({ pressed }) => (
-              <Icon size={24} color={pressed ? 'gray' : 'white'} name="more-vertical" />
-            )}
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
-  }
+export default function LightboxFooter(props: Props): Node {
+  const { displayMessage, onOptionsPress, style } = props;
+  return (
+    <SafeAreaView mode="padding" edges={['right', 'bottom', 'left']}>
+      <View style={[styles.wrapper, style]}>
+        <Text style={styles.text}>{displayMessage}</Text>
+        <Pressable style={styles.iconTouchTarget} onPress={onOptionsPress} hitSlop={12}>
+          {({ pressed }) => (
+            <Icon size={24} color={pressed ? 'gray' : 'white'} name="more-vertical" />
+          )}
+        </Pressable>
+      </View>
+    </SafeAreaView>
+  );
 }

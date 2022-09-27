@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
@@ -39,24 +39,22 @@ type Props = $ReadOnly<{|
  * `KeyboardAvoidingView`'s special props get passed straight through
  * to that component.
  */
-export default class KeyboardAvoider extends PureComponent<Props> {
-  render(): Node {
-    const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = this.props;
+export default function KeyboardAvoider(props: Props): Node {
+  const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = props;
 
-    if (Platform.OS === 'android') {
-      return <View style={style}>{children}</View>;
-    }
-
-    return (
-      <KeyboardAvoidingView
-        behavior={behavior}
-        contentContainerStyle={contentContainerStyle}
-        // See comment on this prop in the jsdoc.
-        keyboardVerticalOffset={keyboardVerticalOffset}
-        style={style}
-      >
-        {children}
-      </KeyboardAvoidingView>
-    );
+  if (Platform.OS === 'android') {
+    return <View style={style}>{children}</View>;
   }
+
+  return (
+    <KeyboardAvoidingView
+      behavior={behavior}
+      contentContainerStyle={contentContainerStyle}
+      // See comment on this prop in the jsdoc.
+      keyboardVerticalOffset={keyboardVerticalOffset}
+      style={style}
+    >
+      {children}
+    </KeyboardAvoidingView>
+  );
 }
