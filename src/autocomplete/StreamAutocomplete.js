@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
+import type { Narrow } from '../types';
 import { useSelector } from '../react-redux';
 import Popup from '../common/Popup';
 import { getSubscriptions } from '../directSelectors';
@@ -12,6 +13,7 @@ import StreamItem from '../streams/StreamItem';
 type Props = $ReadOnly<{|
   filter: string,
   onAutocomplete: (name: string) => void,
+  destinationNarrow?: Narrow,
 |}>;
 
 export default function StreamAutocomplete(props: Props): Node {

@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 
+import type { Narrow } from '../types';
 import Popup from '../common/Popup';
 import EmojiRow from '../emoji/EmojiRow';
 import { getFilteredEmojis } from '../emoji/data';
@@ -14,6 +15,7 @@ import { getRealm } from '../directSelectors';
 type Props = $ReadOnly<{|
   filter: string,
   onAutocomplete: (name: string) => void,
+  destinationNarrow?: Narrow,
 |}>;
 
 const MAX_CHOICES = 30;

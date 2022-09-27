@@ -546,6 +546,7 @@ export default function ComposeBox(props: Props): Node {
           selection={messageInputSelection}
           text={messageInputValue}
           onAutocomplete={handleMessageAutocomplete}
+          destinationNarrow={destinationNarrow}
         />
       </View>
       <SafeAreaView

@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
-import type { UserGroup } from '../types';
+import type { UserGroup, Narrow } from '../types';
 import { useSelector } from '../react-redux';
 import { getMutedUsers, getSortedUsers, getUserGroups } from '../selectors';
 import {
@@ -19,6 +19,7 @@ import { getOwnUserId } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
   filter: string,
+  destinationNarrow: Narrow,
   onAutocomplete: (name: string) => void,
 |}>;
 

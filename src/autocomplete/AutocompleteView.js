@@ -2,7 +2,7 @@
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
 
-import type { InputSelection } from '../types';
+import type { InputSelection, Narrow } from '../types';
 import getAutocompletedText from './getAutocompletedText';
 import getAutocompleteFilter from './getAutocompleteFilter';
 import EmojiAutocomplete from './EmojiAutocomplete';
@@ -20,6 +20,7 @@ type Props = $ReadOnly<{|
   isFocused: boolean,
   text: string,
   selection: InputSelection,
+  destinationNarrow: Narrow,
 
   /**
    * The callback that is called when the user taps on any of the suggested items.
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function AutocompleteView(props: Props): Node {
-  const { isFocused, text, onAutocomplete, selection } = props;
+  const { isFocused, text, onAutocomplete, selection, destinationNarrow } = props;
 
   const handleAutocomplete = useCallback(
     (autocomplete: string) => {
@@ -50,7 +51,13 @@ export default function AutocompleteView(props: Props): Node {
 
   return (
     <AnimatedScaleComponent visible={shouldShow}>
-      {shouldShow && <AutocompleteComponent filter={filter} onAutocomplete={handleAutocomplete} />}
+      {shouldShow && (
+        <AutocompleteComponent
+          filter={filter}
+          onAutocomplete={handleAutocomplete}
+          destinationNarrow={destinationNarrow}
+        />
+      )}
     </AnimatedScaleComponent>
   );
 }
