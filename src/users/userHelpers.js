@@ -116,16 +116,6 @@ export const getUniqueUsers = (
   users: $ReadOnlyArray<AutocompleteOption>,
 ): $ReadOnlyArray<AutocompleteOption> => uniqby(users, 'email');
 
-export const getUsersAndWildcards = (
-  users: $ReadOnlyArray<AutocompleteOption>,
-): $ReadOnlyArray<AutocompleteOption> => [
-  // TODO stop using makeUserId on these fake "user IDs"; have some
-  //   more-explicit UI logic instead of these pseudo-users.
-  { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
-  { user_id: makeUserId(-2), full_name: 'everyone', email: '(Notify everyone)' },
-  ...users,
-];
-
 export const getAutocompleteSuggestion = (
   users: $ReadOnlyArray<AutocompleteOption>,
   filter: string,
@@ -135,7 +125,13 @@ export const getAutocompleteSuggestion = (
   if (users.length === 0) {
     return users;
   }
-  const allAutocompleteOptions = getUsersAndWildcards(users);
+  const allAutocompleteOptions = [
+    // TODO stop using makeUserId on these fake "user IDs"; have some
+    //   more-explicit UI logic instead of these pseudo-users.
+    { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
+    { user_id: makeUserId(-2), full_name: 'everyone', email: '(Notify everyone)' },
+    ...users,
+  ];
   const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownUserId);
   const contains = filterUserThatContains(allAutocompleteOptions, filter, ownUserId);
   const matchesEmail = filterUserMatchesEmail(users, filter, ownUserId);

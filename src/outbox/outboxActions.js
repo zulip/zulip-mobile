@@ -26,7 +26,7 @@ import {
 import { getAuth, getStreamsById } from '../selectors';
 import * as api from '../api';
 import { getAllUsersById, getOwnUser } from '../users/userSelectors';
-import { getUsersAndWildcards } from '../users/userHelpers';
+import { makeUserId } from '../api/idTypes';
 import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
@@ -160,7 +160,12 @@ const getContentPreview = (content: string, state: PerAccountState): string => {
   try {
     return parseMarkdown(
       content,
-      getUsersAndWildcards(state.users),
+      [
+        // TODO: Refactor so we don't make these fake user objects.
+        { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
+        { user_id: makeUserId(-2), full_name: 'everyone', email: '(Notify everyone)' },
+        ...state.users,
+      ],
       state.streams,
       getAuth(state),
       state.realm.filters,
