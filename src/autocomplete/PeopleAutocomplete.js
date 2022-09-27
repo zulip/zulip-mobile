@@ -13,7 +13,7 @@ import {
   getAutocompleteUserGroupSuggestions,
 } from '../users/userHelpers';
 import Popup from '../common/Popup';
-import { UserItemRaw } from '../users/UserItem';
+import UserItem from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 import { getOwnUserId } from '../users/userSelectors';
 import WildcardMentionItem, {
@@ -105,12 +105,9 @@ export default function PeopleAutocomplete(props: Props): Node {
     ({
       data: filteredUsers,
       renderItem: ({ item }) => (
-        // "Raw" because some of these used to be fake synthetic "users" to
-        // represent @all and @everyone. But now that we've stopped that:
-        // TODO: Use the normal UserItem.
-        <UserItemRaw
+        <UserItem
           key={item.user_id}
-          user={item}
+          userId={item.user_id}
           showEmail
           onPress={handleUserItemAutocomplete}
           size="medium"

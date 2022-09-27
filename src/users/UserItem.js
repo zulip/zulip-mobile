@@ -1,10 +1,10 @@
 /* @flow strict-local */
-import React, { type ElementConfig, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
-import type { UserId } from '../types';
+import type { UserId, UserOrBot } from '../types';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
@@ -17,30 +17,21 @@ import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import Emoji from '../emoji/Emoji';
 
-type Props<UserT> = $ReadOnly<{|
-  user: UserT,
+type Props = $ReadOnly<{|
+  userId: UserId,
   isSelected?: boolean,
   showEmail?: boolean,
   unreadCount?: number,
-  onPress?: UserT => void,
+  onPress?: UserOrBot => void,
   size?: 'large' | 'medium',
 |}>;
 
 /**
  * A user represented with avatar and name, for use in a list.
- *
- * Prefer the default export `UserItem` over this component: it does the
- * same thing but provides a more encapsulated interface.
- *
- * This component is potentially appropriate if displaying a synthetic fake
- * user, one that doesn't exist in the database.  (But anywhere we're doing
- * that, there's probably a better UI anyway than showing a fake user.)
  */
-export function UserItemRaw<
-  UserT: $ReadOnly<{ user_id: UserId, email: string, full_name: string, ... }>,
->(props: Props<UserT>): Node {
+export default function UserItem(props: Props): Node {
   const {
-    user,
+    userId,
     isSelected = false,
     onPress,
     unreadCount,
@@ -48,6 +39,9 @@ export function UserItemRaw<
     size = 'large',
   } = props;
   const _ = useContext(TranslationContext);
+
+  const user = useSelector(state => getUserForId(state, userId));
+
   const isMuted = useSelector(getMutedUsers).has(user.user_id);
   const userStatusEmoji = useSelector(state => getUserStatus(state, user.user_id)).status_emoji;
 
@@ -134,22 +128,4 @@ export function UserItemRaw<
       </View>
     </Touchable>
   );
-}
-
-type OuterProps = $ReadOnly<{|
-  ...$Exact<$Diff<ElementConfig<typeof UserItemRaw>, {| user: mixed |}>>,
-  userId: UserId,
-|}>;
-
-/**
- * A user represented with avatar and name, for use in a list.
- *
- * Use this in preference to `UserItemRaw`.  That helps us better
- * encapsulate getting user data where it's needed.
- */
-// eslint-disable-next-line func-names
-export default function (props: OuterProps): Node {
-  const { userId, ...restProps } = props;
-  const user = useSelector(state => getUserForId(state, userId));
-  return <UserItemRaw {...restProps} user={user} />;
 }
