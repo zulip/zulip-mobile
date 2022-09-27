@@ -109,5 +109,9 @@ export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
 export const IconPlus: SpecificIconType = makeIcon(Feather, 'plus');
+
+// WildcardMentionItem depends on this being square.
+export const IconWildcardMention: SpecificIconType = makeIcon(FontAwesome, 'bullhorn');
+
 // eslint-disable-next-line react/function-component-definition
 export const IconWebPublic: SpecificIconType = props => <ZulipIcon name="globe" {...props} />;

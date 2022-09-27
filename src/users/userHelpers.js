@@ -13,7 +13,6 @@ import type {
 } from '../types';
 import { ensureUnreachable } from '../types';
 import { statusFromPresence } from '../utils/presence';
-import { makeUserId } from '../api/idTypes';
 
 type UsersByStatus = {|
   active: UserOrBot[],
@@ -125,15 +124,8 @@ export const getAutocompleteSuggestion = (
   if (users.length === 0) {
     return users;
   }
-  const allAutocompleteOptions = [
-    // TODO stop using makeUserId on these fake "user IDs"; have some
-    //   more-explicit UI logic instead of these pseudo-users.
-    { user_id: makeUserId(-1), full_name: 'all', email: '(Notify everyone)' },
-    { user_id: makeUserId(-2), full_name: 'everyone', email: '(Notify everyone)' },
-    ...users,
-  ];
-  const startWith = filterUserStartWith(allAutocompleteOptions, filter, ownUserId);
-  const contains = filterUserThatContains(allAutocompleteOptions, filter, ownUserId);
+  const startWith = filterUserStartWith(users, filter, ownUserId);
+  const contains = filterUserThatContains(users, filter, ownUserId);
   const matchesEmail = filterUserMatchesEmail(users, filter, ownUserId);
   const candidates = getUniqueUsers([...startWith, ...contains, ...matchesEmail]);
   return candidates.filter(user => !mutedUsers.has(user.user_id));

@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
@@ -16,6 +16,11 @@ import Popup from '../common/Popup';
 import { UserItemRaw } from '../users/UserItem';
 import UserGroupItem from '../user-groups/UserGroupItem';
 import { getOwnUserId } from '../users/userSelectors';
+import WildcardMentionItem, {
+  getWildcardMentionsForQuery,
+  WildcardMentionType,
+} from './WildcardMentionItem';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Props = $ReadOnly<{|
   filter: string,
@@ -24,7 +29,10 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function PeopleAutocomplete(props: Props): Node {
-  const { filter, onAutocomplete } = props;
+  const { filter, destinationNarrow, onAutocomplete } = props;
+
+  const _ = useContext(TranslationContext);
+
   const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);
   const users = useSelector(getSortedUsers);
@@ -33,6 +41,13 @@ export default function PeopleAutocomplete(props: Props): Node {
   const handleUserGroupItemAutocomplete = useCallback(
     (name: string): void => {
       onAutocomplete(`*${name}*`);
+    },
+    [onAutocomplete],
+  );
+
+  const handleWildcardMentionAutocomplete = useCallback(
+    (type, serverCanonicalString) => {
+      onAutocomplete(`**${serverCanonicalString}**`);
     },
     [onAutocomplete],
   );
@@ -53,6 +68,7 @@ export default function PeopleAutocomplete(props: Props): Node {
   );
 
   const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
+  const wildcardMentionsForQuery = getWildcardMentionsForQuery(filter, destinationNarrow, _);
   const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
 
   if (filteredUserGroups.length + filteredUsers.length === 0) {
@@ -76,12 +92,22 @@ export default function PeopleAutocomplete(props: Props): Node {
       ),
     }: Section<UserGroup>),
     ({
+      data: wildcardMentionsForQuery,
+      renderItem: ({ item }) => (
+        <WildcardMentionItem
+          key={WildcardMentionType.getName(item)}
+          type={item}
+          destinationNarrow={destinationNarrow}
+          onPress={handleWildcardMentionAutocomplete}
+        />
+      ),
+    }: Section<WildcardMentionType>),
+    ({
       data: filteredUsers,
       renderItem: ({ item }) => (
-        // "Raw" because some of our autocomplete suggestions are fake
-        // synthetic "users" to represent @all and @everyone.
-        // TODO display those in a UI that makes more sense for them,
-        //   and drop the fake "users" and use the normal UserItem.
+        // "Raw" because some of these used to be fake synthetic "users" to
+        // represent @all and @everyone. But now that we've stopped that:
+        // TODO: Use the normal UserItem.
         <UserItemRaw
           key={item.user_id}
           user={item}

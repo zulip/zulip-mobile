@@ -1,4 +1,10 @@
 {
+  "all": "all",
+  "everyone": "everyone",
+  "stream": "stream",
+  "Notify stream": "Notify stream",
+  "Notify recipients": "Notify recipients",
+  "Notify everyone": "Notify everyone",
   "Cannot open image": "Cannot open image",
   "Invalid image URL.": "Invalid image URL.",
   "Invisible mode": "Invisible mode",

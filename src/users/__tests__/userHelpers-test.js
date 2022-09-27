@@ -55,10 +55,7 @@ describe('getAutocompleteSuggestion', () => {
     const meUser = eg.makeUser({ full_name: 'Me' });
     const users = deepFreeze([someGuyUser, meUser]);
 
-    const shouldMatch = [
-      { user_id: -1, full_name: 'all', email: '(Notify everyone)' },
-      someGuyUser,
-    ];
+    const shouldMatch = [someGuyUser];
     const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id, Immutable.Map());
     expect(filteredUsers).toEqual(shouldMatch);
   });
@@ -70,7 +67,7 @@ describe('getAutocompleteSuggestion', () => {
 
     const mutedUsers = Immutable.Map([[mutedUser.user_id, 0]]);
 
-    const shouldMatch = [{ user_id: -1, full_name: 'all', email: '(Notify everyone)' }];
+    const shouldMatch = [];
 
     const filteredUsers = getAutocompleteSuggestion(users, '', meUser.user_id, mutedUsers);
     expect(filteredUsers).toEqual(shouldMatch);

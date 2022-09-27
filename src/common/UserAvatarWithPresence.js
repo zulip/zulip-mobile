@@ -9,6 +9,7 @@ import PresenceStatusIndicator from './PresenceStatusIndicator';
 import { tryGetUserForId } from '../users/userSelectors';
 import { useSelector } from '../react-redux';
 import { getMutedUsers } from '../directSelectors';
+import * as logging from '../utils/logging';
 
 const styles = createStyleSheet({
   status: {
@@ -38,9 +39,7 @@ export default function UserAvatarWithPresence(props: Props): Node {
   const isMuted = useSelector(getMutedUsers).has(userId);
 
   if (!user) {
-    // This condition really does happen, because UserItem can be passed a fake
-    // pseudo-user by PeopleAutocomplete, to represent `@all` or `@everyone`.
-    // TODO eliminate that, and use plain `getUserForId` here.
+    logging.warn("UserAvatarWithPresence: couldn't find user for ID", { userId });
     return null;
   }
 
