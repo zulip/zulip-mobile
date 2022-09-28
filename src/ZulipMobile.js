@@ -16,7 +16,7 @@ import CompatibilityChecker from './boot/CompatibilityChecker';
 import AppEventHandlers from './boot/AppEventHandlers';
 import { initializeSentry } from './sentry';
 import ZulipSafeAreaProvider from './boot/ZulipSafeAreaProvider';
-import TopicModalProvider from './boot/TopicModalProvider';
+import TopicEditModalProvider from './boot/TopicEditModalProvider';
 
 initializeSentry();
 
@@ -56,11 +56,11 @@ export default function ZulipMobile(): Node {
               <AppEventHandlers>
                 <TranslationProvider>
                   <ThemeProvider>
-                    <TopicModalProvider>
+                    <TopicEditModalProvider>
                       <ActionSheetProvider>
                         <ZulipNavigationContainer />
                       </ActionSheetProvider>
-                    </TopicModalProvider>
+                    </TopicEditModalProvider>
                   </ThemeProvider>
                 </TranslationProvider>
               </AppEventHandlers>

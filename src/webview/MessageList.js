@@ -14,7 +14,6 @@ import type {
   MessageListElement,
   UserOrBot,
   EditMessage,
-  Stream,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { connect } from '../react-redux';
@@ -46,12 +45,7 @@ type OuterProps = $ReadOnly<{|
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
-  startEditTopic: (
-    streamId: number,
-    topic: string,
-    streamsById: Map<number, Stream>,
-    _: GetText,
-  ) => Promise<void>,
+  startEditTopic: (streamId: number, topic: string) => Promise<void>,
 |}>;
 
 type SelectorProps = {|

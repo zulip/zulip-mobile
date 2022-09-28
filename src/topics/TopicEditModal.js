@@ -1,40 +1,43 @@
-// @flow
-import React, { useState, useContext, useMemo } from 'react';
-import { Modal, Text, Pressable, View, TextInput, Platform } from 'react-native';
-import type { JSX$Element } from 'tsflower/subst/react';
+// @flow strict-local
+import React, { useState, useContext, useMemo, useEffect } from 'react';
+import { Modal, Pressable, View, TextInput, Platform } from 'react-native';
+import type { Node } from 'react';
 import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
 import { updateMessage } from '../api';
-import type { Auth, Stream, GetText } from '../types';
+import type { Auth, GetText, Stream } from '../types';
+import { fetchSomeMessageIdForConversation } from '../message/fetchActions';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
-type TopicEditModalArgs = {
-  topicModalState: {
+type Props = $ReadOnly<{|
+  topicModalProviderState: {
     visible: boolean,
     topic: string,
-    fetchArgs: {
-      auth: Auth,
-      messageId: number,
-      zulipFeatureLevel: number,
-    },
+    streamId: number,
   },
-  topicModalHandler: {
-    startEditTopic: (
-      streamId: number,
-      topic: string,
-      streamsById: Map<number, Stream>,
-      _: GetText,
-    ) => Promise<void>,
-    closeEditTopicModal: () => void,
-  },
-};
+  auth: Auth,
+  zulipFeatureLevel: number,
+  streamsById: Map<number, Stream>,
+  _: GetText,
+  closeEditTopicModal: () => void,
+|}>;
 
-export default function TopicEditModal({
-  topicModalState,
-  topicModalHandler,
-}: TopicEditModalArgs): JSX$Element {
-  const { topic, fetchArgs } = topicModalState;
-  const [topicState, onChangeTopic] = useState(topic);
-  const { closeEditTopicModal } = topicModalHandler;
-  const { auth, messageId, zulipFeatureLevel } = fetchArgs;
+export default function TopicEditModal(props: Props): Node {
+  const {
+    topicModalProviderState,
+    closeEditTopicModal,
+    auth,
+    zulipFeatureLevel,
+    streamsById,
+    _,
+  } = props;
+
+  const { visible, topic, streamId } = topicModalProviderState;
+
+  const [topicName, onChangeTopicName] = useState();
+
+  useEffect(() => {
+    onChangeTopicName(topic);
+  }, [topic]);
 
   const { backgroundColor } = useContext(ThemeContext);
 
@@ -110,9 +113,23 @@ export default function TopicEditModal({
   });
 
   const handleSubmit = async () => {
+    const messageId = await fetchSomeMessageIdForConversation(
+      auth,
+      streamId,
+      topic,
+      streamsById,
+      zulipFeatureLevel,
+    );
+    if (messageId == null) {
+      throw new Error(
+        _('No messages in topic: {streamAndTopic}', {
+          streamAndTopic: `#${streamsById.get(streamId)?.name ?? 'unknown'} > ${topic}`,
+        }),
+      );
+    }
     await updateMessage(auth, messageId, {
       propagate_mode: 'change_all',
-      subject: topicState,
+      subject: topicName,
       ...(zulipFeatureLevel >= 9 && {
         send_notification_to_old_thread: true,
         send_notification_to_new_thread: true,
@@ -121,21 +138,14 @@ export default function TopicEditModal({
     closeEditTopicModal();
   };
   return (
-    <Modal
-      transparent
-      visible={topicModalState.visible}
-      animationType="slide"
-      onRequestClose={() => {
-        closeEditTopicModal();
-      }}
-    >
+    <Modal transparent visible={visible} animationType="slide" onRequestClose={closeEditTopicModal}>
       <View style={styles.wrapper}>
         <View style={styles.modalView}>
-          <Text style={styles.titleText}>Edit topic</Text>
+          <ZulipTextIntl style={styles.titleText} text="Edit topic" />
           <TextInput
             style={styles.input}
-            value={topicState}
-            onChangeText={onChangeTopic}
+            value={topicName}
+            onChangeText={onChangeTopicName}
             selectTextOnFocus
           />
           <View style={styles.buttonContainer}>
@@ -147,22 +157,26 @@ export default function TopicEditModal({
                 borderColor: BRAND_COLOR,
                 ...styles.button,
               }}
-              onPress={() => {
-                closeEditTopicModal();
-              }}
+              onPress={closeEditTopicModal}
             >
-              <Text style={{ ...styles.text, ...styles.cancelButtonText }}>Cancel</Text>
+              <ZulipTextIntl
+                style={{ ...styles.text, ...styles.cancelButtonText }}
+                text="Cancel"
+              />
             </Pressable>
             <Pressable
               style={{
-                opacity: !topicState ? 0.25 : 1,
+                opacity: topicName === '' ? 0.25 : 1,
                 backgroundColor: BRAND_COLOR,
                 ...styles.button,
               }}
               onPress={handleSubmit}
-              disabled={!topicState}
+              disabled={!topicName}
             >
-              <Text style={{ ...styles.text, ...styles.submitButtonText }}>Submit</Text>
+              <ZulipTextIntl
+                style={{ ...styles.text, ...styles.submitButtonText }}
+                text="Submit"
+              />
             </Pressable>
           </View>
         </View>

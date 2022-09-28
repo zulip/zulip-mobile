@@ -338,5 +338,6 @@
   "Failed to copy stream link": "Failed to copy stream link",
   "A stream with this name already exists.": "A stream with this name already exists.",
   "Streams": "Streams",
-  "Edit topic": "Edit topic"
+  "Edit topic": "Edit topic",
+  "Submit": "Submit"
 }

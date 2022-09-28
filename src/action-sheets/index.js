@@ -77,12 +77,7 @@ type TopicArgs = {
   zulipFeatureLevel: number,
   dispatch: Dispatch,
   _: GetText,
-  startEditTopic: (
-    streamId: number,
-    topic: string,
-    streamsById: Map<number, Stream>,
-    _: GetText,
-  ) => Promise<void>,
+  startEditTopic: (streamId: number, topic: string) => Promise<void>,
   ...
 };
 
@@ -260,8 +255,8 @@ const toggleResolveTopic = async ({ auth, streamId, topic, _, streams, zulipFeat
 const editTopic = {
   title: 'Edit topic',
   errorMessage: 'Failed to resolve topic',
-  action: ({ streamId, topic, streams, _, startEditTopic }) => {
-    startEditTopic(streamId, topic, streams, _);
+  action: ({ streamId, topic, startEditTopic }) => {
+    startEditTopic(streamId, topic);
   },
 };
 
@@ -516,10 +511,14 @@ export const constructTopicActionButtons = (args: {|
 
   const buttons = [];
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
+  const isAdmin = roleIsAtLeast(ownUserRole, Role.Admin);
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
   }
-  buttons.push(editTopic);
+  // Set back to isAdmin after testing feature
+  if (true) {
+    buttons.push(editTopic);
+  }
   if (isTopicMuted(streamId, topic, mute)) {
     buttons.push(unmuteTopic);
   } else {
@@ -530,7 +529,7 @@ export const constructTopicActionButtons = (args: {|
   } else {
     buttons.push(unresolveTopic);
   }
-  if (roleIsAtLeast(ownUserRole, Role.Admin)) {
+  if (isAdmin) {
     buttons.push(deleteTopic);
   }
   const sub = subscriptions.get(streamId);
@@ -681,12 +680,7 @@ export const showTopicActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
-    startEditTopic: (
-      streamId: number,
-      topic: string,
-      streamsById: Map<number, Stream>,
-      _: GetText,
-    ) => Promise<void>,
+    startEditTopic: (streamId: number, topic: string) => Promise<void>,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{

@@ -9,7 +9,7 @@ import { createStyleSheet } from '../styles';
 import LoadingIndicator from '../common/LoadingIndicator';
 import SearchEmptyState from '../common/SearchEmptyState';
 import MessageList from '../webview/MessageList';
-import { useTopicModalHandler } from '../boot/TopicModalProvider';
+import { useStartEditTopic } from '../boot/TopicEditModalProvider';
 
 const styles = createStyleSheet({
   results: {
@@ -25,7 +25,7 @@ type Props = $ReadOnly<{|
 
 export default function SearchMessagesCard(props: Props): Node {
   const { narrow, isFetching, messages } = props;
-  const { startEditTopic } = useTopicModalHandler();
+  const startEditTopic = useStartEditTopic();
 
   if (isFetching) {
     // Display loading indicator only if there are no messages to
