@@ -199,10 +199,6 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
 
   const inputBlurTimeoutId = useRef<?TimeoutID>(null);
 
-  // TODO(#5141): Encapsulate this in a nice, plain action-sheet pattern
-  //   instead of setting it all over the place
-  const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
-
   const [height, setHeight] = useState<number>(20);
 
   const [focusState, setFocusState] = useState<{|
@@ -258,19 +254,8 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       if (!isEditing) {
         dispatch(draftUpdate(narrow, messageInputValue));
       }
-      setIsMenuExpanded(false);
     }
   }, [dispatch, isEditing, narrow, messageInputState, prevMessageInputState]);
-
-  const prevTopicInputState = usePrevious(topicInputState);
-  useEffect(() => {
-    const topicInputValue = topicInputState.value;
-    const prevTopicInputValue = prevTopicInputState?.value;
-
-    if (prevTopicInputValue !== topicInputValue) {
-      setIsMenuExpanded(false);
-    }
-  }, [topicInputState, prevTopicInputState]);
 
   const updateIsFocused = useCallback(() => {
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
@@ -454,10 +439,6 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   );
   useImperativeHandle(ref, () => ({ doQuoteAndReply }), [doQuoteAndReply]);
 
-  const handleComposeMenuToggle = useCallback(() => {
-    setIsMenuExpanded(x => !x);
-  }, []);
-
   const handleLayoutChange = useCallback((event: LayoutEvent) => {
     setHeight(event.nativeEvent.layout.height);
   }, []);
@@ -495,13 +476,11 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       topicInputRef.current?.focus();
     } else {
       setFocusState(state => ({ ...state, message: true, either: true }));
-      setIsMenuExpanded(false);
     }
   }, [isEditing, narrow, focusState.either, topicInputState.value, topicInputRef]);
 
   const handleMessageBlur = useCallback(() => {
     setFocusState(state => ({ ...state, message: false }));
-    setIsMenuExpanded(false);
     dispatch(sendTypingStop(narrow));
     // give a chance to the topic input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
@@ -510,20 +489,14 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
 
   const handleTopicFocus = useCallback(() => {
     setFocusState(state => ({ ...state, topic: true, either: true }));
-    setIsMenuExpanded(false);
   }, []);
 
   const handleTopicBlur = useCallback(() => {
     setFocusState(state => ({ ...state, topic: false }));
-    setIsMenuExpanded(false);
     // give a chance to the message input to get the focus
     clearTimeout(inputBlurTimeoutId.current);
     inputBlurTimeoutId.current = setTimeout(updateIsFocused, FOCUS_DEBOUNCE_TIME_MS);
   }, [updateIsFocused]);
-
-  const handleInputTouchStart = useCallback(() => {
-    setIsMenuExpanded(false);
-  }, []);
 
   const destinationNarrow = useMemo(() => {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
@@ -652,7 +625,8 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
         },
         composeInputs: {
           flex: 1,
-          paddingVertical: 8,
+          paddingTop: 8,
+          paddingLeft: 8,
         },
         submitButtonContainer: {
           padding: 8,
@@ -739,15 +713,6 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
         style={styles.composeBox}
         onLayout={handleLayoutChange}
       >
-        <ComposeMenu
-          destinationNarrow={destinationNarrow}
-          expanded={isMenuExpanded}
-          insertAttachment={insertAttachment}
-          insertVideoCallLink={
-            videoChatProvider !== null ? () => insertVideoCallLink(videoChatProvider) : null
-          }
-          onExpandContract={handleComposeMenuToggle}
-        />
         <View style={styles.composeInputs}>
           <Input
             style={styles.topicInput}
@@ -761,14 +726,12 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
             {...topicInputCallbacks}
             onFocus={handleTopicFocus}
             onBlur={handleTopicBlur}
-            onTouchStart={handleInputTouchStart}
             onSubmitEditing={() => messageInputRef.current?.focus()}
             blurOnSubmit={false}
             returnKeyType="next"
           />
           <Input
-            // TODO(#5291): Don't switch between true/false for multiline
-            multiline={!isMenuExpanded}
+            multiline
             style={styles.composeTextInput}
             underlineColorAndroid="transparent"
             placeholder={placeholder}
@@ -778,7 +741,13 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
             {...messageInputCallbacks}
             onBlur={handleMessageBlur}
             onFocus={handleMessageFocus}
-            onTouchStart={handleInputTouchStart}
+          />
+          <ComposeMenu
+            destinationNarrow={destinationNarrow}
+            insertAttachment={insertAttachment}
+            insertVideoCallLink={
+              videoChatProvider !== null ? () => insertVideoCallLink(videoChatProvider) : null
+            }
           />
         </View>
         <View style={styles.submitButtonContainer}>

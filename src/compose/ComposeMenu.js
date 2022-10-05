@@ -11,25 +11,15 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
 import { BRAND_COLOR, HIGHLIGHT_COLOR, createStyleSheet } from '../styles';
-import {
-  IconPlusCircle,
-  IconLeft,
-  IconImage,
-  IconCamera,
-  IconAttach,
-  IconVideo,
-} from '../common/Icons';
-import AnimatedComponent from '../animation/AnimatedComponent';
+import { IconImage, IconCamera, IconAttach, IconVideo } from '../common/Icons';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
 import type { SpecificIconType } from '../common/Icons';
 
 type Props = $ReadOnly<{|
-  expanded: boolean,
   destinationNarrow: Narrow,
   insertAttachment: ($ReadOnlyArray<DocumentPickerResponse>) => Promise<void>,
   insertVideoCallLink: (() => void) | null,
-  onExpandContract: () => void,
 |}>;
 
 /**
@@ -82,7 +72,7 @@ type MenuButtonProps = $ReadOnly<{|
 
 function MenuButton(props: MenuButtonProps) {
   const { onPress, IconComponent } = props;
-  const style = useMemo(() => ({ padding: 12 }), []);
+  const style = useMemo(() => ({ paddingHorizontal: 12, paddingVertical: 8 }), []);
 
   return (
     <Pressable style={style} onPress={onPress}>
@@ -92,8 +82,7 @@ function MenuButton(props: MenuButtonProps) {
 }
 
 export default function ComposeMenu(props: Props): Node {
-  const { destinationNarrow, insertAttachment, expanded, insertVideoCallLink, onExpandContract } =
-    props;
+  const { destinationNarrow, insertAttachment, insertVideoCallLink } = props;
 
   const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
@@ -232,53 +221,20 @@ export default function ComposeMenu(props: Props): Node {
         container: {
           flexDirection: 'row',
         },
-        composeMenu: {
-          flexDirection: 'row',
-
-          // Hide the buttons when the menu is collapsed. (overflowX would
-          // be great here if RN offered it.)
-          overflow: 'hidden',
-        },
-        expandButton: {
-          padding: 12,
-        },
       }),
     [],
   );
 
-  const numIcons = 2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
-
   return (
     <View style={styles.container}>
-      <AnimatedComponent
-        stylePropertyName="width"
-        fullValue={48 * numIcons}
-        useNativeDriver={false}
-        visible={expanded}
-      >
-        <View style={styles.composeMenu}>
-          {Platform.OS === 'android' && (
-            <MenuButton onPress={handleFilesPicker} IconComponent={IconAttach} />
-          )}
-          <MenuButton onPress={handleImagePicker} IconComponent={IconImage} />
-          <MenuButton onPress={handleCameraCapture} IconComponent={IconCamera} />
-          {insertVideoCallLink !== null ? (
-            <MenuButton onPress={insertVideoCallLink} IconComponent={IconVideo} />
-          ) : null}
-        </View>
-      </AnimatedComponent>
-      {!expanded && (
-        <Pressable style={styles.expandButton} onPress={onExpandContract}>
-          {({ pressed }) => (
-            <IconPlusCircle color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />
-          )}
-        </Pressable>
+      {Platform.OS === 'android' && (
+        <MenuButton onPress={handleFilesPicker} IconComponent={IconAttach} />
       )}
-      {expanded && (
-        <Pressable style={styles.expandButton} onPress={onExpandContract}>
-          {({ pressed }) => <IconLeft color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />}
-        </Pressable>
-      )}
+      <MenuButton onPress={handleImagePicker} IconComponent={IconImage} />
+      <MenuButton onPress={handleCameraCapture} IconComponent={IconCamera} />
+      {insertVideoCallLink !== null ? (
+        <MenuButton onPress={insertVideoCallLink} IconComponent={IconVideo} />
+      ) : null}
     </View>
   );
 }
