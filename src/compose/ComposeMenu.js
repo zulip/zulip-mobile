@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useCallback, useContext, useMemo } from 'react';
 import type { Node } from 'react';
-import { Platform, View, Alert, Linking } from 'react-native';
+import { Platform, View, Alert, Linking, Pressable } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
@@ -10,7 +10,7 @@ import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
-import { BRAND_COLOR, createStyleSheet } from '../styles';
+import { BRAND_COLOR, HIGHLIGHT_COLOR, createStyleSheet } from '../styles';
 import {
   IconPlusCircle,
   IconLeft,
@@ -82,9 +82,13 @@ type MenuButtonProps = $ReadOnly<{|
 
 function MenuButton(props: MenuButtonProps) {
   const { onPress, IconComponent } = props;
-  const style = useMemo(() => ({ padding: 12, marginRight: -8, color: BRAND_COLOR }), []);
+  const style = useMemo(() => ({ padding: 12, marginRight: -8 }), []);
 
-  return <IconComponent style={style} size={24} onPress={onPress} />;
+  return (
+    <Pressable style={style} onPress={onPress}>
+      {({ pressed }) => <IconComponent color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />}
+    </Pressable>
+  );
 }
 
 export default function ComposeMenu(props: Props): Node {
@@ -237,7 +241,6 @@ export default function ComposeMenu(props: Props): Node {
         },
         expandButton: {
           padding: 12,
-          color: BRAND_COLOR,
         },
       }),
     [],
@@ -265,9 +268,17 @@ export default function ComposeMenu(props: Props): Node {
         </View>
       </AnimatedComponent>
       {!expanded && (
-        <IconPlusCircle style={styles.expandButton} size={24} onPress={onExpandContract} />
+        <Pressable style={styles.expandButton} onPress={onExpandContract}>
+          {({ pressed }) => (
+            <IconPlusCircle color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />
+          )}
+        </Pressable>
       )}
-      {expanded && <IconLeft style={styles.expandButton} size={24} onPress={onExpandContract} />}
+      {expanded && (
+        <Pressable style={styles.expandButton} onPress={onExpandContract}>
+          {({ pressed }) => <IconLeft color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />}
+        </Pressable>
+      )}
     </View>
   );
 }
