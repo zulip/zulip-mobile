@@ -82,7 +82,7 @@ type MenuButtonProps = $ReadOnly<{|
 
 function MenuButton(props: MenuButtonProps) {
   const { onPress, IconComponent } = props;
-  const style = useMemo(() => ({ padding: 12, marginRight: -8 }), []);
+  const style = useMemo(() => ({ padding: 12 }), []);
 
   return (
     <Pressable style={style} onPress={onPress}>
@@ -252,7 +252,7 @@ export default function ComposeMenu(props: Props): Node {
     <View style={styles.container}>
       <AnimatedComponent
         stylePropertyName="width"
-        fullValue={40 * numIcons}
+        fullValue={48 * numIcons}
         useNativeDriver={false}
         visible={expanded}
       >
