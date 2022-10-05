@@ -225,6 +225,9 @@ export default function ComposeMenu(props: Props): Node {
   const styles = useMemo(
     () =>
       createStyleSheet({
+        container: {
+          flexDirection: 'row',
+        },
         composeMenu: {
           flexDirection: 'row',
 
@@ -243,7 +246,7 @@ export default function ComposeMenu(props: Props): Node {
   const numIcons = 2 + (Platform.OS === 'android' ? 1 : 0) + (insertVideoCallLink !== null ? 1 : 0);
 
   return (
-    <View style={styles.composeMenu}>
+    <View style={styles.container}>
       <AnimatedComponent
         stylePropertyName="width"
         fullValue={40 * numIcons}
