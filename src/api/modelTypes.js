@@ -885,7 +885,10 @@ type MessageBase = $ReadOnly<{|
 
   client: string,
   content: string,
-  content_type: 'text/html',
+  content_type:
+    | 'text/html' // message requested with apply_markdown true
+    | 'text/x-markdown', // message requested with apply_markdown false
+
   // display_recipient handled on PmMessage and StreamMessage separately
 
   /**

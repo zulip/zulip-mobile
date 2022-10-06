@@ -131,11 +131,11 @@ const reply = {
 const copyToClipboard = {
   title: 'Copy to clipboard',
   errorMessage: 'Failed to copy message to clipboard',
-  action: async ({ _, auth, message }) => {
+  action: async ({ _, auth, message, zulipFeatureLevel }) => {
     const rawMessage =
       message.isOutbox === true
         ? message.markdownContent
-        : await api.getRawMessageContent(auth, message.id);
+        : await api.getRawMessageContent(auth, { message_id: message.id }, zulipFeatureLevel);
     Clipboard.setString(rawMessage);
     showToast(_('Message copied'));
   },
@@ -144,13 +144,17 @@ const copyToClipboard = {
 const editMessage = {
   title: 'Edit message',
   errorMessage: 'Failed to edit message',
-  action: async ({ message, startEditMessage, auth }) => {
+  action: async ({ message, startEditMessage, auth, zulipFeatureLevel }) => {
     if (message.isOutbox === true) {
       logging.warn('Attempted "Edit message" for outbox message');
       return;
     }
 
-    const rawContent = await api.getRawMessageContent(auth, message.id);
+    const rawContent = await api.getRawMessageContent(
+      auth,
+      { message_id: message.id },
+      zulipFeatureLevel,
+    );
     startEditMessage({
       id: message.id,
       content: rawContent,
