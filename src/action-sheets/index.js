@@ -135,7 +135,7 @@ const copyToClipboard = {
     const rawMessage =
       message.isOutbox === true
         ? message.markdownContent
-        : (await api.getRawMessageContent(auth, message.id)).raw_content;
+        : await api.getRawMessageContent(auth, message.id);
     Clipboard.setString(rawMessage);
     showToast(_('Message copied'));
   },
@@ -150,10 +150,10 @@ const editMessage = {
       return;
     }
 
-    const { raw_content } = await api.getRawMessageContent(auth, message.id);
+    const rawContent = await api.getRawMessageContent(auth, message.id);
     startEditMessage({
       id: message.id,
-      content: raw_content,
+      content: rawContent,
       topic: message.subject,
     });
   },
