@@ -41,6 +41,7 @@ import { type BackgroundData, getBackgroundData } from './backgroundData';
 import { ensureUnreachable } from '../generics';
 import SinglePageWebView from './SinglePageWebView';
 import { usePrevious } from '../reactUtils';
+import typeof ComposeBox from '../compose/ComposeBox';
 
 /**
  * The actual React props for the MessageList component.
@@ -51,6 +52,9 @@ type OuterProps = $ReadOnly<{|
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+
+  // Careful: We expect this prop to be mutable, which is unusual.
+  composeBoxRef: {| current: React$ElementRef<ComposeBox> | null |},
 |}>;
 
 /**

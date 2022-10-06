@@ -29,6 +29,7 @@ describe('generateInboundEvents', () => {
     narrow: HOME_NARROW,
     showMessagePlaceholders: false,
     startEditMessage: jest.fn(),
+    composeBoxRef: { current: null },
     dispatch: jest.fn(),
     ...baseSelectorProps,
     showActionSheetWithOptions: jest.fn(),

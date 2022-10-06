@@ -2,9 +2,9 @@
 import { addBreadcrumb } from '@sentry/react-native';
 import * as internal_url from '@zulip/shared/js/internal_url';
 import { makeUserId } from '../api/idTypes';
-import type { Narrow, Stream, UserId } from '../types';
+import type { Narrow, Stream, UserId, Message, Outbox, PmMessage, PmOutbox } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
-import { pmKeyRecipientsFromIds } from './recipient';
+import { pmKeyRecipientsFromIds, recipientsOfPrivateMessage } from './recipient';
 import { ensureUnreachable } from '../generics';
 import { isUrlOnRealm } from './url';
 
@@ -284,4 +284,41 @@ export const getStreamUrl = (
   const maybe_get_stream_name = id => streamsById.get(streamId)?.name;
   const path = internal_url.by_stream_url(streamId, maybe_get_stream_name);
   return new URL(path, realm);
+};
+
+/**
+ * A /pm-with/ link for a whole PM conversation a message belongs to.
+ */
+// Based on pm_perma_link in static/js/people.js in the zulip/zulip repo.
+// TODO(shared): Share that code.
+export const getPmConversationLinkForMessage = (realm: URL, message: PmMessage | PmOutbox): URL => {
+  const recipientIds = recipientsOfPrivateMessage(message)
+    .map(r => r.id)
+    .sort((a, b) => a - b);
+  const suffix = recipientIds.length >= 3 ? 'group' : 'pm';
+  const slug = `${recipientIds.join(',')}-${suffix}`;
+  return new URL(`#narrow/pm-with/${slug}`, realm);
+};
+
+/**
+ * A /near/ link to a given message, as a URL object.
+ */
+export const getMessageUrl = (
+  realm: URL,
+  message: Message | Outbox,
+  streamsById: Map<number, Stream>,
+): URL => {
+  let result = undefined;
+
+  // Build the part that points to the message's conversation…
+  if (message.type === 'stream') {
+    result = getStreamTopicUrl(realm, message.stream_id, message.subject, streamsById);
+  } else {
+    result = getPmConversationLinkForMessage(realm, message);
+  }
+
+  // …then add the part that points to the message.
+  result.hash += `/near/${message.id}`;
+
+  return result;
 };

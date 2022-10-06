@@ -136,8 +136,15 @@ describe('constructTopicActionButtons', () => {
 describe('constructMessageActionButtons', () => {
   const narrow = deepFreeze(HOME_NARROW);
 
-  const titles = (backgroundData, message) =>
-    buttonTitles(constructMessageActionButtons({ backgroundData, message, narrow }));
+  const titles = (backgroundData, message, canStartQuoteAndReply = false) =>
+    buttonTitles(
+      constructMessageActionButtons({
+        backgroundData,
+        message,
+        narrow,
+        canStartQuoteAndReply,
+      }),
+    );
 
   // TODO: test constructMessageActionButtons on Outbox
 
@@ -151,6 +158,14 @@ describe('constructMessageActionButtons', () => {
   // TODO: test constructMessageActionButtons for hide showReactions
 
   // TODO: test constructMessageActionButtons for reply
+
+  describe('canStartQuoteAndReply', () => {
+    test.each([true, false])('%p', (value: boolean) => {
+      expect(
+        titles(eg.plusBackgroundData, eg.streamMessage(), value).includes('Quote and reply'),
+      ).toBe(value);
+    });
+  });
 
   // TODO: test constructMessageActionButtons for copy and share
 

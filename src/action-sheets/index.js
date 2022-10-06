@@ -44,6 +44,7 @@ import { Role, type RoleT } from '../api/permissionsTypes';
 import { roleIsAtLeast } from '../permissionSelectors';
 import { kNotificationBotEmail } from '../api/constants';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
+import typeof ComposeBox from '../compose/ComposeBox';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -93,6 +94,7 @@ type MessageArgs = {
   dispatch: Dispatch,
   startEditMessage: (editMessage: EditMessage) => void,
   setDoNotMarkMessagesAsRead: boolean => void,
+  composeBoxRefCurrent: React$ElementRef<ComposeBox> | null,
   navigation: AppNavigationMethods,
   _: GetText,
   ...
@@ -125,6 +127,18 @@ const reply = {
   errorMessage: 'Failed to reply',
   action: ({ message, dispatch, ownUser }) => {
     dispatch(doNarrow(getNarrowForReply(message, ownUser.user_id), message.id));
+  },
+};
+
+const quoteAndReply = {
+  title: 'Quote and reply',
+  errorMessage: 'Quote-and-reply failed',
+  action: async ({ message, composeBoxRefCurrent }) => {
+    if (!composeBoxRefCurrent) {
+      logging.error("quoteAndReply button pressed when it shouldn't have appeared in the UI");
+      return;
+    }
+    return composeBoxRefCurrent.doQuoteAndReply(message);
   },
 };
 
@@ -674,8 +688,9 @@ export const constructMessageActionButtons = (args: {|
   }>,
   message: Message | Outbox,
   narrow: Narrow,
+  canStartQuoteAndReply: boolean,
 |}): Button<MessageArgs>[] => {
-  const { backgroundData, message, narrow } = args;
+  const { backgroundData, message, narrow, canStartQuoteAndReply } = args;
   const { ownUser, flags } = backgroundData;
   const buttons = [];
 
@@ -695,6 +710,9 @@ export const constructMessageActionButtons = (args: {|
   }
   if (!isTopicNarrow(narrow) && !isPmNarrow(narrow)) {
     buttons.push(reply);
+  }
+  if (canStartQuoteAndReply) {
+    buttons.push(quoteAndReply);
   }
   if (messageNotDeleted(message)) {
     buttons.push(copyToClipboard);
@@ -789,6 +807,7 @@ export const showMessageActionSheet = (args: {|
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
+    composeBoxRefCurrent: React$ElementRef<ComposeBox> | null,
     navigation: AppNavigationMethods,
     _: GetText,
     setDoNotMarkMessagesAsRead: boolean => void,
@@ -810,7 +829,12 @@ export const showMessageActionSheet = (args: {|
   const { showActionSheetWithOptions, callbacks, backgroundData, message, narrow } = args;
   showActionSheet({
     showActionSheetWithOptions,
-    options: constructMessageActionButtons({ backgroundData, message, narrow }),
+    options: constructMessageActionButtons({
+      backgroundData,
+      message,
+      narrow,
+      canStartQuoteAndReply: callbacks.composeBoxRefCurrent !== null,
+    }),
     args: { ...backgroundData, ...callbacks, message, narrow },
   });
 };

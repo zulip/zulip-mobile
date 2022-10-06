@@ -226,6 +226,7 @@ const handleLongPress = (args: {|
     narrow,
     startEditMessage,
     setDoNotMarkMessagesAsRead,
+    composeBoxRef,
     _,
   } = props;
   if (target === 'header') {
@@ -248,7 +249,20 @@ const handleLongPress = (args: {|
   } else if (target === 'message') {
     showMessageActionSheet({
       showActionSheetWithOptions,
-      callbacks: { dispatch, startEditMessage, setDoNotMarkMessagesAsRead, navigation, _ },
+      callbacks: {
+        dispatch,
+        startEditMessage,
+        setDoNotMarkMessagesAsRead,
+
+        // The immutable `.current` value, not the mutable ref object, so
+        // that an action-sheet button press will act on values that were
+        // current when the action sheet was opened:
+        //   https://github.com/zulip/zulip-mobile/pull/5554#discussion_r1027004559
+        composeBoxRefCurrent: composeBoxRef.current,
+
+        navigation,
+        _,
+      },
       backgroundData,
       message,
       narrow,

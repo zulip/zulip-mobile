@@ -1,16 +1,34 @@
 /* @flow strict-local */
-import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
-import type { Node } from 'react';
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import { Platform, View } from 'react-native';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import invariant from 'invariant';
+// $FlowFixMe[untyped-import]
+import * as fenced_code from '@zulip/shared/js/fenced_code';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
 import { ThemeContext, BRAND_COLOR, createStyleSheet } from '../styles';
-import type { Narrow, VideoChatProvider } from '../types';
+import type {
+  Narrow,
+  VideoChatProvider,
+  Message,
+  Outbox,
+  Stream,
+  UserOrBot,
+  GetText,
+} from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
@@ -38,6 +56,7 @@ import {
   getStreamsById,
   getVideoChatProvider,
   getRealm,
+  getZulipFeatureLevel,
 } from '../selectors';
 import {
   getIsActiveStreamSubscribed,
@@ -51,6 +70,9 @@ import { ensureUnreachable } from '../generics';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 import useUncontrolledInput from '../useUncontrolledInput';
+import { tryFetch } from '../message/fetchActions';
+import { getMessageUrl } from '../utils/internalLinks';
+import * as logging from '../utils/logging';
 
 /* eslint-disable no-shadow */
 
@@ -80,7 +102,22 @@ type Props = $ReadOnly<{|
 |}>;
 
 // TODO(?): Could deduplicate with this type in ShareWrapper.
-export type ValidationError = 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty';
+export type ValidationError =
+  | 'upload-in-progress'
+  | 'message-empty'
+  | 'mandatory-topic-empty'
+  | 'quote-and-reply-in-progress';
+
+/**
+ * Functions expected to be called using a ref to this component.
+ */
+type ImperativeHandle = {|
+  /**
+   * Take a message ID, fetch its raw Markdown content, and put it in the
+   *   compose box with proper formatting.
+   */
+  +doQuoteAndReply: (message: Message | Outbox) => Promise<void>,
+|};
 
 const FOCUS_DEBOUNCE_TIME_MS = 16;
 
@@ -88,7 +125,49 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export default function ComposeBox(props: Props): Node {
+/**
+ * Get the quote-and-reply text for a message, with fence and silent mention.
+ *
+ * Doesn't include any leading or trailing newlines; the caller should do
+ * that if desired.
+ */
+function getQuoteAndReplyText(args: {|
+  message: Message | Outbox,
+  rawContent: string,
+  user: UserOrBot,
+  realm: URL,
+  streamsById: Map<number, Stream>,
+  _: GetText,
+|}): string {
+  // Modeled on replace_content in static/js/compose_actions.js in the
+  // zulip/zulip repo.
+  // TODO(shared): Share that code?
+  //
+  // Result looks like:
+  //   @_**Iago|5** [said](link to message):
+  //   ```quote
+  //   message content
+  //   ```
+
+  const { message, rawContent, user, realm, streamsById, _ } = args;
+  const authorLine = _({
+    // Matches the web-app string
+    text: '{username} [said]({link_to_message}):',
+    values: {
+      username: `@_**${user.full_name}|${user.user_id}**`,
+      link_to_message: getMessageUrl(realm, message, streamsById).toString(),
+    },
+  });
+  const fence = fenced_code.get_unused_fence(rawContent);
+
+  return `\
+${authorLine}
+${fence}quote
+${rawContent}
+${fence}`;
+}
+
+const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef((props, ref) => {
   const {
     narrow,
     onSend,
@@ -103,6 +182,7 @@ export default function ComposeBox(props: Props): Node {
 
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
+  const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const ownUserId = useSelector(getOwnUserId);
   const allUsersById = useSelector(getAllUsersById);
   const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
@@ -299,6 +379,81 @@ export default function ComposeBox(props: Props): Node {
     [insertMessageTextAtCursorPosition, _, auth, setMessageInputValue],
   );
 
+  const activeInvocations = useRef<number[]>([]);
+  const [activeQuoteAndRepliesCount, setActiveQuoteAndRepliesCount] = useState(0);
+  const anyQuoteAndReplyInProgress = activeQuoteAndRepliesCount > 0;
+  const doQuoteAndReply = useCallback(
+    async message => {
+      // TODO: If not already there, re-narrow to `message`'s conversation
+      //   narrow, with getNarrowForReply, and do the quote-and-reply there.
+      //   Discussion:
+      //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M1975.20Quote.20and.20reply/near/1455302
+
+      setActiveQuoteAndRepliesCount(v => v + 1);
+      const serialNumber =
+        activeInvocations.current.length > 0
+          ? activeInvocations.current[activeInvocations.current.length - 1] + 1
+          : 0;
+      activeInvocations.current.push(serialNumber);
+      try {
+        const user = allUsersById.get(message.sender_id);
+        if (!user) {
+          showErrorAlert(_('Quote-and-reply failed'));
+          logging.error('Missing user for sender_id in quote-and-reply', {
+            sender_id: message.sender_id,
+          });
+          return;
+        }
+
+        // Set to match quoting_placeholder in quote_and_reply in
+        // static/js/compose_actions.js in the zulip/zulip repo.
+        const quotingPlaceholder =
+          serialNumber > 0
+            ? _({ text: '[Quoting ({serialNumber})…]', values: { serialNumber } })
+            : _('[Quoting…]');
+        insertMessageTextAtCursorPosition(quotingPlaceholder, true);
+
+        let rawContent = undefined;
+        try {
+          // TODO: Give feedback when the server round trip takes longer than
+          //   expected.
+          // TODO: Let the user cancel the request so we don't force a
+          //   quote-and-reply after they've given up and perhaps forgotten
+          //   about it.
+          rawContent = await tryFetch(() =>
+            api.getRawMessageContent(auth, { message_id: message.id }, zulipFeatureLevel),
+          );
+        } catch {
+          showErrorAlert(_('Quote-and-reply failed'));
+          return;
+        }
+
+        const quoteAndReplyText = getQuoteAndReplyText({
+          message,
+          rawContent,
+          user,
+          realm: auth.realm,
+          streamsById,
+          _,
+        });
+        setMessageInputValue(state => state.value.replace(quotingPlaceholder, quoteAndReplyText));
+      } finally {
+        setActiveQuoteAndRepliesCount(v => v - 1);
+        activeInvocations.current = activeInvocations.current.filter(x => x !== serialNumber);
+      }
+    },
+    [
+      auth,
+      allUsersById,
+      streamsById,
+      insertMessageTextAtCursorPosition,
+      setMessageInputValue,
+      zulipFeatureLevel,
+      _,
+    ],
+  );
+  useImperativeHandle(ref, () => ({ doQuoteAndReply }), [doQuoteAndReply]);
+
   const handleComposeMenuToggle = useCallback(() => {
     setIsMenuExpanded(x => !x);
   }, []);
@@ -401,8 +556,18 @@ export default function ComposeBox(props: Props): Node {
       result.push('upload-in-progress');
     }
 
+    if (anyQuoteAndReplyInProgress) {
+      result.push('quote-and-reply-in-progress');
+    }
+
     return result;
-  }, [destinationNarrow, mandatoryTopics, numUploading, messageInputState]);
+  }, [
+    destinationNarrow,
+    mandatoryTopics,
+    numUploading,
+    anyQuoteAndReplyInProgress,
+    messageInputState,
+  ]);
 
   const submitButtonDisabled = validationErrors.length > 0;
 
@@ -415,6 +580,8 @@ export default function ComposeBox(props: Props): Node {
           switch (error) {
             case 'upload-in-progress':
               return _('Please wait for the upload to complete.');
+            case 'quote-and-reply-in-progress':
+              return _('Please wait for the quote-and-reply to complete.');
             case 'mandatory-topic-empty':
               return _('Please specify a topic.');
             case 'message-empty':
@@ -634,4 +801,6 @@ export default function ComposeBox(props: Props): Node {
       </SafeAreaView>
     </View>
   );
-}
+});
+
+export default ComposeBox;

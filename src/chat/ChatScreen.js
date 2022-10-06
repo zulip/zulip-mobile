@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -142,7 +142,9 @@ export default function ChatScreen(props: Props): Node {
 
   const showMessagePlaceholders = messages.length === 0 && isFetching;
   const sayNoMessages = messages.length === 0 && !isFetching;
+
   const showComposeBox = showComposeBoxOnNarrow(narrow) && !showMessagePlaceholders;
+  const composeBoxRef = React.useRef<React$ElementRef<typeof ComposeBox> | null>(null);
 
   const auth = useSelector(getAuth);
   const dispatch = useDispatch();
@@ -219,12 +221,14 @@ export default function ChatScreen(props: Props): Node {
               }
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
+              composeBoxRef={composeBoxRef}
             />
           );
         }
       })()}
       {showComposeBox && (
         <ComposeBox
+          ref={composeBoxRef}
           narrow={narrow}
           isEditing={editMessage !== null}
           initialTopic={editMessage ? editMessage.topic : undefined}
