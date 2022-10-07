@@ -28,7 +28,7 @@ export type * from './idTypes';
  */
 // This is an enum; see discussion on other enums.
 // eslint-disable-next-line ft-flow/type-id-match
-export type CustomProfileFieldTypeT = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type CustomProfileFieldTypeT = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 /**
  * An enum of all valid values for CustomProfileFieldTypeT.
@@ -47,6 +47,7 @@ export const CustomProfileFieldType = {
   Link: (5: 5),
   User: (6: 6),
   ExternalAccount: (7: 7),
+  Pronouns: (8: 8),
 };
 
 // Check that the enum indeed has all and only the values of the type.

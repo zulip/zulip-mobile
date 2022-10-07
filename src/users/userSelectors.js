@@ -204,9 +204,10 @@ function interpretCustomProfileField(
     //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/custom.20profile.20fields/near/1387379
 
     case 1: // CustomProfileFieldType.ShortText
+    case 8: // CustomProfileFieldType.Pronouns
     case 2: // CustomProfileFieldType.LongText
-      // The web client appears to treat these two cases identically.
-      // So we do the same.
+      // The web client appears to treat LongText identically to ShortText.
+      // Pronouns is explicitly meant to display the same as ShortText.
       return { displayType: 'text', text: value };
 
     case 3: {
