@@ -22,8 +22,11 @@ type ServerApiResponseSingleMessage = {|
 /**
  * See https://zulip.com/api/get-message
  *
- * Gives undefined if the `message` field is missing, which it will be for
- * FL <120.
+ * Throws an error if the message doesn't exist at all, or isn't visible to
+ * our user.
+ *
+ * Otherwise, gives undefined on old servers (FL <120) where this API
+ * endpoint doesn't return a `message` field.
  */
 // TODO(server-5.0): Simplify FL-120 condition in jsdoc and implementation.
 export default async (
