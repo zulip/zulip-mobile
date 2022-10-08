@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type { Narrow, ThunkAction } from '../types';
+import type { Message, Narrow, ThunkAction } from '../types';
 import { getAuth, getRealm, getMessages, getZulipFeatureLevel } from '../selectors';
 import { getNearOperandFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import { openLinkWithUserPreference } from '../utils/openLink';
@@ -33,6 +33,69 @@ export const doNarrow =
   };
 
 /**
+ * Find the given message, either locally or on the server.
+ *
+ * If we have the message locally, avoids any network request.
+ *
+ * Returns null if we can't find the message -- it doesn't exist, or our
+ * user can't see it, or a server request for it failed, or the server was
+ * simply too old (FL <120).
+ *
+ * N.B.: Gives a bad experience when the request takes a long time. We
+ * should fix that; see TODOs.
+ */
+const getSingleMessage =
+  (messageId: number): ThunkAction<Promise<Message | null>> =>
+  async (dispatch, getState) => {
+    const state = getState();
+
+    const auth = getAuth(state);
+    const messages = getMessages(state);
+    const zulipFeatureLevel = getZulipFeatureLevel(state);
+    const allowEditHistory = getRealm(state).allowEditHistory;
+
+    // Try to get it from our local data to avoid a server round-trip…
+    let message = messages.get(messageId);
+
+    // …but if we have to, go and ask the server.
+    // TODO: Give feedback when the server round trip takes longer than
+    //   expected.
+    // TODO: Let the user cancel the request so we don't force a doNarrow
+    //   after they've given up on tapping the link, and perhaps forgotten
+    //   about it. Like any request, this might take well over a minute to
+    //   resolve, or never resolve.
+    // TODO: When these are fixed, remove warning in jsdoc.
+    if (!message) {
+      // TODO(server-5.0): Simplify; simplify jsdoc to match.
+      if (zulipFeatureLevel < 120) {
+        // api.getSingleMessage won't give us the message's stream and
+        // topic; see there.
+        return null;
+      }
+      try {
+        message = await api.getSingleMessage(
+          auth,
+          { message_id: messageId },
+          zulipFeatureLevel,
+          allowEditHistory,
+        );
+      } catch {
+        return null;
+      }
+    }
+
+    // The FL 120 condition on calling api.getSingleMessage should ensure
+    // `message` isn't void.
+    // TODO(server-5.0): Simplify away.
+    if (!message) {
+      logging.error('`message` from api.getSingleMessage unexpectedly falsy');
+      return null;
+    }
+
+    return message;
+  };
+
+/**
  * Adjust a /near/ link as needed to account for message moves.
  *
  * It feels quite broken when a link is clearly meant to get you to a
@@ -47,20 +110,10 @@ export const doNarrow =
  * If those can't be gotten from Redux, we ask the server. If the server
  * can't help us (gives an error), we can't help the user, so we won't
  * follow a move in that case.
- *
- * N.B.: Gives a bad experience when the request takes a long time. We
- * should fix that; see TODOs.
  */
 const adjustNarrowForMoves =
   (narrow: Narrow, nearOperand: number): ThunkAction<Promise<Narrow>> =>
   async (dispatch, getState) => {
-    const state = getState();
-
-    const auth = getAuth(state);
-    const messages = getMessages(state);
-    const zulipFeatureLevel = getZulipFeatureLevel(state);
-    const allowEditHistory = getRealm(state).allowEditHistory;
-
     // Many control-flow paths here simply return the original narrow.
     //
     // We do this when the link is meant to find the specific message
@@ -97,45 +150,10 @@ const adjustNarrowForMoves =
       return narrow;
     }
 
-    // Grab the message and see if it was moved, so we can follow the move
-    // if so.
-
-    // Try to get it from our local data to avoid a server round-trip…
-    let message = messages.get(nearOperand);
-
-    // …but if we have to, go and ask the server.
-    // TODO: Give feedback when the server round trip takes longer than
-    //   expected.
-    // TODO: Let the user cancel the request so we don't force a doNarrow
-    //   after they've given up on tapping the link, and perhaps forgotten
-    //   about it. Like any request, this might take well over a minute to
-    //   resolve, or never resolve.
-    // TODO: When these are fixed, remove warning in jsdoc.
+    const message = await dispatch(getSingleMessage(nearOperand));
     if (!message) {
-      // TODO(server-5.0): Simplify.
-      if (zulipFeatureLevel < 120) {
-        // api.getSingleMessage won't give us the message's stream and
-        // topic; see there. Hopefully the message wasn't moved.
-        return narrow;
-      }
-      try {
-        message = await api.getSingleMessage(
-          auth,
-          { message_id: nearOperand },
-          zulipFeatureLevel,
-          allowEditHistory,
-        );
-      } catch {
-        // Hopefully the message, if it exists or ever existed, wasn't moved.
-        return narrow;
-      }
-    }
-
-    // The FL 120 condition on calling api.getSingleMessage should ensure
-    // `message` isn't void.
-    // TODO(server-5.0): Simplify away.
-    if (!message) {
-      logging.error('`message` from api.getSingleMessage unexpectedly falsy');
+      // We couldn't find the message.  Hopefully it wasn't moved,
+      // if it exists or ever did.
       return narrow;
     }
 
@@ -186,7 +204,7 @@ const adjustNarrowForMoves =
  * See `adjustNarrowForMoves` for more discussion.
  *
  * N.B.: Gives a bad experience when the request takes a long time. We
- * should fix that; see `adjustNarrowForMoves`.
+ * should fix that; see `getSingleMessage`.
  */
 const doNarrowNearLink =
   (narrow: Narrow, nearOperand: number): ThunkAction<Promise<void>> =>
