@@ -33,7 +33,7 @@ export const doNarrow =
   };
 
 /**
- * Narrow to a /near/ link, possibly after reinterpreting it for a message move.
+ * Adjust a /near/ link as needed to account for message moves.
  *
  * It feels quite broken when a link is clearly meant to get you to a
  * specific message, but tapping it brings you to a narrow where the message
@@ -41,7 +41,7 @@ export const doNarrow =
  * topic. This was #5306.
  *
  * This action, when it can, recognizes when that's about to happen and
- * instead narrows you to the message's current stream/topic.
+ * instead finds the narrow for the message's current stream/topic.
  *
  * To do so, it obviously needs to know the message's current stream/topic.
  * If those can't be gotten from Redux, we ask the server. If the server
@@ -51,8 +51,8 @@ export const doNarrow =
  * N.B.: Gives a bad experience when the request takes a long time. We
  * should fix that; see TODOs.
  */
-const doNarrowNearLink =
-  (narrow: Narrow, nearOperand: number): ThunkAction<Promise<void>> =>
+const adjustNarrowForMoves =
+  (narrow: Narrow, nearOperand: number): ThunkAction<Promise<Narrow>> =>
   async (dispatch, getState) => {
     const state = getState();
 
@@ -61,37 +61,32 @@ const doNarrowNearLink =
     const zulipFeatureLevel = getZulipFeatureLevel(state);
     const allowEditHistory = getRealm(state).allowEditHistory;
 
-    /**
-     * Narrow to the /near/ link without reinterpreting it for a message move.
-     *
-     * Use this when the link is meant to find the specific message
-     * identified by nearOperand, and:
-     * - nearOperand refers to a message that wasn't moved outside the
-     *   narrow specified by the link, or
-     * - nearOperand *might* refer to a message that was moved, but we don't
-     *   know; we've tried and failed to find out.
-     *
-     * Or, use this to insist on the traditional meaning of "near" before
-     * the message-move feature: take the narrow's stream/topic/etc.
-     * literally, and open to the message "nearest" the given ID (sent
-     * around the same time), even if the message with that ID isn't
-     * actually in the narrow [1].
-     *
-     * User docs on moving messages:
-     *   https://zulip.com/help/move-content-to-another-stream
-     *   https://zulip.com/help/move-content-to-another-topic
-     *
-     * [1] Tim points out, at
-     *       https://chat.zulip.org/#narrow/stream/101-design/topic/redirects.20from.20near.20links/near/1343095 :
-     *     "[…] useful for situations where you might replace an existing
-     *     search for `stream: 1/topic: 1/near: 15` with
-     *     `stream: 2/topic: 2/near: 15` in order to view what was happening
-     *     in another conversation at the same time as an existing
-     *     conversation."
-     */
-    const noMove = () => {
-      dispatch(doNarrow(narrow, nearOperand));
-    };
+    // Many control-flow paths here simply return the original narrow.
+    //
+    // We do this when the link is meant to find the specific message
+    // identified by nearOperand, and:
+    // - nearOperand refers to a message that wasn't moved outside the
+    //   narrow specified by the link, or
+    // - nearOperand *might* refer to a message that was moved, but we don't
+    //   know; we've tried and failed to find out.
+    //
+    // We also do this to insist on the traditional meaning of "near" before
+    // the message-move feature: take the narrow's stream/topic/etc.
+    // literally, and open to the message "nearest" the given ID (sent
+    // around the same time), even if the message with that ID isn't
+    // actually in the narrow [1].
+    //
+    // User docs on moving messages:
+    //   https://zulip.com/help/move-content-to-another-stream
+    //   https://zulip.com/help/move-content-to-another-topic
+    //
+    // [1] Tim points out, at
+    //       https://chat.zulip.org/#narrow/stream/101-design/topic/redirects.20from.20near.20links/near/1343095 :
+    //     "[…] useful for situations where you might replace an existing
+    //     search for `stream: 1/topic: 1/near: 15` with
+    //     `stream: 2/topic: 2/near: 15` in order to view what was happening
+    //     in another conversation at the same time as an existing
+    //     conversation."
 
     const streamIdOperand =
       isStreamNarrow(narrow) || isTopicNarrow(narrow) ? streamIdOfNarrow(narrow) : null;
@@ -99,8 +94,7 @@ const doNarrowNearLink =
 
     if (streamIdOperand === null && topicOperand === null) {
       // Message moves only happen by changing the stream and/or topic.
-      noMove();
-      return;
+      return narrow;
     }
 
     // Grab the message and see if it was moved, so we can follow the move
@@ -122,8 +116,7 @@ const doNarrowNearLink =
       if (zulipFeatureLevel < 120) {
         // api.getSingleMessage won't give us the message's stream and
         // topic; see there. Hopefully the message wasn't moved.
-        noMove();
-        return;
+        return narrow;
       }
       try {
         message = await api.getSingleMessage(
@@ -134,8 +127,7 @@ const doNarrowNearLink =
         );
       } catch {
         // Hopefully the message, if it exists or ever existed, wasn't moved.
-        noMove();
-        return;
+        return narrow;
       }
     }
 
@@ -144,14 +136,12 @@ const doNarrowNearLink =
     // TODO(server-5.0): Simplify away.
     if (!message) {
       logging.error('`message` from api.getSingleMessage unexpectedly falsy');
-      noMove();
-      return;
+      return narrow;
     }
 
     if (message.type === 'private') {
       // A PM could never have been moved.
-      noMove();
-      return;
+      return narrow;
     }
 
     if (
@@ -159,8 +149,7 @@ const doNarrowNearLink =
       && (streamIdOperand === null || streamIdOperand === message.stream_id)
     ) {
       // The message is still in the stream and/or topic in the link.
-      noMove();
-      return;
+      return narrow;
     }
 
     if (
@@ -169,10 +158,9 @@ const doNarrowNearLink =
     ) {
       // The message was never in the narrow specified by the link. That'd
       // be an odd link to put in a message…anyway, perhaps we're meant to
-      // use the traditional meaning of "near"; see noMove's jsdoc
-      // for what that is.
-      noMove();
-      return;
+      // use the traditional meaning of "near"; see large block comment at
+      // top of function.
+      return narrow;
     }
     // If we couldn't access the edit history in the checks above, assume
     // the message was moved. It's the likeliest explanation why its topic
@@ -182,19 +170,29 @@ const doNarrowNearLink =
 
     // Reinterpret the link's narrow with the message's current stream
     // and/or topic.
-    dispatch(
-      doNarrow(
-        caseNarrowDefault(
-          narrow,
-          {
-            stream: () => streamNarrow(stream_id),
-            topic: () => topicNarrow(stream_id, subject),
-          },
-          () => narrow,
-        ),
-        nearOperand,
-      ),
+    return caseNarrowDefault(
+      narrow,
+      {
+        stream: () => streamNarrow(stream_id),
+        topic: () => topicNarrow(stream_id, subject),
+      },
+      () => narrow,
     );
+  };
+
+/**
+ * Narrow to a /near/ link, possibly after reinterpreting it for a message move.
+ *
+ * See `adjustNarrowForMoves` for more discussion.
+ *
+ * N.B.: Gives a bad experience when the request takes a long time. We
+ * should fix that; see `adjustNarrowForMoves`.
+ */
+const doNarrowNearLink =
+  (narrow: Narrow, nearOperand: number): ThunkAction<Promise<void>> =>
+  async (dispatch, getState) => {
+    const adjustedNarrow = await dispatch(adjustNarrowForMoves(narrow, nearOperand));
+    dispatch(doNarrow(adjustedNarrow, nearOperand));
   };
 
 export const messageLinkPress =
