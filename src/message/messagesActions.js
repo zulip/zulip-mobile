@@ -48,16 +48,12 @@ const getSingleMessage =
   (messageId: number): ThunkAction<Promise<Message | null>> =>
   async (dispatch, getState) => {
     const state = getState();
-
-    const auth = getAuth(state);
     const messages = getMessages(state);
-    const zulipFeatureLevel = getZulipFeatureLevel(state);
-    const allowEditHistory = getRealm(state).allowEditHistory;
-
-    // Try to get it from our local data to avoid a server round-trip…
     let message = messages.get(messageId);
+    if (message) {
+      return message;
+    }
 
-    // …but if we have to, go and ask the server.
     // TODO: Give feedback when the server round trip takes longer than
     //   expected.
     // TODO: Let the user cancel the request so we don't force a doNarrow
@@ -65,23 +61,26 @@ const getSingleMessage =
     //   about it. Like any request, this might take well over a minute to
     //   resolve, or never resolve.
     // TODO: When these are fixed, remove warning in jsdoc.
-    if (!message) {
+
+    const auth = getAuth(state);
+    const zulipFeatureLevel = getZulipFeatureLevel(state);
+    const allowEditHistory = getRealm(state).allowEditHistory;
+
+    if (zulipFeatureLevel < 120) {
       // TODO(server-5.0): Simplify; simplify jsdoc to match.
-      if (zulipFeatureLevel < 120) {
-        // api.getSingleMessage won't give us the message's stream and
-        // topic; see there.
-        return null;
-      }
-      try {
-        message = await api.getSingleMessage(
-          auth,
-          { message_id: messageId },
-          zulipFeatureLevel,
-          allowEditHistory,
-        );
-      } catch {
-        return null;
-      }
+      // api.getSingleMessage won't give us the message's stream and
+      // topic; see there.
+      return null;
+    }
+    try {
+      message = await api.getSingleMessage(
+        auth,
+        { message_id: messageId },
+        zulipFeatureLevel,
+        allowEditHistory,
+      );
+    } catch {
+      return null;
     }
 
     // The FL 120 condition on calling api.getSingleMessage should ensure
@@ -91,7 +90,6 @@ const getSingleMessage =
       logging.error('`message` from api.getSingleMessage unexpectedly falsy');
       return null;
     }
-
     return message;
   };
 
