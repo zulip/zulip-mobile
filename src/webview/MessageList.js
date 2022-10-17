@@ -132,10 +132,6 @@ class MessageListInner extends React.Component<Props> {
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
-  handleError = (event: mixed) => {
-    console.error(event); // eslint-disable-line
-  };
-
   sendInboundEvents = (uevents: $ReadOnlyArray<WebViewInboundEvent>): void => {
     if (this.webviewRef.current !== null && uevents.length > 0) {
       /* $FlowFixMe[incompatible-type]: This `postMessage` is undocumented;
@@ -198,7 +194,9 @@ class MessageListInner extends React.Component<Props> {
       style: { backgroundColor: 'transparent' },
       ref: this.webviewRef,
       onMessage: this.handleMessage,
-      onError: this.handleError,
+      onError: event => {
+        console.error(event); // eslint-disable-line no-console
+      },
     });
   }
 }
