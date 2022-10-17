@@ -16,7 +16,6 @@ import type {
   EditMessage,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
-import type { ThemeData } from '../styles';
 import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
@@ -39,6 +38,7 @@ import { caseNarrow, isConversationNarrow } from '../utils/narrow';
 import { type BackgroundData, getBackgroundData } from './backgroundData';
 import { ensureUnreachable } from '../generics';
 import SinglePageWebView from './SinglePageWebView';
+import { usePrevious } from '../reactUtils';
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -124,10 +124,10 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
  */
 const baseUrl = new URL('index.html', webviewAssetsUrl);
 
-class MessageListInner extends React.Component<Props> {
+function MessageListInner(props: Props) {
   // NOTE: This component has an unusual lifecycle for a React component!
   //
-  // In the React element which the render method returns, the bulk of
+  // In the React element which this render function returns, the bulk of
   // the interesting content is in one string, an HTML document, which will
   // get passed to a WebView.
   //
@@ -145,21 +145,18 @@ class MessageListInner extends React.Component<Props> {
   // themself suddenly scrolled back to the bottom.
   //
   // So:
-  //  * We let this component render just once, and define
-  //    `shouldComponentUpdate` so as to mostly prevent re-renders.
-  //    (We still re-render if the theme changes, though, and potentially at
-  //    arbitrary other times; see docs/architecture/react.md .)
+  //  * We compute the HTML document just once and then always re-use that
+  //    initial value.
   //  * When the props change, we compute a set of events describing the
   //    changes, and send them to our code inside the webview to execute.
   //
   // See also docs/architecture/react.md .
 
-  static contextType = ThemeContext;
-  context: ThemeData;
+  const theme = React.useContext(ThemeContext);
 
-  webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
-  sendInboundEventsIsReady: boolean = false;
-  unsentInboundEvents: WebViewInboundEvent[] = [];
+  const webviewRef = React.useRef<React$ElementRef<typeof WebView> | null>(null);
+  const sendInboundEventsIsReady = React.useRef<boolean>(false);
+  const unsentInboundEvents = React.useRef<WebViewInboundEvent[]>([]);
 
   /**
    * Send the given inbound-events to the inside-webview code.
@@ -167,47 +164,70 @@ class MessageListInner extends React.Component<Props> {
    * See `handleMessageEvent` in the inside-webview code for where these are
    * received and processed.
    */
-  sendInboundEvents = (uevents: $ReadOnlyArray<WebViewInboundEvent>): void => {
-    if (this.webviewRef.current !== null && uevents.length > 0) {
-      /* $FlowFixMe[incompatible-type]: This `postMessage` is undocumented;
+  const sendInboundEvents = React.useCallback(
+    (uevents: $ReadOnlyArray<WebViewInboundEvent>): void => {
+      if (webviewRef.current !== null && uevents.length > 0) {
+        /* $FlowFixMe[incompatible-type]: This `postMessage` is undocumented;
          tracking as #3572. */
-      const secretWebView: { postMessage: (string, string) => void, ... } = this.webviewRef.current;
-      secretWebView.postMessage(base64Utf8Encode(JSON.stringify(uevents)), '*');
-    }
-  };
+        const secretWebView: { postMessage: (string, string) => void, ... } = webviewRef.current;
+        secretWebView.postMessage(base64Utf8Encode(JSON.stringify(uevents)), '*');
+      }
+    },
+    [],
+  );
 
-  handleMessage = (event: { +nativeEvent: { +data: string, ... }, ... }) => {
-    const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
-    if (eventData.type === 'ready') {
-      this.sendInboundEventsIsReady = true;
-      this.sendInboundEvents([{ type: 'ready' }, ...this.unsentInboundEvents]);
-      this.unsentInboundEvents = [];
-    } else {
-      handleWebViewOutboundEvent(this.props, eventData);
-    }
-  };
+  const handleMessage = React.useCallback(
+    (event: { +nativeEvent: { +data: string, ... }, ... }) => {
+      const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
+      if (eventData.type === 'ready') {
+        sendInboundEventsIsReady.current = true;
+        sendInboundEvents([{ type: 'ready' }, ...unsentInboundEvents.current]);
+        unsentInboundEvents.current = [];
+      } else {
+        handleWebViewOutboundEvent(props, eventData);
+      }
+    },
+    [props, sendInboundEvents],
+  );
 
-  shouldComponentUpdate(nextProps) {
+  const lastProps = usePrevious(props, props);
+  React.useEffect(() => {
+    if (props === lastProps) {
+      // Nothing to update.  (This happens in particular on first render.)
+      return;
+    }
+
     // Account for the new props by sending any needed inbound-events to the
     // inside-webview code.
-    const uevents = generateInboundEvents(this.props, nextProps);
-    if (this.sendInboundEventsIsReady) {
-      this.sendInboundEvents(uevents);
+    const uevents = generateInboundEvents(lastProps, props);
+    if (sendInboundEventsIsReady.current) {
+      sendInboundEvents(uevents);
     } else {
-      this.unsentInboundEvents.push(...uevents);
+      unsentInboundEvents.current.push(...uevents);
     }
+  }, [lastProps, props, sendInboundEvents]);
 
-    // Then, skip any React re-render.  See discussion at top of component.
-    return false;
-  }
-
-  render() {
-    // NB: This only runs once for a given component instance!
-    //     See `shouldComponentUpdate`, and discussion at top of component.
-    //
-    // This means that all changes to props must be handled by
-    // inbound-events, or they simply won't be handled at all.
-
+  // We compute the page contents as an HTML string just once (*), on this
+  // MessageList's first render.  See discussion at top of function.
+  //
+  // Note this means that all changes to props must be handled by
+  // inbound-events, or they simply won't be handled at all.
+  //
+  // (*) The logic below doesn't quite look that way -- what it says is that
+  //     we compute the HTML on first render, and again any time the theme
+  //     changes.  Until we implement #5533, this comes to the same thing,
+  //     because the only way to change the theme is for the user to
+  //     navigate out to our settings UI.  We write it this way so that it
+  //     won't break with #5533.
+  //
+  //     On the other hand, this means that if the theme changes we'll get
+  //     the glitch described at top of function, scrolling the user to the
+  //     bottom.  Better than mismatched themes, but not ideal.  A nice bonus
+  //     followup on #5533 would be to add an inbound-event for changing the
+  //     theme, and then truly compute the HTML just once.
+  const htmlRef = React.useRef(null);
+  const prevTheme = usePrevious(theme);
+  if (htmlRef.current == null || theme !== prevTheme) {
     const {
       backgroundData,
       messageListElementsForShownMessages,
@@ -215,14 +235,14 @@ class MessageListInner extends React.Component<Props> {
       showMessagePlaceholders,
       doNotMarkMessagesAsRead,
       _,
-    } = this.props;
+    } = props;
     const contentHtml = messageListElementsForShownMessages
       .map(element => messageListElementHtml({ backgroundData, element, _ }))
       .join('');
     const { auth } = backgroundData;
-    const html: string = getHtml(
+    htmlRef.current = getHtml(
       contentHtml,
-      this.context.themeName,
+      theme.themeName,
       {
         scrollMessageId: initialScrollMessageId,
         auth,
@@ -231,21 +251,21 @@ class MessageListInner extends React.Component<Props> {
       },
       backgroundData.serverEmojiData,
     );
-
-    return (
-      <SinglePageWebView
-        html={html}
-        baseUrl={baseUrl}
-        decelerationRate="normal"
-        style={{ backgroundColor: 'transparent' }}
-        ref={this.webviewRef}
-        onMessage={this.handleMessage}
-        onError={event => {
-          console.error(event); // eslint-disable-line no-console
-        }}
-      />
-    );
   }
+
+  return (
+    <SinglePageWebView
+      html={htmlRef.current}
+      baseUrl={baseUrl}
+      decelerationRate="normal"
+      style={React.useMemo(() => ({ backgroundColor: 'transparent' }), [])}
+      ref={webviewRef}
+      onMessage={handleMessage}
+      onError={React.useCallback(event => {
+        console.error(event); // eslint-disable-line no-console
+      }, [])}
+    />
+  );
 }
 
 /**
@@ -279,6 +299,7 @@ const marksMessagesAsRead = (narrow: Narrow): boolean =>
     mentioned: () => false,
   });
 
+// TODO next steps: merge these wrappers into function, one at a time.
 const MessageList: React.ComponentType<OuterProps> = connect<SelectorProps, _, _>(
   (state, props: OuterProps) => {
     // If this were a function component with Hooks, these would be

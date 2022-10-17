@@ -73,9 +73,10 @@ export type BackgroundData = $ReadOnly<{|
 
 // TODO: Ideally this ought to be a caching selector that doesn't change
 //   when the inputs don't.  Doesn't matter in a practical way as used in
-//   MessageList, because we have a `shouldComponentUpdate` that doesn't
-//   look at this prop... but it'd be better to set an example of the right
-//   general pattern.
+//   MessageList, because we memoize the expensive parts of rendering and in
+//   generateInboundEvents we check for changes to individual relevant
+//   properties of backgroundData, rather than backgroundData itself.  But
+//   it'd be better to set an example of the right general pattern.
 export const getBackgroundData = (
   state: PerAccountState,
   globalSettings: GlobalSettingsState,
