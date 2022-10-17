@@ -739,6 +739,7 @@ const inboundEventHandlers = {
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
+// See `sendInboundEvents` on `MessageList` for where they're sent from.
 const handleMessageEvent: MessageEventListener = e => {
   scrollEventsDisabled = true;
   // This decoding inverts `base64Utf8Encode`.

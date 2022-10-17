@@ -125,6 +125,35 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
 const baseUrl = new URL('index.html', webviewAssetsUrl);
 
 class MessageListInner extends React.Component<Props> {
+  // NOTE: This component has an unusual lifecycle for a React component!
+  //
+  // In the React element which the render method returns, the bulk of
+  // the interesting content is in one string, an HTML document, which will
+  // get passed to a WebView.
+  //
+  // That WebView is a leaf of the tree that React sees.  But there's a lot
+  // of structure inside that HTML string, and there's UI state (in
+  // particular, the scroll position) in the resulting page in the browser.
+  // So when the content that would go in that HTML changes, we don't want
+  // to just replace the entire HTML document.  We want to use the structure
+  // to make localized updates to the page in the browser, much as React
+  // does automatically for changes in its tree.
+  //
+  // This is important not only for performance (computing all the HTML for
+  // a long list of messages is expensive), but for correct behavior: if we
+  // did change the HTML string passed to the WebView, the user would find
+  // themself suddenly scrolled back to the bottom.
+  //
+  // So:
+  //  * We let this component render just once, and define
+  //    `shouldComponentUpdate` so as to mostly prevent re-renders.
+  //    (We still re-render if the theme changes, though, and potentially at
+  //    arbitrary other times; see docs/architecture/react.md .)
+  //  * When the props change, we compute a set of events describing the
+  //    changes, and send them to our code inside the webview to execute.
+  //
+  // See also docs/architecture/react.md .
+
   static contextType = ThemeContext;
   context: ThemeData;
 
@@ -132,6 +161,12 @@ class MessageListInner extends React.Component<Props> {
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
+  /**
+   * Send the given inbound-events to the inside-webview code.
+   *
+   * See `handleMessageEvent` in the inside-webview code for where these are
+   * received and processed.
+   */
   sendInboundEvents = (uevents: $ReadOnlyArray<WebViewInboundEvent>): void => {
     if (this.webviewRef.current !== null && uevents.length > 0) {
       /* $FlowFixMe[incompatible-type]: This `postMessage` is undocumented;
@@ -153,18 +188,26 @@ class MessageListInner extends React.Component<Props> {
   };
 
   shouldComponentUpdate(nextProps) {
+    // Account for the new props by sending any needed inbound-events to the
+    // inside-webview code.
     const uevents = generateInboundEvents(this.props, nextProps);
-
     if (this.sendInboundEventsIsReady) {
       this.sendInboundEvents(uevents);
     } else {
       this.unsentInboundEvents.push(...uevents);
     }
 
+    // Then, skip any React re-render.  See discussion at top of component.
     return false;
   }
 
   render() {
+    // NB: This only runs once for a given component instance!
+    //     See `shouldComponentUpdate`, and discussion at top of component.
+    //
+    // This means that all changes to props must be handled by
+    // inbound-events, or they simply won't be handled at all.
+
     const {
       backgroundData,
       messageListElementsForShownMessages,
