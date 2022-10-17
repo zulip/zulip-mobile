@@ -189,7 +189,9 @@ class MessageListInner extends React.Component<Props> {
       backgroundData.serverEmojiData,
     );
 
-    return renderSinglePageWebView(html, baseUrl, {
+    return renderSinglePageWebView({
+      html,
+      baseUrl,
       decelerationRate: 'normal',
       style: { backgroundColor: 'transparent' },
       ref: this.webviewRef,

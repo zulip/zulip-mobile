@@ -71,14 +71,16 @@ function makeOnShouldStartLoadWithRequest(
 // TODO: This should ideally be a proper React component of its own.  The
 //       thing that may require care when doing that is our use of
 //       `shouldComponentUpdate` in its caller, `MessageList`.
-export const renderSinglePageWebView = (
+export const renderSinglePageWebView = (props: {
   html: string,
   baseUrl: URL,
-  moreProps: $Rest<
+  ...$Rest<
     ElementConfigFull<typeof WebView>,
     {| source: mixed, originWhitelist: mixed, onShouldStartLoadWithRequest: mixed |},
   >,
-): React.Node => (
+}): React.Node => {
+  const { html, baseUrl, ...moreProps } = props;
+
   // The `originWhitelist` and `onShouldStartLoadWithRequest` props are
   // meant to mitigate possible XSS bugs, by interrupting an attempted
   // exploit if it tries to navigate to a new URL by e.g. setting
@@ -90,10 +92,12 @@ export const renderSinglePageWebView = (
   //
   // Worse, the `originWhitelist` parameter is completely broken. See:
   // https://github.com/react-native-community/react-native-webview/pull/697
-  <WebView
-    source={{ baseUrl: (baseUrl.toString(): string), html: (html: string) }}
-    originWhitelist={['file://']}
-    onShouldStartLoadWithRequest={makeOnShouldStartLoadWithRequest(baseUrl)}
-    {...moreProps}
-  />
-);
+  return (
+    <WebView
+      source={{ baseUrl: (baseUrl.toString(): string), html: (html: string) }}
+      originWhitelist={['file://']}
+      onShouldStartLoadWithRequest={makeOnShouldStartLoadWithRequest(baseUrl)}
+      {...moreProps}
+    />
+  );
+};
