@@ -4,9 +4,7 @@ import { Clipboard, Alert } from 'react-native';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
-import type { Dispatch, GetText, Message, Narrow, Outbox, EditMessage, UserId } from '../types';
-import type { BackgroundData } from './backgroundData';
-import type { ShowActionSheetWithOptions } from '../action-sheets';
+import type { GetText, UserId } from '../types';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { pmKeyRecipientsFromMessage } from '../utils/recipient';
@@ -30,6 +28,7 @@ import {
 } from '../action-sheets';
 import { ensureUnreachable } from '../types';
 import { base64Utf8Decode } from '../utils/encoding';
+import type { Props } from './MessageList';
 
 type WebViewOutboundEventReady = {|
   type: 'ready',
@@ -158,19 +157,6 @@ export type WebViewOutboundEvent =
   | WebViewOutboundEventMention
   | WebViewOutboundEventTimeDetails
   | WebViewOutboundEventVote;
-
-// TODO: Consider completing this and making it exact, once
-// `MessageList`'s props are type-checked.
-type Props = $ReadOnly<{
-  backgroundData: BackgroundData,
-  dispatch: Dispatch,
-  messages: $ReadOnlyArray<Message | Outbox>,
-  narrow: Narrow,
-  doNotMarkMessagesAsRead: boolean,
-  showActionSheetWithOptions: ShowActionSheetWithOptions,
-  startEditMessage: (editMessage: EditMessage) => void,
-  ...
-}>;
 
 const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
