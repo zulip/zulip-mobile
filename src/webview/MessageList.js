@@ -152,8 +152,7 @@ class MessageListInner extends React.Component<Props> {
       this.sendInboundEvents([{ type: 'ready' }, ...this.unsentInboundEvents]);
       this.unsentInboundEvents = [];
     } else {
-      const { _ } = this.props;
-      handleWebViewOutboundEvent(this.props, _, eventData);
+      handleWebViewOutboundEvent(this.props, eventData);
     }
   };
 

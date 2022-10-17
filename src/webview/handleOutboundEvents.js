@@ -4,7 +4,7 @@ import { Clipboard, Alert } from 'react-native';
 import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
-import type { GetText, UserId } from '../types';
+import type { UserId } from '../types';
 import type { JSONableDict } from '../utils/jsonable';
 import { showToast } from '../utils/info';
 import { pmKeyRecipientsFromMessage } from '../utils/recipient';
@@ -192,7 +192,6 @@ const handleImage = (props: Props, src: string, messageId: number) => {
 
 const handleLongPress = (
   props: Props,
-  _: GetText,
   target: 'message' | 'header' | 'link',
   messageId: number,
   href: string | null,
@@ -200,6 +199,7 @@ const handleLongPress = (
   if (href !== null) {
     const url = new URL(href, props.backgroundData.auth.realm).toString();
     Clipboard.setString(url);
+    const { _ } = props;
     showToast(_('Link copied'));
     return;
   }
@@ -208,7 +208,8 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage, _ } =
+    props;
   if (target === 'header') {
     if (message.type === 'stream') {
       showTopicActionSheet({
@@ -237,11 +238,7 @@ const handleLongPress = (
   }
 };
 
-export const handleWebViewOutboundEvent = (
-  props: Props,
-  _: GetText,
-  event: WebViewOutboundEvent,
-) => {
+export const handleWebViewOutboundEvent = (props: Props, event: WebViewOutboundEvent) => {
   switch (event.type) {
     case 'ready':
       // handled by caller
@@ -266,7 +263,7 @@ export const handleWebViewOutboundEvent = (
       break;
 
     case 'longPress':
-      handleLongPress(props, _, event.target, event.messageId, event.href);
+      handleLongPress(props, event.target, event.messageId, event.href);
       break;
 
     case 'url':
@@ -302,6 +299,7 @@ export const handleWebViewOutboundEvent = (
     }
 
     case 'time': {
+      const { _ } = props;
       const alertText = _('This time is in your timezone. Original text was “{originalText}”.', {
         originalText: event.originalText,
       });
