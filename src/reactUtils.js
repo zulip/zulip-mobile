@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import { useRef, useEffect, useState } from 'react';
+import * as React from 'react';
 
 /**
  * A Hook for the value of a prop, state, etc., from the previous render.
@@ -25,8 +25,8 @@ import { useRef, useEffect, useState } from 'react';
 // (because effectively the `?` would handle it instead), and so `U` would
 // be the empty type and `T | U` would be just `T`.
 export function usePrevious<T, U>(value: T, initValue: U): T | U {
-  const ref = useRef<T | U>(initValue);
-  useEffect(() => {
+  const ref = React.useRef<T | U>(initValue);
+  React.useEffect(() => {
     ref.current = value;
   });
   return ref.current;
@@ -48,7 +48,7 @@ export function useDebugAssertConstant<T>(value: T) {
 
   // Conditional, but on a per-process constant.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const origValue = useRef(value);
+  const origValue = React.useRef(value);
   invariant(value === origValue.current, '');
 }
 
@@ -71,9 +71,9 @@ export function useDebugAssertConstant<T>(value: T) {
 export function useHasNotChangedForMs(value: mixed, duration: number): boolean {
   useDebugAssertConstant(duration);
 
-  const [result, setResult] = useState(false);
+  const [result, setResult] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setResult(false);
     const id = setTimeout(() => setResult(true), duration);
     return () => clearTimeout(id);
@@ -134,4 +134,4 @@ export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean
 // docs could be clearer about that:
 //   https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
 export const useConditionalEffect = (cb: () => void | (() => void), value: boolean): void =>
-  useEffect(() => (value ? cb() : undefined), [value, cb]);
+  React.useEffect(() => (value ? cb() : undefined), [value, cb]);
