@@ -24,30 +24,11 @@ import type { ElementConfigFull } from '../reactUtils';
 function makeOnShouldStartLoadWithRequest(
   baseUrl: URL,
 ): React.ElementConfig<typeof WebView>['onShouldStartLoadWithRequest'] {
-  // Inner closure to actually test the URL.
-  const urlTester: (url: string) => boolean = (() => {
-    // On Android this function is documented to be skipped on first load:
-    // therefore, simply never return true.
-    if (Platform.OS === 'android') {
-      return (url: string) => false;
-    }
+  let loaded_once = false;
 
-    // Otherwise (for iOS), return a closure that evaluates to `true` _exactly
-    // once_, and even then only if the URL looks like what we're expecting.
-    let loaded_once = false;
-    return (url: string) => {
-      const parsedUrl = tryParseUrl(url);
-      if (!loaded_once && parsedUrl && parsedUrl.toString() === baseUrl.toString()) {
-        loaded_once = true;
-        return true;
-      }
-      return false;
-    };
-  })();
-
-  // Outer closure to perform logging.
   return event => {
-    const ok = urlTester(event.url);
+    // eslint-disable-next-line no-use-before-define
+    const ok = urlIsOk(event.url);
     if (!ok) {
       logging.warn('webview: rejected navigation event', {
         navigation_event: { ...event },
@@ -56,6 +37,23 @@ function makeOnShouldStartLoadWithRequest(
     }
     return ok;
   };
+
+  function urlIsOk(url: string): boolean {
+    // On Android the onShouldStartLoadWithRequest prop is documented to be
+    // skipped on first load; therefore, simply never return true.
+    if (Platform.OS === 'android') {
+      return false;
+    }
+
+    // Otherwise (for iOS), return `true` only if the URL looks like what
+    // we're expecting, and only the first such time.
+    const parsedUrl = tryParseUrl(url);
+    if (!loaded_once && parsedUrl && parsedUrl.toString() === baseUrl.toString()) {
+      loaded_once = true;
+      return true;
+    }
+    return false;
+  }
 }
 
 /**
