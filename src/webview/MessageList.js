@@ -174,13 +174,7 @@ class MessageListInner extends React.Component<Props> {
       _,
     } = this.props;
     const contentHtml = messageListElementsForShownMessages
-      .map(element =>
-        messageListElementHtml({
-          backgroundData,
-          element,
-          _,
-        }),
-      )
+      .map(element => messageListElementHtml({ backgroundData, element, _ }))
       .join('');
     const { auth, theme } = backgroundData;
     const html: string = getHtml(
