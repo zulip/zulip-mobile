@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { Component, type ComponentType } from 'react';
+import * as React from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -102,7 +102,7 @@ const assetsUrl =
  */
 const webviewAssetsUrl = new URL('webview/', assetsUrl);
 
-class MessageListInner extends Component<Props> {
+class MessageListInner extends React.Component<Props> {
   webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
@@ -283,7 +283,7 @@ const marksMessagesAsRead = (narrow: Narrow): boolean =>
     mentioned: () => false,
   });
 
-const MessageList: ComponentType<OuterProps> = connect<SelectorProps, _, _>(
+const MessageList: React.ComponentType<OuterProps> = connect<SelectorProps, _, _>(
   (state, props: OuterProps) => {
     // If this were a function component with Hooks, these would be
     // useGlobalSelector calls and would coexist perfectly smoothly with
