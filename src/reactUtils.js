@@ -3,6 +3,20 @@ import invariant from 'invariant';
 import * as React from 'react';
 
 /**
+ * Like React.ElementConfig, but includes the pseudoprops `ref` and `key`.
+ *
+ * That is, this contains exactly the set of JSX attributes one can pass
+ * when creating an element of this component-type.
+ *
+ * Assumes the underlying props type is an exact object type.
+ */
+export type ElementConfigFull<+C> = {|
+  ...$Exact<React.ElementConfig<C>>,
+  +ref?: React.Ref<C>,
+  +key?: React.Key,
+|};
+
+/**
  * A Hook for the value of a prop, state, etc., from the previous render.
  *
  * On first render, returns `initValue`.
