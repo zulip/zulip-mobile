@@ -38,7 +38,7 @@ import { base64Utf8Encode } from '../utils/encoding';
 import { caseNarrow, isConversationNarrow } from '../utils/narrow';
 import { type BackgroundData, getBackgroundData } from './backgroundData';
 import { ensureUnreachable } from '../generics';
-import { renderSinglePageWebView } from './SinglePageWebView';
+import SinglePageWebView from './SinglePageWebView';
 
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -189,17 +189,19 @@ class MessageListInner extends React.Component<Props> {
       backgroundData.serverEmojiData,
     );
 
-    return renderSinglePageWebView({
-      html,
-      baseUrl,
-      decelerationRate: 'normal',
-      style: { backgroundColor: 'transparent' },
-      ref: this.webviewRef,
-      onMessage: this.handleMessage,
-      onError: event => {
-        console.error(event); // eslint-disable-line no-console
-      },
-    });
+    return (
+      <SinglePageWebView
+        html={html}
+        baseUrl={baseUrl}
+        decelerationRate="normal"
+        style={{ backgroundColor: 'transparent' }}
+        ref={this.webviewRef}
+        onMessage={this.handleMessage}
+        onError={event => {
+          console.error(event); // eslint-disable-line no-console
+        }}
+      />
+    );
   }
 }
 

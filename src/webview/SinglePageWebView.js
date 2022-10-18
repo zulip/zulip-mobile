@@ -56,8 +56,17 @@ function makeOnShouldStartLoadWithRequest(
   }
 }
 
+type Props = $ReadOnly<{|
+  html: string,
+  baseUrl: URL,
+  ...$Rest<
+    ElementConfigFull<typeof WebView>,
+    {| source: mixed, originWhitelist: mixed, onShouldStartLoadWithRequest: mixed |},
+  >,
+|}>;
+
 /**
- * Render a WebView that shows the given HTML at the given base URL, only.
+ * A WebView that shows the given HTML at the given base URL, only.
  *
  * The WebView will show the page described by the HTML string `html`.  Any
  * attempts to navigate to a new page will be rejected.
@@ -68,36 +77,32 @@ function makeOnShouldStartLoadWithRequest(
  * Assumes `baseUrl` has the scheme `file:`.  No actual file need exist at
  * `baseUrl` itself, because the page is taken from the string `html`.
  */
-// TODO: This should ideally be a proper React component of its own.  The
-//       thing that may require care when doing that is our use of
-//       `shouldComponentUpdate` in its caller, `MessageList`.
-export const renderSinglePageWebView = (props: {
-  html: string,
-  baseUrl: URL,
-  ...$Rest<
-    ElementConfigFull<typeof WebView>,
-    {| source: mixed, originWhitelist: mixed, onShouldStartLoadWithRequest: mixed |},
-  >,
-}): React.Node => {
-  const { html, baseUrl, ...moreProps } = props;
+export default (React.memo(
+  React.forwardRef<Props, React.ElementRef<typeof WebView>>(
+    /* eslint-disable-next-line prefer-arrow-callback */
+    function SinglePageWebView(props, ref) {
+      const { html, baseUrl, ...moreProps } = props;
 
-  // The `originWhitelist` and `onShouldStartLoadWithRequest` props are
-  // meant to mitigate possible XSS bugs, by interrupting an attempted
-  // exploit if it tries to navigate to a new URL by e.g. setting
-  // `window.location`.
-  //
-  // Note that neither of them is a hard security barrier; they're checked
-  // only against the URL of the document itself.  They cannot be used to
-  // validate the URL of other resources the WebView loads.
-  //
-  // Worse, the `originWhitelist` parameter is completely broken. See:
-  // https://github.com/react-native-community/react-native-webview/pull/697
-  return (
-    <WebView
-      source={{ baseUrl: (baseUrl.toString(): string), html: (html: string) }}
-      originWhitelist={['file://']}
-      onShouldStartLoadWithRequest={makeOnShouldStartLoadWithRequest(baseUrl)}
-      {...moreProps}
-    />
-  );
-};
+      // The `originWhitelist` and `onShouldStartLoadWithRequest` props are
+      // meant to mitigate possible XSS bugs, by interrupting an attempted
+      // exploit if it tries to navigate to a new URL by e.g. setting
+      // `window.location`.
+      //
+      // Note that neither of them is a hard security barrier; they're checked
+      // only against the URL of the document itself.  They cannot be used to
+      // validate the URL of other resources the WebView loads.
+      //
+      // Worse, the `originWhitelist` parameter is completely broken. See:
+      // https://github.com/react-native-community/react-native-webview/pull/697
+      return (
+        <WebView
+          ref={ref}
+          source={{ baseUrl: (baseUrl.toString(): string), html: (html: string) }}
+          originWhitelist={['file://']}
+          onShouldStartLoadWithRequest={makeOnShouldStartLoadWithRequest(baseUrl)}
+          {...moreProps}
+        />
+      );
+    },
+  ),
+): React.AbstractComponent<Props, React.ElementRef<typeof WebView>>);
