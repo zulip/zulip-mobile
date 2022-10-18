@@ -190,12 +190,14 @@ function MessageListInner(props: Props) {
     [props, sendInboundEvents],
   );
 
-  const lastProps = usePrevious(props, props);
+  const propsRef = React.useRef(props);
   React.useEffect(() => {
+    const lastProps = propsRef.current;
     if (props === lastProps) {
       // Nothing to update.  (This happens in particular on first render.)
       return;
     }
+    propsRef.current = props;
 
     // Account for the new props by sending any needed inbound-events to the
     // inside-webview code.
@@ -205,7 +207,7 @@ function MessageListInner(props: Props) {
     } else {
       unsentInboundEvents.current.push(...uevents);
     }
-  }, [lastProps, props, sendInboundEvents]);
+  }, [props, sendInboundEvents]);
 
   // We compute the page contents as an HTML string just once (*), on this
   // MessageList's first render.  See discussion at top of function.
