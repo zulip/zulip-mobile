@@ -60,6 +60,11 @@ export function useDebugAssertConstant<T>(value: T) {
  *
  * The caller must use a constant `duration` through the lifetime of a given
  * component instance.
+ *
+ * Note this hook doesn't (and can't) do anything to cause a rerender when
+ * `value` changes.  The caller must ensure that the component rerenders (so
+ * that in particular this hook gets called again) whenever `value` will
+ * have changed; for example, by using a prop or a `useState` value.
  */
 export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean => {
   useDebugAssertConstant(duration);
