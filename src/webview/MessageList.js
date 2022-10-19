@@ -17,9 +17,8 @@ import type {
   UserOrBot,
   EditMessage,
 } from '../types';
-import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { ThemeContext } from '../styles';
-import { useSelector, useDispatch } from '../react-redux';
+import { useSelector, useDispatch, useGlobalSelector } from '../react-redux';
 import {
   getCurrentTypingUsers,
   getDebug,
@@ -122,15 +121,11 @@ const marksMessagesAsRead = (narrow: Narrow): boolean =>
     mentioned: () => false,
   });
 
-function getSelectorProps(state, props) {
-  // If this were a function component with Hooks, these would be
-  // useGlobalSelector calls and would coexist perfectly smoothly with
-  // useSelector calls for the per-account data.  As long as it's not,
-  // they should probably turn into a `connectGlobal` call.
-  const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
-  const debug = getDebug(assumeSecretlyGlobalState(state));
+function useSelectorProps(props: OuterProps) {
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+  const debug = useGlobalSelector(getDebug);
 
-  return {
+  return useSelector(state => ({
     backgroundData: getBackgroundData(state, globalSettings, debug),
     fetching: getFetchingForNarrow(state, props.narrow),
     messageListElementsForShownMessages: getMessageListElementsMemoized(
@@ -153,7 +148,7 @@ function getSelectorProps(state, props) {
             return false;
         }
       })(),
-  };
+  }));
 }
 
 function useMessageListProps(outerProps: OuterProps): Props {
@@ -161,7 +156,7 @@ function useMessageListProps(outerProps: OuterProps): Props {
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
   const dispatch = useDispatch();
-  const selectorProps = useSelector(state => getSelectorProps(state, outerProps));
+  const selectorProps = useSelectorProps(outerProps);
 
   return {
     ...outerProps,
