@@ -1,5 +1,11 @@
 # React, etc.
 
+(**2022 note:** This doc is in terms of the old-style React API, where
+nontrivial components are typically implemented as classes.  Today, most of
+our components are implemented in the React API's new style, as function
+components using Hooks.  The principles below still largely apply, but much
+of the API is different.)
+
 This doc describes how we use React and closely related libraries like
 Redux, and how we apply the architectural ideas associated with them.
 
