@@ -267,7 +267,7 @@ describe('getNarrowsForMessage', () => {
       //
       // We don't store outbox messages with the empty string for
       // `subject`; if the topic input is left blank, we put down
-      // `apiConstants.NO_TOPIC_TOPIC` for `subject`.
+      // `apiConstants.kNoTopicTopic` for `subject`.
       label: 'Message in a stream with empty-string topic',
       message: {
         ...eg.streamMessage({ stream: eg.stream }),

@@ -176,7 +176,7 @@ class ShareWrapperInner extends React.Component<Props, State> {
         : {
             content: messageToSend,
             type: 'stream',
-            subject: sendTo.topic || apiConstants.NO_TOPIC_TOPIC,
+            subject: sendTo.topic || apiConstants.kNoTopicTopic,
             // TODO(server-2.0): switch to numeric stream ID (#3918), not name;
             //   then drop streamName from SendTo
             to: sendTo.streamName,

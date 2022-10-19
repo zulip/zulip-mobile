@@ -362,7 +362,7 @@ export default function ComposeBox(props: Props): Node {
   const destinationNarrow = useMemo(() => {
     if (isStreamNarrow(narrow) || (isTopicNarrow(narrow) && isEditing)) {
       const streamId = streamIdOfNarrow(narrow);
-      const topic = topicInputState.value.trim() || apiConstants.NO_TOPIC_TOPIC;
+      const topic = topicInputState.value.trim() || apiConstants.kNoTopicTopic;
       return topicNarrow(streamId, topic);
     }
     invariant(isConversationNarrow(narrow), 'destination narrow must be conversation');
@@ -376,7 +376,7 @@ export default function ComposeBox(props: Props): Node {
 
     if (
       isTopicNarrow(destinationNarrow)
-      && topicOfNarrow(destinationNarrow) === apiConstants.NO_TOPIC_TOPIC
+      && topicOfNarrow(destinationNarrow) === apiConstants.kNoTopicTopic
       && mandatoryTopics
     ) {
       result.push('mandatory-topic-empty');

@@ -9,4 +9,4 @@
  */
 // This is hardcoded in the server, and therefore untranslated; that's
 // zulip/zulip#3639.
-export const NO_TOPIC_TOPIC: string = '(no topic)';
+export const kNoTopicTopic: string = '(no topic)';
