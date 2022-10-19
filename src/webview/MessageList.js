@@ -19,7 +19,7 @@ import type {
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
 import { ThemeContext } from '../styles';
-import { connect } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import {
   getCurrentTypingUsers,
   getDebug,
@@ -74,9 +74,6 @@ type SelectorProps = {|
  */
 type MiddleProps = $ReadOnly<{|
   ...OuterProps,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
 |}>;
 
 /**
@@ -96,20 +93,92 @@ type MiddleProps = $ReadOnly<{|
 export type Props = $ReadOnly<{|
   ...MiddleProps,
 
+  dispatch: Dispatch,
+  ...SelectorProps,
+
   showActionSheetWithOptions: ShowActionSheetWithOptions,
 
   _: GetText,
 |}>;
 
+/**
+ * Whether reading messages in this narrow can mark them as read.
+ *
+ * "Can", not "will": other conditions can mean we don't want to mark
+ * messages as read even when in a narrow where this is true.
+ */
+const marksMessagesAsRead = (narrow: Narrow): boolean =>
+  // Generally we want these to agree with the web/desktop app, so that user
+  // expectations transfer between the different apps.
+  caseNarrow(narrow, {
+    // These narrows show one conversation in full.  Each message appears
+    // in its full context, so it makes sense to say the user's read it
+    // and doesn't need to be shown it as unread again.
+    topic: () => true,
+    pm: () => true,
+
+    // These narrows show several conversations interleaved.  They always
+    // show entire conversations, so each message still appears in its
+    // full context and it still makes sense to mark it as read.
+    stream: () => true,
+    home: () => true,
+    allPrivate: () => true,
+
+    // These narrows show selected messages out of context.  The user will
+    // typically still want to see them another way, in context, before
+    // letting them disappear from their list of unread messages.
+    search: () => false,
+    starred: () => false,
+    mentioned: () => false,
+  });
+
+function getSelectorProps(state, props) {
+  // If this were a function component with Hooks, these would be
+  // useGlobalSelector calls and would coexist perfectly smoothly with
+  // useSelector calls for the per-account data.  As long as it's not,
+  // they should probably turn into a `connectGlobal` call.
+  const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
+  const debug = getDebug(assumeSecretlyGlobalState(state));
+
+  return {
+    backgroundData: getBackgroundData(state, globalSettings, debug),
+    fetching: getFetchingForNarrow(state, props.narrow),
+    messageListElementsForShownMessages: getMessageListElementsMemoized(
+      props.messages,
+      props.narrow,
+    ),
+    typingUsers: getCurrentTypingUsers(state, props.narrow),
+    doNotMarkMessagesAsRead:
+      !marksMessagesAsRead(props.narrow)
+      || (() => {
+        switch (globalSettings.markMessagesReadOnScroll) {
+          case 'always':
+            return false;
+          case 'never':
+            return true;
+          case 'conversation-views-only':
+            return !isConversationNarrow(props.narrow);
+          default:
+            ensureUnreachable(globalSettings.markMessagesReadOnScroll);
+            return false;
+        }
+      })(),
+  };
+}
+
 function useMessageListProps(outerProps: MiddleProps): Props {
   const _ = useContext(TranslationContext);
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
+  const dispatch = useDispatch();
+  const selectorProps = useSelector(state => getSelectorProps(state, outerProps));
 
   return {
     ...outerProps,
     showActionSheetWithOptions,
     _,
+    dispatch,
+    ...selectorProps,
   };
 }
 
@@ -324,72 +393,7 @@ function MessageListInner(outerProps: MiddleProps) {
   );
 }
 
-/**
- * Whether reading messages in this narrow can mark them as read.
- *
- * "Can", not "will": other conditions can mean we don't want to mark
- * messages as read even when in a narrow where this is true.
- */
-const marksMessagesAsRead = (narrow: Narrow): boolean =>
-  // Generally we want these to agree with the web/desktop app, so that user
-  // expectations transfer between the different apps.
-  caseNarrow(narrow, {
-    // These narrows show one conversation in full.  Each message appears
-    // in its full context, so it makes sense to say the user's read it
-    // and doesn't need to be shown it as unread again.
-    topic: () => true,
-    pm: () => true,
-
-    // These narrows show several conversations interleaved.  They always
-    // show entire conversations, so each message still appears in its
-    // full context and it still makes sense to mark it as read.
-    stream: () => true,
-    home: () => true,
-    allPrivate: () => true,
-
-    // These narrows show selected messages out of context.  The user will
-    // typically still want to see them another way, in context, before
-    // letting them disappear from their list of unread messages.
-    search: () => false,
-    starred: () => false,
-    mentioned: () => false,
-  });
-
 // TODO next steps: merge these wrappers into function, one at a time.
-const MessageList: React.ComponentType<OuterProps> = connect<SelectorProps, _, _>(
-  (state, props: OuterProps) => {
-    // If this were a function component with Hooks, these would be
-    // useGlobalSelector calls and would coexist perfectly smoothly with
-    // useSelector calls for the per-account data.  As long as it's not,
-    // they should probably turn into a `connectGlobal` call.
-    const globalSettings = getGlobalSettings(assumeSecretlyGlobalState(state));
-    const debug = getDebug(assumeSecretlyGlobalState(state));
-
-    return {
-      backgroundData: getBackgroundData(state, globalSettings, debug),
-      fetching: getFetchingForNarrow(state, props.narrow),
-      messageListElementsForShownMessages: getMessageListElementsMemoized(
-        props.messages,
-        props.narrow,
-      ),
-      typingUsers: getCurrentTypingUsers(state, props.narrow),
-      doNotMarkMessagesAsRead:
-        !marksMessagesAsRead(props.narrow)
-        || (() => {
-          switch (globalSettings.markMessagesReadOnScroll) {
-            case 'always':
-              return false;
-            case 'never':
-              return true;
-            case 'conversation-views-only':
-              return !isConversationNarrow(props.narrow);
-            default:
-              ensureUnreachable(globalSettings.markMessagesReadOnScroll);
-              return false;
-          }
-        })(),
-    };
-  },
-)(MessageListInner);
+const MessageList: React.ComponentType<OuterProps> = MessageListInner;
 
 export default MessageList;
