@@ -75,9 +75,17 @@ export type Props = $ReadOnly<{|
 
 /**
  * The URL of the platform-specific assets folder.
+ *
+ * This will be a `file:` URL.
  */
+// It could be perfectly reasonable for this to be an `http:` or `https:`
+// URL instead, at least in development.  We'd then just need to adjust
+// the `originWhitelist` we pass to `WebView`.
+//
 // - On iOS: We can't easily hardcode this because it includes UUIDs.
 //   So we bring it over the React Native bridge in ZLPConstants.m.
+//   It's a file URL because the app bundle's `resourceURL` is:
+//     https://developer.apple.com/documentation/foundation/bundle/1414821-resourceurl
 //
 // - On Android: Different apps' WebViews see different (virtual) root
 //   directories as `file:///`, and in particular the WebView provides
