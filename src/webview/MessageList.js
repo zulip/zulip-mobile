@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import * as React from 'react';
+import { useContext } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -24,7 +25,7 @@ import {
   getFetchingForNarrow,
   getGlobalSettings,
 } from '../selectors';
-import { withGetText } from '../boot/TranslationProvider';
+import { TranslationContext } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getMessageListElementsMemoized } from '../message/messageSelectors';
 import type { WebViewInboundEvent } from './generateInboundEvents';
@@ -78,9 +79,6 @@ type MiddleProps = $ReadOnly<{|
 
   // From `connectActionSheet`.
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-
-  // From `withGetText`.
-  _: GetText,
 |}>;
 
 /**
@@ -92,15 +90,24 @@ type MiddleProps = $ReadOnly<{|
  * as represented by outbound-events, and in action sheets -- use the data
  * and callbacks in order to do their jobs.
  *
- * This is also -- hence the name -- the React props for the inner, function
- * component, which include data obtained through the various HOCs below.
+ * This can be thought of -- hence the name -- as the React props for a
+ * notional inner component, like we'd have if we obtained this data through
+ * HOCs like `connect` and `withGetText`.  (Instead, we use Hooks, and don't
+ * have an inner component with this set of props.)
  */
 export type Props = $ReadOnly<{|
   ...MiddleProps,
+
+  _: GetText,
 |}>;
 
 function useMessageListProps(outerProps: MiddleProps): Props {
-  return outerProps;
+  const _ = useContext(TranslationContext);
+
+  return {
+    ...outerProps,
+    _,
+  };
 }
 
 /**
@@ -380,6 +387,6 @@ const MessageList: React.ComponentType<OuterProps> = connect<SelectorProps, _, _
         })(),
     };
   },
-)(connectActionSheet(withGetText(MessageListInner)));
+)(connectActionSheet(MessageListInner));
 
 export default MessageList;
