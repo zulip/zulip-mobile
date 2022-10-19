@@ -158,7 +158,7 @@ class MessageListInner extends React.Component<Props> {
   context: ThemeData;
 
   webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
-  sendInboundEventsIsReady: boolean;
+  sendInboundEventsIsReady: boolean = false;
   unsentInboundEvents: WebViewInboundEvent[] = [];
 
   /**
