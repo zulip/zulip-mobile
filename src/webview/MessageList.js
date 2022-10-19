@@ -3,8 +3,9 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
+// $FlowFixMe[untyped-import]
+import { useActionSheet } from '@expo/react-native-action-sheet';
 
-import { connectActionSheet } from '../react-native-action-sheet';
 import type {
   Dispatch,
   Fetching,
@@ -76,9 +77,6 @@ type MiddleProps = $ReadOnly<{|
 
   dispatch: Dispatch,
   ...SelectorProps,
-
-  // From `connectActionSheet`.
-  showActionSheetWithOptions: ShowActionSheetWithOptions,
 |}>;
 
 /**
@@ -98,14 +96,19 @@ type MiddleProps = $ReadOnly<{|
 export type Props = $ReadOnly<{|
   ...MiddleProps,
 
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+
   _: GetText,
 |}>;
 
 function useMessageListProps(outerProps: MiddleProps): Props {
   const _ = useContext(TranslationContext);
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
 
   return {
     ...outerProps,
+    showActionSheetWithOptions,
     _,
   };
 }
@@ -387,6 +390,6 @@ const MessageList: React.ComponentType<OuterProps> = connect<SelectorProps, _, _
         })(),
     };
   },
-)(connectActionSheet(MessageListInner));
+)(MessageListInner);
 
 export default MessageList;
