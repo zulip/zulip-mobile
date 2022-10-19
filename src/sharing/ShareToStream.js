@@ -47,7 +47,7 @@ type State = $ReadOnly<{|
   isTopicFocused: boolean,
 |}>;
 
-class ShareToStreamInner extends React.Component<Props, State> {
+class ShareToStreamInner extends React.PureComponent<Props, State> {
   state = {
     streamName: '',
     streamId: null,

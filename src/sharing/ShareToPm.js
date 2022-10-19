@@ -37,7 +37,7 @@ type State = $ReadOnly<{|
   choosingRecipients: boolean,
 |}>;
 
-export default class ShareToPm extends React.Component<Props, State> {
+export default class ShareToPm extends React.PureComponent<Props, State> {
   state: State = {
     selectedRecipients: [],
     choosingRecipients: false,

@@ -98,7 +98,7 @@ type State = $ReadOnly<{|
  * Wraps Around different sharing screens,
  * for minimal duplication of code.
  */
-class ShareWrapperInner extends React.Component<Props, State> {
+class ShareWrapperInner extends React.PureComponent<Props, State> {
   static contextType = TranslationContext;
   context: GetText;
 
