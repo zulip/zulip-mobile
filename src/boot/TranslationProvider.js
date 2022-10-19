@@ -16,9 +16,10 @@ export const TranslationContext: Context<GetText> = React.createContext(undefine
 /**
  * Provide `_` to the wrapped component, passing other props through.
  *
- * This is useful when the component is already using its `context` property
- * for the legacy context API.  When that isn't the case, simply saying
- * `context: TranslationContext` may be more convenient.
+ * This can be useful when the component is already using its `context`
+ * property for a different context provider.  When that isn't the case,
+ * simply saying `context: TranslationContext` may be more convenient.
+ * Or in a function component, `const _ = useContext(TranslationContext);`.
  */
 export function withGetText<P: { +_: GetText, ... }, C: ComponentType<P>>(
   WrappedComponent: C,
