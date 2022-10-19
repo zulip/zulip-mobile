@@ -176,20 +176,6 @@ function MessageListInner(props: Props) {
     [],
   );
 
-  const handleMessage = React.useCallback(
-    (event: { +nativeEvent: { +data: string, ... }, ... }) => {
-      const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
-      if (eventData.type === 'ready') {
-        sendInboundEventsIsReady.current = true;
-        sendInboundEvents([{ type: 'ready' }, ...unsentInboundEvents.current]);
-        unsentInboundEvents.current = [];
-      } else {
-        handleWebViewOutboundEvent(props, eventData);
-      }
-    },
-    [props, sendInboundEvents],
-  );
-
   const propsRef = React.useRef(props);
   React.useEffect(() => {
     const lastProps = propsRef.current;
@@ -208,6 +194,33 @@ function MessageListInner(props: Props) {
       unsentInboundEvents.current.push(...uevents);
     }
   }, [props, sendInboundEvents]);
+
+  const handleMessage = React.useCallback(
+    (event: { +nativeEvent: { +data: string, ... }, ... }) => {
+      const eventData: WebViewOutboundEvent = JSON.parse(event.nativeEvent.data);
+      if (eventData.type === 'ready') {
+        sendInboundEventsIsReady.current = true;
+        sendInboundEvents([{ type: 'ready' }, ...unsentInboundEvents.current]);
+        unsentInboundEvents.current = [];
+      } else {
+        // Instead of closing over `props` itself, we indirect through
+        // `propsRef`, which gets updated by the effect above.
+        //
+        // That's because unlike in a typical component, the UI this acts as
+        // a UI callback for isn't based on the current props, but on the
+        // data we've communicated through inbound-events.  (See discussion
+        // at top of component.)  So that's the data we want to refer to
+        // when interpreting the user's interaction; and `propsRef` is what
+        // the effect above updates in sync with sending those events.
+        //
+        // (The distinction may not matter much here in practice.  But a
+        // nice bonus of this way is that we avoid re-renders of
+        // SinglePageWebView, potentially a helpful optimization.)
+        handleWebViewOutboundEvent(propsRef.current, eventData);
+      }
+    },
+    [sendInboundEvents],
+  );
 
   // We compute the page contents as an HTML string just once (*), on this
   // MessageList's first render.  See discussion at top of function.
