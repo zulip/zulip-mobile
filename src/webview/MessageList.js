@@ -43,7 +43,7 @@ import SinglePageWebView from './SinglePageWebView';
 import { usePrevious } from '../reactUtils';
 
 /**
- * The actual React props for the exported MessageList component.
+ * The actual React props for the MessageList component.
  */
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
@@ -67,16 +67,6 @@ type SelectorProps = {|
 |};
 
 /**
- * The React props for the function component MessageListInner.
- *
- * These consist of OuterProps plus various props supplied by the HOC
- * wrappers below.
- */
-type MiddleProps = $ReadOnly<{|
-  ...OuterProps,
-|}>;
-
-/**
  * All the data for rendering the message list, and callbacks for its UI actions.
  *
  * This data gets used for rendering the initial HTML and for computing
@@ -88,10 +78,10 @@ type MiddleProps = $ReadOnly<{|
  * This can be thought of -- hence the name -- as the React props for a
  * notional inner component, like we'd have if we obtained this data through
  * HOCs like `connect` and `withGetText`.  (Instead, we use Hooks, and don't
- * have an inner component with this set of props.)
+ * have a separate inner component.)
  */
 export type Props = $ReadOnly<{|
-  ...MiddleProps,
+  ...OuterProps,
 
   dispatch: Dispatch,
   ...SelectorProps,
@@ -166,7 +156,7 @@ function getSelectorProps(state, props) {
   };
 }
 
-function useMessageListProps(outerProps: MiddleProps): Props {
+function useMessageListProps(outerProps: OuterProps): Props {
   const _ = useContext(TranslationContext);
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
@@ -232,7 +222,7 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
  */
 const baseUrl = new URL('index.html', webviewAssetsUrl);
 
-function MessageListInner(outerProps: MiddleProps) {
+export default function MessageList(outerProps: OuterProps): React.Node {
   // NOTE: This component has an unusual lifecycle for a React component!
   //
   // In the React element which this render function returns, the bulk of
@@ -392,8 +382,3 @@ function MessageListInner(outerProps: MiddleProps) {
     />
   );
 }
-
-// TODO next steps: merge these wrappers into function, one at a time.
-const MessageList: React.ComponentType<OuterProps> = MessageListInner;
-
-export default MessageList;
