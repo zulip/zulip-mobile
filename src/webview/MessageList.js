@@ -75,21 +75,20 @@ export type Props = $ReadOnly<{|
 
 /**
  * The URL of the platform-specific assets folder.
- *
- * - On iOS: We can't easily hardcode this because it includes UUIDs.
- *   So we bring it over the React Native bridge in ZLPConstants.m.
- *
- * - On Android: Different apps' WebViews see different (virtual) root
- *   directories as `file:///`, and in particular the WebView provides
- *   the APK's `assets/` directory as `file:///android_asset/`. [1]
- *   We can easily hardcode that, so we do.
- *
- * [1] Oddly, this essential feature doesn't seem to be documented!  It's
- *     widely described in how-tos across the web and StackOverflow answers.
- *     It's assumed in some related docs which mention it in passing, and
- *     treated matter-of-factly in some Chromium bug threads.  Details at:
- *     https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/android.20filesystem/near/796440
  */
+// - On iOS: We can't easily hardcode this because it includes UUIDs.
+//   So we bring it over the React Native bridge in ZLPConstants.m.
+//
+// - On Android: Different apps' WebViews see different (virtual) root
+//   directories as `file:///`, and in particular the WebView provides
+//   the APK's `assets/` directory as `file:///android_asset/`. [1]
+//   We can easily hardcode that, so we do.
+//
+// [1] Oddly, this essential feature doesn't seem to be documented!  It's
+//     widely described in how-tos across the web and StackOverflow answers.
+//     It's assumed in some related docs which mention it in passing, and
+//     treated matter-of-factly in some Chromium bug threads.  Details at:
+//     https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/android.20filesystem/near/796440
 const assetsUrl =
   Platform.OS === 'ios'
     ? new URL(NativeModules.ZLPConstants.resourceURL)
