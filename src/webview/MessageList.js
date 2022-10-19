@@ -65,6 +65,25 @@ type SelectorProps = {|
 |};
 
 /**
+ * The React props for the function component MessageListInner.
+ *
+ * These consist of OuterProps plus various props supplied by the HOC
+ * wrappers below.
+ */
+type MiddleProps = $ReadOnly<{|
+  ...OuterProps,
+
+  dispatch: Dispatch,
+  ...SelectorProps,
+
+  // From `connectActionSheet`.
+  showActionSheetWithOptions: ShowActionSheetWithOptions,
+
+  // From `withGetText`.
+  _: GetText,
+|}>;
+
+/**
  * All the data for rendering the message list, and callbacks for its UI actions.
  *
  * This data gets used for rendering the initial HTML and for computing
@@ -77,17 +96,12 @@ type SelectorProps = {|
  * component, which include data obtained through the various HOCs below.
  */
 export type Props = $ReadOnly<{|
-  ...OuterProps,
-
-  dispatch: Dispatch,
-  ...SelectorProps,
-
-  // From `connectActionSheet`.
-  showActionSheetWithOptions: ShowActionSheetWithOptions,
-
-  // From `withGetText`.
-  _: GetText,
+  ...MiddleProps,
 |}>;
+
+function useMessageListProps(outerProps: MiddleProps): Props {
+  return outerProps;
+}
 
 /**
  * The URL of the platform-specific assets folder.
@@ -139,7 +153,7 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
  */
 const baseUrl = new URL('index.html', webviewAssetsUrl);
 
-function MessageListInner(props: Props) {
+function MessageListInner(outerProps: MiddleProps) {
   // NOTE: This component has an unusual lifecycle for a React component!
   //
   // In the React element which this render function returns, the bulk of
@@ -166,6 +180,8 @@ function MessageListInner(props: Props) {
   //    changes, and send them to our code inside the webview to execute.
   //
   // See also docs/architecture/react.md .
+
+  const props = useMessageListProps(outerProps);
 
   const theme = React.useContext(ThemeContext);
 
