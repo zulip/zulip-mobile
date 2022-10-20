@@ -27,8 +27,8 @@ export default (theme: ThemeName, serverEmojiData: ServerEmojiData | null): stri
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>
-${theme === 'night' ? cssNight : ''}
-${cssPygments(theme === 'night')}
+${theme === 'dark' ? cssNight : ''}
+${cssPygments(theme === 'dark')}
 ${cssEmojis(serverEmojiData)}
 </style>
 <style id="style-hide-js-error-plain">

@@ -23,10 +23,10 @@ const styles = createStyleSheet({
     borderRadius: 22,
     overflow: 'hidden',
   },
-  nightFrame: {
+  darkFrame: {
     backgroundColor: 'black',
   },
-  dayFrame: {
+  lightFrame: {
     backgroundColor: 'white',
     borderWidth: 1.5,
     borderColor: 'black',
@@ -34,10 +34,10 @@ const styles = createStyleSheet({
   text: {
     fontSize: 16,
   },
-  nightText: {
+  darkText: {
     color: 'white',
   },
-  dayText: {
+  lightText: {
     color: 'black',
   },
 });
@@ -57,13 +57,13 @@ type Props = $ReadOnly<{|
  */
 export default function Custom(props: Props): Node {
   const { style, onPress, theme } = props;
-  const logoSource = theme === 'default' ? appleLogoBlackImg : appleLogoWhiteImg;
+  const logoSource = theme === 'light' ? appleLogoBlackImg : appleLogoWhiteImg;
   const frameStyle = [
     styles.frame,
-    theme === 'default' ? styles.dayFrame : styles.nightFrame,
+    theme === 'light' ? styles.lightFrame : styles.darkFrame,
     style,
   ];
-  const textStyle = [styles.text, theme === 'default' ? styles.dayText : styles.nightText];
+  const textStyle = [styles.text, theme === 'light' ? styles.lightText : styles.darkText];
 
   return (
     <View style={frameStyle}>

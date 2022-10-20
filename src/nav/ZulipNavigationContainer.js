@@ -40,11 +40,11 @@ export default function ZulipAppContainer(props: Props): Node {
 
   const themeContext = useContext(ThemeContext);
 
-  const BaseTheme = themeToUse === 'night' ? DarkTheme : DefaultTheme;
+  const BaseTheme = themeToUse === 'dark' ? DarkTheme : DefaultTheme;
 
   const theme = {
     ...BaseTheme,
-    dark: themeToUse === 'night',
+    dark: themeToUse === 'dark',
     colors: {
       ...BaseTheme.colors,
       primary: themeContext.color,

@@ -355,7 +355,7 @@ export type RealmState = {|
  * OS theme by calling the React Native hook useColorScheme and pass
  * that to the helper function getThemeToUse.
  */
-export type ThemeName = 'default' | 'night';
+export type ThemeName = 'light' | 'dark';
 
 /**
  * The theme setting.

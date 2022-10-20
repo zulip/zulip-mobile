@@ -3,14 +3,14 @@
 /**
  * This entire code has been copied near verbatim from the WebApp's `pygments.scss` file.
  * https://github.com/zulip/zulip/blob/main/static/styles/pygments.scss.
- * The main change is in the logic of the `isNightMode` flag. The reason why we have to do
+ * The main change is in the logic of the `isDarkMode` flag. The reason why we have to do
  * that is because the WebApp uses SCSS, which can detect this natively, while we use CSS.
  *
  * Use this command to get the diff between the WebApp code vs this file for debugging:
  * `git diff --no-index ../zulip/static/styles/pygments.scss src/webview/css/cssPygments.js`
  */
 
-export default (isNightMode: boolean): string => `
+export default (isDarkMode: boolean): string => `
 .codehilite pre {
     background-color: hsl(0, 0%, 100%);
     -webkit-font-smoothing: auto;
@@ -222,9 +222,9 @@ export default (isNightMode: boolean): string => `
 } /* Literal.Number.Integer.Long */
 
 
-/* Syntax Highlighting for night-mode */
+/* Syntax Highlighting for dark-mode */
 ${
-  isNightMode
+  isDarkMode
     ? `
     .codehilite code,
     .codehilite pre {

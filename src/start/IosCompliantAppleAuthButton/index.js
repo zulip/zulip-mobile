@@ -60,7 +60,7 @@ export default function IosCompliantAppleAuthButton(props: Props): Node {
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
         buttonStyle={
-          themeToUse === 'default'
+          themeToUse === 'light'
             ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
             : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
         }

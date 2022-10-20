@@ -12,9 +12,9 @@ export type ThemeData = {|
   dividerColor: string,
 |};
 
-export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
-  night: {
-    themeName: 'night',
+export const themeData: {| [name: ThemeName]: ThemeData |} = {
+  dark: {
+    themeName: 'dark',
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
     cardColor: 'hsl(212, 31%, 21%)',
@@ -23,7 +23,7 @@ export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
     dividerColor: 'hsla(0, 0%, 100%, 0.12)',
   },
   light: {
-    themeName: 'default',
+    themeName: 'light',
     color: 'hsl(0, 0%, 20%)',
     backgroundColor: 'white',
     cardColor: 'hsl(0, 0%, 97%)',
@@ -32,6 +32,5 @@ export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
     dividerColor: 'hsla(0, 0%, 0%, 0.12)',
   },
 };
-themeData.default = themeData.light;
 
-export const ThemeContext: Context<ThemeData> = React.createContext(themeData.default);
+export const ThemeContext: Context<ThemeData> = React.createContext(themeData.light);

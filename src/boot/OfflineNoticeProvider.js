@@ -140,7 +140,7 @@ const backgroundColorForTheme = (theme: ThemeName): string =>
   // TODO(redesign): Choose these more intentionally; these are just the
   //   semitransparent HALF_COLOR flattened with themeData.backgroundColor.
   //   See https://github.com/zulip/zulip-mobile/pull/5491#issuecomment-1282859332
-  theme === 'default' ? '#bfbfbf' : '#50565e';
+  theme === 'light' ? '#bfbfbf' : '#50565e';
 
 /**
  * Shows a notice if the app is working in offline mode.

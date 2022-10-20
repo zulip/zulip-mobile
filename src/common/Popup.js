@@ -51,7 +51,7 @@ export default function Popup(props: Props): Node {
   const themeToUse = getThemeToUse(theme, osScheme);
 
   // TODO(color/theme): find a cleaner way to express this
-  const isDarkTheme = themeToUse !== 'default';
+  const isDarkTheme = themeToUse !== 'light';
   return (
     <View style={[{ backgroundColor: themeContext.backgroundColor }, styles.popup]}>
       <View style={isDarkTheme && styles.overlay}>{props.children}</View>
