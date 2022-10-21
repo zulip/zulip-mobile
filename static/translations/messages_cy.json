@@ -7,7 +7,7 @@
   "Who can access the stream?": "Pwy all gyrchu'r ffrwd?",
   "Cannot apply requested settings": "Cannot apply requested settings",
   "Insufficient permission": "Caniatâd annigonol",
-  "Web-public": "Web-public",
+  "Web-public": "Gwe cyhoeddus",
   "Organization members can join (guests must be invited by a subscriber); anyone on the Internet can view complete message history without creating an account": "Gall aelodau'r sefydliad ymuno (rhaid i westeion gael eu gwahodd gan danysgrifiwr); gall unrhyw un ar y Rhyngrwyd weld hanes neges gyflawn heb greu cyfrif",
   "Only organization administrators and owners can edit streams.": "Only organization administrators and owners can edit streams.",
   "{realmName} only allows organization administrators or owners to make public streams.": "{realmName} only allows organization administrators or owners to make public streams.",
