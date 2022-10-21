@@ -401,7 +401,6 @@ export default function ComposeBox(props: Props): Node {
     if (validationErrors.length > 0) {
       const msg = validationErrors
         .map(error => {
-          // 'upload-in-progress' | 'message-empty' | 'mandatory-topic-empty'
           switch (error) {
             case 'upload-in-progress':
               return _('Please wait for the upload to complete.');
