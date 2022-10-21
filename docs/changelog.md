@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.192 (2022-10-21)
+
 ### Highlights for users
 
 * Support for upcoming Zulip Server 6 features:
