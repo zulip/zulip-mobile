@@ -1,4 +1,13 @@
 {
+  "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:} other {This message has been <z-link>read</z-link> by {num_of_people} people:}}",
+  "View read receipts": "View read receipts",
+  "Failed to show read receipts": "Failed to show read receipts",
+  "Read receipts": "Read receipts",
+  "Read receipts are not available for Notification Bot messages.": "Read receipts are not available for Notification Bot messages.",
+  "Could not load data.": "Could not load data.",
+  "Still working…": "Still working…",
+  "Updates may be delayed.": "Updates may be delayed.",
+  "No one has read this message yet.": "No one has read this message yet.",
   "Confirm": "Confirmar",
   "Configure permissions": "Configure permissions",
   "You": "Tú",

@@ -1,4 +1,13 @@
 {
+  "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:} other {This message has been <z-link>read</z-link> by {num_of_people} people:}}",
+  "View read receipts": "Afficher les confirmations de lecture",
+  "Failed to show read receipts": "Failed to show read receipts",
+  "Read receipts": " Confirmations de lecture",
+  "Read receipts are not available for Notification Bot messages.": "Les confirmations de lecture ne sont pas disponibles pour les messages du Bot de notification.",
+  "Could not load data.": "Could not load data.",
+  "Still working…": "Still working…",
+  "Updates may be delayed.": "Les mises à jour peuvent être retardées.",
+  "No one has read this message yet.": "Personne n&#39;a encore lu ce message.",
   "Confirm": "Confirmer",
   "Configure permissions": "Configurer les autorisations",
   "You": "Vous",

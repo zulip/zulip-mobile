@@ -1,4 +1,13 @@
 {
+  "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:} other {This message has been <z-link>read</z-link> by {num_of_people} people:}}",
+  "View read receipts": "Zobrazit potvrzení o přečtení",
+  "Failed to show read receipts": "Failed to show read receipts",
+  "Read receipts": "Potvrzení o přečtení",
+  "Read receipts are not available for Notification Bot messages.": "Potvrzení o přečtení nejsou dostupná pro zprávy oznamovacího robota.",
+  "Could not load data.": "Could not load data.",
+  "Still working…": "Still working…",
+  "Updates may be delayed.": "Aktualizace mohou být zpožděny.",
+  "No one has read this message yet.": "Tuto zprávu si zatím nikdo nepřečetl.",
   "Confirm": "Potvrdit",
   "Configure permissions": "Nastavit oprávnění",
   "You": "Vy",
