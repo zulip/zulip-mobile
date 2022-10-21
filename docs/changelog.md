@@ -39,6 +39,26 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Support for upcoming Zulip Server 6 features:
+  * We now show the "Pronouns" custom profile field. (#5517)
+  * You can now see who has read a message, subject to privacy settings
+    (https://zulip.com/help/read-receipts). (#5367)
+* A link to a message no longer breaks when the message is moved or its
+  topic is resolved/unresolved. (#5306)
+* (iOS) Fixed a bug with the position of the no-Internet notice. (#5491)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Converted many React class components to function components. (#5509)
+
+* Resolved issues: #5367, #5517, #5306, #5363
+
 
 ## 27.191 (2022-09-06)
 
