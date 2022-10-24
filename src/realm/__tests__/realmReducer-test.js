@@ -310,7 +310,6 @@ describe('realmReducer', () => {
             initialState[statePropertyName] = initialStateValue;
 
             const expectedState = { ...initialState };
-            // $FlowFixMe[prop-missing]
             /* $FlowFixMe[incompatible-type]: Trust that the caller passed the
                right kind of value for its chosen key. */
             expectedState[statePropertyName] = eventValue;
