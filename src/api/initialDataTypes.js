@@ -598,6 +598,14 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
   |}>,
 |}>;
 
+// Assumes FL 89+, because servers added user_settings to the /register
+// response in FL 89.
+//
+// Current to FL 152; property ordering follows the /register doc. See the
+// "Current to" note on the InitialDataUserSettings type and update that as
+// needed too.
+//
+// TODO(server-5.0): Remove FL 89+ comment.
 export type UserSettings = {|
   +twenty_four_hour_time: boolean,
   +dense_mode: boolean,
@@ -611,7 +619,7 @@ export type UserSettings = {|
   +display_emoji_reaction_users?: boolean,
 
   +default_language: string,
-  +default_view: string,
+  +default_view: 'recent_topics' | 'all_messages',
 
   // TODO(server-5.0): New in FL 107.
   +escape_navigates_to_default_view?: boolean,
@@ -619,6 +627,10 @@ export type UserSettings = {|
   +left_side_userlist: boolean,
   +emojiset: 'google' | 'google-blob' | 'twitter' | 'text',
   +demote_inactive_streams: 1 | 2 | 3,
+
+  // TODO(server-6.0): New in FL 141.
+  +user_list_style: 1 | 2 | 3,
+
   +timezone: string,
   +enter_sends: boolean,
   +enable_drafts_synchronization: boolean,
@@ -660,9 +672,14 @@ export type UserSettings = {|
  *
  * Replaces various toplevel properties in the register response; see #4933.
  */
-// Current to FL 129; property ordering follows the doc.
+// Assumes FL 89+ because this was added in FL 89.
+//
+// Current to FL 152. See the "Current to" note on the UserSettings type and
+// update that as needed too.
+//
+// TODO(server-5.0): Remove FL 89+ comment.
 export type InitialDataUserSettings = {|
-  // TODO(server-5.0): New in FL 89, for requesting clients.
+  // TODO(server-5.0): New in FL 89, for requesting clients, so assumes 89.
   +user_settings?: UserSettings,
 |};
 

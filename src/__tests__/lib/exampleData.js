@@ -914,6 +914,7 @@ export const action = Object.freeze({
         left_side_userlist: false,
         emojiset: 'google',
         demote_inactive_streams: 2,
+        user_list_style: 1,
         timezone: selfUser.timezone ?? 'UTC',
         enter_sends: false,
         enable_drafts_synchronization: true,
