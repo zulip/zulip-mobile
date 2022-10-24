@@ -23,9 +23,9 @@ import type {
   UserMessageFlag,
   UserPresence,
   UserStatusUpdate,
+  UserSettings,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
-import type { UserSettings } from './initialDataTypes';
 
 export const EventTypes = keyMirror({
   alert_words: null,

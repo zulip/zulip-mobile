@@ -151,6 +151,88 @@ export type RealmLinkifier = $ReadOnly<{|
 //
 //
 // ===================================================================
+// Data attached to the current user on the realm.
+//
+//
+
+/**
+ * The user settings, stored on the server.
+ *
+ * See:
+ * - PATCH /settings doc: https://zulip.com/api/update-settings
+ * - POST /register doc: https://zulip.com/api/register-queue
+ */
+// Assumes FL 89+, because servers added user_settings to the /register
+// response in FL 89.
+//
+// Current to FL 152; property ordering follows the /register doc. See the
+// "Current to" note on the InitialDataUserSettings type and update that as
+// needed too.
+//
+// TODO(server-5.0): Remove FL 89+ comment.
+export type UserSettings = {|
+  +twenty_four_hour_time: boolean,
+  +dense_mode: boolean,
+  +starred_message_counts: boolean,
+  +fluid_layout_width: boolean,
+  +high_contrast_mode: boolean,
+  +color_scheme: 1 | 2 | 3,
+  +translate_emoticons: boolean,
+
+  // TODO(server-6.0): New in FL 125.
+  +display_emoji_reaction_users?: boolean,
+
+  +default_language: string,
+  +default_view: 'recent_topics' | 'all_messages',
+
+  // TODO(server-5.0): New in FL 107.
+  +escape_navigates_to_default_view?: boolean,
+
+  +left_side_userlist: boolean,
+  +emojiset: 'google' | 'google-blob' | 'twitter' | 'text',
+  +demote_inactive_streams: 1 | 2 | 3,
+
+  // TODO(server-6.0): New in FL 141.
+  +user_list_style: 1 | 2 | 3,
+
+  +timezone: string,
+  +enter_sends: boolean,
+  +enable_drafts_synchronization: boolean,
+  +enable_stream_desktop_notifications: boolean,
+  +enable_stream_email_notifications: boolean,
+  +enable_stream_push_notifications: boolean,
+  +enable_stream_audible_notifications: boolean,
+  +notification_sound: string,
+  +enable_desktop_notifications: boolean,
+  +enable_sounds: boolean,
+  +email_notifications_batching_period_seconds: number,
+  +enable_offline_email_notifications: boolean,
+  +enable_offline_push_notifications: boolean,
+  +enable_online_push_notifications: boolean,
+  +enable_digest_emails: boolean,
+  +enable_marketing_emails: boolean,
+  +enable_login_emails: boolean,
+  +message_content_in_email_notifications: boolean,
+  +pm_content_in_desktop_notifications: boolean,
+  +wildcard_mentions_notify: boolean,
+  +desktop_icon_count_display: 1 | 2 | 3,
+  +realm_name_in_notifications: boolean,
+  +presence_enabled: boolean,
+
+  // TODO(server-5.0): New in FL 105.
+  +send_private_typing_notifications?: boolean,
+
+  // TODO(server-5.0): New in FL 105.
+  +send_stream_typing_notifications?: boolean,
+
+  // TODO(server-5.0): New in FL 105.
+  +send_read_receipts?: boolean,
+|};
+
+//
+//
+//
+// ===================================================================
 // Users and data about them.
 //
 //

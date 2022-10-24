@@ -10,7 +10,7 @@ import {
   EVENT_REALM_FILTERS,
   EVENT,
 } from '../../actionConstants';
-import type { UserSettings } from '../../api/initialDataTypes';
+import type { UserSettings } from '../../api/modelTypes';
 import type { RealmDataForUpdate } from '../../api/realmDataTypes';
 import {
   CreatePublicOrPrivateStreamPolicy,
