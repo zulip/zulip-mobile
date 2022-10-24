@@ -53,6 +53,7 @@ import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
 import getUsers from './users/getUsers';
 import createUser from './users/createUser';
 import getUserProfile from './users/getUserProfile';
+import updateUserSettings from './users/updateUserSettings';
 import updateUserStatus from './users/updateUserStatus';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 import getReadReceipts from './messages/getReadReceipts';
@@ -103,6 +104,7 @@ export {
   getUsers,
   createUser,
   getUserProfile,
+  updateUserSettings,
   updateUserStatus,
   getFileTemporaryUrl,
   getReadReceipts,

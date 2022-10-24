@@ -166,8 +166,10 @@ export type RealmLinkifier = $ReadOnly<{|
 // response in FL 89.
 //
 // Current to FL 152; property ordering follows the /register doc. See the
-// "Current to" note on the InitialDataUserSettings type and update that as
-// needed too.
+// "Current to" notes in the two places we use this, and update them as
+// needed:
+// - InitialDataUserSettings (for POST /register response)
+// - api.updateUserSettings (for the PATCH /settings endpoint)
 //
 // TODO(server-5.0): Remove FL 89+ comment.
 export type UserSettings = {|
