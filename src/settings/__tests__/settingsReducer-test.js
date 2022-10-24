@@ -7,7 +7,7 @@ import {
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT,
 } from '../../actionConstants';
-import type { UserSettings } from '../../api/initialDataTypes';
+import type { InitialData, UserSettings } from '../../api/initialDataTypes';
 import { EventTypes } from '../../api/eventTypes';
 import settingsReducer from '../settingsReducer';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -54,7 +54,9 @@ describe('settingsReducer', () => {
             user_settings: {
               /* $FlowIgnore[incompatible-cast] - testing modern servers, which
                  send user_settings. */
-              ...(eg.action.register_complete.data.user_settings: UserSettings),
+              ...(eg.action.register_complete.data.user_settings: $NonMaybeType<
+                InitialData['user_settings'],
+              >),
               enable_offline_push_notifications: true,
               enable_online_push_notifications: true,
               enable_stream_push_notifications: true,

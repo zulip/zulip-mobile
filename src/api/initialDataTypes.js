@@ -597,6 +597,14 @@ export type InitialDataUpdateMessageFlags = $ReadOnly<{|
   |}>,
 |}>;
 
+/**
+ * User settings in common between PATCH /settings and POST /register
+ *
+ * (In particular, `user_settings` in the /register response.)
+ *
+ * - PATCH /settings doc: https://zulip.com/api/update-settings
+ * - POST /register doc: https://zulip.com/api/register-queue
+ */
 // Assumes FL 89+, because servers added user_settings to the /register
 // response in FL 89.
 //
@@ -653,8 +661,6 @@ export type UserSettings = {|
   +desktop_icon_count_display: 1 | 2 | 3,
   +realm_name_in_notifications: boolean,
   +presence_enabled: boolean,
-  +available_notification_sounds: $ReadOnlyArray<string>,
-  +emojiset_choices: $ReadOnlyArray<{| +key: string, +text: string |}>,
 
   // TODO(server-5.0): New in FL 105.
   +send_private_typing_notifications?: boolean,
@@ -679,7 +685,14 @@ export type UserSettings = {|
 // TODO(server-5.0): Remove FL 89+ comment.
 export type InitialDataUserSettings = {|
   // TODO(server-5.0): New in FL 89, for requesting clients, so assumes 89.
-  +user_settings?: UserSettings,
+  +user_settings?: {|
+    ...UserSettings,
+
+    // The PATCH /settings doc doesn't mention these, but that's OK; mobile
+    // doesn't need to update them.
+    +available_notification_sounds: $ReadOnlyArray<string>,
+    +emojiset_choices: $ReadOnlyArray<{| +key: string, +text: string |}>,
+  |},
 |};
 
 /**

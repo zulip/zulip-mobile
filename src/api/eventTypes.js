@@ -24,7 +24,7 @@ import type {
   UserStatusUpdate,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
-import type { UserSettings } from './initialDataTypes';
+import type { InitialData } from './initialDataTypes';
 
 export const EventTypes = keyMirror({
   alert_words: null,
@@ -301,8 +301,8 @@ export type UserSettingsUpdateEvent = $ReadOnly<{|
   op: 'update',
 
   // TODO(flow): `property` and `value` should correspond
-  property: $Keys<UserSettings>,
-  value: $Values<UserSettings>,
+  property: $Keys<$NonMaybeType<InitialData['user_settings']>>,
+  value: $Values<$NonMaybeType<InitialData['user_settings']>>,
 
   language_name?: string,
 |}>;
