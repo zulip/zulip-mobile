@@ -7,7 +7,8 @@ import {
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
   EVENT,
 } from '../../actionConstants';
-import type { InitialData, UserSettings } from '../../api/initialDataTypes';
+import type { InitialData } from '../../api/initialDataTypes';
+import type { UserSettings } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
 import settingsReducer from '../settingsReducer';
 import * as eg from '../../__tests__/lib/exampleData';
