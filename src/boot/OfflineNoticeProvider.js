@@ -1,7 +1,15 @@
 // @flow strict-local
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { Node } from 'react';
-import { AccessibilityInfo, View, Animated, LayoutAnimation, Platform, Easing } from 'react-native';
+import {
+  AccessibilityInfo,
+  View,
+  Animated,
+  LayoutAnimation,
+  Platform,
+  Easing,
+  useColorScheme,
+} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
@@ -10,6 +18,7 @@ import type { DimensionValue } from 'react-native/Libraries/StyleSheet/StyleShee
 import * as logging from '../utils/logging';
 import { useDispatch, useGlobalSelector } from '../react-redux';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
+import { getThemeToUse } from '../settings/settingsSelectors';
 import { useHasStayedTrueForMs, usePrevious } from '../reactUtils';
 import type { JSONableDict } from '../utils/jsonable';
 import { createStyleSheet } from '../styles';
@@ -148,6 +157,8 @@ const backgroundColorForTheme = (theme: ThemeName): string =>
  */
 export function OfflineNoticeProvider(props: ProviderProps): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const osScheme = useColorScheme();
+  const themeToUse = getThemeToUse(theme, osScheme);
   const _ = useContext(TranslationContext);
   const isOnline = useGlobalSelector(state => getGlobalSession(state).isOnline);
   const shouldShowUncertaintyNotice = useShouldShowUncertaintyNotice();
@@ -249,7 +260,7 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
 
           // If changing, also change the status bar color in
           // OfflineNoticePlaceholder.
-          backgroundColor: backgroundColorForTheme(theme),
+          backgroundColor: backgroundColorForTheme(themeToUse),
 
           justifyContent: 'center',
           alignItems: 'center',
@@ -262,7 +273,7 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
         },
         noticeText: { fontSize: 14 },
       }),
-    [isNoticeVisible, theme],
+    [isNoticeVisible, themeToUse],
   );
 
   /**
@@ -382,6 +393,8 @@ type PlaceholderProps = $ReadOnly<{|
  */
 export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const osScheme = useColorScheme();
+  const themeToUse = getThemeToUse(theme, osScheme);
   const { style: callerStyle } = props;
 
   const { isNoticeVisible, noticeContentAreaHeight } = useContext(OfflineNoticeContext);
@@ -451,7 +464,7 @@ export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
         isNoticeVisible && (
           <ZulipStatusBar
             // Should match the notice's surface; see OfflineNoticeProvider.
-            backgroundColor={backgroundColorForTheme(theme)}
+            backgroundColor={backgroundColorForTheme(themeToUse)}
           />
         )
       }

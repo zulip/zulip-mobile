@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, useColorScheme } from 'react-native';
 import type { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useGlobalSelector } from '../../react-redux';
@@ -9,6 +9,7 @@ import { useGlobalSelector } from '../../react-redux';
 import type { SubsetProperties } from '../../generics';
 import Custom from './Custom';
 import { getGlobalSettings } from '../../selectors';
+import { getThemeToUse } from '../../settings/settingsSelectors';
 
 type Props = $ReadOnly<{|
   // See `ZulipButton`'s `style` prop, where a comment discusses this
@@ -35,6 +36,9 @@ type Props = $ReadOnly<{|
 export default function IosCompliantAppleAuthButton(props: Props): Node {
   const { style, onPress } = props;
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const osScheme = useColorScheme();
+  const themeToUse = getThemeToUse(theme, osScheme);
+
   const [isNativeButtonAvailable, setIsNativeButtonAvailable] = useState<boolean | void>(undefined);
 
   useEffect(() => {
@@ -56,7 +60,7 @@ export default function IosCompliantAppleAuthButton(props: Props): Node {
       <AppleAuthentication.AppleAuthenticationButton
         buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
         buttonStyle={
-          theme === 'default'
+          themeToUse === 'default'
             ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE
             : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
         }
@@ -66,6 +70,6 @@ export default function IosCompliantAppleAuthButton(props: Props): Node {
       />
     );
   } else {
-    return <Custom style={style} onPress={onPress} theme={theme} />;
+    return <Custom style={style} onPress={onPress} theme={themeToUse} />;
   }
 }

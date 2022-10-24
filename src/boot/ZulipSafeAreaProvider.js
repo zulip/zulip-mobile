@@ -1,11 +1,13 @@
 // @flow strict-local
 import * as React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useColorScheme } from 'react-native';
 
 import { BRAND_COLOR } from '../styles';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings, getIsHydrated } from '../directSelectors';
 import { themeData } from '../styles/theme';
+import { getThemeToUse } from '../settings/settingsSelectors';
 
 type Props = {|
   +children: React.Node,
@@ -27,6 +29,8 @@ export default function ZulipSafeAreaProvider(props: Props): React.Node {
   //
   // We can make this quirk virtually invisible by giving it the background
   // color used across the app.
+  const osScheme = useColorScheme();
+
   const backgroundColor = useGlobalSelector(state => {
     if (!getIsHydrated(state)) {
       // The only screen we'll be showing at this point is the loading
@@ -34,7 +38,9 @@ export default function ZulipSafeAreaProvider(props: Props): React.Node {
       return BRAND_COLOR;
     }
 
-    return themeData[getGlobalSettings(state).theme].backgroundColor;
+    const theme = getGlobalSettings(state).theme;
+    const themeToUse = getThemeToUse(theme, osScheme);
+    return themeData[themeToUse].backgroundColor;
   });
 
   return <SafeAreaProvider style={{ backgroundColor }}>{props.children}</SafeAreaProvider>;

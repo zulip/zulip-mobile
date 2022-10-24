@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar, useColorScheme } from 'react-native';
 // $FlowFixMe[untyped-import]
 import Color from 'color';
 
@@ -10,6 +10,7 @@ import type { ThemeName } from '../types';
 import { useGlobalSelector } from '../react-redux';
 import { foregroundColorFromBackground } from '../utils/color';
 import { getGlobalSession, getGlobalSettings } from '../selectors';
+import { getThemeToUse } from '../settings/settingsSelectors';
 
 type BarStyle = React$ElementConfig<typeof StatusBar>['barStyle'];
 
@@ -46,9 +47,13 @@ type Props = $ReadOnly<{|
 export default function ZulipStatusBar(props: Props): Node {
   const { hidden = false } = props;
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const osScheme = useColorScheme();
+  const themeToUse = getThemeToUse(theme, osScheme);
+
   const orientation = useGlobalSelector(state => getGlobalSession(state).orientation);
   const backgroundColor = props.backgroundColor;
-  const statusBarColor = getStatusBarColor(backgroundColor, theme);
+  const statusBarColor = getStatusBarColor(backgroundColor, themeToUse);
+
   return (
     orientation === 'PORTRAIT' && (
       <StatusBar

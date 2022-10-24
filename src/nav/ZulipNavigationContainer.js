@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import React, { useContext, useEffect } from 'react';
 import type { Node } from 'react';
+import { useColorScheme } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 import { useGlobalSelector } from '../react-redux';
@@ -8,6 +9,7 @@ import { ThemeContext } from '../styles';
 import * as NavigationService from './NavigationService';
 import { getGlobalSettings } from '../selectors';
 import AppNavigator from './AppNavigator';
+import { getThemeToUse } from '../settings/settingsSelectors';
 
 type Props = $ReadOnly<{||}>;
 
@@ -23,6 +25,8 @@ type Props = $ReadOnly<{||}>;
  */
 export default function ZulipAppContainer(props: Props): Node {
   const themeName = useGlobalSelector(state => getGlobalSettings(state).theme);
+  const osScheme = useColorScheme();
+  const themeToUse = getThemeToUse(themeName, osScheme);
 
   useEffect(
     () =>
@@ -36,11 +40,11 @@ export default function ZulipAppContainer(props: Props): Node {
 
   const themeContext = useContext(ThemeContext);
 
-  const BaseTheme = themeName === 'night' ? DarkTheme : DefaultTheme;
+  const BaseTheme = themeToUse === 'night' ? DarkTheme : DefaultTheme;
 
   const theme = {
     ...BaseTheme,
-    dark: themeName === 'night',
+    dark: themeToUse === 'night',
     colors: {
       ...BaseTheme.colors,
       primary: themeContext.color,

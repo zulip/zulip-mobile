@@ -348,10 +348,24 @@ export type RealmState = {|
   +serverEmojiData: ServerEmojiData | null,
 |};
 
-// TODO: Stop using the 'default' name. Any 'default' semantics should
-// only apply the device level, not within the app. See
-// https://github.com/zulip/zulip-mobile/issues/4009#issuecomment-619280681.
+/**
+ * The visual theme of the app.
+ *
+ * To get a ThemeName from the ThemeSetting, first check the current
+ * OS theme by calling the React Native hook useColorScheme and pass
+ * that to the helper function getThemeToUse.
+ */
 export type ThemeName = 'default' | 'night';
+
+/**
+ * The theme setting.
+ *
+ * This represents the value the user chooses in SettingsScreen.
+ *
+ * To determine the actual theme to show the user, use a ThemeName;
+ * see there for details.
+ */
+export type ThemeSetting = 'default' | 'night';
 
 /** What browser the user has set to use for opening links in messages.
  *
@@ -392,7 +406,7 @@ export type GlobalSettingsState = $ReadOnly<{
   // The user's chosen language, as an IETF BCP 47 language tag.
   language: string,
 
-  theme: ThemeName,
+  theme: ThemeSetting,
   browser: BrowserPreference,
 
   // TODO cut this? what was it?
