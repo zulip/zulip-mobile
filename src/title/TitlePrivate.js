@@ -9,7 +9,7 @@ import styles, { createStyleSheet } from '../styles';
 import { useSelector } from '../react-redux';
 import Touchable from '../common/Touchable';
 import ViewPlaceholder from '../common/ViewPlaceholder';
-import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
 import { tryGetUserForId } from '../users/userSelectors';
 import { useNavigation } from '../react-navigation';
@@ -44,7 +44,7 @@ export default function TitlePrivate(props: Props): Node {
       style={componentStyles.outer}
     >
       <View style={componentStyles.inner}>
-        <UserAvatarWithPresenceById size={32} userId={user.user_id} />
+        <UserAvatarWithPresence size={32} userId={user.user_id} />
         <ViewPlaceholder width={8} />
         <View style={componentStyles.textWrapper}>
           <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">

@@ -8,7 +8,7 @@ import type { UserId } from '../types';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
-import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import globalStyles, { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
@@ -96,7 +96,7 @@ export function UserItemRaw<
   return (
     <Touchable onPress={onPress && handlePress}>
       <View style={[styles.wrapper, isSelected && styles.selectedRow]}>
-        <UserAvatarWithPresenceById
+        <UserAvatarWithPresence
           // At size medium, keep just big enough for a 48px touch target.
           size={size === 'large' ? 48 : 32}
           userId={user.user_id}

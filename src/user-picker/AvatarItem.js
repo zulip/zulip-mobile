@@ -5,7 +5,7 @@ import { Animated, Easing, View } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedValue';
 
 import type { UserId, UserOrBot } from '../types';
-import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
@@ -77,7 +77,7 @@ export default class AvatarItem extends PureComponent<Props> {
             overlayPosition="bottom-right"
             overlay={<IconCancel color="gray" size={20} />}
           >
-            <UserAvatarWithPresenceById key={user.user_id} size={50} userId={user.user_id} />
+            <UserAvatarWithPresence key={user.user_id} size={50} userId={user.user_id} />
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
-import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
+import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 import type { UserId } from '../api/idTypes';
@@ -63,7 +63,7 @@ export default function LightboxHeader(props: Props): Node {
     <SafeAreaView mode="padding" edges={['top']}>
       <OfflineNoticePlaceholder />
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
-        <UserAvatarWithPresenceById size={36} userId={senderId} />
+        <UserAvatarWithPresence size={36} userId={senderId} />
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
             {senderName}
