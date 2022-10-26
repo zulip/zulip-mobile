@@ -48,7 +48,7 @@ export default function UserAvatarWithPresence(props: Props): Node {
     <UserAvatar avatarUrl={user.avatar_url} size={size} isMuted={isMuted} onPress={onPress}>
       <PresenceStatusIndicator
         style={styles.status}
-        email={user.email}
+        userId={user.user_id}
         hideIfOffline
         useOpaqueBackground
       />

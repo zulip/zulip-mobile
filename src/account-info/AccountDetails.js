@@ -60,7 +60,7 @@ export default function AccountDetails(props: Props): Node {
       <View style={componentStyles.statusWrapper}>
         <PresenceStatusIndicator
           style={componentStyles.presenceStatusIndicator}
-          email={user.email}
+          userId={user.user_id}
           hideIfOffline={false}
           useOpaqueBackground={false}
         />

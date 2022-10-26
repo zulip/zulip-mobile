@@ -10,8 +10,9 @@ import { useSelector } from '../react-redux';
 import { statusFromPresenceAndUserStatus } from '../utils/presence';
 import { getPresence } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
-import { getAllUsersByEmail } from '../users/userSelectors';
+import { tryGetUserForId } from '../users/userSelectors';
 import { ensureUnreachable } from '../types';
+import type { UserId, UserPresence } from '../types';
 
 const styles = createStyleSheet({
   common: {
@@ -109,7 +110,7 @@ function PresenceStatusIndicatorUnavailable() {
 
 type Props = $ReadOnly<{|
   style?: ViewStyleProp,
-  email: string,
+  userId: UserId,
   hideIfOffline: boolean,
   useOpaqueBackground: boolean,
 |}>;
@@ -125,12 +126,10 @@ type Props = $ReadOnly<{|
  * @prop hideIfOffline - Do not render for 'offline' state.
  */
 export default function PresenceStatusIndicator(props: Props): Node {
-  const { email, style, hideIfOffline, useOpaqueBackground } = props;
+  const { userId, style, hideIfOffline, useOpaqueBackground } = props;
   const presence = useSelector(getPresence);
-  const allUsersByEmail = useSelector(getAllUsersByEmail);
-
-  const userPresence = presence[email];
-  const user = allUsersByEmail.get(email);
+  const user = useSelector(state => tryGetUserForId(state, userId));
+  const userPresence = (user && (presence[user.email]: UserPresence | void)) ?? null;
 
   const userStatus = useSelector(state => user && getUserStatus(state, user.user_id));
 
