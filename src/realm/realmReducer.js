@@ -138,11 +138,15 @@ export default (
             ([name, { url_pattern }]) => [name, { url_pattern }],
           ),
         ),
+
+        // TODO: On EventTypes.realm events with video_chat_provider, update
+        //   the state or cause a re-register.
         videoChatProvider: getVideoChatProvider({
           availableProviders: action.data.realm_available_video_chat_providers,
           jitsiServerUrl: action.data.jitsi_server_url,
           providerId: action.data.realm_video_chat_provider,
         }),
+
         mandatoryTopics: action.data.realm_mandatory_topics,
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
@@ -241,6 +245,15 @@ export default (
             }
             if (data.description !== undefined) {
               result.description = data.description;
+            }
+            if (data.mandatory_topics !== undefined) {
+              result.mandatoryTopics = data.mandatory_topics;
+            }
+            if (data.message_content_delete_limit_seconds !== undefined) {
+              result.messageContentDeleteLimitSeconds = data.message_content_delete_limit_seconds;
+            }
+            if (data.message_content_edit_limit_seconds !== undefined) {
+              result.messageContentEditLimitSeconds = data.message_content_edit_limit_seconds;
             }
             if (data.create_stream_policy !== undefined) {
               // TODO(server-5.0): Stop expecting create_stream_policy; simplify.
