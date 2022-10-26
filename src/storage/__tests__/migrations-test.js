@@ -128,7 +128,9 @@ describe('migrations', () => {
     // whether any properties outside `storeKeys` are present or not.
     [
       'check dropCache at 55',
-      { ...endBase, migrations: { version: 54 }, mute: [], nonsense: [1, 2, 3] },
+      // Just before the `dropCache`, plus a `cacheKeys` property, plus junk.
+      { ...base52, migrations: { version: 54 }, mute: [], nonsense: [1, 2, 3] },
+      // Should wind up with the same result as without the extra properties.
       endBase,
     ],
 
