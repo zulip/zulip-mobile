@@ -106,9 +106,8 @@ export default function Lightbox(props: Props): Node {
               navigation.dispatch(navigateBack());
             }}
             timestamp={message.timestamp}
-            avatarUrl={message.avatar_url}
             senderName={message.sender_full_name}
-            senderEmail={message.sender_email}
+            senderId={message.sender_id}
           />
         </View>
         <View

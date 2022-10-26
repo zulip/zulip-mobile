@@ -6,10 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
 import { createStyleSheet } from '../styles';
-import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
+import { UserAvatarWithPresenceById } from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
-import { AvatarURL } from '../utils/avatar';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
+import type { UserId } from '../api/idTypes';
 
 const styles = createStyleSheet({
   text: {
@@ -40,9 +40,8 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   senderName: string,
-  senderEmail: string,
+  senderId: UserId,
   timestamp: number,
-  avatarUrl: AvatarURL,
   onPressBack: () => void,
 |}>;
 
@@ -55,7 +54,7 @@ type Props = $ReadOnly<{|
  * @prop [onPressBack]
  */
 export default function LightboxHeader(props: Props): Node {
-  const { onPressBack, senderName, senderEmail, timestamp, avatarUrl } = props;
+  const { onPressBack, senderName, senderId, timestamp } = props;
   const displayDate = humanDate(new Date(timestamp * 1000));
   const time = shortTime(new Date(timestamp * 1000));
   const subheader = `${displayDate} at ${time}`;
@@ -64,7 +63,7 @@ export default function LightboxHeader(props: Props): Node {
     <SafeAreaView mode="padding" edges={['top']}>
       <OfflineNoticePlaceholder />
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
-        <UserAvatarWithPresence size={36} avatarUrl={avatarUrl} email={senderEmail} />
+        <UserAvatarWithPresenceById size={36} userId={senderId} />
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
             {senderName}
