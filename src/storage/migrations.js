@@ -469,6 +469,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Drop old never-used message flags from state.flags.
   '55': dropCache,
 
+  // Add presenceEnabled to state.realm.
+  '56': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

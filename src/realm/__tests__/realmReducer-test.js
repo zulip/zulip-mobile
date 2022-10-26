@@ -91,6 +91,8 @@ describe('realmReducer', () => {
         /* $FlowIgnore[incompatible-use] - testing modern servers, which
            send user_settings. */
         twentyFourHourTime: action.data.user_settings.twenty_four_hour_time,
+        // $FlowIgnore[incompatible-use] - see above
+        presenceEnabled: action.data.user_settings.presence_enabled,
 
         //
         // Misc.: Not in the /register response. (These should be unchanged.)
@@ -325,6 +327,14 @@ describe('realmReducer', () => {
 
       describe('twentyFourHourTime / twenty_four_hour_time', () => {
         const check = mkCheck('twentyFourHourTime', 'twenty_four_hour_time');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
+
+      describe('presenceEnabled / presence_enabled', () => {
+        const check = mkCheck('presenceEnabled', 'presence_enabled');
         check(true, true);
         check(true, false);
         check(false, true);

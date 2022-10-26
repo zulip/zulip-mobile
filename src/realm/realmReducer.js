@@ -75,6 +75,7 @@ const initialState = {
   //
 
   twentyFourHourTime: false,
+  presenceEnabled: false,
 
   //
   // Misc.: Not in the /register response.
@@ -194,6 +195,11 @@ export default (
           /* $FlowIgnore[incompatible-cast]: If `user_settings` is absent,
              this will be present. */
           ?? (action.data.twenty_four_hour_time: boolean),
+
+        // Let this be null for servers that don't support the
+        // user_settings_object client capability. Support begins at FL 89,
+        // and we currently don't need this value when the server is pre-89.
+        presenceEnabled: action.data.user_settings?.presence_enabled ?? null,
       };
     }
 
@@ -299,6 +305,10 @@ export default (
               case 'twenty_four_hour_time': {
                 // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
                 return { ...state, twentyFourHourTime: (value: boolean) };
+              }
+              case 'presence_enabled': {
+                // $FlowFixMe[incompatible-cast] - fix UserSettingsUpdateEvent
+                return { ...state, presenceEnabled: (value: boolean) };
               }
 
               default:

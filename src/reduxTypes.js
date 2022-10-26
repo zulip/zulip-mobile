@@ -335,6 +335,13 @@ export type RealmState = {|
 
   +twentyFourHourTime: boolean,
 
+  // We let this be null if `user_settings` isn't supported, just because we
+  // don't currently need the value for pre-FL 89 servers. If we start
+  // needing it, we can fall back to the deprecated `presence_enabled`
+  // directly on the /register response.
+  // TODO(server-5.0): user_settings supported in FL 89; remove null case
+  +presenceEnabled: boolean | null,
+
   //
   // Misc.: Not in the /register response.
   //
