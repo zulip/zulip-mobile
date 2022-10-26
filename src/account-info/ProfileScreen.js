@@ -14,12 +14,14 @@ import ZulipButton from '../common/ZulipButton';
 import { logout } from '../account/logoutActions';
 import { tryStopNotifications } from '../notification/notifTokens';
 import AccountDetails from './AccountDetails';
-import AwayStatusSwitch from './AwayStatusSwitch';
-import { getOwnUser } from '../users/userSelectors';
-import { getIdentity } from '../account/accountsSelectors';
+import { getOwnUser, getOwnUserId } from '../users/userSelectors';
+import { getAuth, getIdentity } from '../account/accountsSelectors';
 import { useNavigation } from '../react-navigation';
 import { showConfirmationDialog } from '../utils/info';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
+import { getUserStatus } from '../user-statuses/userStatusesModel';
+import SwitchRow from '../common/SwitchRow';
+import * as api from '../api';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -125,14 +127,23 @@ type Props = $ReadOnly<{|
  * The profile/settings/account screen we offer among the main tabs of the app.
  */
 export default function ProfileScreen(props: Props): Node {
+  const auth = useSelector(getAuth);
   const ownUser = useSelector(getOwnUser);
+  const ownUserId = useSelector(getOwnUserId);
+  const awayStatus = useSelector(state => getUserStatus(state, ownUserId).away);
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
       <OfflineNoticePlaceholder />
       <ScrollView>
         <AccountDetails user={ownUser} showEmail={false} />
-        <AwayStatusSwitch />
+        <SwitchRow
+          label="Set yourself to away"
+          value={awayStatus}
+          onValueChange={(away: boolean) => {
+            api.updateUserStatus(auth, { away });
+          }}
+        />
         <View style={styles.buttonRow}>
           <SetStatusButton />
         </View>
