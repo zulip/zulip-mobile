@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
-import invariant from 'invariant';
 
 import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
@@ -131,16 +130,11 @@ export default function PresenceStatusIndicator(props: Props): Node {
   const user = useSelector(state => tryGetUserForId(state, userId));
   const userPresence = (user && (presence[user.email]: UserPresence | void)) ?? null;
 
-  const userStatus = useSelector(state => user && getUserStatus(state, user.user_id));
+  const userStatus = useSelector(state => getUserStatus(state, userId));
 
   if (!user || !userPresence || !userPresence.aggregated) {
     return null;
   }
-
-  invariant(
-    userStatus,
-    '`userStatus` only missing if `user` is missing, but `user` is not missing here (see early return)`',
-  );
 
   const status = statusFromPresenceAndUserStatus(userPresence, userStatus);
 
