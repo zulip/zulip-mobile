@@ -6,6 +6,11 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import type { ClientPresence, UserPresence, PresenceStatus, UserStatus } from '../types';
 import { ensureUnreachable } from '../types';
 import { objectEntries } from '../flowPonyfill';
+import type { PerAccountState } from '../reduxTypes';
+import type { UserId } from '../api/idTypes';
+import { getPresence } from '../directSelectors';
+import { tryGetUserForId } from '../users/userSelectors';
+import { getUserStatus } from '../user-statuses/userStatusesModel';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
@@ -118,3 +123,27 @@ export const statusFromPresenceAndUserStatus = (
   userStatus: UserStatus,
 ): PresenceStatus | 'unavailable' =>
   userStatus.away ? 'unavailable' : statusFromPresence(presence);
+
+/**
+ * Get a user's overall presence status, aggregated from all their devices.
+ *
+ * Gives null when we're missing data to determine this, such as when the
+ * user doesn't exist.
+ */
+export const getPresenceStatusForUserId = (
+  state: PerAccountState,
+  userId: UserId,
+): PresenceStatus | 'unavailable' | null => {
+  const presence = getPresence(state);
+  const user = tryGetUserForId(state, userId);
+  if (!user) {
+    return null;
+  }
+  const userPresence = (presence[user.email]: UserPresence | void);
+  if (!userPresence || !userPresence.aggregated) {
+    return null;
+  }
+  const userStatus = getUserStatus(state, userId);
+
+  return statusFromPresenceAndUserStatus(userPresence, userStatus);
+};
