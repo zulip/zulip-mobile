@@ -100,7 +100,6 @@ export function UserItemRaw<
           // At size medium, keep just big enough for a 48px touch target.
           size={size === 'large' ? 48 : 32}
           userId={user.user_id}
-          isMuted={isMuted}
           onPress={onPress && handlePress}
         />
         <View style={styles.textWrapper}>

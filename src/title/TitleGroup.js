@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { useSelector } from '../react-redux';
-import { getMutedUsers, getOwnUserId } from '../selectors';
+import { getOwnUserId } from '../selectors';
 import { pmUiRecipientsFromKeyRecipients, type PmKeyRecipients } from '../utils/recipient';
 import styles, { createStyleSheet } from '../styles';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
@@ -23,7 +23,6 @@ const componentStyles = createStyleSheet({
 
 export default function TitleGroup(props: Props): Node {
   const { recipients } = props;
-  const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);
   const userIds = pmUiRecipientsFromKeyRecipients(recipients, ownUserId);
   const navigation = useNavigation();
@@ -38,7 +37,6 @@ export default function TitleGroup(props: Props): Node {
             }}
             size={32}
             userId={userId}
-            isMuted={mutedUsers.has(userId)}
           />
         </View>
       ))}

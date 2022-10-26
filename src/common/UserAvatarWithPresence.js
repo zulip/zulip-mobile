@@ -8,6 +8,7 @@ import UserAvatar from './UserAvatar';
 import PresenceStatusIndicator from './PresenceStatusIndicator';
 import { tryGetUserForId } from '../users/userSelectors';
 import { useSelector } from '../react-redux';
+import { getMutedUsers } from '../directSelectors';
 
 const styles = createStyleSheet({
   status: {
@@ -21,7 +22,6 @@ type Props = $ReadOnly<{|
   userId: UserId,
   size: number,
   onPress?: () => void,
-  isMuted?: boolean,
 |}>;
 
 /**
@@ -32,9 +32,11 @@ type Props = $ReadOnly<{|
  * @prop [onPress]
  */
 export default function UserAvatarWithPresence(props: Props): Node {
-  const { userId, isMuted, size, onPress } = props;
+  const { userId, size, onPress } = props;
 
   const user = useSelector(state => tryGetUserForId(state, userId));
+  const isMuted = useSelector(getMutedUsers).has(userId);
+
   if (!user) {
     // This condition really does happen, because UserItem can be passed a fake
     // pseudo-user by PeopleAutocomplete, to represent `@all` or `@everyone`.
