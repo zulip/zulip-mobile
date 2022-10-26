@@ -6,6 +6,7 @@ import {
   statusFromPresence,
   statusFromPresenceAndUserStatus,
 } from '../presence';
+import * as eg from '../../__tests__/lib/exampleData';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -87,6 +88,7 @@ describe('presenceToHumanTime', () => {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
         },
         { away: false, status_text: null, status_emoji: null },
+        eg.recentZulipFeatureLevel,
       ),
     ).toBe('4 minutes ago');
   });
@@ -98,17 +100,32 @@ describe('presenceToHumanTime', () => {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
         },
         { away: false, status_text: null, status_emoji: null },
+        eg.recentZulipFeatureLevel,
       ),
     ).toBe('now');
   });
 
-  test('if less than a day, and the user is "away" the user is ...', () => {
+  // TODO(server-6.0): Remove
+  test('Pre-FL 148: if less than a day and user is "away", use imprecise "today"', () => {
     expect(
       presenceToHumanTime(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
         { away: true, status_text: null, status_emoji: null },
+        147,
       ),
     ).toBe('today');
+  });
+
+  // TODO(server-6.0): Remove, once this test case is redundant with those
+  //   above after the status parameter is gone.
+  test('FL 148: if less than a day and user is "away", *don\'t* use imprecise "today"', () => {
+    expect(
+      presenceToHumanTime(
+        { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
+        { away: true, status_text: null, status_emoji: null },
+        148,
+      ),
+    ).not.toBe('today');
   });
 });
 

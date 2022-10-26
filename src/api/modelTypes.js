@@ -446,6 +446,11 @@ export type UserGroup = $ReadOnly<{|
  */
 export type UserStatus = $ReadOnly<{|
   // true/false: User unavailable/available.
+  //
+  // Deprecated: "invisible mode", new in FL 148, doesn't involve this:
+  //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
+  // Don't use it except for servers <148.
+  // TODO(server-6.0): Remove.
   away: boolean,
 
   // "foo": User's status text is "foo".

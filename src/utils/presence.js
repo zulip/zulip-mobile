@@ -11,6 +11,7 @@ import type { UserId } from '../api/idTypes';
 import { getPresence } from '../directSelectors';
 import { tryGetUserForId } from '../users/userSelectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
@@ -81,14 +82,21 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   return { client, status, timestamp };
 };
 
-export const presenceToHumanTime = (presence: UserPresence, status: UserStatus): string => {
+export const presenceToHumanTime = (
+  presence: UserPresence,
+  status: UserStatus,
+  zulipFeatureLevel: number,
+): string => {
   if (!presence || !presence.aggregated) {
     return 'never';
   }
 
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
 
-  if (status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
+  // "Invisible mode", new in FL 148, doesn't involve UserStatus['away']:
+  //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
+  // TODO(server-6.0): Remove this `if` block and the `status` parameter.
+  if (zulipFeatureLevel < 148 && status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
     // Be vague when an unavailable user is recently online.
     // TODO: This phrasing doesn't really match the logic and can be misleading.
     return 'today';
@@ -118,6 +126,7 @@ export const statusFromPresence = (presence: UserPresence | void): PresenceStatu
   return presence.aggregated.status;
 };
 
+// TODO(server-6.0): Remove; UserStatus['away'] was deprecated at FL 148.
 export const statusFromPresenceAndUserStatus = (
   presence: UserPresence | void,
   userStatus: UserStatus,
@@ -145,5 +154,10 @@ export const getPresenceStatusForUserId = (
   }
   const userStatus = getUserStatus(state, userId);
 
-  return statusFromPresenceAndUserStatus(userPresence, userStatus);
+  // "Invisible mode", new in FL 148, doesn't involve UserStatus['away']:
+  //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
+  // TODO(server-6.0): Simplify to just statusFromPresence.
+  return getZulipFeatureLevel(state) >= 148
+    ? statusFromPresence(userPresence)
+    : statusFromPresenceAndUserStatus(userPresence, userStatus);
 };

@@ -14,8 +14,9 @@ import ZulipButton from '../common/ZulipButton';
 import { logout } from '../account/logoutActions';
 import { tryStopNotifications } from '../notification/notifTokens';
 import AccountDetails from './AccountDetails';
+import { getRealm } from '../directSelectors';
 import { getOwnUser, getOwnUserId } from '../users/userSelectors';
-import { getAuth, getIdentity } from '../account/accountsSelectors';
+import { getAuth, getIdentity, getZulipFeatureLevel } from '../account/accountsSelectors';
 import { useNavigation } from '../react-navigation';
 import { showConfirmationDialog } from '../utils/info';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
@@ -128,8 +129,10 @@ type Props = $ReadOnly<{|
  */
 export default function ProfileScreen(props: Props): Node {
   const auth = useSelector(getAuth);
+  const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const ownUser = useSelector(getOwnUser);
   const ownUserId = useSelector(getOwnUserId);
+  const presenceEnabled = useSelector(state => getRealm(state).presenceEnabled);
   const awayStatus = useSelector(state => getUserStatus(state, ownUserId).away);
 
   return (
@@ -137,13 +140,26 @@ export default function ProfileScreen(props: Props): Node {
       <OfflineNoticePlaceholder />
       <ScrollView>
         <AccountDetails user={ownUser} showEmail={false} />
-        <SwitchRow
-          label="Set yourself to away"
-          value={awayStatus}
-          onValueChange={(away: boolean) => {
-            api.updateUserStatus(auth, { away });
-          }}
-        />
+        {zulipFeatureLevel >= 148 ? (
+          <SwitchRow
+            label="Invisible mode"
+            /* $FlowIgnore[incompatible-cast] - Only null when FL is <89;
+               see comment on RealmState['presenceEnabled'] */
+            value={!(presenceEnabled: boolean)}
+            onValueChange={(newValue: boolean) => {
+              api.updateUserSettings(auth, { presence_enabled: !newValue }, zulipFeatureLevel);
+            }}
+          />
+        ) : (
+          // TODO(server-6.0): Remove.
+          <SwitchRow
+            label="Set yourself to away"
+            value={awayStatus}
+            onValueChange={(away: boolean) => {
+              api.updateUserStatus(auth, { away });
+            }}
+          />
+        )}
         <View style={styles.buttonRow}>
           <SetStatusButton />
         </View>

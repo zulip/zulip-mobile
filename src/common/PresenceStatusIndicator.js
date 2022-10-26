@@ -96,6 +96,7 @@ function PresenceStatusIndicatorOffline() {
   return <View style={[styles.offline, styles.common]} />;
 }
 
+// TODO(server-6.0): Remove; this status was made obsolete in FL 148.
 function PresenceStatusIndicatorUnavailable() {
   return (
     <View style={[styles.unavailableWrapper, styles.common]}>
