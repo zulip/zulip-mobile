@@ -13,6 +13,7 @@ import type { RealmState } from '../reduxTypes';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import * as logging from '../utils/logging';
 import { ensureUnreachable } from '../generics';
+import { EmailAddressVisibility } from '../api/permissionsTypes';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -307,4 +308,22 @@ export function getCustomProfileFieldsForUser(
     }
   }
   return fields;
+}
+
+/**
+ * The given user's real email address, if known, for displaying in the UI.
+ *
+ * Null if our user isn't able to see this user's real email address.
+ */
+export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): string | null {
+  if (user.delivery_email !== undefined) {
+    return user.delivery_email;
+  } else if (realm.emailAddressVisibility === EmailAddressVisibility.Everyone) {
+    // On future servers, we expect this case will never happen: we'll always include
+    // a delivery_email when you have access, including when the visibility is Everyone
+    // https://github.com/zulip/zulip-mobile/pull/5515#discussion_r997731727
+    return user.email;
+  } else {
+    return null;
+  }
 }

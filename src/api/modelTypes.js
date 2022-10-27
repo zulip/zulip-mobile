@@ -177,8 +177,14 @@ export type User = {|
   // Current to feature level (FL) 121.
 
   +user_id: UserId,
-  +delivery_email?: string,
+
+  // Currently `delivery_email` is always `string` if present.  A planned
+  // future API may make it sometimes `null`, to explicitly indicate that no
+  // delivery email for this user is visible to us:
+  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/email.20address.20visibility/near/1296132
+  +delivery_email?: string | null,
   +email: string,
+
   +full_name: string,
 
   // We expect ISO 8601; that's in the doc's example response.
@@ -263,7 +269,7 @@ export type CrossRealmBot = {|
   // Current to feature level (FL) 121.
 
   +user_id: UserId,
-  +delivery_email?: string,
+  +delivery_email?: string | null,
   +email: string,
   +full_name: string,
 
