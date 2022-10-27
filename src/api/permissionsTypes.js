@@ -95,3 +95,14 @@ export enum CreateWebPublicStreamPolicy {
   Nobody = 6,
   OwnerOnly = 7,
 }
+
+/**
+ * The policy for who in the organization has access to users' actual email
+ */
+export enum EmailAddressVisibility {
+  Everyone = 1,
+  Members = 2,
+  Admins = 3,
+  Nobody = 4,
+  Moderators = 5,
+}

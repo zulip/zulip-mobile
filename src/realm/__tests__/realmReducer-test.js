@@ -15,6 +15,7 @@ import type { RealmDataForUpdate } from '../../api/realmDataTypes';
 import {
   CreatePublicOrPrivateStreamPolicy,
   CreateWebPublicStreamPolicy,
+  EmailAddressVisibility,
 } from '../../api/permissionsTypes';
 import { CustomProfileFieldType } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
@@ -68,6 +69,7 @@ describe('realmReducer', () => {
         waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
         allowEditHistory: action.data.realm_allow_edit_history,
         enableReadReceipts: action.data.realm_enable_read_receipts,
+        emailAddressVisibility: action.data.realm_email_address_visibility,
 
         //
         // InitialDataRealmUser
@@ -499,6 +501,31 @@ describe('realmReducer', () => {
         check(true, false);
         check(false, true);
         check(false, false);
+      });
+
+      describe('emailAddressVisibility / email_address_visibility', () => {
+        const { Everyone, Members, Admins, Nobody, Moderators } = EmailAddressVisibility;
+        const check = mkCheck('emailAddressVisibility', 'email_address_visibility');
+        check(Everyone, Members);
+        check(Everyone, Admins);
+        check(Everyone, Nobody);
+        check(Everyone, Moderators);
+        check(Members, Everyone);
+        check(Members, Admins);
+        check(Members, Nobody);
+        check(Members, Moderators);
+        check(Admins, Everyone);
+        check(Admins, Members);
+        check(Admins, Nobody);
+        check(Admins, Moderators);
+        check(Nobody, Everyone);
+        check(Nobody, Admins);
+        check(Nobody, Members);
+        check(Nobody, Moderators);
+        check(Moderators, Everyone);
+        check(Moderators, Admins);
+        check(Moderators, Members);
+        check(Moderators, Nobody);
       });
     });
   });

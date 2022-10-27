@@ -38,6 +38,7 @@ import type { PmConversationsState } from './pm-conversations/pmConversationsMod
 import type { UnreadState } from './unread/unreadModelTypes';
 import type { UserStatusesState } from './user-statuses/userStatusesCore';
 import type { ServerEmojiData } from './api/modelTypes';
+import type { EmailAddressVisibility } from './api/permissionsTypes';
 
 export type { MuteState } from './mute/muteModelTypes';
 export type { UserStatusesState } from './user-statuses/userStatusesCore';
@@ -307,6 +308,7 @@ export type RealmState = {|
   +waitingPeriodThreshold: number,
   +allowEditHistory: boolean,
   +enableReadReceipts: boolean,
+  +emailAddressVisibility: EmailAddressVisibility,
 
   //
   // InitialDataRealmUser

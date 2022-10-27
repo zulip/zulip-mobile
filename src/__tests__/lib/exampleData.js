@@ -21,7 +21,7 @@ import { randString, randInt } from '../../utils/misc';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
 import { EventTypes, type UpdateMessageEvent } from '../../api/eventTypes';
-import { CreateWebPublicStreamPolicy } from '../../api/permissionsTypes';
+import { CreateWebPublicStreamPolicy, EmailAddressVisibility } from '../../api/permissionsTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -785,7 +785,7 @@ export const action = Object.freeze({
       realm_digest_weekday: 2,
       realm_disallow_disposable_email_addresses: true,
       realm_edit_topic_policy: 3,
-      realm_email_address_visibility: 3,
+      realm_email_address_visibility: EmailAddressVisibility.Admins,
       realm_email_auth_enabled: true,
       realm_email_changes_disabled: true,
       realm_emails_restricted_to_domains: false,

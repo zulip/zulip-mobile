@@ -19,6 +19,7 @@ import type {
 import type {
   CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicy,
+  EmailAddressVisibility,
 } from './permissionsTypes';
 
 /*
@@ -207,7 +208,7 @@ export type InitialDataRealm = $ReadOnly<{|
   // TODO(server-5.0): Added in feat. 75, replacing realm_allow_community_topic_editing
   realm_edit_topic_policy?: number,
 
-  realm_email_address_visibility: number,
+  realm_email_address_visibility: EmailAddressVisibility,
   realm_email_auth_enabled: boolean,
   realm_email_changes_disabled: boolean,
   realm_emails_restricted_to_domains: boolean,
