@@ -13,6 +13,7 @@ import ComponentList from '../common/ComponentList';
 import ZulipText from '../common/ZulipText';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
+import { getDisplayEmailForUser } from '../selectors';
 
 const componentStyles = createStyleSheet({
   componentListItem: {
@@ -31,19 +32,25 @@ const componentStyles = createStyleSheet({
   statusText: {
     textAlign: 'center',
   },
+  boldText: {
+    fontWeight: 'bold',
+  },
 });
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
+  showEmail: boolean,
 |}>;
 
 export default function AccountDetails(props: Props): Node {
-  const { user } = props;
+  const { user, showEmail } = props;
 
   const userStatusText = useSelector(state => getUserStatus(state, props.user.user_id).status_text);
   const userStatusEmoji = useSelector(
     state => getUserStatus(state, props.user.user_id).status_emoji,
   );
+  const realm = useSelector(state => state.realm);
+  const displayEmail = getDisplayEmailForUser(realm, user);
 
   return (
     <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
@@ -59,10 +66,19 @@ export default function AccountDetails(props: Props): Node {
         />
         <ZulipText
           selectable
-          style={[styles.largerText, styles.halfMarginRight]}
+          style={[styles.largerText, componentStyles.boldText, styles.halfMarginRight]}
           text={user.full_name}
         />
       </View>
+      {displayEmail !== null && showEmail && (
+        <View>
+          <ZulipText
+            selectable
+            style={[styles.largerText, styles.halfMarginRight]}
+            text={displayEmail}
+          />
+        </View>
+      )}
       <View style={componentStyles.statusWrapper}>
         {userStatusEmoji && (
           <Emoji

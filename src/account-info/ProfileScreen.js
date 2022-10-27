@@ -131,7 +131,7 @@ export default function ProfileScreen(props: Props): Node {
     <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
       <OfflineNoticePlaceholder />
       <ScrollView>
-        <AccountDetails user={ownUser} />
+        <AccountDetails user={ownUser} showEmail={false} />
         <AwayStatusSwitch />
         <View style={styles.buttonRow}>
           <SetStatusButton />
