@@ -27,6 +27,8 @@
   * [[link](#catch-at-ui)] For exceptions that aren't bugs, catch them
     in UI code and inform the user.
   * [[link](#catch-specific)] Only catch specific, expected exceptions.
+* [Naming](#naming)
+  * [[link](#url-not-uri)] "URL" is the standard term, not "URI"
 * [JavaScript, Flow, JS libraries](#js)
   * [[link](#types-named-type)] Don't put "type" in the name of a
     type, usually.
@@ -414,6 +416,34 @@ pick up and carry on.
 
 Discussion elsewhere:
 [Effective Dart](https://dart.dev/guides/language/effective-dart/usage#error-handling)
+
+
+<div id="naming" />
+
+## Naming
+
+<div id="url-not-uri" />
+
+**"URL" is the standard term, not "URI"**:
+Use the term "URL", never "URI", wherever possible.  The one situation
+in which we use "URI" is in names that come directly from an external
+API.
+
+This applies to jsdoc, comments, user-facing text, and all names
+internal to our codebase.
+
+The term "URI" has been explicitly deprecated
+[by web standards][url-spec-goals] since the early 2010s.
+[In older standards][url-not-uri-thread] it was the officially
+preferred term, which is why some older APIs use it, but it was never
+nearly as widely [adopted][url-not-uri-history-discussion] as "URL".
+Consistently saying "URL" is therefore the most standard usage in both
+senses: it's prescribed by the relevant standard, and it's the most
+common usage and therefore minimizes the confusion of multiple terms.
+
+[url-not-uri-thread]: https://chat.zulip.org/#narrow/stream/92-learning/topic/URLs/near/794826
+[url-spec-goals]: https://url.spec.whatwg.org/#goals
+[url-not-uri-history-discussion]: https://github.com/zulip/zulip-mobile/pull/4124#discussion_r431542224
 
 
 <div id="js" />
