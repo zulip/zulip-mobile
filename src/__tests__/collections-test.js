@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-const { mapOrNull } = require('../collections');
+import { mapOrNull } from '../collections';
 
 describe('mapOrNull', () => {
   test('behaves right in happy case', () => {
