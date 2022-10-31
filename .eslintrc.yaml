@@ -181,14 +181,18 @@ rules:
   #
 
   # Disable a bunch of rules that should be taken care of by prettier.
+  array-bracket-spacing: off
   arrow-parens: off
+  brace-style: off
   comma-dangle: off
   function-paren-newline: off
   indent: off
   lines-between-class-members: off
   max-len: off
   no-mixed-operators: off
+  no-multi-spaces: off
   object-curly-newline: off
+  one-var-declaration-per-line: off
   quote-props: off
 
   # For more formatting rules, see tools/formatting.eslintrc.yaml .

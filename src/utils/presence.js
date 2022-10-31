@@ -15,7 +15,7 @@ import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
-  /* prettier-ignore */ /* eslint-disable no-multi-spaces */
+  /* prettier-ignore */
   switch (a) {
     case 'active':  return true;
     case 'idle':    return b !== 'active';

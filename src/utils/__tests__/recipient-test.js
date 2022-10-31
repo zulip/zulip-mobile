@@ -35,8 +35,6 @@ describe('pmKeyRecipientUsersFromIds', () => {
   const allUsersById = new Map([eg.selfUser, eg.otherUser, eg.thirdUser].map(u => [u.user_id, u]));
   const [self, other, third] = [eg.selfUser, eg.otherUser, eg.thirdUser];
   // prettier-ignore
-  /* eslint-disable no-multi-spaces */
-  /* eslint-disable array-bracket-spacing */
   for (const [description, users, expectedSet] of [
     ['self-1:1, self included',  [self],               [self]],
     ['self-1:1, self omitted',   [    ],               [self]],
