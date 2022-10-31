@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Platform, NativeModules } from 'react-native';
 import { WebView } from 'react-native-webview';
 // $FlowFixMe[untyped-import]
@@ -76,13 +76,16 @@ export type Props = $ReadOnly<{|
   // Data independent of the particular narrow or messages we're displaying.
   backgroundData: BackgroundData,
 
-  // The remaining props contain data specific to the particular narrow or
+  // These props contain data specific to the particular narrow or
   // particular messages we're displaying.  Data that's independent of those
   // should go in `BackgroundData`, above.
   fetching: Fetching,
   messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
   typingUsers: $ReadOnlyArray<UserOrBot>,
+
+  // Local state, and setters.
   doNotMarkMessagesAsRead: boolean,
+  setDoNotMarkMessagesAsRead: boolean => void,
 |}>;
 
 /**
@@ -125,21 +128,23 @@ function useMessageListProps(props: OuterProps): Props {
   const globalSettings = useGlobalSelector(getGlobalSettings);
   const debug = useGlobalSelector(getDebug);
 
+  const [stateDoNotMarkMessagesAsRead, setDoNotMarkMessagesAsRead] = useState(null);
   const doNotMarkMessagesAsRead =
-    !marksMessagesAsRead(props.narrow)
-    || (() => {
-      switch (globalSettings.markMessagesReadOnScroll) {
-        case 'always':
-          return false;
-        case 'never':
-          return true;
-        case 'conversation-views-only':
-          return !isConversationNarrow(props.narrow);
-        default:
-          ensureUnreachable(globalSettings.markMessagesReadOnScroll);
-          return false;
-      }
-    })();
+    stateDoNotMarkMessagesAsRead
+    ?? (!marksMessagesAsRead(props.narrow)
+      || (() => {
+        switch (globalSettings.markMessagesReadOnScroll) {
+          case 'always':
+            return false;
+          case 'never':
+            return true;
+          case 'conversation-views-only':
+            return !isConversationNarrow(props.narrow);
+          default:
+            ensureUnreachable(globalSettings.markMessagesReadOnScroll);
+            return false;
+        }
+      })());
 
   return {
     ...props,
@@ -157,6 +162,7 @@ function useMessageListProps(props: OuterProps): Props {
     ),
     typingUsers: useSelector(state => getCurrentTypingUsers(state, props.narrow)),
     doNotMarkMessagesAsRead,
+    setDoNotMarkMessagesAsRead,
   };
 }
 
