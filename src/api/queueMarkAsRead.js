@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { Auth } from './transportTypes';
-import messagesFlags from './messages/messagesFlags';
+import updateMessageFlags from './messages/updateMessageFlags';
 
 /** We batch up requests to avoid sending them twice in this much time. */
 const debouncePeriodMs = 500;
@@ -31,7 +31,7 @@ const processQueue = async (auth: Auth) => {
   }
 
   lastSentTime = Date.now();
-  const response = await messagesFlags(auth, unackedMessageIds, 'add', 'read');
+  const response = await updateMessageFlags(auth, unackedMessageIds, 'add', 'read');
   const acked_messages = new Set(response.messages);
   unackedMessageIds = unackedMessageIds.filter(id => !acked_messages.has(id));
 };

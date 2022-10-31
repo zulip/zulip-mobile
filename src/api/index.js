@@ -32,7 +32,7 @@ import getRawMessageContent from './messages/getRawMessageContent';
 import getMessages from './messages/getMessages';
 import getSingleMessage from './messages/getSingleMessage';
 import getMessageHistory from './messages/getMessageHistory';
-import messagesFlags from './messages/messagesFlags';
+import updateMessageFlags from './messages/updateMessageFlags';
 import sendMessage from './messages/sendMessage';
 import updateMessage from './messages/updateMessage';
 import savePushToken from './notifications/savePushToken';
@@ -83,7 +83,7 @@ export {
   getMessages,
   getSingleMessage,
   getMessageHistory,
-  messagesFlags,
+  updateMessageFlags,
   sendMessage,
   updateMessage,
   savePushToken,

@@ -1,11 +1,11 @@
 /* @flow strict-local */
 import type { Auth } from '../transportTypes';
-import messagesFlags from './messagesFlags';
-import type { ApiResponseMessagesFlags } from './messagesFlags';
+import updateMessageFlags from './updateMessageFlags';
+import type { ApiResponseUpdateMessageFlags } from './updateMessageFlags';
 
 export default (
   auth: Auth,
   messageIds: $ReadOnlyArray<number>,
   starMessage: boolean,
-): Promise<ApiResponseMessagesFlags> =>
-  messagesFlags(auth, messageIds, starMessage ? 'add' : 'remove', 'starred');
+): Promise<ApiResponseUpdateMessageFlags> =>
+  updateMessageFlags(auth, messageIds, starMessage ? 'add' : 'remove', 'starred');

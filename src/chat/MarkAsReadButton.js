@@ -60,7 +60,7 @@ export default function MarkAsReadButton(props: Props): Node {
       return;
     }
 
-    api.messagesFlags(auth, messageIds, 'add', 'read');
+    api.updateMessageFlags(auth, messageIds, 'add', 'read');
   }, [auth, unread, narrow, ownUserId]);
 
   if (isHomeNarrow(narrow)) {
