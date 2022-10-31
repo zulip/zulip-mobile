@@ -33,8 +33,9 @@ export type WebViewInboundEventReady = {|
   type: 'ready',
 |};
 
-export type WebViewInboundEventMessagesRead = {|
-  type: 'read',
+export type WebViewInboundEventSetRead = {|
+  type: 'set-read',
+  value: boolean,
   messageIds: $ReadOnlyArray<number>,
 |};
 
@@ -43,7 +44,7 @@ export type WebViewInboundEvent =
   | WebViewInboundEventFetching
   | WebViewInboundEventTyping
   | WebViewInboundEventReady
-  | WebViewInboundEventMessagesRead;
+  | WebViewInboundEventSetRead;
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
   const scrollStrategy = getScrollStrategy(prevProps, nextProps);
@@ -121,7 +122,8 @@ export default function generateInboundEvents(
       .map(id => +id);
     if (messageIds.length > 0) {
       uevents.push({
-        type: 'read',
+        type: 'set-read',
+        value: true,
         messageIds,
       });
     }

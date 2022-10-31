@@ -106,10 +106,11 @@ var compiledWebviewJs = (function (exports) {
             };
           }
 
-        case 'read':
+        case 'set-read':
           {
             return {
               type: event.type,
+              value: event.value,
               messageIds: event.messageIds
             };
           }
@@ -759,16 +760,20 @@ var compiledWebviewJs = (function (exports) {
     clearInterval(readyRetryInterval);
   };
 
-  const handleInboundEventMessagesRead = uevent => {
+  function setReadFlags(messageIds, value) {
+    const selector = messageIds.map(id => "[data-msg-id=\\"".concat(id, "\\"]")).join(',');
+    const messageElements = document.querySelectorAll(selector);
+    messageElements.forEach(element => {
+      element.setAttribute('data-read', JSON.stringify(value));
+    });
+  }
+
+  const handleInboundEventMessagesSetRead = uevent => {
     if (uevent.messageIds.length === 0) {
       return;
     }
 
-    const selector = uevent.messageIds.map(id => "[data-msg-id=\\"".concat(id, "\\"]")).join(',');
-    const messageElements = document.querySelectorAll(selector);
-    messageElements.forEach(element => {
-      element.setAttribute('data-read', 'true');
-    });
+    setReadFlags(uevent.messageIds, uevent.value);
   };
 
   const inboundEventHandlers = {
@@ -776,7 +781,7 @@ var compiledWebviewJs = (function (exports) {
     fetching: handleInboundEventFetching,
     typing: handleInboundEventTyping,
     ready: handleInboundEventReady,
-    read: handleInboundEventMessagesRead
+    'set-read': handleInboundEventMessagesSetRead
   };
 
   const handleMessageEvent = e => {

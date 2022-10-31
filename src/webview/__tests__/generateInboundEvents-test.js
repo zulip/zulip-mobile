@@ -183,7 +183,8 @@ describe('generateInboundEvents', () => {
     const messages = generateInboundEvents(prevProps, nextProps);
 
     expect(messages[0]).toEqual({
-      type: 'read',
+      type: 'set-read',
+      value: true,
       messageIds: [1, 3],
     });
   });

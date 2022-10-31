@@ -5,7 +5,7 @@ import type {
   WebViewInboundEventFetching,
   WebViewInboundEventTyping,
   WebViewInboundEventReady,
-  WebViewInboundEventMessagesRead,
+  WebViewInboundEventSetRead,
 } from '../generateInboundEvents';
 import type { JSONable } from '../../utils/jsonable';
 import sendMessage from './sendMessage';
@@ -18,7 +18,7 @@ type ScrubbedInboundEvent =
   | Scrub<WebViewInboundEventFetching>
   | Scrub<WebViewInboundEventTyping>
   | Scrub<WebViewInboundEventReady>
-  | Scrub<WebViewInboundEventMessagesRead>;
+  | Scrub<WebViewInboundEventSetRead>;
 
 type ScrubbedInboundEventItem = {|
   timestamp: number,
@@ -81,9 +81,10 @@ export default class InboundEventLogger {
           type: event.type,
         };
       }
-      case 'read': {
+      case 'set-read': {
         return {
           type: event.type,
+          value: event.value,
           messageIds: event.messageIds,
         };
       }

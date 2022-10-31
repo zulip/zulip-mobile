@@ -30,7 +30,7 @@ import type {
   WebViewInboundEventFetching,
   WebViewInboundEventTyping,
   WebViewInboundEventReady,
-  WebViewInboundEventMessagesRead,
+  WebViewInboundEventSetRead,
 } from '../generateInboundEvents';
 import { makeUserId } from '../../api/idTypes';
 
@@ -716,18 +716,22 @@ const handleInboundEventReady = (uevent: WebViewInboundEventReady) => {
   clearInterval(readyRetryInterval);
 };
 
+function setReadFlags(messageIds, value) {
+  const selector = messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
+  const messageElements = document.querySelectorAll(selector);
+  messageElements.forEach(element => {
+    element.setAttribute('data-read', JSON.stringify(value));
+  });
+}
+
 /**
  * Handles messages that have been read outside of the WebView
  */
-const handleInboundEventMessagesRead = (uevent: WebViewInboundEventMessagesRead) => {
+const handleInboundEventMessagesSetRead = (uevent: WebViewInboundEventSetRead) => {
   if (uevent.messageIds.length === 0) {
     return;
   }
-  const selector = uevent.messageIds.map(id => `[data-msg-id="${id}"]`).join(',');
-  const messageElements = document.querySelectorAll(selector);
-  messageElements.forEach(element => {
-    element.setAttribute('data-read', 'true');
-  });
+  setReadFlags(uevent.messageIds, uevent.value);
 };
 
 const inboundEventHandlers = {
@@ -735,7 +739,7 @@ const inboundEventHandlers = {
   fetching: handleInboundEventFetching,
   typing: handleInboundEventTyping,
   ready: handleInboundEventReady,
-  read: handleInboundEventMessagesRead,
+  'set-read': handleInboundEventMessagesSetRead,
 };
 
 // See `handleInitialLoad` for how this gets subscribed to events.
