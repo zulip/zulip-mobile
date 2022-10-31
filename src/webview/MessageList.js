@@ -125,6 +125,22 @@ function useMessageListProps(props: OuterProps): Props {
   const globalSettings = useGlobalSelector(getGlobalSettings);
   const debug = useGlobalSelector(getDebug);
 
+  const doNotMarkMessagesAsRead =
+    !marksMessagesAsRead(props.narrow)
+    || (() => {
+      switch (globalSettings.markMessagesReadOnScroll) {
+        case 'always':
+          return false;
+        case 'never':
+          return true;
+        case 'conversation-views-only':
+          return !isConversationNarrow(props.narrow);
+        default:
+          ensureUnreachable(globalSettings.markMessagesReadOnScroll);
+          return false;
+      }
+    })();
+
   return useSelector(state => ({
     ...props,
 
@@ -140,21 +156,7 @@ function useMessageListProps(props: OuterProps): Props {
       props.narrow,
     ),
     typingUsers: getCurrentTypingUsers(state, props.narrow),
-    doNotMarkMessagesAsRead:
-      !marksMessagesAsRead(props.narrow)
-      || (() => {
-        switch (globalSettings.markMessagesReadOnScroll) {
-          case 'always':
-            return false;
-          case 'never':
-            return true;
-          case 'conversation-views-only':
-            return !isConversationNarrow(props.narrow);
-          default:
-            ensureUnreachable(globalSettings.markMessagesReadOnScroll);
-            return false;
-        }
-      })(),
+    doNotMarkMessagesAsRead,
   }));
 }
 
