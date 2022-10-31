@@ -8,6 +8,7 @@ import type { ScrollStrategy } from '../message/scrollStrategy';
 import messageListElementHtml from './html/messageListElementHtml';
 import messageTypingAsHtml from './html/messageTypingAsHtml';
 import { getScrollStrategy } from '../message/scrollStrategy';
+import { symmetricDiff } from '../collections';
 
 export type WebViewInboundEventContent = {|
   type: 'content',
@@ -114,18 +115,19 @@ export default function generateInboundEvents(
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {
     // TODO: Don't consider messages outside the narrow we're viewing.
-    // TODO: Only include messages that we've just marked as read. We're
-    // currently including some read messages only because we've just
-    // learned about them from a fetch.
-    const messageIds = Object.keys(nextProps.backgroundData.flags.read)
-      .filter(id => !prevProps.backgroundData.flags.read[+id])
-      .map(id => +id);
-    if (messageIds.length > 0) {
-      uevents.push({
-        type: 'set-read',
-        value: true,
-        messageIds,
-      });
+    // TODO: Only include messages that we already had and have just marked
+    //   as read/unread.  We're currently including some messages only because
+    //   we've just learned about them from a fetch.
+    const prevReadIds = Object.keys(prevProps.backgroundData.flags.read).map(id => +id);
+    const nextReadIds = Object.keys(nextProps.backgroundData.flags.read).map(id => +id);
+    prevReadIds.sort((a, b) => a - b);
+    nextReadIds.sort((a, b) => a - b);
+    const [newlyUnread, newlyRead] = symmetricDiff(prevReadIds, nextReadIds);
+    if (newlyUnread.length > 0) {
+      uevents.push({ type: 'set-read', value: false, messageIds: newlyUnread });
+    }
+    if (newlyRead.length > 0) {
+      uevents.push({ type: 'set-read', value: true, messageIds: newlyRead });
     }
   }
 
