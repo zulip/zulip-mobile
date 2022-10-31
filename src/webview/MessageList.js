@@ -40,6 +40,9 @@ import { ensureUnreachable } from '../generics';
 import SinglePageWebView from './SinglePageWebView';
 import { usePrevious } from '../reactUtils';
 
+/**
+ * The actual React props for the exported MessageList component.
+ */
 type OuterProps = $ReadOnly<{|
   narrow: Narrow,
   messages: $ReadOnlyArray<Message | Outbox>,
@@ -61,6 +64,18 @@ type SelectorProps = {|
   doNotMarkMessagesAsRead: boolean,
 |};
 
+/**
+ * All the data for rendering the message list, and callbacks for its UI actions.
+ *
+ * This data gets used for rendering the initial HTML and for computing
+ * inbound-events to update the page.  Then the handlers for the message
+ * list's numerous UI actions -- both for user interactions inside the page
+ * as represented by outbound-events, and in action sheets -- use the data
+ * and callbacks in order to do their jobs.
+ *
+ * This is also -- hence the name -- the React props for the inner, function
+ * component, which include data obtained through the various HOCs below.
+ */
 export type Props = $ReadOnly<{|
   ...OuterProps,
 
