@@ -34,6 +34,7 @@ describe('generateInboundEvents', () => {
     showActionSheetWithOptions: jest.fn(),
 
     _: jest.fn(),
+    setDoNotMarkMessagesAsRead: jest.fn(),
   });
 
   test('missing prev and next props returns no messages', () => {
