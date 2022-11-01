@@ -3244,12 +3244,12 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zulip/shared@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.14.tgz#3b660a8ea54bc915921b506ad1150184de39c13e"
-  integrity sha512-kjNJzik9VTJgHtubzUJBHiXXG27NSdZA6c+badnPz1/KvVZLK7PGlDlYPL33Q2EPWHhI3pmiNN0nf6c43YU+HQ==
+"@zulip/shared@0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@zulip/shared/-/shared-0.0.16.tgz#8a0879ea5c727be6faef43c1663e8025ac554348"
+  integrity sha512-mgjsZgATZZgBVTDjWyM23pVPienA/fXRQTZ35tNrskBhTZ7ltHtPGgAl0gE5wzLiKypeIjr77ADqEaMwwPrWsQ==
   dependencies:
-    katex "^0.15.3"
+    katex "^0.16.2"
     lodash "^4.17.19"
 
 abab@^2.0.3, abab@^2.0.5:
@@ -10053,10 +10053,10 @@ katex@^0.11.1:
   dependencies:
     commander "^2.19.0"
 
-katex@^0.15.3:
-  version "0.15.6"
-  resolved "https://registry.yarnpkg.com/katex/-/katex-0.15.6.tgz#c4e2f6ced2ac4de1ef6f737fe7c67d3026baa0e5"
-  integrity sha512-UpzJy4yrnqnhXvRPhjEuLA4lcPn6eRngixW7Q3TJErjg3Aw2PuLFBzTkdUb89UtumxjhHTqL3a5GDGETMSwgJA==
+katex@^0.16.2:
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.16.3.tgz#29640560b8fa0403e45f3aa20da5fdbb6d2b83a8"
+  integrity sha512-3EykQddareoRmbtNiNEDgl3IGjryyrp2eg/25fHDEnlHymIDi33bptkMv6K4EOC2LZCybLW/ZkEo6Le+EM9pmA==
   dependencies:
     commander "^8.0.0"
 
