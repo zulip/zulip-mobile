@@ -301,6 +301,10 @@ intended to fix; or intended to help with; or could make worse; etc.
 Similarly, when you file an issue, mention any issue you're aware of
 that it's similar to, or might interact with, etc.
 
+(When the issue is *fixed* by the PR, see also the next two items,
+on [mentioning in a commit message](#mention-fixed-issue)
+and [the format to use](#fixes-format).)
+
 These cause GitHub to automatically link back from the other issue to
 the new PR or issue.  The cross-references in both directions are
 essential for:
@@ -310,24 +314,33 @@ essential for:
 
 Be sure to use the PR (or issue) description, not the title: for
 whatever reason, GitHub doesn't count links in PR titles for creating
-automatic backlinks.
+automatic backlinks.  (Plus, an issue number in a PR title gets shown
+confusingly close to the PR's own number.)
 
 
 <div id="mention-fixed-issue" />
 
 **Mention a fixed issue in both PR and commit message.**
 When you submit a fix for an issue, please refer to it *both*
-* in the PR description, and
+* in the PR description (aka summary, body, or zeroth comment—the
+  thing you write in a large textbox when you submit a PR, which you
+  can also edit later); and
 * in the commit message of the main commit that fixes it.
+
+In both places, use the `Fixes: #1234` format discussed
+[below](#fixes-format).
+This [causes GitHub to close the issue automatically][gh-close-issue-keywords]
+when the commit and/or PR is merged, and to make a handy special link
+to the PR wherever the issue appears.
 
 The commit message is important because the commits in Git become our
 primary record of what we did: people will read the commit message and
 want to be able to look at the issue for context.
 
 The reference in the PR description is important for the sake of the
-GitHub website, for the reasons mentioned above.  When the reference
-is only in a commit message, GitHub doesn't use that information as
-usefully.
+GitHub website, for the reasons [mentioned above](#mention-related-issues).
+When the reference is only in a commit message, GitHub doesn't use
+that information as usefully.
 
 You might find that a reference in a commit message causes GitHub to
 show a noisy list of backlinks in the issue thread, after you make
@@ -341,7 +354,8 @@ extremely helpful when [reading the Git log](howto/git.md).
 
 **Write `Fixes: #1234` when fixing an issue.**
 When a commit fixes an issue, use a line like `Fixes: #1234` at the
-end of the commit message.
+end of the commit message and the PR description, as further discussed
+[above](#mention-fixed-issue).
 
 If there are any `Reported-by:` or similar lines (as discussed above),
 put it next to them.  See for example 58028d6d1:
