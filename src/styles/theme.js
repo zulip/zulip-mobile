@@ -5,6 +5,7 @@ import type { Context } from 'react';
 import type { ThemeName } from '../reduxTypes';
 
 export type ThemeData = {|
+  themeName: ThemeName,
   color: string,
   backgroundColor: string,
   cardColor: string,
@@ -13,6 +14,7 @@ export type ThemeData = {|
 
 export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
   night: {
+    themeName: 'night',
     color: 'hsl(210, 11%, 85%)',
     backgroundColor: 'hsl(212, 28%, 18%)',
     cardColor: 'hsl(212, 31%, 21%)',
@@ -21,6 +23,7 @@ export const themeData: {| [name: ThemeName | 'light']: ThemeData |} = {
     dividerColor: 'hsla(0, 0%, 100%, 0.12)',
   },
   light: {
+    themeName: 'default',
     color: 'hsl(0, 0%, 20%)',
     backgroundColor: 'white',
     cardColor: 'hsl(0, 0%, 97%)',

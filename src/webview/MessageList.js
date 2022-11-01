@@ -16,6 +16,8 @@ import type {
   EditMessage,
 } from '../types';
 import { assumeSecretlyGlobalState } from '../reduxTypes';
+import type { ThemeData } from '../styles';
+import { ThemeContext } from '../styles';
 import { connect } from '../react-redux';
 import {
   getCurrentTypingUsers,
@@ -123,6 +125,9 @@ const webviewAssetsUrl = new URL('webview/', assetsUrl);
 const baseUrl = new URL('index.html', webviewAssetsUrl);
 
 class MessageListInner extends React.Component<Props> {
+  static contextType = ThemeContext;
+  context: ThemeData;
+
   webviewRef = React.createRef<React$ElementRef<typeof WebView>>();
   sendInboundEventsIsReady: boolean;
   unsentInboundEvents: WebViewInboundEvent[] = [];
@@ -176,10 +181,10 @@ class MessageListInner extends React.Component<Props> {
     const contentHtml = messageListElementsForShownMessages
       .map(element => messageListElementHtml({ backgroundData, element, _ }))
       .join('');
-    const { auth, theme } = backgroundData;
+    const { auth } = backgroundData;
     const html: string = getHtml(
       contentHtml,
-      theme,
+      this.context.themeName,
       {
         scrollMessageId: initialScrollMessageId,
         auth,

@@ -141,20 +141,19 @@ doc](https://reactjs.org/docs/context.html)):
 > [...])
 > is not subject to the shouldComponentUpdate method
 
-We also confirmed this behavior experimentally, in a 2020 version of
-`MessageList` which used `ThemeContext` to get the theme colors.
-(Since 1ba871910, `MessageList` uses a transparent background and so
-doesn't need the theme; since 4fa2418b8 it doesn't mention
-`ThemeContext`.)  That component re-`render`ed when the theme changed,
-*even though its `shouldComponentUpdate` always returned `false`*.
-This didn't cause a live problem because the UI doesn't
-allow changing the theme while a `MessageList` is in the navigation
-stack. If it were possible, it would be a concern: setting a short
-interval to automatically toggle the theme, we see that the message
-list's color scheme changes as we'd want it to, but we also see the
-bad effects that `shouldComponentUpdate` returning `false` is meant to
-prevent: losing the scroll position, mainly (but also, we expect,
-discarding the image cache, etc.).
+Concretely, this means that our `MessageList` component updates
+(re-`render`s) when the theme changes, since it's a `ThemeContext`
+consumer, *even though its `shouldComponentUpdate` always returns
+`false`*.  This generally isn't a problem because the UI for
+changing our own theme setting can't appear while a `MessageList` is
+in the navigation stack; so the theme can change only once we have
+#4009, via the OS-level theme changing (either automatically on
+schedule, or because the user changed it in system settings.)  When
+this does happen we see that the message list's color scheme changes
+as we'd want it to, but we also see the bad effects that
+`shouldComponentUpdate` returning `false` is meant to prevent:
+losing the scroll position, mainly (but also, we expect, discarding
+the image cache, etc.).
 
 ### The exception: `MessageList`
 
