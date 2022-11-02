@@ -166,10 +166,7 @@ export const getFilteredEmojis = (
   const allMatchingEmoji: Map<string, EmojiForShared> = new Map();
 
   for (const emoji of getUnicodeEmojiObjectsMemoized(serverEmojiData)) {
-    // TODO(shared): Use shared version of this feature too, once it exists.
-    //   See PR: https://github.com/zulip/zulip/pull/21778
-    //   and issue: https://github.com/zulip/zulip/issues/21714
-    // This logic does not do any special handling for things like
+    // `matcher`'s match-literal-emoji logic doesn't do special handling for
     // skin-tone modifiers or gender modifiers, since Zulip does not
     // currently support those: https://github.com/zulip/zulip/issues/992.
     // Once support is added for that, we may want to come back here and
@@ -180,9 +177,7 @@ export const getFilteredEmojis = (
     // better to not show the user anything if they've searched for an
     // emoji with a modifier than it is to show them the non-modified
     // emoji, hence the very simple matching.
-    const matchesEmojiLiteral = parseUnicodeEmojiCode(emoji.emoji_code) === query;
-
-    if (matchesEmojiLiteral || matcher(emoji)) {
+    if (matcher(emoji)) {
       allMatchingEmoji.set(emoji.emoji_name, emoji);
     }
   }
