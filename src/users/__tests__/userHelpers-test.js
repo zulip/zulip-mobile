@@ -10,7 +10,6 @@ import {
   filterUserStartWith,
   filterUserThatContains,
   filterUserMatchesEmail,
-  getUniqueUsers,
   groupUsersByStatus,
 } from '../userHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -99,7 +98,7 @@ describe('getAutocompleteSuggestion', () => {
     const user5 = eg.makeUser({ full_name: 'match', email: 'any@example.com' }); // satisfy full_name starts with condition
     const user6 = eg.makeUser({ full_name: 'match', email: 'normal@example.com' }); // satisfy starts with and email condition
     const user7 = eg.makeUser({ full_name: 'Match App Normal', email: 'any3@example.com' }); // satisfy all conditions
-    const user8 = eg.makeUser({ full_name: 'match', email: 'any@example.com' }); // duplicate
+    const user8 = user5; // duplicate
     const user9 = eg.makeUser({ full_name: 'Laptop', email: 'laptop@example.com' }); // random entry
     const user10 = eg.makeUser({ full_name: 'Mobile App', email: 'any@match.com' }); // satisfy email condition
     const user11 = eg.makeUser({ full_name: 'Normal', email: 'match2@example.com' }); // satisfy contains in name and matches in email condition
@@ -340,23 +339,5 @@ describe('filterUserMatchesEmail', () => {
     const users = deepFreeze([user1, user2, user3, user4, user5, user6, selfUser]);
     const expectedUsers = [user1];
     expect(filterUserMatchesEmail(users, 'example', selfUser.user_id)).toEqual(expectedUsers);
-  });
-});
-
-describe('getUniqueUsers', () => {
-  test('returns unique users check by email', () => {
-    const user1 = eg.makeUser({ email: 'a@example.com' });
-    const user2 = eg.makeUser({ email: 'a@example.com' });
-    const user3 = eg.makeUser({ email: 'p@p.com' });
-    const user4 = eg.makeUser({ email: 'p@p.com' });
-    const user5 = eg.makeUser({ email: 'p@p2.com' });
-    const user6 = eg.makeUser({ email: 'p@p2.com' });
-    const user7 = eg.makeUser({ email: 'p@p2.com' });
-    const user8 = eg.makeUser({ email: 'own@example.com' });
-
-    const users = deepFreeze([user1, user2, user3, user4, user5, user6, user7, user8]);
-
-    const expectedUsers = [user1, user3, user5, user8];
-    expect(getUniqueUsers(users)).toEqual(expectedUsers);
   });
 });

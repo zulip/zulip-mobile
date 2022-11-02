@@ -51,7 +51,7 @@
     "lodash.isequal": "^4.4.0",
     "lodash.omit": "^4.5.0",
     "lodash.union": "^4.6.0",
-    "lodash.uniqby": "^4.4.0",
+    "lodash.uniq": "^4.5.0",
     "react": "17.0.2",
     "react-intl": "5.24.6",
     "react-native": "0.67.4",

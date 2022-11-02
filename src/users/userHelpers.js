@@ -1,6 +1,6 @@
 /* @flow strict-local */
 // $FlowFixMe[untyped-import]
-import uniqby from 'lodash.uniqby';
+import uniq from 'lodash.uniq';
 import * as typeahead from '@zulip/shared/js/typeahead';
 
 import type {
@@ -104,9 +104,11 @@ export const filterUserMatchesEmail = (
     user => user.user_id !== ownUserId && user.email.toLowerCase().includes(filter.toLowerCase()),
   );
 
-export const getUniqueUsers = (users: $ReadOnlyArray<UserOrBot>): $ReadOnlyArray<UserOrBot> =>
-  uniqby(users, 'email');
-
+/**
+ * Get the list of users for a user-autocomplete query.
+ *
+ * Callers must ensure that `users` has just one unique object per user ID.
+ */
 export const getAutocompleteSuggestion = (
   users: $ReadOnlyArray<UserOrBot>,
   filter: string,
@@ -119,7 +121,16 @@ export const getAutocompleteSuggestion = (
   const startWith = filterUserStartWith(users, filter, ownUserId);
   const contains = filterUserThatContains(users, filter, ownUserId);
   const matchesEmail = filterUserMatchesEmail(users, filter, ownUserId);
-  const candidates = getUniqueUsers([...startWith, ...contains, ...matchesEmail]);
+
+  // Dedupe users that match in multiple ways.
+  const candidates: $ReadOnlyArray<UserOrBot> =
+    // Lodash's "unique" is just as good as "unique by user ID" as long as
+    // there aren't multiple unique objects per user ID. See doc:
+    //   https://lodash.com/docs/4.17.15#uniq
+    // So we ask the caller to satisfy that for `users`; then when we
+    // deduplicate, here, we only pass objects that appear in `users`.
+    uniq([...startWith, ...contains, ...matchesEmail]);
+
   return candidates.filter(user => !mutedUsers.has(user.user_id));
 };
 
