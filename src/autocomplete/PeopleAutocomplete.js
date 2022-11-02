@@ -4,11 +4,10 @@ import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { SectionList } from 'react-native';
 
-import type { UserGroup, Narrow } from '../types';
+import type { UserOrBot, UserGroup, Narrow } from '../types';
 import { useSelector } from '../react-redux';
 import { getMutedUsers, getSortedUsers, getUserGroups } from '../selectors';
 import {
-  type AutocompleteOption,
   getAutocompleteSuggestion,
   getAutocompleteUserGroupSuggestions,
 } from '../users/userHelpers';
@@ -53,7 +52,7 @@ export default function PeopleAutocomplete(props: Props): Node {
   );
 
   const handleUserItemAutocomplete = useCallback(
-    (user: AutocompleteOption): void => {
+    (user: UserOrBot): void => {
       // If another user with the same full name is found, we send the
       // user ID as well, to ensure the mentioned user is uniquely identified.
       if (users.find(x => x.full_name === user.full_name && x.user_id !== user.user_id)) {
@@ -113,7 +112,7 @@ export default function PeopleAutocomplete(props: Props): Node {
           size="medium"
         />
       ),
-    }: Section<AutocompleteOption>),
+    }: Section<UserOrBot>),
   ];
 
   return (

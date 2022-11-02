@@ -58,13 +58,6 @@ export const sortUserList = (
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
-export type AutocompleteOption = $ReadOnly<{
-  user_id: UserId,
-  email: string,
-  full_name: string,
-  ...
-}>;
-
 export const filterUserList = (
   users: $ReadOnlyArray<UserOrBot>,
   filter: string,
@@ -77,10 +70,10 @@ export const filterUserList = (
   );
 
 export const filterUserStartWith = (
-  users: $ReadOnlyArray<AutocompleteOption>,
+  users: $ReadOnlyArray<UserOrBot>,
   filter: string,
   ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> => {
+): $ReadOnlyArray<UserOrBot> => {
   const loweredFilter = filter.toLowerCase();
   const isAscii = /^[a-z]+$/.test(loweredFilter);
   return users.filter(user => {
@@ -90,10 +83,10 @@ export const filterUserStartWith = (
 };
 
 export const filterUserThatContains = (
-  users: $ReadOnlyArray<AutocompleteOption>,
+  users: $ReadOnlyArray<UserOrBot>,
   filter: string,
   ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> => {
+): $ReadOnlyArray<UserOrBot> => {
   const loweredFilter = filter.toLowerCase();
   const isAscii = /^[a-z]+$/.test(loweredFilter);
   return users.filter(user => {
@@ -103,24 +96,23 @@ export const filterUserThatContains = (
 };
 
 export const filterUserMatchesEmail = (
-  users: $ReadOnlyArray<AutocompleteOption>,
+  users: $ReadOnlyArray<UserOrBot>,
   filter: string,
   ownUserId: UserId,
-): $ReadOnlyArray<AutocompleteOption> =>
+): $ReadOnlyArray<UserOrBot> =>
   users.filter(
     user => user.user_id !== ownUserId && user.email.toLowerCase().includes(filter.toLowerCase()),
   );
 
-export const getUniqueUsers = (
-  users: $ReadOnlyArray<AutocompleteOption>,
-): $ReadOnlyArray<AutocompleteOption> => uniqby(users, 'email');
+export const getUniqueUsers = (users: $ReadOnlyArray<UserOrBot>): $ReadOnlyArray<UserOrBot> =>
+  uniqby(users, 'email');
 
 export const getAutocompleteSuggestion = (
-  users: $ReadOnlyArray<AutocompleteOption>,
+  users: $ReadOnlyArray<UserOrBot>,
   filter: string,
   ownUserId: UserId,
   mutedUsers: MutedUsersState,
-): $ReadOnlyArray<AutocompleteOption> => {
+): $ReadOnlyArray<UserOrBot> => {
   if (users.length === 0) {
     return users;
   }
