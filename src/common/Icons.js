@@ -92,7 +92,10 @@ export const IconRight: SpecificIconType = makeIcon(Feather, 'chevron-right');
 
 export const IconPlusCircle: SpecificIconType = makeIcon(Feather, 'plus-circle');
 export const IconLeft: SpecificIconType = makeIcon(Feather, 'chevron-left');
+
+// UserGroupItem depends on this being square.
 export const IconPeople: SpecificIconType = makeIcon(Feather, 'users');
+
 export const IconPerson: SpecificIconType = makeIcon(Feather, 'user');
 export const IconImage: SpecificIconType = makeIcon(Feather, 'image');
 export const IconCamera: SpecificIconType = makeIcon(Feather, 'camera');

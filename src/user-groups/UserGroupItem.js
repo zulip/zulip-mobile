@@ -41,8 +41,7 @@ export default function UserGroupItem(props: Props): Node {
       wrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        padding: 8,
       },
     }),
     [],
@@ -51,7 +50,13 @@ export default function UserGroupItem(props: Props): Node {
   return (
     <Touchable onPress={handlePress}>
       <View style={styles.wrapper}>
-        <IconPeople size={32} color={themeContext.color} />
+        <IconPeople
+          // Match the size of the avatar in UserItem, which also appears in
+          // the people autocomplete. We're counting on this icon being a
+          // square.
+          size={32}
+          color={themeContext.color}
+        />
         <View style={componentStyles.textWrapper}>
           <ZulipText
             style={componentStyles.text}

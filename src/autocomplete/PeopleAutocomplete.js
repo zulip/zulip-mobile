@@ -86,6 +86,7 @@ export default function PeopleAutocomplete(props: Props): Node {
           user={item}
           showEmail
           onPress={handleUserItemAutocomplete}
+          size="medium"
         />
       ),
     }: Section<AutocompleteOption>),
