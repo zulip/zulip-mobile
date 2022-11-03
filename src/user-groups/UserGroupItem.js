@@ -1,12 +1,12 @@
 /* @flow strict-local */
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
 import { IconPeople } from '../common/Icons';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
-import styles, { createStyleSheet, ThemeContext } from '../styles';
+import { createStyleSheet, ThemeContext } from '../styles';
 
 const componentStyles = createStyleSheet({
   text: {
@@ -36,9 +36,21 @@ export default function UserGroupItem(props: Props): Node {
 
   const themeContext = useContext(ThemeContext);
 
+  const styles = useMemo(
+    () => ({
+      wrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+      },
+    }),
+    [],
+  );
+
   return (
     <Touchable onPress={handlePress}>
-      <View style={styles.listItem}>
+      <View style={styles.wrapper}>
         <IconPeople size={32} color={themeContext.color} />
         <View style={componentStyles.textWrapper}>
           <ZulipText
