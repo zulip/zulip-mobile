@@ -65,6 +65,10 @@ export function UserItemRaw<
           alignItems: 'center',
           paddingVertical: 8,
           paddingHorizontal: size === 'large' ? 16 : 8,
+
+          // Minimum touch target height:
+          //   https://material.io/design/usability/accessibility.html#layout-and-typography
+          minHeight: 48,
         },
         selectedRow: {
           backgroundColor: BRAND_COLOR,

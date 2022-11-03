@@ -42,6 +42,10 @@ export default function UserGroupItem(props: Props): Node {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 8,
+
+        // Minimum touch target height:
+        //   https://material.io/design/usability/accessibility.html#layout-and-typography
+        minHeight: 48,
       },
     }),
     [],
