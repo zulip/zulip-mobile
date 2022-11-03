@@ -9,7 +9,7 @@ import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
-import globalStyles, { createStyleSheet, BRAND_COLOR } from '../styles';
+import { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
 import { getUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
@@ -62,7 +62,12 @@ export function UserItemRaw<
       createStyleSheet({
         wrapper:
           size === 'large'
-            ? globalStyles.listItem
+            ? {
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 8,
+                paddingHorizontal: 16,
+              }
             : {
                 flexDirection: 'row',
                 alignItems: 'center',
