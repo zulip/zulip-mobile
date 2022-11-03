@@ -60,20 +60,12 @@ export function UserItemRaw<
   const styles = React.useMemo(
     () =>
       createStyleSheet({
-        wrapper:
-          size === 'large'
-            ? {
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 8,
-                paddingHorizontal: 16,
-              }
-            : {
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 8,
-                paddingHorizontal: 8,
-              },
+        wrapper: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingVertical: 8,
+          paddingHorizontal: size === 'large' ? 16 : 8,
+        },
         selectedRow: {
           backgroundColor: BRAND_COLOR,
         },
