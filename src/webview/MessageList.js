@@ -52,19 +52,6 @@ type OuterProps = $ReadOnly<{|
   startEditMessage: (editMessage: EditMessage) => void,
 |}>;
 
-type SelectorProps = {|
-  // Data independent of the particular narrow or messages we're displaying.
-  backgroundData: BackgroundData,
-
-  // The remaining props contain data specific to the particular narrow or
-  // particular messages we're displaying.  Data that's independent of those
-  // should go in `BackgroundData`, above.
-  fetching: Fetching,
-  messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
-  typingUsers: $ReadOnlyArray<UserOrBot>,
-  doNotMarkMessagesAsRead: boolean,
-|};
-
 /**
  * All the data for rendering the message list, and callbacks for its UI actions.
  *
@@ -82,12 +69,20 @@ type SelectorProps = {|
 export type Props = $ReadOnly<{|
   ...OuterProps,
 
-  dispatch: Dispatch,
-  ...SelectorProps,
-
   showActionSheetWithOptions: ShowActionSheetWithOptions,
-
   _: GetText,
+  dispatch: Dispatch,
+
+  // Data independent of the particular narrow or messages we're displaying.
+  backgroundData: BackgroundData,
+
+  // The remaining props contain data specific to the particular narrow or
+  // particular messages we're displaying.  Data that's independent of those
+  // should go in `BackgroundData`, above.
+  fetching: Fetching,
+  messageListElementsForShownMessages: $ReadOnlyArray<MessageListElement>,
+  typingUsers: $ReadOnlyArray<UserOrBot>,
+  doNotMarkMessagesAsRead: boolean,
 |}>;
 
 /**
@@ -121,12 +116,24 @@ const marksMessagesAsRead = (narrow: Narrow): boolean =>
     mentioned: () => false,
   });
 
-function useSelectorProps(props: OuterProps) {
+function useMessageListProps(props: OuterProps): Props {
+  const _ = useContext(TranslationContext);
+  const showActionSheetWithOptions: ShowActionSheetWithOptions =
+    useActionSheet().showActionSheetWithOptions;
+  const dispatch = useDispatch();
+
   const globalSettings = useGlobalSelector(getGlobalSettings);
   const debug = useGlobalSelector(getDebug);
 
   return useSelector(state => ({
+    ...props,
+
+    showActionSheetWithOptions,
+    _,
+    dispatch,
+
     backgroundData: getBackgroundData(state, globalSettings, debug),
+
     fetching: getFetchingForNarrow(state, props.narrow),
     messageListElementsForShownMessages: getMessageListElementsMemoized(
       props.messages,
@@ -149,22 +156,6 @@ function useSelectorProps(props: OuterProps) {
         }
       })(),
   }));
-}
-
-function useMessageListProps(outerProps: OuterProps): Props {
-  const _ = useContext(TranslationContext);
-  const showActionSheetWithOptions: ShowActionSheetWithOptions =
-    useActionSheet().showActionSheetWithOptions;
-  const dispatch = useDispatch();
-  const selectorProps = useSelectorProps(outerProps);
-
-  return {
-    ...outerProps,
-    showActionSheetWithOptions,
-    _,
-    dispatch,
-    ...selectorProps,
-  };
 }
 
 /**
