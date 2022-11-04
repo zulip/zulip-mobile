@@ -8,13 +8,16 @@ import { showToast } from '../utils/info';
 import * as api from '../api';
 import { openLinkEmbedded } from '../utils/openLink';
 import * as logging from '../utils/logging';
+import { tryParseUrl } from '../utils/url';
 
 /**
  * Share natively if possible, else open browser for the user to share there.
  */
 // TODO(i18n): Wire up toasts for translation.
 export default async (url: string, auth: Auth) => {
-  const tempUrl = await api.tryGetFileTemporaryUrl(url, auth);
+  const parsedUrl = tryParseUrl(url, auth.realm);
+
+  const tempUrl = parsedUrl ? await api.tryGetFileTemporaryUrl(parsedUrl, auth) : null;
 
   if (tempUrl === null) {
     // Open the file in a browser and invite the user to use the browser's

@@ -1,18 +1,16 @@
 /* @flow strict-local */
 import type { Auth } from './apiTypes';
-import { isUrlOnRealm, tryParseUrl } from '../utils/url';
+import { isUrlOnRealm } from '../utils/url';
 import getFileTemporaryUrl from './messages/getFileTemporaryUrl';
 
 /**
  * Like getFileTemporaryUrl, but on error returns null instead of throwing.
  *
- * Validates `href` to give getFileTemporaryUrl the kind of input it expects
+ * Validates `url` to give getFileTemporaryUrl the kind of input it expects
  * and returns null if validation fails.
  */
-export default async (href: string, auth: Auth): Promise<URL | null> => {
-  // TODO: Have this function take this parsed form instead of raw string.
-  const parsedUrl = tryParseUrl(href, auth.realm);
-  if (!parsedUrl || !isUrlOnRealm(parsedUrl, auth.realm)) {
+export default async (url: URL, auth: Auth): Promise<URL | null> => {
+  if (!isUrlOnRealm(url, auth.realm)) {
     return null;
   }
 
@@ -32,7 +30,7 @@ export default async (href: string, auth: Auth): Promise<URL | null> => {
   //
   // Quoted terms come from the URL spec:
   //   https://url.spec.whatwg.org/#url-writing
-  const { pathname } = parsedUrl;
+  const { pathname } = url;
 
   if (!/^\/user_uploads\/[0-9]+\/.+$/.test(pathname)) {
     return null;

@@ -244,7 +244,7 @@ export const messageLinkPress =
     } else if (!parsedUrl || !isUrlOnRealm(parsedUrl, auth.realm)) {
       openLinkWithUserPreference(href, getGlobalSettings());
     } else {
-      const url = (await api.tryGetFileTemporaryUrl(href, auth)) ?? parsedUrl;
+      const url = (await api.tryGetFileTemporaryUrl(parsedUrl, auth)) ?? parsedUrl;
       openLinkWithUserPreference(url.toString(), getGlobalSettings());
     }
   };
