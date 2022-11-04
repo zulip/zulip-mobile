@@ -114,17 +114,20 @@ export const isUrlOnRealm = (url: string, realm: URL): boolean => {
   return parsedUrl ? parsedUrl.origin === realm.origin : false;
 };
 
-const getResourceWithAuth = (url: string, auth: Auth) => ({
-  uri: new URL(url, auth.realm).toString(),
+const getResourceWithAuth = (url: URL, auth: Auth) => ({
+  uri: url.toString(),
   headers: getAuthHeaders(auth),
 });
 
-const getResourceNoAuth = (url: string) => ({
-  uri: url,
+const getResourceNoAuth = (url: URL) => ({
+  uri: url.toString(),
 });
 
 /**
- * From a URL string and an Auth, give RN's ImageSource type.
+ * From a URL string and an Auth, give RN's ImageSource type or null.
+ *
+ * Gives null if the URL-string param doesn't parse, with auth.realm, into a
+ * URL object.
  *
  * ImageSource is what React Native's `Image` component expects for its
  * `source` prop: https://reactnative.dev/docs/0.67/image#imagesource
@@ -133,9 +136,22 @@ const getResourceNoAuth = (url: string) => ({
  * `source` prop: https://github.com/alwx/react-native-photo-view#properties
  *
  * > source | Object | same as source for other React images
+ *
+ * This performs a call to `new URL` and therefore may take a fraction of a
+ * millisecond.  Avoid using in a context where it might be called more than
+ * 10 or 100 times per user action.
  */
-export const getResource = (url: string, auth: Auth): ImageSource =>
-  isUrlOnRealm(url, auth.realm) ? getResourceWithAuth(url, auth) : getResourceNoAuth(url);
+// TODO: Take a URL object, not a string
+export const getResource = (url: string, auth: Auth): ImageSource | null => {
+  const parsedUrl = tryParseUrl(url, auth.realm);
+  if (!parsedUrl) {
+    return null;
+  }
+
+  return isUrlOnRealm(parsedUrl.toString(), auth.realm)
+    ? getResourceWithAuth(parsedUrl, auth)
+    : getResourceNoAuth(parsedUrl);
+};
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 

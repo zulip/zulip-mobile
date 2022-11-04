@@ -1,6 +1,6 @@
 /* @flow strict-local */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useContext, useRef, useMemo } from 'react';
 import type { Node } from 'react';
 import { View, Dimensions, LayoutAnimation } from 'react-native';
 // $FlowFixMe[untyped-import]
@@ -21,6 +21,8 @@ import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useNavigation } from '../react-navigation';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 const styles = createStyleSheet({
   img: {
@@ -47,6 +49,8 @@ type Props = $ReadOnly<{|
 
 export default function Lightbox(props: Props): Node {
   const navigation = useNavigation();
+  const _ = useContext(TranslationContext);
+
   const [headerFooterVisible, setHeaderFooterVisible] = useState<boolean>(true);
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
@@ -66,7 +70,18 @@ export default function Lightbox(props: Props): Node {
     message.type === 'stream'
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
-  const resource = getResource(src, auth);
+
+  // resource will be null if `src` doesn't pass the URL parser
+  // TODO: Instead, parse earlier and make `src` be a URL object
+  const resource = useMemo(() => getResource(src, auth), [auth, src]);
+  const hasHandledMissingResource = useRef(false);
+  useEffect(() => {
+    if (resource == null && !hasHandledMissingResource.current) {
+      showErrorAlert(_('Cannot open image'), _('Invalid image URL.'));
+      navigation.goBack();
+      hasHandledMissingResource.current = true;
+    }
+  }, [resource, navigation, _]);
 
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
@@ -78,21 +93,25 @@ export default function Lightbox(props: Props): Node {
     <>
       <ZulipStatusBar hidden={!headerFooterVisible} backgroundColor="black" />
       <View style={styles.container}>
-        <PhotoView
-          source={resource}
-          style={[styles.img, { width: windowWidth }]}
-          // Doesn't seem to do anything on iOS:
-          //   https://github.com/alwx/react-native-photo-view/issues/62
-          //   https://github.com/alwx/react-native-photo-view/issues/98
-          // TODO: Figure out how to make it work.
-          resizeMode="contain"
-          // Android already doesn't show any scrollbars; these two
-          // iOS-only props let us hide them on iOS.
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          onTap={handleImagePress}
-          onViewTap={handleImagePress}
-        />
+        {resource != null ? (
+          <PhotoView
+            source={resource}
+            style={[styles.img, { width: windowWidth }]}
+            // Doesn't seem to do anything on iOS:
+            //   https://github.com/alwx/react-native-photo-view/issues/62
+            //   https://github.com/alwx/react-native-photo-view/issues/98
+            // TODO: Figure out how to make it work.
+            resizeMode="contain"
+            // Android already doesn't show any scrollbars; these two
+            // iOS-only props let us hide them on iOS.
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            onTap={handleImagePress}
+            onViewTap={handleImagePress}
+          />
+        ) : (
+          <View style={[styles.img, { width: windowWidth }]} />
+        )}
         <View
           style={[
             styles.overlay,
