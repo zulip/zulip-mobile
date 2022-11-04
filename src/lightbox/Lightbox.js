@@ -12,7 +12,7 @@ import type { Message } from '../types';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getAuth, getGlobalSession } from '../selectors';
-import { getResource } from '../utils/url';
+import { getResource, tryParseUrl } from '../utils/url';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -71,9 +71,9 @@ export default function Lightbox(props: Props): Node {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
 
-  // resource will be null if `src` doesn't pass the URL parser
   // TODO: Instead, parse earlier and make `src` be a URL object
-  const resource = useMemo(() => getResource(src, auth), [auth, src]);
+  const parsedSrc = useMemo(() => tryParseUrl(src, auth.realm), [src, auth.realm]);
+  const resource = parsedSrc ? getResource(parsedSrc, auth) : null;
   const hasHandledMissingResource = useRef(false);
   useEffect(() => {
     if (resource == null && !hasHandledMissingResource.current) {

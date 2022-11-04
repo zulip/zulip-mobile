@@ -71,10 +71,10 @@ describe('getResource', () => {
       Authorization: `Basic ${base64.encode(`${auth.email}:${auth.apiKey}`)}`,
     };
 
-    const resource1 = getResource('https://example.com/img.gif', auth);
+    const resource1 = getResource(new URL('https://example.com/img.gif'), auth);
     expect(resource1).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
 
-    const resource2 = getResource('/img.gif', auth);
+    const resource2 = getResource(new URL('/img.gif', auth.realm), auth);
     expect(resource2).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
   });
 
@@ -82,7 +82,7 @@ describe('getResource', () => {
     const expectedResult = {
       uri: 'https://another.com/img.gif',
     };
-    const resource = getResource('https://another.com/img.gif', auth);
+    const resource = getResource(new URL('https://another.com/img.gif'), auth);
     expect(resource).toEqual(expectedResult);
   });
 });
