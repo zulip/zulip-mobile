@@ -1,4 +1,5 @@
 {
+  "Invisible mode": "Invisible mode",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {Bu mesaj {num_of_people} kişi tarafından <z-link>okunmuştur</z-link> :} other {Bu mesaj {num_of_people} kişi tarafından <z-link>okunmuştur</z-link>:}}",
   "View read receipts": "Okundu raporlarını görüntüle",
   "Failed to show read receipts": "Okundu raporları gösterilemedi",
@@ -300,7 +301,7 @@
   "Always": "Her zaman",
   "Never": "Asla",
   "Only in conversation views": "Sadece konuşma görünümü içindeyken",
-  "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.": "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
   "Topics": "Konular",
   "Add subscribers": "Abone ekle",
   "Subscribe": "Abone ol",

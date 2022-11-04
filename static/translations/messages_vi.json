@@ -1,4 +1,5 @@
 {
+  "Invisible mode": "Invisible mode",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  other {Tin nhắn này đã được<z-link> đọc</z-link> bởi {num_of_people} người:}}",
   "View read receipts": "Xem biên nhận đã đọc",
   "Failed to show read receipts": "Không hiển thị được biên nhận đã đọc",
@@ -300,7 +301,7 @@
   "Always": "Luôn luôn",
   "Never": "Không bao giờ",
   "Only in conversation views": "Chỉ trong chế độ xem cuộc trò chuyện",
-  "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.": "Tin nhắn sẽ được đánh dấu là đã đọc trong chế độ xem một chủ đề hoặc tin nhắn riêng tư, nhưng không được đánh dấu trong các chế độ xem xen kẽ, chẳng hạn như chế độ xem toàn bộ stream.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
   "Topics": "Chủ đề",
   "Add subscribers": "Thêm người đăng ký",
   "Subscribe": "Theo dõi",

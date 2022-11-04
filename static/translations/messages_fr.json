@@ -1,4 +1,5 @@
 {
+  "Invisible mode": "Invisible mode",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {Ce message a été<z-link> lis</z-link> par {num_of_people} personne :} many {Ce message a été<z-link> lis</z-link> par {num_of_people} personnes :} other {Ce message a été<z-link> lu</z-link> par {num_of_people} personnes :}}",
   "View read receipts": "Afficher les confirmations de lecture",
   "Failed to show read receipts": "Échec de l&#39;affichage des confirmations de lecture",
@@ -300,7 +301,7 @@
   "Always": "Toujours",
   "Never": "Jamais",
   "Only in conversation views": "Uniquement dans les vues de conversations",
-  "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.": "Les messages seront marqués comme lus dans les vues à sujet unique ou les messages privés, mais pas dans les vues entrelacées, telles que les vues de canaux entiers.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
   "Topics": "Sujets",
   "Add subscribers": "Ajouter des abonnés",
   "Subscribe": "S'abonner",

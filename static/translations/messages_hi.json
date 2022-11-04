@@ -1,4 +1,5 @@
 {
+  "Invisible mode": "Invisible mode",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:} other {This message has been <z-link>read</z-link> by {num_of_people} people:}}",
   "View read receipts": "View read receipts",
   "Failed to show read receipts": "Failed to show read receipts",
@@ -300,7 +301,7 @@
   "Always": "Always",
   "Never": "Never",
   "Only in conversation views": "Only in conversation views",
-  "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.": "Messages will be marked as read in single-topic or private-message views, but not in interleaved views, such as whole-stream views.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
   "Topics": "सभी विषय",
   "Add subscribers": "ग्राहक जोड़ें",
   "Subscribe": "सदस्यता लें",
