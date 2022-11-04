@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import type { ImageSource } from 'react-native/Libraries/Image/ImageSource';
+
 import type { Auth } from '../api/transportTypes';
 import { getAuthHeaders } from '../api/transport';
 import { objectEntries } from '../flowPonyfill';
@@ -112,20 +114,28 @@ export const isUrlOnRealm = (url: string, realm: URL): boolean => {
   return parsedUrl ? parsedUrl.origin === realm.origin : false;
 };
 
-const getResourceWithAuth = (uri: string, auth: Auth) => ({
-  uri: new URL(uri, auth.realm).toString(),
+const getResourceWithAuth = (url: string, auth: Auth) => ({
+  uri: new URL(url, auth.realm).toString(),
   headers: getAuthHeaders(auth),
 });
 
-const getResourceNoAuth = (uri: string) => ({
-  uri,
+const getResourceNoAuth = (url: string) => ({
+  uri: url,
 });
 
-export const getResource = (
-  uri: string,
-  auth: Auth,
-): {| uri: string, headers?: {| [string]: string |} |} =>
-  isUrlOnRealm(uri, auth.realm) ? getResourceWithAuth(uri, auth) : getResourceNoAuth(uri);
+/**
+ * From a URL string and an Auth, give RN's ImageSource type.
+ *
+ * ImageSource is what React Native's `Image` component expects for its
+ * `source` prop: https://reactnative.dev/docs/0.67/image#imagesource
+ *
+ * It's also what react-native-photo-view is documented as expecting for its
+ * `source` prop: https://github.com/alwx/react-native-photo-view#properties
+ *
+ * > source | Object | same as source for other React images
+ */
+export const getResource = (url: string, auth: Auth): ImageSource =>
+  isUrlOnRealm(url, auth.realm) ? getResourceWithAuth(url, auth) : getResourceNoAuth(url);
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();
 
