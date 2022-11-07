@@ -10,22 +10,22 @@ import Screen from '../common/Screen';
 import { doNarrow, navigateBack } from '../actions';
 import { pmNarrowFromRecipients } from '../utils/narrow';
 import { pmKeyRecipientsFromUsers } from '../utils/recipient';
-import UserPickerCard from '../user-picker/UserPickerCard';
+import UserPickerCard from './UserPickerCard';
 import { getOwnUserId } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
-  navigation: AppNavigationProp<'create-group'>,
-  route: RouteProp<'create-group', void>,
+  navigation: AppNavigationProp<'new-group-pm'>,
+  route: RouteProp<'new-group-pm', void>,
 |}>;
 
-export default function CreateGroupScreen(props: Props): Node {
+export default function NewGroupPmScreen(props: Props): Node {
   const { navigation } = props;
   const dispatch = useDispatch();
   const ownUserId = useSelector(getOwnUserId);
 
   const [filter, setFilter] = useState<string>('');
 
-  const handleCreateGroup = useCallback(
+  const handlePickerComplete = useCallback(
     (selected: $ReadOnlyArray<UserOrBot>) => {
       navigation.dispatch(navigateBack());
       dispatch(doNarrow(pmNarrowFromRecipients(pmKeyRecipientsFromUsers(selected, ownUserId))));
@@ -35,7 +35,7 @@ export default function CreateGroupScreen(props: Props): Node {
 
   return (
     <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
-      <UserPickerCard filter={filter} onComplete={handleCreateGroup} showOwnUser={false} />
+      <UserPickerCard filter={filter} onComplete={handlePickerComplete} showOwnUser={false} />
     </Screen>
   );
 }

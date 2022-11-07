@@ -72,7 +72,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New group PM"
           onPress={() => {
-            setTimeout(() => navigation.push('create-group'));
+            setTimeout(() => navigation.push('new-group-pm'));
           }}
         />
       </View>
