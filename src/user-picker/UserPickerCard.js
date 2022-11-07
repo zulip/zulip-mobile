@@ -14,7 +14,7 @@ import { IconDone } from '../common/Icons';
 import UserList from '../users/UserList';
 import AvatarList from './AvatarList';
 import AnimatedScaleComponent from '../animation/AnimatedScaleComponent';
-import { getUsers, getPresence } from '../selectors';
+import { getUsers } from '../selectors';
 import { getOwnUserId } from '../users/userSelectors';
 
 const styles = createStyleSheet({
@@ -51,7 +51,6 @@ export default function UserPickerCard(props: Props): Node {
   const { filter, showOwnUser } = props;
 
   const users = useSelector(state => getUsersToShow(state, showOwnUser));
-  const presences = useSelector(getPresence);
 
   const [selectedState, setSelectedState] = useState<$ReadOnlyArray<UserOrBot>>([]);
   const listRef = useRef<FlatList<UserOrBot> | null>(null);
@@ -80,7 +79,6 @@ export default function UserPickerCard(props: Props): Node {
       <UserList
         filter={filter}
         users={users}
-        presences={presences}
         selected={selectedState}
         onPress={(user: UserOrBot) => {
           setSelectedState(state => {

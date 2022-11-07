@@ -9,7 +9,7 @@ import UserList from '../users/UserList';
 import type { UserOrBot } from '../types';
 import { useSelector, useDispatch } from '../react-redux';
 import { pm1to1NarrowFromUser } from '../utils/narrow';
-import { getUsers, getPresence } from '../selectors';
+import { getUsers } from '../selectors';
 import { navigateBack, doNarrow } from '../actions';
 import { useNavigation } from '../react-navigation';
 
@@ -21,7 +21,6 @@ type Props = $ReadOnly<{|
 export default function New1to1PmScreen(props: Props): Node {
   const dispatch = useDispatch();
   const users = useSelector(getUsers);
-  const presences = useSelector(getPresence);
 
   const navigation = useNavigation();
   const handleUserNarrow = useCallback(
@@ -36,7 +35,7 @@ export default function New1to1PmScreen(props: Props): Node {
 
   return (
     <Screen search scrollEnabled={false} searchBarOnChange={setFilter}>
-      <UserList users={users} filter={filter} presences={presences} onPress={handleUserNarrow} />
+      <UserList users={users} filter={filter} onPress={handleUserNarrow} />
     </Screen>
   );
 }

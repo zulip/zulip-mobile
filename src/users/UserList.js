@@ -4,13 +4,14 @@ import type { Node } from 'react';
 import { SectionList } from 'react-native';
 import { useSelector } from '../react-redux';
 
-import type { PresenceState, UserOrBot } from '../types';
+import type { UserOrBot } from '../types';
 import { createStyleSheet } from '../styles';
 import SectionHeader from '../common/SectionHeader';
 import SearchEmptyState from '../common/SearchEmptyState';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 import { getMutedUsers } from '../selectors';
+import { getPresence } from '../directSelectors';
 
 const styles = createStyleSheet({
   list: {
@@ -22,13 +23,14 @@ type Props = $ReadOnly<{|
   filter: string,
   users: $ReadOnlyArray<UserOrBot>,
   selected?: $ReadOnlyArray<UserOrBot>,
-  presences: PresenceState,
   onPress: (user: UserOrBot) => void,
 |}>;
 
 export default function UserList(props: Props): Node {
-  const { filter, users, presences, onPress, selected = [] } = props;
+  const { filter, users, onPress, selected = [] } = props;
   const mutedUsers = useSelector(getMutedUsers);
+  const presences = useSelector(getPresence);
+
   const filteredUsers = filterUserList(users, filter).filter(user => !mutedUsers.has(user.user_id));
 
   if (filteredUsers.length === 0) {
