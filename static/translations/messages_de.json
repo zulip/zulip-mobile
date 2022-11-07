@@ -1,5 +1,5 @@
 {
-  "Invisible mode": "Invisible mode",
+  "Invisible mode": "Unsichtbarkeitsmodus",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {Diese Nachricht wurde von {num_of_people} Person <z-link>gelesen</z-link>:} other {Diese Nachricht wurde von {num_of_people} Personen <z-link>gelesen</z-link>:}}",
   "View read receipts": "Empfangsbestätigungen anzeigen",
   "Failed to show read receipts": "Konnte Empfangsbestätigungen nicht anzeigen",
@@ -301,7 +301,7 @@
   "Always": "Immer",
   "Never": "Nie",
   "Only in conversation views": "Nur bei Ansicht einer bestimmten Unterhaltung",
-  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Nachrichten werden automatisch als gelesen markiert, wenn ein einzelnes Thema oder eine einzelne Unterhaltung in den Privatnachrichten betrachtet wird.",
   "Topics": "Themen",
   "Add subscribers": "Abonnenten hinzufügen",
   "Subscribe": "Abonnieren",

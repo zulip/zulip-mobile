@@ -1,5 +1,5 @@
 {
-  "Invisible mode": "Invisible mode",
+  "Invisible mode": "Режим невидимости",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {Это сообщение <z-link>прочитал</z-link> {num_of_people} человек:} few {Это сообщение <z-link>прочло</z-link> {num_of_people} человека:} many {Это сообщение <z-link>прочло</z-link> {num_of_people} человек:} other {Это сообщение <z-link>прочло</z-link> {num_of_people} человек:}}",
   "View read receipts": "Показать подтверждения о прочтении",
   "Failed to show read receipts": "Не удалось показать подтверждения о прочтении",
@@ -301,7 +301,7 @@
   "Always": "Всегда",
   "Never": "Никогда",
   "Only in conversation views": "Только при показе определенной беседы",
-  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Messages will be automatically marked as read only when viewing a single topic or private message conversation.",
+  "Messages will be automatically marked as read only when viewing a single topic or private message conversation.": "Сообщения автоматически отмечаются как прочитанные, когда просматривается одна конкретная тема или одна конкретная беседа в личных сообщениях.",
   "Topics": "Темы",
   "Add subscribers": "Добавить подписчиков",
   "Subscribe": "Подписаться",
