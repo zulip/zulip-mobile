@@ -74,9 +74,6 @@ android/build/
 # Expo
 .expo/
 
-# Transifex, for a maintainer syncing translations up and down
-/.transifexrc
-
 # Android release builds
 *.keystore
 *.keystore.gpg

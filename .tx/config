@@ -1,8 +1,8 @@
 [main]
 host = https://www.transifex.com
 
-[zulip.mobile]
-source_file = static/translations/messages_en.json
-source_lang = en
-type = KEYVALUEJSON
+[o:zulip:p:zulip:r:mobile]
+type        = KEYVALUEJSON
 file_filter = static/translations/messages_<lang>.json
+source_lang = en
+source_file = static/translations/messages_en.json

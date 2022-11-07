@@ -139,7 +139,7 @@ fi
 err_echo
 err_echo 'Step 3: Upload strings to translate...'
 
-run_visibly tx --quiet push -s
+run_visibly tx push --silent
 run_visibly tools/tx-pull
 
 git_update_index

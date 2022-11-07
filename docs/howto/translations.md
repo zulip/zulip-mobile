@@ -214,20 +214,28 @@ to provide to our translators to translate.
 
 You'll want Transifex's CLI client, `tx`.
 
-* Install in your homedir with `pip3 install --user transifex-client`.  Or
-  you can use your Zulip dev server virtualenv, which has it.
+* Install according to [Transifex's instructions][tx-cli-installation].
 
-* Configure a `.transifexrc` with your API token.  See [upstream
-  instructions](https://docs.transifex.com/client/client-configuration#transifexrc).
+* Configure a `.transifexrc` with your API token.
 
-  This can go either in your homedir, or in your working tree to make
-  the configuration apply only locally; it's already ignored in our
-  `.gitignore`.
+  * First, get your Transifex API token.  See [upstream
+    instructions][tx-api-auth].
+
+  * Then, create a `~/.transifexrc` file in your homedir, in the
+    following format:
+
+    ```
+    [https://www.transifex.com]
+    rest_hostname = https://rest.api.transifex.com
+    token         = YOUR_TOKEN_HERE
+    ```
 
 * You'll need to be added [as a "maintainer"][tx-zulip-maintainers] to
   the Zulip project on Transifex.  (Upstream [recommends
   this][tx-docs-maintainers] as the set of permissions on a Transifex
   project needed for interacting with it as a developer.)
 
+[tx-cli-installation]: https://developers.transifex.com/docs/cli#installation
+[tx-api-auth]: https://developers.transifex.com/reference/api-authentication
 [tx-zulip-maintainers]: https://www.transifex.com/zulip/zulip/settings/maintainers/
 [tx-docs-maintainers]: https://docs.transifex.com/teams/understanding-user-roles#project-maintainers
