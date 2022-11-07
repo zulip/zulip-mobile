@@ -80,10 +80,6 @@ declare module '../../static/translations/messages_fr.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_fr_FR.json' {
-  declare export default {| [string]: string |};
-}
-
 declare module '../../static/translations/messages_gl.json' {
   declare export default {| [string]: string |};
 }
@@ -97,10 +93,6 @@ declare module '../../static/translations/messages_hi.json' {
 }
 
 declare module '../../static/translations/messages_hr.json' {
-  declare export default {| [string]: string |};
-}
-
-declare module '../../static/translations/messages_hr_HR.json' {
   declare export default {| [string]: string |};
 }
 
@@ -137,10 +129,6 @@ declare module '../../static/translations/messages_mn.json' {
 }
 
 declare module '../../static/translations/messages_my.json' {
-  declare export default {| [string]: string |};
-}
-
-declare module '../../static/translations/messages_nb_NO.json' {
   declare export default {| [string]: string |};
 }
 
