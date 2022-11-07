@@ -63,7 +63,7 @@ export default function PmConversationsScreen(props: Props): Node {
           style={styles.button}
           text="New PM"
           onPress={() => {
-            setTimeout(() => navigation.push('users'));
+            setTimeout(() => navigation.push('new-1to1-pm'));
           }}
         />
         <ZulipButton
