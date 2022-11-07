@@ -11,5 +11,8 @@ export const DEFAULT_CAUGHTUP: CaughtUp = {
 
 export const getCaughtUp = (state: PerAccountState): CaughtUpState => state.caughtUp || NULL_OBJECT;
 
+export const getCaughtUpForNarrowInner = (state: CaughtUpState, narrow: Narrow): CaughtUp =>
+  state[keyFromNarrow(narrow)] || DEFAULT_CAUGHTUP;
+
 export const getCaughtUpForNarrow = (state: PerAccountState, narrow: Narrow): CaughtUp =>
-  getCaughtUp(state)[keyFromNarrow(narrow)] || DEFAULT_CAUGHTUP;
+  getCaughtUpForNarrowInner(getCaughtUp(state), narrow);

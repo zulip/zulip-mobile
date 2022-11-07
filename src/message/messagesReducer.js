@@ -23,12 +23,13 @@ import {
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
 } from '../actionConstants';
-import { getNarrowsForMessage, keyFromNarrow } from '../utils/narrow';
+import { getNarrowsForMessage } from '../utils/narrow';
 import * as logging from '../utils/logging';
 import { getStreamsById } from '../selectors';
 import type { MessageEdit } from '../api/modelTypes';
 import type { ReadWrite } from '../generics';
 import type { MessageMove } from '../api/misc';
+import { getCaughtUpForNarrowInner } from '../caughtup/caughtUpSelectors';
 
 const initialState: MessagesState = Immutable.Map([]);
 
@@ -49,12 +50,9 @@ const eventNewMessage = (state, action) => {
   }
 
   const narrowsForMessage = getNarrowsForMessage(message, action.ownUserId, flags);
-  const anyNarrowIsCaughtUp = narrowsForMessage.some(narrow => {
-    const key = keyFromNarrow(narrow);
-    // (No guarantee that `key` is in `action.caughtUp`)
-    // flowlint-next-line unnecessary-optional-chain:off
-    return caughtUp[key]?.newer;
-  });
+  const anyNarrowIsCaughtUp = narrowsForMessage.some(
+    narrow => getCaughtUpForNarrowInner(caughtUp, narrow).newer,
+  );
 
   // Don't bother adding the message to `state.messages` if it wasn't
   // added to `state.narrows`. For why the message might not have been

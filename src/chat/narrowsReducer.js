@@ -28,6 +28,7 @@ import {
   topicNarrow,
   streamNarrow,
 } from '../utils/narrow';
+import { getCaughtUpForNarrowInner } from '../caughtup/caughtUpSelectors';
 
 const initialState: NarrowsState = Immutable.Map();
 
@@ -110,9 +111,7 @@ const eventNewMessage = (state, action) => {
         return; // i.e., continue
       }
 
-      // (No guarantee that `key` is in `action.caughtUp`)
-      // flowlint-next-line unnecessary-optional-chain:off
-      if (!action.caughtUp[key]?.newer) {
+      if (!getCaughtUpForNarrowInner(action.caughtUp, narrow).newer) {
         // Don't add a message to the end of the list unless we know
         // it's the most recent message, i.e., unless we know we're
         // currently looking at (caught up with) the newest messages
