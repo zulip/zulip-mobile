@@ -29,6 +29,7 @@ import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
 import { useConditionalEffect } from '../reactUtils';
+import { useStartEditTopic } from '../boot/TopicEditModalProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -132,6 +133,7 @@ export default function ChatScreen(props: Props): Node {
     (value: EditMessage | null) => navigation.setParams({ editMessage: value }),
     [navigation],
   );
+  const startEditTopic = useStartEditTopic();
 
   const isNarrowValid = useSelector(state => getIsNarrowValid(state, narrow));
   const draft = useSelector(state => getDraftForNarrow(state, narrow));
@@ -219,6 +221,7 @@ export default function ChatScreen(props: Props): Node {
               }
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
+              startEditTopic={startEditTopic}
             />
           );
         }
