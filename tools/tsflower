@@ -170,6 +170,10 @@ run_only()
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
 
+    package=@react-native-camera-roll/camera-roll
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
     for package in @react-navigation/{routers,core,native,stack,bottom-tabs,material-top-tabs}; do
         run_on_package "${package}"
         # TODO(tsflower): skip node_modules when acting on package,

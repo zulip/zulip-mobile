@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import { Platform, PermissionsAndroid } from 'react-native';
 import type { Rationale } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
-// $FlowFixMe[untyped-import] - TODO type this
-import CameraRoll from '@react-native-camera-roll/camera-roll';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import RNFetchBlob from 'rn-fetch-blob';
 import invariant from 'invariant';
 

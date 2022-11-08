@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 8 Nov 2022 13:02:55 -0800
+Subject: [tsflower] camera-roll: Mark statics as static
+
+Seems like TsFlower is just not propagating the `static` modifier.
+Should be easy to fix, then.
+---
+ .../lib/typescript/CameraRoll.js.flow         | 21 +++++++++++--------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
+index 525cabed3..707a2fc94 100644
+--- types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
++++ types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
+@@ -81,27 +81,30 @@ export type Album = {
+ };
+ 
+ declare export class CameraRoll {
+-  GroupTypesOptions: {
++  static GroupTypesOptions: {
+     Album: string,
+     All: string,
+     Event: string,
+     Faces: string,
+     Library: string,
+     PhotoStream: string,
+     SavedPhotos: string,
+     ...
+   };
+-  AssetTypeOptions: {
++  static AssetTypeOptions: {
+     All: string,
+     Videos: string,
+     Photos: string,
+     ...
+   };
+-  deletePhotos(photoUris: Array<string>): void;
+-  save(tag: string, options?: SaveToCameraRollOptions): Promise<string>;
+-  saveToCameraRoll(tag: string, type?: 'photo' | 'video' | 'auto'): Promise<string>;
+-  getAlbums(params?: GetAlbumsParams): Promise<Album[]>;
+-  getParamsWithDefaults(params: GetPhotosParams): GetPhotosParams;
+-  getPhotos(params: GetPhotosParams): Promise<PhotoIdentifiersPage>;
+-  iosGetImageDataById(internalID: string, convertHeicImages?: boolean): Promise<PhotoIdentifier>;
++  static deletePhotos(photoUris: Array<string>): void;
++  static save(tag: string, options?: SaveToCameraRollOptions): Promise<string>;
++  static saveToCameraRoll(tag: string, type?: 'photo' | 'video' | 'auto'): Promise<string>;
++  static getAlbums(params?: GetAlbumsParams): Promise<Album[]>;
++  static getParamsWithDefaults(params: GetPhotosParams): GetPhotosParams;
++  static getPhotos(params: GetPhotosParams): Promise<PhotoIdentifiersPage>;
++  static iosGetImageDataById(
++    internalID: string,
++    convertHeicImages?: boolean,
++  ): Promise<PhotoIdentifier>;
+ }
+-- 
+2.32.0
+
