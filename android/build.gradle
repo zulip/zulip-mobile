@@ -41,6 +41,9 @@ allprojects {
             // from a local Maven repo inside node_modules/react-native/.
             // (The use of exclusiveContent prevents looking elsewhere like Maven Central
             // and potentially getting a wrong version.)
+
+            // TODO(react-native-71): This whole local Maven repo will be obsolete; delete it.
+            //   See: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/build.20failure.3A.20libfbjni.2Eso.20duplicated/near/1460666
             filter {
                 includeGroup "com.facebook.react"
             }
