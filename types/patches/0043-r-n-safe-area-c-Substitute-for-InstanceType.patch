@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 8 Nov 2022 13:50:31 -0800
+Subject: [???] r-n-safe-area-c: Substitute for InstanceType
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is an accurate substitution whenever the operand is a React
+component type (a subtype of React.AbstractComponent<…>, in Flow
+terms), which this one is.
+
+I'm not sure how to write a good substitution for InstanceType in
+general.
+---
+ .../lib/typescript/SafeAreaView.js.flow                         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git types/react-native-safe-area-context/lib/typescript/SafeAreaView.js.flow types/react-native-safe-area-context/lib/typescript/SafeAreaView.js.flow
+index 679c3bcbe..a200f9291 100644
+--- types/react-native-safe-area-context/lib/typescript/SafeAreaView.js.flow
++++ types/react-native-safe-area-context/lib/typescript/SafeAreaView.js.flow
+@@ -9,7 +9,7 @@ import type {
+ import * as React from 'react';
+ import { type NativeSafeAreaViewProps } from './SafeArea.types';
+ import NativeSafeAreaView from './specs/NativeSafeAreaView';
+-type NativeSafeAreaViewInstance = InstanceType<typeof NativeSafeAreaView>;
++type NativeSafeAreaViewInstance = React.ElementRef<typeof NativeSafeAreaView>;
+ export type SafeAreaViewProps = NativeSafeAreaViewProps;
+ declare export var SafeAreaView: $tsflower_subst$React$ForwardRefExoticComponent<
+   SafeAreaViewProps & $tsflower_subst$React$RefAttributes<NativeSafeAreaViewInstance>,
+-- 
+2.32.0
+

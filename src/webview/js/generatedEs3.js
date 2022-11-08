@@ -17,17 +17,14 @@ var compiledWebviewJs = (function (exports) {
 
   function ownKeys(object, enumerableOnly) {
     var keys = Object.keys(object);
-
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
       enumerableOnly && (symbols = symbols.filter(function (sym) {
         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
       })), keys.push.apply(keys, symbols);
     }
-
     return keys;
   }
-
   function _objectSpread2(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
@@ -37,10 +34,8 @@ var compiledWebviewJs = (function (exports) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
-
     return target;
   }
-
   function _defineProperty(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
@@ -52,7 +47,6 @@ var compiledWebviewJs = (function (exports) {
     } else {
       obj[key] = value;
     }
-
     return obj;
   }
 
@@ -66,7 +60,6 @@ var compiledWebviewJs = (function (exports) {
     const match = /<div id="message-loading" class="(?:hidden)?">/.exec(content);
     return match !== null ? match[0] : null;
   };
-
   class InboundEventLogger {
     static scrubInboundEvent(event) {
       switch (event.type) {
@@ -80,7 +73,6 @@ var compiledWebviewJs = (function (exports) {
               scrollStrategy: event.scrollStrategy
             };
           }
-
         case 'fetching':
           {
             return {
@@ -90,7 +82,6 @@ var compiledWebviewJs = (function (exports) {
               fetchingNewer: event.fetchingNewer
             };
           }
-
         case 'typing':
           {
             return {
@@ -98,14 +89,12 @@ var compiledWebviewJs = (function (exports) {
               content: event.content !== ''
             };
           }
-
         case 'ready':
           {
             return {
               type: event.type
             };
           }
-
         case 'set-read':
           {
             return {
@@ -114,7 +103,6 @@ var compiledWebviewJs = (function (exports) {
               messageIds: event.messageIds
             };
           }
-
         default:
           {
             return {
@@ -123,39 +111,31 @@ var compiledWebviewJs = (function (exports) {
           }
       }
     }
-
     constructor() {
       this._isCapturing = false;
       this._capturedInboundEventItems = [];
     }
-
     startCapturing() {
       if (this._isCapturing) {
         throw new Error('InboundEventLogger: Tried to call startCapturing while already capturing.');
       } else if (this._capturedInboundEventItems.length > 0 || this._captureEndTime !== undefined) {
         throw new Error('InboundEventLogger: Tried to call startCapturing before resetting.');
       }
-
       this._isCapturing = true;
       this._captureStartTime = Date.now();
     }
-
     stopCapturing() {
       if (!this._isCapturing) {
         throw new Error('InboundEventLogger: Tried to call stopCapturing while not capturing.');
       }
-
       this._isCapturing = false;
       this._captureEndTime = Date.now();
     }
-
     send() {
       var _this$_captureStartTi, _this$_captureEndTime;
-
       if (this._isCapturing) {
         throw new Error('InboundEventLogger: Tried to send captured events while still capturing.');
       }
-
       sendMessage({
         type: 'warn',
         details: {
@@ -165,14 +145,12 @@ var compiledWebviewJs = (function (exports) {
         }
       });
     }
-
     reset() {
       this._captureStartTime = undefined;
       this._captureEndTime = undefined;
       this._capturedInboundEventItems = [];
       this._isCapturing = false;
     }
-
     maybeCaptureInboundEvent(event) {
       if (this._isCapturing) {
         const item = {
@@ -180,17 +158,16 @@ var compiledWebviewJs = (function (exports) {
           timestamp: Date.now(),
           scrubbedEvent: InboundEventLogger.scrubInboundEvent(event)
         };
-
         this._capturedInboundEventItems.push(item);
       }
     }
-
   }
 
   const inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(r => new RegExp(r));
 
   const rewriteImageUrls = (auth, element) => {
     const realm = auth.realm;
+
     const imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(img => {
       const actualSrc = img.getAttribute('src');
@@ -200,7 +177,6 @@ var compiledWebviewJs = (function (exports) {
       }
 
       let fixedSrc;
-
       try {
         fixedSrc = new URL(actualSrc, realm);
       } catch (_unused) {
@@ -231,7 +207,6 @@ var compiledWebviewJs = (function (exports) {
       if (!(elem instanceof HTMLTimeElement)) {
         return;
       }
-
       const timeStamp = elem.dateTime;
       const text = elem.innerText;
       const d = new Date(timeStamp);
@@ -247,7 +222,6 @@ var compiledWebviewJs = (function (exports) {
     const spoilerHeaders = element.querySelectorAll('div.spoiler-header');
     spoilerHeaders.forEach(e => {
       const toggle_button_html = '<span class="spoiler-button" aria-expanded="false"><span class="spoiler-arrow"></span></span>';
-
       if (e.innerText === '') {
         const header_html = '<p>Spoiler</p>';
         e.innerHTML = toggle_button_html + header_html;
@@ -266,6 +240,7 @@ var compiledWebviewJs = (function (exports) {
 
   const collapseSpoiler = spoiler => {
     const computedHeight = getComputedStyle(spoiler).height;
+
     requestAnimationFrame(() => {
       spoiler.style.height = computedHeight;
       spoiler.classList.remove('spoiler-content-open');
@@ -279,38 +254,34 @@ var compiledWebviewJs = (function (exports) {
     const spoilerHeight = spoiler.scrollHeight;
     spoiler.style.height = "".concat(spoilerHeight, "px");
     spoiler.classList.add('spoiler-content-open');
-
     const callback = () => {
       spoiler.removeEventListener('transitionend', callback);
       spoiler.style.height = '';
     };
-
     spoiler.addEventListener('transitionend', callback);
   };
 
   const toggleSpoiler = spoilerHeader => {
     const spoilerBlock = spoilerHeader.parentElement;
-
     if (!spoilerBlock) {
       return;
     }
-
     const button = spoilerHeader.querySelector('.spoiler-button');
     const arrow = spoilerBlock.querySelector('.spoiler-arrow');
     const spoilerContent = spoilerBlock.querySelector('.spoiler-content');
-
     if (!arrow || !button || !spoilerContent) {
       console.warn('Malformed spoiler block');
       return;
     }
-
     if (spoilerContent.classList.contains('spoiler-content-open')) {
       arrow.classList.remove('spoiler-button-open');
+
       button.setAttribute('aria-expanded', 'false');
       spoilerContent.setAttribute('aria-hidden', 'true');
       collapseSpoiler(spoilerContent);
     } else {
       arrow.classList.add('spoiler-button-open');
+
       button.setAttribute('aria-expanded', 'true');
       spoilerContent.setAttribute('aria-hidden', 'false');
       expandSpoiler(spoilerContent);
@@ -318,27 +289,21 @@ var compiledWebviewJs = (function (exports) {
   };
 
   const documentBody = document.body;
-
   if (!documentBody) {
     throw new Error('No document.body element!');
   }
-
   const msglistElementsDiv = document.querySelector('div#msglist-elements');
-
   if (!msglistElementsDiv) {
     throw new Error('No div#msglist-elements element!');
   }
-
   const escapeHtml = text => {
     const element = document.createElement('div');
     element.innerText = text;
     return element.innerHTML;
   };
-
   window.onerror = (message, source, line, column, error) => {
     if (isDevelopment) {
       const elementJsError = document.getElementById('js-error-detailed');
-
       if (elementJsError) {
         elementJsError.innerHTML = ["Message: ".concat(message), "Source: ".concat(source), "Line: ".concat(line, ":").concat(column), "Error: ".concat(JSON.stringify(error)), ''].map(escapeHtml).join('<br>');
       }
@@ -346,14 +311,12 @@ var compiledWebviewJs = (function (exports) {
       const elementJsError = document.getElementById('js-error-plain');
       const elementSheetGenerated = document.getElementById('generated-styles');
       const elementSheetHide = document.getElementById('style-hide-js-error-plain');
-
       if (elementJsError && elementSheetGenerated && elementSheetHide && elementSheetHide instanceof HTMLStyleElement && elementSheetHide.sheet && elementSheetGenerated instanceof HTMLStyleElement && elementSheetGenerated.sheet) {
         elementSheetHide.sheet.disabled = true;
         const height = elementJsError.offsetHeight;
         elementSheetGenerated.sheet.insertRule(".header-wrapper { top: ".concat(height, "px; }"), 0);
       }
     }
-
     const userAgent = window.navigator.userAgent;
     sendMessage({
       type: 'error',
@@ -368,23 +331,18 @@ var compiledWebviewJs = (function (exports) {
     });
     return true;
   };
-
   const eventLogger = new InboundEventLogger();
   eventLogger.startCapturing();
   setTimeout(() => {
     const placeholdersDiv = document.getElementById('message-loading');
     eventLogger.stopCapturing();
-
     if (placeholdersDiv && !placeholdersDiv.classList.contains('hidden')) {
       eventLogger.send();
     }
-
     eventLogger.reset();
   }, 10000);
-
   const showHideElement = (elementId, show) => {
     const element = document.getElementById(elementId);
-
     if (element) {
       element.classList.toggle('hidden', !show);
     }
@@ -394,8 +352,8 @@ var compiledWebviewJs = (function (exports) {
   window.addEventListener('resize', event => {
     const heightChange = documentBody.clientHeight - viewportHeight;
     viewportHeight = documentBody.clientHeight;
-    const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
 
+    const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
     if (documentBody.scrollTop >= maxScrollTop - 1) {
       return;
     }
@@ -407,23 +365,20 @@ var compiledWebviewJs = (function (exports) {
   });
 
   function midMessageListElement(top, bottom) {
+
     const midY = (bottom + top) / 2;
     const midElements = document.elementsFromPoint(0, midY);
-
     if (midElements.length < 4) {
       return null;
     }
-
     return midElements[midElements.length - 4];
   }
 
   function walkToMessage(start, step) {
     let element = start;
-
     while (element && !element.classList.contains('message')) {
       element = element[step];
     }
-
     return element;
   }
 
@@ -458,7 +413,6 @@ var compiledWebviewJs = (function (exports) {
     function checkVisible(candidate) {
       return candidate && isVisible(candidate, top, bottom) ? candidate : null;
     }
-
     const midElement = midMessageListElement(top, bottom);
     return checkVisible(walkToMessage(midElement, 'previousElementSibling')) || checkVisible(walkToMessage(midElement, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
   }
@@ -469,25 +423,22 @@ var compiledWebviewJs = (function (exports) {
     }
 
     const visible = someVisibleMessage(top, bottom);
-
     if (!visible) {
       return visible;
     }
-
     return checkReadAndVisible(visible) || checkReadAndVisible(previousMessage(visible));
   }
 
   function idFromMessage(element) {
     const idStr = element.getAttribute('data-msg-id');
-
     if (idStr === null || idStr === undefined) {
       throw new Error('Bad message element');
     }
-
     return +idStr;
   }
 
   function visibleReadMessageIds() {
+
     const top = 0;
     const bottom = viewportHeight;
     let first = Number.MAX_SAFE_INTEGER;
@@ -495,18 +446,15 @@ var compiledWebviewJs = (function (exports) {
 
     function walkElements(start, step) {
       let element = start;
-
       while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
         if (element.classList.contains('message')) {
           const id = idFromMessage(element);
           first = Math.min(first, id);
           last = Math.max(last, id);
         }
-
         element = element[step];
       }
     }
-
     const start = someVisibleReadMessage(top, bottom);
     walkElements(start, 'nextElementSibling');
     walkElements(start, 'previousElementSibling');
@@ -524,22 +472,18 @@ var compiledWebviewJs = (function (exports) {
 
   const setMessagesReadAttributes = rangeHull => {
     let element = document.querySelector("[data-msg-id='".concat(rangeHull.first, "']"));
-
     while (element) {
       if (element.classList.contains('message')) {
         element.setAttribute('data-read', 'true');
-
         if (idFromMessage(element) >= rangeHull.last) {
           break;
         }
       }
-
       element = element.nextElementSibling;
     }
   };
 
   let prevMessageRange = visibleReadMessageIds();
-
   const sendScrollMessage = () => {
     const messageRange = visibleReadMessageIds();
     const rangeHull = {
@@ -554,11 +498,9 @@ var compiledWebviewJs = (function (exports) {
       startMessageId: rangeHull.first,
       endMessageId: rangeHull.last
     });
-
     if (!doNotMarkMessagesAsRead) {
       setMessagesReadAttributes(rangeHull);
     }
-
     if (messageRange.first < messageRange.last) {
       prevMessageRange = messageRange;
     }
@@ -575,19 +517,15 @@ var compiledWebviewJs = (function (exports) {
   let longPressTimeout = undefined;
   let lastTouchPositionX = -1;
   let lastTouchPositionY = -1;
-
   const handleScrollEvent = () => {
     clearTimeout(longPressTimeout);
-
     if (scrollEventsDisabled) {
       return;
     }
-
     sendScrollMessage();
     const nearEnd = documentBody.offsetHeight - window.scrollY - window.innerHeight > 100;
     showHideElement('scroll-bottom', nearEnd);
   };
-
   window.addEventListener('scroll', handleScrollEvent);
 
   const scrollToBottom = () => {
@@ -597,18 +535,14 @@ var compiledWebviewJs = (function (exports) {
       behavior: 'smooth'
     });
   };
-
   const isNearBottom = () => documentBody.scrollHeight - 100 < documentBody.scrollTop + documentBody.clientHeight;
-
   const scrollToBottomIfNearEnd = () => {
     if (isNearBottom()) {
       scrollToBottom();
     }
   };
-
   const scrollToMessage = messageId => {
     const targetNode = messageId !== null ? document.getElementById("msg-".concat(messageId)) : null;
-
     if (targetNode) {
       targetNode.scrollIntoView({
         block: 'start'
@@ -623,13 +557,11 @@ var compiledWebviewJs = (function (exports) {
 
   const findPreserveTarget = () => {
     const message = someVisibleMessage(0, viewportHeight);
-
     if (!message) {
       return {
         type: 'none'
       };
     }
-
     const messageId = idFromMessage(message);
     const prevBoundRect = message.getBoundingClientRect();
     return {
@@ -641,11 +573,9 @@ var compiledWebviewJs = (function (exports) {
 
   const scrollToPreserve = (msgId, prevBoundTop) => {
     const newElement = document.getElementById("msg-".concat(msgId));
-
     if (!newElement) {
       return;
     }
-
     const newBoundRect = newElement.getBoundingClientRect();
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
@@ -660,42 +590,35 @@ var compiledWebviewJs = (function (exports) {
       fn();
     });
   };
-
   const handleInboundEventContent = uevent => {
     const {
       scrollStrategy
     } = uevent;
     let target;
-
     switch (scrollStrategy) {
       case 'none':
         target = {
           type: 'none'
         };
         break;
-
       case 'scroll-to-anchor':
         target = {
           type: 'anchor',
           messageId: uevent.scrollMessageId
         };
         break;
-
       case 'scroll-to-bottom-if-near-bottom':
         target = isNearBottom() ? {
           type: 'bottom'
         } : findPreserveTarget();
         break;
-
       case 'preserve-position':
         target = findPreserveTarget();
         break;
-
       default:
         target = findPreserveTarget();
         break;
     }
-
     msglistElementsDiv.innerHTML = uevent.content;
     rewriteHtml(uevent.auth);
     runAfterLayout(() => {
@@ -706,7 +629,6 @@ var compiledWebviewJs = (function (exports) {
       } else if (target.type === 'preserve') {
         scrollToPreserve(target.msgId, target.prevBoundTop);
       }
-
       sendScrollMessageIfListShort();
     });
   };
@@ -721,7 +643,6 @@ var compiledWebviewJs = (function (exports) {
     } else {
       document.addEventListener('message', handleMessageEvent);
     }
-
     scrollToMessage(scrollMessageId);
     rewriteHtml(auth);
     sendScrollMessageIfListShort();
@@ -733,22 +654,19 @@ var compiledWebviewJs = (function (exports) {
     showHideElement('spinner-older', uevent.fetchingOlder);
     showHideElement('spinner-newer', uevent.fetchingNewer);
   };
-
   const handleInboundEventTyping = uevent => {
     const elementTyping = document.getElementById('typing');
-
     if (elementTyping) {
       elementTyping.innerHTML = uevent.content;
       runAfterLayout(() => scrollToBottomIfNearEnd());
     }
   };
-
   let readyRetryInterval = undefined;
-
   const signalReadyForEvents = () => {
     sendMessage({
       type: 'ready'
     });
+
     readyRetryInterval = setInterval(() => {
       sendMessage({
         type: 'ready'
@@ -759,7 +677,6 @@ var compiledWebviewJs = (function (exports) {
   const handleInboundEventReady = uevent => {
     clearInterval(readyRetryInterval);
   };
-
   function setReadFlags(messageIds, value) {
     const selector = messageIds.map(id => "[data-msg-id=\\"".concat(id, "\\"]")).join(',');
     const messageElements = document.querySelectorAll(selector);
@@ -772,10 +689,8 @@ var compiledWebviewJs = (function (exports) {
     if (uevent.messageIds.length === 0) {
       return;
     }
-
     setReadFlags(uevent.messageIds, uevent.value);
   };
-
   const inboundEventHandlers = {
     content: handleInboundEventContent,
     fetching: handleInboundEventFetching,
@@ -802,34 +717,27 @@ var compiledWebviewJs = (function (exports) {
 
   const revealMutedMessages = message => {
     let messageNode = message;
-
     do {
       messageNode.setAttribute('data-mute-state', 'shown');
       messageNode = nextMessage(messageNode);
     } while (messageNode && messageNode.classList.contains('message-brief'));
   };
-
   const requireAttribute = (e, name) => {
     const value = e.getAttribute(name);
-
     if (value === null || value === undefined) {
       throw new Error("Missing expected attribute ".concat(name));
     }
-
     return value;
   };
 
   const requireNumericAttribute = (e, name) => {
     const value = requireAttribute(e, name);
     const parsedValue = parseInt(value, 10);
-
     if (Number.isNaN(parsedValue)) {
       throw new Error("Could not parse attribute ".concat(name, " value '").concat(value, "' as integer"));
     }
-
     return parsedValue;
   };
-
   documentBody.addEventListener('click', e => {
     e.preventDefault();
     clearTimeout(longPressTimeout);
@@ -838,20 +746,16 @@ var compiledWebviewJs = (function (exports) {
       hasLongPressed = false;
       return;
     }
-
     const {
       target
     } = e;
-
     if (!(target instanceof Element)) {
       return;
     }
-
     if (target.matches('.scroll-bottom')) {
       scrollToBottom();
       return;
     }
-
     if (target.matches('.avatar-img') || target.matches('.name-and-status-emoji')) {
       sendMessage({
         type: 'request-user-profile',
@@ -859,7 +763,6 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     if (target.matches('.header')) {
       sendMessage({
         type: 'narrow',
@@ -867,7 +770,6 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     if (target.matches('.user-mention')) {
       sendMessage({
         type: 'mention',
@@ -877,8 +779,8 @@ var compiledWebviewJs = (function (exports) {
     }
 
     const inlineImageLink = target.closest('.message_inline_image a');
-
-    if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
+    if (inlineImageLink
+    && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
       sendMessage({
         type: 'image',
         src: requireAttribute(inlineImageLink, 'href'),
@@ -886,7 +788,6 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     if (target.matches('.reaction')) {
       sendMessage({
         type: 'reaction',
@@ -898,14 +799,11 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     if (target.matches('.poll-vote')) {
       const messageElement = target.closest('.message');
-
       if (!messageElement) {
         throw new Error('Message element not found');
       }
-
       const current_vote = requireAttribute(target, 'data-voted') === 'true';
       const vote = current_vote ? -1 : 1;
       sendMessage({
@@ -918,7 +816,6 @@ var compiledWebviewJs = (function (exports) {
       target.innerText = (parseInt(target.innerText, 10) + vote).toString();
       return;
     }
-
     if (target.matches('time')) {
       const originalText = requireAttribute(target, 'original-text');
       sendMessage({
@@ -926,9 +823,7 @@ var compiledWebviewJs = (function (exports) {
         originalText
       });
     }
-
     const closestA = target.closest('a');
-
     if (closestA) {
       sendMessage({
         type: 'url',
@@ -937,26 +832,21 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     const spoilerHeader = target.closest('.spoiler-header');
-
     if (spoilerHeader instanceof HTMLElement) {
       toggleSpoiler(spoilerHeader);
       return;
     }
-
     const messageElement = target.closest('.message-brief');
-
     if (messageElement) {
       messageElement.getElementsByClassName('msg-timestamp')[0].classList.toggle('show');
       return;
     }
   });
-
   const handleLongPress = target => {
+
     hasLongPressed = true;
     const reactionNode = target.closest('.reaction');
-
     if (reactionNode) {
       sendMessage({
         type: 'reactionDetails',
@@ -968,12 +858,10 @@ var compiledWebviewJs = (function (exports) {
 
     const targetType = target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message';
     const messageNode = target.closest('.message');
-
     if (targetType === 'message' && messageNode && messageNode.getAttribute('data-mute-state') === 'hidden') {
       revealMutedMessages(messageNode);
       return;
     }
-
     sendMessage({
       type: 'longPress',
       target: targetType,
@@ -981,23 +869,19 @@ var compiledWebviewJs = (function (exports) {
       href: target.matches('a') ? requireAttribute(target, 'href') : null
     });
   };
-
   documentBody.addEventListener('touchstart', e => {
     const {
       target
     } = e;
-
     if (e.changedTouches[0].pageX < 20 || !(target instanceof Element)) {
       return;
     }
-
     lastTouchPositionX = e.changedTouches[0].pageX;
     lastTouchPositionY = e.changedTouches[0].pageY;
     hasLongPressed = false;
     clearTimeout(longPressTimeout);
     longPressTimeout = setTimeout(() => handleLongPress(target), 500);
   });
-
   const isNearPositions = function () {
     let x1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     let y1 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -1005,7 +889,6 @@ var compiledWebviewJs = (function (exports) {
     let y2 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
     return Math.abs(x1 - x2) < 10 && Math.abs(y1 - y2) < 10;
   };
-
   documentBody.addEventListener('touchend', e => {
     if (isNearPositions(lastTouchPositionX, lastTouchPositionY, e.changedTouches[0].pageX, e.changedTouches[0].pageY)) {
       clearTimeout(longPressTimeout);
@@ -1020,6 +903,7 @@ var compiledWebviewJs = (function (exports) {
   documentBody.addEventListener('drag', e => {
     clearTimeout(longPressTimeout);
   });
+
   signalReadyForEvents();
 
   exports.handleInitialLoad = handleInitialLoad;
