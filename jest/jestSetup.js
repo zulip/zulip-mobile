@@ -102,6 +102,11 @@ jest.mock('react-native-reanimated', () => {
 
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
+// We don't try to actually exercise this module in tests; we just test
+// some code in the same module as other code that imports it.  Unmocked,
+// it complains of missing native modules.
+jest.mock('@react-native-camera-roll/camera-roll', () => ({}));
+
 // Without this, we get lots of these errors on importing the module:
 // `Invariant Violation: Native module cannot be null.`
 jest.mock('@react-native-community/push-notification-ios', () => ({

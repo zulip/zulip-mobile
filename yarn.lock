@@ -2176,9 +2176,10 @@
   dependencies:
     merge-options "^3.0.4"
 
-"@react-native-community/cameraroll@chrisbobbe/react-native-cameraroll#17fa5d8d2":
-  version "4.0.4"
-  resolved "https://codeload.github.com/chrisbobbe/react-native-cameraroll/tar.gz/17fa5d8d2f4e00ec78304070a0b91292e884b7f5"
+"@react-native-camera-roll/camera-roll@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@react-native-camera-roll/camera-roll/-/camera-roll-5.0.4.tgz#341b8275363ee496b796fa58cb592697798d39e5"
+  integrity sha512-3kBRgW3VfmLQmQm70gPUVDu8rPSZymoPc9vmeiPLMKBqtWaqPNuPX0jQ6mZ8AEtYbBdoWC360Q4YYPalXv37zA==
 
 "@react-native-community/cli-debugger-ui@^6.0.0-rc.0":
   version "6.0.0"
@@ -16261,10 +16262,8 @@ watchpack@^1.6.1:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
