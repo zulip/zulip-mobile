@@ -79,6 +79,7 @@ type TopicArgs = {
   zulipFeatureLevel: number,
   dispatch: Dispatch,
   _: GetText,
+  startEditTopic: (streamId: number, topic: string) => void,
   ...
 };
 
@@ -168,6 +169,14 @@ const deleteMessage = {
     } else {
       await api.deleteMessage(auth, message.id);
     }
+  },
+};
+
+const editTopic = {
+  title: 'Edit topic',
+  errorMessage: 'Failed to edit topic',
+  action: ({ streamId, topic, startEditTopic }) => {
+    startEditTopic(streamId, topic);
   },
 };
 
@@ -532,8 +541,17 @@ export const constructTopicActionButtons = (args: {|
 
   const buttons = [];
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
+  const isAdmin = roleIsAtLeast(ownUserRole, Role.Admin);
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
+  }
+  // At present, the permissions for editing the topic of a message are highly complex.
+  // Until we move to a better set of policy options, we'll only display the edit topic
+  // button to admins.
+  // Issue: https://github.com/zulip/zulip/issues/21739
+  // Relevant comment: https://github.com/zulip/zulip-mobile/issues/5365#issuecomment-1197093294
+  if (isAdmin) {
+    buttons.push(editTopic);
   }
   if (isTopicMuted(streamId, topic, mute)) {
     buttons.push(unmuteTopic);
@@ -545,7 +563,7 @@ export const constructTopicActionButtons = (args: {|
   } else {
     buttons.push(unresolveTopic);
   }
-  if (roleIsAtLeast(ownUserRole, Role.Admin)) {
+  if (isAdmin) {
     buttons.push(deleteTopic);
   }
   const sub = subscriptions.get(streamId);
@@ -705,6 +723,7 @@ export const showTopicActionSheet = (args: {|
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   callbacks: {|
     dispatch: Dispatch,
+    startEditTopic: (streamId: number, topic: string) => void,
     _: GetText,
   |},
   backgroundData: $ReadOnly<{

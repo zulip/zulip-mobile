@@ -17,6 +17,7 @@ import AppEventHandlers from './boot/AppEventHandlers';
 import { initializeSentry } from './sentry';
 import ZulipSafeAreaProvider from './boot/ZulipSafeAreaProvider';
 import { OfflineNoticeProvider } from './boot/OfflineNoticeProvider';
+import TopicEditModalProvider from './boot/TopicEditModalProvider';
 
 initializeSentry();
 
@@ -79,9 +80,11 @@ export default function ZulipMobile(): Node {
                 <TranslationProvider>
                   <ThemeProvider>
                     <OfflineNoticeProvider>
-                      <ActionSheetProvider>
-                        <ZulipNavigationContainer />
-                      </ActionSheetProvider>
+                      <TopicEditModalProvider>
+                        <ActionSheetProvider>
+                          <ZulipNavigationContainer />
+                        </ActionSheetProvider>
+                      </TopicEditModalProvider>
                     </OfflineNoticeProvider>
                   </ThemeProvider>
                 </TranslationProvider>

@@ -169,6 +169,7 @@ type Props = $ReadOnly<{
   doNotMarkMessagesAsRead: boolean,
   showActionSheetWithOptions: ShowActionSheetWithOptions,
   startEditMessage: (editMessage: EditMessage) => void,
+  startEditTopic: (streamId: number, topic: string) => void,
   ...
 }>;
 
@@ -222,12 +223,19 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage } = props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    startEditMessage,
+    startEditTopic,
+  } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
       showTopicActionSheet({
         showActionSheetWithOptions,
-        callbacks: { dispatch, _ },
+        callbacks: { dispatch, startEditTopic, _ },
         backgroundData,
         streamId: message.stream_id,
         topic: message.subject,

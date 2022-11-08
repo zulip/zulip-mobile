@@ -46,6 +46,7 @@ type OuterProps = $ReadOnly<{|
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  startEditTopic: (streamId: number, topic: string) => void,
 |}>;
 
 type SelectorProps = {|

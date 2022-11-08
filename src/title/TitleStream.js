@@ -27,6 +27,7 @@ import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
+import { useStartEditTopic } from '../boot/TopicEditModalProvider';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
@@ -51,6 +52,7 @@ export default function TitleStream(props: Props): Node {
   const { narrow, color } = props;
   const dispatch = useDispatch();
   const stream = useSelector(state => getStreamInNarrow(state, narrow));
+  const startEditTopic = useStartEditTopic();
   const backgroundData = useSelector(state => ({
     auth: getAuth(state),
     mute: getMute(state),
@@ -75,7 +77,7 @@ export default function TitleStream(props: Props): Node {
           ? () => {
               showTopicActionSheet({
                 showActionSheetWithOptions,
-                callbacks: { dispatch, _ },
+                callbacks: { dispatch, startEditTopic, _ },
                 backgroundData,
                 streamId: stream.stream_id,
                 topic: topicOfNarrow(narrow),

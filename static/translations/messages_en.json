@@ -350,5 +350,10 @@
   "Copy link to stream": "Copy link to stream",
   "Failed to copy stream link": "Failed to copy stream link",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "Streams"
+  "Streams": "Streams",
+  "Edit topic": "Edit topic",
+  "Submit": "Submit",
+  "Topic is required in this stream.": "Topic is required in this stream.",
+  "You haven't made any changes.": "You haven't made any changes.",
+  "Topic too long (max 60 characters).": "Topic too long (max 60 characters)."
 }
