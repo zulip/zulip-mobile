@@ -128,10 +128,11 @@ rules:
   # better aligns with our practices in JS proper (not JSX).
   react/jsx-curly-newline: off
 
-  # Enforce `static` class property syntax.
-  react/static-property-placement:
-    - error
-    - static public field
+  # This rule has a bug that causes annoying irrelevant messages:
+  #   https://github.com/jsx-eslint/eslint-plugin-react/issues/3467
+  # The rule isn't important enough to be worth hacking around,
+  # especially now that we have few remaining class components.
+  react/static-property-placement: off
 
   # Enforce state initialization style (never in constructor)
   react/state-in-constructor:
