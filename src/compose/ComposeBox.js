@@ -369,7 +369,7 @@ export default function ComposeBox(props: Props): Node {
     return narrow;
   }, [isEditing, narrow, topicInputState.value]);
 
-  const validationErrors = useMemo(() => {
+  const validationErrors: $ReadOnlyArray<ValidationError> = useMemo(() => {
     const { value: messageInputValue } = messageInputState;
 
     const result = [];
