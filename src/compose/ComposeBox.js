@@ -219,16 +219,6 @@ export default function ComposeBox(props: Props): Node {
     [setMessageInputValue],
   );
 
-  const insertVideoCallLinkAtCursorPosition = useCallback(
-    (url: string) => {
-      const linkMessage = _('Click to join video call');
-      const linkText = `[${linkMessage}](${url})`;
-
-      insertMessageTextAtCursorPosition(linkText);
-    },
-    [insertMessageTextAtCursorPosition, _],
-  );
-
   const insertVideoCallLink = useCallback(
     (videoChatProvider: VideoChatProvider) => {
       if (videoChatProvider.name === 'jitsi_meet') {
@@ -237,10 +227,12 @@ export default function ComposeBox(props: Props): Node {
         // in static/js/compose.js.
         const videoCallId = randomInt(100000000000000, 999999999999999);
         const videoCallUrl = `${videoChatProvider.jitsiServerUrl}/${videoCallId}`;
-        insertVideoCallLinkAtCursorPosition(videoCallUrl);
+        const linkMessage = _('Click to join video call');
+        const linkText = `[${linkMessage}](${videoCallUrl})`;
+        insertMessageTextAtCursorPosition(linkText);
       }
     },
-    [insertVideoCallLinkAtCursorPosition],
+    [insertMessageTextAtCursorPosition, _],
   );
 
   const insertAttachment = useCallback(
