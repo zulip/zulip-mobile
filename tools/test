@@ -29,7 +29,7 @@ usage: tools/test [OPTION]... [SUITE]...
 Run our tests.
 
 By default, run all suites, but only on files changed in this branch
-as found by \`tools/git changed-files\`.
+as found by \`tools/git changed-files \$(tools/git base)\`.
 
 What tests to run:
   --all-files
@@ -119,13 +119,12 @@ files_js() {
             echo src/
             ;;
         branch)
-            tools/git changed-files -- "${pathspec}"
+            tools/git changed-files "$(tools/git base)" -- "${pathspec}"
             ;;
         diff:*)
             local commitish
             commitish="${files#diff:}"
-            git diff --name-only --diff-filter=d "$commitish" \
-                -- "${pathspec}"
+            tools/git changed-files "$commitish" -- "${pathspec}"
             ;;
     esac
 }
@@ -141,13 +140,12 @@ files_js_jsflow() {
             echo src/ types/
             ;;
         branch)
-            tools/git changed-files -- "${pathspecs[@]}"
+            tools/git changed-files "$(tools/git base)" -- "${pathspecs[@]}"
             ;;
         diff:*)
             local commitish
             commitish="${files#diff:}"
-            git diff --name-only --diff-filter=d "$commitish" \
-                -- "${pathspecs[@]}"
+            tools/git changed-files "$commitish" -- "${pathspecs[@]}"
             ;;
     esac
 }

@@ -14,6 +14,10 @@ upstream_ref() {
     echo refs/remotes/"$(upstream_remote_name)"/main
 }
 
+# usage: base_commit [TIP [UPSTREAM]]
+#
+# The merge-base of TIP (default: current HEAD) with
+# UPSTREAM (default: upstream/main or origin/main).
 base_commit() {
     tip_commit=${1:-@}
     upstream=${2:-$(upstream_ref)}
@@ -22,14 +26,11 @@ base_commit() {
 
 # usage: files_changed [DIFFARGS..]
 #
-# Lists files that have changed relative to the upstream branch
-# (upstream/main if that exists, else origin/main), with any arguments
-# passed through to `git diff`.
+# Lists files that have changed, excluding files that no longer exist.
 #
-# Excludes files that no longer exist.
+# Arguments are passed through to `git diff`.
 files_changed() {
-    base=$(base_commit)
-    git diff --name-only --diff-filter=d "$base" "$@"
+    git diff --name-only --diff-filter=d "$@"
 }
 
 case "$1" in

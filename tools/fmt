@@ -36,7 +36,7 @@ cd "$(git rev-parse --show-toplevel)"
 PATH=node_modules/.bin:"$PATH"
 
 if [ -z "$all" ]; then
-    candidates=( $(tools/git changed-files -- 'src/*.js') )
+    candidates=( $(tools/git changed-files "$(tools/git base)" -- 'src/*.js') )
 else
     candidates=( 'src/**/*.js' )
 fi
