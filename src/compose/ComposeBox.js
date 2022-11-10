@@ -207,14 +207,20 @@ export default function ComposeBox(props: Props): Node {
     return focusState.either;
   }, [isEditing, narrow, focusState.either]);
 
+  /**
+   * Inserts text at the message input's cursor position.
+   *
+   * Selected text is not replaced: selection-start is ignored, and
+   * selection-end is taken to be the cursor position.
+   */
+  // An earlier version of this function *would* replace selected text,
+  // which could be upsetting if you didn't want to lose the selected text.
   const insertMessageTextAtCursorPosition = useCallback(
     (text: string) => {
-      setMessageInputValue(
-        state =>
-          state.value.slice(0, state.selection.start)
-          + text
-          + state.value.slice(state.selection.end),
-      );
+      setMessageInputValue(state => {
+        const cursorPosition = state.selection.end;
+        return state.value.slice(0, cursorPosition) + text + state.value.slice(cursorPosition);
+      });
     },
     [setMessageInputValue],
   );
