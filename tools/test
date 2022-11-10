@@ -130,22 +130,6 @@ files_js() {
     esac
 }
 
-# Intersect $files with the set of our JS and .js.flow files in src/ and types/.
-#
-# Prints a list of newline-terminated paths; either files, or
-# directories meaning their whole subtrees.
-files_js_jsflow() {
-    case "$files" in
-        all)
-            echo src/ types/
-            ;;
-        branch | diff:*)
-            tools/git changed-files "${files_base_commit}" \
-                -- {src,types}/\*.js{,.flow}
-            ;;
-    esac
-}
-
 # True just if $files intersects the given set of paths.
 files_check() {
     case "$files" in
@@ -241,7 +225,17 @@ run_jest() {
 
 run_prettier() {
     local patterns
-    patterns=( $(files_js_jsflow) )
+    case "$files" in
+        all)
+            patterns=( src/ types/ )
+            ;;
+        branch | diff:*)
+            patterns=(
+                $(tools/git changed-files "${files_base_commit}" \
+                      -- {src,types}/\*.js{,.flow})
+            )
+            ;;
+    esac
     (( ${#patterns[@]} )) || return 0
     patterns=( "${patterns[@]/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     # Workaround for https://github.com/prettier/prettier-eslint-cli/issues/205
