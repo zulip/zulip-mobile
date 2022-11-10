@@ -158,7 +158,7 @@ files_check() {
         all)
             ;;
         branch)
-            ! git diff --quiet "$(tools/git base-commit)" "$@"
+            ! git diff --quiet "$(tools/git base)" "$@"
             ;;
         diff:*)
             ! git diff --quiet "${files#diff:}" "$@"
