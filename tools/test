@@ -29,7 +29,7 @@ usage: tools/test [OPTION]... [SUITE]...
 Run our tests.
 
 By default, run all suites, but only on files changed in this branch
-as found by \`tools/info changed-files\`.
+as found by \`tools/git changed-files\`.
 
 What tests to run:
   --all-files
@@ -119,7 +119,7 @@ files_js() {
             echo src/
             ;;
         branch)
-            tools/info changed-files | grep -E "${file_pattern}" || :
+            tools/git changed-files | grep -E "${file_pattern}" || :
             ;;
         diff:*)
             local commitish
@@ -141,7 +141,7 @@ files_js_jsflow() {
             echo src/ types/
             ;;
         branch)
-            tools/info changed-files | grep -E "${file_pattern}" || :
+            tools/git changed-files | grep -E "${file_pattern}" || :
             ;;
         diff:*)
             local commitish
@@ -158,7 +158,7 @@ files_check() {
         all)
             ;;
         branch)
-            ! git diff --quiet "$(tools/info base-commit)" "$@"
+            ! git diff --quiet "$(tools/git base-commit)" "$@"
             ;;
         diff:*)
             ! git diff --quiet "${files#diff:}" "$@"
@@ -222,7 +222,7 @@ run_jest() {
             fi
             ;;
         branch)
-            jest_args+=( --changedSince "$(tools/info upstream-ref)" )
+            jest_args+=( --changedSince "$(tools/git upstream-ref)" )
             ;;
         diff:*)
             local file_list

@@ -15,7 +15,7 @@ usage: tools/fmt [--all]
 
 Options:
   --all       Run on all files (default: only files changed in this
-              branch, as found by \`tools/info changed-files\`.)
+              branch, as found by \`tools/git changed-files\`.)
 EOF
     exit 2
 }
@@ -36,7 +36,7 @@ cd "$(git rev-parse --show-toplevel)"
 PATH=node_modules/.bin:"$PATH"
 
 if [ -z "$all" ]; then
-    files=( $(apply_eslintignore $(tools/info changed-files | grep '^src/.*\.js$') ) ) \
+    files=( $(apply_eslintignore $(tools/git changed-files | grep '^src/.*\.js$') ) ) \
         || exit 0
 else
     files=( $(apply_eslintignore 'src/**/*.js' ) )
