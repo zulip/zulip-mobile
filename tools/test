@@ -227,7 +227,9 @@ run_prettier() {
     local patterns
     case "$files" in
         all)
-            patterns=( src/ types/ )
+            # The prettier-eslint CLI won't take directories;
+            # but it's happy to take glob patterns, and supports `**`.
+            patterns=( {src,types}/'**/*'.js{,.flow} )
             ;;
         branch | diff:*)
             patterns=(
@@ -237,7 +239,6 @@ run_prettier() {
             ;;
     esac
     (( ${#patterns[@]} )) || return 0
-    patterns=( "${patterns[@]/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     # Workaround for https://github.com/prettier/prettier-eslint-cli/issues/205
     patterns=( "${patterns[@]/#/$rootdir/}" )
     prettier-eslint \
