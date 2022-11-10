@@ -113,19 +113,19 @@ PATH=node_modules/.bin:"$PATH"
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js() {
-    local file_pattern='^src/.*\.js$'
+    local pathspec='src/*.js'
     case "$files" in
         all)
             echo src/
             ;;
         branch)
-            tools/git changed-files | grep -E "${file_pattern}" || :
+            tools/git changed-files -- "${pathspec}"
             ;;
         diff:*)
             local commitish
             commitish="${files#diff:}"
             git diff --name-only --diff-filter=d "$commitish" \
-                | grep -E "${file_pattern}" || :
+                -- "${pathspec}"
             ;;
     esac
 }
@@ -135,19 +135,19 @@ files_js() {
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js_jsflow() {
-    local file_pattern='^(src|types)/.*\.js(\.flow)?$'
+    local pathspecs=( {src,types}/\*.js{,.flow} )
     case "$files" in
         all)
             echo src/ types/
             ;;
         branch)
-            tools/git changed-files | grep -E "${file_pattern}" || :
+            tools/git changed-files -- "${pathspecs[@]}"
             ;;
         diff:*)
             local commitish
             commitish="${files#diff:}"
             git diff --name-only --diff-filter=d "$commitish" \
-                | grep -E "${file_pattern}" || :
+                -- "${pathspecs[@]}"
             ;;
     esac
 }

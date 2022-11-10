@@ -36,8 +36,7 @@ cd "$(git rev-parse --show-toplevel)"
 PATH=node_modules/.bin:"$PATH"
 
 if [ -z "$all" ]; then
-    files=( $(apply_eslintignore $(tools/git changed-files | grep '^src/.*\.js$') ) ) \
-        || exit 0
+    files=( $(apply_eslintignore $(tools/git changed-files -- 'src/*.js') ) )
 else
     files=( $(apply_eslintignore 'src/**/*.js' ) )
 fi
