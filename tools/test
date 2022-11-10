@@ -113,20 +113,20 @@ PATH=node_modules/.bin:"$PATH"
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js() {
-    local pathspec='src/*.js'
+    local base
     case "$files" in
         all)
             echo src/
+            return
             ;;
         branch)
-            tools/git changed-files "$(tools/git base)" -- "${pathspec}"
+            base="$(tools/git base)"
             ;;
         diff:*)
-            local commitish
-            commitish="${files#diff:}"
-            tools/git changed-files "$commitish" -- "${pathspec}"
+            base="${files#diff:}"
             ;;
     esac
+    tools/git changed-files "${base}" -- 'src/*.js'
 }
 
 # Intersect $files with the set of our JS and .js.flow files in src/ and types/.
@@ -134,20 +134,19 @@ files_js() {
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js_jsflow() {
-    local pathspecs=( {src,types}/\*.js{,.flow} )
     case "$files" in
         all)
             echo src/ types/
+            return
             ;;
         branch)
-            tools/git changed-files "$(tools/git base)" -- "${pathspecs[@]}"
+            base="$(tools/git base)"
             ;;
         diff:*)
-            local commitish
-            commitish="${files#diff:}"
-            tools/git changed-files "$commitish" -- "${pathspecs[@]}"
+            base="${files#diff:}"
             ;;
     esac
+    tools/git changed-files "${base}" -- {src,types}/\*.js{,.flow}
 }
 
 # True just if $files intersects the given set of paths.
