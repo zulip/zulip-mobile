@@ -20,15 +20,16 @@ base_commit() {
     git merge-base "$tip_commit" "$upstream"
 }
 
-# usage: files_changed [TIP [UPSTREAM]]
+# usage: files_changed [DIFFARGS..]
 #
-# Lists files that have changed in TIP (default: current worktree)
-# relative to UPSTREAM (default: upstream/main or origin/main).
+# Lists files that have changed relative to the upstream branch
+# (upstream/main if that exists, else origin/main), with any arguments
+# passed through to `git diff`.
 #
-# Excludes files that no longer exist in TIP.
+# Excludes files that no longer exist.
 files_changed() {
-    base=$(base_commit "$@")
-    git diff --name-only --diff-filter=d "$base" $1
+    base=$(base_commit)
+    git diff --name-only --diff-filter=d "$base" "$@"
 }
 
 case "$1" in
