@@ -36,10 +36,11 @@ cd "$(git rev-parse --show-toplevel)"
 PATH=node_modules/.bin:"$PATH"
 
 if [ -z "$all" ]; then
-    files=( $(apply_eslintignore $(tools/git changed-files -- 'src/*.js') ) )
+    candidates=( $(tools/git changed-files -- 'src/*.js') )
 else
-    files=( $(apply_eslintignore 'src/**/*.js' ) )
+    candidates=( 'src/**/*.js' )
 fi
+files=( $(apply_eslintignore "${candidates[@]}" ) )
 
 prettier-eslint \
     --write \
