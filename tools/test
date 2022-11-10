@@ -198,7 +198,8 @@ run_native() {
 
 run_lint() {
     local files
-    files=( $(apply_eslintignore "$@") )
+    files=( $(files_js) )
+    files=( $(apply_eslintignore "${files[@]}") )
     (( ${#files[@]} )) || return 0
     eslint ${fix:+--fix} --report-unused-disable-directives --max-warnings=0 "${files[@]}"
 }
@@ -239,9 +240,10 @@ run_jest() {
 }
 
 run_prettier() {
-    (( $# )) || return 0
     local patterns
-    patterns=( "${@/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
+    patterns=( $(files_js_jsflow) )
+    (( ${#patterns[@]} )) || return 0
+    patterns=( "${patterns[@]/%\///**/*.js}" ) # replace trailing `/` with `/**/*.js`
     # Workaround for https://github.com/prettier/prettier-eslint-cli/issues/205
     patterns=( "${patterns[@]/#/$rootdir/}" )
     prettier-eslint \
@@ -291,27 +293,13 @@ failed=()
 for suite in "${suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
-        native)
-            run_native
-            ;;
-        flow)
-            flow
-            ;;
-        lint)
-            run_lint $(files_js)
-            ;;
-        jest)
-            run_jest
-            ;;
-        prettier)
-            run_prettier $(files_js_jsflow)
-            ;;
-        deps)
-            run_deps
-            ;;
-        tsflower)
-            run_tsflower
-            ;;
+        native)   run_native ;;
+        flow)     flow ;;
+        lint)     run_lint ;;
+        jest)     run_jest ;;
+        prettier) run_prettier ;;
+        deps)     run_deps ;;
+        tsflower) run_tsflower ;;
     esac || failed+=($suite)
 done
 
