@@ -100,6 +100,13 @@ if [ -z "$suites" ]; then
     suites=(native flow lint jest prettier deps tsflower)
 fi
 
+files_base_commit=
+case "$files" in
+    all) ;;
+    branch) files_base_commit="$(tools/git base)";;
+    diff:*) files_base_commit="${files#diff:}";;
+esac
+
 
 ## EXECUTION
 
@@ -113,20 +120,14 @@ PATH=node_modules/.bin:"$PATH"
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js() {
-    local base
     case "$files" in
         all)
             echo src/
-            return
             ;;
-        branch)
-            base="$(tools/git base)"
-            ;;
-        diff:*)
-            base="${files#diff:}"
+        branch | diff:*)
+            tools/git changed-files "${files_base_commit}" -- 'src/*.js'
             ;;
     esac
-    tools/git changed-files "${base}" -- 'src/*.js'
 }
 
 # Intersect $files with the set of our JS and .js.flow files in src/ and types/.
@@ -137,16 +138,12 @@ files_js_jsflow() {
     case "$files" in
         all)
             echo src/ types/
-            return
             ;;
-        branch)
-            base="$(tools/git base)"
-            ;;
-        diff:*)
-            base="${files#diff:}"
+        branch | diff:*)
+            tools/git changed-files "${files_base_commit}" \
+                -- {src,types}/\*.js{,.flow}
             ;;
     esac
-    tools/git changed-files "${base}" -- {src,types}/\*.js{,.flow}
 }
 
 # True just if $files intersects the given set of paths.
@@ -154,11 +151,8 @@ files_check() {
     case "$files" in
         all)
             ;;
-        branch)
-            ! git diff --quiet "$(tools/git base)" "$@"
-            ;;
-        diff:*)
-            ! git diff --quiet "${files#diff:}" "$@"
+        branch | diff:*)
+            ! git diff --quiet "${files_base_commit}" "$@"
             ;;
     esac
 }
