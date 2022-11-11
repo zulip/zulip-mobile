@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.193 (2022-11-10)
+
 ### Highlights for users
 
 * (Android) If you've configured additional trusted CA certificates on your
