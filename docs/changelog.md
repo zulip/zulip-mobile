@@ -39,6 +39,35 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) If you've configured additional trusted CA certificates on your
+  device, Zulip now trusts those too. (#3312)
+* Support for invisible mode, an upcoming Zulip Server 6 feature that
+  replaces "Set yourself to away"
+  (https://zulip.com/help/status-and-availability#invisible-mode). (#5445)
+* The profile view now shows the user's email address, subject to privacy
+  settings. (#5400)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Fixed a sudden build breakage caused by changes in React Native's release
+  management. (PR #5535)
+
+* Updated for the new Transifex client. (PR #5541)
+
+* Converted `MessageList` to a function component with Hooks. (PRs #5524,
+  #5544)
+
+* Fixed a bug where the message list didn't update when messages were marked
+  unread from another client. (#5536)
+
+* Resolved issues: #5536, #5541, #5535, #5445, #3312, #5400
+
 
 ## 27.192 (2022-10-21)
 
