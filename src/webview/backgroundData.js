@@ -6,7 +6,7 @@ import type {
   Debug,
   FlagsState,
   GlobalSettingsState,
-  ImageEmojiType,
+  ImageEmoji,
   MuteState,
   MutedUsersState,
   PerAccountState,
@@ -50,7 +50,7 @@ import type { ServerEmojiData } from '../api/modelTypes';
  */
 export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
-  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmojiType |}>,
+  allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmoji |}>,
   auth: Auth,
   debug: Debug,
   flags: FlagsState,

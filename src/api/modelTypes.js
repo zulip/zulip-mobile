@@ -85,7 +85,7 @@ export type CustomProfileField = {|
   +display_in_profile_summary?: true,
 |};
 
-export type ImageEmojiType = $ReadOnly<{|
+export type RealmEmoji = $ReadOnly<{|
   author?: $ReadOnly<{|
     email: string,
     full_name: string,
@@ -99,7 +99,16 @@ export type ImageEmojiType = $ReadOnly<{|
 |}>;
 
 export type RealmEmojiById = $ReadOnly<{|
-  [id: string]: ImageEmojiType,
+  [id: string]: RealmEmoji,
+|}>;
+
+export type ImageEmoji = {|
+  ...RealmEmoji,
+  +reaction_type: ReactionType, // eslint-disable-line no-use-before-define
+|};
+
+export type ImageEmojiById = $ReadOnly<{|
+  [id: string]: ImageEmoji,
 |}>;
 
 /**

@@ -1,32 +1,39 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
-import type { Selector, RealmEmojiById, ImageEmojiType, EmojiForShared } from '../types';
+import type { Selector, ImageEmoji, ImageEmojiById, EmojiForShared } from '../types';
 import { getRawRealmEmoji } from '../directSelectors';
 import { getIdentity } from '../account/accountsSelectors';
 import zulipExtraEmojiMap from './zulipExtraEmojiMap';
 import { objectFromEntries } from '../jsBackport';
+import type { ReadWrite } from '../generics';
+import { objectEntries } from '../flowPonyfill';
 
-export const getAllImageEmojiById: Selector<RealmEmojiById> = createSelector(
+export const getAllImageEmojiById: Selector<ImageEmojiById> = createSelector(
   getIdentity,
   getRawRealmEmoji,
   (identity, realmEmoji) => {
-    const result: {| [string]: ImageEmojiType |} = {};
-    [realmEmoji, zulipExtraEmojiMap].forEach(emojis => {
-      Object.keys(emojis).forEach(id => {
-        result[id] = {
-          ...emojis[id],
-          source_url: new URL(emojis[id].source_url, identity.realm).toString(),
-        };
-      });
+    const result: ReadWrite<ImageEmojiById> = {};
+    objectEntries(realmEmoji).forEach(([id, emoji]) => {
+      result[id] = {
+        ...emoji,
+        reaction_type: 'realm_emoji',
+        source_url: new URL(emoji.source_url, identity.realm).toString(),
+      };
+    });
+    objectEntries(zulipExtraEmojiMap).forEach(([id, emoji]) => {
+      result[id] = {
+        ...emoji,
+        source_url: new URL(emoji.source_url, identity.realm).toString(),
+      };
     });
     return result;
   },
 );
 
-export const getActiveImageEmojiById: Selector<RealmEmojiById> = createSelector(
+export const getActiveImageEmojiById: Selector<ImageEmojiById> = createSelector(
   getAllImageEmojiById,
   emojis => {
-    const result: {| [string]: ImageEmojiType |} = {};
+    const result: ReadWrite<ImageEmojiById> = {};
     Object.keys(emojis).forEach(id => {
       if (!emojis[id].deactivated) {
         result[id] = emojis[id];
@@ -37,7 +44,7 @@ export const getActiveImageEmojiById: Selector<RealmEmojiById> = createSelector(
 );
 
 export const getAllImageEmojiByCode: Selector<{|
-  [string]: ImageEmojiType,
+  [string]: ImageEmoji,
 |}> = createSelector(getAllImageEmojiById, emojis =>
   objectFromEntries(Object.keys(emojis).map(id => [emojis[id].code, emojis[id]])),
 );

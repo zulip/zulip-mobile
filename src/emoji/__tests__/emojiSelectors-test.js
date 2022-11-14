@@ -33,14 +33,17 @@ describe('getActiveImageEmojiById', () => {
 
     const expectedResult = {
       1: {
+        reaction_type: 'realm_emoji',
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/smile.png',
       },
       2: {
+        reaction_type: 'realm_emoji',
         deactivated: false,
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
       zulip: {
+        reaction_type: 'zulip_extra_emoji',
         deactivated: false,
         name: 'zulip',
         code: 'zulip',
@@ -69,9 +72,16 @@ describe('getAllImageEmojiById', () => {
     };
 
     const expectedResult = {
-      '1': { source_url: 'https://example.com/static/user_upload/smile.png' },
-      '2': { source_url: 'https://example.com/static/user_upload/laugh.png' },
+      '1': {
+        reaction_type: 'realm_emoji',
+        source_url: 'https://example.com/static/user_upload/smile.png',
+      },
+      '2': {
+        reaction_type: 'realm_emoji',
+        source_url: 'https://example.com/static/user_upload/laugh.png',
+      },
       zulip: {
+        reaction_type: 'zulip_extra_emoji',
         deactivated: false,
         name: 'zulip',
         code: 'zulip',
@@ -105,16 +115,19 @@ describe('getAllImageEmojiByCode', () => {
 
     const expectedResult = {
       1: {
+        reaction_type: 'realm_emoji',
         code: '1',
         name: 'smile',
         source_url: 'https://example.com/static/user_upload/smile.png',
       },
       2: {
+        reaction_type: 'realm_emoji',
         code: '2',
         name: 'laugh',
         source_url: 'https://example.com/static/user_upload/laugh.png',
       },
       zulip: {
+        reaction_type: 'zulip_extra_emoji',
         deactivated: false,
         name: 'zulip',
         code: 'zulip',
