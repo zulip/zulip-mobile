@@ -5,7 +5,10 @@ import { apiPost } from '../apiFetch';
 
 export type ApiResponseUpdateMessageFlags = {|
   ...$Exact<ApiResponseSuccess>,
-  messages: $ReadOnlyArray<number>,
+
+  // The `messages` property is deprecated.  See discussion:
+  //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/mark-as-unread.20request/near/1463920
+  -messages: $ReadOnlyArray<number>,
 |};
 
 /** https://zulip.com/api/update-message-flags */
