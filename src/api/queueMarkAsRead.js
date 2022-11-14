@@ -5,6 +5,8 @@ import updateMessageFlags from './messages/updateMessageFlags';
 /** We batch up requests to avoid sending them twice in this much time. */
 const debouncePeriodMs = 500;
 
+const batchSize = 1000;
+
 let unackedMessageIds: number[] = [];
 let lastSentTime = -Infinity;
 let timeout = null;
@@ -29,11 +31,13 @@ const processQueue = async (auth: Auth) => {
     }, remainingMs);
     return;
   }
-
   lastSentTime = Date.now();
-  const response = await updateMessageFlags(auth, unackedMessageIds, 'add', 'read');
-  const acked_messages = new Set(response.messages);
-  unackedMessageIds = unackedMessageIds.filter(id => !acked_messages.has(id));
+
+  const toSend = unackedMessageIds.slice(0, batchSize);
+  const response = await updateMessageFlags(auth, toSend, 'add', 'read');
+
+  const acked = new Set(response.messages);
+  unackedMessageIds = unackedMessageIds.filter(id => !acked.has(id));
 };
 
 export default (auth: Auth, messageIds: $ReadOnlyArray<number>): void => {
