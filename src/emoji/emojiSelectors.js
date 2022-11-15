@@ -52,9 +52,10 @@ export const getAllImageEmojiByCode: Selector<{|
 export const getActiveImageEmoji: Selector<$ReadOnlyArray<EmojiForShared>> = createSelector(
   getActiveImageEmojiById,
   emojis =>
-    Object.keys(emojis).map(id => ({
+    objectEntries(emojis).map(([id, emoji]) => ({
       emoji_type: 'image',
-      emoji_name: emojis[id].name,
-      emoji_code: emojis[id].code,
+      reaction_type: emoji.reaction_type,
+      emoji_name: emoji.name,
+      emoji_code: emoji.code,
     })),
 );

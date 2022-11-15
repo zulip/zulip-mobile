@@ -156,7 +156,12 @@ export type Identity = $Diff<Auth, {| apiKey: string |}>;
 export type EmojiType = 'image' | 'unicode';
 
 /** An emoji, in a shape we can pass to @zulip/shared */
-export type EmojiForShared = {| emoji_type: EmojiType, emoji_name: string, emoji_code: string |};
+export type EmojiForShared = {|
+  reaction_type: ReactionType,
+  emoji_type: EmojiType,
+  emoji_name: string,
+  emoji_code: string,
+|};
 
 /** An aggregate of all the reactions with one emoji to one message. */
 export type AggregatedReaction = {|

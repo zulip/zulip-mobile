@@ -70,6 +70,7 @@ const getUnicodeEmojiObjects = (
 ): $ReadOnlyArray<EmojiForShared> => {
   if (!serverEmojiData) {
     return objectEntries(unicodeCodeByName).map(([name, code]) => ({
+      reaction_type: 'unicode_emoji',
       emoji_type: 'unicode',
       emoji_name: name,
       emoji_code: code,
@@ -80,6 +81,7 @@ const getUnicodeEmojiObjects = (
   for (const [code, names] of serverEmojiData.code_to_names.entries()) {
     result.push(
       ...names.map(name => ({
+        reaction_type: 'unicode_emoji',
         emoji_type: 'unicode',
         emoji_name: name,
         emoji_code: code,

@@ -90,17 +90,37 @@ describe('getFilteredEmojis', () => {
   });
 
   test('search in realm emojis as well', () => {
-    const emoji = { emoji_type: 'image', emoji_code: '654', emoji_name: 'qwerty' };
+    const emoji = {
+      reaction_type: 'realm_emoji',
+      emoji_type: 'image',
+      emoji_code: '654',
+      emoji_name: 'qwerty',
+    };
     expect(getFilteredEmojis('qwerty', [emoji], null)).toEqual([emoji]);
   });
 
   test('remove duplicates', () => {
     expect(names('dog')).toEqual(['dog', 'dogi', 'hotdog']);
-    const emoji = { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' };
+    const emoji = {
+      reaction_type: 'realm_emoji',
+      emoji_type: 'image',
+      emoji_code: '345',
+      emoji_name: 'dog',
+    };
     expect(getFilteredEmojis('dog', [emoji], null)).toEqual([
-      { emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' },
-      { emoji_type: 'unicode', emoji_code: '1f94b', emoji_name: 'dogi' },
-      { emoji_type: 'unicode', emoji_code: '1f32d', emoji_name: 'hotdog' },
+      { reaction_type: 'realm_emoji', emoji_type: 'image', emoji_code: '345', emoji_name: 'dog' },
+      {
+        reaction_type: 'unicode_emoji',
+        emoji_type: 'unicode',
+        emoji_code: '1f94b',
+        emoji_name: 'dogi',
+      },
+      {
+        reaction_type: 'unicode_emoji',
+        emoji_type: 'unicode',
+        emoji_code: '1f32d',
+        emoji_name: 'hotdog',
+      },
     ]);
   });
 
