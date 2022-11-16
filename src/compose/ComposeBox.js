@@ -212,14 +212,27 @@ export default function ComposeBox(props: Props): Node {
    *
    * Selected text is not replaced: selection-start is ignored, and
    * selection-end is taken to be the cursor position.
+   *
+   * If padWithEmptyLines is true, adds an empty line before (unless cursor
+   * is at 0) and after `text`.
    */
   // An earlier version of this function *would* replace selected text,
   // which could be upsetting if you didn't want to lose the selected text.
   const insertMessageTextAtCursorPosition = useCallback(
-    (text: string) => {
+    (text: string, padWithEmptyLines = false) => {
       setMessageInputValue(state => {
         const cursorPosition = state.selection.end;
-        return state.value.slice(0, cursorPosition) + text + state.value.slice(cursorPosition);
+
+        const paddingStart = padWithEmptyLines && cursorPosition !== 0 ? '\n\n' : '';
+        const paddingEnd = padWithEmptyLines ? '\n\n' : '';
+
+        return (
+          state.value.slice(0, cursorPosition)
+          + paddingStart
+          + text
+          + paddingEnd
+          + state.value.slice(cursorPosition)
+        );
       });
     },
     [setMessageInputValue],
