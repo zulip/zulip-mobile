@@ -241,6 +241,9 @@ rules:
   prefer-destructuring:
     - error
     - AssignmentExpression: {array: false, object: false}
+  no-constant-condition:
+    - error
+    - checkLoops: false
 
   # new Promise(r => setTimeout(r, 1000));
   # Certain other things could be nice to catch, but see

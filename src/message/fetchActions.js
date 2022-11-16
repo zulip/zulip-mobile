@@ -354,7 +354,6 @@ export async function tryFetch<T>(
   try {
     return await promiseTimeout(
       (async () => {
-        // eslint-disable-next-line no-constant-condition
         while (true) {
           if (timerHasExpired) {
             // No one is listening for this Promise to settle, so stop
