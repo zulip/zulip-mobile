@@ -39,9 +39,12 @@ export default async (
   auth: Auth,
   args: {|
     narrow: ApiNarrow,
+    // TODO(server-3.0): Accept 'newest', 'oldest', and 'first_unread'
     anchor: number,
+    // TODO(server-6.0): Also accept include_anchor (added at FL 155).
     numBefore: number,
     numAfter: number,
+    // TODO(server-3.0): Stop sending use_first_unread_anchor.
     useFirstUnread?: boolean,
   |},
 
