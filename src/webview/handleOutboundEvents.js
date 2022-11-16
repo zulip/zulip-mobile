@@ -219,8 +219,15 @@ const handleLongPress = (
   if (!message) {
     return;
   }
-  const { dispatch, showActionSheetWithOptions, backgroundData, narrow, startEditMessage, _ } =
-    props;
+  const {
+    dispatch,
+    showActionSheetWithOptions,
+    backgroundData,
+    narrow,
+    startEditMessage,
+    setDoNotMarkMessagesAsRead,
+    _,
+  } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
       showTopicActionSheet({
@@ -241,7 +248,7 @@ const handleLongPress = (
   } else if (target === 'message') {
     showMessageActionSheet({
       showActionSheetWithOptions,
-      callbacks: { dispatch, startEditMessage, _ },
+      callbacks: { dispatch, startEditMessage, setDoNotMarkMessagesAsRead, _ },
       backgroundData,
       message,
       narrow,

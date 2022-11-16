@@ -22,6 +22,7 @@ import type {
 } from '../types';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import {
+  apiNarrowOfNarrow,
   getNarrowForReply,
   isPmNarrow,
   isStreamOrTopicNarrow,
@@ -91,10 +92,15 @@ type PmArgs = {
 type MessageArgs = {
   auth: Auth,
   ownUser: User,
+  narrow: Narrow,
   message: Message | Outbox,
+  allUsersById: Map<UserId, UserOrBot>,
+  streams: Map<number, Stream>,
+  zulipFeatureLevel: number,
   dispatch: Dispatch,
   _: GetText,
   startEditMessage: (editMessage: EditMessage) => void,
+  setDoNotMarkMessagesAsRead: boolean => void,
   ...
 };
 
@@ -176,6 +182,85 @@ const markTopicAsRead = {
   errorMessage: 'Failed to mark topic as read',
   action: async ({ auth, streamId, topic }) => {
     await api.markTopicAsRead(auth, streamId, topic);
+  },
+};
+
+const markAsUnreadFromMessage = {
+  title: 'Mark as unread from here',
+  errorMessage: 'Failed to mark as unread',
+  action: async ({
+    auth,
+    zulipFeatureLevel,
+    setDoNotMarkMessagesAsRead,
+    narrow,
+    message,
+    _,
+    allUsersById,
+    streams,
+  }) => {
+    setDoNotMarkMessagesAsRead(true);
+
+    // TODO(server-6.0): Simplify this away.  (This is for api.updateMessageFlagsForNarrow.)
+    invariant(zulipFeatureLevel >= 155, 'markAsUnreadFromMessage should be called only at FL 155');
+
+    const apiNarrow = apiNarrowOfNarrow(narrow, allUsersById, streams);
+    // Ideally we might add another element to the API narrow like:
+    //   { negated: true, operator: 'is', operand: 'unread' },
+    // That way we'd skip acting on already-unread messages.
+    //
+    // Unfortunately that *also* skips any messages we lack a UserMessage
+    // record for -- which means stream messages where we weren't subscribed
+    // when the message was sent (and haven't subsequently created such a
+    // record, e.g. by starring the message.)
+
+    let response_count = 0;
+    let updated_count = 0;
+    const args = {
+      anchor: message.id,
+      include_anchor: true,
+      num_before: 0,
+      num_after: 5000,
+      op: 'remove',
+      flag: 'read',
+      narrow: apiNarrow,
+    };
+    while (true) {
+      const result = await api.updateMessageFlagsForNarrow(auth, args);
+      response_count++;
+      updated_count += result.updated_count;
+
+      if (result.found_newest) {
+        if (response_count > 1) {
+          // We previously showed a "working on it…" toast, so say we're done.
+          showToast(_('Marked {numMessages} messages as unread', { numMessages: updated_count }));
+        }
+        return;
+      }
+
+      if (result.last_processed_id === null) {
+        // No messages were in the range of the request.
+        // This should be impossible given that found_newest was false
+        // (and that our num_after was positive.)
+        logging.error('mark-unread: request failed to make progress', result);
+        throw new Error(_('The server sent a malformed response.'));
+      }
+      args.anchor = result.last_processed_id;
+      args.include_anchor = false;
+
+      // The task is taking a while, so tell the user we're working on it.
+      // No need to say how many messages, as the UnreadNotice banner should
+      // follow along.
+      //
+      // TODO: Ideally we'd have a progress widget here that showed up based
+      //   on actual time elapsed -- so it could appear before the first
+      //   batch returns, if that takes a while -- and that then stuck
+      //   around continuously until the task ends.  But we don't have an
+      //   off-the-shelf way to wire up such a thing, and marking a giant
+      //   number of messages unread isn't a common enough flow to be worth
+      //   substantial effort on UI polish.  So for now, we use toasts, even
+      //   though they may feel a bit janky.
+      showToast(_('Marking messages as unread…'));
+    }
   },
 };
 
@@ -579,7 +664,16 @@ const messageNotDeleted = (message: Message | Outbox): boolean =>
   message.content !== '<p>(deleted)</p>';
 
 export const constructMessageActionButtons = (args: {|
-  backgroundData: $ReadOnly<{ ownUser: User, flags: FlagsState, enableReadReceipts: boolean, ... }>,
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    flags: FlagsState,
+    enableReadReceipts: boolean,
+    allUsersById: Map<UserId, UserOrBot>,
+    streams: Map<number, Stream>,
+    subscriptions: Map<number, Subscription>,
+    zulipFeatureLevel: number,
+    ...
+  }>,
   message: Message | Outbox,
   narrow: Narrow,
 |}): Button<MessageArgs>[] => {
@@ -619,6 +713,22 @@ export const constructMessageActionButtons = (args: {|
   if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
     // TODO(#2793): Don't show if message isn't deletable.
     buttons.push(deleteMessage);
+  }
+  if (
+    // When do we offer "Mark as unread from here"?  This logic parallels
+    // `should_display_mark_as_unread` in web's static/js/popovers.js .
+    //
+    // We show it only if this particular message can be marked as unread
+    // (even though in principle the feature could be useful just to mark
+    // later messages as read.)  That means it isn't already unread…
+    message.id in flags.read
+    // … and it isn't to a stream we're not subscribed to.
+    && (message.type === 'private' || backgroundData.subscriptions.get(message.stream_id))
+    // Oh and if the server is too old for the feature, don't offer it.
+    // TODO(server-6.0): Simplify this away.
+    && backgroundData.zulipFeatureLevel >= 155
+  ) {
+    buttons.push(markAsUnreadFromMessage);
   }
   if (message.id in flags.starred) {
     buttons.push(unstarMessage);
@@ -682,12 +792,17 @@ export const showMessageActionSheet = (args: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
     _: GetText,
+    setDoNotMarkMessagesAsRead: boolean => void,
   |},
   backgroundData: $ReadOnly<{
     auth: Auth,
     ownUser: User,
     flags: FlagsState,
     enableReadReceipts: boolean,
+    zulipFeatureLevel: number,
+    allUsersById: Map<UserId, UserOrBot>,
+    streams: Map<number, Stream>,
+    subscriptions: Map<number, Subscription>,
     ...
   }>,
   message: Message | Outbox,
