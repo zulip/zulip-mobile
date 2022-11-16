@@ -34,6 +34,11 @@ export type WebViewInboundEventReady = {|
   type: 'ready',
 |};
 
+export type WebViewInboundEventSetDoNotMarkAsRead = {|
+  type: 'set-do-not-mark-as-read',
+  value: boolean,
+|};
+
 export type WebViewInboundEventSetRead = {|
   type: 'set-read',
   value: boolean,
@@ -45,6 +50,7 @@ export type WebViewInboundEvent =
   | WebViewInboundEventFetching
   | WebViewInboundEventTyping
   | WebViewInboundEventReady
+  | WebViewInboundEventSetDoNotMarkAsRead
   | WebViewInboundEventSetRead;
 
 const updateContent = (prevProps: Props, nextProps: Props): WebViewInboundEventContent => {
@@ -111,6 +117,10 @@ export default function generateInboundEvents(
     //   changes, e.g. because the user muted someone.
   ) {
     uevents.push(updateContent(prevProps, nextProps));
+  }
+
+  if (prevProps.doNotMarkMessagesAsRead !== nextProps.doNotMarkMessagesAsRead) {
+    uevents.push({ type: 'set-do-not-mark-as-read', value: nextProps.doNotMarkMessagesAsRead });
   }
 
   if (prevProps.backgroundData.flags.read !== nextProps.backgroundData.flags.read) {

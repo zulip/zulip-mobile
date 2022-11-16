@@ -81,6 +81,9 @@ export default class InboundEventLogger {
           type: event.type,
         };
       }
+      case 'set-do-not-mark-as-read': {
+        return { type: event.type, value: event.value };
+      }
       case 'set-read': {
         return {
           type: event.type,
