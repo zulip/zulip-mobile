@@ -213,7 +213,7 @@ export default function ComposeBox(props: Props): Node {
         state =>
           state.value.slice(0, state.selection.start)
           + text
-          + state.value.slice(state.selection.end, state.value.length),
+          + state.value.slice(state.selection.end),
       );
     },
     [setMessageInputValue],
