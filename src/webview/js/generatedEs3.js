@@ -95,6 +95,13 @@ var compiledWebviewJs = (function (exports) {
               type: event.type
             };
           }
+        case 'set-do-not-mark-as-read':
+          {
+            return {
+              type: event.type,
+              value: event.value
+            };
+          }
         case 'set-read':
           {
             return {
@@ -684,6 +691,9 @@ var compiledWebviewJs = (function (exports) {
       element.setAttribute('data-read', JSON.stringify(value));
     });
   }
+  const handleInboundEventSetDoNotMarkAsRead = uevent => {
+    doNotMarkMessagesAsRead = uevent.value;
+  };
 
   const handleInboundEventMessagesSetRead = uevent => {
     if (uevent.messageIds.length === 0) {
@@ -696,6 +706,7 @@ var compiledWebviewJs = (function (exports) {
     fetching: handleInboundEventFetching,
     typing: handleInboundEventTyping,
     ready: handleInboundEventReady,
+    'set-do-not-mark-as-read': handleInboundEventSetDoNotMarkAsRead,
     'set-read': handleInboundEventMessagesSetRead
   };
 

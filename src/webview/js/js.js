@@ -31,6 +31,7 @@ import type {
   WebViewInboundEventTyping,
   WebViewInboundEventReady,
   WebViewInboundEventSetRead,
+  WebViewInboundEventSetDoNotMarkAsRead,
 } from '../generateInboundEvents';
 import { makeUserId } from '../../api/idTypes';
 
@@ -724,6 +725,10 @@ function setReadFlags(messageIds, value) {
   });
 }
 
+const handleInboundEventSetDoNotMarkAsRead = (uevent: WebViewInboundEventSetDoNotMarkAsRead) => {
+  doNotMarkMessagesAsRead = uevent.value;
+};
+
 /**
  * Handles messages that have been read outside of the WebView
  */
@@ -739,6 +744,7 @@ const inboundEventHandlers = {
   fetching: handleInboundEventFetching,
   typing: handleInboundEventTyping,
   ready: handleInboundEventReady,
+  'set-do-not-mark-as-read': handleInboundEventSetDoNotMarkAsRead,
   'set-read': handleInboundEventMessagesSetRead,
 };
 
