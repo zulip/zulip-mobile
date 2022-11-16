@@ -11,7 +11,6 @@ export const clearTyping = (outdatedNotifications: $ReadOnlyArray<string>): PerA
 
 const typingStatusExpiryLoop = () => async (dispatch, getState) => {
   // loop to auto dismiss typing notifications after typingNotificationTimeout
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     await sleep(15000);
     const currentTime = new Date().getTime();

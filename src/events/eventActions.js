@@ -262,7 +262,6 @@ export const startEventPolling =
 
     const backoffMachine = new BackoffMachine();
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       const auth = tryGetAuth(getState());
       if (!auth) {
