@@ -141,23 +141,23 @@ function useMessageListProps(props: OuterProps): Props {
       }
     })();
 
-  return useSelector(state => ({
+  return {
     ...props,
 
     showActionSheetWithOptions,
     _,
     dispatch,
 
-    backgroundData: getBackgroundData(state, globalSettings, debug),
+    backgroundData: useSelector(state => getBackgroundData(state, globalSettings, debug)),
 
-    fetching: getFetchingForNarrow(state, props.narrow),
+    fetching: useSelector(state => getFetchingForNarrow(state, props.narrow)),
     messageListElementsForShownMessages: getMessageListElementsMemoized(
       props.messages,
       props.narrow,
     ),
-    typingUsers: getCurrentTypingUsers(state, props.narrow),
+    typingUsers: useSelector(state => getCurrentTypingUsers(state, props.narrow)),
     doNotMarkMessagesAsRead,
-  }));
+  };
 }
 
 /**
