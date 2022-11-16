@@ -389,6 +389,15 @@ You can read the debugging conversation around [here](https://chat.zulip.org/#na
 
 [jdk-8-oracle-dl]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
+
+### Build failure: Unable to make field private final java.lang.String java.io.File.path accessible: module java.base does not "opens java.io" to unnamed module @739914dc
+
+This odd-looking error can apparently happen if you're using a too-recent
+JDK version, such as 16, to invoke the build command. Try setting
+`JAVA_HOME` to a path to a JDK 11 installation, using steps 1-4 in the
+troubleshooting entry above that also mentions `JAVA_HOME`.
+
+
 ### Build failure: Task 'installDebug' not found in project ':app'
 
 When trying to build the Android app, you may see this error:
