@@ -170,6 +170,8 @@ var compiledWebviewJs = (function (exports) {
     }
   }
 
+  const isUrlOnRealm = (url, realm) => url.origin === realm.origin;
+
   const inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(r => new RegExp(r));
 
   const rewriteImageUrls = (auth, element) => {
@@ -191,7 +193,7 @@ var compiledWebviewJs = (function (exports) {
         return;
       }
 
-      if (fixedSrc.origin === realm.origin) {
+      if (isUrlOnRealm(fixedSrc, realm)) {
         if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
           const delimiter = fixedSrc.search ? '&' : '';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);

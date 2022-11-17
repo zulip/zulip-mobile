@@ -92,6 +92,8 @@ export const tryParseUrl = (url: string, base?: string | URL): URL | void => {
 /**
  * Test if the given URL is within the given realm.
  */
+// This is used in and out of the WebView, so it must work with the native
+// URL implementation and also the polyfill we use in React Native land.
 export const isUrlOnRealm = (url: URL, realm: URL): boolean => url.origin === realm.origin;
 
 export const getFileExtension = (filename: string): string => filename.split('.').pop();

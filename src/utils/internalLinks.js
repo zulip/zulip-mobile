@@ -6,6 +6,7 @@ import type { Narrow, Stream, UserId } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
 import { pmKeyRecipientsFromIds } from './recipient';
 import { ensureUnreachable } from '../generics';
+import { isUrlOnRealm } from './url';
 
 /**
  * For narrow URL https://zulip.example/#narrow/foo/bar, split the part of
@@ -54,7 +55,7 @@ const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
 export const isNarrowLink = (url: string, realm: URL): boolean => {
   const resolved = new URL(url, realm);
   return (
-    resolved.origin === realm.origin
+    isUrlOnRealm(resolved, realm)
     && resolved.pathname === '/'
     && resolved.search === ''
     && /^#narrow\//i.test(resolved.hash)

@@ -11,7 +11,7 @@ import type { Account, GlobalThunkAction, Narrow, Stream, UserId, UserOrBot } fr
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import * as logging from '../utils/logging';
 import { fromPushNotificationIOS } from './extract';
-import { tryParseUrl } from '../utils/url';
+import { isUrlOnRealm, tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
 import { getStreamsByName } from '../selectors';
@@ -49,7 +49,7 @@ export const getAccountFromNotificationData = (
 
   const urlMatches = [];
   accounts.forEach((account, i) => {
-    if (account.realm.origin === realmUrl.origin) {
+    if (isUrlOnRealm(account.realm, realmUrl)) {
       urlMatches.push(i);
     }
   });

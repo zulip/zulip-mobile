@@ -2,6 +2,8 @@
 
 import type { Auth } from '../../types';
 
+import { isUrlOnRealm } from '../../utils/url';
+
 /** List of routes which accept the API key appended as a GET parameter. */
 const inlineApiRoutes: $ReadOnlyArray<RegExp> = [
   '^/user_uploads/',
@@ -49,7 +51,7 @@ const rewriteImageUrls = (auth: Auth, element: Element | Document) => {
     }
 
     // 2: Inject the API key where needed.
-    if (fixedSrc.origin === realm.origin) {
+    if (isUrlOnRealm(fixedSrc, realm)) {
       if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
         // Ideally we'd just use `searchParams`, but that was new in Chrome 51
         // (and Safari 10).

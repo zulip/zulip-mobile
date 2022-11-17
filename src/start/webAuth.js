@@ -4,7 +4,7 @@ import * as WebBrowser from 'expo-web-browser';
 
 import type { Auth } from '../types';
 import { openLinkEmbedded } from '../utils/openLink';
-import { tryParseUrl } from '../utils/url';
+import { isUrlOnRealm, tryParseUrl } from '../utils/url';
 import { base64ToHex, hexToAscii, xorHexStrings } from '../utils/encoding';
 
 /*
@@ -78,7 +78,7 @@ export const authFromCallbackUrl = (callbackUrl: string, otp: string, realm: URL
     return null;
   }
   const callbackRealm = tryParseUrl(callbackRealmStr);
-  if (!callbackRealm || callbackRealm.origin !== realm.origin) {
+  if (!callbackRealm || !isUrlOnRealm(callbackRealm, realm)) {
     return null;
   }
 
