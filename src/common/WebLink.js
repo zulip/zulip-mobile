@@ -4,8 +4,10 @@ import * as React from 'react';
 
 import ZulipText from './ZulipText';
 import ZulipTextIntl from './ZulipTextIntl';
-import { openLinkEmbedded } from '../utils/openLink';
+import { openLinkWithUserPreference } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
+import { useGlobalSelector } from '../react-redux';
+import { getGlobalSettings } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   ...$Exact<React$ElementConfig<typeof ZulipText>>,
@@ -35,11 +37,13 @@ const componentStyles = createStyleSheet({
 export default function WebLink(props: Props): React.Node {
   const { children } = props;
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   return (
     <ZulipText
       style={componentStyles.link}
       onPress={() => {
-        openLinkEmbedded(props.url.toString());
+        openLinkWithUserPreference(props.url.toString(), globalSettings);
       }}
     >
       {React.Children.map(children, child => {
