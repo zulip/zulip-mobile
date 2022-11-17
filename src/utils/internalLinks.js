@@ -45,22 +45,14 @@ const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
  *
  * Test for a link to a Zulip narrow on the given realm.
  *
- * True just if the given URL string appears to be a link, either absolute
- * or relative, to a Zulip narrow on the given realm.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
+ * True just if the given URL appears to be a link to a Zulip narrow on the
+ * given realm.
  */
-export const isNarrowLink = (url: string, realm: URL): boolean => {
-  const resolved = new URL(url, realm);
-  return (
-    isUrlOnRealm(resolved, realm)
-    && resolved.pathname === '/'
-    && resolved.search === ''
-    && /^#narrow\//i.test(resolved.hash)
-  );
-};
+export const isNarrowLink = (url: URL, realm: URL): boolean =>
+  isUrlOnRealm(url, realm)
+  && url.pathname === '/'
+  && url.search === ''
+  && /^#narrow\//i.test(url.hash);
 
 type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
@@ -74,7 +66,7 @@ type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 export const getLinkType = (url: string, realm: URL): LinkType => {
-  if (!isNarrowLink(url, realm)) {
+  if (!isNarrowLink(new URL(url, realm), realm)) {
     return 'non-narrow';
   }
 
