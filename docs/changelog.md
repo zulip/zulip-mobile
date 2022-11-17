@@ -39,6 +39,13 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.194 (2022-11-16)
+
+This is a stable release in the v27.193 series, with cherry-picked
+changes atop v27.193.
+
+
 ### Highlights for users
 
 * You can now mark messages as unread.  This makes it easy to return
