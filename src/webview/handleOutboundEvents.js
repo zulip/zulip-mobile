@@ -1,7 +1,6 @@
 /* @flow strict-local */
 import { Clipboard, Alert } from 'react-native';
 
-import * as NavigationService from '../nav/NavigationService';
 import * as api from '../api';
 import config from '../config';
 import type { UserId } from '../types';
@@ -12,15 +11,7 @@ import { isUrlAnImage, tryParseUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
-import {
-  fetchOlder,
-  fetchNewer,
-  navigateToAccountDetails,
-  navigateToMessageReactionScreen,
-  doNarrow,
-  navigateToLightbox,
-  messageLinkPress,
-} from '../actions';
+import { fetchOlder, fetchNewer, doNarrow, messageLinkPress } from '../actions';
 import {
   showTopicActionSheet,
   showPmConversationActionSheet,
@@ -203,7 +194,7 @@ const handleImage = (
 
   const message = props.messages.find(x => x.id === messageId);
   if (message && message.isOutbox !== true) {
-    NavigationService.dispatch(navigateToLightbox(parsedSrc, message));
+    navigation.push('lightbox', { src: parsedSrc, message });
   }
 };
 
@@ -281,7 +272,7 @@ export const handleWebViewOutboundEvent = (
       break;
 
     case 'request-user-profile': {
-      NavigationService.dispatch(navigateToAccountDetails(event.fromUserId));
+      navigation.push('account-details', { userId: event.fromUserId });
       break;
     }
 
@@ -326,12 +317,12 @@ export const handleWebViewOutboundEvent = (
     case 'reactionDetails':
       {
         const { messageId, reactionName } = event;
-        NavigationService.dispatch(navigateToMessageReactionScreen(messageId, reactionName));
+        navigation.push('message-reactions', { messageId, reactionName });
       }
       break;
 
     case 'mention': {
-      NavigationService.dispatch(navigateToAccountDetails(event.userId));
+      navigation.push('account-details', { userId: event.userId });
       break;
     }
 

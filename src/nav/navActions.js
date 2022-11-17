@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 
 import * as NavigationService from './NavigationService';
-import type { Message, Narrow, UserId } from '../types';
+import type { Narrow } from '../types';
 import type { SharedData } from '../sharing/types';
 
 // TODO: Probably just do a StackActions.pop()?
@@ -45,17 +45,6 @@ export const navigateToChat = (narrow: Narrow): NavigationAction =>
 
 export const replaceWithChat = (narrow: Narrow): NavigationAction =>
   StackActions.replace('chat', { narrow, editMessage: null });
-
-export const navigateToAccountDetails = (userId: UserId): NavigationAction =>
-  StackActions.push('account-details', { userId });
-
-export const navigateToLightbox = (src: URL, message: Message): NavigationAction =>
-  StackActions.push('lightbox', { src, message });
-
-export const navigateToMessageReactionScreen = (
-  messageId: number,
-  reactionName?: string,
-): NavigationAction => StackActions.push('message-reactions', { messageId, reactionName });
 
 export const navigateToSharing = (sharedData: SharedData): NavigationAction =>
   StackActions.push('sharing', { sharedData });
