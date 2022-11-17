@@ -69,11 +69,6 @@ export default function Lightbox(props: Props): Node {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
 
-  // Important: Don't include auth headers unless `src` is on the realm.
-  const resource = isUrlOnRealm(src, auth.realm)
-    ? { uri: src.toString(), headers: getAuthHeaders(auth) }
-    : { uri: src.toString() };
-
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.
   useGlobalSelector(state => getGlobalSession(state).orientation);
@@ -85,7 +80,12 @@ export default function Lightbox(props: Props): Node {
       <ZulipStatusBar hidden={!headerFooterVisible} backgroundColor="black" />
       <View style={styles.container}>
         <PhotoView
-          source={resource}
+          source={
+            // Important: Don't include auth headers unless `src` is on the realm.
+            isUrlOnRealm(src, auth.realm)
+              ? { uri: src.toString(), headers: getAuthHeaders(auth) }
+              : { uri: src.toString() }
+          }
           style={[styles.img, { width: windowWidth }]}
           // Doesn't seem to do anything on iOS:
           //   https://github.com/alwx/react-native-photo-view/issues/62
