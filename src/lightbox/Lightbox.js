@@ -12,7 +12,7 @@ import type { Message } from '../types';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getAuth, getGlobalSession } from '../selectors';
-import { getResource } from '../utils/url';
+import { isUrlOnRealm } from '../utils/url';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
 import { constructActionSheetButtons, executeActionSheetAction } from './LightboxActionSheet';
@@ -21,6 +21,7 @@ import { navigateBack } from '../actions';
 import { streamNameOfStreamMessage } from '../utils/recipient';
 import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useNavigation } from '../react-navigation';
+import { getAuthHeaders } from '../api/transport';
 
 const styles = createStyleSheet({
   img: {
@@ -68,7 +69,10 @@ export default function Lightbox(props: Props): Node {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
 
-  const resource = getResource(src, auth);
+  // Important: Don't include auth headers unless `src` is on the realm.
+  const resource = isUrlOnRealm(src, auth.realm)
+    ? { uri: src.toString(), headers: getAuthHeaders(auth) }
+    : { uri: src.toString() };
 
   // Since we're using `Dimensions.get` (below), we'll want a rerender
   // when the orientation changes. No need to store the value.

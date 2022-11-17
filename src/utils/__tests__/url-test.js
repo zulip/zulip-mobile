@@ -1,7 +1,5 @@
 /* @flow strict-local */
-import base64 from 'base-64';
-import { getResource, isUrlOnRealm, isUrlAbsolute, isUrlRelative, isUrlPathAbsolute } from '../url';
-import type { Auth } from '../../types';
+import { isUrlOnRealm, isUrlAbsolute, isUrlRelative, isUrlPathAbsolute } from '../url';
 
 const urlClassifierCases = {
   // These data are mostly a selection from this resource:
@@ -57,31 +55,6 @@ describe('isUrlPathAbsolute', () => {
       expect(isUrlPathAbsolute(url)).toEqual(expected);
     });
   }
-});
-
-describe('getResource', () => {
-  const auth: Auth = {
-    realm: new URL('https://example.com/'),
-    apiKey: 'someApiKey',
-    email: 'johndoe@example.com',
-  };
-
-  test('when uri is on realm, add auth headers', () => {
-    const expectedHeaders = {
-      Authorization: `Basic ${base64.encode(`${auth.email}:${auth.apiKey}`)}`,
-    };
-
-    const resource = getResource(new URL('https://example.com/img.gif'), auth);
-    expect(resource).toEqual({ uri: 'https://example.com/img.gif', headers: expectedHeaders });
-  });
-
-  test('when uri is on different domain than realm, do not include auth headers', () => {
-    const expectedResult = {
-      uri: 'https://another.com/img.gif',
-    };
-    const resource = getResource(new URL('https://another.com/img.gif'), auth);
-    expect(resource).toEqual(expectedResult);
-  });
 });
 
 describe('isUrlOnRealm', () => {
