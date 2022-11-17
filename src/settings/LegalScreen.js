@@ -5,12 +5,12 @@ import type { Node } from 'react';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector, useSelector } from '../react-redux';
 import Screen from '../common/Screen';
 import NestedNavRow from '../common/NestedNavRow';
 import ZulipText from '../common/ZulipText';
-import { openLinkEmbedded } from '../utils/openLink';
-import { getRealmUrl, getRealmName } from '../selectors';
+import { openLinkWithUserPreference } from '../utils/openLink';
+import { getRealmUrl, getRealmName, getGlobalSettings } from '../selectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'legal'>,
@@ -22,13 +22,15 @@ export default function LegalScreen(props: Props): Node {
   const realm = useSelector(getRealmUrl);
   const realmName = useSelector(getRealmName);
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   const openZulipPolicies = useCallback(() => {
-    openLinkEmbedded('https://zulip.com/policies/?nav=no');
-  }, []);
+    openLinkWithUserPreference('https://zulip.com/policies/?nav=no', globalSettings);
+  }, [globalSettings]);
 
   const openRealmPolicies = useCallback(() => {
-    openLinkEmbedded(new URL('/policies/?nav=no', realm).toString());
-  }, [realm]);
+    openLinkWithUserPreference(new URL('/policies/?nav=no', realm).toString(), globalSettings);
+  }, [realm, globalSettings]);
 
   return (
     <Screen title="Legal">
