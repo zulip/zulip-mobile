@@ -39,6 +39,12 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* You can now mark messages as unread.  This makes it easy to return
+  to a conversation later if you don't have time to read it carefully,
+  or to follow up on action items. (#5364)
+
 
 ## 27.193 (2022-11-10)
 
