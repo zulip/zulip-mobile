@@ -187,7 +187,12 @@ const markRead = (props: Props, event: WebViewOutboundEventScroll) => {
 /**
  * Handle tapping an image or link for which we want to open the lightbox.
  */
-const handleImage = (props: Props, src: string, messageId: number) => {
+const handleImage = (
+  props: Props,
+  navigation: AppNavigationMethods,
+  src: string,
+  messageId: number,
+) => {
   const { _ } = props;
 
   const parsedSrc = tryParseUrl(src, props.backgroundData.auth.realm);
@@ -285,7 +290,7 @@ export const handleWebViewOutboundEvent = (
       break;
 
     case 'image':
-      handleImage(props, event.src, event.messageId);
+      handleImage(props, navigation, event.src, event.messageId);
       break;
 
     case 'longPress':
@@ -300,7 +305,7 @@ export const handleWebViewOutboundEvent = (
 
     case 'url':
       if (isUrlAnImage(event.href)) {
-        handleImage(props, event.href, event.messageId);
+        handleImage(props, navigation, event.href, event.messageId);
       } else {
         props.dispatch(messageLinkPress(event.href));
       }
