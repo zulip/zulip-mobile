@@ -124,7 +124,6 @@ export default function ComposeBox(props: Props): Node {
   const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
 
   const [height, setHeight] = useState<number>(20);
-  const [numUploading, setNumUploading] = useState<number>(0);
 
   const [focusState, setFocusState] = useState<{|
     message: boolean,
@@ -254,6 +253,7 @@ export default function ComposeBox(props: Props): Node {
     [insertMessageTextAtCursorPosition, _],
   );
 
+  const [numUploading, setNumUploading] = useState<number>(0);
   const insertAttachment = useCallback(
     async (attachments: $ReadOnlyArray<DocumentPickerResponse>) => {
       setNumUploading(n => n + 1);
