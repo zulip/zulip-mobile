@@ -3,6 +3,7 @@ import React from 'react';
 import type { Node } from 'react';
 import { Platform, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import KeyboardAvoidingView from '../third/react-native/KeyboardAvoidingView';
 
@@ -12,8 +13,9 @@ type Props = $ReadOnly<{|
   style?: ViewStyleProp,
   contentContainerStyle?: ViewStyleProp,
 
-  /** How much the top of `KeyboardAvoider`'s layout *parent* is
-   * displaced downward from the top of the screen.
+  /**
+   * How much the top of `KeyboardAvoider`'s layout *parent* is
+   *   displaced downward from the top of the screen.
    *
    * If this isn't set correctly, the keyboard will hide some of
    * the bottom of the screen (an area whose height is what this
@@ -30,6 +32,19 @@ type Props = $ReadOnly<{|
    * we can use to balance the equation if we need to.
    */
   keyboardVerticalOffset?: number,
+
+  /**
+   * Whether to shorten the excursion by the height of the bottom inset.
+   *
+   * Use this when a child component uses SafeAreaView to pad the bottom
+   * inset, and you want the open keyboard to cover that padding.
+   *
+   * (SafeAreaView has a bug where it applies a constant padding no matter
+   * where it's positioned onscreen -- so in particular, if you ask for
+   * bottom padding, you'll get bottom padding even when KeyboardAvoider
+   * pushes the SafeAreaView up and out of the bottom inset.)
+   */
+  compensateOverpadding?: boolean,
 |}>;
 
 /**
@@ -40,7 +55,16 @@ type Props = $ReadOnly<{|
  * to that component.
  */
 export default function KeyboardAvoider(props: Props): Node {
-  const { behavior, children, style, contentContainerStyle, keyboardVerticalOffset } = props;
+  const {
+    behavior,
+    children,
+    style,
+    contentContainerStyle,
+    keyboardVerticalOffset = 0, // Same default value as KeyboardAvoidingView
+    compensateOverpadding = false,
+  } = props;
+
+  const bottomInsetHeight = useSafeAreaInsets().bottom;
 
   if (Platform.OS === 'android') {
     return <View style={style}>{children}</View>;
@@ -51,7 +75,13 @@ export default function KeyboardAvoider(props: Props): Node {
       behavior={behavior}
       contentContainerStyle={contentContainerStyle}
       // See comment on this prop in the jsdoc.
-      keyboardVerticalOffset={keyboardVerticalOffset}
+      keyboardVerticalOffset={
+        keyboardVerticalOffset
+        // A negative term here reduces the bottom inset we use for the
+        // child, when the keyboard is open, so that the keyboard covers its
+        // bottom padding.
+        + (compensateOverpadding ? -bottomInsetHeight : 0)
+      }
       style={style}
     >
       {children}

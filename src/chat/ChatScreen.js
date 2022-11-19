@@ -198,7 +198,14 @@ export default function ChatScreen(props: Props): Node {
   );
 
   return (
-    <KeyboardAvoider style={[componentStyles.screen, { backgroundColor }]} behavior="padding">
+    <KeyboardAvoider
+      style={[componentStyles.screen, { backgroundColor }]}
+      behavior="padding"
+      compensateOverpadding={
+        // We let the compose box pad the bottom inset.
+        showComposeBox
+      }
+    >
       <ChatNavBar narrow={narrow} editMessage={editMessage} />
       <UnreadNotice narrow={narrow} />
       {(() => {

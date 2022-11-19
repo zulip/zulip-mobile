@@ -729,6 +729,8 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       </View>
       <SafeAreaView
         mode="padding"
+        // When the keyboard is open, this bottom padding is compensated
+        // for: we pass KeyboardAvoider's compensateOverpadding prop.
         edges={['bottom']}
         style={styles.composeBox}
         onLayout={handleLayoutChange}
