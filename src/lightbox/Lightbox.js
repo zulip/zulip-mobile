@@ -68,6 +68,7 @@ export default function Lightbox(props: Props): Node {
           backgroundColor: 'black',
           opacity: 0.8,
           position: 'absolute',
+          width: windowWidth,
         },
         container: {
           flex: 1,
@@ -75,7 +76,7 @@ export default function Lightbox(props: Props): Node {
           alignItems: 'center',
         },
       }),
-    [],
+    [windowWidth],
   );
 
   return (
@@ -102,13 +103,7 @@ export default function Lightbox(props: Props): Node {
           onTap={handleImagePress}
           onViewTap={handleImagePress}
         />
-        <View
-          style={[
-            styles.overlay,
-            { width: windowWidth },
-            headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
-          ]}
-        >
+        <View style={[styles.overlay, headerFooterVisible ? { top: 0 } : { bottom: windowHeight }]}>
           <LightboxHeader
             onPressBack={() => {
               navigation.dispatch(navigateBack());
@@ -118,13 +113,7 @@ export default function Lightbox(props: Props): Node {
             senderId={message.sender_id}
           />
         </View>
-        <View
-          style={[
-            styles.overlay,
-            { width: windowWidth },
-            headerFooterVisible ? { bottom: 0 } : { top: windowHeight },
-          ]}
-        >
+        <View style={[styles.overlay, headerFooterVisible ? { bottom: 0 } : { top: windowHeight }]}>
           <LightboxFooter
             displayMessage={footerMessage}
             onOptionsPress={() => {
