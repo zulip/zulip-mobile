@@ -23,23 +23,6 @@ import ZulipStatusBar from '../common/ZulipStatusBar';
 import { useNavigation } from '../react-navigation';
 import { getAuthHeaders } from '../api/transport';
 
-const styles = createStyleSheet({
-  img: {
-    height: 300,
-    flex: 1,
-  },
-  overlay: {
-    backgroundColor: 'black',
-    opacity: 0.8,
-    position: 'absolute',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
-
 type Props = $ReadOnly<{|
   src: URL,
   message: Message,
@@ -73,6 +56,27 @@ export default function Lightbox(props: Props): Node {
   useGlobalSelector(state => getGlobalSession(state).orientation);
 
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+
+  const styles = React.useMemo(
+    () =>
+      createStyleSheet({
+        img: {
+          height: 300,
+          flex: 1,
+        },
+        overlay: {
+          backgroundColor: 'black',
+          opacity: 0.8,
+          position: 'absolute',
+        },
+        container: {
+          flex: 1,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+      }),
+    [],
+  );
 
   return (
     <>
