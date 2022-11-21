@@ -2,16 +2,16 @@
 
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import { View, Dimensions, LayoutAnimation } from 'react-native';
+import { View, LayoutAnimation } from 'react-native';
 // $FlowFixMe[untyped-import]
 import PhotoView from 'react-native-photo-view';
 // $FlowFixMe[untyped-import]
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import type { Message } from '../types';
-import { useGlobalSelector, useSelector } from '../react-redux';
+import { useSelector } from '../react-redux';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
-import { getAuth, getGlobalSession } from '../selectors';
+import { getAuth } from '../selectors';
 import { isUrlOnRealm } from '../utils/url';
 import LightboxHeader from './LightboxHeader';
 import LightboxFooter from './LightboxFooter';
@@ -51,12 +51,6 @@ export default function Lightbox(props: Props): Node {
       ? `Shared in #${streamNameOfStreamMessage(message)}`
       : 'Shared with you';
 
-  // Since we're using `Dimensions.get` (below), we'll want a rerender
-  // when the orientation changes. No need to store the value.
-  useGlobalSelector(state => getGlobalSession(state).orientation);
-
-  const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
-
   const styles = React.useMemo(
     () =>
       createStyleSheet({
@@ -68,15 +62,15 @@ export default function Lightbox(props: Props): Node {
           backgroundColor: 'black',
           opacity: 0.8,
           position: 'absolute',
-          width: windowWidth,
-          ...(headerFooterVisible ? { top: 0 } : { bottom: windowHeight }),
+          width: '100%',
+          ...(headerFooterVisible ? { top: 0 } : { bottom: '100%' }),
         },
         footer: {
           backgroundColor: 'black',
           opacity: 0.8,
           position: 'absolute',
-          width: windowWidth,
-          ...(headerFooterVisible ? { bottom: 0 } : { top: windowHeight }),
+          width: '100%',
+          ...(headerFooterVisible ? { bottom: 0 } : { top: '100%' }),
         },
         container: {
           flex: 1,
@@ -84,7 +78,7 @@ export default function Lightbox(props: Props): Node {
           alignItems: 'center',
         },
       }),
-    [headerFooterVisible, windowWidth, windowHeight],
+    [headerFooterVisible],
   );
 
   return (
@@ -98,7 +92,7 @@ export default function Lightbox(props: Props): Node {
               ? { uri: src.toString(), headers: getAuthHeaders(auth) }
               : { uri: src.toString() }
           }
-          style={[styles.img, { width: windowWidth }]}
+          style={[styles.img, { width: '100%' }]}
           // Doesn't seem to do anything on iOS:
           //   https://github.com/alwx/react-native-photo-view/issues/62
           //   https://github.com/alwx/react-native-photo-view/issues/98
