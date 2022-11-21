@@ -28,7 +28,6 @@ const styles = createStyleSheet({
     height: 300,
     flex: 1,
   },
-  header: {},
   overlay: {
     backgroundColor: 'black',
     opacity: 0.8,
@@ -102,7 +101,6 @@ export default function Lightbox(props: Props): Node {
         <View
           style={[
             styles.overlay,
-            styles.header,
             { width: windowWidth },
             headerFooterVisible ? { top: 0 } : { bottom: windowHeight },
           ]}
