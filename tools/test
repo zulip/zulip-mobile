@@ -70,7 +70,7 @@ EOF
 
 opt_coverage=
 opt_files=branch
-platform=sloppy
+opt_platform=sloppy
 fix=
 suites=()
 while (( $# )); do
@@ -81,12 +81,12 @@ while (( $# )); do
         --platform)
             shift;
             case "$1" in
-                ios|android|both|sloppy) platform="$1";;
+                ios|android|both|sloppy) opt_platform="$1";;
                 *) usage;;
             esac
             shift
             ;;
-        --all) opt_files=all; platform=both; shift;;
+        --all) opt_files=all; opt_platform=both; shift;;
         --fix) fix=1; shift;;
         native|flow|lint|jest|prettier|deps|tsflower)
             suites+=("$1"); shift;;
@@ -166,12 +166,12 @@ run_native_ios() {
 }
 
 run_native() {
-    if [[ $platform == android || $platform == both || $platform == sloppy ]]; then
+    if [[ $opt_platform == android || $opt_platform == both || $opt_platform == sloppy ]]; then
         echo 'Running Android native tests...';
         run_native_android || return
     fi
 
-    if [[ $platform == ios || $platform == both || $platform == sloppy ]]; then
+    if [[ $opt_platform == ios || $opt_platform == both || $opt_platform == sloppy ]]; then
         # TODO: Run if on macOS; otherwise, echo that these tests are
         # skipped because they can't be run.
 
@@ -209,7 +209,7 @@ run_jest() {
     esac
 
     local platforms=( ios android )
-    case "$platform" in
+    case "$opt_platform" in
         ios) jest_args+=( --selectProjects ios );;
         android) jest_args+=( --selectProjects android );;
         both) jest_args+=( --selectProjects ios android );;
