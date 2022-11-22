@@ -68,14 +68,14 @@ EOF
     exit 2
 }
 
-coverage=
+opt_coverage=
 opt_files=branch
 platform=sloppy
 fix=
 suites=()
 while (( $# )); do
     case "$1" in
-        --coverage) coverage=1; shift;;
+        --coverage) opt_coverage=1; shift;;
         --diff) shift; opt_files=diff:"$1"; shift;;
         --all-files) opt_files=all; shift;;
         --platform)
@@ -193,7 +193,7 @@ run_jest() {
     local jest_args=()
     case "$opt_files" in
         all)
-            if [ -n "$coverage" ]; then
+            if [ -n "$opt_coverage" ]; then
                 jest_args+=( --coverage )
             fi
             ;;
