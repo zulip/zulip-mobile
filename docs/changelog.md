@@ -39,6 +39,11 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) Fixed a bug where the "No Internet connection" notice was
+  shown when it shouldn't have been. (#5568)
+
 
 ## 27.194 (2022-11-16)
 
