@@ -69,15 +69,15 @@ EOF
 }
 
 coverage=
-files=branch
+opt_files=branch
 platform=sloppy
 fix=
 suites=()
 while (( $# )); do
     case "$1" in
         --coverage) coverage=1; shift;;
-        --diff) shift; files=diff:"$1"; shift;;
-        --all-files) files=all; shift;;
+        --diff) shift; opt_files=diff:"$1"; shift;;
+        --all-files) opt_files=all; shift;;
         --platform)
             shift;
             case "$1" in
@@ -86,7 +86,7 @@ while (( $# )); do
             esac
             shift
             ;;
-        --all) files=all; platform=both; shift;;
+        --all) opt_files=all; platform=both; shift;;
         --fix) fix=1; shift;;
         native|flow|lint|jest|prettier|deps|tsflower)
             suites+=("$1"); shift;;
@@ -101,10 +101,10 @@ if [ -z "$suites" ]; then
 fi
 
 files_base_commit=
-case "$files" in
+case "$opt_files" in
     all) ;;
     branch) files_base_commit="$(tools/git base)";;
-    diff:*) files_base_commit="${files#diff:}";;
+    diff:*) files_base_commit="${opt_files#diff:}";;
 esac
 
 
@@ -115,12 +115,12 @@ cd "$rootdir"
 
 PATH=node_modules/.bin:"$PATH"
 
-# Intersect $files with the set of our JS files in src/.
+# Intersect $opt_files with the set of our JS files in src/.
 #
 # Prints a list of newline-terminated paths; either files, or
 # directories meaning their whole subtrees.
 files_js() {
-    case "$files" in
+    case "$opt_files" in
         all)
             echo src/
             ;;
@@ -132,7 +132,7 @@ files_js() {
 
 # True just if $files intersects the given set of paths.
 files_check() {
-    case "$files" in
+    case "$opt_files" in
         all)
             ;;
         branch | diff:*)
@@ -189,9 +189,9 @@ run_lint() {
 }
 
 run_jest() {
-    # Unlike some others, this inspects "$files" for itself.
+    # Unlike some others, this inspects "$opt_files" for itself.
     local jest_args=()
-    case "$files" in
+    case "$opt_files" in
         all)
             if [ -n "$coverage" ]; then
                 jest_args+=( --coverage )
@@ -225,7 +225,7 @@ run_jest() {
 
 run_prettier() {
     local patterns
-    case "$files" in
+    case "$opt_files" in
         all)
             # The prettier-eslint CLI won't take directories;
             # but it's happy to take glob patterns, and supports `**`.
