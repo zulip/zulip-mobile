@@ -39,6 +39,13 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.195 (2022-11-22)
+
+This is an Android-only stable release in the v27.193 series, with
+cherry-picked changes atop v27.194.
+
+
 ### Highlights for users
 
 * (Android) Fixed a bug where the "No Internet connection" notice was
