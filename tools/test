@@ -72,7 +72,7 @@ opt_coverage=
 opt_files=branch
 opt_platform=sloppy
 opt_fix=
-suites=()
+opt_suites=()
 while (( $# )); do
     case "$1" in
         --coverage) opt_coverage=1; shift;;
@@ -89,15 +89,15 @@ while (( $# )); do
         --all) opt_files=all; opt_platform=both; shift;;
         --fix) opt_fix=1; shift;;
         native|flow|lint|jest|prettier|deps|tsflower)
-            suites+=("$1"); shift;;
+            opt_suites+=("$1"); shift;;
         *) usage;;
     esac
 done
 
-if [ -z "$suites" ]; then
+if [ -z "$opt_suites" ]; then
     # This default doesn't have to be the complete list; just be sure to
     # document in the usage message any suites that it skips.
-    suites=(native flow lint jest prettier deps tsflower)
+    opt_suites=(native flow lint jest prettier deps tsflower)
 fi
 
 files_base_commit=
@@ -285,7 +285,7 @@ run_tsflower() {
 }
 
 failed=()
-for suite in "${suites[@]}"; do
+for suite in "${opt_suites[@]}"; do
     echo "Running $suite..."
     case "$suite" in
         native)   run_native ;;
