@@ -1,15 +1,7 @@
 // @flow strict-local
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { Node } from 'react';
-import {
-  AccessibilityInfo,
-  View,
-  Animated,
-  LayoutAnimation,
-  Platform,
-  Easing,
-  useColorScheme,
-} from 'react-native';
+import { AccessibilityInfo, View, LayoutAnimation, Platform, useColorScheme } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { ViewProps } from 'react-native/Libraries/Components/View/ViewPropTypes';
@@ -19,7 +11,7 @@ import * as logging from '../utils/logging';
 import { useDispatch, useGlobalSelector } from '../react-redux';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
 import { getThemeToUse } from '../settings/settingsSelectors';
-import { useHasStayedTrueForMs, usePrevious } from '../reactUtils';
+import { useHasStayedTrueForMs } from '../reactUtils';
 import type { JSONableDict } from '../utils/jsonable';
 import { createStyleSheet } from '../styles';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -176,15 +168,20 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
   useEffect(() => {
     setIsNoticeVisible(oldValue => {
       const newValue = isOnline === false || shouldShowUncertaintyNotice;
-      if (oldValue !== newValue) {
-        // Animate the entrance and exit of the offline notice. For how we
-        // animate OfflineNoticePlaceholder, see there.
-        //
-        // For the notice, we shouldn't be affected by the known bad
-        // interactions with react-native-screens, because the notice is
-        // rootward of all the React Navigation screens in the app. For what
-        // those bad interactions are, see the comment in ZulipMobile.js on
-        // `UIManager.setLayoutAnimationEnabledExperimental(true)`.
+      // Don't animate on Android, at least for now. The animation seems to
+      // get stuck:
+      //   https://chat.zulip.org/#narrow/stream/48-mobile/topic/android.20.22No.20internet.20connection.22/near/1468556
+      // If we want to try again, see the commit that removed the Android
+      // animation, for ideas about handling some bad interactions with
+      // react-native-screens.
+      if (Platform.OS === 'ios' && oldValue !== newValue) {
+        // Animate two layout changes that happen at the same time, because
+        // they are triggered by the same render pass:
+        // - the entrance / exit of the offline notice
+        // - the corresponding change in OfflineNoticePlaceholder's height
+        // They're triggered by the same render pass because the same piece
+        // of state, isNoticeVisible, controls both layouts. The placeholder
+        // subscribes to that state with React.useContext.
         LayoutAnimation.configureNext({
           ...LayoutAnimation.Presets.easeInEaseOut,
 
@@ -398,60 +395,17 @@ export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
   const { style: callerStyle } = props;
 
   const { isNoticeVisible, noticeContentAreaHeight } = useContext(OfflineNoticeContext);
-  const prevIsNoticeVisible = usePrevious(isNoticeVisible, isNoticeVisible);
-
-  const plainHeight = isNoticeVisible ? noticeContentAreaHeight : 0;
-  const animHeight = useRef(new Animated.Value(plainHeight)).current;
-
-  // Part of an Android workaround; see where we set the View's height.
-  useEffect(() => {
-    if (Platform.OS !== 'android' || prevIsNoticeVisible === isNoticeVisible) {
-      return;
-    }
-
-    // Should approximate OfflineNoticeProvider's animation curve.
-    const animation = Animated.timing(animHeight, {
-      toValue: plainHeight,
-      duration: isNoticeVisible ? 1000 : 300,
-      easing: Easing.inOut(t => Easing.ease(t)),
-
-      // With `true`, I get an error:
-      // - On Android: "Animated node with tag […] does not exist"
-      // - On iOS: "Style property 'height' is not supported by native
-      //   animated module".
-      useNativeDriver: false,
-    });
-
-    animation.start();
-  }, [isNoticeVisible, prevIsNoticeVisible, plainHeight, animHeight]);
 
   const style = useMemo(
     () => [
       {
-        height:
-          /* prettier-ignore */
-          Platform.OS === 'android'
-            // Avoid some bad interactions on Android with
-            // react-native-screens; see the comment in ZulipMobile.js on
-            // `UIManager.setLayoutAnimationEnabledExperimental(true)`. To
-            // avoid those, don't pass `plainHeight`, which would cause the
-            // resulting layout change to be animated with
-            // OfflineNoticeProvider's LayoutAnimation.configureNext call.
-            // Instead, use RN's Animated API.
-            ? animHeight
-            // Do pass `plainHeight`, to piggy-back on
-            // OfflineNoticeProvider's LayoutAnimation call. Nothing seems
-            // to break this simple use of LayoutAnimation on iOS, and it's
-            // better than Animated because Animated can drop animation
-            // frames when the CPU is busy (at least without
-            // `useNativeDriver: true`, and that doesn't support `height`).
-            : plainHeight,
+        height: isNoticeVisible ? noticeContentAreaHeight : 0,
         width: '100%',
         backgroundColor: 'transparent',
       },
       callerStyle,
     ],
-    [plainHeight, animHeight, callerStyle],
+    [isNoticeVisible, noticeContentAreaHeight, callerStyle],
   );
 
   return (
@@ -468,9 +422,7 @@ export function OfflineNoticePlaceholder(props: PlaceholderProps): Node {
           />
         )
       }
-      {/* The `Animated.View` is for the Android workaround; iOS could use a
-          regular View. See comment where we set the height attribute. */}
-      <Animated.View style={style} />
+      <View style={style} />
     </>
   );
 }
