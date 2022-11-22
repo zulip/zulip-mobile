@@ -57,6 +57,7 @@ export default function Lightbox(props: Props): Node {
         img: {
           height: 300,
           flex: 1,
+          width: '100%',
         },
         header: {
           backgroundColor: 'black',
@@ -92,7 +93,7 @@ export default function Lightbox(props: Props): Node {
               ? { uri: src.toString(), headers: getAuthHeaders(auth) }
               : { uri: src.toString() }
           }
-          style={[styles.img, { width: '100%' }]}
+          style={styles.img}
           // Doesn't seem to do anything on iOS:
           //   https://github.com/alwx/react-native-photo-view/issues/62
           //   https://github.com/alwx/react-native-photo-view/issues/98
