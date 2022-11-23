@@ -320,7 +320,7 @@ export default function MessageList(outerProps: OuterProps): React.Node {
         handleWebViewOutboundEvent(propsRef.current, navigation, eventData);
       }
     },
-    [sendInboundEvents],
+    [sendInboundEvents, navigation],
   );
 
   // We compute the page contents as an HTML string just once (*), on this
