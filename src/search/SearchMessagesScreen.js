@@ -139,6 +139,7 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
         search
         autoFocus
         searchBarOnSubmit={this.handleQuerySubmitWrapper}
+        scrollEnabled={false}
         style={styles.flexed}
       >
         <SearchMessagesCard
