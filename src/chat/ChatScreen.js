@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
