@@ -6,20 +6,6 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { ThemeContext, createStyleSheet, HALF_COLOR } from '../styles';
 
-const styles = createStyleSheet({
-  wrapper: {
-    flexDirection: 'row',
-    opacity: 0.8,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  realmInput: {
-    flex: 1,
-    padding: 0,
-    fontSize: 20,
-  },
-});
-
 type Props = $ReadOnly<{|
   onChangeText: (value: string) => void,
   value: string,
@@ -51,13 +37,32 @@ export default function SmartUrlInput(props: Props): Node {
     }, []),
   );
 
+  const styles = React.useMemo(
+    () =>
+      createStyleSheet({
+        wrapper: {
+          flexDirection: 'row',
+          opacity: 0.8,
+          marginTop: 16,
+          marginBottom: 8,
+        },
+        realmInput: {
+          flex: 1,
+          padding: 0,
+          fontSize: 20,
+          color: themeContext.color,
+        },
+      }),
+    [themeContext],
+  );
+
   return (
     <View style={styles.wrapper}>
       <TextInput
         value={value}
         placeholder="your-org.zulipchat.com"
         placeholderTextColor={HALF_COLOR}
-        style={[styles.realmInput, { color: themeContext.color }]}
+        style={styles.realmInput}
         autoFocus
         autoCorrect={false}
         autoCapitalize="none"
