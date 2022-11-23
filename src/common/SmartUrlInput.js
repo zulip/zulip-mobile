@@ -5,7 +5,6 @@ import { TextInput, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { AppNavigationProp } from '../nav/AppNavigator';
 import { ThemeContext, createStyleSheet, HALF_COLOR } from '../styles';
 
 const styles = createStyleSheet({
@@ -21,19 +20,13 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  // TODO: Currently this type is acceptable because the only
-  // `navigation` prop we pass to a `SmartUrlInput` instance is the
-  // one from a component on AppNavigator.
-  navigation: AppNavigationProp<>,
-
   style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
-  enablesReturnKeyAutomatically: boolean,
 |}>;
 
 export default function SmartUrlInput(props: Props): Node {
-  const { style, onChangeText, onSubmitEditing, enablesReturnKeyAutomatically } = props;
+  const { style, onChangeText, onSubmitEditing } = props;
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
@@ -89,7 +82,7 @@ export default function SmartUrlInput(props: Props): Node {
         keyboardType="url"
         underlineColorAndroid="transparent"
         onSubmitEditing={onSubmitEditing}
-        enablesReturnKeyAutomatically={enablesReturnKeyAutomatically}
+        enablesReturnKeyAutomatically
         ref={textInputRef}
       />
     </View>
