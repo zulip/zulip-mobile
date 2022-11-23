@@ -109,17 +109,28 @@ export default function Screen(props: Props): Node {
         <ModalNavBar canGoBack={canGoBack} title={title} />
       )}
       {shouldShowLoadingBanner && <LoadingBanner />}
-      <KeyboardAvoider behavior="padding" style={[styles.wrapper, padding && globalStyles.padding]}>
+      <KeyboardAvoider behavior="padding" style={styles.wrapper}>
         {scrollEnabled ? (
           <ScrollView
-            contentContainerStyle={centerContent && styles.content}
+            contentContainerStyle={[
+              centerContent && styles.content,
+              padding && globalStyles.padding,
+            ]}
             style={styles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
           </ScrollView>
         ) : (
-          <View style={[styles.childrenWrapper, centerContent && styles.content]}>{children}</View>
+          <View
+            style={[
+              styles.childrenWrapper,
+              centerContent && styles.content,
+              padding && globalStyles.padding,
+            ]}
+          >
+            {children}
+          </View>
         )}
       </KeyboardAvoider>
     </SafeAreaView>
