@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { Keyboard } from 'react-native';
 
@@ -13,17 +13,12 @@ import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
+import { createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
   route: RouteProp<'realm-input', {| initial: boolean | void |}>,
 |}>;
-
-type State = {|
-  realmInputValue: string,
-  error: string | null,
-  progress: boolean,
-|};
 
 const urlFromInputValue = (realmInputValue: string): URL | void => {
   const withScheme = /^https?:\/\//.test(realmInputValue)
@@ -33,88 +28,85 @@ const urlFromInputValue = (realmInputValue: string): URL | void => {
   return tryParseUrl(withScheme);
 };
 
-export default class RealmInputScreen extends PureComponent<Props, State> {
-  state: State = {
-    progress: false,
-    realmInputValue: '',
-    error: null,
-  };
+export default function RealmInputScreen(props: Props): Node {
+  const { navigation, route } = props;
 
-  tryRealm: () => Promise<void> = async () => {
-    const { realmInputValue } = this.state;
+  const [progress, setProgress] = React.useState(false);
+  const [realmInputValue, setRealmInputValue] = React.useState('');
+  const [error, setError] = React.useState(null);
 
+  const tryRealm = React.useCallback(async () => {
     const parsedRealm = urlFromInputValue(realmInputValue);
     if (!parsedRealm) {
-      this.setState({ error: 'Please enter a valid URL' });
+      setError('Please enter a valid URL');
       return;
     }
     if (parsedRealm.username !== '') {
-      this.setState({ error: 'Please enter the server URL, not your email' });
+      setError('Please enter the server URL, not your email');
       return;
     }
 
-    this.setState({
-      progress: true,
-      error: null,
-    });
+    setProgress(true);
+    setError(null);
     try {
       const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
-      this.props.navigation.push('auth', { serverSettings });
+      navigation.push('auth', { serverSettings });
       Keyboard.dismiss();
     } catch (errorIllTyped) {
       const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-      this.setState({ error: 'Cannot connect to server' });
+      setError('Cannot connect to server');
       /* eslint-disable no-console */
       console.warn('RealmInputScreen: failed to connect to server:', err);
       // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
       console.warn((err: Error).stack);
     } finally {
-      this.setState({ progress: false });
+      setProgress(false);
     }
-  };
+  }, [navigation, realmInputValue]);
 
-  handleRealmChange: string => void = value => this.setState({ realmInputValue: value });
+  const handleRealmChange = useCallback(value => {
+    setRealmInputValue(value);
+  }, []);
 
-  render(): Node {
-    const { navigation } = this.props;
-    const { progress, error, realmInputValue } = this.state;
+  const styles = React.useMemo(
+    () =>
+      createStyleSheet({
+        input: { marginTop: 16, marginBottom: 8 },
+        hintText: { paddingLeft: 2, fontSize: 12 },
+        button: { marginTop: 8 },
+      }),
+    [],
+  );
 
-    const styles = {
-      input: { marginTop: 16, marginBottom: 8 },
-      hintText: { paddingLeft: 2, fontSize: 12 },
-      button: { marginTop: 8 },
-    };
-
-    return (
-      <Screen
-        title="Welcome"
-        canGoBack={!this.props.route.params.initial}
-        padding
-        centerContent
-        keyboardShouldPersistTaps="always"
-        shouldShowLoadingBanner={false}
-      >
-        <ZulipTextIntl text="Enter your Zulip server URL:" />
-        <SmartUrlInput
-          style={styles.input}
-          navigation={navigation}
-          onChangeText={this.handleRealmChange}
-          onSubmitEditing={this.tryRealm}
-          enablesReturnKeyAutomatically
-        />
-        {error !== null ? (
-          <ErrorMsg error={error} />
-        ) : (
-          <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
-        )}
-        <ZulipButton
-          style={styles.button}
-          text="Enter"
-          progress={progress}
-          onPress={this.tryRealm}
-          disabled={urlFromInputValue(realmInputValue) === undefined}
-        />
-      </Screen>
-    );
-  }
+  return (
+    <Screen
+      title="Welcome"
+      canGoBack={!route.params.initial}
+      padding
+      centerContent
+      keyboardShouldPersistTaps="always"
+      shouldShowLoadingBanner={false}
+    >
+      <ZulipTextIntl text="Enter your Zulip server URL:" />
+      <SmartUrlInput
+        style={styles.input}
+        navigation={navigation}
+        onChangeText={handleRealmChange}
+        onSubmitEditing={tryRealm}
+        enablesReturnKeyAutomatically
+      />
+      {error !== null ? (
+        <ErrorMsg error={error} />
+      ) : (
+        <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
+      )}
+      <ZulipButton
+        style={styles.button}
+        text="Enter"
+        progress={progress}
+        onPress={tryRealm}
+        disabled={urlFromInputValue(realmInputValue) === undefined}
+      />
+    </Screen>
+  );
 }
