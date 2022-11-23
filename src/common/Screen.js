@@ -7,31 +7,12 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
-import styles, { createStyleSheet, ThemeContext } from '../styles';
+import globalStyles, { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText, LocalizableReactText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import LoadingBanner from './LoadingBanner';
 import ModalNavBar from '../nav/ModalNavBar';
 import ModalSearchNavBar from '../nav/ModalSearchNavBar';
-
-const componentStyles = createStyleSheet({
-  screen: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  wrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
-  },
-  childrenWrapper: {
-    flex: 1,
-  },
-  content: {
-    flexGrow: 1,
-    justifyContent: 'center',
-  },
-});
 
 type Props = $ReadOnly<{|
   centerContent?: boolean,
@@ -94,12 +75,31 @@ export default function Screen(props: Props): Node {
     searchBarOnSubmit = (e: EditingEvent) => {},
   } = props;
 
+  const styles = React.useMemo(
+    () =>
+      createStyleSheet({
+        screen: {
+          flex: 1,
+          flexDirection: 'column',
+        },
+        wrapper: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'stretch',
+        },
+        childrenWrapper: {
+          flex: 1,
+        },
+        content: {
+          flexGrow: 1,
+          justifyContent: 'center',
+        },
+      }),
+    [],
+  );
+
   return (
-    <SafeAreaView
-      mode="padding"
-      edges={['bottom']}
-      style={[componentStyles.screen, { backgroundColor }]}
-    >
+    <SafeAreaView mode="padding" edges={['bottom']} style={[styles.screen, { backgroundColor }]}>
       {search ? (
         <ModalSearchNavBar
           autoFocus={autoFocus}
@@ -112,26 +112,17 @@ export default function Screen(props: Props): Node {
         <ModalNavBar canGoBack={canGoBack} title={title} />
       )}
       {shouldShowLoadingBanner && <LoadingBanner />}
-      <KeyboardAvoider
-        behavior="padding"
-        style={[componentStyles.wrapper, padding && styles.padding]}
-      >
+      <KeyboardAvoider behavior="padding" style={[styles.wrapper, padding && globalStyles.padding]}>
         {scrollEnabled ? (
           <ScrollView
-            contentContainerStyle={[centerContent && componentStyles.content, style]}
-            style={componentStyles.childrenWrapper}
+            contentContainerStyle={[centerContent && styles.content, style]}
+            style={styles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
           </ScrollView>
         ) : (
-          <View
-            style={[
-              componentStyles.childrenWrapper,
-              centerContent && componentStyles.content,
-              style,
-            ]}
-          >
+          <View style={[styles.childrenWrapper, centerContent && styles.content, style]}>
             {children}
           </View>
         )}
