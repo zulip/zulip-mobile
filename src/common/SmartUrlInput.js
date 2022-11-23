@@ -3,7 +3,6 @@ import React, { useState, useRef, useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { TextInput, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { ThemeContext, createStyleSheet, HALF_COLOR } from '../styles';
 
@@ -11,6 +10,8 @@ const styles = createStyleSheet({
   wrapper: {
     flexDirection: 'row',
     opacity: 0.8,
+    marginTop: 16,
+    marginBottom: 8,
   },
   realmInput: {
     flex: 1,
@@ -20,13 +21,12 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  style?: ViewStyleProp,
   onChangeText: (value: string) => void,
   onSubmitEditing: () => Promise<void>,
 |}>;
 
 export default function SmartUrlInput(props: Props): Node {
-  const { style, onChangeText, onSubmitEditing } = props;
+  const { onChangeText, onSubmitEditing } = props;
 
   // We should replace the fixme with
   // `React$ElementRef<typeof TextInput>` when we can. Currently, that
@@ -67,7 +67,7 @@ export default function SmartUrlInput(props: Props): Node {
   );
 
   return (
-    <View style={[styles.wrapper, style]}>
+    <View style={styles.wrapper}>
       <TextInput
         value={value}
         placeholder="your-org.zulipchat.com"

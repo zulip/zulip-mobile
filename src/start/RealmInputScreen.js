@@ -71,7 +71,6 @@ export default function RealmInputScreen(props: Props): Node {
   const styles = React.useMemo(
     () =>
       createStyleSheet({
-        input: { marginTop: 16, marginBottom: 8 },
         hintText: { paddingLeft: 2, fontSize: 12 },
         button: { marginTop: 8 },
       }),
@@ -88,11 +87,7 @@ export default function RealmInputScreen(props: Props): Node {
       shouldShowLoadingBanner={false}
     >
       <ZulipTextIntl text="Enter your Zulip server URL:" />
-      <SmartUrlInput
-        style={styles.input}
-        onChangeText={handleRealmChange}
-        onSubmitEditing={tryRealm}
-      />
+      <SmartUrlInput onChangeText={handleRealmChange} onSubmitEditing={tryRealm} />
       {error !== null ? (
         <ErrorMsg error={error} />
       ) : (
