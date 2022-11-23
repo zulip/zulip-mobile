@@ -111,7 +111,7 @@ export type ValidationError =
 /**
  * Functions expected to be called using a ref to this component.
  */
-type ImperativeHandle = {|
+export type ImperativeHandle = {|
   /**
    * Take a message ID, fetch its raw Markdown content, and put it in the
    *   compose box with proper formatting.

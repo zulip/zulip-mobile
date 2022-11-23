@@ -44,7 +44,7 @@ import { Role, type RoleT } from '../api/permissionsTypes';
 import { roleIsAtLeast } from '../permissionSelectors';
 import { kNotificationBotEmail } from '../api/constants';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
-import typeof ComposeBox from '../compose/ComposeBox';
+import { type ImperativeHandle as ComposeBoxImperativeHandle } from '../compose/ComposeBox';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -94,7 +94,7 @@ type MessageArgs = {
   dispatch: Dispatch,
   startEditMessage: (editMessage: EditMessage) => void,
   setDoNotMarkMessagesAsRead: boolean => void,
-  composeBoxRefCurrent: React$ElementRef<ComposeBox> | null,
+  composeBoxImperativeHandle: ComposeBoxImperativeHandle | null,
   navigation: AppNavigationMethods,
   _: GetText,
   ...
@@ -133,12 +133,12 @@ const reply = {
 const quoteAndReply = {
   title: 'Quote and reply',
   errorMessage: 'Quote-and-reply failed',
-  action: async ({ message, composeBoxRefCurrent }) => {
-    if (!composeBoxRefCurrent) {
+  action: async ({ message, composeBoxImperativeHandle }) => {
+    if (!composeBoxImperativeHandle) {
       logging.error("quoteAndReply button pressed when it shouldn't have appeared in the UI");
       return;
     }
-    return composeBoxRefCurrent.doQuoteAndReply(message);
+    return composeBoxImperativeHandle.doQuoteAndReply(message);
   },
 };
 
@@ -807,7 +807,7 @@ export const showMessageActionSheet = (args: {|
   callbacks: {|
     dispatch: Dispatch,
     startEditMessage: (editMessage: EditMessage) => void,
-    composeBoxRefCurrent: React$ElementRef<ComposeBox> | null,
+    composeBoxImperativeHandle: ComposeBoxImperativeHandle | null,
     navigation: AppNavigationMethods,
     _: GetText,
     setDoNotMarkMessagesAsRead: boolean => void,
@@ -833,7 +833,7 @@ export const showMessageActionSheet = (args: {|
       backgroundData,
       message,
       narrow,
-      canStartQuoteAndReply: callbacks.composeBoxRefCurrent !== null,
+      canStartQuoteAndReply: callbacks.composeBoxImperativeHandle !== null,
     }),
     args: { ...backgroundData, ...callbacks, message, narrow },
   });

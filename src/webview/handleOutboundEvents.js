@@ -258,7 +258,7 @@ const handleLongPress = (args: {|
         // that an action-sheet button press will act on values that were
         // current when the action sheet was opened:
         //   https://github.com/zulip/zulip-mobile/pull/5554#discussion_r1027004559
-        composeBoxRefCurrent: composeBoxRef.current,
+        composeBoxImperativeHandle: composeBoxRef.current,
 
         navigation,
         _,

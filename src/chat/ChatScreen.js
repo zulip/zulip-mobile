@@ -15,7 +15,9 @@ import NoMessages from '../message/NoMessages';
 import FetchError from './FetchError';
 import InvalidNarrow from './InvalidNarrow';
 import { fetchMessagesInNarrow } from '../message/fetchActions';
-import ComposeBox from '../compose/ComposeBox';
+import ComposeBox, {
+  type ImperativeHandle as ComposeBoxImperativeHandle,
+} from '../compose/ComposeBox';
 import UnreadNotice from './UnreadNotice';
 import { showComposeBoxOnNarrow, caseNarrowDefault, keyFromNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
@@ -144,7 +146,7 @@ export default function ChatScreen(props: Props): Node {
   const sayNoMessages = messages.length === 0 && !isFetching;
 
   const showComposeBox = showComposeBoxOnNarrow(narrow) && !showMessagePlaceholders;
-  const composeBoxRef = React.useRef<React$ElementRef<typeof ComposeBox> | null>(null);
+  const composeBoxRef = React.useRef<ComposeBoxImperativeHandle | null>(null);
 
   const auth = useSelector(getAuth);
   const dispatch = useDispatch();
