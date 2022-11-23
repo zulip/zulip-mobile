@@ -77,6 +77,7 @@ export default function Screen(props: Props): Node {
         screen: {
           flex: 1,
           flexDirection: 'column',
+          backgroundColor,
         },
         wrapper: {
           flex: 1,
@@ -91,11 +92,11 @@ export default function Screen(props: Props): Node {
           justifyContent: 'center',
         },
       }),
-    [],
+    [backgroundColor],
   );
 
   return (
-    <SafeAreaView mode="padding" edges={['bottom']} style={[styles.screen, { backgroundColor }]}>
+    <SafeAreaView mode="padding" edges={['bottom']} style={styles.screen}>
       {search ? (
         <ModalSearchNavBar
           autoFocus={autoFocus}
