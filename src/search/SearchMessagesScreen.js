@@ -8,7 +8,6 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { Auth, Dispatch, Message } from '../types';
 import Screen from '../common/Screen';
 import SearchMessagesCard from './SearchMessagesCard';
-import styles from '../styles';
 import { SEARCH_NARROW } from '../utils/narrow';
 import { LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
@@ -140,7 +139,6 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
         autoFocus
         searchBarOnSubmit={this.handleQuerySubmitWrapper}
         scrollEnabled={false}
-        style={styles.flexed}
       >
         <SearchMessagesCard
           messages={messages}

@@ -3,7 +3,6 @@
 import React, { useContext } from 'react';
 import type { Node } from 'react';
 import { ScrollView, View } from 'react-native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
@@ -20,7 +19,6 @@ type Props = $ReadOnly<{|
   keyboardShouldPersistTaps?: 'never' | 'always' | 'handled',
   padding?: boolean,
   scrollEnabled?: boolean,
-  style?: ViewStyleProp,
 
   search?: boolean,
   autoFocus?: boolean,
@@ -44,7 +42,6 @@ type Props = $ReadOnly<{|
  * @prop [keyboardShouldPersistTaps] - Passed through to ScrollView.
  * @prop [padding] - Should padding be added to the contents of the screen.
  * @prop [scrollEnabled] - Whether to use a ScrollView or a normal View.
- * @prop [style] - Additional style for the ScrollView.
  *
  * @prop [search] - If 'true' show a search box in place of the title.
  * @prop [autoFocus] - If search bar enabled, should it be focused initially.
@@ -69,7 +66,6 @@ export default function Screen(props: Props): Node {
     search = false,
     searchPlaceholder,
     searchBarOnChange = (text: string) => {},
-    style: callerStyle,
     title = '',
     shouldShowLoadingBanner = true,
     searchBarOnSubmit = (e: EditingEvent) => {},
@@ -115,16 +111,14 @@ export default function Screen(props: Props): Node {
       <KeyboardAvoider behavior="padding" style={[styles.wrapper, padding && globalStyles.padding]}>
         {scrollEnabled ? (
           <ScrollView
-            contentContainerStyle={[centerContent && styles.content, callerStyle]}
+            contentContainerStyle={centerContent && styles.content}
             style={styles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
           </ScrollView>
         ) : (
-          <View style={[styles.childrenWrapper, centerContent && styles.content, callerStyle]}>
-            {children}
-          </View>
+          <View style={[styles.childrenWrapper, centerContent && styles.content]}>{children}</View>
         )}
       </KeyboardAvoider>
     </SafeAreaView>
