@@ -40,13 +40,13 @@ export default function SmartUrlInput(props: Props): Node {
   const styles = React.useMemo(
     () =>
       createStyleSheet({
-        wrapper: {
+        inputWrapper: {
           flexDirection: 'row',
           opacity: 0.8,
           marginTop: 16,
           marginBottom: 8,
         },
-        realmInput: {
+        input: {
           flex: 1,
           padding: 0,
           fontSize: 20,
@@ -57,12 +57,12 @@ export default function SmartUrlInput(props: Props): Node {
   );
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.inputWrapper}>
       <TextInput
         value={value}
         placeholder="your-org.zulipchat.com"
         placeholderTextColor={HALF_COLOR}
-        style={styles.realmInput}
+        style={styles.input}
         autoFocus
         autoCorrect={false}
         autoCapitalize="none"
