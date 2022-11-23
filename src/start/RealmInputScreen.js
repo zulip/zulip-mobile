@@ -87,7 +87,11 @@ export default function RealmInputScreen(props: Props): Node {
       shouldShowLoadingBanner={false}
     >
       <ZulipTextIntl text="Enter your Zulip server URL:" />
-      <SmartUrlInput onChangeText={handleRealmChange} onSubmitEditing={tryRealm} />
+      <SmartUrlInput
+        onChangeText={handleRealmChange}
+        value={realmInputValue}
+        onSubmitEditing={tryRealm}
+      />
       {error !== null ? (
         <ErrorMsg error={error} />
       ) : (

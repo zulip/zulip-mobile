@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { TextInput, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -22,15 +22,14 @@ const styles = createStyleSheet({
 
 type Props = $ReadOnly<{|
   onChangeText: (value: string) => void,
+  value: string,
   onSubmitEditing: () => Promise<void>,
 |}>;
 
 export default function SmartUrlInput(props: Props): Node {
-  const { onChangeText, onSubmitEditing } = props;
+  const { onChangeText, value, onSubmitEditing } = props;
 
   const textInputRef = React.useRef<React$ElementRef<typeof TextInput> | null>(null);
-
-  const [value, setValue] = useState<string>('');
 
   const themeContext = useContext(ThemeContext);
 
@@ -52,14 +51,6 @@ export default function SmartUrlInput(props: Props): Node {
     }, []),
   );
 
-  const handleChange = useCallback(
-    (_value: string) => {
-      setValue(_value);
-      onChangeText(_value);
-    },
-    [onChangeText],
-  );
-
   return (
     <View style={styles.wrapper}>
       <TextInput
@@ -71,7 +62,7 @@ export default function SmartUrlInput(props: Props): Node {
         autoCorrect={false}
         autoCapitalize="none"
         returnKeyType="go"
-        onChangeText={handleChange}
+        onChangeText={onChangeText}
         blurOnSubmit={false}
         keyboardType="url"
         underlineColorAndroid="transparent"
