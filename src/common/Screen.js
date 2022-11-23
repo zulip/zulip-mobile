@@ -69,7 +69,7 @@ export default function Screen(props: Props): Node {
     search = false,
     searchPlaceholder,
     searchBarOnChange = (text: string) => {},
-    style,
+    style: callerStyle,
     title = '',
     shouldShowLoadingBanner = true,
     searchBarOnSubmit = (e: EditingEvent) => {},
@@ -115,14 +115,14 @@ export default function Screen(props: Props): Node {
       <KeyboardAvoider behavior="padding" style={[styles.wrapper, padding && globalStyles.padding]}>
         {scrollEnabled ? (
           <ScrollView
-            contentContainerStyle={[centerContent && styles.content, style]}
+            contentContainerStyle={[centerContent && styles.content, callerStyle]}
             style={styles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
           >
             {children}
           </ScrollView>
         ) : (
-          <View style={[styles.childrenWrapper, centerContent && styles.content, style]}>
+          <View style={[styles.childrenWrapper, centerContent && styles.content, callerStyle]}>
             {children}
           </View>
         )}
