@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useState, useRef, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { TextInput, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -28,11 +28,7 @@ type Props = $ReadOnly<{|
 export default function SmartUrlInput(props: Props): Node {
   const { onChangeText, onSubmitEditing } = props;
 
-  // We should replace the fixme with
-  // `React$ElementRef<typeof TextInput>` when we can. Currently, that
-  // would make `.current` be `any(implicit)`, which we don't want;
-  // this is probably down to bugs in Flow's special support for React.
-  const textInputRef = useRef<$FlowFixMe>();
+  const textInputRef = React.useRef<React$ElementRef<typeof TextInput> | null>(null);
 
   const [value, setValue] = useState<string>('');
 
@@ -51,8 +47,6 @@ export default function SmartUrlInput(props: Props): Node {
         // screen, sometimes the keyboard flicks open then closed, instead
         // of just opening. Shrug. See
         //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/realm-input/near/1346690
-        //
-        // `.current` is not type-checked; see definition.
         textInputRef.current.focus();
       }
     }, []),
