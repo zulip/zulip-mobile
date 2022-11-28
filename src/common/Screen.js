@@ -6,7 +6,7 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { EditingEvent } from 'react-native/Libraries/Components/TextInput/TextInput';
 
-import globalStyles, { createStyleSheet, ThemeContext } from '../styles';
+import { createStyleSheet, ThemeContext } from '../styles';
 import type { LocalizableText, LocalizableReactText } from '../types';
 import KeyboardAvoider from './KeyboardAvoider';
 import LoadingBanner from './LoadingBanner';
@@ -91,6 +91,9 @@ export default function Screen(props: Props): Node {
           flexGrow: 1,
           justifyContent: 'center',
         },
+        padding: {
+          padding: 16,
+        },
       }),
     [backgroundColor],
   );
@@ -114,7 +117,7 @@ export default function Screen(props: Props): Node {
           <ScrollView
             contentContainerStyle={[
               centerContent && styles.centerContent,
-              padding && globalStyles.padding,
+              padding && styles.padding,
             ]}
             style={styles.childrenWrapper}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
@@ -126,7 +129,7 @@ export default function Screen(props: Props): Node {
             style={[
               styles.childrenWrapper,
               centerContent && styles.centerContent,
-              padding && globalStyles.padding,
+              padding && styles.padding,
             ]}
           >
             {children}
