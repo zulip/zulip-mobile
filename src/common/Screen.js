@@ -87,7 +87,7 @@ export default function Screen(props: Props): Node {
         childrenWrapper: {
           flex: 1,
         },
-        content: {
+        centerContent: {
           flexGrow: 1,
           justifyContent: 'center',
         },
@@ -113,7 +113,7 @@ export default function Screen(props: Props): Node {
         {scrollEnabled ? (
           <ScrollView
             contentContainerStyle={[
-              centerContent && styles.content,
+              centerContent && styles.centerContent,
               padding && globalStyles.padding,
             ]}
             style={styles.childrenWrapper}
@@ -125,7 +125,7 @@ export default function Screen(props: Props): Node {
           <View
             style={[
               styles.childrenWrapper,
-              centerContent && styles.content,
+              centerContent && styles.centerContent,
               padding && globalStyles.padding,
             ]}
           >
