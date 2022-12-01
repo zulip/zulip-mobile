@@ -39,6 +39,38 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* You can now quote a message to reply to it, just like on the web. (#1975)
+
+* Links in user profiles now respect the "Open links with in-app browser"
+  setting. (#5558)
+
+* (iOS) Removed a blank strip between the compose box and the keyboard.
+  (#3370)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* CI no longer skips Prettier on .js.flow type definitions. (#5546, and
+  fixup in PR #5569 for a bug in `tools/test lint`, #5574)
+
+* Ran `yarn upgrade`. (PR #5543)
+
+* Followed some Expo 43–44 template-app changes, belatedly. (PR #5550)
+
+* Upgraded to Gradle 7 and Android Gradle Plugin (AGP) 7. (#5377)
+
+* Upgraded to Expo SDK 45. (PR #5507)
+
+* Upgraded to Flow v0.170. (PR #5570)
+
+* Resolved issues: #5570, #5508, #3370, #5377, #1975, #5550, #5558, #5546,
+  #4325, #5492, #3423
+
 
 ## 27.195 (2022-11-22)
 
