@@ -1,4 +1,9 @@
 {
+  "Quote and reply": "Quote and reply",
+  "{username} [said]({link_to_message}):": "{username} [zei]({link_to_message}):",
+  "[Quoting…]": "[Quoting…]",
+  "[Quoting ({serialNumber})…]": "[Quoting ({serialNumber})…]",
+  "Quote-and-reply failed": "Quote-and-reply failed",
   "all": "all",
   "everyone": "everyone",
   "stream": "kanaal",

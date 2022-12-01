@@ -1,4 +1,9 @@
 {
+  "Quote and reply": "Cita e rispondi",
+  "{username} [said]({link_to_message}):": "{username} [ha scritto]({link_to_message}):",
+  "[Quoting…]": "[Citando…]",
+  "[Quoting ({serialNumber})…]": "[Quoting ({serialNumber})…]",
+  "Quote-and-reply failed": "Quote-and-reply failed",
   "all": "tutti",
   "everyone": "ognuno",
   "stream": "canale",

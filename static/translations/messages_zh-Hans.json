@@ -1,4 +1,9 @@
 {
+  "Quote and reply": "引用并回复",
+  "{username} [said]({link_to_message}):": "{username}[发言道]({link_to_message})：",
+  "[Quoting…]": "[引用…]",
+  "[Quoting ({serialNumber})…]": "[Quoting ({serialNumber})…]",
+  "Quote-and-reply failed": "Quote-and-reply failed",
   "all": "all",
   "everyone": "everyone",
   "stream": "频道",
