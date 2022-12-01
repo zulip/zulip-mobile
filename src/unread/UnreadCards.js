@@ -49,6 +49,9 @@ export default function UnreadCards(props: Props): Node {
   const dispatch = useDispatch();
   const conversations = useSelector(getUnreadConversations);
   const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);
+
+  const [collapsedStreamIds, setCollapsedStreamIds] = useState(Immutable.Set<number>());
+
   type Card =
     | UnreadStreamItem
     | {| key: 'private', data: $ReadOnlyArray<React$ElementConfig<typeof PmConversationList>> |};
@@ -57,10 +60,10 @@ export default function UnreadCards(props: Props): Node {
       key: 'private',
       data: [{ conversations }],
     },
-    ...unreadStreamsAndTopics,
+    ...unreadStreamsAndTopics.map(section =>
+      collapsedStreamIds.has(section.streamId) ? { ...section, data: [] } : section,
+    ),
   ];
-
-  const [collapsedStreamIds, setCollapsedStreamIds] = useState(Immutable.Set<number>());
 
   const handleExpandCollapse = (id: number) => {
     setCollapsedStreamIds(
@@ -102,7 +105,7 @@ export default function UnreadCards(props: Props): Node {
       renderItem={({ item, section }) =>
         section.key === 'private' ? (
           <PmConversationList {...item} />
-        ) : collapsedStreamIds.has(section.streamId) ? null : (
+        ) : (
           <TopicItem
             streamId={section.streamId}
             name={item.topic}
