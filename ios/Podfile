@@ -24,6 +24,44 @@ target 'ZulipMobile' do
   post_install do |installer|
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+    # Apparently, Xcode 14 newly defaults CODE_SIGNING_ALLOWED to YES, and
+    # that's caused some build errors like
+    # >  Signing for "Foo" requires a development team. […]
+    # where for "Foo" we've seen, so far, "EXConstants-EXConstants" and
+    # "React-Core-AccessibilityResources".
+    #
+    # The code for our fix follows the Expo template app
+    # (expo/expo@d970a9ecb) by switching CODE_SIGNING_ALLOWED to NO,
+    # specifically for "resource bundles". The Flutter maintainers give some
+    # helpful analysis ( https://github.com/flutter/flutter/pull/111714 ):
+    # > Bundles can contain resources like images and localization files.
+    # > They are embedded in the framework and should not be codesigned.
+    # > Xcode 14 changed behavior and is erroneously codesigning these.
+    #
+    # There are reports of sporadic App Store Review rejections with
+    # code-signing disabled, though, e.g.:
+    #   https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1258608914
+    # But some developers had success, and it's plausible that the reported
+    # failures were red herrings. See discussion:
+    #   https://chat.zulip.org/#narrow/stream/48-mobile/topic/.22signing.20requires.20development.20team.22.20build.20error/near/1472700
+    #
+    # In facebook/react-native@967de03f3, React Native v0.71.0-rc.0 applies
+    # the same workaround (in react_native_post_install, which we call
+    # above), except limited to the React-Core pod. So we'll double-process
+    # React-Core, which we expect to be harmless.
+    #
+    # Flutter and React Native's workarounds mention the CocoaPods issue
+    # https://github.com/CocoaPods/CocoaPods/issues/11402 with hope that
+    # CocoaPods will publish a fix.
+    installer.target_installation_results.pod_target_installation_results
+      .each do |pod_name, target_installation_result|
+      target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
+        resource_bundle_target.build_configurations.each do |config|
+          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
   end
 
   use_expo_modules!
