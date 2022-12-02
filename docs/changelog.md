@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.196 (2022-12-01)
+
 ### Highlights for users
 
 * You can now quote a message to reply to it, just like on the web. (#1975)
