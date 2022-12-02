@@ -37,6 +37,7 @@ var compiledWebviewJs = (function (exports) {
     return target;
   }
   function _defineProperty(obj, key, value) {
+    key = _toPropertyKey(key);
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -48,6 +49,20 @@ var compiledWebviewJs = (function (exports) {
       obj[key] = value;
     }
     return obj;
+  }
+  function _toPrimitive(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
+  function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
   }
 
   const makeUserId = id => id;
@@ -173,18 +188,14 @@ var compiledWebviewJs = (function (exports) {
   const isUrlOnRealm = (url, realm) => url.origin === realm.origin;
 
   const inlineApiRoutes = ['^/user_uploads/', '^/thumbnail$', '^/avatar/'].map(r => new RegExp(r));
-
   const rewriteImageUrls = (auth, element) => {
     const realm = auth.realm;
-
     const imageTags = [].concat(element instanceof HTMLImageElement ? [element] : [], Array.from(element.getElementsByTagName('img')));
     imageTags.forEach(img => {
       const actualSrc = img.getAttribute('src');
-
       if (actualSrc == null) {
         return;
       }
-
       let fixedSrc;
       try {
         fixedSrc = new URL(actualSrc, realm);
@@ -192,25 +203,21 @@ var compiledWebviewJs = (function (exports) {
         img.src = 'about:blank';
         return;
       }
-
       if (isUrlOnRealm(fixedSrc, realm)) {
         if (inlineApiRoutes.some(regexp => regexp.test(fixedSrc.pathname))) {
           const delimiter = fixedSrc.search ? '&' : '';
           fixedSrc.search += "".concat(delimiter, "api_key=").concat(auth.apiKey);
         }
       }
-
       if (img.src !== fixedSrc.toString()) {
         img.src = fixedSrc.toString();
       }
     });
   };
-
   const rewriteTime = element => {
     if (typeof HTMLTimeElement !== 'function') {
       return;
     }
-
     const timeElements = [].concat(element instanceof HTMLTimeElement ? [element] : [], Array.from(element.getElementsByTagName('time')));
     timeElements.forEach(elem => {
       if (!(elem instanceof HTMLTimeElement)) {
@@ -226,7 +233,6 @@ var compiledWebviewJs = (function (exports) {
       }));
     });
   };
-
   const rewriteSpoilers = element => {
     const spoilerHeaders = element.querySelectorAll('div.spoiler-header');
     spoilerHeaders.forEach(e => {
@@ -239,7 +245,6 @@ var compiledWebviewJs = (function (exports) {
       }
     });
   };
-
   const rewriteHtml = function (auth) {
     let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
     rewriteImageUrls(auth, element);
@@ -249,7 +254,6 @@ var compiledWebviewJs = (function (exports) {
 
   const collapseSpoiler = spoiler => {
     const computedHeight = getComputedStyle(spoiler).height;
-
     requestAnimationFrame(() => {
       spoiler.style.height = computedHeight;
       spoiler.classList.remove('spoiler-content-open');
@@ -258,7 +262,6 @@ var compiledWebviewJs = (function (exports) {
       });
     });
   };
-
   const expandSpoiler = spoiler => {
     const spoilerHeight = spoiler.scrollHeight;
     spoiler.style.height = "".concat(spoilerHeight, "px");
@@ -269,7 +272,6 @@ var compiledWebviewJs = (function (exports) {
     };
     spoiler.addEventListener('transitionend', callback);
   };
-
   const toggleSpoiler = spoilerHeader => {
     const spoilerBlock = spoilerHeader.parentElement;
     if (!spoilerBlock) {
@@ -284,13 +286,11 @@ var compiledWebviewJs = (function (exports) {
     }
     if (spoilerContent.classList.contains('spoiler-content-open')) {
       arrow.classList.remove('spoiler-button-open');
-
       button.setAttribute('aria-expanded', 'false');
       spoilerContent.setAttribute('aria-hidden', 'true');
       collapseSpoiler(spoilerContent);
     } else {
       arrow.classList.add('spoiler-button-open');
-
       button.setAttribute('aria-expanded', 'true');
       spoilerContent.setAttribute('aria-hidden', 'false');
       expandSpoiler(spoilerContent);
@@ -356,25 +356,20 @@ var compiledWebviewJs = (function (exports) {
       element.classList.toggle('hidden', !show);
     }
   };
-
   let viewportHeight = documentBody.clientHeight;
   window.addEventListener('resize', event => {
     const heightChange = documentBody.clientHeight - viewportHeight;
     viewportHeight = documentBody.clientHeight;
-
     const maxScrollTop = documentBody.scrollHeight - documentBody.clientHeight;
     if (documentBody.scrollTop >= maxScrollTop - 1) {
       return;
     }
-
     window.scrollBy({
       left: 0,
       top: -heightChange
     });
   });
-
   function midMessageListElement(top, bottom) {
-
     const midY = (bottom + top) / 2;
     const midElements = document.elementsFromPoint(0, midY);
     if (midElements.length < 4) {
@@ -382,7 +377,6 @@ var compiledWebviewJs = (function (exports) {
     }
     return midElements[midElements.length - 4];
   }
-
   function walkToMessage(start, step) {
     let element = start;
     while (element && !element.classList.contains('message')) {
@@ -390,34 +384,26 @@ var compiledWebviewJs = (function (exports) {
     }
     return element;
   }
-
   function firstMessage() {
     return walkToMessage(msglistElementsDiv.firstElementChild, 'nextElementSibling');
   }
-
   function lastMessage() {
     return walkToMessage(msglistElementsDiv.lastElementChild, 'previousElementSibling');
   }
-
   function previousMessage(start) {
     return walkToMessage(start.previousElementSibling, 'previousElementSibling');
   }
-
   function nextMessage(start) {
     return walkToMessage(start.nextElementSibling, 'nextElementSibling');
   }
-
   function isVisible(element, top, bottom) {
     const rect = element.getBoundingClientRect();
     return top < rect.bottom && rect.top < bottom;
   }
-
   const messageReadSlop = 16;
-
   function isRead(element, top, bottom) {
     return bottom + messageReadSlop >= element.getBoundingClientRect().bottom;
   }
-
   function someVisibleMessage(top, bottom) {
     function checkVisible(candidate) {
       return candidate && isVisible(candidate, top, bottom) ? candidate : null;
@@ -425,19 +411,16 @@ var compiledWebviewJs = (function (exports) {
     const midElement = midMessageListElement(top, bottom);
     return checkVisible(walkToMessage(midElement, 'previousElementSibling')) || checkVisible(walkToMessage(midElement, 'nextElementSibling')) || checkVisible(firstMessage()) || checkVisible(lastMessage());
   }
-
   function someVisibleReadMessage(top, bottom) {
     function checkReadAndVisible(candidate) {
       return candidate && isRead(candidate, top, bottom) && isVisible(candidate, top, bottom) ? candidate : null;
     }
-
     const visible = someVisibleMessage(top, bottom);
     if (!visible) {
       return visible;
     }
     return checkReadAndVisible(visible) || checkReadAndVisible(previousMessage(visible));
   }
-
   function idFromMessage(element) {
     const idStr = element.getAttribute('data-msg-id');
     if (idStr === null || idStr === undefined) {
@@ -445,14 +428,11 @@ var compiledWebviewJs = (function (exports) {
     }
     return +idStr;
   }
-
   function visibleReadMessageIds() {
-
     const top = 0;
     const bottom = viewportHeight;
     let first = Number.MAX_SAFE_INTEGER;
     let last = 0;
-
     function walkElements(start, step) {
       let element = start;
       while (element && isVisible(element, top, bottom) && isRead(element, top, bottom)) {
@@ -472,13 +452,11 @@ var compiledWebviewJs = (function (exports) {
       last
     };
   }
-
   const getMessageIdFromElement = function (element) {
     let defaultValue = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
     const msgElement = element.closest('.msglist-element');
     return msgElement ? +msgElement.getAttribute('data-msg-id') : defaultValue;
   };
-
   const setMessagesReadAttributes = rangeHull => {
     let element = document.querySelector("[data-msg-id='".concat(rangeHull.first, "']"));
     while (element) {
@@ -491,7 +469,6 @@ var compiledWebviewJs = (function (exports) {
       element = element.nextElementSibling;
     }
   };
-
   let prevMessageRange = visibleReadMessageIds();
   const sendScrollMessage = () => {
     const messageRange = visibleReadMessageIds();
@@ -514,13 +491,11 @@ var compiledWebviewJs = (function (exports) {
       prevMessageRange = messageRange;
     }
   };
-
   const sendScrollMessageIfListShort = () => {
     if (documentBody.scrollHeight === documentBody.clientHeight) {
       sendScrollMessage();
     }
   };
-
   let scrollEventsDisabled = true;
   let hasLongPressed = false;
   let longPressTimeout = undefined;
@@ -536,7 +511,6 @@ var compiledWebviewJs = (function (exports) {
     showHideElement('scroll-bottom', nearEnd);
   };
   window.addEventListener('scroll', handleScrollEvent);
-
   const scrollToBottom = () => {
     window.scroll({
       left: 0,
@@ -563,7 +537,6 @@ var compiledWebviewJs = (function (exports) {
       });
     }
   };
-
   const findPreserveTarget = () => {
     const message = someVisibleMessage(0, viewportHeight);
     if (!message) {
@@ -579,7 +552,6 @@ var compiledWebviewJs = (function (exports) {
       prevBoundTop: prevBoundRect.top
     };
   };
-
   const scrollToPreserve = (msgId, prevBoundTop) => {
     const newElement = document.getElementById("msg-".concat(msgId));
     if (!newElement) {
@@ -588,13 +560,11 @@ var compiledWebviewJs = (function (exports) {
     const newBoundRect = newElement.getBoundingClientRect();
     window.scrollBy(0, newBoundRect.top - prevBoundTop);
   };
-
   const runAfterLayout = fn => {
     if (platformOS === 'android') {
       fn();
       return;
     }
-
     requestAnimationFrame(() => {
       fn();
     });
@@ -641,12 +611,10 @@ var compiledWebviewJs = (function (exports) {
       sendScrollMessageIfListShort();
     });
   };
-
   const handleInitialLoad = (scrollMessageId, rawAuth) => {
     const auth = _objectSpread2(_objectSpread2({}, rawAuth), {}, {
       realm: new URL(rawAuth.realm)
     });
-
     if (platformOS === 'ios') {
       window.addEventListener('message', handleMessageEvent);
     } else {
@@ -657,7 +625,6 @@ var compiledWebviewJs = (function (exports) {
     sendScrollMessageIfListShort();
     scrollEventsDisabled = false;
   };
-
   const handleInboundEventFetching = uevent => {
     showHideElement('message-loading', uevent.showMessagePlaceholders);
     showHideElement('spinner-older', uevent.fetchingOlder);
@@ -675,14 +642,12 @@ var compiledWebviewJs = (function (exports) {
     sendMessage({
       type: 'ready'
     });
-
     readyRetryInterval = setInterval(() => {
       sendMessage({
         type: 'ready'
       });
     }, 100);
   };
-
   const handleInboundEventReady = uevent => {
     clearInterval(readyRetryInterval);
   };
@@ -696,7 +661,6 @@ var compiledWebviewJs = (function (exports) {
   const handleInboundEventSetDoNotMarkAsRead = uevent => {
     doNotMarkMessagesAsRead = uevent.value;
   };
-
   const handleInboundEventMessagesSetRead = uevent => {
     if (uevent.messageIds.length === 0) {
       return;
@@ -711,7 +675,6 @@ var compiledWebviewJs = (function (exports) {
     'set-do-not-mark-as-read': handleInboundEventSetDoNotMarkAsRead,
     'set-read': handleInboundEventMessagesSetRead
   };
-
   const handleMessageEvent = e => {
     scrollEventsDisabled = true;
     const decodedData = decodeURIComponent(escape(window.atob(e.data)));
@@ -727,7 +690,6 @@ var compiledWebviewJs = (function (exports) {
     });
     scrollEventsDisabled = false;
   };
-
   const revealMutedMessages = message => {
     let messageNode = message;
     do {
@@ -742,7 +704,6 @@ var compiledWebviewJs = (function (exports) {
     }
     return value;
   };
-
   const requireNumericAttribute = (e, name) => {
     const value = requireAttribute(e, name);
     const parsedValue = parseInt(value, 10);
@@ -754,7 +715,6 @@ var compiledWebviewJs = (function (exports) {
   documentBody.addEventListener('click', e => {
     e.preventDefault();
     clearTimeout(longPressTimeout);
-
     if (hasLongPressed) {
       hasLongPressed = false;
       return;
@@ -790,10 +750,8 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     const inlineImageLink = target.closest('.message_inline_image a');
-    if (inlineImageLink
-    && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
+    if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
       sendMessage({
         type: 'image',
         src: requireAttribute(inlineImageLink, 'href'),
@@ -857,7 +815,6 @@ var compiledWebviewJs = (function (exports) {
     }
   });
   const handleLongPress = target => {
-
     hasLongPressed = true;
     const reactionNode = target.closest('.reaction');
     if (reactionNode) {
@@ -868,7 +825,6 @@ var compiledWebviewJs = (function (exports) {
       });
       return;
     }
-
     const targetType = target.matches('.header') ? 'header' : target.matches('a') ? 'link' : 'message';
     const messageNode = target.closest('.message');
     if (targetType === 'message' && messageNode && messageNode.getAttribute('data-mute-state') === 'hidden') {
@@ -916,7 +872,6 @@ var compiledWebviewJs = (function (exports) {
   documentBody.addEventListener('drag', e => {
     clearTimeout(longPressTimeout);
   });
-
   signalReadyForEvents();
 
   exports.handleInitialLoad = handleInitialLoad;
