@@ -20,7 +20,7 @@ import {
   getSettings,
   getGlobalSettings,
 } from '../selectors';
-import globalStyles, { ThemeContext, BRAND_COLOR, HIGHLIGHT_COLOR, HALF_COLOR } from '../styles';
+import { ThemeContext, BRAND_COLOR, HIGHLIGHT_COLOR, HALF_COLOR } from '../styles';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
@@ -113,7 +113,9 @@ export default function StreamItem(props: Props): Node {
       listItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingRight: 16,
+        ...(handleExpandCollapse
+          ? { paddingRight: 16 }
+          : { paddingVertical: 8, paddingHorizontal: 16 }),
       },
       description: {
         opacity: 0.75,
@@ -140,16 +142,12 @@ export default function StreamItem(props: Props): Node {
         paddingRight: 0,
       },
     }),
-    [],
+    [handleExpandCollapse],
   );
 
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
-  const wrapperStyle = [
-    handleExpandCollapse ? styles.listItem : globalStyles.listItem,
-    { backgroundColor },
-    isMuted && styles.muted,
-  ];
+  const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && styles.muted];
   const iconColor =
     color !== undefined
       ? color
