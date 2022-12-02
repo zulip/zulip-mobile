@@ -131,6 +131,18 @@ export default function StreamItem(props: Props): Node {
         backgroundColor,
         opacity: isMuted ? 0.5 : 1,
       },
+      collapsePressable: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 0,
+      },
+      collapseIcon: {
+        marginRight: 8,
+      },
       text: {
         flex: 1,
         paddingLeft: 8,
@@ -142,18 +154,6 @@ export default function StreamItem(props: Props): Node {
       description: {
         opacity: 0.75,
         fontSize: 12,
-      },
-      collapseIcon: {
-        marginRight: 8,
-      },
-      pressable: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 8,
-        paddingRight: 0,
       },
     }),
     [backgroundColor, handleExpandCollapse, isMuted, textColor],
@@ -173,7 +173,10 @@ export default function StreamItem(props: Props): Node {
     >
       <View style={styles.wrapper}>
         {handleExpandCollapse && (
-          <Pressable style={styles.pressable} onPress={() => handleExpandCollapse(streamId)}>
+          <Pressable
+            style={styles.collapsePressable}
+            onPress={() => handleExpandCollapse(streamId)}
+          >
             {isCollapsed === false ? (
               <IconCaretUp style={styles.collapseIcon} size={20} color={iconColor} />
             ) : (
