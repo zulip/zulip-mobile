@@ -159,6 +159,49 @@ export default function StreamItem(props: Props): Node {
     [backgroundColor, handleExpandCollapse, isMuted, textColor],
   );
 
+  const collapseButton = handleExpandCollapse && (
+    <Pressable style={styles.collapsePressable} onPress={() => handleExpandCollapse(streamId)}>
+      {isCollapsed === false ? (
+        <IconCaretUp style={styles.collapseIcon} size={20} color={iconColor} />
+      ) : (
+        <IconCaretDown style={styles.collapseIcon} size={20} color={iconColor} />
+      )}
+    </Pressable>
+  );
+
+  let subscribeButton = null;
+  if (offersSubscribeButton) {
+    const disabled = !isSubscribed && isPrivate;
+    subscribeButton = (
+      <Pressable
+        onPress={() => {
+          if (onSubscribeButtonPressed) {
+            if (disabled) {
+              showErrorAlert(
+                _('Cannot subscribe to stream'),
+                _('Stream #{name} is private.', { name }),
+                { url: new URL('/help/stream-permissions', realmUrl), globalSettings },
+              );
+              return;
+            }
+
+            onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
+          }
+        }}
+        hitSlop={12}
+        style={{ opacity: disabled ? 0.1 : 1 }}
+      >
+        {({ pressed }) =>
+          isSubscribed ? (
+            <IconDone size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
+          ) : (
+            <IconPlus size={24} color={pressed ? HALF_COLOR : iconColor} />
+          )
+        }
+      </Pressable>
+    );
+  }
+
   return (
     <Touchable
       onPress={() => onPress({ stream_id: streamId, name })}
@@ -172,18 +215,7 @@ export default function StreamItem(props: Props): Node {
       }}
     >
       <View style={styles.wrapper}>
-        {handleExpandCollapse && (
-          <Pressable
-            style={styles.collapsePressable}
-            onPress={() => handleExpandCollapse(streamId)}
-          >
-            {isCollapsed === false ? (
-              <IconCaretUp style={styles.collapseIcon} size={20} color={iconColor} />
-            ) : (
-              <IconCaretDown style={styles.collapseIcon} size={20} color={iconColor} />
-            )}
-          </Pressable>
-        )}
+        {collapseButton}
         <StreamIcon
           size={iconSize}
           color={iconColor}
@@ -203,38 +235,7 @@ export default function StreamItem(props: Props): Node {
           )}
         </View>
         <UnreadCount color={iconColor} count={unreadCount} />
-        {offersSubscribeButton
-          && (() => {
-            const disabled = !isSubscribed && isPrivate;
-            return (
-              <Pressable
-                onPress={() => {
-                  if (onSubscribeButtonPressed) {
-                    if (disabled) {
-                      showErrorAlert(
-                        _('Cannot subscribe to stream'),
-                        _('Stream #{name} is private.', { name }),
-                        { url: new URL('/help/stream-permissions', realmUrl), globalSettings },
-                      );
-                      return;
-                    }
-
-                    onSubscribeButtonPressed({ stream_id: streamId, name }, !isSubscribed);
-                  }
-                }}
-                hitSlop={12}
-                style={{ opacity: disabled ? 0.1 : 1 }}
-              >
-                {({ pressed }) =>
-                  isSubscribed ? (
-                    <IconDone size={24} color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} />
-                  ) : (
-                    <IconPlus size={24} color={pressed ? HALF_COLOR : iconColor} />
-                  )
-                }
-              </Pressable>
-            );
-          })()}
+        {subscribeButton}
       </View>
     </Touchable>
   );
