@@ -131,14 +131,17 @@ export default function StreamItem(props: Props): Node {
         backgroundColor,
         opacity: isMuted ? 0.5 : 1,
       },
-      description: {
-        opacity: 0.75,
-        fontSize: 12,
-      },
       text: {
         flex: 1,
         paddingLeft: 8,
         paddingRight: 8,
+      },
+      name: {
+        color: textColor,
+      },
+      description: {
+        opacity: 0.75,
+        fontSize: 12,
       },
       collapseIcon: {
         marginRight: 8,
@@ -153,7 +156,7 @@ export default function StreamItem(props: Props): Node {
         paddingRight: 0,
       },
     }),
-    [backgroundColor, handleExpandCollapse, isMuted],
+    [backgroundColor, handleExpandCollapse, isMuted, textColor],
   );
 
   return (
@@ -186,12 +189,7 @@ export default function StreamItem(props: Props): Node {
           isWebPublic={isWebPublic}
         />
         <View style={styles.text}>
-          <ZulipText
-            numberOfLines={1}
-            style={{ color: textColor }}
-            text={name}
-            ellipsizeMode="tail"
-          />
+          <ZulipText numberOfLines={1} style={styles.name} text={name} ellipsizeMode="tail" />
           {description !== undefined && description !== '' && (
             <ZulipText
               numberOfLines={1}
