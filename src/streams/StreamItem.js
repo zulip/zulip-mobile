@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View, Pressable } from 'react-native';
 // $FlowFixMe[untyped-import]
@@ -20,13 +20,7 @@ import {
   getSettings,
   getGlobalSettings,
 } from '../selectors';
-import styles, {
-  createStyleSheet,
-  ThemeContext,
-  BRAND_COLOR,
-  HIGHLIGHT_COLOR,
-  HALF_COLOR,
-} from '../styles';
+import globalStyles, { ThemeContext, BRAND_COLOR, HIGHLIGHT_COLOR, HALF_COLOR } from '../styles';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
@@ -34,21 +28,6 @@ import { foregroundColorFromBackground } from '../utils/color';
 import { IconPlus, IconDone } from '../common/Icons';
 import StreamIcon from './StreamIcon';
 import { useNavigation } from '../react-navigation';
-
-const componentStyles = createStyleSheet({
-  description: {
-    opacity: 0.75,
-    fontSize: 12,
-  },
-  text: {
-    flex: 1,
-    paddingLeft: 8,
-    paddingRight: 8,
-  },
-  muted: {
-    opacity: 0.5,
-  },
-});
 
 type Props = $ReadOnly<{|
   name: string,
@@ -126,9 +105,27 @@ export default function StreamItem(props: Props): Node {
     userSettingStreamNotification: getSettings(state).streamNotification,
   }));
 
+  const styles = useMemo(
+    () => ({
+      description: {
+        opacity: 0.75,
+        fontSize: 12,
+      },
+      text: {
+        flex: 1,
+        paddingLeft: 8,
+        paddingRight: 8,
+      },
+      muted: {
+        opacity: 0.5,
+      },
+    }),
+    [],
+  );
+
   const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
 
-  const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && componentStyles.muted];
+  const wrapperStyle = [globalStyles.listItem, { backgroundColor }, isMuted && styles.muted];
   const iconColor =
     color !== undefined
       ? color
@@ -160,7 +157,7 @@ export default function StreamItem(props: Props): Node {
           isPrivate={isPrivate}
           isWebPublic={isWebPublic}
         />
-        <View style={componentStyles.text}>
+        <View style={styles.text}>
           <ZulipText
             numberOfLines={1}
             style={{ color: textColor }}
@@ -170,7 +167,7 @@ export default function StreamItem(props: Props): Node {
           {description !== undefined && description !== '' && (
             <ZulipText
               numberOfLines={1}
-              style={componentStyles.description}
+              style={styles.description}
               text={description}
               ellipsizeMode="tail"
             />
