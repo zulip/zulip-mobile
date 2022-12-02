@@ -85,7 +85,7 @@ const projectForPlatform = platform => {
       './jest/globalFetch.js',
       './node_modules/react-native-gesture-handler/jestSetup.js',
     ],
-    setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended'],
+    setupFilesAfterEnv: ['./jest/jestSetup.js', 'jest-extended/all'],
   };
 };
 

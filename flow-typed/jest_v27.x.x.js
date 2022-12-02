@@ -1,5 +1,5 @@
-// flow-typed signature: ec1949e99980c0b12113832818d455c9
-// flow-typed version: 644a595e77/jest_v26.x.x/flow_>=v0.134.x
+// flow-typed signature: 5ddcf688200e3506308fdcfa78ca48d9
+// flow-typed version: 644a595e77/jest_v27.x.x/flow_>=v0.134.x
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -913,13 +913,6 @@ type JestObjectType = {
    * or setInterval() and setImmediate()).
    */
   advanceTimersByTime(msToRun: number): void,
-  /**
-   * Executes only the macro task queue (i.e. all tasks queued by setTimeout()
-   * or setInterval() and setImmediate()).
-   *
-   * Renamed to `advanceTimersByTime`.
-   */
-  runTimersToTime(msToRun: number): void,
   /**
    * Executes only the macro-tasks that are currently pending (i.e., only the
    * tasks that have been queued by setTimeout() or setInterval() up to this

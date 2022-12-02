@@ -6,7 +6,12 @@ import type { Auth } from '../../../types';
 
 describe('rewriteHtml', () => {
   const realm = new URL('https://realm.example.com');
-  global.jsdom.reconfigure({ url: 'file:///nowhere_land/index.html' });
+  global.jsdom.reconfigure({
+    // This should really be a file:// URL. In particular, it's meant to be
+    // the base URL passed to SinglePageWebView for the message list. But:
+    //   https://github.com/facebook/jest/issues/12813
+    url: 'http://localhost/index.html',
+  });
 
   const auth: Auth = {
     realm,
