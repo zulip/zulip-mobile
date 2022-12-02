@@ -108,14 +108,28 @@ export default function StreamItem(props: Props): Node {
     userSettingStreamNotification: getSettings(state).streamNotification,
   }));
 
+  const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
+  const iconColor =
+    color !== undefined
+      ? color
+      : foregroundColorFromBackground(
+          backgroundColor !== undefined ? backgroundColor : themeBackgroundColor,
+        );
+  const textColor =
+    backgroundColor !== undefined
+      ? (foregroundColorFromBackground(backgroundColor): string)
+      : themeColor;
+
   const styles = useMemo(
     () => ({
-      listItem: {
+      wrapper: {
         flexDirection: 'row',
         alignItems: 'center',
         ...(handleExpandCollapse
           ? { paddingRight: 16 }
           : { paddingVertical: 8, paddingHorizontal: 16 }),
+        backgroundColor,
+        opacity: isMuted ? 0.5 : 1,
       },
       description: {
         opacity: 0.75,
@@ -125,9 +139,6 @@ export default function StreamItem(props: Props): Node {
         flex: 1,
         paddingLeft: 8,
         paddingRight: 8,
-      },
-      muted: {
-        opacity: 0.5,
       },
       collapseIcon: {
         marginRight: 8,
@@ -142,22 +153,8 @@ export default function StreamItem(props: Props): Node {
         paddingRight: 0,
       },
     }),
-    [handleExpandCollapse],
+    [backgroundColor, handleExpandCollapse, isMuted],
   );
-
-  const { backgroundColor: themeBackgroundColor, color: themeColor } = useContext(ThemeContext);
-
-  const wrapperStyle = [styles.listItem, { backgroundColor }, isMuted && styles.muted];
-  const iconColor =
-    color !== undefined
-      ? color
-      : foregroundColorFromBackground(
-          backgroundColor !== undefined ? backgroundColor : themeBackgroundColor,
-        );
-  const textColor =
-    backgroundColor !== undefined
-      ? (foregroundColorFromBackground(backgroundColor): string)
-      : themeColor;
 
   return (
     <Touchable
@@ -171,7 +168,7 @@ export default function StreamItem(props: Props): Node {
         });
       }}
     >
-      <View style={wrapperStyle}>
+      <View style={styles.wrapper}>
         {handleExpandCollapse && (
           <Pressable style={styles.pressable} onPress={() => handleExpandCollapse(streamId)}>
             {isCollapsed === false ? (
