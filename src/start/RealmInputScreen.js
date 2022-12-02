@@ -87,10 +87,6 @@ export default function RealmInputScreen(props: Props): Node {
     }
   }, [navigation, realmInputValue]);
 
-  const handleRealmChange = useCallback(value => {
-    setRealmInputValue(value);
-  }, []);
-
   const styles = React.useMemo(
     () =>
       createStyleSheet({
@@ -132,7 +128,7 @@ export default function RealmInputScreen(props: Props): Node {
           autoCorrect={false}
           autoCapitalize="none"
           returnKeyType="go"
-          onChangeText={handleRealmChange}
+          onChangeText={setRealmInputValue}
           blurOnSubmit={false}
           keyboardType="url"
           underlineColorAndroid="transparent"
