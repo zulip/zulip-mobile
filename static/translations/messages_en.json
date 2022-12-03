@@ -122,6 +122,7 @@
   "Request timed out.": "Request timed out.",
   "Chat": "Chat",
   "Sign in with {method}": "Sign in with {method}",
+  "Invalid input": "Invalid input",
   "Cannot connect to server.": "Cannot connect to server.",
   "Please enter a valid URL.": "Please enter a valid URL.",
   "Please enter the server URL, not your email.": "Please enter the server URL, not your email.",

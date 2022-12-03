@@ -7,7 +7,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { ServerSettings } from '../api/settings/getServerSettings';
-import ErrorMsg from '../common/ErrorMsg';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
@@ -17,18 +16,46 @@ import { ThemeContext } from '../styles/theme';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
+import type { LocalizableText } from '../types';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
   route: RouteProp<'realm-input', {| initial: boolean | void |}>,
 |}>;
 
-const urlFromInputValue = (realmInputValue: string): URL | void => {
+enum ValidationError {
+  InvalidUrl = 0,
+  NoUseEmail = 1,
+}
+
+function validationErrorMsg(validationError: ValidationError): LocalizableText {
+  switch (validationError) {
+    case ValidationError.InvalidUrl:
+      return 'Please enter a valid URL.';
+    case ValidationError.NoUseEmail:
+      return 'Please enter the server URL, not your email.';
+  }
+}
+
+type MaybeParsedInput =
+  | {| +valid: true, value: URL |}
+  | {| +valid: false, error: ValidationError |};
+
+const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
   const withScheme = /^https?:\/\//.test(realmInputValue)
     ? realmInputValue
     : `https://${realmInputValue}`;
 
-  return tryParseUrl(withScheme);
+  const url = tryParseUrl(withScheme);
+
+  if (!url) {
+    return { valid: false, error: ValidationError.InvalidUrl };
+  }
+  if (url.username !== '') {
+    return { valid: false, error: ValidationError.NoUseEmail };
+  }
+
+  return { valid: true, value: url };
 };
 
 export default function RealmInputScreen(props: Props): Node {
@@ -39,8 +66,7 @@ export default function RealmInputScreen(props: Props): Node {
 
   const [progress, setProgress] = React.useState(false);
   const [realmInputValue, setRealmInputValue] = React.useState('');
-  const parsedRealm = urlFromInputValue(realmInputValue);
-  const [validationErrorMsg, setError] = React.useState(null);
+  const maybeParsedInput = tryParseInput(realmInputValue);
 
   const textInputRef = React.useRef<React$ElementRef<typeof TextInput> | null>(null);
 
@@ -63,19 +89,14 @@ export default function RealmInputScreen(props: Props): Node {
   );
 
   const tryRealm = React.useCallback(async () => {
-    if (!parsedRealm) {
-      setError('Please enter a valid URL.');
-      return;
-    }
-    if (parsedRealm.username !== '') {
-      setError('Please enter the server URL, not your email.');
+    if (!maybeParsedInput.valid) {
+      showErrorAlert(_('Invalid input'), _(validationErrorMsg(maybeParsedInput.error)));
       return;
     }
 
     setProgress(true);
-    setError(null);
     try {
-      const serverSettings: ServerSettings = await api.getServerSettings(parsedRealm);
+      const serverSettings: ServerSettings = await api.getServerSettings(maybeParsedInput.value);
       navigation.push('auth', { serverSettings });
       Keyboard.dismiss();
     } catch (errorIllTyped) {
@@ -88,7 +109,7 @@ export default function RealmInputScreen(props: Props): Node {
     } finally {
       setProgress(false);
     }
-  }, [navigation, parsedRealm, _]);
+  }, [navigation, maybeParsedInput, _]);
 
   const styles = React.useMemo(
     () =>
@@ -141,17 +162,14 @@ export default function RealmInputScreen(props: Props): Node {
           ref={textInputRef}
         />
       </View>
-      {validationErrorMsg !== null ? (
-        <ErrorMsg error={validationErrorMsg} />
-      ) : (
-        <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
-      )}
+      <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
       <ZulipButton
         style={styles.button}
         text="Enter"
         progress={progress}
         onPress={tryRealm}
-        disabled={parsedRealm === undefined}
+        isPressHandledWhenDisabled
+        disabled={!maybeParsedInput.valid}
       />
     </Screen>
   );
