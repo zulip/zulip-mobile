@@ -15,6 +15,8 @@ import { tryParseUrl } from '../utils/url';
 import * as api from '../api';
 import { ThemeContext } from '../styles/theme';
 import { createStyleSheet, HALF_COLOR } from '../styles';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -32,12 +34,13 @@ const urlFromInputValue = (realmInputValue: string): URL | void => {
 export default function RealmInputScreen(props: Props): Node {
   const { navigation, route } = props;
 
+  const _ = React.useContext(TranslationContext);
   const themeContext = React.useContext(ThemeContext);
 
   const [progress, setProgress] = React.useState(false);
   const [realmInputValue, setRealmInputValue] = React.useState('');
   const parsedRealm = urlFromInputValue(realmInputValue);
-  const [error, setError] = React.useState(null);
+  const [validationErrorMsg, setError] = React.useState(null);
 
   const textInputRef = React.useRef<React$ElementRef<typeof TextInput> | null>(null);
 
@@ -77,7 +80,7 @@ export default function RealmInputScreen(props: Props): Node {
       Keyboard.dismiss();
     } catch (errorIllTyped) {
       const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-      setError('Cannot connect to server.');
+      showErrorAlert(_('Cannot connect to server.'));
       /* eslint-disable no-console */
       console.warn('RealmInputScreen: failed to connect to server:', err);
       // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
@@ -85,7 +88,7 @@ export default function RealmInputScreen(props: Props): Node {
     } finally {
       setProgress(false);
     }
-  }, [navigation, parsedRealm]);
+  }, [navigation, parsedRealm, _]);
 
   const styles = React.useMemo(
     () =>
@@ -138,8 +141,8 @@ export default function RealmInputScreen(props: Props): Node {
           ref={textInputRef}
         />
       </View>
-      {error !== null ? (
-        <ErrorMsg error={error} />
+      {validationErrorMsg !== null ? (
+        <ErrorMsg error={validationErrorMsg} />
       ) : (
         <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
       )}
