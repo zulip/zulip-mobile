@@ -134,6 +134,7 @@ export default function RealmInputScreen(props: Props): Node {
           underlineColorAndroid="transparent"
           onSubmitEditing={tryRealm}
           enablesReturnKeyAutomatically
+          disableFullscreenUI
           ref={textInputRef}
         />
       </View>
