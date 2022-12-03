@@ -127,6 +127,7 @@
   "Please enter a URL.": "Please enter a URL.",
   "Please enter a valid URL.": "Please enter a valid URL.",
   "Please enter the server URL, not your email.": "Please enter the server URL, not your email.",
+  "Unsupported server URL scheme. Please use http: or https:.": "Unsupported server URL scheme. Please use http: or https:.",
   "Wrong email or password. Try again.": "Wrong email or password. Try again.",
   "Wrong username or password. Try again.": "Wrong username or password. Try again.",
   "Enter a valid email address": "Enter a valid email address",
