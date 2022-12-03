@@ -132,6 +132,7 @@
   "Please enter a URL.": "Please enter a URL.",
   "Please enter a valid URL.": "Please enter a valid URL.",
   "Please enter the server URL, not your email.": "Please enter the server URL, not your email.",
+  "The server URL must start with http:// or https://.": "The server URL must start with http:// or https://.",
   "Wrong email or password. Try again.": "Wrong email or password. Try again.",
   "Wrong username or password. Try again.": "Wrong username or password. Try again.",
   "Enter a valid email address": "Enter a valid email address",

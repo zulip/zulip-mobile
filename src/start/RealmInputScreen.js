@@ -28,6 +28,8 @@ enum ValidationError {
   Empty = 0,
   InvalidUrl = 1,
   NoUseEmail = 2,
+  UnsupportedSchemeZulip = 3,
+  UnsupportedSchemeOther = 4,
 }
 
 function validationErrorMsg(validationError: ValidationError): LocalizableText {
@@ -38,6 +40,11 @@ function validationErrorMsg(validationError: ValidationError): LocalizableText {
       return 'Please enter a valid URL.';
     case ValidationError.NoUseEmail:
       return 'Please enter the server URL, not your email.';
+    case ValidationError.UnsupportedSchemeZulip:
+    // TODO: What would be more helpful here? (First, maybe find out what
+    //   leads people to try a "zulip://" URL, if anyone actually does that)
+    case ValidationError.UnsupportedSchemeOther: // eslint-disable-line no-fallthrough
+      return 'The server URL must start with http:// or https://.';
   }
 }
 
@@ -54,6 +61,16 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
 
   let url = tryParseUrl(trimmedInputValue);
   if (!/^https?:\/\//.test(trimmedInputValue)) {
+    if (url && url.protocol === 'zulip:') {
+      // Someone might get the idea to try one of the "zulip://" URLs that
+      // are discussed sometimes.
+      // TODO(?): Log to Sentry. How much does this happen, if at all? Maybe
+      //   log once when the input enters this error state, but don't spam
+      //   on every keystroke/render while it's in it.
+      return { valid: false, error: ValidationError.UnsupportedSchemeZulip };
+    } else if (url && url.protocol !== 'http:' && url.protocol !== 'https:') {
+      return { valid: false, error: ValidationError.UnsupportedSchemeOther };
+    }
     url = tryParseUrl(`https://${trimmedInputValue}`);
   }
 
