@@ -129,6 +129,7 @@
   "Chat": "Chat",
   "Sign in with {method}": "Sign in with {method}",
   "Invalid input": "Invalid input",
+  "Please enter a URL.": "Please enter a URL.",
   "Please enter a valid URL.": "Please enter a valid URL.",
   "Please enter the server URL, not your email.": "Please enter the server URL, not your email.",
   "Wrong email or password. Try again.": "Wrong email or password. Try again.",

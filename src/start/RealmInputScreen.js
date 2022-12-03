@@ -25,12 +25,15 @@ type Props = $ReadOnly<{|
 |}>;
 
 enum ValidationError {
-  InvalidUrl = 0,
-  NoUseEmail = 1,
+  Empty = 0,
+  InvalidUrl = 1,
+  NoUseEmail = 2,
 }
 
 function validationErrorMsg(validationError: ValidationError): LocalizableText {
   switch (validationError) {
+    case ValidationError.Empty:
+      return 'Please enter a URL.';
     case ValidationError.InvalidUrl:
       return 'Please enter a valid URL.';
     case ValidationError.NoUseEmail:
@@ -44,6 +47,10 @@ type MaybeParsedInput =
 
 const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
   const trimmedInputValue = realmInputValue.trim();
+
+  if (trimmedInputValue.length === 0) {
+    return { valid: false, error: ValidationError.Empty };
+  }
 
   const withScheme = /^https?:\/\//.test(trimmedInputValue)
     ? trimmedInputValue
