@@ -36,6 +36,7 @@ export default function RealmInputScreen(props: Props): Node {
 
   const [progress, setProgress] = React.useState(false);
   const [realmInputValue, setRealmInputValue] = React.useState('');
+  const parsedRealm = urlFromInputValue(realmInputValue);
   const [error, setError] = React.useState(null);
 
   const textInputRef = React.useRef<React$ElementRef<typeof TextInput> | null>(null);
@@ -59,7 +60,6 @@ export default function RealmInputScreen(props: Props): Node {
   );
 
   const tryRealm = React.useCallback(async () => {
-    const parsedRealm = urlFromInputValue(realmInputValue);
     if (!parsedRealm) {
       setError('Please enter a valid URL.');
       return;
@@ -85,7 +85,7 @@ export default function RealmInputScreen(props: Props): Node {
     } finally {
       setProgress(false);
     }
-  }, [navigation, realmInputValue]);
+  }, [navigation, parsedRealm]);
 
   const styles = React.useMemo(
     () =>
@@ -148,7 +148,7 @@ export default function RealmInputScreen(props: Props): Node {
         text="Enter"
         progress={progress}
         onPress={tryRealm}
-        disabled={urlFromInputValue(realmInputValue) === undefined}
+        disabled={parsedRealm === undefined}
       />
     </Screen>
   );
