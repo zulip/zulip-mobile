@@ -17,6 +17,8 @@ import { createStyleSheet, HALF_COLOR } from '../styles';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
+import { BRAND_COLOR } from '../styles/constants';
+import ZulipText from '../common/ZulipText';
 import WebLink from '../common/WebLink';
 
 type Props = $ReadOnly<{|
@@ -83,6 +85,46 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
 
   return { valid: true, value: url };
 };
+
+type Suggestion =
+  | ValidationError // Display relevant validation error message
+  | string // Suggest this string as the server URL
+  | null; // No suggestion
+
+function getSuggestion(realmInputValue, maybeParsedInput): Suggestion {
+  if (
+    !maybeParsedInput.valid
+    // Ignore other errors, like InvalidUrl, which often happen when the
+    // user just hasn't finished typing a good URL. Those errors will still
+    // show up if they apply at submit time; see the submit handler.
+    && (maybeParsedInput.error === ValidationError.NoUseEmail
+      || maybeParsedInput.error === ValidationError.UnsupportedSchemeZulip
+      || maybeParsedInput.error === ValidationError.UnsupportedSchemeOther)
+  ) {
+    return maybeParsedInput.error;
+  }
+
+  const normalizedValue = realmInputValue.trim().replace(/^https?:\/\//, '');
+
+  if (
+    // This couldn't be a valid Zulip Cloud server subdomain. (Criteria
+    // copied from check_subdomain_available in zerver/forms.py.)
+    normalizedValue.length < 3
+    || !/^[a-z0-9-]*$/.test(normalizedValue)
+    || normalizedValue[0] === '-'
+    || normalizedValue[normalizedValue.length - 1] === '-'
+    // TODO(?): Catch strings hard-coded as off-limits, like "your-org".
+    //   (See check_subdomain_available in zerver/forms.py.)
+  ) {
+    return null;
+  }
+
+  if ('chat'.startsWith(normalizedValue)) {
+    return 'https://chat.zulip.org/';
+  }
+
+  return `https://${normalizedValue}.zulipchat.com/`;
+}
 
 export default function RealmInputScreen(props: Props): Node {
   const { navigation, route } = props;
@@ -152,11 +194,59 @@ export default function RealmInputScreen(props: Props): Node {
           fontSize: 20,
           color: themeContext.color,
         },
-        hintText: { paddingLeft: 2, fontSize: 12 },
+        hintText: { fontSize: 12, fontStyle: 'italic' },
+        hintTextLink: {
+          fontSize: 12,
+          fontStyle: 'normal',
+          color: BRAND_COLOR, // chosen to mimic WebLink
+        },
         button: { marginTop: 8 },
       }),
     [themeContext],
   );
+
+  const suggestion = getSuggestion(realmInputValue, maybeParsedInput);
+
+  const shouldTryRealmOnNextRender = React.useRef(false);
+  React.useEffect(() => {
+    if (shouldTryRealmOnNextRender.current) {
+      shouldTryRealmOnNextRender.current = false;
+      tryRealm();
+    }
+  });
+
+  const handlePressSuggestion = React.useCallback(suggestion_ => {
+    shouldTryRealmOnNextRender.current = true;
+    setRealmInputValue(suggestion_);
+  }, []);
+
+  const renderedSuggestion = React.useMemo(() => {
+    if (suggestion === null) {
+      return null;
+    } else if (typeof suggestion === 'string') {
+      return (
+        <ZulipTextIntl
+          style={styles.hintText}
+          text={{
+            text: 'Suggestion: <z-link>{suggestedServerUrl}</z-link>',
+            values: {
+              suggestedServerUrl: suggestion,
+              'z-link': chunks => (
+                <ZulipText
+                  style={styles.hintTextLink}
+                  onPress={() => handlePressSuggestion(suggestion)}
+                >
+                  {chunks}
+                </ZulipText>
+              ),
+            },
+          }}
+        />
+      );
+    } else {
+      return <ZulipTextIntl style={styles.hintText} text={validationErrorMsg(suggestion)} />;
+    }
+  }, [suggestion, handlePressSuggestion, styles]);
 
   return (
     <Screen
@@ -199,7 +289,7 @@ export default function RealmInputScreen(props: Props): Node {
           ref={textInputRef}
         />
       </View>
-      <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
+      {renderedSuggestion}
       <ZulipButton
         style={styles.button}
         text="Enter"
