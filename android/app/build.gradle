@@ -194,14 +194,24 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation "androidx.core:core-ktx:1.7.0"
     implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'androidx.browser:browser:1.0.0'
+
     implementation "com.google.firebase:firebase-messaging:17.3.4"
-    //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    // ==== Test dependencies
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
+    testImplementation 'com.google.truth:truth:0.43'
+    testImplementation 'com.google.truth.extensions:truth-java8-extension:0.43'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+    // ==== RN-related dependencies
+
+    implementation 'com.facebook.fresco:animated-gif:2.0.0' // For animated GIF support
 
     // Workaround for facebook/react-native#32735; see
     //   https://github.com/facebook/react-native/issues/32735#issue-1077061487
@@ -211,6 +221,15 @@ dependencies {
             strictly '0.10.3'
         }
     }
+
+    // ----------------------------------------
+    // Dependencies from RN upstream, in the template app
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group: 'com.facebook.fbjni'
@@ -232,15 +251,10 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    // END dependencies from RN upstream
+    // ----------------------------------------
 
-    implementation 'com.facebook.fresco:animated-gif:2.0.0' // For animated GIF support
-    implementation 'androidx.browser:browser:1.0.0'
-
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
-    testImplementation 'com.google.truth:truth:0.43'
-    testImplementation 'com.google.truth.extensions:truth-java8-extension:0.43'
-    testImplementation 'org.mockito:mockito-core:1.10.19'
+    // Don't put new dependencies down here.  Put them above, before the upstream section.
 }
 
 // The default kotlinOptions.jvmTarget is 1.6.  With the default, we get
