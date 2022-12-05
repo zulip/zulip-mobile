@@ -61,11 +61,11 @@ export default function RealmInputScreen(props: Props): Node {
   const tryRealm = React.useCallback(async () => {
     const parsedRealm = urlFromInputValue(realmInputValue);
     if (!parsedRealm) {
-      setError('Please enter a valid URL');
+      setError('Please enter a valid URL.');
       return;
     }
     if (parsedRealm.username !== '') {
-      setError('Please enter the server URL, not your email');
+      setError('Please enter the server URL, not your email.');
       return;
     }
 
@@ -77,7 +77,7 @@ export default function RealmInputScreen(props: Props): Node {
       Keyboard.dismiss();
     } catch (errorIllTyped) {
       const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-      setError('Cannot connect to server');
+      setError('Cannot connect to server.');
       /* eslint-disable no-console */
       console.warn('RealmInputScreen: failed to connect to server:', err);
       // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
