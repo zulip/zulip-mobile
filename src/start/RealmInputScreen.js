@@ -52,11 +52,10 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
     return { valid: false, error: ValidationError.Empty };
   }
 
-  const withScheme = /^https?:\/\//.test(trimmedInputValue)
-    ? trimmedInputValue
-    : `https://${trimmedInputValue}`;
-
-  const url = tryParseUrl(withScheme);
+  let url = tryParseUrl(trimmedInputValue);
+  if (!/^https?:\/\//.test(trimmedInputValue)) {
+    url = tryParseUrl(`https://${trimmedInputValue}`);
+  }
 
   if (!url) {
     return { valid: false, error: ValidationError.InvalidUrl };
