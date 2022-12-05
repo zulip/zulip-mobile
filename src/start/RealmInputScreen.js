@@ -18,6 +18,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
 import { getGlobalSettings } from '../directSelectors';
 import { useGlobalSelector } from '../react-redux';
+import { BRAND_COLOR } from '../styles/constants';
 import ZulipText from '../common/ZulipText';
 import WebLink from '../common/WebLink';
 
@@ -86,7 +87,10 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
   return { valid: true, value: url };
 };
 
-type Suggestion = ValidationError | null;
+type Suggestion =
+  | ValidationError // Display relevant validation error message
+  | string // Suggest this string as the server URL
+  | null; // No suggestion
 
 function getSuggestion(realmInputValue, maybeParsedInput): Suggestion {
   if (!maybeParsedInput.valid) {
@@ -105,8 +109,26 @@ function getSuggestion(realmInputValue, maybeParsedInput): Suggestion {
     }
   }
 
-  // TODO(?): Suggest e.g. CZO or a zulipchat.com URL
-  return null;
+  const normalizedValue = realmInputValue.trim().replace(/^https?:\/\//, '');
+
+  if (
+    // This couldn't be a valid Zulip Cloud server subdomain. (Criteria
+    // copied from check_subdomain_available in zerver/forms.py.)
+    normalizedValue.length < 3
+    || !/^[a-z0-9-]*$/.test(normalizedValue)
+    || normalizedValue[0] === '-'
+    || normalizedValue[normalizedValue.length - 1] === '-'
+    // TODO(?): Catch strings hard-coded as off-limits, like "your-org".
+    //   (See check_subdomain_available in zerver/forms.py.)
+  ) {
+    return null;
+  }
+
+  if ('chat'.startsWith(normalizedValue)) {
+    return 'https://chat.zulip.org/';
+  }
+
+  return `https://${normalizedValue}.zulipchat.com/`;
 }
 
 export default function RealmInputScreen(props: Props): Node {
@@ -169,6 +191,10 @@ export default function RealmInputScreen(props: Props): Node {
 
   const suggestion = getSuggestion(realmInputValue, maybeParsedInput);
 
+  const handlePressSuggestion = React.useCallback(suggestion_ => {
+    setRealmInputValue(suggestion_);
+  }, []);
+
   const styles = React.useMemo(
     () =>
       createStyleSheet({
@@ -185,6 +211,11 @@ export default function RealmInputScreen(props: Props): Node {
           color: themeContext.color,
         },
         suggestionText: { fontSize: 12, fontStyle: 'italic' },
+        suggestionTextLink: {
+          fontSize: 12,
+          fontStyle: 'normal',
+          color: BRAND_COLOR, // chosen to mimic WebLink
+        },
         button: { marginTop: 8 },
       }),
     [themeContext],
@@ -202,10 +233,30 @@ export default function RealmInputScreen(props: Props): Node {
       return (
         <ZulipText style={styles.suggestionText} text={'\u200b'} /* U+200B ZERO WIDTH SPACE */ />
       );
+    } else if (typeof suggestion === 'string') {
+      return (
+        <ZulipTextIntl
+          style={styles.suggestionText}
+          text={{
+            text: 'Suggestion: <z-link>{suggestedServerUrl}</z-link>',
+            values: {
+              suggestedServerUrl: suggestion,
+              'z-link': chunks => (
+                <ZulipText
+                  style={styles.suggestionTextLink}
+                  onPress={() => handlePressSuggestion(suggestion)}
+                >
+                  {chunks}
+                </ZulipText>
+              ),
+            },
+          }}
+        />
+      );
     } else {
       return <ZulipTextIntl style={styles.suggestionText} text={validationErrorMsg(suggestion)} />;
     }
-  }, [suggestion, styles]);
+  }, [suggestion, handlePressSuggestion, styles]);
 
   return (
     <Screen
