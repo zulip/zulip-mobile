@@ -6,7 +6,7 @@ import { URL, URLSearchParams } from 'react-native-url-polyfill';
 // $FlowIgnore[untyped-import] - this is not anywhere near critical
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
-import { assertUsingModernFakeTimers } from '../src/__tests__/lib/fakeTimers';
+import { assertUsingFakeTimers } from '../src/__tests__/lib/fakeTimers';
 
 // Use the same `URL` polyfill we do in the app.
 //
@@ -21,8 +21,8 @@ import { assertUsingModernFakeTimers } from '../src/__tests__/lib/fakeTimers';
 polyfillGlobal('URL', () => URL);
 polyfillGlobal('URLSearchParams', () => URLSearchParams);
 
-// Default should be set with `timers: 'modern'` in Jest config.
-assertUsingModernFakeTimers();
+// Default should be set with `timers: 'fake'` in Jest config.
+assertUsingFakeTimers();
 
 // Mock `react-native` ourselves, following upstream advice [1] [2].
 //

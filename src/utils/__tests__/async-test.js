@@ -1,10 +1,10 @@
 /* @flow strict-local */
 import { sleep, BackoffMachine } from '../async';
-import { assertUsingModernFakeTimers } from '../../__tests__/lib/fakeTimers';
+import { assertUsingFakeTimers } from '../../__tests__/lib/fakeTimers';
 
 describe('BackoffMachine', () => {
   beforeAll(() => {
-    assertUsingModernFakeTimers();
+    assertUsingFakeTimers();
   });
 
   afterEach(() => {
@@ -60,7 +60,7 @@ const sleepMeasure = async (expectedMs: number) => {
 
 describe('sleep (ideal)', () => {
   beforeAll(() => {
-    assertUsingModernFakeTimers();
+    assertUsingFakeTimers();
   });
 
   afterEach(() => {

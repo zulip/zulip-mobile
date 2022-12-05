@@ -2,17 +2,21 @@
 import { sleep } from '../../utils/async';
 
 /**
- * Ensure the "modern" fake-timer implementation is used.
+ * Ensure the fake-timer implementation is used.
  *
- * By setting `timers: 'modern'` in our Jest config, the modern
+ * By setting `timers: 'fake'` in our Jest config, the fake-timer
  * implementation is the default. May be used to double-check that
  * this default is in fact set, in our Jest setup file.
  *
  * Also, in one or two files, we switch over to using real timers,
  * with `jest.useRealTimers()`. May be used in those files to make
  * sure this setting doesn't linger where we don't want it to.
+ *
+ * Note: As of Jest 27, there are "modern" and "legacy" fake-timer
+ * implementations. This checks for the "modern" one, which is the only one
+ * we should use.
  */
-export const assertUsingModernFakeTimers = () => {
+export const assertUsingFakeTimers = () => {
   // "Note: This function is only available when using modern fake
   // timers implementation"
   //
@@ -25,11 +29,9 @@ export const assertUsingModernFakeTimers = () => {
  */
 export const fakeSleep = async (ms: number): Promise<void> => {
   try {
-    assertUsingModernFakeTimers();
+    assertUsingFakeTimers();
   } catch {
-    throw new Error(
-      'Tried to call `fakeSleep` without "modern" fake-timer implementation enabled.',
-    );
+    throw new Error('Tried to call `fakeSleep` without fake-timer implementation enabled.');
   }
 
   const sleepPromise = sleep(ms);
