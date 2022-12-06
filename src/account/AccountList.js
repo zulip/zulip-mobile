@@ -8,18 +8,18 @@ import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountItem from './AccountItem';
 
 type Props = $ReadOnly<{|
-  accounts: $ReadOnlyArray<AccountStatus>,
+  accountStatuses: $ReadOnlyArray<AccountStatus>,
   onAccountSelect: number => Promise<void> | void,
   onAccountRemove: number => Promise<void> | void,
 |}>;
 
 export default function AccountList(props: Props): Node {
-  const { accounts, onAccountSelect, onAccountRemove } = props;
+  const { accountStatuses, onAccountSelect, onAccountRemove } = props;
 
   return (
     <View>
       <FlatList
-        data={accounts}
+        data={accountStatuses}
         keyExtractor={item => `${item.email}${item.realm.toString()}`}
         ItemSeparatorComponent={() => <ViewPlaceholder height={8} />}
         renderItem={({ item, index }) => (

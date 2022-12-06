@@ -26,13 +26,13 @@ type Props = $ReadOnly<{|
 
 export default function AccountPickScreen(props: Props): Node {
   const { navigation } = props;
-  const accounts = useGlobalSelector(getAccountStatuses);
+  const accountStatuses = useGlobalSelector(getAccountStatuses);
   const dispatch = useGlobalDispatch();
   const _ = useContext(TranslationContext);
 
   const handleAccountSelect = useCallback(
     async (index: number) => {
-      const { realm, isLoggedIn } = accounts[index];
+      const { realm, isLoggedIn } = accountStatuses[index];
       if (isLoggedIn) {
         setTimeout(() => {
           dispatch(accountSwitch(index));
@@ -47,12 +47,12 @@ export default function AccountPickScreen(props: Props): Node {
         }
       }
     },
-    [accounts, dispatch, navigation, _],
+    [accountStatuses, dispatch, navigation, _],
   );
 
   const handleAccountRemove = useCallback(
     (index: number) => {
-      const { realm, email } = accounts[index];
+      const { realm, email } = accountStatuses[index];
       showConfirmationDialog({
         destructive: true,
         title: 'Remove account',
@@ -66,7 +66,7 @@ export default function AccountPickScreen(props: Props): Node {
         _,
       });
     },
-    [accounts, _, dispatch],
+    [accountStatuses, _, dispatch],
   );
 
   return (
@@ -78,9 +78,9 @@ export default function AccountPickScreen(props: Props): Node {
       shouldShowLoadingBanner={false}
     >
       <Centerer>
-        {accounts.length === 0 && <Logo />}
+        {accountStatuses.length === 0 && <Logo />}
         <AccountList
-          accounts={accounts}
+          accountStatuses={accountStatuses}
           onAccountSelect={handleAccountSelect}
           onAccountRemove={handleAccountRemove}
         />
