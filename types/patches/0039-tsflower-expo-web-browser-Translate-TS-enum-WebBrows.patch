@@ -1,88 +1,113 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Bobbe <cbobbe@zulip.com>
-Date: Mon, 26 Sep 2022 16:57:08 +0800
-Subject: [tsflower] expo-web-browser: Translate TS enum WebBrowserResultType
+Date: Mon, 25 Jul 2022 13:35:00 -0700
+Subject: [tsflower] expo-web-browser: Translate TS enum
+ WebBrowserPresentationStyle
 
 Read more about our approach in the recent patch that translated a
 TS enum in expo-application.
 ---
- .../expo-web-browser/build/WebBrowser.js.flow |  3 +-
- .../build/WebBrowser.types.js.flow            | 35 +++++++++----------
- 2 files changed, 19 insertions(+), 19 deletions(-)
+ .../expo-web-browser/build/WebBrowser.js.flow |  2 +-
+ .../build/WebBrowser.types.js.flow            | 43 +++++++++----------
+ 2 files changed, 22 insertions(+), 23 deletions(-)
 
 diff --git types/expo-web-browser/build/WebBrowser.js.flow types/expo-web-browser/build/WebBrowser.js.flow
-index eb36ffcd8..4e4aaf9d4 100644
+index 4e4aaf9d4..97be5b587 100644
 --- types/expo-web-browser/build/WebBrowser.js.flow
 +++ types/expo-web-browser/build/WebBrowser.js.flow
-@@ -12,13 +12,14 @@ import {
-     type WebBrowserRedirectResult,
-     type WebBrowserResult,
-     WebBrowserResultType,
-+    type WebBrowserResultTypeT,
-     type WebBrowserWarmUpResult,
-     type WebBrowserWindowFeatures,
-     WebBrowserPresentationStyle,
+@@ -19,7 +19,7 @@ import {
      type AuthSessionOpenOptions,
  } from "./WebBrowser.types";
  
--export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, AuthSessionOpenOptions };
-+export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserResultTypeT, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, AuthSessionOpenOptions };
+-export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserResultTypeT, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, AuthSessionOpenOptions };
++export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserResultTypeT, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, WebBrowserPresentationStyleT, AuthSessionOpenOptions };
  declare export function getCustomTabsSupportingBrowsersAsync(): Promise<WebBrowserCustomTabsResults>;
  declare export function warmUpAsync(browserPackage?: string): Promise<WebBrowserWarmUpResult>;
  declare export function mayInitWithUrlAsync(url: string, browserPackage?: string): Promise<WebBrowserMayInitWithUrlResult>;
 diff --git types/expo-web-browser/build/WebBrowser.types.js.flow types/expo-web-browser/build/WebBrowser.types.js.flow
-index 0b2c54c70..26584386d 100644
+index 26584386d..88b3d2364 100644
 --- types/expo-web-browser/build/WebBrowser.types.js.flow
 +++ types/expo-web-browser/build/WebBrowser.types.js.flow
-@@ -33,23 +33,22 @@ export type WebBrowserCustomTabsResults = {
+@@ -16,7 +16,7 @@ export type WebBrowserOpenOptions = {
+     controlsColor?: string,
+     dismissButtonStyle?: "done" | "close" | "cancel",
+     readerMode?: boolean,
+-    presentationStyle?: WebBrowserPresentationStyle,
++    presentationStyle?: WebBrowserPresentationStyleT,
+     windowName?: string,
+     windowFeatures?: string | WebBrowserWindowFeatures,
      ...
- };
+@@ -50,50 +50,49 @@ declare export var WebBrowserResultType: {|
+ |}
+ export type WebBrowserResultTypeT = $Values<typeof WebBrowserResultType>;
  
 -/* tsflower-unimplemented: EnumDeclaration */
 -/* 
--export declare enum WebBrowserResultType {
--    /**
--     * @platform ios
+ /**
+  * A browser presentation style. Its values are directly mapped to the [`UIModalPresentationStyle`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621355-modalpresentationstyle).
+  *
+  * @platform ios
+- * /
+-export declare enum WebBrowserPresentationStyle {
++ */
++declare export var WebBrowserPresentationStyle: {|
+     /**
+      * A presentation style in which the presented browser covers the screen.
 -     * /
--    CANCEL = "cancel",
--    /**
--     * @platform ios
+-    FULL_SCREEN = "fullScreen",
++     */
++    +FULL_SCREEN: "fullScreen",
+     /**
+      * A presentation style that partially covers the underlying content.
 -     * /
--    DISMISS = "dismiss",
--    /**
--     * @platform android
+-    PAGE_SHEET = "pageSheet",
++     */
++    +PAGE_SHEET: "pageSheet",
+     /**
+      * A presentation style that displays the browser centered in the screen.
 -     * /
--    OPENED = "opened",
--    LOCKED = "locked"
+-    FORM_SHEET = "formSheet",
++     */
++    +FORM_SHEET: "formSheet",
+     /**
+      * A presentation style where the browser is displayed over the app's content.
+-     * /
+-    CURRENT_CONTEXT = "currentContext",
++     */
++    +CURRENT_CONTEXT: "currentContext",
+     /**
+      * A presentation style in which the browser view covers the screen.
+-     * /
+-    OVER_FULL_SCREEN = "overFullScreen",
++     */
++    +OVER_FULL_SCREEN: "overFullScreen",
+     /**
+      * A presentation style where the browser is displayed over the app's content.
+-     * /
+-    OVER_CURRENT_CONTEXT = "overCurrentContext",
++     */
++    +OVER_CURRENT_CONTEXT: "overCurrentContext",
+     /**
+      * A presentation style where the browser is displayed in a popover view.
+-     * /
+-    POPOVER = "popover",
++     */
++    +POPOVER: "popover",
+     /**
+      * The default presentation style chosen by the system.
+      * On older iOS versions, falls back to `WebBrowserPresentationStyle.FullScreen`.
+      *
+      * @platform ios 13+
+-     * /
+-    AUTOMATIC = "automatic"
 -} */
-+declare export var WebBrowserResultType: {|
-+  /**
-+   * @platform ios
-+   */
-+  +CANCEL: 'cancel',
-+  /**
-+   * @platform ios
-+   */
-+  +DISMISS: 'dismiss',
-+  /**
-+   * @platform android
-+   */
-+  +OPENED: 'opened',
-+  +LOCKED: 'locked',
++     */
++    +AUTOMATIC: "automatic"
 +|}
-+export type WebBrowserResultTypeT = $Values<typeof WebBrowserResultType>;
++export type WebBrowserPresentationStyleT = $Values<typeof WebBrowserPresentationStyle>;
  
- /* tsflower-unimplemented: EnumDeclaration */
- /* 
-@@ -96,7 +95,7 @@ export declare enum WebBrowserPresentationStyle {
-     AUTOMATIC = "automatic"
- } */
+ export type WebBrowserResult = { type: WebBrowserResultTypeT, ... };
  
--export type WebBrowserResult = { type: WebBrowserResultType, ... };
-+export type WebBrowserResult = { type: WebBrowserResultTypeT, ... };
- 
- export type WebBrowserRedirectResult = {
-     type: "success",
 -- 
 2.32.0
 

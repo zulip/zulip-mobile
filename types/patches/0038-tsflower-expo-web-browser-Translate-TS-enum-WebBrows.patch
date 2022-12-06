@@ -1,0 +1,88 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Mon, 26 Sep 2022 16:57:08 +0800
+Subject: [tsflower] expo-web-browser: Translate TS enum WebBrowserResultType
+
+Read more about our approach in the recent patch that translated a
+TS enum in expo-application.
+---
+ .../expo-web-browser/build/WebBrowser.js.flow |  3 +-
+ .../build/WebBrowser.types.js.flow            | 35 +++++++++----------
+ 2 files changed, 19 insertions(+), 19 deletions(-)
+
+diff --git types/expo-web-browser/build/WebBrowser.js.flow types/expo-web-browser/build/WebBrowser.js.flow
+index eb36ffcd8..4e4aaf9d4 100644
+--- types/expo-web-browser/build/WebBrowser.js.flow
++++ types/expo-web-browser/build/WebBrowser.js.flow
+@@ -12,13 +12,14 @@ import {
+     type WebBrowserRedirectResult,
+     type WebBrowserResult,
+     WebBrowserResultType,
++    type WebBrowserResultTypeT,
+     type WebBrowserWarmUpResult,
+     type WebBrowserWindowFeatures,
+     WebBrowserPresentationStyle,
+     type AuthSessionOpenOptions,
+ } from "./WebBrowser.types";
+ 
+-export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, AuthSessionOpenOptions };
++export { WebBrowserAuthSessionResult, WebBrowserCompleteAuthSessionOptions, WebBrowserCompleteAuthSessionResult, WebBrowserCoolDownResult, WebBrowserCustomTabsResults, WebBrowserMayInitWithUrlResult, WebBrowserOpenOptions, WebBrowserRedirectResult, WebBrowserResult, WebBrowserResultType, WebBrowserResultTypeT, WebBrowserWarmUpResult, WebBrowserWindowFeatures, WebBrowserPresentationStyle, AuthSessionOpenOptions };
+ declare export function getCustomTabsSupportingBrowsersAsync(): Promise<WebBrowserCustomTabsResults>;
+ declare export function warmUpAsync(browserPackage?: string): Promise<WebBrowserWarmUpResult>;
+ declare export function mayInitWithUrlAsync(url: string, browserPackage?: string): Promise<WebBrowserMayInitWithUrlResult>;
+diff --git types/expo-web-browser/build/WebBrowser.types.js.flow types/expo-web-browser/build/WebBrowser.types.js.flow
+index 0b2c54c70..26584386d 100644
+--- types/expo-web-browser/build/WebBrowser.types.js.flow
++++ types/expo-web-browser/build/WebBrowser.types.js.flow
+@@ -33,23 +33,22 @@ export type WebBrowserCustomTabsResults = {
+     ...
+ };
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum WebBrowserResultType {
+-    /**
+-     * @platform ios
+-     * /
+-    CANCEL = "cancel",
+-    /**
+-     * @platform ios
+-     * /
+-    DISMISS = "dismiss",
+-    /**
+-     * @platform android
+-     * /
+-    OPENED = "opened",
+-    LOCKED = "locked"
+-} */
++declare export var WebBrowserResultType: {|
++  /**
++   * @platform ios
++   */
++  +CANCEL: 'cancel',
++  /**
++   * @platform ios
++   */
++  +DISMISS: 'dismiss',
++  /**
++   * @platform android
++   */
++  +OPENED: 'opened',
++  +LOCKED: 'locked',
++|}
++export type WebBrowserResultTypeT = $Values<typeof WebBrowserResultType>;
+ 
+ /* tsflower-unimplemented: EnumDeclaration */
+ /* 
+@@ -96,7 +95,7 @@ export declare enum WebBrowserPresentationStyle {
+     AUTOMATIC = "automatic"
+ } */
+ 
+-export type WebBrowserResult = { type: WebBrowserResultType, ... };
++export type WebBrowserResult = { type: WebBrowserResultTypeT, ... };
+ 
+ export type WebBrowserRedirectResult = {
+     type: "success",
+-- 
+2.32.0
+
