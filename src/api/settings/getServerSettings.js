@@ -2,6 +2,7 @@
 import type { ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
 import { ApiError } from '../apiErrors';
+import { ZulipVersion } from '../../utils/zulipVersion';
 
 // This corresponds to AUTHENTICATION_FLAGS in zulip/zulip:zerver/models.py .
 export type AuthenticationMethods = {
@@ -71,8 +72,11 @@ type ApiResponseServerSettings = {|
 
 export type ServerSettings = $ReadOnly<{|
   ...ApiResponseServerSettings,
+  +zulip_feature_level: number,
+  +zulip_version: ZulipVersion,
   +realm_uri: URL,
   +realm_name: string,
+  +realm_web_public_access_enabled: boolean,
 |}>;
 
 /**
@@ -96,8 +100,11 @@ function transform(raw: ApiResponseServerSettings): ServerSettings {
 
   return {
     ...raw,
+    zulip_feature_level: raw.zulip_feature_level ?? 0,
+    zulip_version: new ZulipVersion(raw.zulip_version),
     realm_uri: new URL(raw.realm_uri),
     realm_name,
+    realm_web_public_access_enabled: raw.realm_web_public_access_enabled ?? false,
   };
 }
 
