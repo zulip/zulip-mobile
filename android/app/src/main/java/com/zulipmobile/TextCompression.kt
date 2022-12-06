@@ -25,7 +25,7 @@ internal class TextCompressionModule(reactContext: ReactApplicationContext?) :
     private val bufferSize = 8192
 
     private val header = "z|zlib base64|"
-    override fun getConstants(): Map<String, Any>? {
+    override fun getConstants(): Map<String, Any> {
         val constants: MutableMap<String, Any> = HashMap()
         constants["header"] = header
         return constants
