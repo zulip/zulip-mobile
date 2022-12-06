@@ -14,14 +14,16 @@ import java.util.zip.Inflater
 
 // TODO: Write unit tests; see
 //   https://github.com/zulip/zulip-mobile/blob/main/docs/howto/testing.md#unit-tests-android.
+
+// TODO: Experiment what value gives the best performance.
+private const val bufferSize = 8192
+
+private const val header = "z|zlib base64|"
+
 internal class TextCompressionModule(reactContext: ReactApplicationContext?) :
         ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String = "TextCompressionModule"
 
-    // TODO: Experiment what value gives the best performance.
-    private val bufferSize = 8192
-
-    private val header = "z|zlib base64|"
     override fun getConstants(): Map<String, Any> = hashMapOf("header" to header)
 
     @ReactMethod
