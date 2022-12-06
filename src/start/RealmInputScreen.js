@@ -43,9 +43,11 @@ type MaybeParsedInput =
   | {| +valid: false, error: ValidationError |};
 
 const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
-  const withScheme = /^https?:\/\//.test(realmInputValue)
-    ? realmInputValue
-    : `https://${realmInputValue}`;
+  const trimmedInputValue = realmInputValue.trim();
+
+  const withScheme = /^https?:\/\//.test(trimmedInputValue)
+    ? trimmedInputValue
+    : `https://${trimmedInputValue}`;
 
   const url = tryParseUrl(withScheme);
 
