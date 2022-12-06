@@ -17,6 +17,13 @@
  */
 export type Auth = $ReadOnly<{|
   realm: URL,
+
+  /** The API key, or the empty string if the user has logged out. */
+  // TODO: Instead of the empty string, use null, to get more helpful
+  //   feedback from Flow. We can't express to Flow the type whose values
+  //   are all strings except the empty string. When making this change, be
+  //   sure to write a migration, and carefully track down all checks
+  //   against the empty string and convert them to checks against null.
   apiKey: string,
 
   // TODO: Follow changes in the user's email address, whether while we're
