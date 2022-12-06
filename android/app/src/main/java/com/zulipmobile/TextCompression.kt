@@ -8,7 +8,6 @@ import com.facebook.react.bridge.ReactMethod
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.UnsupportedEncodingException
-import java.util.HashMap
 import java.util.zip.DataFormatException
 import java.util.zip.Deflater
 import java.util.zip.Inflater
@@ -17,19 +16,13 @@ import java.util.zip.Inflater
 //   https://github.com/zulip/zulip-mobile/blob/main/docs/howto/testing.md#unit-tests-android.
 internal class TextCompressionModule(reactContext: ReactApplicationContext?) :
         ReactContextBaseJavaModule(reactContext) {
-    override fun getName(): String {
-        return "TextCompressionModule"
-    }
+    override fun getName(): String = "TextCompressionModule"
 
     // TODO: Experiment what value gives the best performance.
     private val bufferSize = 8192
 
     private val header = "z|zlib base64|"
-    override fun getConstants(): Map<String, Any> {
-        val constants: MutableMap<String, Any> = HashMap()
-        constants["header"] = header
-        return constants
-    }
+    override fun getConstants(): Map<String, Any> = hashMapOf("header" to header)
 
     @ReactMethod
     fun compress(input: String, promise: Promise) {
