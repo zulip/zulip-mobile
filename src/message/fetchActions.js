@@ -9,9 +9,10 @@ import type {
   Stream,
   ThunkAction,
   UserId,
+  LocalizableText,
 } from '../types';
 import * as api from '../api';
-import { Server5xxError, NetworkError } from '../api/apiErrors';
+import { Server5xxError, NetworkError, ApiError, MalformedResponseError } from '../api/apiErrors';
 import {
   getAuth,
   getRealm,
@@ -34,6 +35,7 @@ import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { addToOutbox } from '../outbox/outboxActions';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
+import type { ServerSettings } from '../api/settings/getServerSettings';
 
 const messageFetchStart = (
   narrow: Narrow,
@@ -397,3 +399,60 @@ export const uploadFile =
 
     dispatch(addToOutbox(destinationNarrow, messageToSend));
   };
+
+export async function fetchServerSettings(realm: URL): Promise<
+  | {| +type: 'success', +value: ServerSettings |}
+  | {|
+      +type: 'error',
+      +title: LocalizableText,
+      +message: LocalizableText,
+      +learnMoreButton: {| +url: URL, +text?: LocalizableText |} | void,
+    |},
+> {
+  try {
+    return { type: 'success', value: await api.getServerSettings(realm) };
+    // TODO(#5102): Disallow connecting to ancient servers
+  } catch (errorIllTyped) {
+    const error: mixed = errorIllTyped;
+
+    const title = 'Could not connect';
+    let message = undefined;
+    let learnMoreButton = undefined;
+
+    // TODO(#4918): Recognize not-yet-implemented "org-deactivated" error;
+    //   see https://github.com/zulip/zulip/issues/19347
+    if (error instanceof ApiError && error.message.length > 0) {
+      // E.g., "Subdomain required".
+      message = {
+        text: 'The server at {realm} said:\n\n{message}',
+        values: { realm: realm.toString(), message: error.message },
+      };
+    } else if (error instanceof NetworkError) {
+      message = {
+        text: 'Could not connect to {realm}. Please check your network connection and try again.',
+        values: { realm: realm.toString() },
+      };
+    } else if (error instanceof MalformedResponseError && error.httpStatus === 404) {
+      message = {
+        text: 'The server at {realm} does not seem to be a Zulip server.',
+        values: { realm: realm.toString() },
+      };
+      learnMoreButton = {
+        text: 'Find your Zulip server URL',
+        url: new URL('https://zulip.com/help/logging-in#find-the-zulip-log-in-url'),
+      };
+    } else if (error instanceof Server5xxError) {
+      message = {
+        text: 'The server at {realm} encountered an error.',
+        values: { realm: realm.toString() },
+      };
+    } else {
+      message = {
+        text: 'Failed to connect to server: {realm}',
+        values: { realm: realm.toString() },
+      };
+    }
+
+    return { type: 'error', title, message, learnMoreButton };
+  }
+}

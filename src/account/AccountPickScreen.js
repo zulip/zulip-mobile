@@ -4,12 +4,12 @@ import React, { useContext, useCallback } from 'react';
 import type { Node } from 'react';
 import invariant from 'invariant';
 
-import * as api from '../api';
+import { fetchServerSettings } from '../message/fetchActions';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useGlobalDispatch } from '../react-redux';
-import { getAccountStatuses, getAccountsByIdentity } from '../selectors';
+import { getAccountStatuses, getAccountsByIdentity, getGlobalSettings } from '../selectors';
 import Centerer from '../common/Centerer';
 import ZulipButton from '../common/ZulipButton';
 import Logo from '../common/Logo';
@@ -17,7 +17,6 @@ import Screen from '../common/Screen';
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountList from './AccountList';
 import { accountSwitch, removeAccount } from '../actions';
-import type { ServerSettings } from '../api/settings/getServerSettings';
 import { showConfirmationDialog, showErrorAlert } from '../utils/info';
 import { tryStopNotifications } from '../notification/notifTokens';
 
@@ -34,6 +33,8 @@ export default function AccountPickScreen(props: Props): Node {
   // doing so, of course).
   const accountsByIdentity = useGlobalSelector(getAccountsByIdentity);
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   const dispatch = useGlobalDispatch();
   const _ = useContext(TranslationContext);
 
@@ -45,16 +46,25 @@ export default function AccountPickScreen(props: Props): Node {
           dispatch(accountSwitch(index));
         });
       } else {
-        try {
-          const serverSettings: ServerSettings = await api.getServerSettings(realm);
-          navigation.push('auth', { serverSettings });
-        } catch {
-          // TODO: show specific error message from error object
-          showErrorAlert(_('Failed to connect to server: {realm}', { realm: realm.toString() }));
+        const result = await fetchServerSettings(realm);
+        if (result.type === 'error') {
+          showErrorAlert(
+            _(result.title),
+            _(result.message),
+            result.learnMoreButton && {
+              url: result.learnMoreButton.url,
+              text:
+                result.learnMoreButton.text != null ? _(result.learnMoreButton.text) : undefined,
+              globalSettings,
+            },
+          );
+          return;
         }
+        const serverSettings = result.value;
+        navigation.push('auth', { serverSettings });
       }
     },
-    [accountStatuses, dispatch, navigation, _],
+    [accountStatuses, globalSettings, dispatch, navigation, _],
   );
 
   const handleAccountRemove = useCallback(

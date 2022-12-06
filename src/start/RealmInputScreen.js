@@ -6,17 +6,18 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { ServerSettings } from '../api/settings/getServerSettings';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { tryParseUrl } from '../utils/url';
-import * as api from '../api';
+import { fetchServerSettings } from '../message/fetchActions';
 import { ThemeContext } from '../styles/theme';
 import { createStyleSheet, HALF_COLOR } from '../styles';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
+import { getGlobalSettings } from '../directSelectors';
+import { useGlobalSelector } from '../react-redux';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -61,6 +62,8 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
 export default function RealmInputScreen(props: Props): Node {
   const { navigation, route } = props;
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   const _ = React.useContext(TranslationContext);
   const themeContext = React.useContext(ThemeContext);
 
@@ -95,21 +98,24 @@ export default function RealmInputScreen(props: Props): Node {
     }
 
     setProgress(true);
-    try {
-      const serverSettings: ServerSettings = await api.getServerSettings(maybeParsedInput.value);
-      navigation.push('auth', { serverSettings });
-      Keyboard.dismiss();
-    } catch (errorIllTyped) {
-      const err: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
-      showErrorAlert(_('Cannot connect to server.'));
-      /* eslint-disable no-console */
-      console.warn('RealmInputScreen: failed to connect to server:', err);
-      // $FlowFixMe[incompatible-cast]: assuming caught exception was Error
-      console.warn((err: Error).stack);
-    } finally {
-      setProgress(false);
+    const result = await fetchServerSettings(maybeParsedInput.value);
+    setProgress(false);
+    if (result.type === 'error') {
+      showErrorAlert(
+        _(result.title),
+        _(result.message),
+        result.learnMoreButton && {
+          url: result.learnMoreButton.url,
+          text: result.learnMoreButton.text != null ? _(result.learnMoreButton.text) : undefined,
+          globalSettings,
+        },
+      );
+      return;
     }
-  }, [navigation, maybeParsedInput, _]);
+    const serverSettings = result.value;
+    navigation.push('auth', { serverSettings });
+    Keyboard.dismiss();
+  }, [navigation, maybeParsedInput, globalSettings, _]);
 
   const styles = React.useMemo(
     () =>
