@@ -16,13 +16,14 @@ import { tryStopNotifications } from '../notification/notifTokens';
 import AccountDetails from './AccountDetails';
 import { getRealm } from '../directSelectors';
 import { getOwnUser, getOwnUserId } from '../users/userSelectors';
-import { getAuth, getIdentity, getZulipFeatureLevel } from '../account/accountsSelectors';
+import { getAuth, getAccount, getZulipFeatureLevel } from '../account/accountsSelectors';
 import { useNavigation } from '../react-navigation';
 import { showConfirmationDialog } from '../utils/info';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import SwitchRow from '../common/SwitchRow';
 import * as api from '../api';
+import { identityOfAccount } from '../account/accountMisc';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -94,7 +95,8 @@ function SwitchAccountButton(props: {||}) {
 function LogoutButton(props: {||}) {
   const dispatch = useDispatch();
   const _ = useContext(TranslationContext);
-  const identity = useSelector(getIdentity);
+  const account = useSelector(getAccount);
+  const identity = identityOfAccount(account);
   return (
     <ZulipButton
       style={styles.button}
@@ -109,7 +111,7 @@ function LogoutButton(props: {||}) {
             values: { email: identity.email, realmUrl: identity.realm.toString() },
           },
           onPressConfirm: () => {
-            dispatch(tryStopNotifications());
+            dispatch(tryStopNotifications(account));
             dispatch(logout());
           },
           _,

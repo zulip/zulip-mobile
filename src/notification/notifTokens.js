@@ -17,7 +17,6 @@ import type {
 } from '../types';
 import type { JSONable } from '../utils/jsonable';
 import * as api from '../api';
-import { getAuth } from '../selectors';
 import { getGlobalSession, getAccounts } from '../directSelectors';
 import { identityOfAccount, authOfAccount, identityOfAuth } from '../account/accountMisc';
 import { getAccount } from '../account/accountsSelectors';
@@ -230,9 +229,17 @@ export const handleDeviceToken =
 // your account, including notifications, even when you don't have the
 // device in your possession.  That's zulip/zulip#17939.
 export const tryStopNotifications =
-  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-    const auth = getAuth(getState());
-    const { ackedPushToken } = getAccount(getState());
+  (account: Account): GlobalThunkAction<Promise<void>> & ThunkAction<Promise<void>> =>
+  // Why both GlobalThunkAction and ThunkAction?  Well, this function is
+  // per-account... but whereas virtually all our other per-account code is
+  // implicitly about the active account, this is about a specific account
+  // it's explicitly passed.  That makes it equally legitimate to call from
+  // per-account or global code.
+  // TODO(#5006): Once we have per-account states for all accounts, make
+  //   this an ordinary per-account action.
+  async dispatch => {
+    const auth = authOfAccount(account);
+    const { ackedPushToken } = account;
     if (ackedPushToken !== null) {
       dispatch(unackPushToken(identityOfAuth(auth)));
       try {
