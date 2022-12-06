@@ -36,6 +36,7 @@ mkShell {
 
     jdk11
     android-studio
+    android-tools
 
     # Used by various `tools/` scripts:
     git
