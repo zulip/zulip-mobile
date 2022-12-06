@@ -222,19 +222,17 @@ export const handleDeviceToken =
   };
 
 /** Ask this account's server to stop sending notifications to this device. */
-// TODO: We don't call this in enough situations: see #3469.
-//
-// Also, doing this exclusively from the device is inherently unreliable;
-// you should be able to log in from elsewhere and cut the device off from
-// your account, including notifications, even when you don't have the
-// device in your possession.  That's zulip/zulip#17939.
+// Doing this exclusively from the device is inherently unreliable; you
+// should be able to log in from elsewhere and cut the device off from your
+// account, including notifications, even when you don't have the device in
+// your possession.  That's zulip/zulip#17939.
 export const tryStopNotifications =
   (account: Account): GlobalThunkAction<Promise<void>> & ThunkAction<Promise<void>> =>
   // Why both GlobalThunkAction and ThunkAction?  Well, this function is
   // per-account... but whereas virtually all our other per-account code is
   // implicitly about the active account, this is about a specific account
   // it's explicitly passed.  That makes it equally legitimate to call from
-  // per-account or global code.
+  // per-account or global code, and we do both.
   // TODO(#5006): Once we have per-account states for all accounts, make
   //   this an ordinary per-account action.
   async dispatch => {

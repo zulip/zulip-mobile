@@ -147,6 +147,11 @@ export const registerAndStartPolling =
       if (e instanceof ApiError) {
         // This should only happen when `auth` is no longer valid. No
         // use retrying; just log out.
+
+        // Why not dispatch tryStopNotifications too? Because we don't
+        // expect any API requests to succeed with an invalid auth. And we
+        // *do* expect that whatever invalidated the auth also caused the
+        // server to forget all push tokens.
         dispatch(logout());
       } else if (e instanceof Server5xxError) {
         dispatch(registerAbort('server'));
@@ -307,6 +312,11 @@ export const startEventPolling =
 
         if (e instanceof RequestError && e.httpStatus === 401) {
           // 401 Unauthorized -> our `auth` is invalid.  No use retrying.
+
+          // Why not dispatch tryStopNotifications too? Because we don't
+          // expect any API requests to succeed with an invalid auth. And we
+          // *do* expect that whatever invalidated the auth also caused the
+          // server to forget all push tokens.
           dispatch(logout());
           break;
         }
