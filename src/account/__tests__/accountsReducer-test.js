@@ -26,7 +26,7 @@ describe('accountsReducer', () => {
       expect(
         accountsReducer(
           deepFreeze([account1, account2, account3]),
-          eg.mkActionRegisterComplete({ zulip_version: newZulipVersion.raw() }),
+          eg.mkActionRegisterComplete({ zulip_version: newZulipVersion }),
         ),
       ).toEqual([{ ...account1, zulipVersion: newZulipVersion }, account2, account3]);
     });

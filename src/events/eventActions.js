@@ -23,7 +23,6 @@ import { BackoffMachine, TimeoutError } from '../utils/async';
 import { ApiError, RequestError, Server5xxError, NetworkError } from '../api/apiErrors';
 import * as logging from '../utils/logging';
 import { showErrorAlert } from '../utils/info';
-import { ZulipVersion } from '../utils/zulipVersion';
 import { tryFetch, fetchPrivateMessages } from '../message/fetchActions';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 import { sendOutbox } from '../outbox/outboxActions';
@@ -171,7 +170,7 @@ export const registerAndStartPolling =
       return;
     }
 
-    const serverVersion = new ZulipVersion(initData.zulip_version);
+    const serverVersion = initData.zulip_version;
 
     // Set Sentry tags for the server version immediately, so they're accurate
     // in case we hit an exception in reducers on `registerComplete` below.

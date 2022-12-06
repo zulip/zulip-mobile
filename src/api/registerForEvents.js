@@ -6,6 +6,7 @@ import type { Auth } from './transportTypes';
 import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
 import { AvatarURL } from '../utils/avatar';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 const transformUser = (rawUser: {| ...User, avatar_url?: string | null |}, realm: URL): User => {
   const { avatar_url: rawAvatarUrl, email } = rawUser;
@@ -35,6 +36,9 @@ const transformCrossRealmBot = (
 
 const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => ({
   ...rawInitialData,
+
+  zulip_feature_level: rawInitialData.zulip_feature_level ?? 0,
+  zulip_version: new ZulipVersion(rawInitialData.zulip_version),
 
   // Transform the newer `realm_linkifiers` format, if present, to the
   // older `realm_filters` format. We do the same transformation on

@@ -21,6 +21,7 @@ import type {
   CreateWebPublicStreamPolicy,
   EmailAddressVisibility,
 } from './permissionsTypes';
+import type { ZulipVersion } from '../utils/zulipVersion';
 
 /*
    The types in this file are organized by which `fetch_event_types` values
@@ -29,12 +30,7 @@ import type {
    See comments at `InitialData`, at the bottom, for details.
  */
 
-/**
- * The parts of the `/register` response sent regardless of `fetch_event_types`.
- *
- * See `InitialData` for more discussion.
- */
-export type InitialDataBase = $ReadOnly<{|
+export type RawInitialDataBase = $ReadOnly<{|
   last_event_id: number,
   msg: string,
   queue_id: string,
@@ -52,7 +48,7 @@ export type InitialDataBase = $ReadOnly<{|
    * Same meaning as in the server_settings response:
    * https://zulip.com/api/get-server-settings. See also the comment above.
    */
-  // TODO(server-3.0): Mark as required.
+  // TODO(server-3.0): Mark as required; remove missing-to-zero transform
   zulip_feature_level?: number,
 
   /**
@@ -62,6 +58,20 @@ export type InitialDataBase = $ReadOnly<{|
    * `zulip_feature_level`, above.
    */
   zulip_version: string,
+|}>;
+
+/**
+ * The parts of the `/register` response sent regardless of `fetch_event_types`.
+ *
+ * Post-transformation. For what we expect directly from the server, see
+ * RawInitialDataBase.
+ *
+ * See `InitialData` for more discussion.
+ */
+export type InitialDataBase = $ReadOnly<{|
+  ...RawInitialDataBase,
+  zulip_feature_level: number, // filled in with zero if missing
+  zulip_version: ZulipVersion, // parsed from string
 |}>;
 
 export type InitialDataAlertWords = $ReadOnly<{|
@@ -716,6 +726,7 @@ export type InitialData = {|
  */
 export type RawInitialData = $ReadOnly<{|
   ...InitialData,
+  ...RawInitialDataBase,
   ...RawInitialDataRealmUser,
   ...RawInitialDataRealmFilters,
 |}>;

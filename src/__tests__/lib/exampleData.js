@@ -723,7 +723,7 @@ export const action = Object.freeze({
       msg: '',
       queue_id: '1',
       zulip_feature_level: recentZulipFeatureLevel,
-      zulip_version: recentZulipVersion.raw(),
+      zulip_version: recentZulipVersion,
 
       // InitialDataAlertWords
       alert_words: [],
