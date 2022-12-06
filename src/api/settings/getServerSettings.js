@@ -71,6 +71,7 @@ type ApiResponseServerSettings = {|
 
 export type ServerSettings = $ReadOnly<{|
   ...ApiResponseServerSettings,
+  +realm_uri: URL,
   +realm_name: string,
 |}>;
 
@@ -95,6 +96,7 @@ function transform(raw: ApiResponseServerSettings): ServerSettings {
 
   return {
     ...raw,
+    realm_uri: new URL(raw.realm_uri),
     realm_name,
   };
 }
