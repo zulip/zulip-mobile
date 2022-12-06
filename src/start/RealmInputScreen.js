@@ -18,6 +18,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
 import { getGlobalSettings } from '../directSelectors';
 import { useGlobalSelector } from '../react-redux';
+import WebLink from '../common/WebLink';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'realm-input'>,
@@ -172,7 +173,18 @@ export default function RealmInputScreen(props: Props): Node {
       keyboardShouldPersistTaps="always"
       shouldShowLoadingBanner={false}
     >
-      <ZulipTextIntl text="Enter your Zulip server URL:" />
+      <ZulipTextIntl
+        text={{
+          text: 'Enter your Zulip server URL: <z-link>(What’s this?)</z-link>',
+          values: {
+            'z-link': chunks => (
+              <WebLink url={new URL('https://zulip.com/help/logging-in#find-the-zulip-log-in-url')}>
+                {chunks}
+              </WebLink>
+            ),
+          },
+        }}
+      />
       <View style={styles.inputWrapper}>
         <TextInput
           value={realmInputValue}

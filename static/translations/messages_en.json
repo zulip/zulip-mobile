@@ -106,7 +106,7 @@
   "No unread messages": "No unread messages",
   "Pick account": "Pick account",
   "Welcome": "Welcome",
-  "Enter your Zulip server URL:": "Enter your Zulip server URL:",
+  "Enter your Zulip server URL: <z-link>(What’s this?)</z-link>": "Enter your Zulip server URL: <z-link>(What’s this?)</z-link>",
   "e.g. zulip.example.com": "e.g. zulip.example.com",
   "Subscriptions": "Subscriptions",
   "Search": "Search",
