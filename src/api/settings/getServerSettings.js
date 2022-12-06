@@ -25,7 +25,7 @@ export type ExternalAuthenticationMethod = {|
 
 /** https://zulip.com/api/get-server-settings */
 // Current to FL 121.
-export type ApiResponseServerSettings = {|
+type ApiResponseServerSettings = {|
   ...$Exact<ApiResponseSuccess>,
   authentication_methods: AuthenticationMethods,
 
@@ -45,16 +45,6 @@ export type ApiResponseServerSettings = {|
   email_auth_enabled: boolean,
   require_email_format_usernames: boolean,
   realm_uri: string,
-  realm_name: string,
-  realm_icon: string,
-  realm_description: string,
-
-  // TODO(server-5.0): New in FL 116.
-  realm_web_public_access_enabled?: boolean,
-|};
-
-type ServerApiResponseServerSettings = {|
-  ...ApiResponseServerSettings,
 
   // When missing, the user requested the root domain of a Zulip server, but
   // there is no realm there. User error.
@@ -71,18 +61,26 @@ type ServerApiResponseServerSettings = {|
   // TODO(server-future): Then, when all supported servers give that error,
   //   make this property required.
   realm_name?: string,
+
+  realm_icon: string,
+  realm_description: string,
+
+  // TODO(server-5.0): New in FL 116.
+  realm_web_public_access_enabled?: boolean,
 |};
 
-/** See https://zulip.com/api/get-server-settings */
-export default async (realm: URL): Promise<ApiResponseServerSettings> => {
-  const result: ServerApiResponseServerSettings = await apiGet(
-    { apiKey: '', email: '', realm },
-    'server_settings',
-  );
+export type ServerSettings = $ReadOnly<{|
+  ...ApiResponseServerSettings,
+  +realm_name: string,
+|}>;
 
-  const { realm_name } = result;
+/**
+ * Make a ServerSettings from a raw API response.
+ */
+function transform(raw: ApiResponseServerSettings): ServerSettings {
+  const { realm_name } = raw;
   if (realm_name == null) {
-    // See comment on realm_name in ServerApiResponseServerSettings.
+    // See comment on realm_name in ApiResponseServerSettings.
     //
     // This error copies the proper error that servers *sometimes* give when
     // the root domain is requested and there's no realm there. [1]
@@ -95,5 +93,18 @@ export default async (realm: URL): Promise<ApiResponseServerSettings> => {
     throw new ApiError(400, { code: 'BAD_REQUEST', msg: 'Subdomain required', result: 'error' });
   }
 
-  return { ...result, realm_name };
+  return {
+    ...raw,
+    realm_name,
+  };
+}
+
+/** See https://zulip.com/api/get-server-settings */
+export default async (realm: URL): Promise<ServerSettings> => {
+  const result: ApiResponseServerSettings = await apiGet(
+    { apiKey: '', email: '', realm },
+    'server_settings',
+  );
+
+  return transform(result);
 };

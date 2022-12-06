@@ -6,7 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import type { ServerSettings } from '../api/settings/getServerSettings';
 import ErrorMsg from '../common/ErrorMsg';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
@@ -72,7 +72,7 @@ export default function RealmInputScreen(props: Props): Node {
     setProgress(true);
     setError(null);
     try {
-      const serverSettings: ApiResponseServerSettings = await api.getServerSettings(parsedRealm);
+      const serverSettings: ServerSettings = await api.getServerSettings(parsedRealm);
       navigation.push('auth', { serverSettings });
       Keyboard.dismiss();
     } catch (errorIllTyped) {

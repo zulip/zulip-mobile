@@ -17,7 +17,7 @@ import Screen from '../common/Screen';
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountList from './AccountList';
 import { accountSwitch, removeAccount } from '../actions';
-import type { ApiResponseServerSettings } from '../api/settings/getServerSettings';
+import type { ServerSettings } from '../api/settings/getServerSettings';
 import { showConfirmationDialog, showErrorAlert } from '../utils/info';
 import { tryStopNotifications } from '../notification/notifTokens';
 
@@ -46,7 +46,7 @@ export default function AccountPickScreen(props: Props): Node {
         });
       } else {
         try {
-          const serverSettings: ApiResponseServerSettings = await api.getServerSettings(realm);
+          const serverSettings: ServerSettings = await api.getServerSettings(realm);
           navigation.push('auth', { serverSettings });
         } catch {
           // TODO: show specific error message from error object

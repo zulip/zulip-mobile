@@ -7,7 +7,7 @@ import type { AppleAuthenticationCredential } from 'expo-apple-authentication';
 import * as AppleAuthentication from 'expo-apple-authentication';
 
 import type {
-  ApiResponseServerSettings,
+  ServerSettings,
   AuthenticationMethods,
   ExternalAuthenticationMethod,
 } from '../api/settings/getServerSettings';
@@ -173,7 +173,7 @@ export const activeAuthentications = (
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
   navigation: AppNavigationProp<'auth'>,
-  route: RouteProp<'auth', {| serverSettings: ApiResponseServerSettings |}>,
+  route: RouteProp<'auth', {| serverSettings: ServerSettings |}>,
 |}>;
 
 type SelectorProps = $ReadOnly<{|
