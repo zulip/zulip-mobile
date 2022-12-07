@@ -39,8 +39,8 @@ export default function AccountPickScreen(props: Props): Node {
   const _ = useContext(TranslationContext);
 
   const handleAccountSelect = useCallback(
-    async (index: number) => {
-      const { realm, email, isLoggedIn } = accountStatuses[index];
+    async accountStatus => {
+      const { realm, email, isLoggedIn } = accountStatus;
       if (isLoggedIn) {
         dispatch(accountSwitch({ realm, email }));
       } else {
@@ -62,12 +62,12 @@ export default function AccountPickScreen(props: Props): Node {
         navigation.push('auth', { serverSettings });
       }
     },
-    [accountStatuses, globalSettings, dispatch, navigation, _],
+    [globalSettings, dispatch, navigation, _],
   );
 
   const handleAccountRemove = useCallback(
-    (index: number) => {
-      const { realm, email, isLoggedIn } = accountStatuses[index];
+    accountStatus => {
+      const { realm, email, isLoggedIn } = accountStatus;
       const account = accountsByIdentity({ realm, email });
       invariant(account, 'AccountPickScreen: should have account');
 
@@ -91,7 +91,7 @@ export default function AccountPickScreen(props: Props): Node {
         _,
       });
     },
-    [accountStatuses, accountsByIdentity, _, dispatch],
+    [accountsByIdentity, _, dispatch],
   );
 
   return (

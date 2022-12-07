@@ -8,6 +8,8 @@ import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import { IconDone, IconTrash } from '../common/Icons';
+import { useGlobalSelector } from '../react-redux';
+import { getIsActiveAccount } from './accountsSelectors';
 import type { AccountStatus } from './accountsSelectors';
 
 const styles = createStyleSheet({
@@ -44,26 +46,27 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  index: number,
   account: AccountStatus,
-  onSelect: (index: number) => Promise<void> | void,
-  onRemove: (index: number) => Promise<void> | void,
+  onSelect: AccountStatus => Promise<void> | void,
+  onRemove: AccountStatus => Promise<void> | void,
 |}>;
 
 export default function AccountItem(props: Props): Node {
   const { email, realm, isLoggedIn } = props.account;
 
+  const isActiveAccount = useGlobalSelector(state => getIsActiveAccount(state, { email, realm }));
+
   // Don't show the "remove account" button (the "trash" icon) for the
   // active account when it's logged in.  This prevents removing it when the
   // main app UI, relying on that account's data, may be on the nav stack.
   // See `getHaveServerData`.
-  const showDoneIcon = props.index === 0 && isLoggedIn;
+  const showDoneIcon = isActiveAccount && isLoggedIn;
 
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 
   return (
-    <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.index)}>
+    <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.account)}>
       <View
         style={[
           styles.accountItem,
@@ -87,7 +90,7 @@ export default function AccountItem(props: Props): Node {
             style={styles.icon}
             size={24}
             color="crimson"
-            onPress={() => props.onRemove(props.index)}
+            onPress={() => props.onRemove(props.account)}
           />
         ) : (
           <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
