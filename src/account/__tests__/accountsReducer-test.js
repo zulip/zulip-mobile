@@ -165,19 +165,18 @@ describe('accountsReducer', () => {
   });
 
   describe('ACCOUNT_REMOVE', () => {
-    test('on account removal, delete item from list', () => {
-      const prevState = deepFreeze([eg.makeAccount()]);
-
-      const action = deepFreeze({
-        type: ACCOUNT_REMOVE,
-        index: 0,
-      });
-
-      const expectedState = [];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
+    test('deletes selected account but keeps the rest', () => {
+      const account1 = eg.makeAccount();
+      const account2 = eg.makeAccount();
+      expect(
+        accountsReducer(
+          deepFreeze([account1, account2]),
+          deepFreeze({
+            type: ACCOUNT_REMOVE,
+            index: 0,
+          }),
+        ),
+      ).toEqual([account2]);
     });
   });
 
