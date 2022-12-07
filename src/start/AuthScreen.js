@@ -173,7 +173,17 @@ export const activeAuthentications = (
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
   navigation: AppNavigationProp<'auth'>,
-  route: RouteProp<'auth', {| serverSettings: ServerSettings |}>,
+  route: RouteProp<
+    'auth',
+    {|
+      // Keep constant through the life of an 'auth' route: don't
+      // `navigation.navigate` or `navigation.setParams` or do anything else
+      // that can change this. We use it to identify the server to the user,
+      // and also to identify which server to send auth credentials to. So
+      // we mustn't let it jump out from under the user.
+      serverSettings: ServerSettings,
+    |},
+  >,
 |}>;
 
 type SelectorProps = $ReadOnly<{||}>;
@@ -230,27 +240,26 @@ class AuthScreenInner extends PureComponent<Props> {
    * `external_authentication_method` object from `/server_settings`.
    */
   beginWebAuth = async (url: string) => {
+    const { serverSettings } = this.props.route.params;
     otp = await webAuth.generateOtp();
-    webAuth.openBrowser(
-      new URL(url, this.props.route.params.serverSettings.realm_uri).toString(),
-      otp,
-    );
+    webAuth.openBrowser(new URL(url, serverSettings.realm_uri).toString(), otp);
   };
 
   endWebAuth = (event: LinkingEvent) => {
     webAuth.closeBrowser();
 
     const { dispatch } = this.props;
-    const realm = this.props.route.params.serverSettings.realm_uri;
-    const auth = webAuth.authFromCallbackUrl(event.url, otp, realm);
+    const { serverSettings } = this.props.route.params;
+    const auth = webAuth.authFromCallbackUrl(event.url, otp, serverSettings.realm_uri);
     if (auth) {
       dispatch(loginSuccess(auth.realm, auth.email, auth.apiKey));
     }
   };
 
   handleDevAuth = () => {
+    const { serverSettings } = this.props.route.params;
     this.props.navigation.push('dev-auth', {
-      realm: this.props.route.params.serverSettings.realm_uri,
+      realm: serverSettings.realm_uri,
     });
   };
 
@@ -264,6 +273,8 @@ class AuthScreenInner extends PureComponent<Props> {
   };
 
   handleNativeAppleAuth = async () => {
+    const { serverSettings } = this.props.route.params;
+
     const state = await webAuth.generateRandomToken();
     const credential: AppleAuthenticationCredential = await AppleAuthentication.signInAsync({
       state,
@@ -284,12 +295,7 @@ class AuthScreenInner extends PureComponent<Props> {
       id_token: credential.identityToken,
     });
 
-    openLinkEmbedded(
-      new URL(
-        `/complete/apple/?${params}`,
-        this.props.route.params.serverSettings.realm_uri,
-      ).toString(),
-    );
+    openLinkEmbedded(new URL(`/complete/apple/?${params}`, serverSettings.realm_uri).toString());
 
     // Currently, the rest is handled with the `zulip://` redirect,
     // same as in the web flow.
@@ -300,6 +306,8 @@ class AuthScreenInner extends PureComponent<Props> {
   };
 
   canUseNativeAppleFlow = async () => {
+    const { serverSettings } = this.props.route.params;
+
     if (!(Platform.OS === 'ios' && (await AppleAuthentication.isAvailableAsync()))) {
       return false;
     }
@@ -311,7 +319,7 @@ class AuthScreenInner extends PureComponent<Props> {
     //
     // (For other realms, we'll simply fall back to the web flow, which
     // handles things appropriately without relying on that assumption.)
-    return isAppOwnDomain(this.props.route.params.serverSettings.realm_uri);
+    return isAppOwnDomain(serverSettings.realm_uri);
   };
 
   handleAuth = async (method: AuthenticationMethodDetails) => {
@@ -336,10 +344,7 @@ class AuthScreenInner extends PureComponent<Props> {
         <Centerer>
           <RealmInfo
             name={serverSettings.realm_name}
-            iconUrl={new URL(
-              serverSettings.realm_icon,
-              this.props.route.params.serverSettings.realm_uri,
-            ).toString()}
+            iconUrl={new URL(serverSettings.realm_icon, serverSettings.realm_uri).toString()}
           />
           {activeAuthentications(
             serverSettings.authentication_methods,
