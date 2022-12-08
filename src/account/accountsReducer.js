@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import {
   EVENT,
   REGISTER_COMPLETE,
@@ -97,6 +99,11 @@ const unackPushToken = (state, action) => {
 };
 
 const accountRemove = (state, action) => {
+  invariant(
+    action.index >= 0 && action.index <= state.length - 1,
+    'accounts reducer (ACCOUNT_REMOVE): index out of bounds',
+  );
+
   const newState = state.slice();
   newState.splice(action.index, 1);
   return newState;
