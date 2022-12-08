@@ -472,6 +472,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add presenceEnabled to state.realm.
   '56': dropCache,
 
+  // Fix tiny case where an `undefined` could sneak in on ACCOUNT_SWITCH
+  '57': state => ({ ...state, accounts: state.accounts.filter(Boolean) }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

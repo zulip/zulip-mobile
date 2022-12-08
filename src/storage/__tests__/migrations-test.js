@@ -104,7 +104,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base52,
-    migrations: { version: 56 },
+    migrations: { version: 57 },
   };
 
   for (const [desc, before, after] of [
@@ -277,6 +277,11 @@ describe('migrations', () => {
         settings: { ...base37.settings, doNotMarkMessagesAsRead: true },
       },
       { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'never' } },
+    ],
+    [
+      'check 57 with an `undefined` in state.accounts',
+      { ...base52, migrations: { version: 56 }, accounts: [...base37.accounts, undefined] },
+      { ...endBase, accounts: [...base37.accounts] },
     ],
   ]) {
     /* eslint-disable no-loop-func */

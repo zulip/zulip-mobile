@@ -42,9 +42,7 @@ export default function AccountPickScreen(props: Props): Node {
     async (index: number) => {
       const { realm, isLoggedIn } = accountStatuses[index];
       if (isLoggedIn) {
-        setTimeout(() => {
-          dispatch(accountSwitch(index));
-        });
+        dispatch(accountSwitch(index));
       } else {
         const result = await fetchServerSettings(realm);
         if (result.type === 'error') {

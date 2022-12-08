@@ -34,6 +34,11 @@ const registerComplete = (state, action) => [
 ];
 
 const accountSwitch = (state, action) => {
+  invariant(
+    action.index >= 0 && action.index <= state.length - 1,
+    'accounts reducer (ACCOUNT_SWITCH): index out of bounds',
+  );
+
   if (action.index === 0) {
     return state;
   }
