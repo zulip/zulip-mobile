@@ -20,6 +20,7 @@ import CompressedAsyncStorage from '../storage/CompressedAsyncStorage';
 import createMigration from '../redux-persist-migrate/index';
 import { getGlobalSession, getGlobalSettings } from '../directSelectors';
 import { migrations } from '../storage/migrations';
+import type { GlobalThunkExtras } from '../reduxTypes';
 
 if (process.env.NODE_ENV === 'development') {
   // Chrome dev tools for Immutable.
@@ -72,12 +73,21 @@ export const cacheKeys: $ReadOnlyArray<$Keys<GlobalState>> = [
   'realm', 'streams', 'subscriptions', 'unread', 'userGroups', 'users',
 ];
 
-const thunkExtras: ThunkExtras = {
+const thunkExtras: $Exact<ThunkExtras> = {
   // eslint-disable-next-line no-use-before-define
   getGlobalSession: () => getGlobalSession(store.getState()),
 
   // eslint-disable-next-line no-use-before-define
   getGlobalSettings: () => getGlobalSettings(store.getState()),
+};
+
+const globalThunkExtras: $Exact<GlobalThunkExtras> = Object.freeze({
+  // TODO add things
+});
+
+const combinedThunkExtras: ThunkExtras & GlobalThunkExtras = {
+  ...thunkExtras,
+  ...globalThunkExtras,
 };
 
 /**
@@ -97,7 +107,7 @@ function listMiddleware() {
     // Handle the fancy "thunk" actions we often use, i.e. async
     // functions of `dispatch` and `state`.  See docs:
     //   https://github.com/reduxjs/redux-thunk
-    thunkMiddleware.withExtraArgument(thunkExtras),
+    thunkMiddleware.withExtraArgument(combinedThunkExtras),
   ];
 
   if (config.enableReduxLogging) {
