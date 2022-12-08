@@ -636,6 +636,12 @@ export interface Dispatch {
 /** A per-account thunk action returning T. */
 export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T;
 
+/** The extras object passed to a global thunk action. */
+export type GlobalThunkExtras = $ReadOnly<{
+  // TODO add things
+  ...
+}>;
+
 /** The Redux `dispatch` for a global context. */
 export interface GlobalDispatch {
   <A: DispatchableWithoutAccountAction>(action: A): A;
@@ -643,14 +649,13 @@ export interface GlobalDispatch {
 }
 
 /** A global thunk action returning T. */
-// This might take some extras later (e.g., to do something per-account on a
-// specific account), but for now it needs none.
-export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState) => T;
+export type GlobalThunkAction<T> = (GlobalDispatch, () => GlobalState, GlobalThunkExtras) => T;
 
 // The two pairs of dispatch/thunk-action types aren't interchangeable,
 // in either direction.
 //   $FlowExpectedError[incompatible-return]
 (d: GlobalDispatch): Dispatch => d;
+//   $FlowExpectedError[prop-missing]
 //   $FlowExpectedError[incompatible-return]
 <T>(a: ThunkAction<T>): GlobalThunkAction<T> => a;
 //   $FlowExpectedError[incompatible-return]
