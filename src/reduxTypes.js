@@ -638,7 +638,8 @@ export type ThunkAction<T> = (Dispatch, () => PerAccountState, ThunkExtras) => T
 
 /** The extras object passed to a global thunk action. */
 export type GlobalThunkExtras = $ReadOnly<{
-  // TODO add things
+  /** A per-account `dispatch` that acts on the active account. */
+  activeAccountDispatch: Dispatch,
   ...
 }>;
 
