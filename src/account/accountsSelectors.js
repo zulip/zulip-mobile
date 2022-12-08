@@ -88,6 +88,23 @@ export const getAccount = (state: PerAccountState): Account => {
   return accounts[0];
 };
 
+/**
+ * Whether the given identity matches the active account.
+ *
+ * Gives false if there is no active account.
+ */
+export const getIsActiveAccount = (state: GlobalState, identity: Identity): boolean => {
+  const maybeActiveAccountState = tryGetActiveAccountState(state);
+  if (!maybeActiveAccountState) {
+    // There is no active account for `identity` to match.
+    return false;
+  }
+  return (
+    keyOfIdentity(identityOfAccount(getAccount(maybeActiveAccountState)))
+    === keyOfIdentity(identity)
+  );
+};
+
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 
