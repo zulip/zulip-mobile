@@ -85,7 +85,7 @@ Zulip Mobile supersedes two legacy Zulip apps,
 
 ## License
 
-Copyright (c) 2016-2018 Kandra Labs, Inc., and contributors, and 2016 Dropbox, Inc.
+Copyright (c) 2016-2022 Kandra Labs, Inc., and contributors, and 2016 Dropbox, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
