@@ -63,7 +63,7 @@ function CustomProfileFieldRow(props: {|
   let valueElement = undefined;
   switch (value.displayType) {
     case 'text':
-      valueElement = <ZulipText style={styles.valueText} text={value.text} />;
+      valueElement = <ZulipText selectable style={styles.valueText} text={value.text} />;
       break;
 
     case 'link':
