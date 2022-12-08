@@ -195,7 +195,7 @@ const readInitialNotification = async (): Promise<Notification | null> => {
 
 export const narrowToNotification =
   (data: ?Notification): GlobalThunkAction<void> =>
-  (dispatch, getState) => {
+  (dispatch, getState, { activeAccountDispatch }) => {
     if (!data) {
       return;
     }
@@ -228,15 +228,7 @@ export const narrowToNotification =
       getOwnUserId(state),
     );
     if (narrow) {
-      // We have a GlobalDispatch, because this is a global thunk action --
-      // at the top of the function, we didn't yet know which account was
-      // intended and had to work that out.  But now we know we're working on
-      // the active account, and want to dispatch a per-account action there.
-      // For the present, we just use the fact that our GlobalDispatch value
-      // is the same function as we use for Dispatch.
-      // TODO(#5006): perhaps have an `activeAccountDispatch: Dispatch` in a
-      //   new GlobalThunkExtras, modeled on ThunkExtras?
-      (dispatch: $FlowFixMe)(doNarrow(narrow));
+      activeAccountDispatch(doNarrow(narrow));
     }
   };
 
