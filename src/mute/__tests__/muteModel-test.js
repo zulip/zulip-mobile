@@ -30,6 +30,7 @@ describe('reducer', () => {
       expect(newState && getMute(newState)).toEqual(makeMuteState([[eg.stream, 'topic']]));
     });
 
+    // TODO(#5102): Delete; see comment on implementation.
     test('when no `mute` data is given reset state', () => {
       const state = makeMuteState([[eg.stream, 'topic']]);
       const action = eg.mkActionRegisterComplete({ muted_topics: [] });

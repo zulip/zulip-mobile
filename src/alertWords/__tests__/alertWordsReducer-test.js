@@ -20,6 +20,7 @@ describe('alertWordsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
+    // TODO(#5102): Delete; see comment on implementation.
     test('when no `alert_words` data is given reset state', () => {
       const initialState = deepFreeze(['word']);
       const action = deepFreeze({

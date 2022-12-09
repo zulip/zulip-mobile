@@ -230,8 +230,9 @@ function streamsReducer(
       return initialStreamsState;
 
     case REGISTER_COMPLETE: {
-      // This may indeed be unnecessary, but it's legacy; have not investigated
-      // if it's this bit of our API types that is too optimistic.
+      // TODO(#5102): Delete fallback once we refuse to connect to Zulip
+      //   servers before 1.7.0, when it seems this feature was added; see
+      //   comment on InitialDataUpdateMessageFlags.
       // flowlint-next-line unnecessary-optional-chain:off
       const data = action.data.unread_msgs?.streams ?? [];
 

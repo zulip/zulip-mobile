@@ -55,7 +55,17 @@ export const reducer = (
       // We require this `globalState` to reflect the `streams` sub-reducer
       // already having run, so that `getStreamsByName` gives the data we
       // just received.  See this sub-reducer's call site in `reducers.js`.
-      return convert(action.data.muted_topics ?? [], getStreamsByName(globalState));
+      return convert(
+        action.data.muted_topics
+          // TODO(#5102): Delete fallback once we enforce any threshold for
+          //   ancient servers we refuse to connect to. It was added in
+          //   #2878 (2018-11-16), but it wasn't clear even then, it seems,
+          //   whether any servers actually omit the data. The API doc
+          //   doesn't mention any servers that omit it, and our Flow types
+          //   mark it required.
+          ?? [],
+        getStreamsByName(globalState),
+      );
 
     case EVENT_MUTED_TOPICS:
       return convert(action.muted_topics, getStreamsByName(globalState));

@@ -47,6 +47,7 @@ describe('presenceReducer', () => {
       expect(actualState).toEqual(presenceData);
     });
 
+    // TODO(#5102): Delete; see comment on implementation.
     test('when no `presence` data is given reset state', () => {
       const initialState = deepFreeze({
         'email@example.com': {
