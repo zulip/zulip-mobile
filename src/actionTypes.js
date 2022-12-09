@@ -616,13 +616,6 @@ type RefreshServerEmojiDataAction = $ReadOnly<{|
 // First, some convenience unions without much meaning.
 // (We should perhaps just inline these below.)
 
-type AccountAction =
-  | AccountSwitchAction
-  | AccountRemoveAction
-  | LoginSuccessAction
-  | LogoutAction
-  | DismissServerPushSetupNoticeAction;
-
 type LoadingAction =
   | DeadQueueAction
   | RegisterStartAction
@@ -672,7 +665,11 @@ export type AllAccountsAction =
   // This affects all the per-account states as well as everything else.
   | RehydrateAction
   // These can rearrange the `state.accounts` list itself.
-  | AccountAction
+  | AccountSwitchAction
+  | AccountRemoveAction
+  | LoginSuccessAction
+  | LogoutAction
+  | DismissServerPushSetupNoticeAction
   // These two are about a specific account… but not just the active one,
   // and they encode which one they mean.
   | AckPushTokenAction | UnackPushTokenAction
