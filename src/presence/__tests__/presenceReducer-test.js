@@ -22,7 +22,7 @@ describe('presenceReducer', () => {
           },
         },
       };
-      const initialState = deepFreeze({});
+      const prevState = deepFreeze({});
       const action = deepFreeze({
         type: REGISTER_COMPLETE,
         data: {
@@ -30,14 +30,14 @@ describe('presenceReducer', () => {
         },
       });
 
-      const actualState = presenceReducer(initialState, action);
+      const actualState = presenceReducer(prevState, action);
 
       expect(actualState).toEqual(presenceData);
     });
 
     // TODO(#5102): Delete; see comment on implementation.
     test('when no `presence` data is given reset state', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         'email@example.com': {
           aggregated: {
             client: 'website',
@@ -52,7 +52,7 @@ describe('presenceReducer', () => {
       });
       const expectedState = {};
 
-      const actualState = presenceReducer(initialState, action);
+      const actualState = presenceReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -200,7 +200,7 @@ describe('presenceReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze([
+      const prevState = deepFreeze([
         {
           full_name: 'Some Guy',
           email: 'email@example.com',
@@ -214,7 +214,7 @@ describe('presenceReducer', () => {
 
       const expectedState = {};
 
-      const actualState = presenceReducer(initialState, action);
+      const actualState = presenceReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
