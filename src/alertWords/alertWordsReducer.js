@@ -1,12 +1,6 @@
 /* @flow strict-local */
 import type { AlertWordsState, PerAccountApplicableAction } from '../types';
-import {
-  REGISTER_COMPLETE,
-  EVENT_ALERT_WORDS,
-  ACCOUNT_SWITCH,
-  LOGOUT,
-  LOGIN_SUCCESS,
-} from '../actionConstants';
+import { REGISTER_COMPLETE, EVENT_ALERT_WORDS, RESET_ACCOUNT_DATA } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState = NULL_ARRAY;
@@ -16,9 +10,7 @@ export default (
   action: PerAccountApplicableAction,
 ): AlertWordsState => {
   switch (action.type) {
-    case LOGOUT:
-    case ACCOUNT_SWITCH:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

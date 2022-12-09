@@ -5,12 +5,10 @@ import type { PerAccountApplicableAction } from '../types';
 import type { UnreadMentionsState } from './unreadModelTypes';
 import {
   REGISTER_COMPLETE,
-  LOGOUT,
-  ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  LOGIN_SUCCESS,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
@@ -50,9 +48,7 @@ export default (
   action: PerAccountApplicableAction,
 ): UnreadMentionsState => {
   switch (action.type) {
-    case LOGOUT:
-    case ACCOUNT_SWITCH:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

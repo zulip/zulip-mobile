@@ -7,12 +7,10 @@ import { objectEntries } from '../flowPonyfill';
 import type { PerAccountState, PerAccountApplicableAction, UserId } from '../types';
 import type { UserStatusesState } from './userStatusesCore';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   REGISTER_COMPLETE,
   EVENT_USER_REMOVE,
   EVENT_USER_STATUS_UPDATE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { kUserStatusZero } from './userStatusesCore';
 
@@ -65,9 +63,7 @@ export const reducer = (
   action: PerAccountApplicableAction,
 ): UserStatusesState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE: {

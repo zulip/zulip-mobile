@@ -2,13 +2,7 @@
 import Immutable from 'immutable';
 
 import type { MutedUsersState, PerAccountApplicableAction, UserId } from '../types';
-import {
-  REGISTER_COMPLETE,
-  LOGIN_SUCCESS,
-  LOGOUT,
-  ACCOUNT_SWITCH,
-  EVENT_MUTED_USERS,
-} from '../actionConstants';
+import { REGISTER_COMPLETE, EVENT_MUTED_USERS, RESET_ACCOUNT_DATA } from '../actionConstants';
 import type { MutedUser } from '../api/apiTypes';
 
 const initialState: MutedUsersState = Immutable.Map();
@@ -22,9 +16,7 @@ export default (
   action: PerAccountApplicableAction,
 ): MutedUsersState => {
   switch (action.type) {
-    case LOGOUT:
-    case ACCOUNT_SWITCH:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

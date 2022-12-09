@@ -1,13 +1,7 @@
 /* @flow strict-local */
 
 import type { MuteState, PerAccountApplicableAction, PerAccountState } from '../types';
-import {
-  REGISTER_COMPLETE,
-  LOGOUT,
-  ACCOUNT_SWITCH,
-  EVENT_MUTED_TOPICS,
-  LOGIN_SUCCESS,
-} from '../actionConstants';
+import { REGISTER_COMPLETE, EVENT_MUTED_TOPICS, RESET_ACCOUNT_DATA } from '../actionConstants';
 import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as logging from '../utils/logging';
 import DefaultMap from '../utils/DefaultMap';
@@ -53,9 +47,7 @@ export const reducer = (
   globalState: PerAccountState,
 ): MuteState => {
   switch (action.type) {
-    case LOGOUT:
-    case ACCOUNT_SWITCH:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

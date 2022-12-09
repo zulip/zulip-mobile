@@ -5,9 +5,7 @@ import {
   EVENT_TYPING_STOP,
   CLEAR_TYPING,
   DEAD_QUEUE,
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { pmTypingKeyFromRecipients } from '../utils/recipient';
 import { NULL_OBJECT } from '../nullObjects';
@@ -98,9 +96,7 @@ export default (
       return clearTyping(state, action);
 
     case DEAD_QUEUE:
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     default:

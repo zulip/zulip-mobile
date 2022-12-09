@@ -25,6 +25,7 @@ import { CreateWebPublicStreamPolicy, EmailAddressVisibility } from '../../api/p
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
+  ResetAccountDataAction,
   RegisterCompleteAction,
   MessageFetchStartAction,
   MessageFetchCompleteAction,
@@ -44,6 +45,7 @@ import { ZulipVersion } from '../../utils/zulipVersion';
 import {
   ACCOUNT_SWITCH,
   LOGIN_SUCCESS,
+  RESET_ACCOUNT_DATA,
   REGISTER_COMPLETE,
   EVENT_NEW_MESSAGE,
   MESSAGE_FETCH_START,
@@ -705,6 +707,7 @@ export const action = Object.freeze({
     email: selfAccount.email,
     apiKey: selfAccount.apiKey,
   }): LoginSuccessAction),
+  reset_account_data: (deepFreeze({ type: RESET_ACCOUNT_DATA }): ResetAccountDataAction),
 
   /**
    * A minimal well-typed REGISTER_COMPLETE action from a recent server.

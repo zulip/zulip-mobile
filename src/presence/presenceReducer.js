@@ -1,12 +1,10 @@
 /* @flow strict-local */
 import type { PresenceState, PerAccountApplicableAction } from '../types';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   EVENT_PRESENCE,
   PRESENCE_RESPONSE,
   REGISTER_COMPLETE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { getAggregatedPresence } from '../utils/presence';
@@ -19,9 +17,7 @@ export default (
   action: PerAccountApplicableAction,
 ): PresenceState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

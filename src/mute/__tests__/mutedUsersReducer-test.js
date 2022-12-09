@@ -24,9 +24,9 @@ describe('mutedUsersReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
-      expect(mutedUsersReducer(baseState, eg.action.account_switch)).toEqual(Immutable.Map());
+      expect(mutedUsersReducer(baseState, eg.action.reset_account_data)).toEqual(Immutable.Map());
     });
   });
 

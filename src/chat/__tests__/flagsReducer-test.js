@@ -4,7 +4,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import flagsReducer from '../flagsReducer';
-import { EVENT_UPDATE_MESSAGE_FLAGS, ACCOUNT_SWITCH } from '../../actionConstants';
+import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 
 describe('flagsReducer', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
@@ -270,7 +270,7 @@ describe('flagsReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets to initial state', () => {
       const message = eg.streamMessage();
 
@@ -284,7 +284,7 @@ describe('flagsReducer', () => {
         historical: { [message.id]: true },
       });
 
-      expect(flagsReducer(prevState, deepFreeze({ type: ACCOUNT_SWITCH, index: 2 }))).toEqual(
+      expect(flagsReducer(prevState, eg.action.reset_account_data)).toEqual(
         eg.baseReduxState.flags,
       );
     });

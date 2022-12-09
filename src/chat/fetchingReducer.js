@@ -1,12 +1,10 @@
 /* @flow strict-local */
 import type { FetchingState, PerAccountApplicableAction } from '../types';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { DEFAULT_FETCHING } from './fetchingSelectors';
@@ -68,9 +66,7 @@ export default (
   action: PerAccountApplicableAction,
 ): FetchingState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case MESSAGE_FETCH_START:

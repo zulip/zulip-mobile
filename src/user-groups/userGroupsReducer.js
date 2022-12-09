@@ -1,15 +1,13 @@
 /* @flow strict-local */
 import type { UserGroupsState, PerAccountApplicableAction } from '../types';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   REGISTER_COMPLETE,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
   EVENT_USER_GROUP_ADD_MEMBERS,
   EVENT_USER_GROUP_REMOVE_MEMBERS,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 
@@ -50,9 +48,7 @@ export default (
   action: PerAccountApplicableAction,
 ): UserGroupsState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

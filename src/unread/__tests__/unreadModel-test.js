@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
+import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { reducer, setUnion } from '../unreadModel';
 import { type UnreadState } from '../unreadModelTypes';
 import * as eg from '../../__tests__/lib/exampleData';
@@ -37,13 +37,12 @@ describe('stream substate', () => {
   const summary = (state: UnreadState) =>
     state.streams.map(perStream => perStream.map(perTopic => perTopic.toArray()));
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const state = makeUnreadState(eg.plusReduxState, [eg.streamMessage()]);
       expect(state).not.toEqual(initialState);
 
-      const action = { type: ACCOUNT_SWITCH, index: 1 };
-      expect(reducer(state, action, eg.plusReduxState)).toEqual(initialState);
+      expect(reducer(state, eg.action.reset_account_data, eg.plusReduxState)).toEqual(initialState);
     });
   });
 

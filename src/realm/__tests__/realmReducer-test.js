@@ -4,7 +4,6 @@ import deepFreeze from 'deep-freeze';
 import type { RealmState } from '../../types';
 import realmReducer from '../realmReducer';
 import {
-  ACCOUNT_SWITCH,
   EVENT_REALM_EMOJI_UPDATE,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
@@ -103,18 +102,13 @@ describe('realmReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state', () => {
       const initialState = eg.plusReduxState.realm;
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 1,
-      });
-
       const expectedState = eg.baseReduxState.realm;
 
-      const actualState = realmReducer(initialState, action);
+      const actualState = realmReducer(initialState, eg.action.reset_account_data);
 
       expect(actualState).toEqual(expectedState);
     });

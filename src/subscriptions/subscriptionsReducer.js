@@ -4,12 +4,10 @@ import type { SubscriptionsState, PerAccountApplicableAction } from '../types';
 import { ensureUnreachable } from '../types';
 import { updateStreamProperties } from '../streams/streamsReducer';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   EVENT_SUBSCRIPTION,
   REGISTER_COMPLETE,
   EVENT,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -21,9 +19,7 @@ export default (
   action: PerAccountApplicableAction,
 ): SubscriptionsState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

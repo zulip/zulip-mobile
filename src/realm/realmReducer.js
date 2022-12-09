@@ -14,13 +14,11 @@ import { EventTypes } from '../api/eventTypes';
 import {
   REGISTER_COMPLETE,
   EVENT_REALM_EMOJI_UPDATE,
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   EVENT,
   EVENT_UPDATE_DISPLAY_SETTINGS,
   EVENT_REALM_FILTERS,
   REFRESH_SERVER_EMOJI_DATA,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { objectFromEntries } from '../jsBackport';
 import { objectEntries } from '../flowPonyfill';
@@ -110,9 +108,7 @@ export default (
   action: PerAccountApplicableAction,
 ): RealmState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE: {

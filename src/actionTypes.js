@@ -10,6 +10,7 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   LOGOUT,
+  RESET_ACCOUNT_DATA,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
   GOT_PUSH_TOKEN,
   UNACK_PUSH_TOKEN,
@@ -168,6 +169,10 @@ export type LoginSuccessAction = $ReadOnly<{|
 
 type LogoutAction = $ReadOnly<{|
   type: typeof LOGOUT,
+|}>;
+
+export type ResetAccountDataAction = $ReadOnly<{|
+  type: typeof RESET_ACCOUNT_DATA,
 |}>;
 
 type DismissServerPushSetupNoticeAction = $ReadOnly<{|
@@ -646,6 +651,7 @@ export type PerAccountAction =
   // The grouping here is completely arbitrary; don't worry about it.
   | EventAction
   | LoadingAction
+  | ResetAccountDataAction
   | RefreshServerEmojiDataAction
   | MessageAction
   | OutboxAction
@@ -739,6 +745,7 @@ export type DispatchableWithoutAccountAction =
 /** True just if the action is a PerAccountApplicableAction. */
 export function isPerAccountApplicableAction(action: Action): boolean {
   switch (action.type) {
+    case RESET_ACCOUNT_DATA:
     case EVENT:
     case EVENT_ALERT_WORDS:
     case EVENT_MESSAGE_DELETE:

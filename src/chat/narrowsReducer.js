@@ -7,9 +7,6 @@ import type { NarrowsState, PerAccountApplicableAction } from '../types';
 import { ensureUnreachable } from '../types';
 import {
   REGISTER_COMPLETE,
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   MESSAGE_FETCH_START,
   MESSAGE_FETCH_ERROR,
   MESSAGE_FETCH_COMPLETE,
@@ -17,6 +14,7 @@ import {
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
   EVENT_UPDATE_MESSAGE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { LAST_MESSAGE_ANCHOR, FIRST_UNREAD_ANCHOR } from '../anchor';
 import {
@@ -197,9 +195,7 @@ export default (
 ): NarrowsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case MESSAGE_FETCH_START: {

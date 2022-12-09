@@ -2,12 +2,10 @@
 import Immutable from 'immutable';
 import invariant from 'invariant';
 import {
-  ACCOUNT_SWITCH,
   EVENT_NEW_MESSAGE,
-  LOGIN_SUCCESS,
-  LOGOUT,
   MESSAGE_FETCH_COMPLETE,
   REGISTER_COMPLETE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { makeUserId } from '../api/idTypes';
 
@@ -184,9 +182,7 @@ export function reducer(
   action: PerAccountApplicableAction,
 ): PmConversationsState {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE: {

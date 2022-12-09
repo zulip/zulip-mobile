@@ -11,10 +11,10 @@ const mkAction = <E: $Diff<StreamEvent, {| id: mixed, type: mixed |}>>(event: E)
   deepFreeze({ type: EVENT, event: { id: 0, type: EventTypes.stream, ...event } });
 
 describe('streamsReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       expect(
-        streamsReducer([eg.makeStream({ name: 'some_stream' })], eg.action.account_switch),
+        streamsReducer([eg.makeStream({ name: 'some_stream' })], eg.action.reset_account_data),
       ).toEqual([]);
     });
   });

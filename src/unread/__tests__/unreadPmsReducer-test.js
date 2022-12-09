@@ -2,13 +2,13 @@
 import deepFreeze from 'deep-freeze';
 
 import unreadPmsReducer from '../unreadPmsReducer';
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
+import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
 
 describe('unreadPmsReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
         {
@@ -17,14 +17,13 @@ describe('unreadPmsReducer', () => {
         },
       ]);
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 1,
-      });
-
       const expectedState = [];
 
-      const actualState = unreadPmsReducer(initialState, action, eg.plusReduxState);
+      const actualState = unreadPmsReducer(
+        initialState,
+        eg.action.reset_account_data,
+        eg.plusReduxState,
+      );
 
       expect(actualState).toEqual(expectedState);
     });

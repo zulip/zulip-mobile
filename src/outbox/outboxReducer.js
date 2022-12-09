@@ -4,11 +4,9 @@ import {
   REGISTER_COMPLETE,
   MESSAGE_SEND_START,
   EVENT_NEW_MESSAGE,
-  LOGOUT,
-  ACCOUNT_SWITCH,
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
-  LOGIN_SUCCESS,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -43,9 +41,7 @@ export default (
     case EVENT_NEW_MESSAGE:
       return filterArray(state, item => item && item.timestamp !== +action.local_message_id);
 
-    case ACCOUNT_SWITCH:
-    case LOGOUT:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     default:

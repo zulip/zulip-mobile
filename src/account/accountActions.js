@@ -11,6 +11,7 @@ import { registerAndStartPolling } from '../events/eventActions';
 import { resetToMainTabs } from '../nav/navActions';
 import { sendOutbox } from '../outbox/outboxActions';
 import { initNotifications } from '../notification/notifTokens';
+import { resetAccountData } from './logoutActions';
 
 export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   type: DISMISS_SERVER_PUSH_SETUP_NOTICE,
@@ -30,6 +31,13 @@ export const accountSwitch =
   (index: number): GlobalThunkAction<Promise<void>> =>
   async (dispatch, getState, { activeAccountDispatch }) => {
     NavigationService.dispatch(resetToMainTabs());
+
+    // Clear out the space we use for the active account's server data, to
+    // make way for a new active account.
+    // TODO(#5006): When each account has its own space to hold server data,
+    //   we won't have to do this.
+    activeAccountDispatch(resetAccountData());
+
     dispatch(accountSwitchPlain(index));
 
     // Now dispatch some actions on the new, post-switch active account.
@@ -60,6 +68,14 @@ export const loginSuccess =
   (realm: URL, email: string, apiKey: string): GlobalThunkAction<Promise<void>> =>
   async (dispatch, getState, { activeAccountDispatch }) => {
     NavigationService.dispatch(resetToMainTabs());
+
+    // In case there's already an active account, clear out the space we use
+    // for the active account's server data, to make way for a new active
+    // account.
+    // TODO(#5006): When each account has its own space to hold server data,
+    //   we won't have to do this.
+    activeAccountDispatch(resetAccountData());
+
     dispatch(loginSuccessPlain(realm, email, apiKey));
 
     // Now dispatch some actions on the new, post-login active account.

@@ -3,7 +3,7 @@
 import deepFreeze from 'deep-freeze';
 
 import { EventTypes } from '../../api/eventTypes';
-import { EVENT_SUBSCRIPTION, ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
+import { EVENT_SUBSCRIPTION, EVENT } from '../../actionConstants';
 import subscriptionsReducer from '../subscriptionsReducer';
 import * as eg from '../../__tests__/lib/exampleData';
 
@@ -200,18 +200,13 @@ describe('subscriptionsReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([sub1]);
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 2,
-      });
-
       const expectedState = [];
 
-      const actualState = subscriptionsReducer(initialState, action);
+      const actualState = subscriptionsReducer(initialState, eg.action.reset_account_data);
 
       expect(actualState).toEqual(expectedState);
     });

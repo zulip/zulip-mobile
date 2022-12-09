@@ -172,7 +172,7 @@ describe('presenceReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const prevState = deepFreeze({
         'email@example.com': {
@@ -181,11 +181,9 @@ describe('presenceReducer', () => {
         },
       });
 
-      const action = eg.action.account_switch;
-
       const expectedState = {};
 
-      const actualState = presenceReducer(prevState, action);
+      const actualState = presenceReducer(prevState, eg.action.reset_account_data);
 
       expect(actualState).toEqual(expectedState);
     });

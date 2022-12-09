@@ -1,13 +1,11 @@
 /* @flow strict-local */
 import type { User, UsersState, PerAccountApplicableAction } from '../types';
 import {
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   REGISTER_COMPLETE,
   EVENT_USER_ADD,
   EVENT_USER_REMOVE,
   EVENT,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
 import { NULL_ARRAY } from '../nullObjects';
@@ -19,9 +17,7 @@ export default (
   action: PerAccountApplicableAction,
 ): UsersState => {
   switch (action.type) {
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case REGISTER_COMPLETE:

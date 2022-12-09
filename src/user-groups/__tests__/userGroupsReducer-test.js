@@ -44,10 +44,10 @@ describe('userGroupsReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const prevState = deepFreeze([eg.makeUserGroup()]);
-      expect(userGroupsReducer(prevState, eg.action.account_switch)).toEqual([]);
+      expect(userGroupsReducer(prevState, eg.action.reset_account_data)).toEqual([]);
     });
   });
 

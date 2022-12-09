@@ -38,10 +38,10 @@ describe('reducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const state = makeMuteState([[eg.stream, 'some_topic']]);
-      expect(reducer(state, eg.action.account_switch, eg.plusReduxState)).toEqual(initialState);
+      expect(reducer(state, eg.action.reset_account_data, eg.plusReduxState)).toEqual(initialState);
     });
   });
 

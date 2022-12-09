@@ -8,10 +8,10 @@ import { INIT_TOPICS } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
 describe('topicsReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const prevState = deepFreeze({ [eg.stream.stream_id]: [{ max_id: 1, name: 'some topic' }] });
-      expect(topicsReducer(prevState, eg.action.account_switch)).toEqual(NULL_OBJECT);
+      expect(topicsReducer(prevState, eg.action.reset_account_data)).toEqual(NULL_OBJECT);
     });
   });
 

@@ -12,9 +12,6 @@ import type {
 } from '../types';
 import {
   REGISTER_COMPLETE,
-  LOGOUT,
-  LOGIN_SUCCESS,
-  ACCOUNT_SWITCH,
   MESSAGE_FETCH_COMPLETE,
   EVENT_NEW_MESSAGE,
   EVENT_SUBMESSAGE,
@@ -22,6 +19,7 @@ import {
   EVENT_REACTION_ADD,
   EVENT_REACTION_REMOVE,
   EVENT_UPDATE_MESSAGE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import { getNarrowsForMessage } from '../utils/narrow';
 import * as logging from '../utils/logging';
@@ -142,9 +140,7 @@ export default (
 ): MessagesState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
-    case LOGOUT:
-    case LOGIN_SUCCESS:
-    case ACCOUNT_SWITCH:
+    case RESET_ACCOUNT_DATA:
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE:

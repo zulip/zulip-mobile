@@ -18,15 +18,13 @@ import unreadPmsReducer from './unreadPmsReducer';
 import unreadHuddlesReducer from './unreadHuddlesReducer';
 import unreadMentionsReducer from './unreadMentionsReducer';
 import {
-  ACCOUNT_SWITCH,
   EVENT_MESSAGE_DELETE,
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
-  LOGIN_SUCCESS,
-  LOGOUT,
   MESSAGE_FETCH_COMPLETE,
   REGISTER_COMPLETE,
+  RESET_ACCOUNT_DATA,
 } from '../actionConstants';
 import DefaultMap from '../utils/DefaultMap';
 import * as logging from '../utils/logging';
@@ -225,9 +223,7 @@ function streamsReducer(
   globalState: PerAccountState,
 ): UnreadStreamsState {
   switch (action.type) {
-    case LOGOUT:
-    case ACCOUNT_SWITCH:
-    case LOGIN_SUCCESS:
+    case RESET_ACCOUNT_DATA:
       return initialStreamsState;
 
     case REGISTER_COMPLETE: {

@@ -3,23 +3,18 @@ import deepFreeze from 'deep-freeze';
 import Immutable from 'immutable';
 
 import unreadMentionsReducer from '../unreadMentionsReducer';
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
+import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('unreadMentionsReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([1, 2, 3]);
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 0,
-      });
-
       const expectedState = [];
 
-      const actualState = unreadMentionsReducer(initialState, action);
+      const actualState = unreadMentionsReducer(initialState, eg.action.reset_account_data);
 
       expect(actualState).toEqual(expectedState);
     });

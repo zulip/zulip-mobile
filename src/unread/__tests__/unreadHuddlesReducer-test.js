@@ -2,13 +2,13 @@
 import deepFreeze from 'deep-freeze';
 
 import unreadHuddlesReducer from '../unreadHuddlesReducer';
-import { ACCOUNT_SWITCH, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
+import { RESET_ACCOUNT_DATA, EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 import { NULL_ARRAY } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeUserId } from '../../api/idTypes';
 
 describe('unreadHuddlesReducer', () => {
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const initialState = deepFreeze([
         {
@@ -18,8 +18,7 @@ describe('unreadHuddlesReducer', () => {
       ]);
 
       const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 1,
+        type: RESET_ACCOUNT_DATA,
       });
 
       const expectedState = [];

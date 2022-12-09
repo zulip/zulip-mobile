@@ -29,9 +29,9 @@ describe('reducer', () => {
     reaction_type: '',
   };
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
-      expect(reducer(testUserStatusesState, eg.action.account_switch)).toEqual(Immutable.Map());
+      expect(reducer(testUserStatusesState, eg.action.reset_account_data)).toEqual(Immutable.Map());
     });
   });
 

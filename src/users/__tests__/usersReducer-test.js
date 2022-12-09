@@ -3,7 +3,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { UploadedAvatarURL } from '../../utils/avatar';
-import { EVENT_USER_ADD, ACCOUNT_SWITCH, EVENT } from '../../actionConstants';
+import { EVENT_USER_ADD, EVENT } from '../../actionConstants';
 import { EventTypes, type RealmUserUpdateEvent } from '../../api/eventTypes';
 import type { User } from '../../types';
 import { RoleValues } from '../../api/permissionsTypes';
@@ -145,20 +145,15 @@ describe('usersReducer', () => {
     });
   });
 
-  describe('ACCOUNT_SWITCH', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
     const user1 = eg.makeUser();
 
     test('resets state to initial state', () => {
       const prevState = deepFreeze([user1]);
 
-      const action = deepFreeze({
-        type: ACCOUNT_SWITCH,
-        index: 2,
-      });
-
       const expectedState = [];
 
-      const actualState = usersReducer(prevState, action);
+      const actualState = usersReducer(prevState, eg.action.reset_account_data);
 
       expect(actualState).toEqual(expectedState);
     });
