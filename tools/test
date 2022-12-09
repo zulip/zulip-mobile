@@ -145,19 +145,15 @@ run_native_android() {
     files_check android/ \
         || return 0
 
-    (
-        cd android
+    tools/gradle -q :app:assembleDebug :app:assembleDebugUnitTest \
+        :app:bundleDebug || return
 
-        ./gradlew -q :app:assembleDebug :app:assembleDebugUnitTest \
-            :app:bundleDebug || exit
-
-        # The `-q` suppresses noise from warnings about obsolete build config
-        # in our dependencies from the React Native ecosystem.
-        # But it also suppresses the names of tests that failed.
-        # So on failure, rerun without it.
-        ./gradlew -q :app:testDebugUnitTest \
-            || ./gradlew :app:testDebugUnitTest || exit
-    )
+    # The `-q` suppresses noise from warnings about obsolete build config
+    # in our dependencies from the React Native ecosystem.
+    # But it also suppresses the names of tests that failed.
+    # So on failure, rerun without it.
+    tools/gradle -q :app:testDebugUnitTest \
+        || tools/gradle :app:testDebugUnitTest
 }
 
 run_native_ios() {

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+this_dir=${BASH_SOURCE[0]%/*}
+. "${this_dir}"/lib/ensure-coreutils.sh
+root_dir=$(readlink -f "${this_dir}"/..)
+
+exec "${root_dir}"/android/gradlew -p "${root_dir}"/android "$@"

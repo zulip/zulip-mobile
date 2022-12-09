@@ -9,7 +9,7 @@
     "android": "tools/run-android",
     "android-release": "react-native run-android --variant=release",
     "build:android": "tools/android apk",
-    "build:android-nokeys": "cd android && ./gradlew :app:assembleRelease",
+    "build:android-nokeys": "tools/gradle :app:assembleRelease",
     "build:ios": "cd ios && xcodebuild -scheme ZulipMobile archivexcodebuild -scheme ZulipMobile archive",
     "test": "tools/test",
     "prettier": "tools/fmt",

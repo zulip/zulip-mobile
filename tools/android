@@ -64,14 +64,14 @@ do_apk() {
     check_yarn_link
     run_visibly yarn
 
-    run_visibly android/gradlew -p android :app:assembleRelease -Psigned -Psentry
+    run_visibly tools/gradle :app:assembleRelease -Psigned -Psentry
 }
 
 do_aab() {
     check_yarn_link
     run_visibly yarn
 
-    run_visibly android/gradlew -p android :app:bundleRelease -Psigned -Psentry
+    run_visibly tools/gradle :app:bundleRelease -Psigned -Psentry
 }
 
 case "${action}" in

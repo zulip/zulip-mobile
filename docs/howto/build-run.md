@@ -280,8 +280,8 @@ java.nio.file.NoSuchFileException: /Users/chrisbobbe/dev/zulip-mobile/android/ap
   at sun.nio.fs.UnixFileSystemProvider.newDirectoryStream(UnixFileSystemProvider.java:407)
 ```
 
-Try removing `android/.gradle`, running `./gradlew clean` from
-`android/`, and building again.
+Try removing `android/.gradle`, running `tools/gradle clean`,
+and building again.
 
 ### Build failure: No file known for: classes.dex
 
@@ -293,8 +293,8 @@ Execution failed for task ':app:packageDebug'.
    > No file known for: classes.dex
 ```
 
-Try removing `android/.gradle`, running `./gradlew clean` from
-`android/`, and building again.
+Try removing `android/.gradle`, running `tools/gradle clean`,
+and building again.
 
 ### Build failure: java.lang.UnsupportedClassVersionError, "Unsupported major.minor version 52.0"
 
@@ -343,7 +343,7 @@ Could not compile build file '/Users/chrisbobbe/dev/zulip-mobile/node_modules/@u
 This can sometimes happen if you're using JDK 13 to invoke the build
 command (e.g., when calling `tools/run-android`, or
 `tools/test native`, or
-`android/gradlew -p android :app:assembleDebug`). You can check the
+`tools/gradle :app:assembleDebug`). You can check the
 version by running `java -version`. It seems that upgrading to
 macOS 10.15 Catalina automatically upgrades Java to 13.
 
@@ -686,7 +686,7 @@ Sometimes, the build cache from previous builds can cause issues, and cleaning
 it can help:
 
 ```
-cd android && ./gradlew clean
+tools/gradle clean
 ```
 
 Optionally, reset iOS simulator:
