@@ -12,15 +12,6 @@ import {
 import userGroupsReducer from '../userGroupsReducer';
 
 describe('userGroupsReducer', () => {
-  test('handles unknown action and no state by returning initial state', () => {
-    const initialState = undefined;
-
-    const action = deepFreeze({});
-
-    const newState = userGroupsReducer(initialState, action);
-    expect(newState).toBeDefined();
-  });
-
   describe('REGISTER_COMPLETE', () => {
     test('when data is provided init state with it', () => {
       const initialState = deepFreeze([]);
