@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze';
 
+import * as eg from '../../__tests__/lib/exampleData';
 import flagsReducer from '../flagsReducer';
 import {
   MESSAGE_FETCH_COMPLETE,
@@ -280,40 +281,42 @@ describe('flagsReducer', () => {
     });
 
     test('when all=true, flag=read, and op=add, all messages become read; other flags untouched', () => {
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
+      const message4 = eg.streamMessage();
+      const message5 = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         starred: {
-          1: true,
-          4: true,
+          [message1.id]: true,
+          [message4.id]: true,
         },
         read: {
-          1: true,
-          3: true,
+          [message1.id]: true,
+          [message3.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
+        all: true,
+        allMessages: eg.makeMessagesState([message1, message2, message3, message4, message5]),
         messages: [],
         flag: 'read',
         op: 'add',
-        all: true,
-        allMessages: {
-          1: {},
-          2: {},
-          3: {},
-          4: {},
-          5: {},
-        },
       });
 
       const expectedState = {
         ...prevState,
         read: {
-          1: true,
-          2: true,
-          3: true,
-          4: true,
-          5: true,
+          [message1.id]: true,
+          [message2.id]: true,
+          [message3.id]: true,
+          [message4.id]: true,
+          [message5.id]: true,
         },
       };
 
