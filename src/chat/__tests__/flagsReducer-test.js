@@ -279,8 +279,12 @@ describe('flagsReducer', () => {
       expect(actualState).toEqual(expectedState);
     });
 
-    test('when all=true, flag=read, and op=add, all messages become read', () => {
+    test('when all=true, flag=read, and op=add, all messages become read; other flags untouched', () => {
       const prevState = deepFreeze({
+        starred: {
+          1: true,
+          4: true,
+        },
         read: {
           1: true,
           3: true,
@@ -302,16 +306,19 @@ describe('flagsReducer', () => {
         },
       });
 
-      const expectedReadState = {
-        1: true,
-        2: true,
-        3: true,
-        4: true,
-        5: true,
+      const expectedState = {
+        ...prevState,
+        read: {
+          1: true,
+          2: true,
+          3: true,
+          4: true,
+          5: true,
+        },
       };
 
       const actualState = flagsReducer(prevState, action);
-      expect(actualState.read).toEqual(expectedReadState);
+      expect(actualState).toEqual(expectedState);
     });
   });
 

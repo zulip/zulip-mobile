@@ -103,9 +103,7 @@ const processFlagsForMessages = (
 const eventUpdateMessageFlags = (state, action) => {
   if (action.all) {
     if (action.op === 'add') {
-      return addFlagsForMessages(initialState, Object.keys(action.allMessages).map(Number), [
-        action.flag,
-      ]);
+      return addFlagsForMessages(state, Object.keys(action.allMessages).map(Number), [action.flag]);
     }
 
     if (action.op === 'remove') {
