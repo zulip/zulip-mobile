@@ -14,7 +14,7 @@ import type {
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import isAppOwnDomain from '../isAppOwnDomain';
-import type { Dispatch } from '../types';
+import type { GlobalDispatch } from '../types';
 import {
   IconApple,
   IconPrivate,
@@ -24,7 +24,7 @@ import {
   IconTerminal,
 } from '../common/Icons';
 import type { SpecificIconType } from '../common/Icons';
-import { connect } from '../react-redux';
+import { connectGlobal } from '../react-redux';
 import styles from '../styles';
 import Centerer from '../common/Centerer';
 import Screen from '../common/Screen';
@@ -191,7 +191,7 @@ type SelectorProps = $ReadOnly<{||}>;
 type Props = $ReadOnly<{|
   ...OuterProps,
 
-  dispatch: Dispatch,
+  dispatch: GlobalDispatch,
   ...SelectorProps,
 |}>;
 
@@ -376,6 +376,6 @@ class AuthScreenInner extends PureComponent<Props> {
   }
 }
 
-const AuthScreen: ComponentType<OuterProps> = connect<{||}, _, _>()(AuthScreenInner);
+const AuthScreen: ComponentType<OuterProps> = connectGlobal<{||}, _, _>()(AuthScreenInner);
 
 export default AuthScreen;

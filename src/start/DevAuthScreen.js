@@ -6,9 +6,9 @@ import { ActivityIndicator, View, FlatList } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { DevUser, Dispatch } from '../types';
+import type { DevUser, GlobalDispatch } from '../types';
 import styles, { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { connectGlobal } from '../react-redux';
 import ErrorMsg from '../common/ErrorMsg';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
@@ -42,7 +42,7 @@ type SelectorProps = $ReadOnly<{||}>;
 type Props = $ReadOnly<{|
   ...OuterProps,
 
-  dispatch: Dispatch,
+  dispatch: GlobalDispatch,
   ...SelectorProps,
 |}>;
 
@@ -141,6 +141,6 @@ class DevAuthScreenInner extends PureComponent<Props, State> {
   }
 }
 
-const DevAuthScreen: ComponentType<OuterProps> = connect<{||}, _, _>()(DevAuthScreenInner);
+const DevAuthScreen: ComponentType<OuterProps> = connectGlobal<{||}, _, _>()(DevAuthScreenInner);
 
 export default DevAuthScreen;

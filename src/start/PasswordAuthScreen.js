@@ -5,9 +5,9 @@ import { View } from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import type { Dispatch } from '../types';
+import type { GlobalDispatch } from '../types';
 import { createStyleSheet } from '../styles';
-import { connect } from '../react-redux';
+import { connectGlobal } from '../react-redux';
 import * as api from '../api';
 import ErrorMsg from '../common/ErrorMsg';
 import Input from '../common/Input';
@@ -42,7 +42,7 @@ type SelectorProps = $ReadOnly<{||}>;
 type Props = $ReadOnly<{|
   ...OuterProps,
 
-  dispatch: Dispatch,
+  dispatch: GlobalDispatch,
   ...SelectorProps,
 |}>;
 
@@ -153,7 +153,7 @@ class PasswordAuthScreenInner extends PureComponent<Props, State> {
   }
 }
 
-const PasswordAuthScreen: ComponentType<OuterProps> = connect<{||}, _, _>()(
+const PasswordAuthScreen: ComponentType<OuterProps> = connectGlobal<{||}, _, _>()(
   PasswordAuthScreenInner,
 );
 

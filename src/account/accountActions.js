@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { PerAccountAction, AllAccountsAction, ThunkAction, GlobalThunkAction } from '../types';
+import type { PerAccountAction, AllAccountsAction, GlobalThunkAction } from '../types';
 import {
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
@@ -57,15 +57,19 @@ const loginSuccessPlain = (realm: URL, email: string, apiKey: string): AllAccoun
 });
 
 export const loginSuccess =
-  (realm: URL, email: string, apiKey: string): ThunkAction<Promise<void>> =>
-  async (dispatch, getState) => {
+  (realm: URL, email: string, apiKey: string): GlobalThunkAction<Promise<void>> =>
+  async (dispatch, getState, { activeAccountDispatch }) => {
     NavigationService.dispatch(resetToMainTabs());
     dispatch(loginSuccessPlain(realm, email, apiKey));
 
-    await dispatch(registerAndStartPolling());
+    // Now dispatch some actions on the new, post-login active account.
+    // Because we just dispatched `loginSuccessPlain`, that new account is
+    // now the active account, so `activeAccountDispatch` will act on it.
+
+    await activeAccountDispatch(registerAndStartPolling());
 
     // TODO(#3881): Lots of issues with outbox sending
-    dispatch(sendOutbox());
+    activeAccountDispatch(sendOutbox());
 
-    dispatch(initNotifications());
+    activeAccountDispatch(initNotifications());
   };
