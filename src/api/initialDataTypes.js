@@ -415,6 +415,9 @@ export type InitialDataRealmUser = $ReadOnly<{|
 
 export type InitialDataRealmUserGroups = $ReadOnly<{|
   // New in Zulip 1.8.
+  // TODO(#5102): In userGroupsReducer, we still have a fallback for pre-1.8
+  //   servers; remove that, and remove the above comment, which will be
+  //   irrelevant.
   realm_user_groups: $ReadOnlyArray<UserGroup>,
 |}>;
 
