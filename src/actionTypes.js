@@ -599,6 +599,11 @@ type InitTopicsAction = $ReadOnly<{|
   streamId: number,
 |}>;
 
+type RefreshServerEmojiDataAction = $ReadOnly<{|
+  type: typeof REFRESH_SERVER_EMOJI_DATA,
+  data: ServerEmojiData,
+|}>;
+
 /* eslint-disable spaced-comment */
 
 ////
@@ -623,11 +628,6 @@ type LoadingAction =
   | RegisterStartAction
   | RegisterAbortAction
   | RegisterCompleteAction;
-
-type RefreshServerEmojiDataAction = $ReadOnly<{|
-  type: typeof REFRESH_SERVER_EMOJI_DATA,
-  data: ServerEmojiData,
-|}>;
 
 type MessageAction = MessageFetchStartAction | MessageFetchErrorAction | MessageFetchCompleteAction;
 
