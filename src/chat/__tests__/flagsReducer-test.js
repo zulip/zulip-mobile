@@ -1,28 +1,29 @@
+/* @flow strict-local */
+
 import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import flagsReducer from '../flagsReducer';
-import {
-  MESSAGE_FETCH_COMPLETE,
-  EVENT_NEW_MESSAGE,
-  EVENT_UPDATE_MESSAGE_FLAGS,
-  ACCOUNT_SWITCH,
-} from '../../actionConstants';
-import { NULL_OBJECT } from '../../nullObjects';
+import { EVENT_UPDATE_MESSAGE_FLAGS, ACCOUNT_SWITCH } from '../../actionConstants';
 
 describe('flagsReducer', () => {
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
-      const prevState = NULL_OBJECT;
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage({ flags: [] });
+      const message3 = eg.streamMessage({ flags: ['read'] });
+
+      const prevState = eg.plusReduxState.flags;
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
-        messages: [{ id: 1 }, { id: 2, flags: [] }, { id: 3, flags: ['read'] }],
+        ...eg.action.message_fetch_complete,
+        messages: [message1, message2, message3],
       });
 
       const expectedState = {
+        ...prevState,
         read: {
-          3: true,
+          [message3.id]: true,
         },
       };
 
@@ -32,18 +33,21 @@ describe('flagsReducer', () => {
     });
 
     test('when flags for messages already exist in state, do not change state', () => {
-      const prevState = deepFreeze({
+      const message = eg.streamMessage({ flags: ['read', 'starred'] });
+
+      const prevState = {
+        ...eg.plusReduxState.flags,
         read: {
-          1: true,
+          [message.id]: true,
         },
         starred: {
-          1: true,
+          [message.id]: true,
         },
-      });
+      };
 
       const action = deepFreeze({
-        type: MESSAGE_FETCH_COMPLETE,
-        messages: [{ id: 1, flags: ['read', 'starred'] }],
+        ...eg.action.message_fetch_complete,
+        messages: [message],
       });
 
       const actualState = flagsReducer(prevState, action);
@@ -53,22 +57,27 @@ describe('flagsReducer', () => {
   });
 
   test('flags are added or replace existing flags', () => {
+    const message1 = eg.streamMessage({ flags: ['read'] });
+    const message2 = eg.streamMessage({ flags: [] });
+    const message3 = eg.streamMessage();
+
     const prevState = deepFreeze({
+      ...eg.plusReduxState.flags,
       read: {
-        3: true,
+        [message3.id]: true,
       },
     });
 
     const action = deepFreeze({
-      type: MESSAGE_FETCH_COMPLETE,
-      // prettier-ignore
-      messages: [{ id: 1, flags: ['read'] }, { id: 2, flags: [] }],
+      ...eg.action.message_fetch_complete,
+      messages: [message1, message2],
     });
 
     const expectedState = {
+      ...prevState,
       read: {
-        1: true,
-        3: true,
+        [message1.id]: true,
+        [message3.id]: true,
       },
     };
 
@@ -79,16 +88,16 @@ describe('flagsReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('adds to store flags from new message', () => {
-      const prevState = NULL_OBJECT;
+      const message = eg.streamMessage({ flags: ['read'] });
 
-      const action = deepFreeze({
-        type: EVENT_NEW_MESSAGE,
-        message: { id: 2, flags: ['read'] },
-      });
+      const prevState = eg.plusReduxState.flags;
+
+      const action = eg.mkActionEventNewMessage(message);
 
       const expectedState = {
+        ...prevState,
         read: {
-          2: true,
+          [message.id]: true,
         },
       };
 
@@ -100,18 +109,24 @@ describe('flagsReducer', () => {
 
   describe('EVENT_UPDATE_MESSAGE_FLAGS', () => {
     test('when operation is "add", adds flag to an empty state', () => {
-      const prevState = NULL_OBJECT;
+      const message = eg.streamMessage();
+
+      const prevState = eg.plusReduxState.flags;
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        all: false,
+        allMessages: eg.makeMessagesState([message]),
+        messages: [message.id],
         flag: 'starred',
         op: 'add',
       });
 
       const expectedState = {
+        ...prevState,
         starred: {
-          1: true,
+          [message.id]: true,
         },
       };
 
@@ -121,22 +136,29 @@ describe('flagsReducer', () => {
     });
 
     test('if flag already exists, do not duplicate', () => {
+      const message = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         starred: {
-          1: true,
+          [message.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        all: false,
+        allMessages: eg.makeMessagesState([message]),
+        messages: [message.id],
         flag: 'starred',
         op: 'add',
       });
 
       const expectedState = {
+        ...prevState,
         starred: {
-          1: true,
+          [message.id]: true,
         },
       };
 
@@ -146,25 +168,32 @@ describe('flagsReducer', () => {
     });
 
     test('if other flags exist, adds new one to the list', () => {
+      const message = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         starred: {
-          1: true,
+          [message.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        all: false,
+        allMessages: eg.makeMessagesState([message]),
+        messages: [message.id],
         flag: 'read',
         op: 'add',
       });
 
       const expectedState = {
+        ...prevState,
         starred: {
-          1: true,
+          [message.id]: true,
         },
         read: {
-          1: true,
+          [message.id]: true,
         },
       };
 
@@ -174,30 +203,39 @@ describe('flagsReducer', () => {
     });
 
     test('adds flags for multiple messages', () => {
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         read: {
-          1: true,
+          [message1.id]: true,
         },
         starred: {
-          2: true,
+          [message2.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1, 2, 3],
+        all: false,
+        allMessages: eg.makeMessagesState([message1, message2, message3]),
+        messages: [message1.id, message2.id, message3.id],
         flag: 'starred',
         op: 'add',
       });
 
       const expectedState = {
+        ...prevState,
         read: {
-          1: true,
+          [message1.id]: true,
         },
         starred: {
-          1: true,
-          2: true,
-          3: true,
+          [message1.id]: true,
+          [message2.id]: true,
+          [message3.id]: true,
         },
       };
 
@@ -207,20 +245,27 @@ describe('flagsReducer', () => {
     });
 
     test('when operation is "remove" removes a flag from message', () => {
+      const message = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         read: {
-          1: true,
+          [message.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        all: false,
+        allMessages: eg.makeMessagesState([message]),
+        messages: [message.id],
         flag: 'read',
         op: 'remove',
       });
 
       const expectedState = {
+        ...prevState,
         read: {},
       };
 
@@ -230,16 +275,22 @@ describe('flagsReducer', () => {
     });
 
     test('if flag does not exist, do nothing', () => {
-      const prevState = NULL_OBJECT;
+      const message = eg.streamMessage();
+
+      const prevState = eg.plusReduxState.flags;
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1],
+        all: false,
+        allMessages: eg.makeMessagesState([message]),
+        messages: [message.id],
         flag: 'read',
         op: 'remove',
       });
 
       const expectedState = {
+        ...prevState,
         read: {},
       };
 
@@ -249,28 +300,38 @@ describe('flagsReducer', () => {
     });
 
     test('removes flags from multiple messages', () => {
+      const message1 = eg.streamMessage();
+      const message2 = eg.streamMessage();
+      const message3 = eg.streamMessage();
+      const message4 = eg.streamMessage();
+
       const prevState = deepFreeze({
+        ...eg.plusReduxState.flags,
         read: {
-          1: true,
-          3: true,
+          [message1.id]: true,
+          [message3.id]: true,
         },
         starred: {
-          1: true,
-          3: true,
+          [message1.id]: true,
+          [message3.id]: true,
         },
       });
 
       const action = deepFreeze({
+        id: 1,
         type: EVENT_UPDATE_MESSAGE_FLAGS,
-        messages: [1, 2, 3, 4],
+        all: false,
+        allMessages: eg.makeMessagesState([message1, message2, message3, message4]),
+        messages: [message1.id, message2.id, message3.id, message4.id],
         flag: 'starred',
         op: 'remove',
       });
 
       const expectedState = {
+        ...prevState,
         read: {
-          1: true,
-          3: true,
+          [message1.id]: true,
+          [message3.id]: true,
         },
         starred: {},
       };
@@ -327,29 +388,24 @@ describe('flagsReducer', () => {
 
   describe('ACCOUNT_SWITCH', () => {
     test('resets to initial state', () => {
+      const message = eg.streamMessage();
+
       const prevState = deepFreeze({
-        read: { 1: true },
-        starred: { 1: true },
-        collapsed: { 1: true },
-        mentioned: { 1: true },
-        wildcard_mentioned: { 1: true },
-        has_alert_word: { 1: true },
-        historical: { 1: true },
+        read: { [message.id]: true },
+        starred: { [message.id]: true },
+        collapsed: { [message.id]: true },
+        mentioned: { [message.id]: true },
+        wildcard_mentioned: { [message.id]: true },
+        has_alert_word: { [message.id]: true },
+        historical: { [message.id]: true },
       });
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
+        index: 2,
       });
 
-      const expectedState = {
-        read: {},
-        starred: {},
-        collapsed: {},
-        mentioned: {},
-        wildcard_mentioned: {},
-        has_alert_word: {},
-        historical: {},
-      };
+      const expectedState = eg.baseReduxState.flags;
 
       const actualState = flagsReducer(prevState, action);
 
