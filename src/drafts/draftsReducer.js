@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import type { DraftsState, PerAccountApplicableAction } from '../types';
-import { DRAFT_UPDATE, LOGOUT, ACCOUNT_SWITCH } from '../actionConstants';
+import { DRAFT_UPDATE, LOGOUT, ACCOUNT_SWITCH, LOGIN_SUCCESS } from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { keyFromNarrow } from '../utils/narrow';
 
@@ -29,6 +29,7 @@ export default (
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:
+    case LOGIN_SUCCESS:
       return initialState;
 
     case DRAFT_UPDATE:

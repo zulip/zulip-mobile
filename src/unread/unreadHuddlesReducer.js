@@ -10,6 +10,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  LOGIN_SUCCESS,
 } from '../actionConstants';
 import {
   pmUnreadsKeyFromMessage,
@@ -93,6 +94,7 @@ export default (
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:
+    case LOGIN_SUCCESS:
       return initialState;
 
     case REGISTER_COMPLETE:

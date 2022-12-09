@@ -3,7 +3,13 @@ import { EventTypes } from '../api/eventTypes';
 import type { PerAccountApplicableAction, StreamsState, StreamUpdateEvent } from '../types';
 import type { Stream, Subscription } from '../api/modelTypes';
 import { ensureUnreachable } from '../types';
-import { LOGOUT, ACCOUNT_SWITCH, EVENT, REGISTER_COMPLETE } from '../actionConstants';
+import {
+  LOGOUT,
+  ACCOUNT_SWITCH,
+  EVENT,
+  REGISTER_COMPLETE,
+  LOGIN_SUCCESS,
+} from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
 
@@ -61,6 +67,7 @@ export default (
 
     case LOGOUT:
     case ACCOUNT_SWITCH:
+    case LOGIN_SUCCESS:
       return initialState;
 
     case EVENT: {

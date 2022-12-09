@@ -10,6 +10,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_MESSAGE_DELETE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  LOGIN_SUCCESS,
 } from '../actionConstants';
 import { addItemsToArray, removeItemsFromArray } from '../utils/immutability';
 import { NULL_ARRAY } from '../nullObjects';
@@ -51,6 +52,7 @@ export default (
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:
+    case LOGIN_SUCCESS:
       return initialState;
 
     case REGISTER_COMPLETE:

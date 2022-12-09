@@ -23,6 +23,7 @@ import {
   EVENT_NEW_MESSAGE,
   EVENT_UPDATE_MESSAGE,
   EVENT_UPDATE_MESSAGE_FLAGS,
+  LOGIN_SUCCESS,
   LOGOUT,
   MESSAGE_FETCH_COMPLETE,
   REGISTER_COMPLETE,
@@ -226,7 +227,7 @@ function streamsReducer(
   switch (action.type) {
     case LOGOUT:
     case ACCOUNT_SWITCH:
-      // TODO(#4446) also LOGIN_SUCCESS, presumably
+    case LOGIN_SUCCESS:
       return initialStreamsState;
 
     case REGISTER_COMPLETE: {

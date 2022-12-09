@@ -8,6 +8,7 @@ import {
   ACCOUNT_SWITCH,
   DELETE_OUTBOX_MESSAGE,
   MESSAGE_SEND_COMPLETE,
+  LOGIN_SUCCESS,
 } from '../actionConstants';
 import { NULL_ARRAY } from '../nullObjects';
 import { filterArray } from '../utils/immutability';
@@ -44,6 +45,7 @@ export default (
 
     case ACCOUNT_SWITCH:
     case LOGOUT:
+    case LOGIN_SUCCESS:
       return initialState;
 
     default:
