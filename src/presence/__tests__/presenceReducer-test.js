@@ -11,18 +11,6 @@ import presenceReducer from '../presenceReducer';
 const currentTimestamp = Date.now() / 1000;
 
 describe('presenceReducer', () => {
-  test('handles unknown action and no state by returning initial state', () => {
-    const newState = presenceReducer(undefined, {});
-    expect(newState).toBeDefined();
-  });
-
-  test('on unrecognized action, returns input state unchanged', () => {
-    const prevState = deepFreeze({ hello: 'world' });
-
-    const newState = presenceReducer(prevState, {});
-    expect(newState).toBe(prevState);
-  });
-
   describe('REGISTER_COMPLETE', () => {
     test('when `presence` data is provided init state with it', () => {
       const presenceData = {
