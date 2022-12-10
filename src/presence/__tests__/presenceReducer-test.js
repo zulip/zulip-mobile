@@ -15,11 +15,8 @@ describe('presenceReducer', () => {
     test('when `presence` data is provided init state with it', () => {
       const presenceData = {
         'email@example.com': {
-          aggregated: {
-            client: 'website',
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { client: 'website', status: 'active', timestamp: 123 },
+          website: { client: 'website', status: 'active', timestamp: 123 },
         },
       };
       const prevState = deepFreeze({});
@@ -39,11 +36,8 @@ describe('presenceReducer', () => {
     test('when no `presence` data is given reset state', () => {
       const prevState = deepFreeze({
         'email@example.com': {
-          aggregated: {
-            client: 'website',
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { client: 'website', status: 'active', timestamp: 123 },
+          website: { client: 'website', status: 'active', timestamp: 123 },
         },
       });
       const action = deepFreeze({
@@ -62,10 +56,8 @@ describe('presenceReducer', () => {
     test('merges a single user in presence response', () => {
       const presence = {
         'email@example.com': {
-          aggregated: {
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { status: 'active', timestamp: 123 },
+          website: { status: 'active', timestamp: 123 },
         },
       };
       const action = deepFreeze({
@@ -80,10 +72,8 @@ describe('presenceReducer', () => {
 
       const expectedState = {
         'email@example.com': {
-          aggregated: {
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { status: 'active', timestamp: 123 },
+          website: { status: 'active', timestamp: 123 },
         },
       };
 
@@ -100,11 +90,8 @@ describe('presenceReducer', () => {
 
       const presence = {
         'email@example.com': {
-          aggregated: {
-            client: 'website',
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { client: 'website', status: 'active', timestamp: 123 },
+          website: { client: 'website', status: 'active', timestamp: 123 },
         },
         'johndoe@example.com': {
           website: {
@@ -122,11 +109,8 @@ describe('presenceReducer', () => {
 
       const expectedState = {
         'email@example.com': {
-          aggregated: {
-            client: 'website',
-            status: 'active',
-            timestamp: 123,
-          },
+          aggregated: { client: 'website', status: 'active', timestamp: 123 },
+          website: { client: 'website', status: 'active', timestamp: 123 },
         },
         'johndoe@example.com': {
           website: {
