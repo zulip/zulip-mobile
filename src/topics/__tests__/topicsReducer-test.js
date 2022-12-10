@@ -7,7 +7,7 @@ import { NULL_OBJECT } from '../../nullObjects';
 describe('streamsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
-      const initialState = deepFreeze([{ max_id: 1, name: 'some_topic' }]);
+      const prevState = deepFreeze([{ max_id: 1, name: 'some_topic' }]);
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
@@ -15,7 +15,7 @@ describe('streamsReducer', () => {
 
       const expectedState = NULL_OBJECT;
 
-      const actualState = topicsReducer(initialState, action);
+      const actualState = topicsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
@@ -23,7 +23,7 @@ describe('streamsReducer', () => {
 
   describe('INIT_TOPICS', () => {
     test('adds new topics mapped to stream id', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: INIT_TOPICS,
@@ -53,13 +53,13 @@ describe('streamsReducer', () => {
         ],
       };
 
-      const newState = topicsReducer(initialState, action);
+      const newState = topicsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
 
     test('if topics for stream already exist, replace them', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         '1': [
           {
             max_id: 1,
@@ -96,7 +96,7 @@ describe('streamsReducer', () => {
         ],
       };
 
-      const newState = topicsReducer(initialState, action);
+      const newState = topicsReducer(prevState, action);
 
       expect(newState).toEqual(expectedState);
     });
@@ -104,7 +104,7 @@ describe('streamsReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message is not in stream do not change state', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = {
         type: EVENT_NEW_MESSAGE,
@@ -115,13 +115,13 @@ describe('streamsReducer', () => {
         },
       };
 
-      const actualState = topicsReducer(initialState, action);
+      const actualState = topicsReducer(prevState, action);
 
-      expect(actualState).toBe(initialState);
+      expect(actualState).toBe(prevState);
     });
 
     test('if stream message and topic exists update with latest message id', () => {
-      const initialState = {
+      const prevState = {
         123: [
           {
             max_id: 1,
@@ -149,13 +149,13 @@ describe('streamsReducer', () => {
         ],
       };
 
-      const actualState = topicsReducer(initialState, action);
+      const actualState = topicsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
 
     test('if stream message and topic does not exist, add it', () => {
-      const initialState = NULL_OBJECT;
+      const prevState = NULL_OBJECT;
 
       const action = deepFreeze({
         type: EVENT_NEW_MESSAGE,
@@ -176,7 +176,7 @@ describe('streamsReducer', () => {
         ],
       };
 
-      const actualState = topicsReducer(initialState, action);
+      const actualState = topicsReducer(prevState, action);
 
       expect(actualState).toEqual(expectedState);
     });
