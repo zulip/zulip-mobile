@@ -10,7 +10,7 @@
  * @flow strict-local
  */
 
-import type { SubsetProperties } from '../generics';
+import type { BoundedDiff, SubsetProperties } from '../generics';
 import { keyMirror } from '../utils/keyMirror';
 import type {
   CustomProfileField,
@@ -24,6 +24,7 @@ import type {
   UserPresence,
   UserStatusUpdate,
   UserSettings,
+  ClientPresence,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
 
@@ -135,12 +136,16 @@ export type SubmessageEvent = $ReadOnly<{|
   content: string,
 |}>;
 
+/** https://zulip.com/api/get-events#presence  */
 export type PresenceEvent = $ReadOnly<{|
   ...EventCommon,
   type: typeof EventTypes.presence,
   email: string,
   server_timestamp: number,
-  presence: UserPresence,
+
+  // Clients are asked to compute aggregated presence; the event doesn't
+  // have it.
+  presence: BoundedDiff<UserPresence, {| +aggregated: ClientPresence |}>,
 |}>;
 
 /**
