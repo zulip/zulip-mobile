@@ -11,107 +11,60 @@ describe('topicsReducer', () => {
   describe('ACCOUNT_SWITCH', () => {
     test('resets state to initial state', () => {
       const prevState = deepFreeze({ [eg.stream.stream_id]: [{ max_id: 1, name: 'some topic' }] });
-
-      const action = eg.action.account_switch;
-
-      const expectedState = NULL_OBJECT;
-
-      const actualState = topicsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      expect(topicsReducer(prevState, eg.action.account_switch)).toEqual(NULL_OBJECT);
     });
   });
 
   describe('INIT_TOPICS', () => {
     test('adds new topics mapped to stream id', () => {
       const prevState = eg.plusReduxState.topics;
-
-      const action = deepFreeze({
-        type: INIT_TOPICS,
-        streamId: eg.stream.stream_id,
-        topics: [
-          {
-            max_id: 1,
-            name: 'topic1',
-          },
-          {
-            max_id: 3,
-            name: 'topic1',
-          },
+      expect(
+        topicsReducer(
+          prevState,
+          deepFreeze({
+            type: INIT_TOPICS,
+            streamId: eg.stream.stream_id,
+            topics: [
+              { max_id: 1, name: 'topic1' },
+              { max_id: 3, name: 'topic1' },
+            ],
+          }),
+        ),
+      ).toEqual({
+        [eg.stream.stream_id]: [
+          { max_id: 1, name: 'topic1' },
+          { max_id: 3, name: 'topic1' },
         ],
       });
-
-      const expectedState = {
-        [eg.stream.stream_id]: [
-          {
-            max_id: 1,
-            name: 'topic1',
-          },
-          {
-            max_id: 3,
-            name: 'topic1',
-          },
-        ],
-      };
-
-      const newState = topicsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
     });
 
     test('if topics for stream already exist, replace them', () => {
-      const prevState = deepFreeze({
+      const prevState = deepFreeze({ [eg.stream.stream_id]: [{ max_id: 1, name: 'some topic' }] });
+      expect(
+        topicsReducer(
+          prevState,
+          deepFreeze({
+            type: INIT_TOPICS,
+            streamId: eg.stream.stream_id,
+            topics: [
+              { max_id: 2, name: 'topic1' },
+              { max_id: 3, name: 'topic1' },
+            ],
+          }),
+        ),
+      ).toEqual({
         [eg.stream.stream_id]: [
-          {
-            max_id: 1,
-            name: 'some topic',
-          },
+          { max_id: 2, name: 'topic1' },
+          { max_id: 3, name: 'topic1' },
         ],
       });
-
-      const action = deepFreeze({
-        type: INIT_TOPICS,
-        streamId: eg.stream.stream_id,
-        topics: [
-          {
-            max_id: 2,
-            name: 'topic1',
-          },
-          {
-            max_id: 3,
-            name: 'topic1',
-          },
-        ],
-      });
-
-      const expectedState = {
-        [eg.stream.stream_id]: [
-          {
-            max_id: 2,
-            name: 'topic1',
-          },
-          {
-            max_id: 3,
-            name: 'topic1',
-          },
-        ],
-      };
-
-      const newState = topicsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
     });
   });
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if message is not in stream do not change state', () => {
       const prevState = eg.plusReduxState.topics;
-
-      const action = eg.mkActionEventNewMessage(eg.pmMessage());
-
-      const actualState = topicsReducer(prevState, action);
-
-      expect(actualState).toBe(prevState);
+      expect(topicsReducer(prevState, eg.mkActionEventNewMessage(eg.pmMessage()))).toBe(prevState);
     });
 
     test('if stream message and topic exists update with latest message id', () => {
@@ -120,29 +73,10 @@ describe('topicsReducer', () => {
       const oldMessage = eg.streamMessage({ id: 1, stream, subject: topic });
       const newMessage = eg.streamMessage({ id: 2, stream, subject: topic });
 
-      const prevState = {
-        [stream.stream_id]: [
-          {
-            max_id: oldMessage.id,
-            name: topic,
-          },
-        ],
-      };
-
-      const action = eg.mkActionEventNewMessage(newMessage);
-
-      const expectedState = {
-        [stream.stream_id]: [
-          {
-            max_id: newMessage.id,
-            name: topic,
-          },
-        ],
-      };
-
-      const actualState = topicsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = { [stream.stream_id]: [{ max_id: oldMessage.id, name: topic }] };
+      expect(topicsReducer(prevState, eg.mkActionEventNewMessage(newMessage))).toEqual({
+        [stream.stream_id]: [{ max_id: newMessage.id, name: topic }],
+      });
     });
 
     test('if stream message and topic does not exist, add it', () => {
@@ -151,21 +85,9 @@ describe('topicsReducer', () => {
       const message = eg.streamMessage({ stream, subject: topic });
 
       const prevState = eg.plusReduxState.topics;
-
-      const action = eg.mkActionEventNewMessage(message);
-
-      const expectedState = {
-        [stream.stream_id]: [
-          {
-            max_id: message.id,
-            name: topic,
-          },
-        ],
-      };
-
-      const actualState = topicsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      expect(topicsReducer(prevState, eg.mkActionEventNewMessage(message))).toEqual({
+        [stream.stream_id]: [{ max_id: message.id, name: topic }],
+      });
     });
   });
 });
