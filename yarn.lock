@@ -8516,7 +8516,7 @@ messageformat@^2.2.1:
     messageformat-formatters "^2.0.1"
     messageformat-parser "^4.1.2"
 
-metro-babel-register@0.66.2:
+metro-babel-register@0.66.2, metro-babel-register@^0.66.2:
   version "0.66.2"
   resolved "https://registry.yarnpkg.com/metro-babel-register/-/metro-babel-register-0.66.2.tgz#c6bbe36c7a77590687ccd74b425dc020d17d05af"
   integrity sha512-3F+vsVubUPJYKfVMeol8/7pd8CC287Rw92QYzJD8LEmI980xcgwMUEVBZ0UIAUwlLgiJG/f4Mwhuji2EeBXrPg==
