@@ -76,7 +76,7 @@
   // use the `main.jsbundle` resource instead when in release mode.
   // Skip the goo, because RCTBundleURLProvider is already smart enough
   // to do exactly that.
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 }
 
 // Allow listening to incoming zulip:// links during the app's
