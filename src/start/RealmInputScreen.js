@@ -212,7 +212,6 @@ export default function RealmInputScreen(props: Props): Node {
         },
         suggestionText: { fontSize: 12, fontStyle: 'italic' },
         suggestionTextLink: {
-          fontSize: 12,
           fontStyle: 'normal',
           color: BRAND_COLOR, // chosen to mimic WebLink
         },
@@ -241,6 +240,7 @@ export default function RealmInputScreen(props: Props): Node {
               suggestedServerUrl: suggestion,
               'z-link': chunks => (
                 <ZulipText
+                  inheritFontSize
                   style={styles.suggestionTextLink}
                   onPress={() => handlePressSuggestion(suggestion)}
                 >
