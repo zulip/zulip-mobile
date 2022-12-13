@@ -138,6 +138,10 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+// Useful for syncing dependency versions from RN upstream.
+def rnProperties = new Properties()
+rnProperties.load(new FileInputStream(file("../../node_modules/react-native/ReactAndroid/gradle.properties")))
+
 android {
     defaultConfig {
         applicationId "com.zulipmobile"
@@ -219,7 +223,8 @@ dependencies {
 
     // ==== RN-related dependencies
 
-    implementation 'com.facebook.fresco:animated-gif:2.0.0' // For animated GIF support
+    // For animated GIF support:
+    implementation "com.facebook.fresco:animated-gif:${rnProperties.get('FRESCO_VERSION')}"
 
     // Workaround for facebook/react-native#32735; see
     //   https://github.com/facebook/react-native/issues/32735#issue-1077061487
