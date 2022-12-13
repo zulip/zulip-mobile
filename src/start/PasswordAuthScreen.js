@@ -144,7 +144,7 @@ class PasswordAuthScreenInner extends PureComponent<Props, State> {
         <View style={styles.linksTouchable}>
           <ZulipText style={styles.forgotPasswordText}>
             <WebLink url={new URL('/accounts/password/reset/', realm)}>
-              <ZulipTextIntl text="Forgot password?" />
+              <ZulipTextIntl inheritColor text="Forgot password?" />
             </WebLink>
           </ZulipText>
         </View>

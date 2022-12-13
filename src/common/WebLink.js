@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import ZulipText from './ZulipText';
-import ZulipTextIntl from './ZulipTextIntl';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { useGlobalSelector } from '../react-redux';
@@ -25,16 +24,8 @@ const componentStyles = createStyleSheet({
  *
  * Accepts strings as children or a `text` prop, just like ZulipText.
  *
- * Also accepts `ZulipText`s and `ZulipTextIntl`s as children.
- *
- * Note: This sort of messes in those non-string children's business by
- *   unsetting some of their default style attributes. It does this so that
- *   its own special formatting can be passed down through the limited style
- *   inheritance that RN supports:
- *     https://reactnative.dev/docs/text#limited-style-inheritance
- *   See `aggressiveDefaultStyle` in ZulipText.
- *
- * TODO: Possibly there's a better way handle this.
+ * Also accepts `ZulipText`s and `ZulipTextIntl`s as children. To keep the
+ * special formatting, you have to pass `inheritColor` to those.
  */
 export default function WebLink(props: Props): React.Node {
   const { children } = props;
@@ -48,30 +39,7 @@ export default function WebLink(props: Props): React.Node {
         openLinkWithUserPreference(props.url.toString(), globalSettings);
       }}
     >
-      {React.Children.map(children, child => {
-        if (!React.isValidElement(child)) {
-          // Some React node that isn't a React element (a `React.Element`);
-          // e.g., a plain string. The enclosing ZulipText will apply its
-          // styles directly.
-          return child;
-        }
-        // `child` should be a React.Element at this point. Docs are very
-        // vague, but this sounds like it should be true, and it seems true
-        // empirically. Would at least be good to have better type checking.
-
-        if (child.type !== ZulipText && child.type !== ZulipTextIntl) {
-          return child;
-        }
-        // These element types will have a style prop that we want to add to.
-
-        return React.cloneElement(child, {
-          style: {
-            // Defeat ZulipText's aggressiveDefaultStyle.color so that our
-            // color gets applied.
-            color: undefined,
-          },
-        });
-      })}
+      {children}
     </ZulipText>
   );
 }

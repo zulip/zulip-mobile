@@ -221,7 +221,7 @@ export default function RealmInputScreen(props: Props): Node {
     [themeContext],
   );
 
-  const renderedSuggestion = React.useMemo(() => {
+  const suggestionContent = React.useMemo(() => {
     if (suggestion === null) {
       // Vertical spacer so the layout doesn't jump when a suggestion
       // appears or disappears. (The empty string might be neater, but it
@@ -230,13 +230,11 @@ export default function RealmInputScreen(props: Props): Node {
       // and React or RN gave in to that. I've tried the obvious ways to use
       // RN's PixelRatio.getFontScale() and never got the right height
       // either; dunno why.)
-      return (
-        <ZulipText style={styles.suggestionText} text={'\u200b'} /* U+200B ZERO WIDTH SPACE */ />
-      );
+      return '\u200b'; // U+200B ZERO WIDTH SPACE
     } else if (typeof suggestion === 'string') {
       return (
         <ZulipTextIntl
-          style={styles.suggestionText}
+          inheritFontSize
           text={{
             text: 'Suggestion: <z-link>{suggestedServerUrl}</z-link>',
             values: {
@@ -254,7 +252,7 @@ export default function RealmInputScreen(props: Props): Node {
         />
       );
     } else {
-      return <ZulipTextIntl style={styles.suggestionText} text={validationErrorMsg(suggestion)} />;
+      return <ZulipTextIntl inheritFontSize text={validationErrorMsg(suggestion)} />;
     }
   }, [suggestion, handlePressSuggestion, styles]);
 
@@ -299,7 +297,7 @@ export default function RealmInputScreen(props: Props): Node {
           ref={textInputRef}
         />
       </View>
-      {renderedSuggestion}
+      <ZulipText style={styles.suggestionText}>{suggestionContent}</ZulipText>
       <ZulipButton
         style={styles.button}
         text="Enter"
