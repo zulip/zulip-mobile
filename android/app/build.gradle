@@ -226,15 +226,6 @@ dependencies {
     // For animated GIF support:
     implementation "com.facebook.fresco:animated-gif:${rnProperties.get('FRESCO_VERSION')}"
 
-    // Workaround for facebook/react-native#32735; see
-    //   https://github.com/facebook/react-native/issues/32735#issue-1077061487
-    // TODO(react-native-68): Remove; fixed in facebook/react-native@f45889ef9
-    implementation('com.facebook.soloader:soloader:0.10.3') {
-        version {
-            strictly '0.10.3'
-        }
-    }
-
     // ----------------------------------------
     // Dependencies from RN upstream, in the template app
 
