@@ -14,10 +14,10 @@
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
-#import <ReactCommon/RCTTurboModuleManager.h>
 #import <React/RCTFabricSurfaceHostingProxyRootView.h>
 #import <React/RCTSurfacePresenter.h>
 #import <React/RCTSurfacePresenterBridgeAdapter.h>
+#import <ReactCommon/RCTTurboModuleManager.h>
 
 #import <react/config/ReactNativeConfig.h>
 
@@ -173,7 +173,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
-                                                     initParams:(const facebook::react::ObjCTurboModule::InitParams &)params
+                                                     initParams:
+                                                         (const facebook::react::ObjCTurboModule::InitParams &)params
 {
   return nullptr;
 }
