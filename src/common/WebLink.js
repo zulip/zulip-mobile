@@ -23,7 +23,9 @@ const componentStyles = createStyleSheet({
 /**
  * A button styled like a web link.
  *
- * Accepts `ZulipText`s, `ZulipTextIntl`s, and strings as children.
+ * Accepts strings as children or a `text` prop, just like ZulipText.
+ *
+ * Also accepts `ZulipText`s and `ZulipTextIntl`s as children.
  *
  * Note: This sort of messes in those non-string children's business by
  *   unsetting some of their default style attributes. It does this so that

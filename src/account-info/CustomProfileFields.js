@@ -70,9 +70,7 @@ function CustomProfileFieldRow(props: {|
       valueElement = (
         <View style={styles.valueView}>
           {value.url ? (
-            <WebLink url={value.url}>
-              <ZulipText text={value.text} />
-            </WebLink>
+            <WebLink url={value.url} text={value.text} />
           ) : (
             <ZulipText text={value.text} />
           )}

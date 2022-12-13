@@ -24,7 +24,6 @@ import type { UserOrBot } from '../api/modelTypes';
 import LoadingIndicator from '../common/LoadingIndicator';
 import WebLink from '../common/WebLink';
 import { createStyleSheet } from '../styles';
-import ZulipText from '../common/ZulipText';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'read-receipts'>,
@@ -138,11 +137,7 @@ export default function ReadReceiptsScreen(props: Props): Node {
             values: {
               num_of_people: displayUserIds.length,
               'z-link': chunks => (
-                <WebLink url={new URL('/help/read-receipts', auth.realm)}>
-                  {chunks.map(chunk => (
-                    <ZulipText>{chunk}</ZulipText>
-                  ))}
-                </WebLink>
+                <WebLink url={new URL('/help/read-receipts', auth.realm)}>{chunks}</WebLink>
               ),
             },
           }
