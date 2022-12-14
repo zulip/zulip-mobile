@@ -1,6 +1,8 @@
 /* @flow strict-local */
+import type { GlobalSettingsState, PerAccountSettingsState } from '../reduxTypes';
 import type { SettingsState, Action } from '../types';
 import {
+  RESET_ACCOUNT_DATA,
   SET_GLOBAL_SETTINGS,
   REGISTER_COMPLETE,
   EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
@@ -9,30 +11,33 @@ import {
 import { EventTypes } from '../api/eventTypes';
 import { ensureUnreachable } from '../types';
 
-const initialState: SettingsState = {
-  //
-  // GlobalSettingsState
-  //
-
+const initialGlobalSettingsState: $Exact<GlobalSettingsState> = {
   language: 'en',
   theme: 'default',
   browser: 'default',
   experimentalFeaturesEnabled: false,
   markMessagesReadOnScroll: 'always',
+};
 
-  //
-  // PerAccountSettingsState
-  //
-
+/** PRIVATE; exported only for tests. */
+export const initialPerAccountSettingsState: $Exact<PerAccountSettingsState> = {
   offlineNotification: true,
   onlineNotification: true,
   streamNotification: false,
   displayEmojiReactionUsers: false,
 };
 
+const initialState: SettingsState = {
+  ...initialGlobalSettingsState,
+  ...initialPerAccountSettingsState,
+};
+
 // eslint-disable-next-line default-param-last
 export default (state: SettingsState = initialState, action: Action): SettingsState => {
   switch (action.type) {
+    case RESET_ACCOUNT_DATA:
+      return { ...state, ...initialPerAccountSettingsState };
+
     case REGISTER_COMPLETE: {
       const { data } = action;
 

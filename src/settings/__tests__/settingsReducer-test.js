@@ -10,11 +10,40 @@ import {
 import type { InitialData } from '../../api/initialDataTypes';
 import type { UserSettings } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
-import settingsReducer from '../settingsReducer';
+import settingsReducer, { initialPerAccountSettingsState } from '../settingsReducer';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('settingsReducer', () => {
   const baseState = eg.baseReduxState.settings;
+
+  describe('RESET_ACCOUNT_DATA', () => {
+    test('resets per-account state without touching global state', () => {
+      const prevState = [
+        // per-account
+        eg.mkActionRegisterComplete({
+          user_settings: {
+            /* $FlowIgnore[incompatible-cast] - testing modern servers, which
+               send user_settings. */
+            ...(eg.action.register_complete.data.user_settings: $NonMaybeType<
+              InitialData['user_settings'],
+            >),
+            enable_offline_push_notifications: false,
+            enable_online_push_notifications: false,
+            enable_stream_push_notifications: true,
+            display_emoji_reaction_users: true,
+          },
+        }),
+
+        // global
+        { type: SET_GLOBAL_SETTINGS, update: { theme: 'night' } },
+        { type: SET_GLOBAL_SETTINGS, update: { language: 'fr' } },
+      ].reduce(settingsReducer, eg.baseReduxState.settings);
+      expect(settingsReducer(prevState, eg.action.reset_account_data)).toEqual({
+        ...prevState,
+        ...initialPerAccountSettingsState,
+      });
+    });
+  });
 
   describe('REGISTER_COMPLETE', () => {
     test('changes value of all notification settings (legacy, without user_settings)', () => {
