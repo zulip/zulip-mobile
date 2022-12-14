@@ -18,39 +18,23 @@ import { objectFromEntries } from '../../jsBackport';
 describe('caughtUpReducer', () => {
   describe('MESSAGE_FETCH_START', () => {
     test('when fetch starts caught up does not change', () => {
-      const initialState = deepFreeze({
-        [HOME_NARROW_STR]: {
-          older: true,
-          newer: true,
-        },
-      });
-
-      const action = deepFreeze({
-        ...eg.action.message_fetch_start,
-        narrow: HOME_NARROW,
-      });
-
-      const newState = caughtUpReducer(initialState, action);
-
-      expect(newState).toBe(initialState);
+      const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });
+      expect(
+        caughtUpReducer(
+          prevState,
+          deepFreeze({ ...eg.action.message_fetch_start, narrow: HOME_NARROW }),
+        ),
+      ).toBe(prevState);
     });
 
     test('if fetching for a search narrow, ignore', () => {
-      const initialState = deepFreeze({
-        [HOME_NARROW_STR]: {
-          older: false,
-          newer: false,
-        },
-      });
-
-      const action = deepFreeze({
-        ...eg.action.message_fetch_start,
-        narrow: SEARCH_NARROW('some query'),
-      });
-
-      const newState = caughtUpReducer(initialState, action);
-
-      expect(newState).toEqual(initialState);
+      const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: false, newer: false } });
+      expect(
+        caughtUpReducer(
+          prevState,
+          deepFreeze({ ...eg.action.message_fetch_start, narrow: SEARCH_NARROW('some query') }),
+        ),
+      ).toEqual(prevState);
     });
   });
 
@@ -67,88 +51,50 @@ describe('caughtUpReducer', () => {
       // Include some other narrow to test that the reducer doesn't go mess
       // something up there.
       const initialState = deepFreeze({ [keyFromNarrow(narrow1)]: { older: true, newer: true } });
-
-      const messageFetchStartAction = deepFreeze({
-        ...eg.action.message_fetch_start,
-        narrow: narrow2,
-      });
-
-      const state1 = caughtUpReducer(initialState, messageFetchStartAction);
-
-      const messageFetchErrorAction = deepFreeze({
-        type: MESSAGE_FETCH_ERROR,
-        narrow: narrow2,
-        error: new Error(),
-      });
-
-      const finalState = caughtUpReducer(state1, messageFetchErrorAction);
-
-      expect(finalState).toEqual(initialState);
+      expect(
+        [
+          deepFreeze({ ...eg.action.message_fetch_start, narrow: narrow2 }),
+          deepFreeze({ type: MESSAGE_FETCH_ERROR, narrow: narrow2, error: new Error() }),
+        ].reduce(caughtUpReducer, initialState),
+      ).toEqual(initialState);
     });
   });
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('apply `foundNewest` and `foundOldest` when true', () => {
-      const initialState = deepFreeze({});
-
-      const action = deepFreeze({
-        ...eg.action.message_fetch_complete,
-        foundNewest: true,
-        foundOldest: true,
-      });
-
-      const expectedState = {
-        [HOME_NARROW_STR]: {
-          older: true,
-          newer: true,
-        },
-      };
-
-      const newState = caughtUpReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      const prevState = deepFreeze({});
+      expect(
+        caughtUpReducer(
+          prevState,
+          deepFreeze({ ...eg.action.message_fetch_complete, foundNewest: true, foundOldest: true }),
+        ),
+      ).toEqual({ [HOME_NARROW_STR]: { older: true, newer: true } });
     });
 
     test('if fetched messages are from a search narrow, ignore them', () => {
-      const initialState = deepFreeze({});
-
-      const action = deepFreeze({
-        ...eg.action.message_fetch_complete,
-        narrow: SEARCH_NARROW('some query'),
-        foundOldest: true,
-        foundNewest: true,
-      });
-
-      const newState = caughtUpReducer(initialState, action);
-
-      expect(newState).toEqual(initialState);
+      const prevState = deepFreeze({});
+      expect(
+        caughtUpReducer(
+          prevState,
+          deepFreeze({
+            ...eg.action.message_fetch_complete,
+            narrow: SEARCH_NARROW('some query'),
+            foundOldest: true,
+            foundNewest: true,
+          }),
+        ),
+      ).toEqual(prevState);
     });
   });
 
   test('new false results do not reset previous true state', () => {
-    const initialState = deepFreeze({
-      [HOME_NARROW_STR]: {
-        older: true,
-        newer: true,
-      },
-    });
-
-    const action = deepFreeze({
-      ...eg.action.message_fetch_complete,
-      foundOldest: false,
-      foundNewest: false,
-    });
-
-    const expectedState = {
-      [HOME_NARROW_STR]: {
-        older: true,
-        newer: true,
-      },
-    };
-
-    const newState = caughtUpReducer(initialState, action);
-
-    expect(newState).toEqual(expectedState);
+    const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });
+    expect(
+      caughtUpReducer(
+        prevState,
+        deepFreeze({ ...eg.action.message_fetch_complete, foundOldest: false, foundNewest: false }),
+      ),
+    ).toEqual({ [HOME_NARROW_STR]: { older: true, newer: true } });
   });
 
   describe('EVENT_UPDATE_MESSAGE', () => {
