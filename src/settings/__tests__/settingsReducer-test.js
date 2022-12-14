@@ -24,17 +24,17 @@ describe('settingsReducer', () => {
         onlineNotification: false,
         streamNotification: false,
       });
-
-      const action = eg.mkActionRegisterComplete({
-        enable_offline_push_notifications: true,
-        enable_online_push_notifications: true,
-        enable_stream_push_notifications: true,
-        user_settings: undefined,
-      });
-
-      const actualState = settingsReducer(prevState, action);
-
-      expect(actualState).toMatchObject({
+      expect(
+        settingsReducer(
+          prevState,
+          eg.mkActionRegisterComplete({
+            enable_offline_push_notifications: true,
+            enable_online_push_notifications: true,
+            enable_stream_push_notifications: true,
+            user_settings: undefined,
+          }),
+        ),
+      ).toMatchObject({
         offlineNotification: true,
         onlineNotification: true,
         streamNotification: true,
@@ -77,87 +77,59 @@ describe('settingsReducer', () => {
 
   describe('SET_GLOBAL_SETTINGS', () => {
     test('changes value of a key', () => {
-      const action = deepFreeze({
-        type: SET_GLOBAL_SETTINGS,
-        update: { theme: 'night' },
-      });
-
-      const expectedState = {
-        ...baseState,
-        theme: 'night',
-      };
-
-      const actualState = settingsReducer(baseState, action);
-
-      expect(actualState).toEqual(expectedState);
+      expect(
+        settingsReducer(
+          baseState,
+          deepFreeze({ type: SET_GLOBAL_SETTINGS, update: { theme: 'night' } }),
+        ),
+      ).toEqual({ ...baseState, theme: 'night' });
     });
   });
 
   describe('EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS', () => {
     test('changes offline notification setting', () => {
-      const prevState = deepFreeze({
-        ...baseState,
-        offlineNotification: false,
-      });
-      const action = deepFreeze({
-        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-        id: 0,
-        notification_name: 'enable_offline_push_notifications',
-        setting: true,
-      });
-
-      const expectedState = {
-        ...baseState,
-        offlineNotification: true,
-      };
-
-      const actualState = settingsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze({ ...baseState, offlineNotification: false });
+      expect(
+        settingsReducer(
+          prevState,
+          deepFreeze({
+            type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+            id: 0,
+            notification_name: 'enable_offline_push_notifications',
+            setting: true,
+          }),
+        ),
+      ).toEqual({ ...baseState, offlineNotification: true });
     });
 
     test('changes online notification setting', () => {
-      const prevState = deepFreeze({
-        ...baseState,
-        onlineNotification: false,
-      });
-      const action = deepFreeze({
-        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-        id: 0,
-        notification_name: 'enable_online_push_notifications',
-        setting: true,
-      });
-
-      const expectedState = {
-        ...baseState,
-        onlineNotification: true,
-      };
-
-      const actualState = settingsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze({ ...baseState, onlineNotification: false });
+      expect(
+        settingsReducer(
+          prevState,
+          deepFreeze({
+            type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+            id: 0,
+            notification_name: 'enable_online_push_notifications',
+            setting: true,
+          }),
+        ),
+      ).toEqual({ ...baseState, onlineNotification: true });
     });
 
     test('changes stream notification setting', () => {
-      const prevState = deepFreeze({
-        ...baseState,
-        streamNotification: false,
-      });
-      const action = deepFreeze({
-        type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
-        id: 0,
-        notification_name: 'enable_stream_push_notifications',
-        setting: true,
-      });
-
-      const expectedState = {
-        ...baseState,
-        streamNotification: true,
-      };
-
-      const actualState = settingsReducer(prevState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze({ ...baseState, streamNotification: false });
+      expect(
+        settingsReducer(
+          prevState,
+          deepFreeze({
+            type: EVENT_UPDATE_GLOBAL_NOTIFICATIONS_SETTINGS,
+            id: 0,
+            notification_name: 'enable_stream_push_notifications',
+            setting: true,
+          }),
+        ),
+      ).toEqual({ ...baseState, streamNotification: true });
     });
   });
 
