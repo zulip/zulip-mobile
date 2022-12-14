@@ -1,65 +1,66 @@
+/* @flow strict-local */
+
 import deepFreeze from 'deep-freeze';
 
 import alertWordsReducer from '../alertWordsReducer';
-import { REGISTER_COMPLETE, EVENT_ALERT_WORDS } from '../../actionConstants';
+import { EVENT_ALERT_WORDS } from '../../actionConstants';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('alertWordsReducer', () => {
   describe('REGISTER_COMPLETE', () => {
     test('when `alert_words` data is provided init state with it', () => {
-      const initialState = deepFreeze([]);
-      const action = deepFreeze({
-        type: REGISTER_COMPLETE,
-        data: {
-          alert_words: ['word', '@mobile-core', 'alert'],
-        },
-      });
-      const expectedState = ['word', '@mobile-core', 'alert'];
-
-      const actualState = alertWordsReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze([]);
+      expect(
+        alertWordsReducer(
+          prevState,
+          eg.mkActionRegisterComplete({ alert_words: ['word', '@mobile-core', 'alert'] }),
+        ),
+      ).toEqual(['word', '@mobile-core', 'alert']);
     });
 
     // TODO(#5102): Delete; see comment on implementation.
     test('when no `alert_words` data is given reset state', () => {
-      const initialState = deepFreeze(['word']);
-      const action = deepFreeze({
-        type: REGISTER_COMPLETE,
-        data: {},
-      });
-      const expectedState = [];
+      const prevState = deepFreeze(['word']);
+      const actualState = alertWordsReducer(
+        prevState,
+        eg.mkActionRegisterComplete({
+          // Hmm, we should need a Flow suppression here. This property is
+          // marked required in InitialData, and this explicit undefined is
+          // meant to defy that; see TODO(#5102) above.
+          // mkActionRegisterComplete is designed to accept input with this or
+          // any property *omitted*… and I think, as a side effect of handling
+          // that, Flow mistakenly accepts an explicit undefined here, so it
+          // doesn't catch the resulting malformed InitialData.
+          alert_words: undefined,
+        }),
+      );
 
-      const actualState = alertWordsReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
+      expect(actualState).toEqual([]);
     });
   });
 
   describe('EVENT_ALERT_WORDS', () => {
     test('on first call adds new data', () => {
-      const initialState = deepFreeze([]);
-      const action = deepFreeze({
-        type: EVENT_ALERT_WORDS,
-        alert_words: ['word', '@mobile-core', 'alert'],
-      });
-      const expectedState = ['word', '@mobile-core', 'alert'];
-
-      const actualState = alertWordsReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze([]);
+      expect(
+        alertWordsReducer(
+          prevState,
+          deepFreeze({ type: EVENT_ALERT_WORDS, alert_words: ['word', '@mobile-core', 'alert'] }),
+        ),
+      ).toEqual(['word', '@mobile-core', 'alert']);
     });
 
     test('subsequent calls replace existing data', () => {
-      const initialState = deepFreeze(['word', '@mobile-core', 'alert']);
-      const action = deepFreeze({
-        type: EVENT_ALERT_WORDS,
-        alert_words: ['word', '@mobile-core', 'new alert'],
-      });
-      const expectedState = ['word', '@mobile-core', 'new alert'];
-
-      const actualState = alertWordsReducer(initialState, action);
-
-      expect(actualState).toEqual(expectedState);
+      const prevState = deepFreeze(['word', '@mobile-core', 'alert']);
+      expect(
+        alertWordsReducer(
+          prevState,
+          deepFreeze({
+            type: EVENT_ALERT_WORDS,
+            alert_words: ['word', '@mobile-core', 'new alert'],
+          }),
+        ),
+      ).toEqual(['word', '@mobile-core', 'new alert']);
     });
   });
 });
