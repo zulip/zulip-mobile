@@ -39,6 +39,33 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Streams in the inbox view now have a "collapse" button that hides unread
+  topics, so you can see more streams at a time. (#5423)
+* In the profile view, you can now copy custom profile fields to the
+  clipboard. (#5592)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Added a workaround for an iOS build error with "signing requires
+  development team". (PR #5576)
+
+* Upgraded to Jest 27. (PR #5581)
+
+* Upgraded to TsFlower 0.0.13. (PR #5583)
+
+* New `tools/gradle` script, to avoid `cd android`. (PR #5603)
+
+* We now allow Gradle to use 25% more memory, apparently needed for RN
+  v0.68, which we hope to upgrade to soon. (PR #5603)
+
+* Resolved issues: #5592, #5597, #5596, #3469, #5583, #5581, #4386, #5423
+
 
 ## 27.196 (2022-12-01)
 
