@@ -17,6 +17,16 @@ import { makeUserId } from '../../api/idTypes';
 import { randString } from '../../utils/misc';
 
 describe('messagesReducer', () => {
+  test('RESET_ACCOUNT_DATA', () => {
+    expect(
+      messagesReducer(
+        eg.makeMessagesState([eg.streamMessage()]),
+        eg.action.reset_account_data,
+        eg.baseReduxState,
+      ),
+    ).toEqual(eg.baseReduxState.messages);
+  });
+
   describe('EVENT_NEW_MESSAGE', () => {
     test('appends message to state, if any narrow is caught up to newest', () => {
       const message1 = eg.streamMessage();

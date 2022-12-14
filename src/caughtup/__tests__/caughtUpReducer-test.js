@@ -16,6 +16,15 @@ import {
 import { objectFromEntries } from '../../jsBackport';
 
 describe('caughtUpReducer', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.caughtUp;
+    const action1 = { ...eg.action.message_fetch_complete, foundNewest: true, foundOldest: true };
+    const prevState = caughtUpReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(caughtUpReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('MESSAGE_FETCH_START', () => {
     test('when fetch starts caught up does not change', () => {
       const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });

@@ -30,6 +30,15 @@ describe('narrowsReducer', () => {
   const egTopic = eg.streamMessage().subject;
   const topicNarrowStr = keyFromNarrow(topicNarrow(eg.stream.stream_id, egTopic));
 
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.narrows;
+    const action1 = { ...eg.action.message_fetch_complete, messages: [eg.streamMessage()] };
+    const prevState = narrowsReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(narrowsReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
       const message = eg.streamMessage({ id: 3, flags: [] });

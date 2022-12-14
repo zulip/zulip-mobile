@@ -7,6 +7,15 @@ import { MESSAGE_SEND_START } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('outboxReducer', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.outbox;
+    const action1 = { type: MESSAGE_SEND_START, outbox: eg.streamOutbox({}) };
+    const prevState = outboxReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(outboxReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('REGISTER_COMPLETE', () => {
     test('filters out isSent', () => {
       const message1 = eg.streamOutbox({ content: 'New one' });

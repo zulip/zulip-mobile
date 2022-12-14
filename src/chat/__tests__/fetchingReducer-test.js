@@ -14,6 +14,15 @@ import { MESSAGE_FETCH_START, MESSAGE_FETCH_ERROR } from '../../actionConstants'
 import { DEFAULT_FETCHING } from '../fetchingSelectors';
 
 describe('fetchingReducer', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.fetching;
+    const action1 = { type: MESSAGE_FETCH_START, narrow: HOME_NARROW, numBefore: 10, numAfter: 10 };
+    const prevState = fetchingReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(fetchingReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('MESSAGE_FETCH_START', () => {
     test('if messages are fetched before or after the corresponding flag is set', () => {
       const initialState = deepFreeze({

@@ -7,6 +7,15 @@ import { EVENT_ALERT_WORDS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('alertWordsReducer', () => {
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.alertWords;
+    const action1 = eg.mkActionRegisterComplete({ alert_words: ['word', '@mobile-core', 'alert'] });
+    const prevState = alertWordsReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(alertWordsReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('REGISTER_COMPLETE', () => {
     test('when `alert_words` data is provided init state with it', () => {
       const prevState = deepFreeze([]);

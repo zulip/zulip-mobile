@@ -11,6 +11,15 @@ describe('draftsReducer', () => {
   const testNarrow = topicNarrow(eg.stream.stream_id, 'denmark2');
   const testNarrowStr = keyFromNarrow(testNarrow);
 
+  describe('RESET_ACCOUNT_DATA', () => {
+    const initialState = eg.baseReduxState.drafts;
+    const action1 = { type: DRAFT_UPDATE, content: 'Hello', narrow: testNarrow };
+    const prevState = draftsReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(draftsReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('DRAFT_UPDATE', () => {
     test('add a new draft key drafts', () => {
       const prevState = NULL_OBJECT;

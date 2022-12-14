@@ -23,6 +23,10 @@ describe('reducer', () => {
   const someKey = keyOfExactUsers([eg.makeUser().user_id]);
   const someState = { map: Immutable.Map([[someKey, 123]]), sorted: Immutable.List([someKey]) };
 
+  test('RESET_ACCOUNT_DATA', () => {
+    expect(reducer(someState, eg.action.reset_account_data)).toEqual(initialState);
+  });
+
   describe('REGISTER_COMPLETE', () => {
     test('no data (old server)', () => {
       /* eslint-disable-next-line no-unused-vars */
