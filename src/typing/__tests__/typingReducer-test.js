@@ -34,148 +34,118 @@ describe('typingReducer', () => {
 
   describe('EVENT_TYPING_START', () => {
     test('adds sender as currently typing user', () => {
-      const initialState = NULL_OBJECT;
-
-      const action = egTypingAction({
-        op: 'start',
-        sender: user1,
-        recipients: [user1, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {
-        '1': { time: 123456789, userIds: [user1.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      const prevState = NULL_OBJECT;
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'start',
+            sender: user1,
+            recipients: [user1, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({ '1': { time: 123456789, userIds: [user1.user_id] } });
     });
 
     test('if user is already typing, no change in userIds but update time', () => {
-      const initialState = deepFreeze({
-        '1': { time: 123456789, userIds: [user1.user_id] },
-      });
-
-      const action = egTypingAction({
-        op: 'start',
-        sender: user1,
-        recipients: [user1, eg.selfUser],
-        time: 123456889,
-      });
-
-      const expectedState = {
-        '1': { time: 123456889, userIds: [user1.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      const prevState = deepFreeze({ '1': { time: 123456789, userIds: [user1.user_id] } });
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'start',
+            sender: user1,
+            recipients: [user1, eg.selfUser],
+            time: 123456889,
+          }),
+        ),
+      ).toEqual({ '1': { time: 123456889, userIds: [user1.user_id] } });
     });
 
     test('if other people are typing in other narrows, add, do not affect them', () => {
-      const initialState = deepFreeze({
-        '1': { time: 123489, userIds: [user1.user_id] },
-      });
-
-      const action = egTypingAction({
-        op: 'start',
-        sender: user2,
-        recipients: [user1, user2, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {
+      const prevState = deepFreeze({ '1': { time: 123489, userIds: [user1.user_id] } });
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'start',
+            sender: user2,
+            recipients: [user1, user2, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({
         '1': { time: 123489, userIds: [user1.user_id] },
         '1,2': { time: 123456789, userIds: [user2.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      });
     });
 
     test('if another user is typing already, append new one', () => {
-      const initialState = deepFreeze({
-        '1,2': { time: 123489, userIds: [user1.user_id] },
-      });
-
-      const action = egTypingAction({
-        op: 'start',
-        sender: user2,
-        recipients: [user1, user2, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {
-        '1,2': { time: 123456789, userIds: [user1.user_id, user2.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      const prevState = deepFreeze({ '1,2': { time: 123489, userIds: [user1.user_id] } });
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'start',
+            sender: user2,
+            recipients: [user1, user2, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({ '1,2': { time: 123456789, userIds: [user1.user_id, user2.user_id] } });
     });
   });
 
   describe('EVENT_TYPING_STOP', () => {
     test('if after removing, key is an empty list, key is removed', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         '1': { time: 123489, userIds: [user1.user_id] },
         '3': { time: 123489, userIds: [eg.selfUser.user_id] },
       });
-
-      const action = egTypingAction({
-        op: 'stop',
-        sender: user1,
-        recipients: [user1, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {
-        '3': { time: 123489, userIds: [eg.selfUser.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'stop',
+            sender: user1,
+            recipients: [user1, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({ '3': { time: 123489, userIds: [eg.selfUser.user_id] } });
     });
 
     test('if two people are typing, just one is removed', () => {
-      const initialState = deepFreeze({
+      const prevState = deepFreeze({
         '1': { time: 123489, userIds: [user1.user_id, eg.selfUser.user_id] },
       });
-
-      const action = egTypingAction({
-        op: 'stop',
-        sender: user1,
-        recipients: [user1, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {
-        '1': { time: 123456789, userIds: [eg.selfUser.user_id] },
-      };
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'stop',
+            sender: user1,
+            recipients: [user1, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({ '1': { time: 123456789, userIds: [eg.selfUser.user_id] } });
     });
 
     test('if typing state does not exist, no change is made', () => {
-      const initialState = NULL_OBJECT;
-
-      const action = egTypingAction({
-        op: 'stop',
-        sender: user1,
-        recipients: [user1, eg.selfUser],
-        time: 123456789,
-      });
-
-      const expectedState = {};
-
-      const newState = typingReducer(initialState, action);
-
-      expect(newState).toEqual(expectedState);
+      const prevState = NULL_OBJECT;
+      expect(
+        typingReducer(
+          prevState,
+          egTypingAction({
+            op: 'stop',
+            sender: user1,
+            recipients: [user1, eg.selfUser],
+            time: 123456789,
+          }),
+        ),
+      ).toEqual({});
     });
   });
 });
