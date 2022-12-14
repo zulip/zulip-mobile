@@ -117,20 +117,28 @@ export type SessionState = $ReadOnly<{|
 // PerAccountSessionState is inexact.)
 (s: SessionState): PerAccountSessionState => s; // eslint-disable-line no-unused-expressions
 
-const initialState: SessionState = {
-  eventQueueId: null,
-
+const initialGlobalSessionState: $Exact<GlobalSessionState> = {
   // This will be `null` on startup, while we wait to hear `true` or `false`
   // from the native module over the RN bridge; so, have it start as `null`.
   isOnline: null,
 
   isHydrated: false,
-  loading: false,
   orientation: 'PORTRAIT',
-  outboxSending: false,
   pushToken: null,
   debug: Object.freeze({}),
+};
+
+/** PRIVATE; exported only for tests. */
+export const initialPerAccountSessionState: $Exact<PerAccountSessionState> = {
+  eventQueueId: null,
+  loading: false,
+  outboxSending: false,
   hasDismissedServerCompatNotice: false,
+};
+
+const initialState: SessionState = {
+  ...initialGlobalSessionState,
+  ...initialPerAccountSessionState,
 };
 
 // eslint-disable-next-line default-param-last
@@ -149,6 +157,9 @@ export default (state: SessionState = initialState, action: Action): SessionStat
     case LOGIN_SUCCESS:
       return {
         ...state,
+        loading: false,
+        outboxSending: false,
+        hasDismissedServerCompatNotice: false,
 
         // We're about to request a new event queue; no use hanging on to
         // any old one we might have.
@@ -159,6 +170,8 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         loading: false,
+        outboxSending: false,
+        hasDismissedServerCompatNotice: false,
 
         // Stop polling this event queue.
         eventQueueId: null,
@@ -168,6 +181,8 @@ export default (state: SessionState = initialState, action: Action): SessionStat
       return {
         ...state,
         loading: false,
+        outboxSending: false,
+        hasDismissedServerCompatNotice: false,
 
         // Stop polling this event queue.  (We'll request a new one soon,
         // for the new account.)

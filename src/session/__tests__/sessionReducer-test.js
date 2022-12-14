@@ -13,7 +13,7 @@ import {
   DISMISS_SERVER_COMPAT_NOTICE,
   REGISTER_START,
 } from '../../actionConstants';
-import sessionReducer from '../sessionReducer';
+import sessionReducer, { initialPerAccountSessionState } from '../sessionReducer';
 import * as eg from '../../__tests__/lib/exampleData';
 
 describe('sessionReducer', () => {
@@ -25,12 +25,12 @@ describe('sessionReducer', () => {
       loading: true,
     });
     const newState = sessionReducer(state, eg.action.account_switch);
-    expect(newState).toEqual({ ...baseState, loading: false });
+    expect(newState).toEqual({ ...baseState, ...initialPerAccountSessionState });
   });
 
   test('LOGIN_SUCCESS', () => {
     const newState = sessionReducer(baseState, eg.action.login_success);
-    expect(newState).toEqual(baseState);
+    expect(newState).toEqual({ ...baseState, ...initialPerAccountSessionState });
   });
 
   test('DEAD_QUEUE', () => {
@@ -47,7 +47,7 @@ describe('sessionReducer', () => {
     const newState = sessionReducer(state, deepFreeze({ type: LOGOUT }));
     expect(newState).toEqual({
       ...baseState,
-      loading: false,
+      ...initialPerAccountSessionState,
     });
   });
 
