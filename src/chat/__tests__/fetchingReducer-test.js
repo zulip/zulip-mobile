@@ -90,15 +90,15 @@ describe('fetchingReducer', () => {
         }),
       ).toEqual({ [HOME_NARROW_STR]: { older: false, newer: true } });
     });
-  });
 
-  test('if fetched messages are from a search narrow, ignore them', () => {
-    const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });
-    expect(
-      fetchingReducer(
-        prevState,
-        deepFreeze({ ...eg.action.message_fetch_complete, narrow: SEARCH_NARROW('some query') }),
-      ),
-    ).toEqual(prevState);
+    test('if fetched messages are from a search narrow, ignore them', () => {
+      const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });
+      expect(
+        fetchingReducer(
+          prevState,
+          deepFreeze({ ...eg.action.message_fetch_complete, narrow: SEARCH_NARROW('some query') }),
+        ),
+      ).toEqual(prevState);
+    });
   });
 });
