@@ -3,7 +3,6 @@ import deepFreeze from 'deep-freeze';
 
 import {
   DEAD_QUEUE,
-  LOGOUT,
   APP_ONLINE,
   REGISTER_ABORT,
   APP_ORIENTATION,
@@ -19,36 +18,28 @@ import * as eg from '../../__tests__/lib/exampleData';
 describe('sessionReducer', () => {
   const baseState = eg.baseReduxState.session;
 
-  test('ACCOUNT_SWITCH', () => {
-    const state = deepFreeze({
-      ...baseState,
-      loading: true,
-    });
-    const newState = sessionReducer(state, eg.action.account_switch);
-    expect(newState).toEqual({ ...baseState, ...initialPerAccountSessionState });
-  });
+  describe('RESET_ACCOUNT_DATA', () => {
+    test('resets per-account state without touching global state', () => {
+      const prevState = [
+        // per-account
+        eg.action.register_complete,
+        { type: DISMISS_SERVER_COMPAT_NOTICE },
 
-  test('LOGIN_SUCCESS', () => {
-    const newState = sessionReducer(baseState, eg.action.login_success);
-    expect(newState).toEqual({ ...baseState, ...initialPerAccountSessionState });
+        // global
+        { type: GOT_PUSH_TOKEN, pushToken: '456' },
+        { type: APP_ORIENTATION, orientation: 'LANDSCAPE' },
+      ].reduce(sessionReducer, eg.baseReduxState.session);
+      expect(sessionReducer(prevState, eg.action.reset_account_data)).toEqual({
+        ...prevState,
+        ...initialPerAccountSessionState,
+      });
+    });
   });
 
   test('DEAD_QUEUE', () => {
     const state = deepFreeze({ ...baseState, loading: true });
     const newState = sessionReducer(state, deepFreeze({ type: DEAD_QUEUE }));
     expect(newState).toEqual({ ...baseState, loading: false });
-  });
-
-  test('LOGOUT', () => {
-    const state = deepFreeze({
-      ...baseState,
-      loading: true,
-    });
-    const newState = sessionReducer(state, deepFreeze({ type: LOGOUT }));
-    expect(newState).toEqual({
-      ...baseState,
-      ...initialPerAccountSessionState,
-    });
   });
 
   test('REGISTER_COMPLETE', () => {
