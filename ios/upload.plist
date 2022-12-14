@@ -6,5 +6,13 @@
     <string>app-store</string>
     <key>destination</key>
     <string>upload</string>
+    <key>signingStyle</key>
+    <string>manual</string>
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>org.zulip.Zulip</key>
+        <!-- TODO: Try a name that doesn't have to change when we renew -->
+        <string>iOS app distribution 2022</string>
+    </dict>
 </dict>
 </plist>
