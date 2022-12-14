@@ -6,6 +6,7 @@ import {
   CLEAR_TYPING,
   DEAD_QUEUE,
   RESET_ACCOUNT_DATA,
+  REGISTER_COMPLETE,
 } from '../actionConstants';
 import { pmTypingKeyFromRecipients } from '../utils/recipient';
 import { NULL_OBJECT } from '../nullObjects';
@@ -97,6 +98,10 @@ export default (
 
     case DEAD_QUEUE:
     case RESET_ACCOUNT_DATA:
+      return initialState;
+
+    // Reset to clear stale data; payload has no initial data for this model
+    case REGISTER_COMPLETE:
       return initialState;
 
     default:

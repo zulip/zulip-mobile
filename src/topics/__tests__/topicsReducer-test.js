@@ -8,6 +8,14 @@ import { INIT_TOPICS } from '../../actionConstants';
 import { NULL_OBJECT } from '../../nullObjects';
 
 describe('topicsReducer', () => {
+  describe('REGISTER_COMPLETE', () => {
+    test('resets state to initial state', () => {
+      const prevState = deepFreeze({ [eg.stream.stream_id]: [{ max_id: 1, name: 'some topic' }] });
+      const action = eg.action.register_complete;
+      expect(topicsReducer(prevState, action)).toEqual(eg.baseReduxState.topics);
+    });
+  });
+
   describe('RESET_ACCOUNT_DATA', () => {
     test('resets state to initial state', () => {
       const prevState = deepFreeze({ [eg.stream.stream_id]: [{ max_id: 1, name: 'some topic' }] });

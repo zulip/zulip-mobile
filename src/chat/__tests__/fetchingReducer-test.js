@@ -23,6 +23,15 @@ describe('fetchingReducer', () => {
     expect(fetchingReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
   });
 
+  test('REGISTER_COMPLETE', () => {
+    const initialState = eg.baseReduxState.fetching;
+    const action1 = { type: MESSAGE_FETCH_START, narrow: HOME_NARROW, numBefore: 10, numAfter: 10 };
+    const prevState = fetchingReducer(initialState, action1);
+    expect(prevState).not.toEqual(initialState);
+
+    expect(fetchingReducer(prevState, eg.action.register_complete)).toEqual(initialState);
+  });
+
   describe('MESSAGE_FETCH_START', () => {
     test('if messages are fetched before or after the corresponding flag is set', () => {
       const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: false, newer: false } });

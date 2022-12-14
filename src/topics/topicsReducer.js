@@ -1,6 +1,11 @@
 /* @flow strict-local */
 import type { TopicsState, PerAccountApplicableAction } from '../types';
-import { INIT_TOPICS, EVENT_NEW_MESSAGE, RESET_ACCOUNT_DATA } from '../actionConstants';
+import {
+  INIT_TOPICS,
+  EVENT_NEW_MESSAGE,
+  REGISTER_COMPLETE,
+  RESET_ACCOUNT_DATA,
+} from '../actionConstants';
 import { NULL_OBJECT } from '../nullObjects';
 import { replaceItemInArray } from '../utils/immutability';
 
@@ -42,6 +47,10 @@ export default (
 ): TopicsState => {
   switch (action.type) {
     case RESET_ACCOUNT_DATA:
+      return initialState;
+
+    // Reset to clear stale data; payload has no initial data for this model
+    case REGISTER_COMPLETE:
       return initialState;
 
     case INIT_TOPICS:

@@ -46,6 +46,23 @@ describe('typingReducer', () => {
     expect(typingReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
   });
 
+  describe('REGISTER_COMPLETE', () => {
+    test('resets state to initial state', () => {
+      const initialState = eg.baseReduxState.typing;
+      const action1 = egTypingAction({
+        op: 'start',
+        sender: user1,
+        recipients: [user1, eg.selfUser],
+        time: 123456889,
+      });
+      const prevState = typingReducer(initialState, action1);
+      expect(prevState).not.toEqual(initialState);
+
+      const action2 = eg.action.register_complete;
+      expect(typingReducer(prevState, action2)).toEqual(eg.baseReduxState.typing);
+    });
+  });
+
   describe('EVENT_TYPING_START', () => {
     test('adds sender as currently typing user', () => {
       const prevState = NULL_OBJECT;
