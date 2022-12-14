@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.197 (2022-12-14)
+
 ### Highlights for users
 
 * Streams in the inbox view now have a "collapse" button that hides unread
