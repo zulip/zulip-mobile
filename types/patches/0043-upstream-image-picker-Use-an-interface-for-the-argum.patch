@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 15 Dec 2022 16:03:05 -0800
+Subject: [upstream] image-picker: Use an interface for the argument of
+ `extends`
+
+The Flow error this fixes is a bit odd:
+
+  Cannot resolve name $Diff. [cannot-resolve-name]
+
+But as Greg points out at
+  https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.3A.20.22Cannot.20resolve.20name.20.60.24Diff.60.2E.20.5Bcannot-resolve-name.5D.22/near/1480926 :
+
+> Confusing message. But I think the intent is that there's a
+> syntactic restriction there which is a reasonable one: the
+> argument of `extends` isn't an arbitrary type-expression, but
+> rather
+> * a name referring to an interface; or
+> * a name referring to a generic interface, followed by type
+>   arguments.
+
+So, factor out a common interface that both `CameraOptions` and
+`ImageLibraryOptions`. I've sent this upstream as a change to the
+TypeScript:
+  https://github.com/react-native-image-picker/react-native-image-picker/pull/2062
+so we can remove this patch once that lands and we update.
+---
+ .../lib/typescript/types.js.flow                         | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git types/react-native-image-picker/lib/typescript/types.js.flow types/react-native-image-picker/lib/typescript/types.js.flow
+index fec604315..5104ae5ab 100644
+--- types/react-native-image-picker/lib/typescript/types.js.flow
++++ types/react-native-image-picker/lib/typescript/types.js.flow
+@@ -3,8 +3,7 @@
+  */
+ export type Callback = (response: ImagePickerResponse) => any;
+ 
+-export interface ImageLibraryOptions {
+-  selectionLimit?: number;
++interface OptionsCommon {
+   mediaType: MediaType;
+   maxWidth?: number;
+   maxHeight?: number;
+@@ -22,7 +21,11 @@ export interface ImageLibraryOptions {
+     | 'overCurrentContext';
+ }
+ 
+-export interface CameraOptions extends $Diff<ImageLibraryOptions, {| selectionLimit: mixed |}> {
++export interface ImageLibraryOptions extends OptionsCommon {
++  selectionLimit?: number;
++}
++
++export interface CameraOptions extends OptionsCommon {
+   durationLimit?: number;
+   saveToPhotos?: boolean;
+   cameraType?: CameraType;
+-- 
+2.32.0
+
