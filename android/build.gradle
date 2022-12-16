@@ -19,7 +19,7 @@ buildscript {
         //   https://medium.com/androiddevelopers/picking-your-compilesdkversion-minsdkversion-targetsdkversion-a098a0341ebd
         // What's the latest?  Consult this list:
         //   https://developer.android.com/studio/releases/platforms
-        compileSdkVersion = 31
+        compileSdkVersion = 33
     }
     repositories {
         google()
