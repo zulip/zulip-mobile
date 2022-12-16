@@ -11,6 +11,7 @@ import {
   SEARCH_NARROW,
   streamNarrow,
   topicNarrow,
+  pm1to1NarrowFromUser,
 } from '../../utils/narrow';
 import { objectFromEntries } from '../../jsBackport';
 
@@ -59,23 +60,24 @@ describe('caughtUpReducer', () => {
       // MESSAGE_FETCH_START applies the identity function to the
       // state (i.e., it doesn't do anything to it). Reversing that
       // effect is also done with the identity function.
-      const initialState = deepFreeze({
-        [HOME_NARROW_STR]: {
-          older: true,
-          newer: true,
-        },
-      });
+
+      const narrow1 = pm1to1NarrowFromUser(eg.otherUser);
+      const narrow2 = pm1to1NarrowFromUser(eg.thirdUser);
+
+      // Include some other narrow to test that the reducer doesn't go mess
+      // something up there.
+      const initialState = deepFreeze({ [keyFromNarrow(narrow1)]: { older: true, newer: true } });
 
       const messageFetchStartAction = deepFreeze({
         ...eg.action.message_fetch_start,
-        narrow: HOME_NARROW,
+        narrow: narrow2,
       });
 
       const state1 = caughtUpReducer(initialState, messageFetchStartAction);
 
       const messageFetchErrorAction = deepFreeze({
         type: MESSAGE_FETCH_ERROR,
-        narrow: HOME_NARROW,
+        narrow: narrow2,
         error: new Error(),
       });
 
