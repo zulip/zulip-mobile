@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import type { ThemeName } from '../../types';
 import cssPygments from './cssPygments';
 import cssEmojis from './cssEmojis';
-import cssNight from './cssNight';
+import cssDark from './cssDark';
 import type { ServerEmojiData } from '../../api/modelTypes';
 
 /**
@@ -27,7 +27,7 @@ export default (theme: ThemeName, serverEmojiData: ServerEmojiData | null): stri
 <link rel='stylesheet' type='text/css' href='./base.css'>
 <link rel='stylesheet' type='text/css' href='./katex/katex.min.css'>
 <style>
-${theme === 'dark' ? cssNight : ''}
+${theme === 'dark' ? cssDark : ''}
 ${cssPygments(theme === 'dark')}
 ${cssEmojis(serverEmojiData)}
 </style>
