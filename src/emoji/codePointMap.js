@@ -20,7 +20,7 @@ export const override: {| [code: string]: string |} = {
 
   // Fix the "letter" emoji.  The codes in Zulip's emoji database would give
   // these a text-style rather than emoji-style presentation; that's subtler
-  // than we want, plus when not in night mode it's actually invisible.
+  // than we want, plus when not in dark theme it's actually invisible.
   '1f170': '1f170-fe0f', // :a:
   '1f171': '1f171-fe0f', // :b:
   '1f17e': '1f17e-fe0f', // :o:
@@ -28,7 +28,7 @@ export const override: {| [code: string]: string |} = {
   // (Zulip only actually offers a handful of these letter emoji.)
 
   // :check_mark: -> :check: because the former is invisible on a light
-  // background, i.e. when not in night mode.
+  // background, i.e. when not in Dark theme.
   '2714': '2705',
 };
 
