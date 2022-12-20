@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import Input from './Input';
 import type { Props as InputProps } from './Input';
-import { BRAND_COLOR, createStyleSheet } from '../styles';
+import { BORDER_COLOR, BRAND_COLOR, createStyleSheet } from '../styles';
 import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 
@@ -16,11 +16,20 @@ const styles = createStyleSheet({
     top: 0,
     bottom: 0,
     justifyContent: 'center',
+    borderTopWidth: 1,
+    borderColor: BORDER_COLOR,
+    borderBottomWidth: 1,
+    borderRightWidth: 1
+
   },
   showPasswordButtonText: {
     margin: 8,
     color: BRAND_COLOR,
   },
+  passwordTextInput: {
+    width: '87.5%',
+    borderRightWidth: 0,
+  }
 });
 
 // Prettier wants a ", >" here, which is silly.
@@ -44,8 +53,17 @@ export default function PasswordInput(props: Props): Node {
   }, []);
 
   return (
-    <View>
-      <Input {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none" />
+    <View style={{
+      width: '100%'
+    }}
+    >
+      <Input
+        {...props}
+        secureTextEntry={isHidden}
+        autoCorrect={false}
+        autoCapitalize="none"
+        style={styles.passwordTextInput}
+      />
       <Touchable style={styles.showPasswordButton} onPress={handleShow}>
         <ZulipTextIntl style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
       </Touchable>
