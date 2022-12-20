@@ -38,6 +38,8 @@
     initializer at `let`.
   * [[link](#immutable-provide-type)] Always provide a type when
     writing an empty `Immutable` value.
+  * [[link](#immutable-no-object-as-map)] Don't construct an `Immutable.Map`
+    with an object-as-map.
   * [[link](#react-function-prop-defaults)] Don't use React
     `defaultProps` for function components.
 * [Internal to Zulip and our codebase](#zulip)
@@ -540,6 +542,26 @@ This is essential in order to get effective type-checking of the
 code that uses the new collection.  (It's not clear if this is a bug
 in Flow, or a design limitation of Flow, or an issue in the Flow types
 provided by Immutable.js, or some combination.)
+
+
+<div id="immutable-no-object-as-map" />
+
+**Don't construct an `Immutable.Map` with an object-as-map**: Whenever you
+create a non-empty `Immutable.Map`, pass an array of entries instead of an
+object-as-map. For example:
+```js
+Immutable.Map([[HOME_NARROW_STR, [1, 2]]]) // good
+
+Immutable.Map({ [HOME_NARROW_STR]: [1, 2] }) // BAD -- don't do
+```
+
+This is essential in order to get effective type-checking of the value
+passed to the `Immutable.Map` function when a key is computed (like
+`HOME_NARROW_STR`) instead of literal (like 'foo'). In the Immutable type
+definition, the object-as-map branch involves an object type with an indexer
+property, and in general [Flow seems to have trouble with those][].
+
+[Flow seems to have trouble with those]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.60Immutable.2EMap.28.7B.20.5BSTRING_CONST.5D.3A.20.E2.80.A6.20.7D.29.60.20busted.20by.20Flow.20bug/near/1481088
 
 
 <div id="react-function-prop-defaults" />

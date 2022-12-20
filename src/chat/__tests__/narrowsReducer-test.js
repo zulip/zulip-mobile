@@ -33,7 +33,7 @@ describe('narrowsReducer', () => {
 
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const message = eg.streamMessage({ id: 3, flags: [] });
 
@@ -41,13 +41,13 @@ describe('narrowsReducer', () => {
 
       const newState = narrowsReducer(initialState, action);
 
-      const expectedState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       expect(newState).toEqual(expectedState);
     });
 
     test('appends message to state producing a copy of messages', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const message = eg.streamMessage({ id: 3, flags: [] });
 
@@ -60,9 +60,7 @@ describe('narrowsReducer', () => {
         },
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3],
-      });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [1, 2, 3]]]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -71,7 +69,7 @@ describe('narrowsReducer', () => {
     });
 
     test('if new message key does not exist do not create it', () => {
-      const initialState = Immutable.Map({ [topicNarrowStr]: [1, 2] });
+      const initialState = Immutable.Map([[topicNarrowStr, [1, 2]]]);
 
       const message = eg.streamMessage({ id: 3, flags: [], stream: eg.makeStream() });
 
@@ -79,15 +77,13 @@ describe('narrowsReducer', () => {
 
       const newState = narrowsReducer(initialState, action);
 
-      const expectedState = Immutable.Map({
-        [topicNarrowStr]: [1, 2],
-      });
+      const expectedState = Immutable.Map([[topicNarrowStr, [1, 2]]]);
       expect(newState).toEqual(expectedState);
     });
   });
 
   test('if new message is private or group add it to the "allPrivate" narrow', () => {
-    const initialState = Immutable.Map({ [ALL_PRIVATE_NARROW_STR]: [] });
+    const initialState = Immutable.Map([[ALL_PRIVATE_NARROW_STR, []]]);
     const message = eg.pmMessage({
       id: 1,
       recipients: [eg.selfUser, eg.otherUser, eg.thirdUser],
@@ -98,9 +94,7 @@ describe('narrowsReducer', () => {
         [ALL_PRIVATE_NARROW_STR]: { older: true, newer: true },
       },
     });
-    const expectedState = Immutable.Map({
-      [ALL_PRIVATE_NARROW_STR]: [1],
-    });
+    const expectedState = Immutable.Map([[ALL_PRIVATE_NARROW_STR, [1]]]);
 
     const actualState = narrowsReducer(initialState, action);
 
@@ -108,7 +102,10 @@ describe('narrowsReducer', () => {
   });
 
   test('message sent to topic is stored correctly', () => {
-    const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2], [topicNarrowStr]: [2] });
+    const initialState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2]],
+      [topicNarrowStr, [2]],
+    ]);
 
     const message = eg.streamMessage({ id: 3, flags: [] });
 
@@ -124,10 +121,10 @@ describe('narrowsReducer', () => {
         },
       },
     });
-    const expectedState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, 2],
-      [topicNarrowStr]: [2, message.id],
-    });
+    const expectedState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2]],
+      [topicNarrowStr, [2, message.id]],
+    ]);
 
     const newState = narrowsReducer(initialState, action);
 
@@ -136,10 +133,10 @@ describe('narrowsReducer', () => {
 
   test('message sent to self is stored correctly', () => {
     const narrowWithSelfStr = keyFromNarrow(pm1to1NarrowFromUser(eg.selfUser));
-    const initialState = Immutable.Map({
-      [HOME_NARROW_STR]: [],
-      [narrowWithSelfStr]: [],
-    });
+    const initialState = Immutable.Map([
+      [HOME_NARROW_STR, []],
+      [narrowWithSelfStr, []],
+    ]);
 
     const message = eg.pmMessage({
       id: 1,
@@ -155,10 +152,10 @@ describe('narrowsReducer', () => {
       },
     });
 
-    const expectedState = Immutable.Map({
-      [HOME_NARROW_STR]: [message.id],
-      [narrowWithSelfStr]: [message.id],
-    });
+    const expectedState = Immutable.Map([
+      [HOME_NARROW_STR, [message.id]],
+      [narrowWithSelfStr, [message.id]],
+    ]);
 
     const newState = narrowsReducer(initialState, action);
 
@@ -167,14 +164,14 @@ describe('narrowsReducer', () => {
   });
 
   test('appends stream message to all cached narrows that match and are caught up', () => {
-    const initialState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, 2],
-      [ALL_PRIVATE_NARROW_STR]: [1, 2],
-      [streamNarrowStr]: [2, 3],
-      [topicNarrowStr]: [2, 3],
-      [privateNarrowStr]: [2, 4],
-      [groupNarrowStr]: [2, 4],
-    });
+    const initialState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2]],
+      [ALL_PRIVATE_NARROW_STR, [1, 2]],
+      [streamNarrowStr, [2, 3]],
+      [topicNarrowStr, [2, 3]],
+      [privateNarrowStr, [2, 4]],
+      [groupNarrowStr, [2, 4]],
+    ]);
 
     const message = eg.streamMessage({ id: 5, flags: [] });
 
@@ -186,14 +183,14 @@ describe('narrowsReducer', () => {
       },
     });
 
-    const expectedState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, 2, message.id],
-      [ALL_PRIVATE_NARROW_STR]: [1, 2],
-      [streamNarrowStr]: [2, 3, message.id],
-      [topicNarrowStr]: [2, 3, message.id],
-      [privateNarrowStr]: [2, 4],
-      [groupNarrowStr]: [2, 4],
-    });
+    const expectedState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2, message.id]],
+      [ALL_PRIVATE_NARROW_STR, [1, 2]],
+      [streamNarrowStr, [2, 3, message.id]],
+      [topicNarrowStr, [2, 3, message.id]],
+      [privateNarrowStr, [2, 4]],
+      [groupNarrowStr, [2, 4]],
+    ]);
 
     const newState = narrowsReducer(initialState, action);
 
@@ -202,7 +199,7 @@ describe('narrowsReducer', () => {
   });
 
   test('does not append stream message to not cached narrows', () => {
-    const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1] });
+    const initialState = Immutable.Map([[HOME_NARROW_STR, [1]]]);
 
     const message = eg.streamMessage({ id: 3, flags: [] });
 
@@ -212,9 +209,7 @@ describe('narrowsReducer', () => {
       },
     });
 
-    const expectedState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, message.id],
-    });
+    const expectedState = Immutable.Map([[HOME_NARROW_STR, [1, message.id]]]);
 
     const newState = narrowsReducer(initialState, action);
 
@@ -223,14 +218,14 @@ describe('narrowsReducer', () => {
   });
 
   test('appends private message to multiple cached narrows', () => {
-    const initialState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, 2],
-      [ALL_PRIVATE_NARROW_STR]: [1, 2],
-      [streamNarrowStr]: [2, 3],
-      [topicNarrowStr]: [2, 3],
-      [privateNarrowStr]: [2, 4],
-      [groupNarrowStr]: [2, 4],
-    });
+    const initialState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2]],
+      [ALL_PRIVATE_NARROW_STR, [1, 2]],
+      [streamNarrowStr, [2, 3]],
+      [topicNarrowStr, [2, 3]],
+      [privateNarrowStr, [2, 4]],
+      [groupNarrowStr, [2, 4]],
+    ]);
 
     const message = eg.pmMessage({
       id: 5,
@@ -243,14 +238,14 @@ describe('narrowsReducer', () => {
       caughtUp: initialState.map(_ => ({ older: false, newer: true })).toObject(),
     });
 
-    const expectedState = Immutable.Map({
-      [HOME_NARROW_STR]: [1, 2, message.id],
-      [ALL_PRIVATE_NARROW_STR]: [1, 2, message.id],
-      [streamNarrowStr]: [2, 3],
-      [topicNarrowStr]: [2, 3],
-      [privateNarrowStr]: [2, 4, message.id],
-      [groupNarrowStr]: [2, 4],
-    });
+    const expectedState = Immutable.Map([
+      [HOME_NARROW_STR, [1, 2, message.id]],
+      [ALL_PRIVATE_NARROW_STR, [1, 2, message.id]],
+      [streamNarrowStr, [2, 3]],
+      [topicNarrowStr, [2, 3]],
+      [privateNarrowStr, [2, 4, message.id]],
+      [groupNarrowStr, [2, 4]],
+    ]);
 
     const newState = narrowsReducer(initialState, action);
 
@@ -260,7 +255,10 @@ describe('narrowsReducer', () => {
 
   describe('EVENT_MESSAGE_DELETE', () => {
     test('if a message does not exist no changes are made', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2], [privateNarrowStr]: [] });
+      const initialState = Immutable.Map([
+        [HOME_NARROW_STR, [1, 2]],
+        [privateNarrowStr, []],
+      ]);
 
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
@@ -273,12 +271,18 @@ describe('narrowsReducer', () => {
     });
 
     test('if a message exists in one or more narrows delete it from there', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2, 3], [privateNarrowStr]: [2] });
+      const initialState = Immutable.Map([
+        [HOME_NARROW_STR, [1, 2, 3]],
+        [privateNarrowStr, [2]],
+      ]);
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [2],
       });
-      const expectedState = Immutable.Map({ [HOME_NARROW_STR]: [1, 3], [privateNarrowStr]: [] });
+      const expectedState = Immutable.Map([
+        [HOME_NARROW_STR, [1, 3]],
+        [privateNarrowStr, []],
+      ]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -286,12 +290,18 @@ describe('narrowsReducer', () => {
     });
 
     test('if multiple messages indicated, delete the ones that exist', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2, 3], [privateNarrowStr]: [2] });
+      const initialState = Immutable.Map([
+        [HOME_NARROW_STR, [1, 2, 3]],
+        [privateNarrowStr, [2]],
+      ]);
       const action = deepFreeze({
         type: EVENT_MESSAGE_DELETE,
         messageIds: [2, 3, 4],
       });
-      const expectedState = Immutable.Map({ [HOME_NARROW_STR]: [1], [privateNarrowStr]: [] });
+      const expectedState = Immutable.Map([
+        [HOME_NARROW_STR, [1]],
+        [privateNarrowStr, []],
+      ]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -301,7 +311,7 @@ describe('narrowsReducer', () => {
 
   describe('MESSAGE_FETCH_START', () => {
     test('if fetching for a search narrow, ignore', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         ...eg.action.message_fetch_start,
@@ -349,7 +359,7 @@ describe('narrowsReducer', () => {
 
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('if no messages returned still create the key in state', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2, 3] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2, 3]]]);
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -363,10 +373,10 @@ describe('narrowsReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3],
-        [keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser))]: [],
-      });
+      const expectedState = Immutable.Map([
+        [HOME_NARROW_STR, [1, 2, 3]],
+        [keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser)), []],
+      ]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -374,7 +384,7 @@ describe('narrowsReducer', () => {
     });
 
     test('no duplicate messages', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2, 3] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2, 3]]]);
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -392,9 +402,7 @@ describe('narrowsReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3, 4],
-      });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [1, 2, 3, 4]]]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -403,7 +411,7 @@ describe('narrowsReducer', () => {
     });
 
     test('added messages are sorted by id', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         type: MESSAGE_FETCH_COMPLETE,
@@ -420,9 +428,7 @@ describe('narrowsReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3, 4],
-      });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [1, 2, 3, 4]]]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -431,7 +437,7 @@ describe('narrowsReducer', () => {
     });
 
     test('when anchor is FIRST_UNREAD_ANCHOR previous messages are replaced', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         anchor: FIRST_UNREAD_ANCHOR,
@@ -448,9 +454,7 @@ describe('narrowsReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [3, 4],
-      });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [3, 4]]]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -458,7 +462,7 @@ describe('narrowsReducer', () => {
     });
 
     test('when anchor is LAST_MESSAGE_ANCHOR previous messages are replaced', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         anchor: LAST_MESSAGE_ANCHOR,
@@ -475,9 +479,7 @@ describe('narrowsReducer', () => {
         ownUserId: eg.selfUser.user_id,
       });
 
-      const expectedState = Immutable.Map({
-        [HOME_NARROW_STR]: [3, 4],
-      });
+      const expectedState = Immutable.Map([[HOME_NARROW_STR, [3, 4]]]);
 
       const newState = narrowsReducer(initialState, action);
 
@@ -485,7 +487,7 @@ describe('narrowsReducer', () => {
     });
 
     test('if fetched messages are from a search narrow, ignore them', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         ...eg.action.message_fetch_complete,
@@ -575,7 +577,7 @@ describe('narrowsReducer', () => {
     ]);
 
     test('Do nothing if the is:starred narrow has not been fetched', () => {
-      const initialState = Immutable.Map({ [HOME_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[HOME_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -593,7 +595,7 @@ describe('narrowsReducer', () => {
     });
 
     test("Do nothing if action.flag is not 'starred'", () => {
-      const initialState = Immutable.Map({ [STARRED_NARROW_STR]: [1, 2] });
+      const initialState = Immutable.Map([[STARRED_NARROW_STR, [1, 2]]]);
 
       const action = deepFreeze({
         type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -614,7 +616,7 @@ describe('narrowsReducer', () => {
       'Adds, while maintaining chronological order, '
         + 'newly starred messages to the is:starred narrow',
       () => {
-        const initialState = Immutable.Map({ [STARRED_NARROW_STR]: [1, 3, 5] });
+        const initialState = Immutable.Map([[STARRED_NARROW_STR, [1, 3, 5]]]);
 
         const action = deepFreeze({
           type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -626,9 +628,7 @@ describe('narrowsReducer', () => {
           messages: [4, 2],
         });
 
-        const expectedState = Immutable.Map({
-          [STARRED_NARROW_STR]: [1, 2, 3, 4, 5],
-        });
+        const expectedState = Immutable.Map([[STARRED_NARROW_STR, [1, 2, 3, 4, 5]]]);
 
         const newState = narrowsReducer(initialState, action);
 
@@ -640,7 +640,7 @@ describe('narrowsReducer', () => {
       'Removes, while maintaining chronological order, '
         + 'newly unstarred messages from the is:starred narrow',
       () => {
-        const initialState = Immutable.Map({ [STARRED_NARROW_STR]: [1, 2, 3, 4, 5] });
+        const initialState = Immutable.Map([[STARRED_NARROW_STR, [1, 2, 3, 4, 5]]]);
 
         const action = deepFreeze({
           type: EVENT_UPDATE_MESSAGE_FLAGS,
@@ -652,9 +652,7 @@ describe('narrowsReducer', () => {
           messages: [4, 2],
         });
 
-        const expectedState = Immutable.Map({
-          [STARRED_NARROW_STR]: [1, 3, 5],
-        });
+        const expectedState = Immutable.Map([[STARRED_NARROW_STR, [1, 3, 5]]]);
 
         const newState = narrowsReducer(initialState, action);
 

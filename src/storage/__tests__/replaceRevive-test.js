@@ -17,14 +17,16 @@ const data = {
   jsMapNumKeys: new Map([[1, 2], [3, 4]]),
   jsSet: new Set([1, 2, 'a', null, { b: [3] }]),
   list: Immutable.List([1, 2, 'a', null]),
-  map: Immutable.Map({ a: 1, b: 2, c: 3, d: 4 }),
-  mapWithTypeKey: Immutable.Map({
-    a: 1,
-    [SERIALIZED_TYPE_FIELD_NAME]: {
-      b: [2],
-      [SERIALIZED_TYPE_FIELD_NAME]: { c: [3] },
-    },
-  }),
+  map: Immutable.Map([
+    ['a', 1],
+    ['b', 2],
+    ['c', 3],
+    ['d', 4],
+  ]),
+  mapWithTypeKey: Immutable.Map([
+    ['a', 1],
+    [SERIALIZED_TYPE_FIELD_NAME, { b: [2], [SERIALIZED_TYPE_FIELD_NAME]: { c: [3] } }],
+  ]),
   // prettier-ignore
   mapNumKeys: Immutable.Map([[1, 1], [2, 2], [3, 3], [4, 4]]),
   emptyMap: Immutable.Map([]),

@@ -31,9 +31,7 @@ describe('getMessagesForNarrow', () => {
 
   test('if no outbox messages returns messages with no change', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [123],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, [123]]]),
       messages,
       outbox: [],
       users: [eg.selfUser],
@@ -47,9 +45,7 @@ describe('getMessagesForNarrow', () => {
 
   test('combine messages and outbox in same narrow', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [123],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, [123]]]),
       messages,
       outbox: [outboxMessage],
       caughtUp: {
@@ -66,9 +62,7 @@ describe('getMessagesForNarrow', () => {
 
   test('do not combine messages and outbox if not caught up', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [123],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, [123]]]),
       messages,
       outbox: [outboxMessage],
       users: [eg.selfUser],
@@ -82,9 +76,7 @@ describe('getMessagesForNarrow', () => {
 
   test('do not combine messages and outbox in different narrow', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser))]: [123],
-      }),
+      narrows: Immutable.Map([[keyFromNarrow(pm1to1NarrowFromUser(eg.otherUser)), [123]]]),
       messages,
       outbox: [outboxMessage],
       users: [eg.selfUser],
@@ -229,9 +221,7 @@ describe('getShownMessagesForNarrow', () => {
 describe('getFirstMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, []]]),
       outbox: [],
     });
 
@@ -242,9 +232,7 @@ describe('getFirstMessageId', () => {
 
   test('returns first message id', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, [1, 2, 3]]]),
       messages: eg.makeMessagesState([
         eg.streamMessage({ id: 1 }),
         eg.streamMessage({ id: 2 }),
@@ -262,9 +250,7 @@ describe('getFirstMessageId', () => {
 describe('getLastMessageId', () => {
   test('return undefined when there are no messages', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, []]]),
       messages: eg.makeMessagesState([]),
       outbox: [],
     });
@@ -276,9 +262,7 @@ describe('getLastMessageId', () => {
 
   test('returns last message id', () => {
     const state = eg.reduxState({
-      narrows: Immutable.Map({
-        [HOME_NARROW_STR]: [1, 2, 3],
-      }),
+      narrows: Immutable.Map([[HOME_NARROW_STR, [1, 2, 3]]]),
       messages: eg.makeMessagesState([
         eg.streamMessage({ id: 1 }),
         eg.streamMessage({ id: 2 }),

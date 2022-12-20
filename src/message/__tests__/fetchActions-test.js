@@ -53,9 +53,7 @@ describe('fetchActions', () => {
             older: true,
           },
         },
-        narrows: Immutable.Map({
-          [streamNarrowStr]: [],
-        }),
+        narrows: Immutable.Map([[streamNarrowStr, []]]),
         streams: [eg.stream],
       });
 
@@ -75,9 +73,7 @@ describe('fetchActions', () => {
             older: false,
           },
         },
-        narrows: Immutable.Map({
-          [streamNarrowStr]: [1],
-        }),
+        narrows: Immutable.Map([[streamNarrowStr, [1]]]),
         messages: eg.makeMessagesState([message1, message2]),
         streams: [eg.stream],
       });
@@ -251,9 +247,7 @@ describe('fetchActions', () => {
     };
 
     const baseState = eg.reduxStatePlus({
-      narrows: Immutable.Map({
-        [streamNarrowStr]: [message1.id],
-      }),
+      narrows: Immutable.Map([[streamNarrowStr, [message1.id]]]),
       realm: {
         ...eg.plusReduxState.realm,
         allowEditHistory: true, // TODO: test with this `false`
@@ -424,9 +418,7 @@ describe('fetchActions', () => {
     test('when messages to be fetched both before and after anchor, numBefore and numAfter are greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxStatePlus({
-          narrows: Immutable.Map({
-            [streamNarrowStr]: [1],
-          }),
+          narrows: Immutable.Map([[streamNarrowStr, [1]]]),
         }),
       );
 
@@ -449,9 +441,7 @@ describe('fetchActions', () => {
     test('when no messages to be fetched before the anchor, numBefore is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxStatePlus({
-          narrows: Immutable.Map({
-            [streamNarrowStr]: [1],
-          }),
+          narrows: Immutable.Map([[streamNarrowStr, [1]]]),
         }),
       );
 
@@ -473,9 +463,7 @@ describe('fetchActions', () => {
     test('when no messages to be fetched after the anchor, numAfter is not greater than zero', async () => {
       const store = mockStore<GlobalState, Action>(
         eg.reduxStatePlus({
-          narrows: Immutable.Map({
-            [streamNarrowStr]: [1],
-          }),
+          narrows: Immutable.Map([[streamNarrowStr, [1]]]),
         }),
       );
 
@@ -501,10 +489,10 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxStatePlus({
       narrows: eg.plusReduxState.narrows.merge(
-        Immutable.Map({
-          [streamNarrowStr]: [message2.id],
-          [HOME_NARROW_STR]: [message1.id, message2.id],
-        }),
+        Immutable.Map([
+          [streamNarrowStr, [message2.id]],
+          [HOME_NARROW_STR, [message1.id, message2.id]],
+        ]),
       ),
       messages: eg.makeMessagesState([message1, message2]),
     });
@@ -594,10 +582,10 @@ describe('fetchActions', () => {
 
     const baseState = eg.reduxStatePlus({
       narrows: eg.plusReduxState.narrows.merge(
-        Immutable.Map({
-          [streamNarrowStr]: [message2.id],
-          [HOME_NARROW_STR]: [message1.id, message2.id],
-        }),
+        Immutable.Map([
+          [streamNarrowStr, [message2.id]],
+          [HOME_NARROW_STR, [message1.id, message2.id]],
+        ]),
       ),
       messages: eg.makeMessagesState([message1, message2]),
     });

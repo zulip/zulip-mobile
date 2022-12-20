@@ -72,9 +72,7 @@ describe('getRecentConversationsLegacy', () => {
       accounts,
       realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser],
-      narrows: Immutable.Map({
-        [ALL_PRIVATE_NARROW_STR]: [],
-      }),
+      narrows: Immutable.Map([[ALL_PRIVATE_NARROW_STR, []]]),
       unread: {
         ...eg.baseReduxState.unread,
         pms: [],
@@ -92,9 +90,7 @@ describe('getRecentConversationsLegacy', () => {
       accounts,
       realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser, userJohn, userMark],
-      narrows: Immutable.Map({
-        [ALL_PRIVATE_NARROW_STR]: [0, 1, 2, 3, 4],
-      }),
+      narrows: Immutable.Map([[ALL_PRIVATE_NARROW_STR, [0, 1, 2, 3, 4]]]),
       messages: eg.makeMessagesState([
         eg.pmMessageFromTo(userJohn, [eg.selfUser], { id: 1 }),
         eg.pmMessageFromTo(userMark, [eg.selfUser], { id: 2 }),
@@ -140,9 +136,7 @@ describe('getRecentConversationsLegacy', () => {
       accounts,
       realm: eg.realmState({ user_id: eg.selfUser.user_id }),
       users: [eg.selfUser, userJohn, userMark],
-      narrows: Immutable.Map({
-        [ALL_PRIVATE_NARROW_STR]: [1, 2, 3, 4, 5, 6],
-      }),
+      narrows: Immutable.Map([[ALL_PRIVATE_NARROW_STR, [1, 2, 3, 4, 5, 6]]]),
       messages: eg.makeMessagesState([
         eg.pmMessageFromTo(userJohn, [eg.selfUser], { id: 2 }),
         eg.pmMessageFromTo(userMark, [eg.selfUser], { id: 1 }),
