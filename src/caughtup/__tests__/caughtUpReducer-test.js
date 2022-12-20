@@ -25,6 +25,18 @@ describe('caughtUpReducer', () => {
     expect(caughtUpReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
   });
 
+  describe('REGISTER_COMPLETE', () => {
+    const initialState = eg.baseReduxState.caughtUp;
+    const prevState = caughtUpReducer(initialState, {
+      ...eg.action.message_fetch_complete,
+      foundNewest: true,
+      foundOldest: true,
+    });
+    expect(prevState).not.toEqual(initialState);
+
+    expect(caughtUpReducer(prevState, eg.action.register_complete)).toEqual(initialState);
+  });
+
   describe('MESSAGE_FETCH_START', () => {
     test('when fetch starts caught up does not change', () => {
       const prevState = deepFreeze({ [HOME_NARROW_STR]: { older: true, newer: true } });

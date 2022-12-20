@@ -7,6 +7,17 @@ import flagsReducer from '../flagsReducer';
 import { EVENT_UPDATE_MESSAGE_FLAGS } from '../../actionConstants';
 
 describe('flagsReducer', () => {
+  describe('REGISTER_COMPLETE', () => {
+    const initialState = eg.baseReduxState.flags;
+    const prevState = flagsReducer(
+      initialState,
+      eg.mkActionEventNewMessage(eg.streamMessage({ flags: ['read', 'starred'] })),
+    );
+    expect(prevState).not.toEqual(initialState);
+
+    expect(flagsReducer(prevState, eg.action.register_complete)).toEqual(initialState);
+  });
+
   describe('MESSAGE_FETCH_COMPLETE', () => {
     test('flags from all messages are extracted and stored by id', () => {
       const message1 = eg.streamMessage();

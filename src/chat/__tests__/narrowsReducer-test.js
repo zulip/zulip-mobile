@@ -39,6 +39,17 @@ describe('narrowsReducer', () => {
     expect(narrowsReducer(prevState, eg.action.reset_account_data)).toEqual(initialState);
   });
 
+  describe('REGISTER_COMPLETE', () => {
+    const initialState = eg.baseReduxState.narrows;
+    const prevState = narrowsReducer(initialState, {
+      ...eg.action.message_fetch_complete,
+      messages: [eg.streamMessage()],
+    });
+    expect(prevState).not.toEqual(initialState);
+
+    expect(narrowsReducer(prevState, eg.action.register_complete)).toEqual(initialState);
+  });
+
   describe('EVENT_NEW_MESSAGE', () => {
     test('if not caught up in narrow, do not add message in home narrow', () => {
       const message = eg.streamMessage({ id: 3, flags: [] });

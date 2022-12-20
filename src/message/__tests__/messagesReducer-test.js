@@ -27,6 +27,20 @@ describe('messagesReducer', () => {
     ).toEqual(eg.baseReduxState.messages);
   });
 
+  describe('REGISTER_COMPLETE', () => {
+    const initialState = eg.baseReduxState.messages;
+    const prevState = messagesReducer(
+      initialState,
+      { ...eg.action.message_fetch_complete, messages: [eg.streamMessage()] },
+      eg.baseReduxState,
+    );
+    expect(prevState).not.toEqual(initialState);
+
+    expect(messagesReducer(prevState, eg.action.register_complete, eg.baseReduxState)).toEqual(
+      initialState,
+    );
+  });
+
   describe('EVENT_NEW_MESSAGE', () => {
     test('appends message to state, if any narrow is caught up to newest', () => {
       const message1 = eg.streamMessage();
