@@ -71,10 +71,11 @@ export default (
       return initialState;
 
     // Reset just because `fetching` is server-data metadata, and we're
-    // resetting the server data it's supposed to apply to… But really, we
-    // should have canceled any in-progress message fetches by now; that's
-    // #5623. Still, even if there is an in-progress fetch, we probably
-    // don't want to show loading indicators for it in the UI.
+    // resetting the server data it's supposed to apply to
+    // (`state.narrows`)… But really, we should have canceled any
+    // in-progress message fetches by now; that's #5623. Still, even if
+    // there is an in-progress fetch, we probably don't want to show loading
+    // indicators for it in the UI.
     // TODO(#5623): Remove reference to #5623.
     case REGISTER_COMPLETE:
       return initialState;

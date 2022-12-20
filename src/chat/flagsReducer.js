@@ -131,8 +131,14 @@ export default (
   action: PerAccountApplicableAction,
 ): FlagsState => {
   switch (action.type) {
-    case REGISTER_COMPLETE:
     case RESET_ACCOUNT_DATA:
+      return initialState;
+
+    // Reset to clear stale data. We don't initialize the
+    // messages/narrows/flags model using initial data; instead, we fetch
+    // chunks of data as needed with api.getMessages. See
+    //   https://zulip.readthedocs.io/en/latest/subsystems/events-system.html#messages
+    case REGISTER_COMPLETE:
       return initialState;
 
     case MESSAGE_FETCH_COMPLETE:
