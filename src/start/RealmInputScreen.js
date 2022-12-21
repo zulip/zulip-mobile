@@ -18,6 +18,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
 import { getGlobalSettings } from '../directSelectors';
 import { useGlobalSelector } from '../react-redux';
+import ZulipText from '../common/ZulipText';
 import WebLink from '../common/WebLink';
 
 type Props = $ReadOnly<{|
@@ -85,6 +86,29 @@ const tryParseInput = (realmInputValue: string): MaybeParsedInput => {
   return { valid: true, value: url };
 };
 
+type Suggestion = ValidationError | null;
+
+function getSuggestion(realmInputValue, maybeParsedInput): Suggestion {
+  if (!maybeParsedInput.valid) {
+    switch (maybeParsedInput.error) {
+      case ValidationError.NoUseEmail:
+      case ValidationError.UnsupportedSchemeZulip:
+      case ValidationError.UnsupportedSchemeOther:
+        // Flag high-signal errors
+        return maybeParsedInput.error;
+
+      case ValidationError.Empty:
+      case ValidationError.InvalidUrl:
+      // Don't flag more noisy errors, which will often happen when the user
+      // just hasn't finished typing a good URL. They'll still show up if
+      // they apply at submit time; see the submit handler.
+    }
+  }
+
+  // TODO(?): Suggest e.g. CZO or a zulipchat.com URL
+  return null;
+}
+
 export default function RealmInputScreen(props: Props): Node {
   const { navigation, route } = props;
 
@@ -143,6 +167,8 @@ export default function RealmInputScreen(props: Props): Node {
     Keyboard.dismiss();
   }, [navigation, maybeParsedInput, globalSettings, _]);
 
+  const suggestion = getSuggestion(realmInputValue, maybeParsedInput);
+
   const styles = React.useMemo(
     () =>
       createStyleSheet({
@@ -158,11 +184,28 @@ export default function RealmInputScreen(props: Props): Node {
           fontSize: 20,
           color: themeContext.color,
         },
-        hintText: { paddingLeft: 2, fontSize: 12 },
+        suggestionText: { fontSize: 12, fontStyle: 'italic' },
         button: { marginTop: 8 },
       }),
     [themeContext],
   );
+
+  const renderedSuggestion = React.useMemo(() => {
+    if (suggestion === null) {
+      // Vertical spacer so the layout doesn't jump when a suggestion
+      // appears or disappears. (The empty string might be neater, but it
+      // doesn't give the right height… probably lots of people wanted it to
+      // be treated just like false/null/undefined in conditional rendering,
+      // and React or RN gave in to that. I've tried the obvious ways to use
+      // RN's PixelRatio.getFontScale() and never got the right height
+      // either; dunno why.)
+      return (
+        <ZulipText style={styles.suggestionText} text={'\u200b'} /* U+200B ZERO WIDTH SPACE */ />
+      );
+    } else {
+      return <ZulipTextIntl style={styles.suggestionText} text={validationErrorMsg(suggestion)} />;
+    }
+  }, [suggestion, styles]);
 
   return (
     <Screen
@@ -205,7 +248,7 @@ export default function RealmInputScreen(props: Props): Node {
           ref={textInputRef}
         />
       </View>
-      <ZulipTextIntl text="e.g. zulip.example.com" style={styles.hintText} />
+      {renderedSuggestion}
       <ZulipButton
         style={styles.button}
         text="Enter"
