@@ -68,28 +68,28 @@ export default function SettingsScreen(props: Props): Node {
         }}
       />
       <NestedNavRow
-        Icon={IconNotifications}
+        icon={{ Component: IconNotifications }}
         label="Notifications"
         onPress={() => {
           navigation.push('notifications');
         }}
       />
       <NestedNavRow
-        Icon={IconLanguage}
+        icon={{ Component: IconLanguage }}
         label="Language"
         onPress={() => {
           navigation.push('language');
         }}
       />
       <NestedNavRow
-        Icon={IconDiagnostics}
+        icon={{ Component: IconDiagnostics }}
         label="Diagnostics"
         onPress={() => {
           navigation.push('diagnostics');
         }}
       />
       <NestedNavRow
-        Icon={IconMoreHorizontal}
+        icon={{ Component: IconMoreHorizontal }}
         label="Legal"
         onPress={() => {
           navigation.push('legal');

@@ -11,7 +11,11 @@ import type { SpecificIconType } from './Icons';
 import globalStyles, { ThemeContext, createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
-  Icon?: SpecificIconType,
+  icon?: {|
+    +Component: SpecificIconType,
+    +color?: string,
+  |},
+
   label: LocalizableReactText,
 
   // TODO: Should we make this unconfigurable? Should we have two reusable
@@ -29,7 +33,7 @@ type Props = $ReadOnly<{|
  * selectable option row instead, use `SelectableOptionRow`.
  */
 export default function NestedNavRow(props: Props): Node {
-  const { label, labelBoldUppercase, onPress, Icon } = props;
+  const { label, labelBoldUppercase, onPress, icon } = props;
 
   const themeContext = useContext(ThemeContext);
 
@@ -49,7 +53,7 @@ export default function NestedNavRow(props: Props): Node {
         iconFromProps: {
           textAlign: 'center',
           marginRight: 8,
-          color: themeContext.color,
+          color: icon?.color ?? themeContext.color,
         },
         label: {
           ...(labelBoldUppercase ? { textTransform: 'uppercase', fontWeight: '500' } : undefined),
@@ -60,13 +64,13 @@ export default function NestedNavRow(props: Props): Node {
           color: themeContext.color,
         },
       }),
-    [themeContext, labelBoldUppercase],
+    [themeContext, icon, labelBoldUppercase],
   );
 
   return (
     <Touchable onPress={onPress}>
       <View style={styles.container}>
-        {!!Icon && <Icon size={24} style={styles.iconFromProps} />}
+        {!!icon && <icon.Component size={24} style={styles.iconFromProps} />}
         <ZulipTextIntl style={styles.label} text={label} />
         <View style={globalStyles.rightItem}>
           <IconRight size={24} style={styles.iconRightFacingArrow} />
