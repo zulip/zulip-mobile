@@ -73,7 +73,7 @@ export default class ShareToPm extends React.PureComponent<Props, State> {
     const { selectedRecipients } = this.state;
 
     if (selectedRecipients.length === 0) {
-      return <ZulipTextIntl text="Please choose recipients to share with" />;
+      return <ZulipTextIntl text="Please choose recipients to share with." />;
     }
     const preview = [];
     selectedRecipients.forEach(userId => {
