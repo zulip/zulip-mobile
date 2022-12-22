@@ -111,6 +111,7 @@ export const IconAttach: SpecificIconType = makeIcon(Feather, 'paperclip');
 export const IconAttachment: SpecificIconType = makeIcon(IoniconsIcon, 'document-attach-outline');
 export const IconGroup: SpecificIconType = makeIcon(FontAwesome, 'group');
 export const IconPlus: SpecificIconType = makeIcon(Feather, 'plus');
+export const IconAlertTriangle: SpecificIconType = makeIcon(Feather, 'alert-triangle');
 
 // WildcardMentionItem depends on this being square.
 export const IconWildcardMention: SpecificIconType = makeIcon(FontAwesome, 'bullhorn');

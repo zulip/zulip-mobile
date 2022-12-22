@@ -3,6 +3,7 @@ package com.zulipmobile.notifications;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -53,5 +54,21 @@ class NotificationsModule extends ReactContextBaseJavaModule {
             promise.resolve(Arguments.fromBundle(initialNotification));
             initialNotification = null;
         }
+    }
+
+    /**
+     * Tell the JavaScript caller whether notifications are not blocked.
+     */
+    // Ideally we could subscribe to changes in this value, but there
+    // doesn't seem to be an API for that. The caller can poll, e.g., by
+    // re-checking when the user has returned to the app, which they might
+    // do after changing the notification settings.
+    @ReactMethod
+    public void areNotificationsEnabled(Promise promise) {
+        final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat
+                .from(getReactApplicationContext());
+
+        // https://developer.android.com/reference/androidx/core/app/NotificationManagerCompat#areNotificationsEnabled()
+        promise.resolve(notificationManagerCompat.areNotificationsEnabled());
     }
 }
