@@ -46,8 +46,8 @@ import { ensureUnreachable } from '../../generics';
  *
  * * (When updating these, be sure to update tools/generate-webview-js too.)
  *
- * * We support iOS 12.  So this code needs to work on Mobile Safari 12.
- *   Graceful degradation is acceptable below iOS 14 / Mobile Safari 14.
+ * * We support iOS 14.  So this code needs to work on Mobile Safari 14.
+ *   Graceful degradation is acceptable below iOS 15 / Mobile Safari 15.
  *
  * * For Android, core functionality needs to work on Chrome 51.
  *   Graceful degradation is acceptable below Chrome 74.

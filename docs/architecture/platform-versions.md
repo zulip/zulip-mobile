@@ -100,6 +100,8 @@ History:
   2021-11.  It represented 0.8% of our Android users, and didn't
   support the API we'd started using to give spiffy new-style
   notifications.
+* We [dropped iOS 12 and 13 support] in 2023-01. Version 13 was 0.7% of iOS
+  users who tried Zulip.
 <!-- When updating this, please update `docs/developer-guide.md` as well. -->
 
 [dropped-android-j]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/625585
@@ -109,6 +111,7 @@ History:
 [dropped iOS 11 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/1165087
 [dropped-android-l]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Updating.20.60minSdkVersion.60/near/1236327
 [dropped-android-m]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/1278266
+[dropped iOS 12 and 13 support]: https://chat.zulip.org/#narrow/stream/48-mobile/topic/platform.20versions/near/1476154
 
 
 Related observations:

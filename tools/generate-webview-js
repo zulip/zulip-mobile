@@ -43,7 +43,7 @@ const targetPlatforms = {
   // Babel does distinguish `safari` (meaning on macOS, I guess) from `ios`.
   // Some features arrive in e.g. "safari 11.1" but "ios 11.3", or in
   // 13.1 vs 13.4, so the distinction is still relevant.
-  ios: 12,
+  ios: 14,
 };
 
 // Disable the default react-native transformations.
@@ -109,7 +109,23 @@ ${es3Code.replace(/\\/g, '\\\\')}
 
         // See comments below about (the absence of) automatic polyfills via
         // `core-js`.
-        presets: [['@babel/preset-env', { targets: targetPlatforms }]],
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: targetPlatforms,
+
+              // Remove unescaped template-literal syntax in the output
+              // string (backticks, string interpolation with ${}, etc.),
+              // since for now we wrap the output in a template literal.
+              // TODO(?): Remove that wrapping, and just send the output to
+              //   a file which is read as a string. Or:
+              // TODO(?): Properly escape template-literal syntax in the
+              //   output string.
+              include: ['@babel/plugin-transform-template-literals'],
+            },
+          ],
+        ],
       }),
     ],
   });
