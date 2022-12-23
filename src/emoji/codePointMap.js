@@ -28,7 +28,7 @@ export const override: {| [code: string]: string |} = {
   // (Zulip only actually offers a handful of these letter emoji.)
 
   // :check_mark: -> :check: because the former is invisible on a light
-  // background, i.e. when not in Dark theme.
+  // background, i.e. when not in dark theme.
   '2714': '2705',
 };
 
