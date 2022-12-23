@@ -372,7 +372,7 @@ export type ThemeName = 'light' | 'dark';
  * To determine the actual theme to show the user, use a ThemeName;
  * see there for details.
  */
-export type ThemeSetting = 'default' | 'night';
+export type ThemeSetting = 'default' | 'dark';
 
 /** What browser the user has set to use for opening links in messages.
  *

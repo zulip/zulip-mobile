@@ -472,6 +472,12 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add presenceEnabled to state.realm.
   '56': dropCache,
 
+  // Rename 'night' to 'dark' in state.settings.theme
+  '57': state => ({
+    ...state,
+    settings: { ...state.settings, theme: state.settings.theme === 'night' ? 'dark' : 'default' },
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };
