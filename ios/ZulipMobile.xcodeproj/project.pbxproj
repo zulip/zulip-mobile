@@ -12,8 +12,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		42689E9C23466FF7007540AA /* webview in Resources */ = {isa = PBXBuildFile; fileRef = 42689E9B23466FF7007540AA /* webview */; };
 		8B40B9F327F7AEEC00D33897 /* zulip-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3787526927F5503200B81DB8 /* zulip-icons.ttf */; };
+		8B44AB3E295B7601003D41A8 /* ZLPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B44AB3A295B7263003D41A8 /* ZLPConstants.swift */; };
+		8B44AB40295B7D4D003D41A8 /* ZLPConstantsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B44AB3F295B7D45003D41A8 /* ZLPConstantsBridge.m */; };
 		8BE55043253A2B6600B0BC8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BE55041253A2B6600B0BC8A /* LaunchScreen.storyboard */; };
-		8BEA1EF024A6983D00674040 /* ZLPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BEA1EEE24A6983D00674040 /* ZLPConstants.m */; };
 		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
 		A65C1ECEE03CA6692FC807AA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C68E38F2AA306A2C56A4B3 /* ExpoModulesProvider.swift */; };
 		C091D09FD11FDDB8E939257D /* libPods-ZulipMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F3CD22CB932FA7EEE0BB66 /* libPods-ZulipMobile.a */; };
@@ -34,9 +35,9 @@
 		42689E9B23466FF7007540AA /* webview */ = {isa = PBXFileReference; lastKnownFileType = folder; path = webview; sourceTree = "<group>"; };
 		66E34CC6219226D10091B852 /* ZulipMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZulipMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		74F3CD22CB932FA7EEE0BB66 /* libPods-ZulipMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZulipMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B44AB3A295B7263003D41A8 /* ZLPConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZLPConstants.swift; path = ZulipMobile/ZLPConstants.swift; sourceTree = "<group>"; };
+		8B44AB3F295B7D45003D41A8 /* ZLPConstantsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZLPConstantsBridge.m; path = ZulipMobile/ZLPConstantsBridge.m; sourceTree = "<group>"; };
 		8BE55042253A2B6600B0BC8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ZulipMobile/Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8BEA1EEE24A6983D00674040 /* ZLPConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZLPConstants.m; path = ZulipMobile/ZLPConstants.m; sourceTree = "<group>"; };
-		8BEA1EEF24A6983D00674040 /* ZLPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZLPConstants.h; path = ZulipMobile/ZLPConstants.h; sourceTree = "<group>"; };
 		A148FEFB1E9D8CB900479280 /* zulip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zulip.mp3; sourceTree = "<group>"; };
 		CFA67D1F1EC23BCB0070048E /* UtilManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UtilManager.m; path = ZulipMobile/UtilManager.m; sourceTree = "<group>"; };
 		CFA67D211EC23BDD0070048E /* UtilManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UtilManager.h; path = ZulipMobile/UtilManager.h; sourceTree = "<group>"; };
@@ -61,8 +62,8 @@
 		13B07FAE1A68108700A75B9A /* ZulipMobile */ = {
 			isa = PBXGroup;
 			children = (
-				8BEA1EEF24A6983D00674040 /* ZLPConstants.h */,
-				8BEA1EEE24A6983D00674040 /* ZLPConstants.m */,
+				8B44AB3F295B7D45003D41A8 /* ZLPConstantsBridge.m */,
+				8B44AB3A295B7263003D41A8 /* ZLPConstants.swift */,
 				3C4249EC1EF6E16500D245F1 /* ZulipMobile.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -367,7 +368,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFA67D201EC23BCB0070048E /* UtilManager.m in Sources */,
-				8BEA1EF024A6983D00674040 /* ZLPConstants.m in Sources */,
+				8B44AB3E295B7601003D41A8 /* ZLPConstants.swift in Sources */,
+				8B44AB40295B7D4D003D41A8 /* ZLPConstantsBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				A65C1ECEE03CA6692FC807AA /* ExpoModulesProvider.swift in Sources */,
