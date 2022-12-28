@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
-import * as internal_url from '@zulip/shared/js/internal_url';
+import * as internal_url from '@zulip/shared/lib/internal_url';
 import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId, Message, Outbox, PmMessage, PmOutbox } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';

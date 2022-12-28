@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import { Clipboard, Share, Alert } from 'react-native';
 import invariant from 'invariant';
-import * as resolved_topic from '@zulip/shared/js/resolved_topic';
+import * as resolved_topic from '@zulip/shared/lib/resolved_topic';
 
 import type {
   Auth,

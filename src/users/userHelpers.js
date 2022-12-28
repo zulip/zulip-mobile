@@ -1,7 +1,7 @@
 /* @flow strict-local */
 // $FlowFixMe[untyped-import]
 import uniq from 'lodash.uniq';
-import * as typeahead from '@zulip/shared/js/typeahead';
+import * as typeahead from '@zulip/shared/lib/typeahead';
 
 import type {
   MutedUsersState,

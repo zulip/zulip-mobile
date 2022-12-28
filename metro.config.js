@@ -57,7 +57,7 @@ module.exports = {
     // own node_modules.
     extraNodeModules: objectFromEntries(
       // @babel/runtime makes the list because our Babel config (?) causes
-      // files like @zulip/shared/js/typing_status.js to need it, whereas
+      // files like @zulip/shared/lib/typing_status.js to need it, whereas
       // it's not a dependency of @zulip/shared itself.
       ['@babel/runtime', ...arrayFlatMap(linkablePackages, packageDeps)].map(name => [
         name,

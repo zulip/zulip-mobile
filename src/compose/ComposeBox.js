@@ -14,7 +14,7 @@ import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import invariant from 'invariant';
 // $FlowFixMe[untyped-import]
-import * as fenced_code from '@zulip/shared/js/fenced_code';
+import * as fenced_code from '@zulip/shared/lib/fenced_code';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
