@@ -212,6 +212,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
 
+    // TODO(#5087): Eliminate unused code for Firebase analytics
     implementation "com.google.firebase:firebase-messaging:17.3.4"
 
     // ==== Test dependencies
