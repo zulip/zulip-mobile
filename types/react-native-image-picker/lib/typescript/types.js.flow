@@ -3,7 +3,7 @@
  */
 export type Callback = (response: ImagePickerResponse) => any;
 
-interface OptionsCommon {
+export interface OptionsCommon {
   mediaType: MediaType;
   maxWidth?: number;
   maxHeight?: number;
