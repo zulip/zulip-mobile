@@ -4,7 +4,6 @@ import {
   EVENT_TYPING_START,
   EVENT_TYPING_STOP,
   CLEAR_TYPING,
-  DEAD_QUEUE,
   RESET_ACCOUNT_DATA,
   REGISTER_COMPLETE,
 } from '../actionConstants';
@@ -96,7 +95,6 @@ export default (
     case CLEAR_TYPING:
       return clearTyping(state, action);
 
-    case DEAD_QUEUE:
     case RESET_ACCOUNT_DATA:
       return initialState;
 
