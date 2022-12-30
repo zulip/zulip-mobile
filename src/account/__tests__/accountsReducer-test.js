@@ -14,6 +14,7 @@ import accountsReducer from '../accountsReducer';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
 import * as eg from '../../__tests__/lib/exampleData';
+import { identityOfAccount } from '../accountMisc';
 
 describe('accountsReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -171,10 +172,7 @@ describe('accountsReducer', () => {
       expect(
         accountsReducer(
           deepFreeze([account1, account2]),
-          deepFreeze({
-            type: ACCOUNT_REMOVE,
-            index: 0,
-          }),
+          deepFreeze({ type: ACCOUNT_REMOVE, identity: identityOfAccount(account1) }),
         ),
       ).toEqual([account2]);
     });

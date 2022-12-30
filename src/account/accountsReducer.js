@@ -16,6 +16,7 @@ import { EventTypes } from '../api/eventTypes';
 import type { AccountsState, Identity, Action } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 import { ZulipVersion } from '../utils/zulipVersion';
+import { identityOfAccount, keyOfIdentity } from './accountMisc';
 
 const initialState = NULL_ARRAY;
 
@@ -98,17 +99,6 @@ const unackPushToken = (state, action) => {
   ];
 };
 
-const accountRemove = (state, action) => {
-  invariant(
-    action.index >= 0 && action.index <= state.length - 1,
-    'accounts reducer (ACCOUNT_REMOVE): index out of bounds',
-  );
-
-  const newState = state.slice();
-  newState.splice(action.index, 1);
-  return newState;
-};
-
 // eslint-disable-next-line default-param-last
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
@@ -135,8 +125,14 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
       return [{ ...state[0], lastDismissedServerPushSetupNotice: action.date }, ...state.slice(1)];
     }
 
-    case ACCOUNT_REMOVE:
-      return accountRemove(state, action);
+    case ACCOUNT_REMOVE: {
+      const shouldRemove = a =>
+        keyOfIdentity(identityOfAccount(a)) === keyOfIdentity(action.identity);
+
+      invariant(state.some(shouldRemove), 'accounts reducer (ACCOUNT_REMOVE): account not found');
+
+      return state.filter(a => !shouldRemove(a));
+    }
 
     case EVENT: {
       const { event } = action;

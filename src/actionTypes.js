@@ -157,7 +157,7 @@ export type AccountSwitchAction = $ReadOnly<{|
 
 type AccountRemoveAction = $ReadOnly<{|
   type: typeof ACCOUNT_REMOVE,
-  index: number,
+  identity: Identity,
 |}>;
 
 export type LoginSuccessAction = $ReadOnly<{|

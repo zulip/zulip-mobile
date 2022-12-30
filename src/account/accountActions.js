@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { PerAccountAction, AllAccountsAction, GlobalThunkAction } from '../types';
+import type { PerAccountAction, AllAccountsAction, GlobalThunkAction, Identity } from '../types';
 import {
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
@@ -52,9 +52,9 @@ export const accountSwitch =
     activeAccountDispatch(initNotifications());
   };
 
-export const removeAccount = (index: number): AllAccountsAction => ({
+export const removeAccount = (identity: Identity): AllAccountsAction => ({
   type: ACCOUNT_REMOVE,
-  index,
+  identity,
 });
 
 const loginSuccessPlain = (realm: URL, email: string, apiKey: string): AllAccountsAction => ({

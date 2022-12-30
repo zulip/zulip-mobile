@@ -88,7 +88,7 @@ export default function AccountPickScreen(props: Props): Node {
             // immediately.
             dispatch(tryStopNotifications(account));
           }
-          dispatch(removeAccount(index));
+          dispatch(removeAccount({ realm, email }));
         },
         _,
       });
