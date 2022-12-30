@@ -23,7 +23,9 @@ this_dir=${BASH_SOURCE[0]%/*}
 ## CLI PARSING
 
 default_suites=(native flow lint jest prettier deps tsflower)
-extra_suites=()
+extra_suites=(
+    intl  # Takes several seconds to run.
+)
 
 usage() {
     cat >&2 <<EOF
@@ -89,7 +91,7 @@ while (( $# )); do
             ;;
         --all) opt_files=all; opt_platform=both; opt_all=1; shift;;
         --fix) opt_fix=1; shift;;
-        native|flow|lint|jest|prettier|deps|tsflower)
+        native|flow|lint|jest|prettier|deps|tsflower|intl)
             opt_suites+=("$1"); shift;;
         *) usage;;
     esac
@@ -283,6 +285,10 @@ run_tsflower() {
     tools/tsflower check
 }
 
+run_intl() {
+    tools/check-messages-en
+}
+
 failed=()
 for suite in "${opt_suites[@]}"; do
     echo "Running $suite..."
@@ -294,6 +300,7 @@ for suite in "${opt_suites[@]}"; do
         prettier) run_prettier ;;
         deps)     run_deps ;;
         tsflower) run_tsflower ;;
+        intl)     run_intl ;;
     esac || failed+=($suite)
 done
 
