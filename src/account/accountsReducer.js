@@ -13,7 +13,7 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
-import type { AccountsState, Identity, Action } from '../types';
+import type { AccountsState, Identity, Action, Account } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 import { ZulipVersion } from '../utils/zulipVersion';
 import { identityOfAccount, keyOfIdentity } from './accountMisc';
@@ -32,19 +32,6 @@ const registerComplete = (state, action) => [
   },
   ...state.slice(1),
 ];
-
-const accountSwitch = (state, action) => {
-  invariant(
-    action.index >= 0 && action.index <= state.length - 1,
-    'accounts reducer (ACCOUNT_SWITCH): index out of bounds',
-  );
-
-  if (action.index === 0) {
-    return state;
-  }
-
-  return [state[action.index], ...state.slice(0, action.index), ...state.slice(action.index + 1)];
-};
 
 const findAccount = (state: AccountsState, identity: Identity): number => {
   const { realm, email } = identity;
@@ -110,8 +97,17 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
     case REGISTER_COMPLETE:
       return registerComplete(state, action);
 
-    case ACCOUNT_SWITCH:
-      return accountSwitch(state, action);
+    case ACCOUNT_SWITCH: {
+      const index = state.findIndex(
+        a => keyOfIdentity(identityOfAccount(a)) === keyOfIdentity(action.identity),
+      );
+      const account: Account | void = state[index];
+      invariant(account, 'accounts reducer (ACCOUNT_SWITCH): destination account not found');
+
+      return index === 0
+        ? state // no change; skip computation
+        : [account, ...state.filter(a => a !== account)]; // put account first
+    }
 
     case LOGIN_SUCCESS:
       return loginSuccess(state, action);

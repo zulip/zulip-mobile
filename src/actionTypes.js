@@ -152,7 +152,7 @@ type DismissServerCompatNoticeAction = $ReadOnly<{|
 
 export type AccountSwitchAction = $ReadOnly<{|
   type: typeof ACCOUNT_SWITCH,
-  index: number,
+  identity: Identity,
 |}>;
 
 type AccountRemoveAction = $ReadOnly<{|

@@ -40,9 +40,9 @@ export default function AccountPickScreen(props: Props): Node {
 
   const handleAccountSelect = useCallback(
     async (index: number) => {
-      const { realm, isLoggedIn } = accountStatuses[index];
+      const { realm, email, isLoggedIn } = accountStatuses[index];
       if (isLoggedIn) {
-        dispatch(accountSwitch(index));
+        dispatch(accountSwitch({ realm, email }));
       } else {
         const result = await fetchServerSettings(realm);
         if (result.type === 'error') {

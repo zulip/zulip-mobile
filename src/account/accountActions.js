@@ -22,13 +22,13 @@ export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   date: new Date(),
 });
 
-const accountSwitchPlain = (index: number): AllAccountsAction => ({
+const accountSwitchPlain = (identity: Identity): AllAccountsAction => ({
   type: ACCOUNT_SWITCH,
-  index,
+  identity,
 });
 
 export const accountSwitch =
-  (index: number): GlobalThunkAction<Promise<void>> =>
+  (identity: Identity): GlobalThunkAction<Promise<void>> =>
   async (dispatch, getState, { activeAccountDispatch }) => {
     NavigationService.dispatch(resetToMainTabs());
 
@@ -38,7 +38,7 @@ export const accountSwitch =
     //   we won't have to do this.
     activeAccountDispatch(resetAccountData());
 
-    dispatch(accountSwitchPlain(index));
+    dispatch(accountSwitchPlain(identity));
 
     // Now dispatch some actions on the new, post-switch active account.
     // Because we just dispatched `accountSwitchPlain`, that new account

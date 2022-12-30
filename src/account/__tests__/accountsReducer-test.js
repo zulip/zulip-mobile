@@ -64,7 +64,7 @@ describe('accountsReducer', () => {
       const prevState = deepFreeze([account1, account2, account3]);
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-        index: 0,
+        identity: identityOfAccount(account1),
       });
 
       const newState = accountsReducer(prevState, action);
@@ -77,7 +77,7 @@ describe('accountsReducer', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-        index: 1,
+        identity: identityOfAccount(account2),
       });
 
       const expectedState = [account2, account1, account3];
