@@ -163,6 +163,19 @@ function getPossibleUiStrings(possibleUiStringFilePaths) {
 function main() {
   let didError = false;
 
+  // We use a convention where a message's ID matches its value; a mismatch
+  // is probably accidental.
+  const mismatchedMessageEntries = Object.entries(messages_en).filter(
+    ([messageId, message]) => messageId !== message,
+  );
+  if (mismatchedMessageEntries.length > 0) {
+    console.error(
+      'Each message in static/translations/messages_en.json should match its ID, but some do not:',
+    );
+    console.error(mismatchedMessageEntries);
+    didError = true;
+  }
+
   // Mobile's style is to use curly quotes. They look nicer, but also: since
   // v3, react-intl uses the single straight quote as an escape character:
   //   https://formatjs.io/docs/intl-messageformat/#features
