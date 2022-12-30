@@ -246,8 +246,6 @@
   "Mark as unread from here": "Mark as unread from here",
   "Marked {numMessages} messages as unread": "Marked {numMessages} messages as unread",
   "Marking messages as unread…": "Marking messages as unread…",
-  "1 unread message": "1 unread message",
-  "{unreadCount} unread messages": "{unreadCount} unread messages",
   "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}": "{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}",
   "New group PM": "New group PM",
   "New PM": "New PM",

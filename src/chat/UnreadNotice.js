@@ -49,23 +49,11 @@ export default function UnreadNotice(props: Props): Node {
       <View style={styles.unreadTextWrapper}>
         <ZulipTextIntl
           style={styles.unreadText}
-          text={
-            // TODO(i18n): Try ICU syntax for plurals, like
-            // `{unreadCount, plural,
-            //   one {{unreadCount} unread message}
-            //   other {{unreadCount} unread messages}
-            // }`
-            // We hope Transifex gives a nice UI to translators so they can
-            // easily translate plurals. We've added the above message to
-            // messages_en.json, and we'll see if that's the case? See:
-            //   https://chat.zulip.org/#narrow/stream/58-translation/topic/ICU.20Message.20syntax/near/1300245
-            unreadCount === 1
-              ? '1 unread message'
-              : {
-                  text: '{unreadCount} unread messages',
-                  values: { unreadCount: unreadCount.toString() },
-                }
-          }
+          text={`\
+{unreadCount, plural,
+  one {{unreadCount} unread message}
+  other {{unreadCount} unread messages}
+}`}
         />
       </View>
       <MarkAsReadButton narrow={narrow} />
