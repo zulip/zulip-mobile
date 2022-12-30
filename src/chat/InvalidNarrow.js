@@ -27,7 +27,7 @@ type Props = $ReadOnly<{|
 export default function InvalidNarrow(props: Props): Node {
   return (
     <View style={styles.container}>
-      <ZulipTextIntl style={styles.text} text="That conversation doesn't seem to exist." />
+      <ZulipTextIntl style={styles.text} text="That conversation doesn’t seem to exist." />
     </View>
   );
 }

@@ -161,6 +161,22 @@ function getPossibleUiStrings(possibleUiStringFilePaths) {
 }
 
 function main() {
+  let didError = false;
+
+  // Mobile's style is to use curly quotes. They look nicer, but also: since
+  // v3, react-intl uses the single straight quote as an escape character:
+  //   https://formatjs.io/docs/intl-messageformat/#features
+  const messagesWithStraightQuotes = Object.values(messages_en).filter(message =>
+    /['"]/.test(message),
+  );
+  if (messagesWithStraightQuotes.length > 0) {
+    console.error(
+      'Found messages in static/translations/messages_en.json that have straight quotes. Please use smart quotes: “” and ‘’.',
+    );
+    console.error(messagesWithStraightQuotes);
+    didError = true;
+  }
+
   const possibleUiStrings = getPossibleUiStrings(getPossibleUiStringFilePaths());
 
   // Check each key ("message ID" in formatjs's lingo) against
@@ -174,6 +190,10 @@ function main() {
       "Found message IDs in static/translations/messages_en.json that don't seem to be used in the app:",
     );
     console.error(danglingMessageIds);
+    didError = true;
+  }
+
+  if (didError) {
     process.exit(1);
   }
 }
