@@ -308,6 +308,9 @@ if [ -n "$failed" ]; then
     cat >&2 <<EOF
 
 FAILED: ${failed[*]}
+
+To rerun the suites that failed, run:
+  $ tools/test ${failed[*]}
 EOF
     exit 1
 fi
