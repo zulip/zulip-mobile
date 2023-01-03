@@ -34,7 +34,7 @@ export default function LegalScreen(props: Props): Node {
 
   return (
     <Screen title="Legal">
-      <NestedNavRow label="Zulip terms" onPress={openZulipPolicies} />
+      <NestedNavRow title="Zulip terms" onPress={openZulipPolicies} />
       <NestedNavRow
         // These are really terms set by the server admin responsible for
         // hosting the org, and that server admin may or may not represent
@@ -46,7 +46,7 @@ export default function LegalScreen(props: Props): Node {
         //   at the other link).
         // - These terms will apply to all users in the org, in all cases.
         //   We should link to them.
-        label={{
+        title={{
           text: 'Terms for {realmName}',
           values: { realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} /> },
         }}

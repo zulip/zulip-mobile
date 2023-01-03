@@ -31,25 +31,25 @@ export default function DiagnosticsScreen(props: Props): Node {
       <ZulipText style={styles.versionLabel} text={`v${nativeApplicationVersion ?? '?.?.?'}`} />
       <OptionDivider />
       <NestedNavRow
-        label="Variables"
+        title="Variables"
         onPress={() => {
           navigation.push('variables');
         }}
       />
       <NestedNavRow
-        label="Timing"
+        title="Timing"
         onPress={() => {
           navigation.push('timing');
         }}
       />
       <NestedNavRow
-        label="Storage"
+        title="Storage"
         onPress={() => {
           navigation.push('storage');
         }}
       />
       <NestedNavRow
-        label="Debug"
+        title="Debug"
         onPress={() => {
           navigation.push('debug');
         }}

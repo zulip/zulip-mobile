@@ -87,7 +87,7 @@ export default function NotificationsScreen(props: Props): Node {
   return (
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
-      <NestedNavRow label="System settings for Zulip" onPress={handleSystemSettingsPress} />
+      <NestedNavRow title="System settings for Zulip" onPress={handleSystemSettingsPress} />
       <SwitchRow
         label="Notifications when offline"
         value={offlineNotification}

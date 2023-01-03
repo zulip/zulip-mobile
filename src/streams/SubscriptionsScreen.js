@@ -46,7 +46,7 @@ function AllStreamsButton(props: FooterProps): Node {
     navigation.push('all-streams');
   }, [navigation]);
 
-  return <NestedNavRow label="All streams" labelBoldUppercase onPress={handlePressAllScreens} />;
+  return <NestedNavRow title="All streams" titleBoldUppercase onPress={handlePressAllScreens} />;
 }
 
 export default function SubscriptionsScreen(props: Props): Node {
