@@ -1,6 +1,7 @@
 /* @flow strict-local */
 import { ExtendableError } from '../utils/logging';
 import type { ApiErrorCode, ApiResponseErrorData } from './transportTypes';
+import { ZulipVersion } from '../utils/zulipVersion';
 
 /**
  * Some kind of error from a Zulip API network request.
@@ -168,3 +169,26 @@ export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => 
   // the API says that shouldn't happen.
   throw new UnexpectedHttpStatusError(httpStatus, data);
 };
+
+/**
+ * The Zulip Server version below which we should just refuse to connect.
+ */
+// Currently chosen to affect a truly tiny fraction of users, as we test the
+// feature of refusing to connect, to keep the risk small; see
+//   https://github.com/zulip/zulip-mobile/issues/5102#issuecomment-1233446360
+// In steady state, this should lag a bit behind the threshold version for
+// ServerCompatBanner (kMinSupportedVersion), to give users time to see and
+// act on the banner.
+export const kMinAllowedServerVersion: ZulipVersion = new ZulipVersion('2.0');
+
+/**
+ * An error we throw in API bindings on finding a server is too old.
+ */
+export class ServerTooOldError extends ExtendableError {
+  version: ZulipVersion;
+
+  constructor(version: ZulipVersion) {
+    super(`Unsupported Zulip Server version: ${version.raw()}`);
+    this.version = version;
+  }
+}

@@ -18,6 +18,9 @@ import { Role } from '../api/permissionsTypes';
  *
  * Should match what we say at:
  *   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading
+ *
+ * See also kMinAllowedServerVersion in apiErrors.js, for the version below
+ * which we just refuse to connect.
  */
 // "2.2.0" is a funny way of saying "3.0", differing in that it accepts
 // versions like 2.2-dev-1234-g08192a3b4c.  Some servers running versions

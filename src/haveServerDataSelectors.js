@@ -2,8 +2,13 @@
 
 import type { GlobalState, PerAccountState } from './types';
 import { getUsers } from './directSelectors';
-import { tryGetAuth, tryGetActiveAccountState } from './account/accountsSelectors';
+import {
+  tryGetAuth,
+  tryGetActiveAccountState,
+  getServerVersion,
+} from './account/accountsSelectors';
 import { getUsersById } from './users/userSelectors';
+import { kMinAllowedServerVersion } from './api/apiErrors';
 
 /**
  * Whether we have server data for the active account.
@@ -111,6 +116,12 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
     //
     // For ACCOUNT_REMOVE, see the previous condition.
     // ACCOUNT_SWITCH we only do for logged-in accounts.
+    return false;
+  }
+
+  // We may have server data, but it would be from an ancient server that we
+  // don't support, so it might be malformed.
+  if (!getServerVersion(state).isAtLeast(kMinAllowedServerVersion)) {
     return false;
   }
 

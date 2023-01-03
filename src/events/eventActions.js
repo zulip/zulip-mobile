@@ -14,20 +14,26 @@ import { REGISTER_START, REGISTER_ABORT, REGISTER_COMPLETE, DEAD_QUEUE } from '.
 import { logout } from '../account/logoutActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { getAuth, tryGetAuth, getIdentity } from '../selectors';
+import { getAccount, tryGetAuth, getIdentity } from '../selectors';
 import { getHaveServerData } from '../haveServerDataSelectors';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
-import { identityOfAuth } from '../account/accountMisc';
+import { authOfAccount, identityOfAccount, identityOfAuth } from '../account/accountMisc';
 import { BackoffMachine, TimeoutError } from '../utils/async';
-import { ApiError, RequestError, Server5xxError, NetworkError } from '../api/apiErrors';
+import {
+  ApiError,
+  RequestError,
+  Server5xxError,
+  NetworkError,
+  ServerTooOldError,
+} from '../api/apiErrors';
 import * as logging from '../utils/logging';
 import { showErrorAlert } from '../utils/info';
 import { tryFetch, fetchPrivateMessages } from '../message/fetchActions';
 import { MIN_RECENTPMS_SERVER_VERSION } from '../pm-conversations/pmConversationsModel';
 import { sendOutbox } from '../outbox/outboxActions';
-import { initNotifications } from '../notification/notifTokens';
-import { kNextMinSupportedVersion } from '../common/ServerCompatBanner';
+import { initNotifications, tryStopNotifications } from '../notification/notifTokens';
+import { kMinSupportedVersion, kNextMinSupportedVersion } from '../common/ServerCompatBanner';
 import { maybeRefreshServerEmojiData } from '../emoji/data';
 
 const registerStart = (): PerAccountAction => ({
@@ -115,8 +121,11 @@ const registerComplete = (data: InitialData): PerAccountAction => ({
  * (`SearchMessagesScreen`).
  */
 export const registerAndStartPolling =
-  (): ThunkAction<Promise<void>> => async (dispatch, getState) => {
-    const auth = getAuth(getState());
+  (): ThunkAction<Promise<void>> =>
+  async (dispatch, getState, { getGlobalSettings }) => {
+    const account = getAccount(getState());
+    const identity = identityOfAccount(account);
+    const auth = authOfAccount(account);
 
     const haveServerData = getHaveServerData(getState());
 
@@ -151,6 +160,28 @@ export const registerAndStartPolling =
         // expect any API requests to succeed with an invalid auth. And we
         // *do* expect that whatever invalidated the auth also caused the
         // server to forget all push tokens.
+        dispatch(logout());
+      } else if (e instanceof ServerTooOldError) {
+        showErrorAlert(
+          // TODO(i18n): Set up these user-facing strings for translation
+          //   once callers all have access to a `GetText` function. One
+          //   place we dispatch this action is in StoreProvider, which
+          //   isn't a descendant of `TranslationProvider`.
+          'Could not connect',
+          `${identity.realm.toString()} is running Zulip Server ${e.version.raw()}, which is unsupported. The minimum supported version is Zulip Server ${kMinSupportedVersion.raw()}.`,
+          {
+            url: new URL(
+              // TODO: Instead, link to new Help Center doc once we have it:
+              //   https://github.com/zulip/zulip/issues/23842
+              'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+            ),
+            globalSettings: getGlobalSettings(),
+          },
+        );
+        // Don't delay the logout action by awaiting this request: it may
+        // take a long time or never succeed, and we need to kick the user
+        // out immediately.
+        dispatch(tryStopNotifications(account));
         dispatch(logout());
       } else if (e instanceof Server5xxError) {
         dispatch(registerAbort('server'));
