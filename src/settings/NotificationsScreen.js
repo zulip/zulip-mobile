@@ -168,6 +168,9 @@ export default function NotificationsScreen(props: Props): Node {
   return (
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
+      {
+        // TODO: Warn when device's push token isn't acked by the server.
+      }
       <NestedNavRow
         icon={
           systemSettingsWarnings.length > 0
