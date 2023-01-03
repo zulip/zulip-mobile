@@ -17,6 +17,7 @@ type Props = $ReadOnly<{|
   |},
 
   title: LocalizableReactText,
+  subtitle?: LocalizableReactText,
 
   // TODO: Should we make this unconfigurable? Should we have two reusable
   //   components, with and without this?
@@ -33,7 +34,7 @@ type Props = $ReadOnly<{|
  * selectable option row instead, use `SelectableOptionRow`.
  */
 export default function NestedNavRow(props: Props): Node {
-  const { title, titleBoldUppercase, onPress, icon } = props;
+  const { title, subtitle, titleBoldUppercase, onPress, icon } = props;
 
   const themeContext = useContext(ThemeContext);
 
@@ -55,8 +56,15 @@ export default function NestedNavRow(props: Props): Node {
           marginRight: 8,
           color: icon?.color ?? themeContext.color,
         },
+        textWrapper: {
+          flex: 1,
+        },
         title: {
           ...(titleBoldUppercase ? { textTransform: 'uppercase', fontWeight: '500' } : undefined),
+        },
+        subtitle: {
+          fontWeight: '300',
+          fontSize: 13,
         },
         iconRightFacingArrow: {
           textAlign: 'center',
@@ -71,7 +79,10 @@ export default function NestedNavRow(props: Props): Node {
     <Touchable onPress={onPress}>
       <View style={styles.container}>
         {!!icon && <icon.Component size={24} style={styles.iconFromProps} />}
-        <ZulipTextIntl style={styles.title} text={title} />
+        <View style={styles.textWrapper}>
+          <ZulipTextIntl style={styles.title} text={title} />
+          {subtitle !== undefined && <ZulipTextIntl style={styles.subtitle} text={subtitle} />}
+        </View>
         <View style={globalStyles.rightItem}>
           <IconRight size={24} style={styles.iconRightFacingArrow} />
         </View>
