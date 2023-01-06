@@ -1,4 +1,6 @@
 /* @flow strict-local */
+// $FlowFixMe[untyped-import]
+import Color from 'color';
 import React, { useCallback, useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { Platform, View, Alert, Linking, Pressable } from 'react-native';
@@ -10,10 +12,11 @@ import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { Narrow } from '../types';
 import { showErrorAlert } from '../utils/info';
-import { BRAND_COLOR, HIGHLIGHT_COLOR, createStyleSheet } from '../styles';
+import { createStyleSheet } from '../styles';
 import { IconImage, IconCamera, IconAttach, IconVideo } from '../common/Icons';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
+import { ThemeContext } from '../styles/theme';
 import type { SpecificIconType } from '../common/Icons';
 
 type Props = $ReadOnly<{|
@@ -74,9 +77,18 @@ function MenuButton(props: MenuButtonProps) {
   const { onPress, IconComponent } = props;
   const style = useMemo(() => ({ paddingHorizontal: 12, paddingVertical: 8 }), []);
 
+  const themeData = useContext(ThemeContext);
+
+  // TODO: Use standard colors from a palette; don't do this ad-hoc stuff.
+  const color: string = useMemo(
+    () => Color(themeData.color).fade(0.5).toString(),
+    [themeData.color],
+  );
+  const pressedColor: string = useMemo(() => Color(color).fade(0.5).toString(), [color]);
+
   return (
     <Pressable style={style} onPress={onPress}>
-      {({ pressed }) => <IconComponent color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR} size={24} />}
+      {({ pressed }) => <IconComponent color={pressed ? pressedColor : color} size={24} />}
     </Pressable>
   );
 }
