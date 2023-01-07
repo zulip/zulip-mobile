@@ -22,6 +22,7 @@ import {
 import AnimatedComponent from '../animation/AnimatedComponent';
 import { uploadFile } from '../actions';
 import { androidEnsureStoragePermission } from '../lightbox/download';
+import type { SpecificIconType } from '../common/Icons';
 
 type Props = $ReadOnly<{|
   expanded: boolean,
@@ -73,6 +74,18 @@ export const chooseUploadImageFilename = (uri: string, fileName: string): string
 
   return nameWithoutPrefix;
 };
+
+type MenuButtonProps = $ReadOnly<{|
+  onPress: () => void | Promise<void>,
+  IconComponent: SpecificIconType,
+|}>;
+
+function MenuButton(props: MenuButtonProps) {
+  const { onPress, IconComponent } = props;
+  const style = useMemo(() => ({ padding: 12, marginRight: -8, color: BRAND_COLOR }), []);
+
+  return <IconComponent style={style} size={24} onPress={onPress} />;
+}
 
 export default function ComposeMenu(props: Props): Node {
   const { destinationNarrow, insertAttachment, expanded, insertVideoCallLink, onExpandContract } =
@@ -220,11 +233,6 @@ export default function ComposeMenu(props: Props): Node {
           padding: 12,
           color: BRAND_COLOR,
         },
-        composeMenuButton: {
-          padding: 12,
-          marginRight: -8,
-          color: BRAND_COLOR,
-        },
       }),
     [],
   );
@@ -241,12 +249,12 @@ export default function ComposeMenu(props: Props): Node {
       >
         <View style={styles.composeMenu}>
           {Platform.OS === 'android' && (
-            <IconAttach style={styles.composeMenuButton} size={24} onPress={handleFilesPicker} />
+            <MenuButton onPress={handleFilesPicker} IconComponent={IconAttach} />
           )}
-          <IconImage style={styles.composeMenuButton} size={24} onPress={handleImagePicker} />
-          <IconCamera style={styles.composeMenuButton} size={24} onPress={handleCameraCapture} />
+          <MenuButton onPress={handleImagePicker} IconComponent={IconImage} />
+          <MenuButton onPress={handleCameraCapture} IconComponent={IconCamera} />
           {insertVideoCallLink !== null ? (
-            <IconVideo style={styles.composeMenuButton} size={24} onPress={insertVideoCallLink} />
+            <MenuButton onPress={insertVideoCallLink} IconComponent={IconVideo} />
           ) : null}
         </View>
       </AnimatedComponent>
