@@ -227,6 +227,9 @@ export default function ComposeMenu(props: Props): Node {
       createStyleSheet({
         composeMenu: {
           flexDirection: 'row',
+
+          // Hide the buttons when the menu is collapsed. (overflowX would
+          // be great here if RN offered it.)
           overflow: 'hidden',
         },
         expandButton: {
