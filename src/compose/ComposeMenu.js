@@ -4,6 +4,7 @@ import Color from 'color';
 import React, { useCallback, useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { Platform, View, Alert, Linking, Pressable } from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 import type { DocumentPickerResponse } from 'react-native-document-picker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
@@ -208,10 +209,6 @@ export default function ComposeMenu(props: Props): Node {
   }, [_, handleImagePickerResponse]);
 
   const handleFilesPicker = useCallback(async () => {
-    // Defer import to here, to avoid an obnoxious import-time warning
-    // from this library when in the test environment.
-    const DocumentPicker = (await import('react-native-document-picker')).default;
-
     let response = undefined;
     try {
       response = (await DocumentPicker.pickMultiple({
