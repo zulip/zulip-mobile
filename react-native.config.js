@@ -16,12 +16,6 @@ module.exports = {
    * https://github.com/react-native-community/cli/blob/master/docs/autolinking.md.
    */
   dependencies: {
-    'react-native-document-picker': {
-      platforms: {
-        // iOS file uploads aren't supported yet. See 250cde501.
-        ios: null,
-      },
-    },
     'react-native-vector-icons': {
       platforms: {
         // We're using a setup that doesn't involve linking

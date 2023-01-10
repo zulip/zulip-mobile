@@ -239,9 +239,7 @@ export default function ComposeMenu(props: Props): Node {
 
   return (
     <View style={styles.container}>
-      {Platform.OS === 'android' && (
-        <MenuButton onPress={handleFilesPicker} IconComponent={IconAttach} />
-      )}
+      <MenuButton onPress={handleFilesPicker} IconComponent={IconAttach} />
       <MenuButton onPress={handleImagePicker} IconComponent={IconImage} />
       <MenuButton onPress={handleCameraCapture} IconComponent={IconCamera} />
       {insertVideoCallLink !== null ? (
