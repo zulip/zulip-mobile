@@ -650,7 +650,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           flexShrink: 1,
           backgroundColor: 'hsla(0, 0%, 50%, 0.1)',
         },
-        composeText: {
+        composeInputs: {
           flex: 1,
           paddingVertical: 8,
         },
@@ -744,7 +744,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           }
           onExpandContract={handleComposeMenuToggle}
         />
-        <View style={styles.composeText}>
+        <View style={styles.composeInputs}>
           <Input
             style={styles.topicInput}
             autoCapitalize="none"
