@@ -39,6 +39,41 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Fixed a bug in the compose box where tapping the "+" button or its
+  neighbors wouldn't work or would even erase your message draft. (#5463,
+  #5291)
+* The org URL screen now links to a doc that can help you find your org URL.
+  (PR #5604)
+* The in-app notification settings screen now links to the system
+  notification settings for Zulip. (PR #5627)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We removed some unused strings from messages_en.json that were still
+  appearing in Transifex. (PR #5624)
+
+* `REGISTER_COMPLETE` now resets some state that it should reset but hasn't
+  been. (PR #5613)
+
+* We now consistently clear old data on all ways of leaving an account.
+  (#4446)
+
+* (Android) Bumped compileSdkVersion to 33 (Android 13). (PR #5618)
+
+* Our style guide now prohibits objects-as-map when constructing
+  `Immutable.Map`s, to work around a type-checking hole. (PR #5622)
+
+* We now specify the provisioning profile in `ios/upload.plist`, hopefully
+  making `tools/ios build` and `tools/ios upload` work for Chris. (PR #5617)
+
+* Resolved issues: #5080, #5291, #5463, #4628, PR #5627, PR #5613, #4446
+
 
 ## 27.197 (2022-12-14)
 
