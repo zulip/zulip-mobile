@@ -666,8 +666,10 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           opacity: submitButtonDisabled ? 0.25 : 1,
         },
         topicInput: {
+          // These border attributes override styles set in <Input />.
           borderWidth: 0,
           borderRadius: 5,
+
           marginBottom: 8,
           ...inputMarginPadding,
           backgroundColor,
@@ -684,8 +686,10 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           ...(!canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] }),
         },
         composeTextInput: {
+          // These border attributes override styles set in <Input />.
           borderWidth: 0,
           borderRadius: 5,
+
           fontSize: 15,
           flexShrink: 1,
           ...inputMarginPadding,
