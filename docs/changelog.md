@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.198 (2023-01-11)
+
 ### Highlights for users
 
 * (iOS) Fixed a bug in the compose box where tapping the "+" button or its
