@@ -3,10 +3,10 @@ import { Platform, PermissionsAndroid } from 'react-native';
 import type { Rationale } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import RNFetchBlob from 'rn-fetch-blob';
-import invariant from 'invariant';
 
 import type { Auth } from '../api/transportTypes';
 import { getMimeTypeFromFileExtension } from '../utils/url';
+import { androidSdkVersion } from '../reactNativeUtils';
 
 /**
  * Request permission WRITE_EXTERNAL_STORAGE if needed or throw if can't get it.
@@ -18,17 +18,7 @@ import { getMimeTypeFromFileExtension } from '../utils/url';
  * as a toast.
  */
 export const androidEnsureStoragePermission = async (rationale: Rationale): Promise<void> => {
-  invariant(
-    Platform.OS === 'android',
-    'androidEnsureStoragePermission should only be called on Android',
-  );
-  // Flow isn't refining `Platform` to a type that corresponds to values
-  // we'll see on Android. We do expect `Platform.Version` to be a number on
-  // Android; see https://reactnative.dev/docs/platform#version. Empirically
-  // (and this isn't in the doc yet), it's the SDK version, so for Android
-  // 10 it won't be 10, it'll be 29.
-  const androidSdkVersion = (Platform.Version: number);
-  if (androidSdkVersion > 28) {
+  if (androidSdkVersion() > 28) {
     return;
   }
 
