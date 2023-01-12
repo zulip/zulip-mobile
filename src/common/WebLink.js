@@ -7,9 +7,20 @@ import { openLinkWithUserPreference } from '../utils/openLink';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings } from '../directSelectors';
+import type { BoundedDiff } from '../generics';
+
+type ZulipTextProps = $Exact<React$ElementConfig<typeof ZulipText>>;
 
 type Props = $ReadOnly<{|
-  ...$Exact<React$ElementConfig<typeof ZulipText>>,
+  ...BoundedDiff<
+    ZulipTextProps,
+    {|
+      // Could accept `style`, just be sure to merge with web-link style.
+      style: ZulipTextProps['style'],
+
+      onPress: ZulipTextProps['onPress'],
+    |},
+  >,
   url: URL,
 |}>;
 
@@ -28,7 +39,7 @@ const componentStyles = createStyleSheet({
  * special formatting, you have to pass `inheritColor` to those.
  */
 export default function WebLink(props: Props): React.Node {
-  const { children } = props;
+  const { url, ...zulipTextProps } = props;
 
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
@@ -36,10 +47,9 @@ export default function WebLink(props: Props): React.Node {
     <ZulipText
       style={componentStyles.link}
       onPress={() => {
-        openLinkWithUserPreference(props.url.toString(), globalSettings);
+        openLinkWithUserPreference(url.toString(), globalSettings);
       }}
-    >
-      {children}
-    </ZulipText>
+      {...zulipTextProps}
+    />
   );
 }
