@@ -44,10 +44,11 @@ It doesn't include
 * (iOS) Fixed a bug in the compose box where tapping the "+" button or its
   neighbors wouldn't work or would even erase your message draft. (#5463,
   #5291)
+* (iOS) You can now upload file attachments like PDFs. (#4586)
 * The org URL screen now links to a doc that can help you find your org URL.
   (PR #5604)
 * The in-app notification settings screen now links to the system
-  notification settings for Zulip. (PR #5627)
+  notification settings. (PR #5627)
 
 Plus, like every release, other fixes and improvements for your Zulip
 experience.
@@ -72,7 +73,8 @@ experience.
 * We now specify the provisioning profile in `ios/upload.plist`, hopefully
   making `tools/ios build` and `tools/ios upload` work for Chris. (PR #5617)
 
-* Resolved issues: #5080, #5291, #5463, #4628, PR #5627, PR #5613, #4446
+* Resolved issues: #4586, #5080, #5291, #5463, #4628, PR #5627, PR #5613,
+  #4446
 
 
 ## 27.197 (2022-12-14)
