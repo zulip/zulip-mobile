@@ -76,6 +76,12 @@ experience.
 * We now specify the provisioning profile in `ios/upload.plist`, hopefully
   making `tools/ios build` and `tools/ios upload` work for Chris. (PR #5617)
 
+* We made an unplanned UI change to the flow for uploading images on Android
+  13+, due to an upgrade in `react-native-image-picker` that started using
+  Android's new-ish `PhotoPicker` API. Greg witnessed the change when
+  upgrading to v27.198 and from what he saw said it was an improvement.
+  (PR #5618)
+
 * Resolved issues: #4586, #5080, #5291, #5463, #4628, PR #5627, PR #5613,
   #4446
 
