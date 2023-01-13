@@ -61,8 +61,6 @@ const useMessagesWithFetch = args => {
 
   const eventQueueId = useSelector(state => getSession(state).eventQueueId);
   const loading = useSelector(getLoading);
-  const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
-  const isFetching = fetching.older || fetching.newer || loading;
   const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
   const messages = useSelector(state => getShownMessagesForNarrow(state, narrow));
   const firstUnreadIdInNarrow = useSelector(state => getFirstUnreadIdInNarrow(state, narrow));
@@ -106,6 +104,9 @@ const useMessagesWithFetch = args => {
   //   with isFetching true.  It'd be nice to avoid that.
   const nothingKnown = messages.length === 0 && !caughtUp.older && !caughtUp.newer;
   useConditionalEffect(scheduleFetch, nothingKnown);
+
+  const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
+  const isFetching = fetching.older || fetching.newer || loading || nothingKnown;
 
   // On first mount, fetch.  (This also makes a fetch no longer scheduled,
   // so the if-scheduled fetch below doesn't also fire.)
