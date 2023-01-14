@@ -7,7 +7,7 @@ import OpenNotification from 'react-native-open-notification';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useSelector } from '../react-redux';
+import { useGlobalSelector, useSelector } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
@@ -19,6 +19,10 @@ import { IconAlertTriangle } from '../common/Icons';
 import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { kWarningColor } from '../styles/constants';
+import { getIdentities, getIdentity, getIsActiveAccount } from '../account/accountsSelectors';
+import { getRealmName } from '../directSelectors';
+import ZulipText from '../common/ZulipText';
+import SettingsGroup from './SettingsGroup';
 
 const {
   ZLPConstants,
@@ -104,11 +108,22 @@ function openSystemNotificationSettings() {
   }
 }
 
-/** (NB this is a per-account screen -- these are per-account settings.) */
+/**
+ * Notification settings with warnings when something seems wrong.
+ *
+ * Includes an area for per-account settings.
+ */
 export default function NotificationsScreen(props: Props): Node {
+  const { navigation } = props;
+
   const _ = useContext(TranslationContext);
 
   const auth = useSelector(getAuth);
+  const identity = useSelector(getIdentity);
+  const otherAccounts = useGlobalSelector(state =>
+    getIdentities(state).filter(identity_ => !getIsActiveAccount(state, identity_)),
+  );
+  const realmName = useSelector(getRealmName);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
@@ -166,6 +181,10 @@ export default function NotificationsScreen(props: Props): Node {
     });
   }, [streamNotification, auth]);
 
+  const handleOtherAccountsPress = useCallback(() => {
+    navigation.push('account-pick');
+  }, [navigation]);
+
   return (
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
@@ -194,21 +213,34 @@ export default function NotificationsScreen(props: Props): Node {
         })()}
         onPress={handleSystemSettingsPress}
       />
-      <SwitchRow
-        label="Notifications when offline"
-        value={offlineNotification}
-        onValueChange={handleOfflineNotificationChange}
-      />
-      <SwitchRow
-        label="Notifications when online"
-        value={onlineNotification}
-        onValueChange={handleOnlineNotificationChange}
-      />
-      <SwitchRow
-        label="Stream notifications"
-        value={streamNotification}
-        onValueChange={handleStreamNotificationChange}
-      />
+      <SettingsGroup
+        title={{
+          text: 'Notification settings for this account ({email} in {realmName}):',
+          values: {
+            email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
+            realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
+          },
+        }}
+      >
+        <SwitchRow
+          label="Notifications when offline"
+          value={offlineNotification}
+          onValueChange={handleOfflineNotificationChange}
+        />
+        <SwitchRow
+          label="Notifications when online"
+          value={onlineNotification}
+          onValueChange={handleOnlineNotificationChange}
+        />
+        <SwitchRow
+          label="Stream notifications"
+          value={streamNotification}
+          onValueChange={handleStreamNotificationChange}
+        />
+      </SettingsGroup>
+      {otherAccounts.length > 0 && (
+        <NestedNavRow title="Other accounts" onPress={handleOtherAccountsPress} />
+      )}
     </Screen>
   );
 }

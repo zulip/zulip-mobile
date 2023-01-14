@@ -229,6 +229,8 @@
   "System settings for Zulip": "System settings for Zulip",
   "Notifications are disabled.": "Notifications are disabled.",
   "Multiple issues. Tap to learn more.": "Multiple issues. Tap to learn more.",
+  "Notification settings for this account ({email} in {realmName}):": "Notification settings for this account ({email} in {realmName}):",
+  "Other accounts": "Other accounts",
   "Notifications when online": "Notifications when online",
   "Notifications when offline": "Notifications when offline",
   "Stream notifications": "Stream notifications",
