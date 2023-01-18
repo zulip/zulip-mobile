@@ -3,7 +3,7 @@ import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { SubsetProperties } from './generics';
+import type { BoundedDiff, SubsetProperties } from './generics';
 import type {
   Auth,
   Topic,
@@ -151,7 +151,7 @@ export type Account = {|
  * Use `identityOfAuth` or `identityOfAccount` to make one of these where
  * you have an `Auth` or `Account`.
  */
-export type Identity = $Diff<Auth, {| apiKey: string |}>;
+export type Identity = BoundedDiff<Auth, {| +apiKey: Auth['apiKey'] |}>;
 
 export type EmojiType = 'image' | 'unicode';
 
