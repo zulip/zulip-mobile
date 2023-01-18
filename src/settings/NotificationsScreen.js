@@ -20,7 +20,7 @@ import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { kWarningColor } from '../styles/constants';
 import { getIdentities, getIdentity, getIsActiveAccount } from '../account/accountsSelectors';
-import { getRealmName } from '../directSelectors';
+import { getRealm, getRealmName } from '../directSelectors';
 import ZulipText from '../common/ZulipText';
 import SettingsGroup from './SettingsGroup';
 
@@ -124,6 +124,7 @@ export default function NotificationsScreen(props: Props): Node {
     getIdentities(state).filter(identity_ => !getIsActiveAccount(state, identity_)),
   );
   const realmName = useSelector(getRealmName);
+  const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
@@ -213,31 +214,33 @@ export default function NotificationsScreen(props: Props): Node {
         })()}
         onPress={handleSystemSettingsPress}
       />
-      <SettingsGroup
-        title={{
-          text: 'Notification settings for this account ({email} in {realmName}):',
-          values: {
-            email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
-            realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
-          },
-        }}
-      >
-        <SwitchRow
-          label="Notifications when offline"
-          value={offlineNotification}
-          onValueChange={handleOfflineNotificationChange}
-        />
-        <SwitchRow
-          label="Notifications when online"
-          value={onlineNotification}
-          onValueChange={handleOnlineNotificationChange}
-        />
-        <SwitchRow
-          label="Stream notifications"
-          value={streamNotification}
-          onValueChange={handleStreamNotificationChange}
-        />
-      </SettingsGroup>
+      {pushNotificationsEnabled && (
+        <SettingsGroup
+          title={{
+            text: 'Notification settings for this account ({email} in {realmName}):',
+            values: {
+              email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
+              realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
+            },
+          }}
+        >
+          <SwitchRow
+            label="Notifications when offline"
+            value={offlineNotification}
+            onValueChange={handleOfflineNotificationChange}
+          />
+          <SwitchRow
+            label="Notifications when online"
+            value={onlineNotification}
+            onValueChange={handleOnlineNotificationChange}
+          />
+          <SwitchRow
+            label="Stream notifications"
+            value={streamNotification}
+            onValueChange={handleStreamNotificationChange}
+          />
+        </SettingsGroup>
+      )}
       {otherAccounts.length > 0 && (
         <NestedNavRow title="Other accounts" onPress={handleOtherAccountsPress} />
       )}
