@@ -58,7 +58,7 @@ export type InputSelection = {|
  * with `identityOfAccount` to convert at the boundary.
  * TODO: move more code that way.
  */
-export type Account = {|
+export type Account = $ReadOnly<{|
   ...Auth,
 
   /**
@@ -142,7 +142,7 @@ export type Account = {|
    * apply.
    */
   lastDismissedServerPushSetupNotice: Date | null,
-|};
+|}>;
 
 /**
  * An identity belonging to this user in some Zulip org, with no secrets.
