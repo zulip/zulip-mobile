@@ -48,6 +48,8 @@ It doesn't include
   neighbors wouldn't work or would even erase your message draft. (#5463,
   #5291)
 * (iOS) You can now upload file attachments like PDFs. (#4586)
+* (Android) When attaching an image on Android 13+, you get a sleek,
+  convenient new interface. (PR #5618)
 * The org URL screen now links to a doc that can help you find your org URL.
   (PR #5604)
 * The in-app notification settings screen now links to the system
