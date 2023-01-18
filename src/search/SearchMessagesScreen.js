@@ -62,7 +62,13 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
    * Stores the fetched messages in the Redux store. Does not read any
    * of the component's data except `props.dispatch`.
    */
-  fetchSearchMessages = async (query: string): Promise<$ReadOnlyArray<Message>> => {
+  fetchSearchMessages = async (
+    query: string,
+  ): Promise<{
+    foundNewest: boolean,
+    foundOldest: boolean,
+    messages: $ReadOnlyArray<Message>,
+  }> => {
     const fetchArgs = {
       narrow: SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,
@@ -102,7 +108,7 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
 
     this.setState({ isFetching: true });
     try {
-      const messages = await this.fetchSearchMessages(query);
+      const { messages } = await this.fetchSearchMessages(query);
 
       // Update `state.messages` if this is our new latest result.
       if (id > this.lastIdSuccess) {

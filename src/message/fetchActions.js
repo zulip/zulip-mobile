@@ -98,7 +98,9 @@ export const fetchMessages =
     anchor: number,
     numBefore: number,
     numAfter: number,
-  |}): ThunkAction<Promise<$ReadOnlyArray<Message>>> =>
+  |}): ThunkAction<
+    Promise<{| messages: $ReadOnlyArray<Message>, foundNewest: boolean, foundOldest: boolean |}>,
+  > =>
   async (dispatch, getState) => {
     dispatch(messageFetchStart(fetchArgs.narrow, fetchArgs.numBefore, fetchArgs.numAfter));
     try {
@@ -131,7 +133,7 @@ export const fetchMessages =
           ownUserId: getOwnUserId(getState()),
         }),
       );
-      return messages;
+      return { messages, foundNewest: found_newest, foundOldest: found_oldest };
     } catch (errorIllTyped) {
       const e: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
       dispatch(
@@ -232,7 +234,13 @@ export const fetchMessagesInNarrow =
   (
     narrow: Narrow,
     anchor: number = FIRST_UNREAD_ANCHOR,
-  ): ThunkAction<Promise<$ReadOnlyArray<Message> | void>> =>
+  ): ThunkAction<
+    Promise<{|
+      messages: $ReadOnlyArray<Message>,
+      foundNewest: boolean,
+      foundOldest: boolean,
+    |} | void>,
+  > =>
   async (dispatch, getState) => {
     if (!isFetchNeededAtAnchor(getState(), narrow, anchor)) {
       return undefined;

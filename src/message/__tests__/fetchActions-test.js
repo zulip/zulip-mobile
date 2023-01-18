@@ -297,7 +297,7 @@ describe('fetchActions', () => {
         // [2] https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M4156.20Message.20List.20placeholders/near/928778
 
         expect(actions[1].type).toBe('MESSAGE_FETCH_COMPLETE');
-        expect(returnValue).toEqual([message1]);
+        expect(returnValue.messages).toEqual([message1]);
       });
     });
 
