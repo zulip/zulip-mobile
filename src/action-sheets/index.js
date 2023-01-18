@@ -728,7 +728,6 @@ export const constructMessageActionButtons = (args: {|
   }
   if (message.sender_id === ownUser.user_id && messageNotDeleted(message)) {
     // TODO(#2793): Don't show if message isn't deletable.
-    buttons.push(deleteMessage);
   }
   if (
     // When do we offer "Mark as unread from here"?  This logic parallels
