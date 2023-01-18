@@ -23,11 +23,7 @@ import {
 import {
   getAuth,
   getRealm,
-  getSession,
-  getFirstMessageId,
-  getLastMessageId,
   getCaughtUpForNarrow,
-  getFetchingForNarrow,
   getStreamsById,
   getZulipFeatureLevel,
 } from '../selectors';
@@ -165,48 +161,6 @@ export const fetchMessages =
         numAfter: fetchArgs.numAfter,
       });
       throw e;
-    }
-  };
-
-export const fetchOlder =
-  (narrow: Narrow): ThunkAction<void> =>
-  (dispatch, getState) => {
-    const state = getState();
-    const firstMessageId = getFirstMessageId(state, narrow);
-    const caughtUp = getCaughtUpForNarrow(state, narrow);
-    const fetching = getFetchingForNarrow(state, narrow);
-    const { loading } = getSession(state);
-
-    if (!loading && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
-      dispatch(
-        fetchMessages({
-          narrow,
-          anchor: firstMessageId,
-          numBefore: config.messagesPerRequest,
-          numAfter: 0,
-        }),
-      );
-    }
-  };
-
-export const fetchNewer =
-  (narrow: Narrow): ThunkAction<void> =>
-  (dispatch, getState) => {
-    const state = getState();
-    const lastMessageId = getLastMessageId(state, narrow);
-    const caughtUp = getCaughtUpForNarrow(state, narrow);
-    const fetching = getFetchingForNarrow(state, narrow);
-    const { loading } = getSession(state);
-
-    if (!loading && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
-      dispatch(
-        fetchMessages({
-          narrow,
-          anchor: lastMessageId,
-          numBefore: 0,
-          numAfter: config.messagesPerRequest,
-        }),
-      );
     }
   };
 

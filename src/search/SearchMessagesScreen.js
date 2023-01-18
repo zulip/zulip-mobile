@@ -130,6 +130,14 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
     this.handleQuerySubmit(e);
   };
 
+  fetchOlder = () => {
+    // TODO
+  };
+
+  fetchNewer = () => {
+    // TODO
+  };
+
   render() {
     const { messages, isFetching } = this.state;
 
@@ -144,6 +152,8 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
           messages={messages}
           isFetching={isFetching}
           narrow={SEARCH_NARROW(this.state.query)}
+          fetchNewer={this.fetchNewer}
+          fetchOlder={this.fetchOlder}
         />
       </Screen>
     );

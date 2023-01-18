@@ -12,7 +12,7 @@ import { isUrlAnImage, tryParseUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
-import { fetchOlder, fetchNewer, doNarrow, messageLinkPress } from '../actions';
+import { doNarrow, messageLinkPress } from '../actions';
 import {
   showTopicActionSheet,
   showPmConversationActionSheet,
@@ -153,12 +153,11 @@ export type WebViewOutboundEvent =
 
 const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
-  const { dispatch, narrow } = props;
   if (scrollY < config.messageListThreshold) {
-    dispatch(fetchOlder(narrow));
+    props.fetchOlder();
   }
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
-    dispatch(fetchNewer(narrow));
+    props.fetchNewer();
   }
 };
 

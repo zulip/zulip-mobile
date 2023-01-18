@@ -47,6 +47,8 @@ type OuterProps = $ReadOnly<{|
   initialScrollMessageId: number | null,
   showMessagePlaceholders: boolean,
   startEditMessage: (editMessage: EditMessage) => void,
+  fetchOlder: () => Promise<void> | void,
+  fetchNewer: () => Promise<void> | void,
 
   // Careful: We expect this prop to be mutable, which is unusual.
   composeBoxRef: {| current: ComposeBoxImperativeHandle | null |},

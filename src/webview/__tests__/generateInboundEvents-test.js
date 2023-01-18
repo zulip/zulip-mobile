@@ -33,6 +33,8 @@ describe('generateInboundEvents', () => {
     dispatch: jest.fn(),
     ...baseSelectorProps,
     showActionSheetWithOptions: jest.fn(),
+    fetchOlder: jest.fn(),
+    fetchNewer: jest.fn(),
 
     _: jest.fn(),
     setDoNotMarkMessagesAsRead: jest.fn(),
