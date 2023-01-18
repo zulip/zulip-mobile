@@ -18,6 +18,7 @@ import { useAppState } from '../reactNativeUtils';
 import { IconAlertTriangle } from '../common/Icons';
 import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { kWarningColor } from '../styles/constants';
 
 const {
   ZLPConstants,
@@ -176,7 +177,7 @@ export default function NotificationsScreen(props: Props): Node {
           systemSettingsWarnings.length > 0
             ? {
                 Component: IconAlertTriangle,
-                color: 'hsl(40, 100%, 60%)', // Material warning-color
+                color: kWarningColor,
               }
             : undefined
         }

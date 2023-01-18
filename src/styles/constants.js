@@ -18,3 +18,6 @@ export const HIGHLIGHT_COLOR: string = Color(BRAND_COLOR).fade(0.5).toString();
 
 export const HALF_COLOR = 'hsla(0, 0%, 50%, 0.5)';
 export const QUARTER_COLOR = 'hsla(0, 0%, 50%, 0.25)';
+
+// Material warning color
+export const kWarningColor = 'hsl(40, 100%, 60%)';
