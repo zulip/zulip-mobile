@@ -521,7 +521,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       result.push('mandatory-topic-empty');
     }
 
-    if (messageInputValue.trim().length === 0) {
+    if (messageInputValue.trim().length === 0 && !isEditing) {
       result.push('message-empty');
     }
 
@@ -540,6 +540,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     numUploading,
     anyQuoteAndReplyInProgress,
     messageInputState,
+    isEditing,
   ]);
 
   const submitButtonDisabled = validationErrors.length > 0;
