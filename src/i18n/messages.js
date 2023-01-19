@@ -14,6 +14,7 @@
 // client, which are based on the language names that appear in Transifex.
 export default {
   ar: require('../../static/translations/messages_ar.json'),
+  be: require('../../static/translations/messages_be.json'),
   bg: require('../../static/translations/messages_bg.json'),
   bn: require('../../static/translations/messages_bn.json'),
   ca: require('../../static/translations/messages_ca.json'),
