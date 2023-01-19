@@ -1,7 +1,8 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import { View, Text, Clipboard, TextInput, ScrollView, Button, Platform } from 'react-native';
+import { View, Text, TextInput, ScrollView, Button, Platform } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import Toast from 'react-native-simple-toast';
 
 import * as logging from './utils/logging';

@@ -280,7 +280,11 @@ rules:
     - devDependencies: ['**/__tests__/**/*.js', tools/**]
   no-restricted-imports:
     - error
-    - patterns:
+    - paths:
+      - name: 'react-native'
+        importNames: ['Clipboard']
+        message: 'Use Clipboard from @react-native-clipboard/clipboard instead.'
+      patterns:
       - group: ['**/__tests__/**']
       - group: ['/react-redux']
         message: 'Use our own src/react-redux.js instead.'

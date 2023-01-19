@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { Clipboard, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import * as api from '../api';
 import config from '../config';

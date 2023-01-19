@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { Clipboard, Share, Alert } from 'react-native';
+import { Share, Alert } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import invariant from 'invariant';
 import * as resolved_topic from '@zulip/shared/lib/resolved_topic';
 
