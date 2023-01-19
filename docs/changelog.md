@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.199 (2023-01-19)
+
 ### Highlights for users, vs. v27.197 (last prod release)
 
 * (iOS) Fixed a bug in the compose box where tapping the "+" button or its
@@ -77,6 +80,8 @@ experience.
 
 
 ## 27.198 (2023-01-11)
+
+This was a beta-only release.
 
 ### Highlights for users
 
