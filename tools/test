@@ -22,15 +22,22 @@ this_dir=${BASH_SOURCE[0]%/*}
 
 ## CLI PARSING
 
+default_suites=(native flow lint jest prettier deps tsflower)
+extra_suites=()
+
 usage() {
     cat >&2 <<EOF
 usage: tools/test [OPTION]... [SUITE]...
 
 Run our tests.
 
-By default, run all suites except any noted under "Suites:" below, but only
-on files changed in this branch as found by
+By default, run only on files changed in this branch as found by
 \`tools/git changed-files \$(tools/git base)\`.
+
+By default, run ${#default_suites[@]} suite(s):
+  ${default_suites[*]}
+and skip ${#extra_suites[@]} suite(s):
+  ${extra_suites[*]}
 
 What tests to run:
   --all-files
@@ -57,32 +64,15 @@ Extra things to do:
   --coverage  Collect test-coverage information.  Only meaningful
               with --all.
   --fix       Fix issues found, where possible.
-
-Suites:
-  native
-  flow
-  lint
-  jest
-  prettier
-  deps
-  tsflower
 EOF
     exit 2
 }
 
-# The complete list of suites.
-all_suites=(native flow lint jest prettier deps tsflower)
-
 opt_coverage=
 opt_files=branch
 opt_platform=sloppy
+opt_all=
 opt_fix=
-
-# The suites to run if none are given as arguments. Unless --all is
-# specified, this doesn't have to be the complete list; just be sure to
-# document in the usage message when a suite gets skipped.
-opt_default_suites=(native flow lint jest prettier deps tsflower)
-
 opt_suites=()
 while (( $# )); do
     case "$1" in
@@ -97,7 +87,7 @@ while (( $# )); do
             esac
             shift
             ;;
-        --all) opt_files=all; opt_platform=both; opt_default_suites=( "${all_suites[@]}" ); shift;;
+        --all) opt_files=all; opt_platform=both; opt_all=1; shift;;
         --fix) opt_fix=1; shift;;
         native|flow|lint|jest|prettier|deps|tsflower)
             opt_suites+=("$1"); shift;;
@@ -106,7 +96,11 @@ while (( $# )); do
 done
 
 if [ -z "$opt_suites" ]; then
-    opt_suites=( "${opt_default_suites[@]}" )
+    if [ -n "${opt_all}" ]; then
+        opt_suites=( "${default_suites[@]}" "${extra_suites[@]}" )
+    else
+        opt_suites=( "${default_suites[@]}" )
+    fi
 fi
 
 files_base_commit=
