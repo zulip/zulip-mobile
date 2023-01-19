@@ -39,6 +39,42 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs. v27.197 (last prod release)
+
+* (iOS) Fixed a bug in the compose box where tapping the "+" button or its
+  neighbors wouldn't work or would even erase your message draft. (#5463,
+  #5291)
+* (iOS) You can now upload file attachments like PDFs. (#4586)
+* (Android) When attaching an image on Android 13+, you get a sleek,
+  convenient new interface that lets you select multiple images. (PRs #5618
+  & #5638)
+* (iOS) You can now select multiple images to attach at the same time. (#2366)
+* When you attach an image in a message, the message no longer sends
+  automatically, so you can edit it first. (#4540)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs. v27.198 (last beta release)
+
+* Fixed a bug where the profile screen would sometimes crash with the
+  message "`text` or `children` should be non-nullish". (PR #5637)
+* When you attach an image in a message, the message no longer sends
+  automatically, so you can edit it first. (#4540)
+* (Android) On Android 13+, you can now select multiple images to attach at
+  the same time. (#5638)
+* (iOS) You can now select multiple images to attach at the same time.
+  (#5638)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: PR #5637, PR #5638, #4540, #2366
+
 
 ## 27.198 (2023-01-11)
 
