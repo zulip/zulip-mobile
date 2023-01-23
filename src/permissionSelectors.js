@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { PerAccountState, UserId } from './types';
 import { ensureUnreachable } from './types';
-import { Role, type RoleT, CreateWebPublicStreamPolicy } from './api/permissionsTypes';
+import { Role, CreateWebPublicStreamPolicy } from './api/permissionsTypes';
 import { getRealm, getOwnUser, getUserForId } from './selectors';
 
 const { Guest, Member, Moderator, Admin, Owner } = Role;
@@ -13,7 +13,7 @@ const { Guest, Member, Moderator, Admin, Owner } = Role;
  * when the role changes while we're polling an event queue.
  */
 // TODO(server-4.0): Probably just delete this and use User.role directly?
-export function getOwnUserRole(state: PerAccountState): RoleT {
+export function getOwnUserRole(state: PerAccountState): Role {
   const fromUserObject = getOwnUser(state).role;
 
   if (fromUserObject !== undefined) {
@@ -38,8 +38,8 @@ export function getOwnUserRole(state: PerAccountState): RoleT {
   }
 }
 
-export function roleIsAtLeast(thisRole: RoleT, thresholdRole: RoleT): boolean {
-  return thisRole <= thresholdRole; // Roles with more privilege have lower numbers.
+export function roleIsAtLeast(thisRole: Role, thresholdRole: Role): boolean {
+  return (thisRole: number) <= (thresholdRole: number); // Roles with more privilege have lower numbers.
 }
 
 /**

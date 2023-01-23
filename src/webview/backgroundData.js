@@ -34,7 +34,7 @@ import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getUserStatuses } from '../user-statuses/userStatusesModel';
 import { type UserStatusesState } from '../user-statuses/userStatusesCore';
-import { type RoleT } from '../api/permissionsTypes';
+import { Role } from '../api/permissionsTypes';
 import { getOwnUserRole } from '../permissionSelectors';
 import type { ServerEmojiData } from '../api/modelTypes';
 
@@ -58,7 +58,7 @@ export type BackgroundData = $ReadOnly<{|
   allUsersById: Map<UserId, UserOrBot>,
   mutedUsers: MutedUsersState,
   ownUser: User,
-  ownUserRole: RoleT,
+  ownUserRole: Role,
   streams: Map<number, Stream>,
   subscriptions: Map<number, Subscription>,
   unread: UnreadState,

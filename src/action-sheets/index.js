@@ -40,7 +40,7 @@ import { getUnreadCountForTopic } from '../unread/unreadModel';
 import getIsNotificationEnabled from '../streams/getIsNotificationEnabled';
 import { getStreamTopicUrl, getStreamUrl } from '../utils/internalLinks';
 import { reactionTypeFromEmojiType } from '../emoji/data';
-import { Role, type RoleT } from '../api/permissionsTypes';
+import { Role } from '../api/permissionsTypes';
 import { roleIsAtLeast } from '../permissionSelectors';
 import { kNotificationBotEmail } from '../api/constants';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
@@ -616,7 +616,7 @@ export const constructStreamActionButtons = (args: {|
 export const constructTopicActionButtons = (args: {|
   backgroundData: $ReadOnly<{
     mute: MuteState,
-    ownUserRole: RoleT,
+    ownUserRole: Role,
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ...
@@ -853,7 +853,7 @@ export const showTopicActionSheet = (args: {|
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
     ownUser: User,
-    ownUserRole: RoleT,
+    ownUserRole: Role,
     zulipFeatureLevel: number,
     ...
   }>,
