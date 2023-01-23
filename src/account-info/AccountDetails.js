@@ -95,17 +95,13 @@ export default function AccountDetails(props: Props): Node {
         />
         <ZulipText
           selectable
-          style={[styles.largerText, componentStyles.boldText, styles.halfMarginRight]}
+          style={[styles.largerText, componentStyles.boldText]}
           text={user.full_name}
         />
       </View>
       {displayEmail !== null && showEmail && (
         <View>
-          <ZulipText
-            selectable
-            style={[styles.largerText, styles.halfMarginRight]}
-            text={displayEmail}
-          />
+          <ZulipText selectable style={styles.largerText} text={displayEmail} />
         </View>
       )}
       {
