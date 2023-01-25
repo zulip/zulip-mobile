@@ -84,6 +84,7 @@
   "Could not connect": "Impossibile connettersi",
   "The server at {realm} said:\n\n{message}": "Il server su {realm} ha detto:\n\n{message}",
   "Could not connect to {realm}. Please check your network connection and try again.": "Impossibile connettersi a {realm}. Controllare la connessione di rete e riprovare.",
+  "{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.": "{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.",
   "The server at {realm} does not seem to be a Zulip server.": "Il server su {realm} non sembra essere un server Zulip.",
   "Find your Zulip server URL": "Trova l'URL del tuo server Zulip",
   "The server at {realm} encountered an error.": "Il server su {realm} ha riscontrato un errore.",

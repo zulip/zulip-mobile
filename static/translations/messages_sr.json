@@ -84,6 +84,7 @@
   "Could not connect": "Неуспело повезивање",
   "The server at {realm} said:\n\n{message}": "Сервер у {realm} је одговорио:\n\n{message}",
   "Could not connect to {realm}. Please check your network connection and try again.": "Неуспело повезивање у {realm}. Молим вас проверите вашу мрежну везу и покушајте поново.",
+  "{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.": "{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.",
   "The server at {realm} does not seem to be a Zulip server.": "Сервер у {realm} изгледа да није Зулип сервер.",
   "Find your Zulip server URL": "Пронађите адресу вашег Зулип сервера",
   "The server at {realm} encountered an error.": "Сервер у {realm} је наишао на грешку.",
