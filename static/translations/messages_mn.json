@@ -351,5 +351,10 @@
   "Copy link to stream": "Хуулах(Copy)",
   "Failed to copy stream link": "Хуулж авах амжилтгүй боллоо.",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "Stream -үүд"
+  "Streams": "Stream -үүд",
+  "Owner": "Эзэмшигч",
+  "Admin": "Admin",
+  "Moderator": "Модератор",
+  "Member": "Гишүүн",
+  "Guest": "Зочин"
 }

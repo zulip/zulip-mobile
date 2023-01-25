@@ -351,5 +351,10 @@
   "Copy link to stream": "Copiați linkul către flux",
   "Failed to copy stream link": "Nu s-a copiat linkul fluxului",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "Huburi"
+  "Streams": "Huburi",
+  "Owner": "Autor",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "Membru",
+  "Guest": "Vizitator"
 }

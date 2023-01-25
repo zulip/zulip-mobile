@@ -351,5 +351,10 @@
   "Copy link to stream": "Kanalın linkini kopyala",
   "Failed to copy stream link": "Kanal linki kopyalanamadı",
   "A stream with this name already exists.": "Bu isimde bir kanal zaten mevcut.",
-  "Streams": "Kanallar"
+  "Streams": "Kanallar",
+  "Owner": "Organizasyon Yöneticisi",
+  "Admin": "Admin",
+  "Moderator": "Moderatör",
+  "Member": "Üye",
+  "Guest": "Misafir"
 }

@@ -351,5 +351,10 @@
   "Copy link to stream": "Copia link nel canale",
   "Failed to copy stream link": "Copia del link nel canale fallito",
   "A stream with this name already exists.": "Esiste già un canale con questo nome",
-  "Streams": "Canali"
+  "Streams": "Canali",
+  "Owner": "Proprietario",
+  "Admin": "Admin",
+  "Moderator": "Moderatore",
+  "Member": "Membro",
+  "Guest": "Ospite"
 }

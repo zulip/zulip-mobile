@@ -351,5 +351,10 @@
   "Copy link to stream": "Копирај везу до тока",
   "Failed to copy stream link": "Неуспело копирање везе до тока",
   "A stream with this name already exists.": "Ток са овим називом већ постоји.",
-  "Streams": "Токови"
+  "Streams": "Токови",
+  "Owner": "Власник",
+  "Admin": "Admin",
+  "Moderator": "Модератор",
+  "Member": "Члан",
+  "Guest": "Гост"
 }

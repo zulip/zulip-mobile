@@ -351,5 +351,10 @@
   "Copy link to stream": "Link zum Stream kopieren",
   "Failed to copy stream link": "Konnte den Link zum Stream nicht kopieren",
   "A stream with this name already exists.": "Ein Stream dieses Namens existiert bereits.",
-  "Streams": "Streams"
+  "Streams": "Streams",
+  "Owner": "Besitzer",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "Mitglied",
+  "Guest": "Gast"
 }

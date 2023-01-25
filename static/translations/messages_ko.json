@@ -351,5 +351,10 @@
   "Copy link to stream": "Copy link to stream",
   "Failed to copy stream link": "Failed to copy stream link",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "스트림"
+  "Streams": "스트림",
+  "Owner": "소유자",
+  "Admin": "Admin",
+  "Moderator": "중재자",
+  "Member": "회원",
+  "Guest": "손님"
 }

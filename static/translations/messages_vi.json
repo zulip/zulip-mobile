@@ -351,5 +351,10 @@
   "Copy link to stream": "Sao chép liên kết vào stream",
   "Failed to copy stream link": "Không sao chép được liên kết stream",
   "A stream with this name already exists.": "Tên này đã được sử dụng trong một stream khác.",
-  "Streams": "Streams"
+  "Streams": "Streams",
+  "Owner": "Người sở hữu",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "Member",
+  "Guest": "Guest"
 }

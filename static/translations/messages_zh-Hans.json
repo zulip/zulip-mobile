@@ -351,5 +351,10 @@
   "Copy link to stream": "将链接复制到频道",
   "Failed to copy stream link": "无法复制频道链接",
   "A stream with this name already exists.": "已存在同名的频道。",
-  "Streams": "频道"
+  "Streams": "频道",
+  "Owner": "所有者",
+  "Admin": "Admin",
+  "Moderator": "版主",
+  "Member": "成员",
+  "Guest": "访客"
 }

@@ -351,5 +351,10 @@
   "Copy link to stream": "Kopírovat odkaz do kanálu",
   "Failed to copy stream link": "Nepodařilo se zkopírovat odkaz do kanálu",
   "A stream with this name already exists.": "Kanál s tímto názvem již existuje.",
-  "Streams": "Kanály"
+  "Streams": "Kanály",
+  "Owner": "Vlastník",
+  "Admin": "Admin",
+  "Moderator": "Moderátor",
+  "Member": "Člen",
+  "Guest": "Host"
 }

@@ -351,5 +351,10 @@
   "Copy link to stream": "انسخ رابط الغرفة",
   "Failed to copy stream link": "فشل نسخ رابط الغرفة",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "غُرف"
+  "Streams": "غُرف",
+  "Owner": "مالك",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "Member",
+  "Guest": "Guest"
 }

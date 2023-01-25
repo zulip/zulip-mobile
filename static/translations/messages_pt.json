@@ -351,5 +351,10 @@
   "Copy link to stream": "Copy link to stream",
   "Failed to copy stream link": "Failed to copy stream link",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "Fluxos"
+  "Streams": "Fluxos",
+  "Owner": "Proprietário",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "Membro",
+  "Guest": "Convidado"
 }

@@ -351,5 +351,10 @@
   "Copy link to stream": "複製串流連結",
   "Failed to copy stream link": "複製串流連結失敗",
   "A stream with this name already exists.": "A stream with this name already exists.",
-  "Streams": "串流"
+  "Streams": "串流",
+  "Owner": "所有者",
+  "Admin": "Admin",
+  "Moderator": "Moderator",
+  "Member": "成員",
+  "Guest": "訪客"
 }

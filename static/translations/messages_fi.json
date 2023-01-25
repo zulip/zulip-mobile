@@ -351,5 +351,10 @@
   "Copy link to stream": "Kopioi linkki kanavalle",
   "Failed to copy stream link": "Linkin kopioiminen kanavalle epäonnistui",
   "A stream with this name already exists.": "Kanavan nimi on jo olemassa",
-  "Streams": "Kanavat"
+  "Streams": "Kanavat",
+  "Owner": "Omistaja",
+  "Admin": "Admin",
+  "Moderator": "Moderaattori",
+  "Member": "Jäsen",
+  "Guest": "Vieras"
 }

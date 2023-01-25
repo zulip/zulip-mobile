@@ -351,5 +351,10 @@
   "Copy link to stream": "Link másolása az adatfolyamba",
   "Failed to copy stream link": "Az adatfolyam linkjének másolása sikertelen",
   "A stream with this name already exists.": "Már létezik ilyen nevű adatfolyam.",
-  "Streams": "Üzenetfolyamok"
+  "Streams": "Üzenetfolyamok",
+  "Owner": "Tulajdonos",
+  "Admin": "Admin",
+  "Moderator": "Moderátor",
+  "Member": "Tag",
+  "Guest": "Vendég"
 }

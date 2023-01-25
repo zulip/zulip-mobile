@@ -351,5 +351,10 @@
   "Copy link to stream": "ストリームへのリンクをコピー",
   "Failed to copy stream link": "ストリームへのリンクをコピーできませんでした",
   "A stream with this name already exists.": "この名前のストリームはすでに存在します",
-  "Streams": "ストリーム"
+  "Streams": "ストリーム",
+  "Owner": "オーナー",
+  "Admin": "Admin",
+  "Moderator": "モデレータ",
+  "Member": "メンバー",
+  "Guest": "ゲスト"
 }
