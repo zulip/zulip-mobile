@@ -106,12 +106,19 @@ describe('settingsReducer', () => {
 
   describe('SET_GLOBAL_SETTINGS', () => {
     test('changes value of a key', () => {
-      expect(
-        settingsReducer(
-          baseState,
-          deepFreeze({ type: SET_GLOBAL_SETTINGS, update: { theme: 'night' } }),
-        ),
-      ).toEqual({ ...baseState, theme: 'night' });
+      const action = deepFreeze({
+        type: SET_GLOBAL_SETTINGS,
+        update: { theme: 'dark' },
+      });
+
+      const expectedState = {
+        ...baseState,
+        theme: 'dark',
+      };
+
+      const actualState = settingsReducer(baseState, action);
+
+      expect(actualState).toEqual(expectedState);
     });
   });
 

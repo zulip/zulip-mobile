@@ -296,7 +296,7 @@ list, which we show in a WebView.
      type.
 
  * Your new feature may require some new CSS to style the new HTML.
-   See `src/webview/static/base.css` and `src/webview/css/cssNight.js`.
+   See `src/webview/static/base.css` and `src/webview/css/cssDark.js`.
 
  * If your new feature involves any interaction inside the message
    list, it may require some JS logic running inside the WebView.

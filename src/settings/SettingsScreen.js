@@ -35,12 +35,12 @@ export default function SettingsScreen(props: Props): Node {
   const { navigation } = props;
 
   const handleThemeChange = useCallback(() => {
-    dispatch(setGlobalSettings({ theme: theme === 'default' ? 'night' : 'default' }));
+    dispatch(setGlobalSettings({ theme: theme === 'default' ? 'dark' : 'default' }));
   }, [theme, dispatch]);
 
   return (
     <Screen title="Settings">
-      <SwitchRow label="Night mode" value={theme === 'night'} onValueChange={handleThemeChange} />
+      <SwitchRow label="Dark theme" value={theme === 'dark'} onValueChange={handleThemeChange} />
       <SwitchRow
         label="Open links with in-app browser"
         value={shouldUseInAppBrowser(browser)}
