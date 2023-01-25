@@ -84,7 +84,7 @@ err_echo
 err_echo 'Step 1: Download translated strings...'
 
 run_visibly cd "${root_dir}"
-run_visibly tools/tx-pull
+run_visibly tx pull --silent --all --force
 
 git_update_index
 if ! git diff-files --quiet; then
@@ -140,7 +140,7 @@ err_echo
 err_echo 'Step 3: Upload strings to translate...'
 
 run_visibly tx push --silent
-run_visibly tools/tx-pull
+run_visibly tx pull --silent --all --force
 
 git_update_index
 if ! git diff-files --quiet; then
