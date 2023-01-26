@@ -16,21 +16,6 @@ import { getAccounts } from '../directSelectors';
 import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-/** See `getAccountStatuses`. */
-export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
-
-/**
- * The list of known accounts, with a boolean for logged-in vs. not.
- *
- * This should be used in preference to `getAccounts` where we don't
- * actually need the API keys, but just need to know whether we have them.
- */
-export const getAccountStatuses: GlobalSelector<$ReadOnlyArray<AccountStatus>> = createSelector(
-  getAccounts,
-  accounts =>
-    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
-);
-
 /** The list of known accounts, reduced to `Identity`. */
 export const getIdentities: GlobalSelector<$ReadOnlyArray<Identity>> = createSelector(
   getAccounts,

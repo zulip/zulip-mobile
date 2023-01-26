@@ -4,12 +4,13 @@ import React, { useContext, useCallback } from 'react';
 import type { Node } from 'react';
 import invariant from 'invariant';
 
+import { createSelector } from 'reselect';
 import { fetchServerSettings } from '../message/fetchActions';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useGlobalDispatch } from '../react-redux';
-import { getAccountStatuses, getAccountsByIdentity, getGlobalSettings } from '../selectors';
+import { getAccountsByIdentity, getGlobalSettings } from '../selectors';
 import Centerer from '../common/Centerer';
 import ZulipButton from '../common/ZulipButton';
 import Logo from '../common/Logo';
@@ -19,6 +20,23 @@ import AccountList from './AccountList';
 import { accountSwitch, removeAccount } from '../actions';
 import { showConfirmationDialog, showErrorAlert } from '../utils/info';
 import { tryStopNotifications } from '../notification/notifTokens';
+import type { Identity } from '../types';
+import type { GlobalSelector } from '../reduxTypes';
+import { getAccounts } from '../directSelectors';
+
+/** The data needed for each item in the list-of-accounts UI. */
+export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
+
+/**
+ * The data needed for the list of accounts in this UI.
+ *
+ * This serves as a view-model for the use of this component.
+ */
+const getAccountStatuses: GlobalSelector<$ReadOnlyArray<AccountStatus>> = createSelector(
+  getAccounts,
+  accounts =>
+    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
+);
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,

@@ -5,7 +5,7 @@ import { View, FlatList } from 'react-native';
 
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import AccountItem from './AccountItem';
-import type { AccountStatus } from './accountsSelectors';
+import type { AccountStatus } from './AccountPickScreen';
 
 type Props = $ReadOnly<{|
   accountStatuses: $ReadOnlyArray<AccountStatus>,

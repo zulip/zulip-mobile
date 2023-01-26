@@ -10,7 +10,7 @@ import ZulipTextIntl from '../common/ZulipTextIntl';
 import { IconDone, IconTrash } from '../common/Icons';
 import { useGlobalSelector } from '../react-redux';
 import { getIsActiveAccount } from './accountsSelectors';
-import type { AccountStatus } from './accountsSelectors';
+import type { AccountStatus } from './AccountPickScreen';
 
 const styles = createStyleSheet({
   wrapper: {
