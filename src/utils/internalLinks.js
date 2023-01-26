@@ -52,23 +52,16 @@ type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
  * PRIVATE -- exported only for tests.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-export const getLinkType = (url: string, realm: URL): LinkType => {
-  // TODO: Get this from caller
-  const parsedUrl = new URL(url, realm);
-
-  if (!isNarrowLink(parsedUrl, realm)) {
+export const getLinkType = (url: URL, realm: URL): LinkType => {
+  if (!isNarrowLink(url, realm)) {
     return 'non-narrow';
   }
 
   // isNarrowLink(…) is true, by early return above, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   if (
     (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
@@ -174,14 +167,14 @@ export const getNarrowFromLink = (
   streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
-  const type = getLinkType(url, realm);
+  // TODO: Get this from caller
+  const parsedUrl = new URL(url, realm);
+
+  const type = getLinkType(parsedUrl, realm);
 
   if (type === 'non-narrow') {
     return null;
   }
-
-  // TODO: Get this from caller
-  const parsedUrl = new URL(url, realm);
 
   // isNarrowLink(…) is true, by early return above, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);

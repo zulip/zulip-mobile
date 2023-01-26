@@ -118,59 +118,59 @@ describe('isNarrowLink', () => {
 
 describe('getLinkType', () => {
   test('links to a different domain are of "non-narrow" type', () => {
-    expect(getLinkType('https://google.com/some-path', realm)).toBe('non-narrow');
+    expect(getLinkType(new URL('https://google.com/some-path'), realm)).toBe('non-narrow');
   });
 
   test('only in-app link containing "stream" is a stream link', () => {
-    expect(getLinkType('https://example.com/#narrow/pm-with/1,2-group', realm)).toBe('pm');
-    expect(getLinkType('https://example.com/#narrow/stream/jest', realm)).toBe('stream');
-    expect(getLinkType('https://example.com/#narrow/stream/stream/', realm)).toBe('stream');
+    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
+    expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
+    expect(getLinkType(new URL('/#narrow/stream/stream/', realm), realm)).toBe('stream');
   });
 
   test('when a url is not a topic narrow return false', () => {
-    expect(getLinkType('https://example.com/#narrow/pm-with/1,2-group', realm)).toBe('pm');
-    expect(getLinkType('https://example.com/#narrow/stream/jest', realm)).toBe('stream');
-    expect(getLinkType('https://example.com/#narrow/stream/stream/topic/topic/near/', realm)).toBe(
+    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
+    expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
+    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/', realm), realm)).toBe(
       'home',
     );
-    expect(getLinkType('https://example.com/#narrow/stream/topic/', realm)).toBe('stream');
+    expect(getLinkType(new URL('/#narrow/stream/topic/', realm), realm)).toBe('stream');
   });
 
   test('when a url is a topic narrow return true', () => {
-    expect(getLinkType('https://example.com/#narrow/stream/jest/topic/test', realm)).toBe('topic');
+    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
     expect(
-      getLinkType('https://example.com/#narrow/stream/mobile/subject/topic/near/378333', realm),
+      getLinkType(new URL('/#narrow/stream/mobile/subject/topic/near/378333', realm), realm),
     ).toBe('topic');
-    expect(getLinkType('https://example.com/#narrow/stream/mobile/topic/topic/', realm)).toBe(
+    expect(getLinkType(new URL('/#narrow/stream/mobile/topic/topic/', realm), realm)).toBe('topic');
+    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/1', realm), realm)).toBe(
       'topic',
     );
-    expect(getLinkType('https://example.com/#narrow/stream/stream/topic/topic/near/1', realm)).toBe(
+    expect(getLinkType(new URL('/#narrow/stream/stream/subject/topic/near/1', realm), realm)).toBe(
       'topic',
     );
-    expect(
-      getLinkType('https://example.com/#narrow/stream/stream/subject/topic/near/1', realm),
-    ).toBe('topic');
 
-    expect(getLinkType('/#narrow/stream/stream/subject/topic', realm)).toBe('topic');
+    expect(getLinkType(new URL('/#narrow/stream/stream/subject/topic', realm), realm)).toBe(
+      'topic',
+    );
   });
 
   test('only in-app link containing "pm-with" is a group link', () => {
-    expect(getLinkType('https://example.com/#narrow/stream/jest/topic/test', realm)).toBe('topic');
-    expect(getLinkType('https://example.com/#narrow/pm-with/1,2-group', realm)).toBe('pm');
-    expect(getLinkType('https://example.com/#narrow/pm-with/1,2-group/near/1', realm)).toBe('pm');
+    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
+    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
+    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group/near/1', realm), realm)).toBe('pm');
     expect(
-      getLinkType('https://example.com/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3', realm),
+      getLinkType(new URL('/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3', realm), realm),
     ).toBe('pm');
   });
 
   test('only in-app link containing "is" is a special link', () => {
-    expect(getLinkType('https://example.com/#narrow/stream/jest/topic/test', realm)).toBe('topic');
-    expect(getLinkType('https://example.com/#narrow/is/private', realm)).toBe('special');
-    expect(getLinkType('https://example.com/#narrow/is/starred', realm)).toBe('special');
-    expect(getLinkType('https://example.com/#narrow/is/mentioned', realm)).toBe('special');
-    expect(getLinkType('https://example.com/#narrow/is/men', realm)).toBe('home');
-    expect(getLinkType('https://example.com/#narrow/is/men/stream', realm)).toBe('home');
-    expect(getLinkType('https://example.com/#narrow/are/men/stream', realm)).toBe('home');
+    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
+    expect(getLinkType(new URL('/#narrow/is/private', realm), realm)).toBe('special');
+    expect(getLinkType(new URL('/#narrow/is/starred', realm), realm)).toBe('special');
+    expect(getLinkType(new URL('/#narrow/is/mentioned', realm), realm)).toBe('special');
+    expect(getLinkType(new URL('/#narrow/is/men', realm), realm)).toBe('home');
+    expect(getLinkType(new URL('/#narrow/is/men/stream', realm), realm)).toBe('home');
+    expect(getLinkType(new URL('/#narrow/are/men/stream', realm), realm)).toBe('home');
   });
 });
 
