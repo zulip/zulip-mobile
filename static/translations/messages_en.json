@@ -12,6 +12,8 @@
   "Notify everyone": "Notify everyone",
   "Cannot open image": "Cannot open image",
   "Invalid image URL.": "Invalid image URL.",
+  "Cannot open link": "Cannot open link",
+  "Invalid URL.": "Invalid URL.",
   "Invisible mode": "Invisible mode",
   "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}": "{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}",
   "View read receipts": "View read receipts",
