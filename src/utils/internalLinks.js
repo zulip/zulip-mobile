@@ -28,7 +28,10 @@ import { isUrlOnRealm } from './url';
 //   like the web app's parse_narrow in static/js/hash_util.js.
 // TODO(#3757): Use @zulip/shared for that parsing.
 const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
-  const result = new URL(url, realm).hash
+  // TODO: Get this from caller
+  const parsedUrl = new URL(url, realm);
+
+  const result = parsedUrl.hash
     .split('/')
     // Remove the first item, "#narrow".
     .slice(1);
@@ -66,7 +69,10 @@ type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 export const getLinkType = (url: string, realm: URL): LinkType => {
-  if (!isNarrowLink(new URL(url, realm), realm)) {
+  // TODO: Get this from caller
+  const parsedUrl = new URL(url, realm);
+
+  if (!isNarrowLink(parsedUrl, realm)) {
     return 'non-narrow';
   }
 
