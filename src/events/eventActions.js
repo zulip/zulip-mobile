@@ -26,6 +26,7 @@ import {
   Server5xxError,
   NetworkError,
   ServerTooOldError,
+  kMinAllowedServerVersion,
 } from '../api/apiErrors';
 import * as logging from '../utils/logging';
 import { showErrorAlert } from '../utils/info';
@@ -178,6 +179,12 @@ export const registerAndStartPolling =
             globalSettings: getGlobalSettings(),
           },
         );
+        logging.setTagsFromServerVersion(e.version);
+        logging.error(e, {
+          kMinAllowedServerVersion: kMinAllowedServerVersion.raw(),
+          kMinSupportedVersion: kMinSupportedVersion.raw(),
+          kNextMinSupportedVersion: kNextMinSupportedVersion.raw(),
+        });
         // Don't delay the logout action by awaiting this request: it may
         // take a long time or never succeed, and we need to kick the user
         // out immediately.

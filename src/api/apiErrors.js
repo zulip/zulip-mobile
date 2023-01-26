@@ -183,12 +183,17 @@ export const kMinAllowedServerVersion: ZulipVersion = new ZulipVersion('2.0');
 
 /**
  * An error we throw in API bindings on finding a server is too old.
+ *
+ * Handling code should:
+ * - refuse to interact with the server except to check if it's been updated
+ * - log out the user
+ * - log to Sentry (so we have a sense of how often this happens)
  */
 export class ServerTooOldError extends ExtendableError {
   version: ZulipVersion;
 
   constructor(version: ZulipVersion) {
-    super(`Unsupported Zulip Server version: ${version.raw()}`);
+    super(`Unsupported Zulip Server version: ${version.classify().coarse}`);
     this.version = version;
   }
 }

@@ -18,6 +18,7 @@ import {
   ApiError,
   MalformedResponseError,
   ServerTooOldError,
+  kMinAllowedServerVersion,
 } from '../api/apiErrors';
 import {
   getAuth,
@@ -41,7 +42,7 @@ import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import type { ServerSettings } from '../api/settings/getServerSettings';
-import { kMinSupportedVersion } from '../common/ServerCompatBanner';
+import { kMinSupportedVersion, kNextMinSupportedVersion } from '../common/ServerCompatBanner';
 
 const messageFetchStart = (
   narrow: Narrow,
@@ -444,6 +445,12 @@ export async function fetchServerSettings(realm: URL): Promise<
           'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
         ),
       };
+      logging.setTagsFromServerVersion(error.version);
+      logging.error(error, {
+        kMinAllowedServerVersion: kMinAllowedServerVersion.raw(),
+        kMinSupportedVersion: kMinSupportedVersion.raw(),
+        kNextMinSupportedVersion: kNextMinSupportedVersion.raw(),
+      });
     } else if (error instanceof MalformedResponseError && error.httpStatus === 404) {
       message = {
         text: 'The server at {realm} does not seem to be a Zulip server.',
