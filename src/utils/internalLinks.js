@@ -17,21 +17,12 @@ import { isUrlOnRealm } from './url';
  *
  * If `url` ends with a slash, the returned array won't have '' as its last
  * element; that element is removed.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
-// TODO: Take a URL object for `url` instead of a string, and remove
-//   performance warning in the jsdoc.
 // TODO: Parse into an array of objects with { negated, operator, operand },
 //   like the web app's parse_narrow in static/js/hash_util.js.
 // TODO(#3757): Use @zulip/shared for that parsing.
-const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
-  // TODO: Get this from caller
-  const parsedUrl = new URL(url, realm);
-
-  const result = parsedUrl.hash
+const getHashSegmentsFromNarrowLink = (url: URL, realm: URL) => {
+  const result = url.hash
     .split('/')
     // Remove the first item, "#narrow".
     .slice(1);
@@ -77,7 +68,7 @@ export const getLinkType = (url: string, realm: URL): LinkType => {
   }
 
   // isNarrowLink(…) is true, by early return above, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
 
   if (
     (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
@@ -189,8 +180,11 @@ export const getNarrowFromLink = (
     return null;
   }
 
+  // TODO: Get this from caller
+  const parsedUrl = new URL(url, realm);
+
   // isNarrowLink(…) is true, by early return above, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
 
   switch (type) {
     case 'pm': {
@@ -233,8 +227,11 @@ export const getNarrowFromLink = (
  * 10 or 100 times per user action.
  */
 export const getNearOperandFromLink = (url: string, realm: URL): number | null => {
+  // TODO: Get this from caller
+  const parsedUrl = new URL(url, realm);
+
   // isNarrowLink(…) is true, by jsdoc, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
 
   // This and nearOperandIndex can simplify when we rename/repurpose
   //   getHashSegmentsFromNarrowLink so it gives an array of
