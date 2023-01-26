@@ -240,7 +240,7 @@ export const messageLinkPress =
     //   which should be futile.
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
-      const nearOperand = getNearOperandFromLink(href, auth.realm);
+      const nearOperand = getNearOperandFromLink(parsedUrl, auth.realm);
       if (nearOperand === null) {
         dispatch(doNarrow(narrow));
         return;

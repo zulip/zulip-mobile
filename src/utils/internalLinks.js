@@ -207,17 +207,10 @@ export const getNarrowFromLink = (
 /**
  * From a URL and realm with `isNarrowLink(url, realm) === true`, give
  *   message_id if the URL has /near/{message_id}, otherwise give null.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
-export const getNearOperandFromLink = (url: string, realm: URL): number | null => {
-  // TODO: Get this from caller
-  const parsedUrl = new URL(url, realm);
-
+export const getNearOperandFromLink = (url: URL, realm: URL): number | null => {
   // isNarrowLink(…) is true, by jsdoc, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   // This and nearOperandIndex can simplify when we rename/repurpose
   //   getHashSegmentsFromNarrowLink so it gives an array of

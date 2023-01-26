@@ -371,23 +371,23 @@ describe('getNarrowFromLink', () => {
 
 describe('getNearOperandFromLink', () => {
   test('not message link', () => {
-    expect(getNearOperandFromLink('https://example.com/#narrow/is/private', realm)).toBe(null);
-    expect(getNearOperandFromLink('https://example.com/#narrow/stream/jest', realm)).toBe(null);
+    expect(getNearOperandFromLink(new URL('/#narrow/is/private', realm), realm)).toBe(null);
+    expect(getNearOperandFromLink(new URL('/#narrow/stream/jest', realm), realm)).toBe(null);
   });
 
   test('`near` is the only operator', () => {
-    expect(getNearOperandFromLink('https://example.com/#narrow/near/1', realm)).toBe(1);
+    expect(getNearOperandFromLink(new URL('/#narrow/near/1', realm), realm)).toBe(1);
   });
 
   test('when link is a group link, return anchor message id', () => {
     expect(
-      getNearOperandFromLink('https://example.com/#narrow/pm-with/1,3-group/near/1/', realm),
+      getNearOperandFromLink(new URL('/#narrow/pm-with/1,3-group/near/1/', realm), realm),
     ).toBe(1);
   });
 
   test('when link is a topic link, return anchor message id', () => {
     expect(
-      getNearOperandFromLink('https://example.com/#narrow/stream/jest/topic/test/near/1', realm),
+      getNearOperandFromLink(new URL('/#narrow/stream/jest/topic/test/near/1', realm), realm),
     ).toBe(1);
   });
 });
