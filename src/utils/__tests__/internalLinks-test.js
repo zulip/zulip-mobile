@@ -198,9 +198,10 @@ describe('getNarrowFromLink', () => {
 
   const streamGeneral = eg.makeStream({ name: 'general' });
 
+  // TODO: Take URL object instead of string
   const get = (url, streams: $ReadOnlyArray<Stream>) =>
     getNarrowFromLink(
-      url,
+      new URL(url, 'https://example.com'),
       new URL('https://example.com'),
       new Map(streams.map(s => [s.stream_id, s])),
       new Map(streams.map(s => [s.name, s])),

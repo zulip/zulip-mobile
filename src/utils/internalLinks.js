@@ -155,29 +155,22 @@ const parsePmOperand = operand => {
 
 /**
  * TODO write jsdoc
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
 export const getNarrowFromLink = (
-  url: string,
+  url: URL,
   realm: URL,
   streamsById: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
-  // TODO: Get this from caller
-  const parsedUrl = new URL(url, realm);
-
-  const type = getLinkType(parsedUrl, realm);
+  const type = getLinkType(url, realm);
 
   if (type === 'non-narrow') {
     return null;
   }
 
   // isNarrowLink(…) is true, by early return above, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(parsedUrl, realm);
+  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   switch (type) {
     case 'pm': {

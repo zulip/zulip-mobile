@@ -222,7 +222,13 @@ export const messageLinkPress =
     const streamsById = getStreamsById(state);
     const streamsByName = getStreamsByName(state);
     const ownUserId = getOwnUserId(state);
-    const narrow = getNarrowFromLink(href, auth.realm, streamsById, streamsByName, ownUserId);
+    const narrow = getNarrowFromLink(
+      new URL(href, auth.realm), // TODO: Use parsedUrl, below.
+      auth.realm,
+      streamsById,
+      streamsByName,
+      ownUserId,
+    );
 
     const parsedUrl = tryParseUrl(href, auth.realm);
     // TODO: Replace all uses of `href` below with `parsedUrl`.
