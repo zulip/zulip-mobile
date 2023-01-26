@@ -248,9 +248,9 @@ export const messageLinkPress =
 
       await dispatch(doNarrowNearLink(narrow, nearOperand));
     } else if (!isUrlOnRealm(parsedUrl, auth.realm)) {
-      openLinkWithUserPreference(href, getGlobalSettings());
+      openLinkWithUserPreference(parsedUrl, getGlobalSettings());
     } else {
       const url = (await api.tryGetFileTemporaryUrl(parsedUrl, auth)) ?? parsedUrl;
-      openLinkWithUserPreference(url.toString(), getGlobalSettings());
+      openLinkWithUserPreference(url, getGlobalSettings());
     }
   };

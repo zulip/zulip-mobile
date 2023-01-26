@@ -101,7 +101,9 @@ export default function ServerCompatBanner(props: Props): Node {
             openLinkWithUserPreference(
               // TODO: Instead, link to new Help Center doc once we have it:
               //   https://github.com/zulip/zulip/issues/23842
-              'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+              new URL(
+                'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+              ),
               settings,
             );
           },

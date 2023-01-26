@@ -82,7 +82,7 @@ export default function PushNotifsSetupBanner(props: Props): Node {
     label: 'Learn more',
     onPress: () => {
       openLinkWithUserPreference(
-        'https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html',
+        new URL('https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html'),
         settings,
       );
     },

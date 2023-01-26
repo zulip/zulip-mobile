@@ -47,8 +47,12 @@ export const generateRandomToken = async (): Promise<string> => {
 // in its response to protect against credentials intercept
 export const generateOtp = async (): Promise<string> => generateRandomToken();
 
+// TODO: Take URL object instead of string (but make a copy on which to
+//   mutate `searchParams`)
 export const openBrowser = (url: string, otp: string) => {
-  openLinkEmbedded(`${url}?mobile_flow_otp=${otp}`);
+  const urlCopy = new URL(url);
+  urlCopy.searchParams.set('mobile_flow_otp', otp);
+  openLinkEmbedded(urlCopy);
 };
 
 export const closeBrowser = () => {

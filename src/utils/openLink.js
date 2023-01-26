@@ -5,19 +5,17 @@ import * as WebBrowser from 'expo-web-browser';
 import type { BrowserPreference, GlobalSettingsState } from '../types';
 
 /** Open a URL in the in-app browser. */
-// TODO(#4146): Take a URL object, not a string.
-export function openLinkEmbedded(url: string): void {
+export function openLinkEmbedded(url: URL): void {
   if (Platform.OS === 'ios') {
-    WebBrowser.openBrowserAsync(encodeURI(url));
+    WebBrowser.openBrowserAsync(encodeURI(url.toString()));
   } else {
-    NativeModules.CustomTabsAndroid.openURL(url);
+    NativeModules.CustomTabsAndroid.openURL(url.toString());
   }
 }
 
 /** Open a URL in the user's default browser app. */
-// TODO(#4146): Take a URL object, not a string.
-export function openLinkExternal(url: string): void {
-  Linking.openURL(url);
+export function openLinkExternal(url: URL): void {
+  Linking.openURL(url.toString());
 }
 
 export function shouldUseInAppBrowser(browser: BrowserPreference): boolean {
@@ -29,8 +27,7 @@ export function shouldUseInAppBrowser(browser: BrowserPreference): boolean {
 }
 
 /** Open a URL using whichever browser the user has configured in the Zulip settings. */
-// TODO(#4146): Take a URL object, not a string.
-export function openLinkWithUserPreference(url: string, settings: GlobalSettingsState): void {
+export function openLinkWithUserPreference(url: URL, settings: GlobalSettingsState): void {
   if (shouldUseInAppBrowser(settings.browser)) {
     openLinkEmbedded(url);
   } else {

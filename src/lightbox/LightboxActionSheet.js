@@ -39,7 +39,7 @@ type ButtonType = {|
 const tryToDownloadImage = async ({ src, auth }: DownloadImageType) => {
   const tempUrl = await api.tryGetFileTemporaryUrl(src, auth);
   if (tempUrl === null) {
-    openLinkEmbedded(src.toString());
+    openLinkEmbedded(src);
     return;
   }
 
