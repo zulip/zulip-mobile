@@ -17,7 +17,6 @@ import {
 import type {
   PerAccountState,
   GlobalSettingsState,
-  Debug,
   Narrow,
   Message,
   Outbox,
@@ -27,7 +26,7 @@ import type { ReadWrite } from '../../generics';
 import { getEditSequence } from '../generateInboundEventEditSequence';
 import { applyEditSequence } from '../js/handleInboundEvents';
 import getMessageListElements from '../../message/getMessageListElements';
-import { getGlobalSettings, getDebug } from '../../selectors';
+import { getGlobalSettings } from '../../selectors';
 import { getBackgroundData } from '../backgroundData';
 import { randString } from '../../utils/misc';
 
@@ -242,13 +241,11 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
   const check = ({
     state = baseState,
     globalSettings = getGlobalSettings(eg.plusReduxState),
-    debug = getDebug(eg.plusReduxState),
     narrow,
     messages,
   }: {|
     state?: PerAccountState,
     globalSettings?: GlobalSettingsState,
-    debug?: Debug,
     narrow: Narrow,
     messages: $ReadOnlyArray<Message>,
   |}) => {
@@ -273,12 +270,12 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
     applyEditSequence(
       getEditSequence(
         {
-          backgroundData: getBackgroundData(state, globalSettings, debug),
+          backgroundData: getBackgroundData(state, globalSettings),
           elements: [],
           _: mock_,
         },
         {
-          backgroundData: getBackgroundData(state, globalSettings, debug),
+          backgroundData: getBackgroundData(state, globalSettings),
           elements: getMessageListElements(messages, narrow),
           _: mock_,
         },
@@ -695,7 +692,6 @@ describe('getEditSequence correct for interesting changes', () => {
   type CheckArg = {|
     state?: PerAccountState,
     globalSettings?: GlobalSettingsState,
-    debug?: Debug,
     narrow?: Narrow,
     messages: $ReadOnlyArray<Message>,
   |};
@@ -705,20 +701,18 @@ describe('getEditSequence correct for interesting changes', () => {
     {
       state: oldState = baseState,
       globalSettings: oldGlobalSettings = getGlobalSettings(eg.plusReduxState),
-      debug: oldDebug = getDebug(eg.plusReduxState),
       narrow: oldNarrow = HOME_NARROW,
       messages: oldMessages,
     }: CheckArg,
     {
       state: newState = baseState,
       globalSettings: newGlobalSettings = getGlobalSettings(eg.plusReduxState),
-      debug: newDebug = getDebug(eg.plusReduxState),
       narrow: newNarrow = HOME_NARROW,
       messages: newMessages,
     }: CheckArg,
   ) => {
-    const oldBackgroundData = getBackgroundData(oldState, oldGlobalSettings, oldDebug);
-    const newBackgroundData = getBackgroundData(newState, newGlobalSettings, newDebug);
+    const oldBackgroundData = getBackgroundData(oldState, oldGlobalSettings);
+    const newBackgroundData = getBackgroundData(newState, newGlobalSettings);
 
     const oldElements = getMessageListElements(oldMessages, oldNarrow);
     const newElements = getMessageListElements(newMessages, newNarrow);

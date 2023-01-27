@@ -20,12 +20,7 @@ import type {
 import { ThemeContext } from '../styles';
 import { useSelector, useDispatch, useGlobalSelector } from '../react-redux';
 import { useNavigation } from '../react-navigation';
-import {
-  getCurrentTypingUsers,
-  getDebug,
-  getFetchingForNarrow,
-  getGlobalSettings,
-} from '../selectors';
+import { getCurrentTypingUsers, getFetchingForNarrow, getGlobalSettings } from '../selectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getMessageListElementsMemoized } from '../message/messageSelectors';
@@ -131,7 +126,6 @@ function useMessageListProps(props: OuterProps): Props {
   const dispatch = useDispatch();
 
   const globalSettings = useGlobalSelector(getGlobalSettings);
-  const debug = useGlobalSelector(getDebug);
 
   const [stateDoNotMarkMessagesAsRead, setDoNotMarkMessagesAsRead] = useState(null);
   const doNotMarkMessagesAsRead =
@@ -158,7 +152,7 @@ function useMessageListProps(props: OuterProps): Props {
     _,
     dispatch,
 
-    backgroundData: useSelector(state => getBackgroundData(state, globalSettings, debug)),
+    backgroundData: useSelector(state => getBackgroundData(state, globalSettings)),
 
     fetching: useSelector(state => getFetchingForNarrow(state, props.narrow)),
     messageListElementsForShownMessages: getMessageListElementsMemoized(

@@ -3,7 +3,6 @@
 import type {
   AlertWordsState,
   Auth,
-  Debug,
   FlagsState,
   GlobalSettingsState,
   ImageEmoji,
@@ -52,7 +51,6 @@ export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
   allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmoji |}>,
   auth: Auth,
-  debug: Debug,
   flags: FlagsState,
   mute: MuteState,
   allUsersById: Map<UserId, UserOrBot>,
@@ -80,12 +78,10 @@ export type BackgroundData = $ReadOnly<{|
 export const getBackgroundData = (
   state: PerAccountState,
   globalSettings: GlobalSettingsState,
-  debug: Debug,
 ): BackgroundData => ({
   alertWords: state.alertWords,
   allImageEmojiById: getAllImageEmojiById(state),
   auth: getAuth(state),
-  debug,
   flags: getFlags(state),
   mute: getMute(state),
   allUsersById: getAllUsersById(state),

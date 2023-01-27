@@ -48,12 +48,6 @@ export default function DiagnosticsScreen(props: Props): Node {
           navigation.push('storage');
         }}
       />
-      <NestedNavRow
-        title="Debug"
-        onPress={() => {
-          navigation.push('debug');
-        }}
-      />
     </Screen>
   );
 }

@@ -187,9 +187,6 @@ export type EditMessage = {|
   topic: string,
 |};
 
-/** Add debug setting here. */
-export type Debug = {||};
-
 export type TopicExtended = {|
   ...$Exact<Topic>,
   isMuted: boolean,

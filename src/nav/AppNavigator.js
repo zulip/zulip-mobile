@@ -33,7 +33,6 @@ import New1to1PmScreen from '../user-picker/New1to1PmScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
-import DebugScreen from '../settings/DebugScreen';
 import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
 import VariablesScreen from '../diagnostics/VariablesScreen';
 import TimingScreen from '../diagnostics/TimingScreen';
@@ -79,7 +78,6 @@ export type AppNavigatorParamList = {|
   +variables: RouteParamsOf<typeof VariablesScreen>,
   +timing: RouteParamsOf<typeof TimingScreen>,
   +storage: RouteParamsOf<typeof StorageScreen>,
-  +debug: RouteParamsOf<typeof DebugScreen>,
   +'stream-settings': RouteParamsOf<typeof StreamSettingsScreen>,
   +'edit-stream': RouteParamsOf<typeof EditStreamScreen>,
   +'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
@@ -187,7 +185,6 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="variables" component={useHaveServerDataGate(VariablesScreen)} />
       <Stack.Screen name="timing" component={useHaveServerDataGate(TimingScreen)} />
       <Stack.Screen name="storage" component={useHaveServerDataGate(StorageScreen)} />
-      <Stack.Screen name="debug" component={useHaveServerDataGate(DebugScreen)} />
       <Stack.Screen
         name="stream-settings"
         component={useHaveServerDataGate(StreamSettingsScreen)}
