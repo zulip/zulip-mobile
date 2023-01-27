@@ -49,11 +49,14 @@ export default function UnreadNotice(props: Props): Node {
       <View style={styles.unreadTextWrapper}>
         <ZulipTextIntl
           style={styles.unreadText}
-          text={`\
+          text={{
+            text: `\
 {unreadCount, plural,
   one {{unreadCount} unread message}
   other {{unreadCount} unread messages}
-}`}
+}`,
+            values: { unreadCount },
+          }}
         />
       </View>
       <MarkAsReadButton narrow={narrow} />
