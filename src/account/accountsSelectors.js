@@ -121,6 +121,12 @@ export const getServerVersion = (state: PerAccountState): ZulipVersion => {
   //   At that point probably just have a migration drop those Account
   //   records -- they mean accounts the user hasn't talked to since
   //   1e17f6695, from 2020-05.
+  //
+  //   Oh, and there's one other case where an Account record will lack this
+  //   data: immediately after login, before we complete the first initial
+  //   fetch.  That's fixable, though: we already have the version from
+  //   server_settings when we enter the login flow, so we just need to
+  //   remember that value and stick it in the initial Account record.
   invariant(zulipVersion, 'zulipVersion must be non-null');
   return zulipVersion;
 };
