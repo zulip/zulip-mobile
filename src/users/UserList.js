@@ -62,8 +62,12 @@ export default function UserList(props: Props): Node {
       )}
       renderSectionHeader={({ section }) =>
         section.data.length === 0 ? null : (
-          // $FlowFixMe[incompatible-type]
-          <SectionHeader text={section.key} />
+          <SectionHeader
+            text={
+              // $FlowIgnore[incompatible-cast] something wrong with SectionList
+              (section.key: (typeof sections)[number]['key'])
+            }
+          />
         )
       }
     />
