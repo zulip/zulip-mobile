@@ -7,7 +7,7 @@ import type { BrowserPreference, GlobalSettingsState } from '../types';
 /** Open a URL in the in-app browser. */
 export function openLinkEmbedded(url: URL): void {
   if (Platform.OS === 'ios') {
-    WebBrowser.openBrowserAsync(encodeURI(url.toString()));
+    WebBrowser.openBrowserAsync(url.toString());
   } else {
     NativeModules.CustomTabsAndroid.openURL(url.toString());
   }
