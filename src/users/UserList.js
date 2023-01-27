@@ -12,6 +12,7 @@ import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 import { getMutedUsers } from '../selectors';
 import { getPresence } from '../directSelectors';
+import { ensureUnreachable } from '../generics';
 
 const styles = createStyleSheet({
   list: {
@@ -40,7 +41,7 @@ export default function UserList(props: Props): Node {
   const sortedUsers = sortUserList(filteredUsers, presences);
   const groupedUsers = groupUsersByStatus(sortedUsers, presences);
   const sections = Object.keys(groupedUsers).map(key => ({
-    key: `${key.charAt(0).toUpperCase()}${key.slice(1)}`,
+    key,
     data: groupedUsers[key].map(u => u.user_id),
   }));
 
@@ -63,10 +64,24 @@ export default function UserList(props: Props): Node {
       renderSectionHeader={({ section }) =>
         section.data.length === 0 ? null : (
           <SectionHeader
-            text={
+            text={(() => {
               // $FlowIgnore[incompatible-cast] something wrong with SectionList
-              (section.key: (typeof sections)[number]['key'])
-            }
+              const key = (section.key: (typeof sections)[number]['key']);
+              switch (key) {
+                case 'active':
+                  return 'Active';
+                case 'idle':
+                  return 'Idle';
+                case 'offline':
+                  return 'Offline';
+                case 'unavailable':
+                  return 'Unavailable';
+                default: {
+                  ensureUnreachable(key);
+                  return key;
+                }
+              }
+            })()}
           />
         )
       }
