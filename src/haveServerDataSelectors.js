@@ -2,11 +2,7 @@
 
 import type { GlobalState, PerAccountState } from './types';
 import { getUsers } from './directSelectors';
-import {
-  tryGetAuth,
-  tryGetActiveAccountState,
-  getServerVersion,
-} from './account/accountsSelectors';
+import { tryGetAuth, tryGetActiveAccountState, getAccount } from './account/accountsSelectors';
 import { getUsersById } from './users/userSelectors';
 import { kMinAllowedServerVersion } from './api/apiErrors';
 
@@ -119,9 +115,16 @@ export const getHaveServerData = (state: PerAccountState): boolean => {
     return false;
   }
 
+  const { zulipVersion } = getAccount(state);
+
+  // The server version comes with the rest of the server data.
+  if (!zulipVersion) {
+    return false;
+  }
+
   // We may have server data, but it would be from an ancient server that we
   // don't support, so it might be malformed.
-  if (!getServerVersion(state).isAtLeast(kMinAllowedServerVersion)) {
+  if (!zulipVersion.isAtLeast(kMinAllowedServerVersion)) {
     return false;
   }
 
