@@ -21,7 +21,7 @@ describe('migrations', () => {
   const base = {
     // Include something non-empty for each of the storeKeys.
     migrations: { version: 3 },
-    accounts: [{ email: 'me@example.com', api_key: '1234', realm: 'https://chat.example' }],
+    accounts: [{ email: 'me@example.com', apiKey: '1234', realm: 'https://chat.example' }],
     drafts: { '[]': 'draft text' },
     // Real Outbox values have more properties, but fudge that.
     outbox: [{ isOutbox: true, isSent: false, type: 'private' }],
