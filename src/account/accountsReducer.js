@@ -20,19 +20,6 @@ import { identityOfAccount, keyOfIdentity } from './accountMisc';
 
 const initialState = NULL_ARRAY;
 
-const registerComplete = (state, action) => [
-  {
-    ...state[0],
-    userId: action.data.user_id,
-    zulipFeatureLevel: action.data.zulip_feature_level,
-    zulipVersion: action.data.zulip_version,
-    lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
-      ? null
-      : state[0].lastDismissedServerPushSetupNotice,
-  },
-  ...state.slice(1),
-];
-
 const findAccount = (state: AccountsState, identity: Identity): number => {
   const { realm, email } = identity;
   return state.findIndex(
@@ -95,7 +82,18 @@ const unackPushToken = (state, action) => {
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
-      return registerComplete(state, action);
+      return [
+        {
+          ...state[0],
+          userId: action.data.user_id,
+          zulipFeatureLevel: action.data.zulip_feature_level,
+          zulipVersion: action.data.zulip_version,
+          lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
+            ? null
+            : state[0].lastDismissedServerPushSetupNotice,
+        },
+        ...state.slice(1),
+      ];
 
     case ACCOUNT_SWITCH: {
       const index = state.findIndex(
