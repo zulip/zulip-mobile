@@ -475,6 +475,33 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Fix tiny case where an `undefined` could sneak in on ACCOUNT_SWITCH
   '57': state => ({ ...state, accounts: state.accounts.filter(Boolean) }),
 
+  // Remove malformed partial `Account`s. Perhaps we could salvage some, if
+  // they're just missing e.g. `zulipFeatureLevel`… but we don't think the
+  // bug affected many people, and when it did, it quickly followed a state
+  // where `accounts` was empty, probably because the user asked to remove
+  // the last account.
+  '58': state => ({
+    ...state,
+    accounts: state.accounts.filter(account =>
+      [
+        'realm',
+        'apiKey',
+        'email',
+        'userId',
+        'zulipVersion',
+        'zulipFeatureLevel',
+        'ackedPushToken',
+        'lastDismissedServerPushSetupNotice',
+      ].every(key =>
+        /* $FlowIgnore[method-unbinding]: This is the standard way to call
+           `hasOwnProperty`. See discussion:
+             https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/Flow.20158.20errors/near/1375563
+         */
+        Object.prototype.hasOwnProperty.call(account, key),
+      ),
+    ),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

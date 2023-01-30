@@ -5,6 +5,7 @@ import { historicalStoreKeys, migrations } from '../migrations';
 import { storeKeys } from '../../boot/store';
 import { createMigrationFunction } from '../../redux-persist-migrate';
 import { ZulipVersion } from '../../utils/zulipVersion';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('historicalStoreKeys', () => {
   test('equals current storeKeys', () => {
@@ -104,7 +105,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base52,
-    migrations: { version: 57 },
+    migrations: { version: 58 },
   };
 
   for (const [desc, before, after] of [
@@ -281,6 +282,23 @@ describe('migrations', () => {
     [
       'check 57 with an `undefined` in state.accounts',
       { ...base52, migrations: { version: 56 }, accounts: [...base37.accounts, undefined] },
+      { ...endBase, accounts: [...base37.accounts] },
+    ],
+    [
+      'check 58 with a malformed Account in state.accounts',
+      {
+        ...base52,
+        migrations: { version: 57 },
+        accounts: [
+          {
+            userId: eg.selfUser.user_id,
+            zulipFeatureLevel: eg.recentZulipFeatureLevel,
+            zulipVersion: eg.recentZulipVersion,
+            lastDismissedServerPushSetupNotice: null,
+          },
+          ...base37.accounts,
+        ],
+      },
       { ...endBase, accounts: [...base37.accounts] },
     ],
   ]) {

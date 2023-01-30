@@ -25,7 +25,7 @@ describe('reducer', () => {
         subscriptions: [eg.subscription],
         muted_topics: [[eg.stream.name, 'topic']],
       });
-      const newState = tryGetActiveAccountState(fullReducer(eg.baseReduxState, action));
+      const newState = tryGetActiveAccountState(fullReducer(eg.plusReduxState, action));
       expect(newState).toBeTruthy();
       expect(newState && getMute(newState)).toEqual(makeMuteState([[eg.stream, 'topic']]));
     });
