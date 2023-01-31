@@ -189,35 +189,39 @@ export default function NotificationsScreen(props: Props): Node {
         })()}
         onPress={handleSystemSettingsPress}
       />
-      {pushNotificationsEnabled && (
-        <SettingsGroup
-          title={{
-            text: 'Notification settings for this account ({email} in {realmName}):',
-            values: {
-              email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
-              realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
-            },
-          }}
-        >
-          <SwitchRow
-            label="Notifications when offline"
-            value={offlineNotification}
-            onValueChange={handleOfflineNotificationChange}
-          />
-          <SwitchRow
-            label="Notifications when online"
-            value={onlineNotification}
-            onValueChange={handleOnlineNotificationChange}
-          />
-          <SwitchRow
-            label="Stream notifications"
-            value={streamNotification}
-            onValueChange={handleStreamNotificationChange}
-          />
-        </SettingsGroup>
-      )}
-      {otherAccounts.length > 0 && (
-        <NestedNavRow title="Other accounts" onPress={handleOtherAccountsPress} />
+      {!systemSettingsWarnings.includes(SystemSettingsWarning.Disabled) && (
+        <>
+          {pushNotificationsEnabled && (
+            <SettingsGroup
+              title={{
+                text: 'Notification settings for this account ({email} in {realmName}):',
+                values: {
+                  email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
+                  realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
+                },
+              }}
+            >
+              <SwitchRow
+                label="Notifications when offline"
+                value={offlineNotification}
+                onValueChange={handleOfflineNotificationChange}
+              />
+              <SwitchRow
+                label="Notifications when online"
+                value={onlineNotification}
+                onValueChange={handleOnlineNotificationChange}
+              />
+              <SwitchRow
+                label="Stream notifications"
+                value={streamNotification}
+                onValueChange={handleStreamNotificationChange}
+              />
+            </SettingsGroup>
+          )}
+          {otherAccounts.length > 0 && (
+            <NestedNavRow title="Other accounts" onPress={handleOtherAccountsPress} />
+          )}
+        </>
       )}
     </Screen>
   );
