@@ -243,6 +243,8 @@
   "Notifications are disabled in system settings.": "Notifications are disabled in system settings.",
   "Notifications require Google Play Services, which is unavailable on this device.": "Notifications require Google Play Services, which is unavailable on this device.",
   "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.": "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.",
+  "{problemAccountsCount, plural,\n  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}\n  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}\n}": "{problemAccountsCount, plural,\n  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}\n  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}\n}",
+  "Details": "Details",
   "Notifications are disabled.": "Notifications are disabled.",
   "Multiple issues. Tap to learn more.": "Multiple issues. Tap to learn more.",
   "Notification settings for this account ({email} in {realmName}):": "Notification settings for this account ({email} in {realmName}):",

@@ -200,7 +200,34 @@ export default function NotificationsScreen(props: Props): Node {
             </SettingsGroup>
           )}
           {otherAccounts.length > 0 && (
-            <NestedNavRow title="Other accounts" onPress={handleOtherAccountsPress} />
+            <NestedNavRow
+              {...(() => {
+                const problemAccountsCount = otherAccounts.filter(a => {
+                  // eslint-disable-next-line no-underscore-dangle
+                  const notificationReport_ = notificationReportsByIdentityKey.get(
+                    keyOfIdentity(a),
+                  );
+                  invariant(notificationReport_, 'AccountPickScreen: expected notificationReport_');
+
+                  return notificationReport_.problems.length > 0;
+                }).length;
+                return problemAccountsCount > 0
+                  ? {
+                      icon: { Component: IconAlertTriangle, color: kWarningColor },
+                      subtitle: {
+                        text: `\
+{problemAccountsCount, plural,
+  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}
+  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}
+}`,
+                        values: { problemAccountsCount },
+                      },
+                    }
+                  : undefined;
+              })()}
+              title="Other accounts"
+              onPress={handleOtherAccountsPress}
+            />
           )}
         </>
       )}

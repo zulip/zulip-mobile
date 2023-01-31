@@ -1,26 +1,32 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { Alert, Pressable, View } from 'react-native';
+// $FlowFixMe[untyped-import]
+import Color from 'color';
 
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import ZulipTextIntl from '../common/ZulipTextIntl';
-import { IconDone, IconTrash } from '../common/Icons';
-import { useGlobalSelector } from '../react-redux';
+import { IconAlertTriangle, IconDone, IconTrash } from '../common/Icons';
+import { useGlobalDispatch, useGlobalSelector } from '../react-redux';
 import { getIsActiveAccount } from './accountsSelectors';
 import type { AccountStatus } from './AccountPickScreen';
+import { kWarningColor } from '../styles/constants';
+import { TranslationContext } from '../boot/TranslationProvider';
+import { accountSwitch } from './accountActions';
+import { useNavigation } from '../react-navigation';
 
 const styles = createStyleSheet({
   wrapper: {
     justifyContent: 'space-between',
   },
   accountItem: {
+    padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 4,
-    height: 72,
   },
   selectedAccountItem: {
     borderColor: BRAND_COLOR,
@@ -28,15 +34,13 @@ const styles = createStyleSheet({
   },
   details: {
     flex: 1,
-    marginLeft: 16,
   },
   text: {
     fontWeight: 'bold',
     marginVertical: 2,
   },
   icon: {
-    padding: 12,
-    margin: 12,
+    marginLeft: 16,
   },
   signedOutText: {
     fontStyle: 'italic',
@@ -52,7 +56,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function AccountItem(props: Props): Node {
-  const { email, realm, isLoggedIn } = props.account;
+  const { email, realm, isLoggedIn, notificationReport } = props.account;
+
+  const _ = React.useContext(TranslationContext);
+  const navigation = useNavigation();
+  const dispatch = useGlobalDispatch();
 
   const isActiveAccount = useGlobalSelector(state => getIsActiveAccount(state, { email, realm }));
 
@@ -64,6 +72,25 @@ export default function AccountItem(props: Props): Node {
 
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
+
+  const handlePressNotificationWarning = React.useCallback(() => {
+    Alert.alert(
+      _('Notifications'),
+      _('Notifications for this account may not arrive.'),
+      [
+        { text: _('Cancel'), style: 'cancel' },
+        {
+          text: _('Details'),
+          onPress: () => {
+            dispatch(accountSwitch({ realm, email }));
+            navigation.push('notifications');
+          },
+          style: 'default',
+        },
+      ],
+      { cancelable: true },
+    );
+  }, [email, realm, navigation, dispatch, _]);
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.account)}>
@@ -85,13 +112,27 @@ export default function AccountItem(props: Props): Node {
             <ZulipTextIntl style={styles.signedOutText} text="Signed out" numberOfLines={1} />
           )}
         </View>
+        {notificationReport.problems.length > 0 && (
+          <Pressable hitSlop={12} onPress={handlePressNotificationWarning}>
+            {({ pressed }) => (
+              <IconAlertTriangle
+                style={styles.icon}
+                size={24}
+                color={pressed ? Color(kWarningColor).fade(0.5).toString() : kWarningColor}
+              />
+            )}
+          </Pressable>
+        )}
         {!showDoneIcon ? (
-          <IconTrash
-            style={styles.icon}
-            size={24}
-            color="crimson"
-            onPress={() => props.onRemove(props.account)}
-          />
+          <Pressable hitSlop={12} onPress={() => props.onRemove(props.account)}>
+            {({ pressed }) => (
+              <IconTrash
+                size={24}
+                style={styles.icon}
+                color={pressed ? Color('crimson').fade(0.5).toString() : 'crimson'}
+              />
+            )}
+          </Pressable>
         ) : (
           <IconDone style={styles.icon} size={24} color={BRAND_COLOR} />
         )}

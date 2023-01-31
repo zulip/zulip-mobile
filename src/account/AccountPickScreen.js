@@ -4,7 +4,6 @@ import React, { useContext, useCallback } from 'react';
 import type { Node } from 'react';
 import invariant from 'invariant';
 
-import { createSelector } from 'reselect';
 import { fetchServerSettings } from '../message/fetchActions';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { RouteProp } from '../react-navigation';
@@ -21,22 +20,45 @@ import { accountSwitch, removeAccount } from '../actions';
 import { showConfirmationDialog, showErrorAlert } from '../utils/info';
 import { tryStopNotifications } from '../notification/notifTokens';
 import type { Identity } from '../types';
-import type { GlobalSelector } from '../reduxTypes';
 import { getAccounts } from '../directSelectors';
+import { useNotificationReportsByIdentityKey } from '../settings/NotifTroubleshootingScreen';
+import { keyOfIdentity } from './accountMisc';
+import type { NotificationReport } from '../settings/NotifTroubleshootingScreen';
 
 /** The data needed for each item in the list-of-accounts UI. */
-export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
+export type AccountStatus = {|
+  ...Identity,
+  isLoggedIn: boolean,
+
+  // The issue-report data from NotifTroubleshootingScreen has a convenient
+  // list of problems that are likely to prevent notifications from working.
+  // We'll use it to warn on each account item that has problems.
+  +notificationReport: { +problems: NotificationReport['problems'], ... },
+|};
 
 /**
  * The data needed for the list of accounts in this UI.
  *
  * This serves as a view-model for the use of this component.
  */
-const getAccountStatuses: GlobalSelector<$ReadOnlyArray<AccountStatus>> = createSelector(
-  getAccounts,
-  accounts =>
-    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
-);
+function useAccountStatuses(): $ReadOnlyArray<AccountStatus> {
+  const accounts = useGlobalSelector(getAccounts);
+  const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
+
+  return accounts.map(({ realm, email, apiKey }) => {
+    const notificationReport = notificationReportsByIdentityKey.get(
+      keyOfIdentity({ realm, email }),
+    );
+    invariant(notificationReport, 'AccountPickScreen: expected notificationReport for identity');
+
+    return {
+      realm,
+      email,
+      isLoggedIn: apiKey !== '',
+      notificationReport,
+    };
+  });
+}
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'account-pick'>,
@@ -45,7 +67,7 @@ type Props = $ReadOnly<{|
 
 export default function AccountPickScreen(props: Props): Node {
   const { navigation } = props;
-  const accountStatuses = useGlobalSelector(getAccountStatuses);
+  const accountStatuses = useAccountStatuses();
 
   // In case we need to grab the API for an account (being careful while
   // doing so, of course).
