@@ -240,6 +240,7 @@
   "Draft saved": "Draft saved",
   "Email sent": "Email sent",
   "Notifications are disabled in system settings.": "Notifications are disabled in system settings.",
+  "Notifications require Google Play Services, which is unavailable on this device.": "Notifications require Google Play Services, which is unavailable on this device.",
   "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.": "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.",
   "Notifications are disabled.": "Notifications are disabled.",
   "Multiple issues. Tap to learn more.": "Multiple issues. Tap to learn more.",

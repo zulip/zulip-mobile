@@ -38,6 +38,7 @@ function systemSettingsWarning(problem): LocalizableText | null {
   switch (problem) {
     case NotificationProblem.SystemSettingsDisabled:
       return 'Notifications are disabled.';
+    case NotificationProblem.GooglePlayServicesNotAvailable:
     case NotificationProblem.TokenNotAcked:
       // We can't ask the user to fix this in system notification settings.
       return null;

@@ -48,31 +48,53 @@ type Props = $ReadOnly<{|
   route: RouteProp<'notif-troubleshooting', void>,
 |}>;
 
+// Keep in sync with Android Notifications.googlePlayServicesAvailability.
+type GooglePlayServicesAvailability = {|
+  +errorCode: number,
+  +errorMessage: string | null, // observed to be null when there was no error
+  +hasResolution: boolean,
+  +isSuccess: boolean,
+|};
+
 /**
  * Information about system settings, Google services availability, etc.
  *
  * A property will be null when we expect a value but don't have it yet.
+ * It'll be undefined if we don't expect a value from the platform. (This
+ * way, it's naturally removed from the JSON report we give the user.)
  */
 type NativeState = {|
   +systemSettingsEnabled: boolean | null,
+  +googlePlayServicesAvailability: GooglePlayServicesAvailability | null | void,
 
   // TODO: …more, e.g.:
-  // Warn when Google services not available (#3838)
   // TODO(#5484): Android notification sound file missing
   // TODO(#438): Badge count disabled (once iOS supports it)
 |};
 
 function useNativeState() {
-  const [result, setResult] = React.useState<NativeState>({ systemSettingsEnabled: null });
+  const [result, setResult] = React.useState<NativeState>({
+    systemSettingsEnabled: null,
+    googlePlayServicesAvailability: Platform.OS === 'android' ? null : undefined,
+  });
 
-  // Subject to races if the native-method calls can resolve out of order
-  // (unknown).
-  const getAndSetResult = React.useCallback(async () => {
-    const systemSettingsEnabled: boolean =
-      Platform.OS === 'android'
-        ? await Notifications.areNotificationsEnabled()
-        : await ZLPNotifications.areNotificationsAuthorized();
-    setResult(r => ({ ...r, systemSettingsEnabled }));
+  // Subject to races if calls to a given native method can resolve out of
+  // order (unknown).
+  const getAndSetResult = React.useCallback(() => {
+    (async () => {
+      const systemSettingsEnabled: boolean = await (Platform.OS === 'android'
+        ? Notifications.areNotificationsEnabled()
+        : ZLPNotifications.areNotificationsAuthorized());
+      setResult(r => ({ ...r, systemSettingsEnabled }));
+    })();
+
+    if (Platform.OS === 'android') {
+      (async () => {
+        const googlePlayServicesAvailability: GooglePlayServicesAvailability =
+          await Notifications.googlePlayServicesAvailability();
+        setResult(r => ({ ...r, googlePlayServicesAvailability }));
+      })();
+    }
   }, []);
 
   // Greg points out that neither iOS or Android seems to have an API for
@@ -93,6 +115,7 @@ function useNativeState() {
 export enum NotificationProblem {
   TokenNotAcked = 0,
   SystemSettingsDisabled = 1,
+  GooglePlayServicesNotAvailable = 2,
 }
 
 /**
@@ -179,6 +202,12 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
 
           const problems = [];
           if (isLoggedIn) {
+            if (
+              nativeState.googlePlayServicesAvailability
+              && !nativeState.googlePlayServicesAvailability.isSuccess
+            ) {
+              problems.push(NotificationProblem.GooglePlayServicesNotAvailable);
+            }
             if (nativeState.systemSettingsEnabled === false) {
               problems.push(NotificationProblem.SystemSettingsDisabled);
             }
@@ -344,6 +373,20 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
             ]}
             bottomMargin
             text="Notifications are disabled in system settings."
+          />,
+        );
+        break;
+
+      case NotificationProblem.GooglePlayServicesNotAvailable:
+        // TODO: Could offer as a solution in case the user is actually fine
+        //   with Google Play Services and just has a problem with its setup:
+        //   - It looks like you can ask Android to run a native flow to
+        //     fix problems with Google Play Services:
+        //       https://developers.google.com/android/reference/com/google/android/gms/common/GoogleApiAvailability
+        alerts.push(
+          <AlertItem
+            bottomMargin
+            text="Notifications require Google Play Services, which is unavailable on this device."
           />,
         );
         break;
