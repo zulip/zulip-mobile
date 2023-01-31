@@ -9,7 +9,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 
 export type Props = $ReadOnly<{|
   ...React$ElementConfig<typeof TextInput>,
-  placeholder: LocalizableText,
+  placeholder?: LocalizableText,
   onChangeText?: (text: string) => void,
   textInputRef?: React$Ref<typeof TextInput>,
 |}>;
@@ -60,7 +60,7 @@ export default function Input(props: Props): Node {
   return (
     <TextInput
       style={[componentStyles.input, { color: themeContext.color }, style]}
-      placeholder={_(placeholder)}
+      placeholder={placeholder != null ? _(placeholder) : undefined}
       placeholderTextColor={HALF_COLOR}
       underlineColorAndroid={isFocused ? BORDER_COLOR : HALF_COLOR}
       onFocus={handleFocus}
