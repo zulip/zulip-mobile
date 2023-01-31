@@ -188,7 +188,15 @@ export default function NotificationsScreen(props: Props): Node {
                 value={streamNotification}
                 onValueChange={handleStreamNotificationChange}
               />
-              <NestedNavRow title="Troubleshooting" onPress={handleTroubleshootingPress} />
+              <NestedNavRow
+                {...(() =>
+                  notificationReport.problems.length > 0 && {
+                    icon: { Component: IconAlertTriangle, color: kWarningColor },
+                    subtitle: 'Notifications for this account may not arrive.',
+                  })()}
+                title="Troubleshooting"
+                onPress={handleTroubleshootingPress}
+              />
             </SettingsGroup>
           )}
           {otherAccounts.length > 0 && (

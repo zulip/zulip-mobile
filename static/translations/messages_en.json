@@ -239,6 +239,7 @@
   "Email {supportEmail}": "Email {supportEmail}",
   "Draft saved": "Draft saved",
   "Email sent": "Email sent",
+  "Notifications for this account may not arrive.": "Notifications for this account may not arrive.",
   "Notifications are disabled in system settings.": "Notifications are disabled in system settings.",
   "Notifications require Google Play Services, which is unavailable on this device.": "Notifications require Google Play Services, which is unavailable on this device.",
   "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.": "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.",

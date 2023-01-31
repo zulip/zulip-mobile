@@ -3,6 +3,7 @@
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { nativeApplicationVersion } from 'expo-application';
+import invariant from 'invariant';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -28,6 +29,8 @@ import { kMinSupportedVersion } from '../common/ServerCompatBanner';
 import { kWarningColor } from '../styles/constants';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
+import { keyOfIdentity } from '../account/accountMisc';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -42,6 +45,9 @@ export default function SettingsScreen(props: Props): Node {
 
   const zulipVersion = useSelector(getServerVersion);
   const identity = useSelector(getIdentity);
+  const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
+  const notificationReport = notificationReportsByIdentityKey.get(keyOfIdentity(identity));
+  invariant(notificationReport, 'SettingsScreen: expected notificationReport');
 
   const dispatch = useDispatch();
   const _ = React.useContext(TranslationContext);
@@ -84,6 +90,11 @@ export default function SettingsScreen(props: Props): Node {
       <NestedNavRow
         icon={{ Component: IconNotifications }}
         title="Notifications"
+        {...(() =>
+          notificationReport.problems.length > 0 && {
+            icon: { Component: IconAlertTriangle, color: kWarningColor },
+            subtitle: 'Notifications for this account may not arrive.',
+          })()}
         onPress={() => {
           navigation.push('notifications');
         }}
