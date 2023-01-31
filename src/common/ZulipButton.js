@@ -5,7 +5,7 @@ import { View, ActivityIndicator } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import ZulipTextIntl from './ZulipTextIntl';
 
-import type { LocalizableText } from '../types';
+import type { LocalizableReactText } from '../types';
 import type { SubsetProperties } from '../generics';
 import type { SpecificIconType } from './Icons';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
@@ -100,7 +100,7 @@ type Props = $ReadOnly<{|
   progress?: boolean,
   disabled?: boolean,
   Icon?: SpecificIconType,
-  text: LocalizableText,
+  text: LocalizableReactText,
   secondary?: boolean,
   onPress: () => void | Promise<void>,
   isPressHandledWhenDisabled?: boolean,
