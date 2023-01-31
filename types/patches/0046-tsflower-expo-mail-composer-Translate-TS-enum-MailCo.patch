@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Mon, 30 Jan 2023 16:21:55 -0800
+Subject: [tsflower] expo-mail-composer: Translate TS enum MailComposerStatus
+
+---
+ .../build/MailComposer.types.js.flow            | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git types/expo-mail-composer/build/MailComposer.types.js.flow types/expo-mail-composer/build/MailComposer.types.js.flow
+index 3e2b8cc4b..6aec944dc 100644
+--- types/expo-mail-composer/build/MailComposer.types.js.flow
++++ types/expo-mail-composer/build/MailComposer.types.js.flow
+@@ -12,13 +12,12 @@ export type MailComposerOptions = {
+   ...
+ };
+ 
+-export type MailComposerResult = { status: MailComposerStatus, ... };
++export type MailComposerResult = { status: MailComposerStatusT, ... };
+ 
+-/* tsflower-unimplemented: EnumDeclaration */
+-/* 
+-export declare enum MailComposerStatus {
+-    UNDETERMINED = "undetermined",
+-    SENT = "sent",
+-    SAVED = "saved",
+-    CANCELLED = "cancelled"
+-} */
++declare export var MailComposerStatus: {|
++  +UNDETERMINED: 'undetermined',
++  +SENT: 'sent',
++  +SAVED: 'saved',
++  +CANCELLED: 'cancelled',
++|};
++export type MailComposerStatusT = $Values<typeof MailComposerStatus>;
+-- 
+2.32.0
+

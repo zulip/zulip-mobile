@@ -147,6 +147,10 @@ run_only()
     # TODO get list of packages from data... better yet, make it
     #   one tsflower command, reading a TsFlower config file
 
+    package=expo-mail-composer
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
     package=@react-native-clipboard/clipboard
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
