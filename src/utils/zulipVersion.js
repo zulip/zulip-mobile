@@ -43,6 +43,10 @@ export class ZulipVersion {
     return this._raw;
   }
 
+  toJSON(): string {
+    return this.raw();
+  }
+
   /**
    * Data to be sent to Sentry to help with event aggregation.
    */

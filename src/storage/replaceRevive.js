@@ -64,7 +64,7 @@ function replacer(key, value) {
     case (Map.prototype: $FlowIssue):
       return { data: [...value.entries()], [SERIALIZED_TYPE_FIELD_NAME]: 'Map' };
     case (ZulipVersion.prototype: $FlowIssue):
-      return { data: value.raw(), [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
+      return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'ZulipVersion' };
     case (URL.prototype: $FlowIssue):
       return { data: value, [SERIALIZED_TYPE_FIELD_NAME]: 'URL' };
     case (GravatarURL.prototype: $FlowIssue):
