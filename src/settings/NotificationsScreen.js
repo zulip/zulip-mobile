@@ -130,6 +130,10 @@ export default function NotificationsScreen(props: Props): Node {
     openSystemNotificationSettings();
   }, [systemSettingsWarnings, _]);
 
+  const handleTroubleshootingPress = useCallback(() => {
+    navigation.push('notif-troubleshooting');
+  }, [navigation]);
+
   // TODO(#3999): It'd be good to show "working on it" UI feedback while a
   //   request is pending, after the user touches a switch.
 
@@ -164,9 +168,6 @@ export default function NotificationsScreen(props: Props): Node {
   return (
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
-      {
-        // TODO: Warn when device's push token isn't acked by the server.
-      }
       <NestedNavRow
         icon={
           systemSettingsWarnings.length > 0
@@ -216,6 +217,7 @@ export default function NotificationsScreen(props: Props): Node {
                 value={streamNotification}
                 onValueChange={handleStreamNotificationChange}
               />
+              <NestedNavRow title="Troubleshooting" onPress={handleTroubleshootingPress} />
             </SettingsGroup>
           )}
           {otherAccounts.length > 0 && (

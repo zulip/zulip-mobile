@@ -40,6 +40,7 @@ import StreamSettingsScreen from '../streams/StreamSettingsScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
+import NotifTroubleshootingScreen from '../settings/NotifTroubleshootingScreen';
 import TopicListScreen from '../topics/TopicListScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
@@ -75,6 +76,7 @@ export type AppNavigatorParamList = {|
   +'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
   +'topic-list': RouteParamsOf<typeof TopicListScreen>,
   +notifications: RouteParamsOf<typeof NotificationsScreen>,
+  +'notif-troubleshooting': RouteParamsOf<typeof NotifTroubleshootingScreen>,
   +legal: RouteParamsOf<typeof LegalScreen>,
   +'user-status': RouteParamsOf<typeof UserStatusScreen>,
   +sharing: RouteParamsOf<typeof SharingScreen>,
@@ -181,6 +183,10 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="create-stream" component={useHaveServerDataGate(CreateStreamScreen)} />
       <Stack.Screen name="topic-list" component={useHaveServerDataGate(TopicListScreen)} />
       <Stack.Screen name="notifications" component={useHaveServerDataGate(NotificationsScreen)} />
+      <Stack.Screen
+        name="notif-troubleshooting"
+        component={useHaveServerDataGate(NotifTroubleshootingScreen)}
+      />
       <Stack.Screen name="legal" component={useHaveServerDataGate(LegalScreen)} />
       <Stack.Screen name="user-status" component={useHaveServerDataGate(UserStatusScreen)} />
       <Stack.Screen name="settings" component={useHaveServerDataGate(SettingsScreen)} />
