@@ -2,7 +2,7 @@
 
 import invariant from 'invariant';
 import * as React from 'react';
-import { Platform, ScrollView } from 'react-native';
+import { Platform, ScrollView, NativeModules } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Clipboard from '@react-native-clipboard/clipboard';
 import * as MailComposer from 'expo-mail-composer';
@@ -36,6 +36,12 @@ import * as logging from '../utils/logging';
 import { getHaveServerData } from '../haveServerDataSelectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 import isAppOwnDomain from '../isAppOwnDomain';
+import { openSystemNotificationSettings } from '../utils/openLink';
+
+const {
+  Notifications, // android
+  ZLPNotifications, // ios
+} = NativeModules;
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'notif-troubleshooting'>,
@@ -43,10 +49,50 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
+ * Information about system settings, Google services availability, etc.
+ *
+ * A property will be null when we expect a value but don't have it yet.
+ */
+type NativeState = {|
+  +systemSettingsEnabled: boolean | null,
+
+  // TODO: …more, e.g.:
+  // Warn when Google services not available (#3838)
+  // TODO(#5484): Android notification sound file missing
+  // TODO(#438): Badge count disabled (once iOS supports it)
+|};
+
+function useNativeState() {
+  const [result, setResult] = React.useState<NativeState>({ systemSettingsEnabled: null });
+
+  // Subject to races if the native-method calls can resolve out of order
+  // (unknown).
+  const getAndSetResult = React.useCallback(async () => {
+    const systemSettingsEnabled: boolean =
+      Platform.OS === 'android'
+        ? await Notifications.areNotificationsEnabled()
+        : await ZLPNotifications.areNotificationsAuthorized();
+    setResult(r => ({ ...r, systemSettingsEnabled }));
+  }, []);
+
+  // Greg points out that neither iOS or Android seems to have an API for
+  // subscribing to changes, so one has to poll, and this seems like a fine
+  // way to do so:
+  //   https://github.com/zulip/zulip-mobile/pull/5627#discussion_r1058055540
+  const appState = useAppState();
+  React.useEffect(() => {
+    getAndSetResult();
+  }, [getAndSetResult, appState]);
+
+  return result;
+}
+
+/**
  * Something that's very likely to prevent notifications from working.
  */
-enum NotificationProblem {
+export enum NotificationProblem {
   TokenNotAcked = 0,
+  SystemSettingsDisabled = 1,
 }
 
 /**
@@ -60,6 +106,7 @@ export type NotificationReport = {|
   +isSelfHosted: boolean,
   +platform: SubsetProperties<typeof Platform, {| +OS: mixed, +Version: mixed, +isPad: boolean |}>,
   +nativeApplicationVersion: string | null,
+  +nativeState: NativeState,
   +problems: $ReadOnlyArray<NotificationProblem>,
   +isLoggedIn: boolean,
   +devicePushToken: string | null,
@@ -101,6 +148,7 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
     () => ({ OS: Platform.OS, Version: Platform.Version, isPad: Platform.isPad }),
     [],
   );
+  const nativeState = useNativeState();
   const pushToken = useGlobalSelector(state => getGlobalSession(state).pushToken);
   const accounts = useGlobalSelector(getAccounts);
   const activeAccountState = useGlobalSelector(tryGetActiveAccountState);
@@ -131,6 +179,9 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
 
           const problems = [];
           if (isLoggedIn) {
+            if (nativeState.systemSettingsEnabled === false) {
+              problems.push(NotificationProblem.SystemSettingsDisabled);
+            }
             if (ackedPushToken == null || pushToken !== ackedPushToken) {
               problems.push(NotificationProblem.TokenNotAcked);
             }
@@ -143,6 +194,7 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
               isSelfHosted: !isAppOwnDomain(identity.realm),
               platform,
               nativeApplicationVersion,
+              nativeState,
               problems,
               isLoggedIn,
               devicePushToken: pushToken,
@@ -152,7 +204,7 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
           ];
         }),
       ),
-    [accounts, activeAccountState, pushToken, platform],
+    [nativeState, accounts, activeAccountState, pushToken, platform],
   );
 }
 
@@ -284,6 +336,18 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
   const alerts = [];
   report.problems.forEach(problem => {
     switch (problem) {
+      case NotificationProblem.SystemSettingsDisabled:
+        alerts.push(
+          <AlertItem
+            buttons={[
+              { id: 'fix', label: 'Open settings', onPress: openSystemNotificationSettings },
+            ]}
+            bottomMargin
+            text="Notifications are disabled in system settings."
+          />,
+        );
+        break;
+
       case NotificationProblem.TokenNotAcked: {
         // TODO: Could offer:
         //   - Re-request the device token from the platform (#5329 may be

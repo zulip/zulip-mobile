@@ -2,7 +2,8 @@
 
 import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
-import { Alert, Platform, NativeModules } from 'react-native';
+import { Alert } from 'react-native';
+import invariant from 'invariant';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -13,7 +14,6 @@ import Screen from '../common/Screen';
 import * as api from '../api';
 import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
 import NestedNavRow from '../common/NestedNavRow';
-import { useAppState } from '../reactNativeUtils';
 import { IconAlertTriangle } from '../common/Icons';
 import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -23,65 +23,26 @@ import { getRealm, getRealmName } from '../directSelectors';
 import ZulipText from '../common/ZulipText';
 import SettingsGroup from './SettingsGroup';
 import { openSystemNotificationSettings } from '../utils/openLink';
-
-const {
-  Notifications, // android
-  ZLPNotifications, // ios
-} = NativeModules;
+import {
+  useNotificationReportsByIdentityKey,
+  NotificationProblem,
+} from './NotifTroubleshootingScreen';
+import { keyOfIdentity } from '../account/accountMisc';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'notifications'>,
   route: RouteProp<'notifications', void>,
 |}>;
 
-/**
- * A problem in the system notification settings that we should warn about.
- */
-enum SystemSettingsWarning {
-  Disabled = 0,
-  // TODO: …more, e.g.:
-  // TODO(#5484): Android notification sound file missing
-  // TODO(#438): Badge count disabled (once iOS supports it)
-}
-
-function systemSettingsWarningMsg(warning: SystemSettingsWarning): LocalizableText {
-  switch (warning) {
-    case SystemSettingsWarning.Disabled:
+function systemSettingsWarning(problem): LocalizableText | null {
+  switch (problem) {
+    case NotificationProblem.SystemSettingsDisabled:
       return 'Notifications are disabled.';
+    case NotificationProblem.TokenNotAcked:
+      // We can't ask the user to fix this in system notification settings.
+      return null;
   }
 }
-
-/**
- * An array of the `SystemSettingsWarning`s that currently apply.
- */
-const useSystemSettingsWarnings = (): $ReadOnlyArray<SystemSettingsWarning> => {
-  const [disabled, setDisabled] = React.useState(false);
-
-  // Subject to races if the native-method calls can resolve out of order
-  // (unknown).
-  const getAndSetDisabled = React.useCallback(async () => {
-    setDisabled(
-      Platform.OS === 'android'
-        ? !(await Notifications.areNotificationsEnabled())
-        : !(await ZLPNotifications.areNotificationsAuthorized()),
-    );
-  }, []);
-
-  // Greg points out that neither iOS or Android seems to have an API for
-  // subscribing to changes, so one has to poll, and this seems like a fine
-  // way to do so:
-  //   https://github.com/zulip/zulip-mobile/pull/5627#discussion_r1058055540
-  const appState = useAppState();
-  React.useEffect(() => {
-    getAndSetDisabled();
-  }, [getAndSetDisabled, appState]);
-
-  const result = [];
-  if (disabled) {
-    result.push(SystemSettingsWarning.Disabled);
-  }
-  return result;
-};
 
 /**
  * Notification settings with warnings when something seems wrong.
@@ -95,6 +56,12 @@ export default function NotificationsScreen(props: Props): Node {
 
   const auth = useSelector(getAuth);
   const identity = useSelector(getIdentity);
+  const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
+  const notificationReport = notificationReportsByIdentityKey.get(keyOfIdentity(identity));
+  invariant(
+    notificationReport,
+    'NotificationsScreen: expected notificationReport for current account',
+  );
   const otherAccounts = useGlobalSelector(state =>
     getIdentities(state).filter(identity_ => !getIsActiveAccount(state, identity_)),
   );
@@ -104,14 +71,16 @@ export default function NotificationsScreen(props: Props): Node {
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
 
-  const systemSettingsWarnings = useSystemSettingsWarnings();
+  const systemSettingsWarnings = notificationReport.problems
+    .map(systemSettingsWarning)
+    .filter(Boolean);
 
   const handleSystemSettingsPress = useCallback(() => {
     if (systemSettingsWarnings.length > 1) {
       Alert.alert(
         _('System settings for Zulip'),
         // List all warnings that apply.
-        systemSettingsWarnings.map(w => _(systemSettingsWarningMsg(w))).join('\n\n'),
+        systemSettingsWarnings.map(w => _(w)).join('\n\n'),
         [
           { text: _('Cancel'), style: 'cancel' },
           {
@@ -183,14 +152,14 @@ export default function NotificationsScreen(props: Props): Node {
             case 0:
               return undefined;
             case 1:
-              return systemSettingsWarningMsg(systemSettingsWarnings[0]);
+              return systemSettingsWarnings[0];
             default:
               return 'Multiple issues. Tap to learn more.';
           }
         })()}
         onPress={handleSystemSettingsPress}
       />
-      {!systemSettingsWarnings.includes(SystemSettingsWarning.Disabled) && (
+      {!notificationReport.problems.includes(NotificationProblem.SystemSettingsDisabled) && (
         <>
           {pushNotificationsEnabled && (
             <SettingsGroup
