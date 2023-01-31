@@ -25,7 +25,6 @@ export default {
   el: require('../../static/translations/messages_el.json'),
   en: require('../../static/translations/messages_en.json'),
   'en-GB': require('../../static/translations/messages_en_GB.json'),
-  'en-NG': require('../../static/translations/messages_en_NG.json'),
   eo: require('../../static/translations/messages_eo.json'),
   es: require('../../static/translations/messages_es.json'),
   fa: require('../../static/translations/messages_fa.json'),

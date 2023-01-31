@@ -60,10 +60,6 @@ declare module '../../static/translations/messages_en_GB.json' {
   declare export default {| [string]: string |};
 }
 
-declare module '../../static/translations/messages_en_NG.json' {
-  declare export default {| [string]: string |};
-}
-
 declare module '../../static/translations/messages_eo.json' {
   declare export default {| [string]: string |};
 }
