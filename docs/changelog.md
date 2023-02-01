@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.200 (2023-02-01)
+
 ### Highlights for users
 
 * The mobile app will no longer connect to Zulip Server versions older than
