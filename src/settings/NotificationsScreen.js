@@ -40,6 +40,7 @@ function systemSettingsWarning(problem): LocalizableText | null {
       return 'Notifications are disabled.';
     case NotificationProblem.GooglePlayServicesNotAvailable:
     case NotificationProblem.TokenNotAcked:
+    case NotificationProblem.ServerHasNotEnabled:
       // We can't ask the user to fix this in system notification settings.
       return null;
   }

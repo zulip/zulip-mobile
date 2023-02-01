@@ -15,7 +15,13 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import Screen from '../common/Screen';
 import { createStyleSheet } from '../styles';
 import { useGlobalSelector, useSelector } from '../react-redux';
-import { getAccounts, getGlobalSession, getSettings } from '../directSelectors';
+import {
+  getAccounts,
+  getGlobalSession,
+  getGlobalSettings,
+  getRealm,
+  getSettings,
+} from '../directSelectors';
 import {
   getAccount,
   getServerVersion,
@@ -36,7 +42,9 @@ import * as logging from '../utils/logging';
 import { getHaveServerData } from '../haveServerDataSelectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 import isAppOwnDomain from '../isAppOwnDomain';
-import { openSystemNotificationSettings } from '../utils/openLink';
+import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
+import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
 
 const {
   Notifications, // android
@@ -116,6 +124,7 @@ export enum NotificationProblem {
   TokenNotAcked = 0,
   SystemSettingsDisabled = 1,
   GooglePlayServicesNotAvailable = 2,
+  ServerHasNotEnabled = 3,
 }
 
 /**
@@ -146,6 +155,7 @@ export type NotificationReport = {|
   +serverData: {|
     +zulipVersion: ZulipVersion,
     +zulipFeatureLevel: number,
+    +pushNotificationsEnabled: boolean,
     +offlineNotification: boolean,
     +onlineNotification: boolean,
     +streamNotification: boolean,
@@ -194,6 +204,7 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
             serverData = {
               zulipVersion: getServerVersion(activeAccountState),
               zulipFeatureLevel: getZulipFeatureLevel(activeAccountState),
+              pushNotificationsEnabled: getRealm(activeAccountState).pushNotificationsEnabled,
               offlineNotification: getSettings(activeAccountState).offlineNotification,
               onlineNotification: getSettings(activeAccountState).onlineNotification,
               streamNotification: getSettings(activeAccountState).streamNotification,
@@ -210,6 +221,9 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
             }
             if (nativeState.systemSettingsEnabled === false) {
               problems.push(NotificationProblem.SystemSettingsDisabled);
+            }
+            if (serverData && !serverData.pushNotificationsEnabled) {
+              problems.push(NotificationProblem.ServerHasNotEnabled);
             }
             if (ackedPushToken == null || pushToken !== ackedPushToken) {
               problems.push(NotificationProblem.TokenNotAcked);
@@ -269,7 +283,12 @@ function useMailComposerIsAvailable(): boolean | null {
 export default function NotifTroubleshootingScreen(props: Props): React.Node {
   const _ = React.useContext(TranslationContext);
 
+  const settings = useGlobalSelector(getGlobalSettings);
+
   const account = useSelector(getAccount);
+  const identity = identityOfAccount(account);
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
   const report = notificationReportsByIdentityKey.get(keyOfIdentity(identityOfAccount(account)));
   invariant(report, 'NotifTroubleshootingScreen: expected report');
@@ -387,6 +406,39 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
           <AlertItem
             bottomMargin
             text="Notifications require Google Play Services, which is unavailable on this device."
+          />,
+        );
+        break;
+
+      case NotificationProblem.ServerHasNotEnabled:
+        alerts.push(
+          <AlertItem
+            bottomMargin
+            text={
+              isAtLeastAdmin
+                ? {
+                    text: 'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',
+                    values: { realm: identity.realm.toString() },
+                  }
+                : {
+                    text: 'The Zulip server at {realm} is not set up to deliver push notifications.',
+                    values: { realm: identity.realm.toString() },
+                  }
+            }
+            buttons={[
+              {
+                id: 'learn-more',
+                label: 'Learn more',
+                onPress: () => {
+                  openLinkWithUserPreference(
+                    new URL(
+                      'https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html',
+                    ),
+                    settings,
+                  );
+                },
+              },
+            ]}
           />,
         );
         break;
