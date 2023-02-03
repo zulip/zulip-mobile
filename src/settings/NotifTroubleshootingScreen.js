@@ -125,6 +125,10 @@ export enum NotificationProblem {
   SystemSettingsDisabled = 1,
   GooglePlayServicesNotAvailable = 2,
   ServerHasNotEnabled = 3,
+
+  // TODO: more, such as:
+  //   - Can't reach the server (ideally after #5615, to be less buggy)
+  //   - Android notification sound file missing (#5484)
 }
 
 /**
