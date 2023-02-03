@@ -1,4 +1,5 @@
 {
+  "App version": "App version",
   "Quote and reply": "Quote and reply",
   "{username} [said]({link_to_message}):": "{username} [said]({link_to_message}):",
   "[Quoting…]": "[Quoting…]",
@@ -238,11 +239,7 @@
   "Stream notifications": "Stream notifications",
   "No users found": "No users found",
   "No streams found": "No streams found",
-  "Diagnostics": "Diagnostics",
   "Legal": "Legal",
-  "Timing": "Timing",
-  "Variables": "Variables",
-  "Storage": "Storage",
   "Mark all as read": "Mark all as read",
   "Mark stream as read": "Mark stream as read",
   "Mark topic as read": "Mark topic as read",

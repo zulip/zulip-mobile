@@ -33,10 +33,6 @@ import New1to1PmScreen from '../user-picker/New1to1PmScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
-import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
-import VariablesScreen from '../diagnostics/VariablesScreen';
-import TimingScreen from '../diagnostics/TimingScreen';
-import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import NewGroupPmScreen from '../user-picker/NewGroupPmScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
@@ -74,10 +70,6 @@ export type AppNavigatorParamList = {|
   +lightbox: RouteParamsOf<typeof LightboxScreen>,
   +'new-group-pm': RouteParamsOf<typeof NewGroupPmScreen>,
   +'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
-  +diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
-  +variables: RouteParamsOf<typeof VariablesScreen>,
-  +timing: RouteParamsOf<typeof TimingScreen>,
-  +storage: RouteParamsOf<typeof StorageScreen>,
   +'stream-settings': RouteParamsOf<typeof StreamSettingsScreen>,
   +'edit-stream': RouteParamsOf<typeof EditStreamScreen>,
   +'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
@@ -181,10 +173,6 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="lightbox" component={useHaveServerDataGate(LightboxScreen)} />
       <Stack.Screen name="new-group-pm" component={useHaveServerDataGate(NewGroupPmScreen)} />
       <Stack.Screen name="invite-users" component={useHaveServerDataGate(InviteUsersScreen)} />
-      <Stack.Screen name="diagnostics" component={useHaveServerDataGate(DiagnosticsScreen)} />
-      <Stack.Screen name="variables" component={useHaveServerDataGate(VariablesScreen)} />
-      <Stack.Screen name="timing" component={useHaveServerDataGate(TimingScreen)} />
-      <Stack.Screen name="storage" component={useHaveServerDataGate(StorageScreen)} />
       <Stack.Screen
         name="stream-settings"
         component={useHaveServerDataGate(StreamSettingsScreen)}

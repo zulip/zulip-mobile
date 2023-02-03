@@ -2,6 +2,7 @@
 
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
+import { nativeApplicationVersion } from 'expo-application';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -12,13 +13,14 @@ import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import {
-  IconDiagnostics,
   IconNotifications,
   IconLanguage,
   IconMoreHorizontal,
+  IconSmartphone,
 } from '../common/Icons';
 import { setGlobalSettings } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
+import TextRow from '../common/TextRow';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -82,18 +84,16 @@ export default function SettingsScreen(props: Props): Node {
         }}
       />
       <NestedNavRow
-        icon={{ Component: IconDiagnostics }}
-        title="Diagnostics"
-        onPress={() => {
-          navigation.push('diagnostics');
-        }}
-      />
-      <NestedNavRow
         icon={{ Component: IconMoreHorizontal }}
         title="Legal"
         onPress={() => {
           navigation.push('legal');
         }}
+      />
+      <TextRow
+        icon={{ Component: IconSmartphone }}
+        title="App version"
+        subtitle={{ text: '{_}', values: { _: `v${nativeApplicationVersion ?? '?.?.?'}` } }}
       />
     </Screen>
   );
