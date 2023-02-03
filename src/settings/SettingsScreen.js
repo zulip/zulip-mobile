@@ -6,7 +6,7 @@ import { nativeApplicationVersion } from 'expo-application';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useGlobalSelector, useDispatch } from '../react-redux';
+import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import NestedNavRow from '../common/NestedNavRow';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
@@ -17,10 +17,17 @@ import {
   IconLanguage,
   IconMoreHorizontal,
   IconSmartphone,
+  IconServer,
+  IconAlertTriangle,
 } from '../common/Icons';
 import { setGlobalSettings } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
 import TextRow from '../common/TextRow';
+import { getIdentity, getServerVersion } from '../account/accountsSelectors';
+import { kMinSupportedVersion } from '../common/ServerCompatBanner';
+import { kWarningColor } from '../styles/constants';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -30,10 +37,15 @@ type Props = $ReadOnly<{|
 export default function SettingsScreen(props: Props): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
-  const markMessagesReadOnScroll = useGlobalSelector(
-    state => getGlobalSettings(state).markMessagesReadOnScroll,
-  );
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+  const markMessagesReadOnScroll = globalSettings.markMessagesReadOnScroll;
+
+  const zulipVersion = useSelector(getServerVersion);
+  const identity = useSelector(getIdentity);
+
   const dispatch = useDispatch();
+  const _ = React.useContext(TranslationContext);
+
   const { navigation } = props;
 
   const handleThemeChange = useCallback(() => {
@@ -94,6 +106,35 @@ export default function SettingsScreen(props: Props): Node {
         icon={{ Component: IconSmartphone }}
         title="App version"
         subtitle={{ text: '{_}', values: { _: `v${nativeApplicationVersion ?? '?.?.?'}` } }}
+      />
+      <TextRow
+        icon={{ Component: IconServer }}
+        title="Server version"
+        subtitle={{ text: '{_}', values: { _: zulipVersion.raw() } }}
+        {...(!zulipVersion.isAtLeast(kMinSupportedVersion) && {
+          icon: { Component: IconAlertTriangle, color: kWarningColor },
+          onPress: () => {
+            showErrorAlert(
+              'Server not supported',
+              _({
+                text: '{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.',
+                values: {
+                  realm: identity.realm.toString(),
+                  version: zulipVersion.raw(),
+                  minSupportedVersion: kMinSupportedVersion.raw(),
+                },
+              }),
+              {
+                url: new URL(
+                  // TODO: Instead, link to new Help Center doc once we have it:
+                  //   https://github.com/zulip/zulip/issues/23842
+                  'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+                ),
+                globalSettings,
+              },
+            );
+          },
+        })}
       />
     </Screen>
   );

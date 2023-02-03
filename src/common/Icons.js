@@ -103,6 +103,7 @@ export const IconCamera: SpecificIconType = makeIcon(Feather, 'camera');
 export const IconTerminal: SpecificIconType = makeIcon(Feather, 'terminal');
 export const IconMoreHorizontal: SpecificIconType = makeIcon(Feather, 'more-horizontal');
 export const IconSmartphone: SpecificIconType = makeIcon(Feather, 'smartphone');
+export const IconServer: SpecificIconType = makeIcon(Feather, 'server');
 export const IconEdit: SpecificIconType = makeIcon(Feather, 'edit');
 export const IconPlusSquare: SpecificIconType = makeIcon(Feather, 'plus-square');
 export const IconVideo: SpecificIconType = makeIcon(Feather, 'video');
