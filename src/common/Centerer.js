@@ -33,6 +33,9 @@ type Props = $ReadOnly<{|
  * @prop children - Components to be centered.
  * @prop [padding] - Specifies if the components should be padded.
  */
+// TODO: Remove this component. Callers should be more transparent about
+//   what they want, especially if that includes setting things unrelated to
+//   centering, like `maxWidth: 480`.
 export default class Centerer extends PureComponent<Props> {
   static defaultProps: {| padding: boolean |} = {
     padding: false,
