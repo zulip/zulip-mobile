@@ -3,23 +3,25 @@ import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import { Icon } from './Icons';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
-import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 
 const styles = createStyleSheet({
   showPasswordButton: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
     justifyContent: 'center',
   },
-  showPasswordButtonText: {
+  showPasswordButtonIcon: {
     margin: 8,
     color: BRAND_COLOR,
+  },
+  passwordTextInput: {
+    flex: 1,
+  },
+  passwordInputView: {
+    flexDirection: 'row',
   },
 });
 
@@ -44,10 +46,16 @@ export default function PasswordInput(props: Props): Node {
   }, []);
 
   return (
-    <View>
-      <Input {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none" />
+    <View style={styles.passwordInputView}>
+      <Input
+        {...props}
+        secureTextEntry={isHidden}
+        autoCorrect={false}
+        autoCapitalize="none"
+        style={styles.passwordTextInput}
+      />
       <Touchable style={styles.showPasswordButton} onPress={handleShow}>
-        <ZulipTextIntl style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
+        <Icon name={isHidden ? 'eye-off' : 'eye'} size={24} style={styles.showPasswordButtonIcon} />
       </Touchable>
     </View>
   );
