@@ -14,7 +14,9 @@ const styles = createStyleSheet({
     marginLeft: 8,
   },
   showPasswordButtonIcon: {
-    margin: 8,
+    // 24 (icon size) + 12 + 12 = 48px min touch target:
+    //   https://material.io/design/usability/accessibility.html#layout-and-typography
+    margin: 12,
     color: BRAND_COLOR,
   },
   passwordTextInput: {
