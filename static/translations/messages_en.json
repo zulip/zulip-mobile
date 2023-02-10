@@ -1,4 +1,5 @@
 {
+  "Show password": "Show password",
   "Quote and reply": "Quote and reply",
   "{username} [said]({link_to_message}):": "{username} [said]({link_to_message}):",
   "[Quoting…]": "[Quoting…]",
@@ -279,7 +280,6 @@
   "Stream settings": "Stream settings",
   "Failed to show stream settings": "Failed to show stream settings",
   "show": "show",
-  "hide": "hide",
   "Debug": "Debug",
   "Administrators": "Administrators",
   "Normal users": "Normal users",
