@@ -12,6 +12,7 @@ import Touchable from './Touchable';
 const styles = createStyleSheet({
   showPasswordButton: {
     justifyContent: 'center',
+    marginLeft: 8,
   },
   showPasswordButtonIcon: {
     margin: 8,
