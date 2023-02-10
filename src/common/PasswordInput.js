@@ -11,7 +11,6 @@ import Touchable from './Touchable';
 
 const styles = createStyleSheet({
   showPasswordButton: {
-    justifyContent: 'center',
     marginLeft: 8,
   },
   showPasswordButtonIcon: {
@@ -23,6 +22,7 @@ const styles = createStyleSheet({
   },
   passwordInputView: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
