@@ -7,6 +7,7 @@ import { Icon } from './Icons';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
 import { BRAND_COLOR, HIGHLIGHT_COLOR, createStyleSheet } from '../styles';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 const styles = createStyleSheet({
   showPasswordButton: {
@@ -35,6 +36,8 @@ type Props = $ReadOnly<$Diff<InputProps,
  * All props are passed through to `Input`.  See `Input` for descriptions.
  */
 export default function PasswordInput(props: Props): Node {
+  const _ = React.useContext(TranslationContext);
+
   const [isHidden, setIsHidden] = useState<boolean>(true);
 
   const handleShow = useCallback(() => {
@@ -56,6 +59,9 @@ export default function PasswordInput(props: Props): Node {
         hitSlop={12}
         style={styles.showPasswordButton}
         onPress={handleShow}
+        accessibilityLabel={_('Show password')}
+        accessibilityRole="switch"
+        accessibilityState={{ checked: !isHidden }}
       >
         {({ pressed }) => (
           <Icon
