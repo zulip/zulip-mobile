@@ -1,23 +1,16 @@
 /* @flow strict-local */
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 
 import { Icon } from './Icons';
 import Input from './Input';
 import type { Props as InputProps } from './Input';
-import { BRAND_COLOR, createStyleSheet } from '../styles';
-import Touchable from './Touchable';
+import { BRAND_COLOR, HIGHLIGHT_COLOR, createStyleSheet } from '../styles';
 
 const styles = createStyleSheet({
   showPasswordButton: {
     marginLeft: 8,
-  },
-  showPasswordButtonIcon: {
-    // 24 (icon size) + 12 + 12 = 48px min touch target:
-    //   https://material.io/design/usability/accessibility.html#layout-and-typography
-    margin: 12,
-    color: BRAND_COLOR,
   },
   passwordTextInput: {
     flex: 1,
@@ -57,9 +50,21 @@ export default function PasswordInput(props: Props): Node {
         autoCapitalize="none"
         style={styles.passwordTextInput}
       />
-      <Touchable style={styles.showPasswordButton} onPress={handleShow}>
-        <Icon name={isHidden ? 'eye-off' : 'eye'} size={24} style={styles.showPasswordButtonIcon} />
-      </Touchable>
+      <Pressable
+        // 24 (icon size) + 12 + 12 = 48px min touch target:
+        //   https://material.io/design/usability/accessibility.html#layout-and-typography
+        hitSlop={12}
+        style={styles.showPasswordButton}
+        onPress={handleShow}
+      >
+        {({ pressed }) => (
+          <Icon
+            color={pressed ? HIGHLIGHT_COLOR : BRAND_COLOR}
+            name={isHidden ? 'eye-off' : 'eye'}
+            size={24}
+          />
+        )}
+      </Pressable>
     </View>
   );
 }
