@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import type { EmojiType, LocalizableReactText } from '../types';
 import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
-import { IconRight } from './Icons';
+import { Icon, IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
 import globalStyles, { ThemeContext, createStyleSheet } from '../styles';
 import Emoji from '../emoji/Emoji';
@@ -33,18 +33,28 @@ type Props = $ReadOnly<{|
   //   components, with and without this?
   titleBoldUppercase?: true,
 
-  /** Use this to navigate to a "nested" screen. */
+  type?: 'nested' | 'external',
+
+  /**
+   * Press handler for the whole row.
+   *
+   * The behavior should correspond to `type`:
+   * 'nested': navigate to a "nested" screen.
+   * 'external': open a URL with the user's `BrowserPreference`
+   */
   onPress: () => void,
 |}>;
 
 /**
- * A button that navigates to a "nested" screen.
+ * When tapped, this row navigates to a "nested" screen or opens a URL.
  *
- * Shows a right-facing arrow to indicate its purpose. If you need a
- * selectable option row instead, use `SelectableOptionRow`.
+ * 'nested' type: shows a right-facing arrow.
+ * 'external' type: shows an "external link" icon.
+ *
+ * If you need a selectable option row instead, use `SelectableOptionRow`.
  */
-export default function NestedNavRow(props: Props): Node {
-  const { title, subtitle, titleBoldUppercase, onPress, leftElement } = props;
+export default function NavRow(props: Props): Node {
+  const { title, subtitle, titleBoldUppercase, type = 'nested', onPress, leftElement } = props;
 
   const themeContext = useContext(ThemeContext);
 
@@ -77,7 +87,7 @@ export default function NestedNavRow(props: Props): Node {
           fontWeight: '300',
           fontSize: 13,
         },
-        iconRightFacingArrow: {
+        iconRight: {
           textAlign: 'center',
           marginLeft: 8,
           color: themeContext.color,
@@ -117,7 +127,11 @@ export default function NestedNavRow(props: Props): Node {
           {subtitle !== undefined && <ZulipTextIntl style={styles.subtitle} text={subtitle} />}
         </View>
         <View style={globalStyles.rightItem}>
-          <IconRight size={24} style={styles.iconRightFacingArrow} />
+          {type === 'nested' ? (
+            <IconRight size={24} style={styles.iconRight} />
+          ) : (
+            <Icon name="external-link" size={24} style={styles.iconRight} />
+          )}
         </View>
       </View>
     </Touchable>

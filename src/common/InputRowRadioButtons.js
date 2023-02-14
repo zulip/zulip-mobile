@@ -77,10 +77,10 @@ type Props<TItemKey> = $ReadOnly<{|
  * `.title`. When tapped, opens the selectable-options screen, where the
  * user can change the selection or read more about each selection.
  */
-// This has the navigate-to-nested-screen semantics of NestedNavRow,
-// represented by IconRight. NestedNavRow would probably be the wrong
-// abstraction, though, because it isn't an imput component; it doesn't have
-// a value to display.
+// This has the navigate-to-nested-screen semantics of
+// <NavRow type="nested" … />, represented by IconRight. NavRow would
+// probably be the wrong abstraction, though, because it isn't an input
+// component; it doesn't have a value to display.
 export default function InputRowRadioButtons<TItemKey: string | number>(
   props: Props<TItemKey>,
 ): Node {

@@ -23,7 +23,7 @@ const componentStyles = createStyleSheet({
     paddingHorizontal: 16,
 
     // For uniformity with other rows this might share a screen with, e.g.,
-    // NestedNavRow and InputRowRadioButtons on the settings screen. See
+    // NavRow and InputRowRadioButtons on the settings screen. See
     // height-related attributes on those rows.
     minHeight: 48,
   },

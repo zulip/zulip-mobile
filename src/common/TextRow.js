@@ -24,7 +24,7 @@ type Props = $ReadOnly<{|
 /**
  * A row with a title, and optional icon, subtitle, and press handler.
  *
- * See also NestedNavRow, SwitchRow, etc.
+ * See also NavRow, SwitchRow, etc.
  */
 export default function TextRow(props: Props): React.Node {
   const { title, subtitle, onPress, icon } = props;

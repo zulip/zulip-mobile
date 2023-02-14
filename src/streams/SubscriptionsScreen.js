@@ -20,7 +20,7 @@ import { doNarrow } from '../actions';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
 import StreamItem from './StreamItem';
 import ModalNavBar from '../nav/ModalNavBar';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 
 const styles = createStyleSheet({
   container: {
@@ -46,7 +46,7 @@ function AllStreamsButton(props: FooterProps): Node {
     navigation.push('all-streams');
   }, [navigation]);
 
-  return <NestedNavRow title="All streams" titleBoldUppercase onPress={handlePressAllScreens} />;
+  return <NavRow title="All streams" titleBoldUppercase onPress={handlePressAllScreens} />;
 }
 
 export default function SubscriptionsScreen(props: Props): Node {

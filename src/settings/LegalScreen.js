@@ -7,7 +7,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import Screen from '../common/Screen';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 import ZulipText from '../common/ZulipText';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { getRealmUrl, getRealmName, getGlobalSettings } from '../selectors';
@@ -34,8 +34,8 @@ export default function LegalScreen(props: Props): Node {
 
   return (
     <Screen title="Legal">
-      <NestedNavRow title="Zulip terms" onPress={openZulipPolicies} />
-      <NestedNavRow
+      <NavRow title="Zulip terms" onPress={openZulipPolicies} type="external" />
+      <NavRow
         // These are really terms set by the server admin responsible for
         // hosting the org, and that server admin may or may not represent
         // the org itself, as this text might be read to imply. (E.g.,
@@ -51,6 +51,7 @@ export default function LegalScreen(props: Props): Node {
           values: { realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} /> },
         }}
         onPress={openRealmPolicies}
+        type="external"
       />
     </Screen>
   );

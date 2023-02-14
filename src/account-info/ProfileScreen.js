@@ -24,7 +24,7 @@ import { getUserStatus } from '../user-statuses/userStatusesModel';
 import SwitchRow from '../common/SwitchRow';
 import * as api from '../api';
 import { identityOfAccount } from '../account/accountMisc';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 import { emojiTypeFromReactionType } from '../emoji/data';
 
 const styles = createStyleSheet({
@@ -135,7 +135,7 @@ export default function ProfileScreen(props: Props): Node {
       <OfflineNoticePlaceholder />
       <ScrollView>
         <AccountDetails user={ownUser} showEmail={false} showStatus={false} />
-        <NestedNavRow
+        <NavRow
           leftElement={
             status_emoji != null
               ? {

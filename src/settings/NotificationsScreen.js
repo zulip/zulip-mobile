@@ -13,7 +13,7 @@ import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import * as api from '../api';
 import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 import { IconAlertTriangle } from '../common/Icons';
 import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -139,7 +139,7 @@ export default function NotificationsScreen(props: Props): Node {
   return (
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
-      <NestedNavRow
+      <NavRow
         leftElement={
           systemSettingsWarnings.length > 0
             ? {
@@ -161,6 +161,7 @@ export default function NotificationsScreen(props: Props): Node {
           }
         })()}
         onPress={handleSystemSettingsPress}
+        type="external"
       />
       {!notificationReport.problems.includes(NotificationProblem.SystemSettingsDisabled) && (
         <>
@@ -189,7 +190,7 @@ export default function NotificationsScreen(props: Props): Node {
                 value={streamNotification}
                 onValueChange={handleStreamNotificationChange}
               />
-              <NestedNavRow
+              <NavRow
                 {...(() =>
                   notificationReport.problems.length > 0 && {
                     leftElement: {
@@ -205,7 +206,7 @@ export default function NotificationsScreen(props: Props): Node {
             </SettingsGroup>
           )}
           {otherAccounts.length > 0 && (
-            <NestedNavRow
+            <NavRow
               {...(() => {
                 const problemAccountsCount = otherAccounts.filter(a => {
                   // eslint-disable-next-line no-underscore-dangle

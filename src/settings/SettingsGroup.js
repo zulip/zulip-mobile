@@ -4,7 +4,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 
 import SwitchRow from '../common/SwitchRow';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 import type { LocalizableReactText } from '../types';
 import { createStyleSheet } from '../styles';
 import { QUARTER_COLOR } from '../styles/constants';
@@ -18,7 +18,7 @@ type Props = $ReadOnly<{|
   // layout in some subtle way.
   title: LocalizableReactText,
 
-  children: $ReadOnlyArray<React$Element<typeof SwitchRow> | React$Element<typeof NestedNavRow>>,
+  children: $ReadOnlyArray<React$Element<typeof SwitchRow> | React$Element<typeof NavRow>>,
 |}>;
 
 export default function SettingsGroup(props: Props): React.Node {

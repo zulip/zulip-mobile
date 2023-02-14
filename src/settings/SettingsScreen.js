@@ -9,7 +9,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
-import NestedNavRow from '../common/NestedNavRow';
+import NavRow from '../common/NavRow';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
@@ -89,7 +89,7 @@ export default function SettingsScreen(props: Props): Node {
           dispatch(setGlobalSettings({ markMessagesReadOnScroll: value }));
         }}
       />
-      <NestedNavRow
+      <NavRow
         leftElement={{ type: 'icon', Component: IconNotifications }}
         title="Notifications"
         {...(() =>
@@ -116,7 +116,7 @@ export default function SettingsScreen(props: Props): Node {
         }}
         search
       />
-      <NestedNavRow
+      <NavRow
         leftElement={{ type: 'icon', Component: IconMoreHorizontal }}
         title="Legal"
         onPress={() => {
