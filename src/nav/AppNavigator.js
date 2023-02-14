@@ -184,7 +184,6 @@ export default function AppNavigator(props: Props): Node {
         name="notif-troubleshooting"
         component={useHaveServerDataGate(NotifTroubleshootingScreen)}
       />
-      <Stack.Screen name="legal" component={useHaveServerDataGate(LegalScreen)} />
       <Stack.Screen name="user-status" component={useHaveServerDataGate(UserStatusScreen)} />
       <Stack.Screen name="settings" component={useHaveServerDataGate(SettingsScreen)} />
       <Stack.Screen name="read-receipts" component={useHaveServerDataGate(ReadReceiptsScreen)} />
@@ -205,6 +204,7 @@ export default function AppNavigator(props: Props): Node {
         }
       />
       <Stack.Screen name="sharing" component={SharingScreen} />
+      <Stack.Screen name="legal" component={LegalScreen} />
       <Stack.Screen name="selectable-options" component={SelectableOptionsScreen} />
     </Stack.Navigator>
   );
