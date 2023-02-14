@@ -202,7 +202,8 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
   };
 
   fetchNewer = () => {
-    // Implementing this should not be necessary.
+    // Nothing to do.  We fetched the messages with LAST_MESSAGE_ANCHOR
+    // to begin with, so there's no further to scroll down.
   };
 
   render() {
