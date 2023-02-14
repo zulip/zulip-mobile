@@ -13,6 +13,7 @@ import { LAST_MESSAGE_ANCHOR } from '../anchor';
 import { connect } from '../react-redux';
 import { getAuth } from '../account/accountsSelectors';
 import { fetchMessages } from '../message/fetchActions';
+import config from '../config';
 
 type OuterProps = $ReadOnly<{|
   // These should be passed from React Navigation
@@ -72,7 +73,7 @@ class SearchMessagesScreenInner extends PureComponent<Props, State> {
     const fetchArgs = {
       narrow: SEARCH_NARROW(query),
       anchor: LAST_MESSAGE_ANCHOR,
-      numBefore: 20,
+      numBefore: config.messagesPerRequest,
       numAfter: 0,
     };
 
