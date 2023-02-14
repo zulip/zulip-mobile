@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
  * applicable notice. If the server does get setup for push notifications,
  * then gets un-setup, a new notice will apply.)
  */
-export default function PushNotifsSetupBanner(props: Props): Node {
+export default function ServerPushSetupBanner(props: Props): Node {
   const { isDismissable = true } = props;
 
   const dispatch = useDispatch();
