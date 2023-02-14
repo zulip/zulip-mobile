@@ -44,6 +44,7 @@ const componentStyles = createStyleSheet({
 type Props = $ReadOnly<{|
   user: UserOrBot,
   showEmail: boolean,
+  showStatus: boolean,
 |}>;
 
 const getRoleText = (role: Role): LocalizableText => {
@@ -62,7 +63,7 @@ const getRoleText = (role: Role): LocalizableText => {
 };
 
 export default function AccountDetails(props: Props): Node {
-  const { user, showEmail } = props;
+  const { user, showEmail, showStatus } = props;
 
   const userStatusText = useSelector(state => getUserStatus(state, props.user.user_id).status_text);
   const userStatusEmoji = useSelector(
@@ -112,22 +113,24 @@ export default function AccountDetails(props: Props): Node {
           </View>
         )
       }
-      <View style={componentStyles.statusWrapper}>
-        {userStatusEmoji && (
-          <Emoji
-            code={userStatusEmoji.emoji_code}
-            type={emojiTypeFromReactionType(userStatusEmoji.reaction_type)}
-            size={24}
-          />
-        )}
-        {userStatusEmoji && userStatusText !== null && <View style={{ width: 2 }} />}
-        {userStatusText !== null && (
-          <ZulipText
-            style={[styles.largerText, componentStyles.statusText]}
-            text={userStatusText}
-          />
-        )}
-      </View>
+      {showStatus && (
+        <View style={componentStyles.statusWrapper}>
+          {userStatusEmoji && (
+            <Emoji
+              code={userStatusEmoji.emoji_code}
+              type={emojiTypeFromReactionType(userStatusEmoji.reaction_type)}
+              size={24}
+            />
+          )}
+          {userStatusEmoji && userStatusText !== null && <View style={{ width: 2 }} />}
+          {userStatusText !== null && (
+            <ZulipText
+              style={[styles.largerText, componentStyles.statusText]}
+              text={userStatusText}
+            />
+          )}
+        </View>
+      )}
     </ComponentList>
   );
 }

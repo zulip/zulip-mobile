@@ -74,7 +74,7 @@ export default function AccountDetailsScreen(props: Props): Node {
 
   return (
     <Screen title={title}>
-      <AccountDetails user={user} showEmail />
+      <AccountDetails user={user} showEmail showStatus />
       <View style={styles.itemWrapper}>
         <ActivityText style={globalStyles.largerText} user={user} />
       </View>

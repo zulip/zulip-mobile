@@ -24,6 +24,8 @@ import { getUserStatus } from '../user-statuses/userStatusesModel';
 import SwitchRow from '../common/SwitchRow';
 import * as api from '../api';
 import { identityOfAccount } from '../account/accountMisc';
+import NestedNavRow from '../common/NestedNavRow';
+import { emojiTypeFromReactionType } from '../emoji/data';
 
 const styles = createStyleSheet({
   buttonRow: {
@@ -35,20 +37,6 @@ const styles = createStyleSheet({
     margin: 8,
   },
 });
-
-function SetStatusButton(props: {||}) {
-  const navigation = useNavigation();
-  return (
-    <ZulipButton
-      style={styles.button}
-      secondary
-      text="Set a status"
-      onPress={() => {
-        navigation.push('user-status');
-      }}
-    />
-  );
-}
 
 function ProfileButton(props: {| +ownUserId: UserId |}) {
   const navigation = useNavigation();
@@ -130,18 +118,39 @@ type Props = $ReadOnly<{|
  * The profile/settings/account screen we offer among the main tabs of the app.
  */
 export default function ProfileScreen(props: Props): Node {
+  const navigation = useNavigation();
+
   const auth = useSelector(getAuth);
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const ownUser = useSelector(getOwnUser);
   const ownUserId = useSelector(getOwnUserId);
   const presenceEnabled = useSelector(state => getRealm(state).presenceEnabled);
   const awayStatus = useSelector(state => getUserStatus(state, ownUserId).away);
+  const userStatus = useSelector(state => getUserStatus(state, ownUserId));
+
+  const { status_emoji, status_text } = userStatus;
 
   return (
     <SafeAreaView mode="padding" edges={['top']} style={{ flex: 1 }}>
       <OfflineNoticePlaceholder />
       <ScrollView>
-        <AccountDetails user={ownUser} showEmail={false} />
+        <AccountDetails user={ownUser} showEmail={false} showStatus={false} />
+        <NestedNavRow
+          leftElement={
+            status_emoji != null
+              ? {
+                  type: 'emoji',
+                  emojiCode: status_emoji.emoji_code,
+                  emojiType: emojiTypeFromReactionType(status_emoji.reaction_type),
+                }
+              : undefined
+          }
+          title="Set your status"
+          subtitle={status_text != null ? { text: '{_}', values: { _: status_text } } : undefined}
+          onPress={() => {
+            navigation.push('user-status');
+          }}
+        />
         {zulipFeatureLevel >= 148 ? (
           <SwitchRow
             label="Invisible mode"
@@ -162,9 +171,6 @@ export default function ProfileScreen(props: Props): Node {
             }}
           />
         )}
-        <View style={styles.buttonRow}>
-          <SetStatusButton />
-        </View>
         <View style={styles.buttonRow}>
           <ProfileButton ownUserId={ownUser.user_id} />
         </View>
