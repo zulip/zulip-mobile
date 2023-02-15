@@ -9,14 +9,12 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import Screen from '../common/Screen';
-import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
 import NavRow from '../common/NavRow';
 import { IconAlertTriangle } from '../common/Icons';
 import type { LocalizableText } from '../types';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { kWarningColor } from '../styles/constants';
 import { getIdentities, getIdentity, getIsActiveAccount } from '../account/accountsSelectors';
-import { getRealm } from '../directSelectors';
 import { openSystemNotificationSettings } from '../utils/openLink';
 import {
   useNotificationReportsByIdentityKey,
@@ -62,8 +60,6 @@ export default function NotificationsScreen(props: Props): Node {
   const otherAccounts = useGlobalSelector(state =>
     getIdentities(state).filter(identity_ => !getIsActiveAccount(state, identity_)),
   );
-  const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
-
   const systemSettingsWarnings = notificationReport.problems
     .map(systemSettingsWarning)
     .filter(Boolean);
@@ -98,7 +94,6 @@ export default function NotificationsScreen(props: Props): Node {
 
   return (
     <Screen title="Notifications">
-      <ServerPushSetupBanner isDismissable={false} />
       <NavRow
         leftElement={
           systemSettingsWarnings.length > 0
@@ -125,9 +120,7 @@ export default function NotificationsScreen(props: Props): Node {
       />
       {!notificationReport.problems.includes(NotificationProblem.SystemSettingsDisabled) && (
         <>
-          {pushNotificationsEnabled && (
-            <PerAccountNotificationSettingsGroup navigation={navigation} />
-          )}
+          <PerAccountNotificationSettingsGroup navigation={navigation} />
           {otherAccounts.length > 0 && (
             <NavRow
               {...(() => {
