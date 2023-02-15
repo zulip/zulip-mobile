@@ -115,10 +115,6 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
     this.setState({ message });
   };
 
-  setSending = () => {
-    this.setState({ sending: true });
-  };
-
   /**
    * Send received shared data as a message.
    *
@@ -157,7 +153,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setSending();
+    this.setState({ sending: true });
     showToast(_('Sending message…'));
     if (sharedData.type === 'file') {
       const { files } = this.state;
