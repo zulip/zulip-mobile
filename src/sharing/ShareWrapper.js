@@ -158,8 +158,9 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
     if (sharedData.type === 'file') {
       const { files } = this.state;
       for (let i = 0; i < files.length; i++) {
-        const response = await api.uploadFile(auth, files[i].url, files[i].name);
-        messageToSend += `\n[${files[i].name}](${response.uri})\n`;
+        const { url, name: fileName } = files[i];
+        const response = await api.uploadFile(auth, url, fileName);
+        messageToSend += `\n[${fileName}](${response.uri})\n`;
       }
     }
     const messageData =
