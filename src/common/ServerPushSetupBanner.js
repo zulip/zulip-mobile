@@ -13,25 +13,18 @@ import { openLinkWithUserPreference } from '../utils/openLink';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 
-type Props = $ReadOnly<{|
-  isDismissable?: boolean,
-|}>;
+type Props = $ReadOnly<{||}>;
 
 /**
  * A "nag banner" saying the server hasn't enabled push notifications, if so
  *
- * If `isDismissable` is false, the banner is always visible unless the
- * server is set up for push notifications.
- *
- * Otherwise, it offers a dismiss button. If this notice is dismissed, it
- * sleeps for two weeks, then reappears if the server hasn't gotten set up
- * for push notifications in that time. ("This notice" means the currently
- * applicable notice. If the server does get setup for push notifications,
- * then gets un-setup, a new notice will apply.)
+ * Offers a dismiss button. If this notice is dismissed, it sleeps for two
+ * weeks, then reappears if the server hasn't gotten set up for push
+ * notifications in that time. ("This notice" means the currently applicable
+ * notice. If the server does get setup for push notifications, then gets
+ * un-setup, a new notice will apply.)
  */
 export default function ServerPushSetupBanner(props: Props): Node {
-  const { isDismissable = true } = props;
-
   const dispatch = useDispatch();
 
   const lastDismissedServerPushSetupNotice = useSelector(
@@ -47,8 +40,7 @@ export default function ServerPushSetupBanner(props: Props): Node {
   if (pushNotificationsEnabled) {
     // don't show
   } else if (
-    isDismissable
-    && lastDismissedServerPushSetupNotice !== null
+    lastDismissedServerPushSetupNotice !== null
     // TODO: Could rerender this component on an interval, to give an
     //   upper bound on how outdated this `new Date()` can be.
     && lastDismissedServerPushSetupNotice >= subWeeks(new Date(), 2)
@@ -68,15 +60,13 @@ export default function ServerPushSetupBanner(props: Props): Node {
   }
 
   const buttons = [];
-  if (isDismissable) {
-    buttons.push({
-      id: 'dismiss',
-      label: 'Remind me later',
-      onPress: () => {
-        dispatch(dismissServerPushSetupNotice());
-      },
-    });
-  }
+  buttons.push({
+    id: 'dismiss',
+    label: 'Remind me later',
+    onPress: () => {
+      dispatch(dismissServerPushSetupNotice());
+    },
+  });
   buttons.push({
     id: 'learn-more',
     label: 'Learn more',
