@@ -73,6 +73,7 @@ import { tryFetch } from '../message/fetchActions';
 import { getMessageUrl } from '../utils/internalLinks';
 import * as logging from '../utils/logging';
 import type { Attachment } from './ComposeMenu';
+import { ApiError, RequestError } from '../api/apiErrors';
 
 /* eslint-disable no-shadow */
 
@@ -339,8 +340,27 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           let response = null;
           try {
             response = await api.uploadFile(auth, attachments[i].url, fileName);
-          } catch {
-            showErrorAlert(_('Failed to upload file: {fileName}', { fileName }));
+          } catch (errorIllTyped) {
+            const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+            if (!(error instanceof Error)) {
+              logging.error('ComposeBox: Unexpected non-error thrown');
+            }
+
+            let msg = undefined;
+            if (
+              error instanceof RequestError
+              && error.httpStatus === 413 // 413 Payload Too Large:
+              //   https://github.com/zulip/zulip-mobile/issues/5148#issuecomment-1092140960
+            ) {
+              msg = _('The server said the file is too large.');
+            } else if (error instanceof ApiError) {
+              msg = _('The server said:\n\n{errorMessage}', { errorMessage: error.message });
+            } else if (error instanceof Error && error.message.length > 0) {
+              msg = error.message;
+            }
+            showErrorAlert(_('Failed to upload file: {fileName}', { fileName }), msg);
+
             setMessageInputValue(state =>
               state.value.replace(
                 placeholder,
