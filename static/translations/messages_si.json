@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Oops! Something went wrong.",
   "Uploading {fileName}...": "{fileName} උඩුගත වෙමින්...",
   "Failed to upload file: {fileName}": "උඩුගත කිරීමට අසමත් විය: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "ඇමුණුම {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Search topics": "මාතෘකා සොයන්න",

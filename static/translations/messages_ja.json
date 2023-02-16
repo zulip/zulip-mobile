@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "何らかの不具合が発生しました",
   "Uploading {fileName}...": "{filename}をアップロード中…",
   "Failed to upload file: {fileName}": "{fileName}のアップロードに失敗しました",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "添付ファイル {num}",
   "Failed to mark topic as read": "トピックを既読にできませんでした",
   "Search topics": "トピックを検索",

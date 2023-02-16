@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Nanu! Da ist etwas schiefgegangen.",
   "Uploading {fileName}...": "Lade {fileName} hoch…",
   "Failed to upload file: {fileName}": "Konnte die Datei {fileName} nicht hochladen",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Dateianhang {num}",
   "Failed to mark topic as read": "Konnte das Thema nicht als gelesen markieren",
   "Search topics": "Themen suchen",

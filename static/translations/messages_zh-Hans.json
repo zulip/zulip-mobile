@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "哎呀！有些不对劲。",
   "Uploading {fileName}...": "正在上传 {fileName}...",
   "Failed to upload file: {fileName}": "上传文件失败：{fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "附件 {num}",
   "Failed to mark topic as read": "未能将主题标记为已读",
   "Search topics": "搜索主题",

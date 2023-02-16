@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Упс! Нешто је пошло наопако.",
   "Uploading {fileName}...": "Постављање {fileName}...",
   "Failed to upload file: {fileName}": "Неуспело постављање датотеке: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Прилог {num}",
   "Failed to mark topic as read": "Неуспело означавање теме као прочитане",
   "Search topics": "Претражите теме",

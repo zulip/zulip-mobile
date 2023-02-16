@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Алдаа гарлаа.",
   "Uploading {fileName}...": "Хуулж байна {fileName}...",
   "Failed to upload file: {fileName}": "Файл хуулах амжилтгүй: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Файл {num}",
   "Failed to mark topic as read": "Тэмдэглэх амжилтгүй боллоо.",
   "Search topics": "Ярианы сэдвээр хайх",

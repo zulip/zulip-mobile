@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Tak to jsem nečekal! Něco se pokazilo.",
   "Uploading {fileName}...": "Nahrává se {fileName}...",
   "Failed to upload file: {fileName}": "Chyba při nahrávání souboru: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Příloha {num}",
   "Failed to mark topic as read": "Nepodařilo se označit téma jako přečtené",
   "Search topics": "Hledat témata",

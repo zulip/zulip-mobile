@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Ой! Что-то пошло не так. ",
   "Uploading {fileName}...": "Загрузка {fileName}…",
   "Failed to upload file: {fileName}": "Не удалось загрузить: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Вложений {num}",
   "Failed to mark topic as read": "Не удалось отметить тему как прочитанную",
   "Search topics": "Поиск в темах",

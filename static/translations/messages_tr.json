@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Hata! Bir şeyler yanlış gitti.",
   "Uploading {fileName}...": "{fileName} yükleniyor...",
   "Failed to upload file: {fileName}": "Dosya yüklenemedi: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Ek {num}",
   "Failed to mark topic as read": "Konu okundu olarak işaretlenemedi",
   "Search topics": "Konu ara",

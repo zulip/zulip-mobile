@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Hopa! Ceva n-a mers bine.",
   "Uploading {fileName}...": "Se încarcă {fileName}...",
   "Failed to upload file: {fileName}": "Nu s-a putut încărca fișierul: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Atașament {num}",
   "Failed to mark topic as read": "Nu s-a marcat subiectul ca citit",
   "Search topics": "Caută subiecte",

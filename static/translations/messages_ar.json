@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "أُووبس! هناك خطأ ما.",
   "Uploading {fileName}...": "جارٍ الرفع {fileName} ...",
   "Failed to upload file: {fileName}": "فشل رفع الملف: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "مرفق {num}",
   "Failed to mark topic as read": "فشل تمييز الموضوع كمقروء",
   "Search topics": "البحث عن المواضيع",

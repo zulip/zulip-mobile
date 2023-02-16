@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Hoppá! Valami nem sikerült.",
   "Uploading {fileName}...": "{fileName} feltöltése...",
   "Failed to upload file: {fileName}": "Failed to upload file: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Csatolmány {num}",
   "Failed to mark topic as read": "Nem sikerült olvasottnak jelölni a témát",
   "Search topics": "Témák keresése",

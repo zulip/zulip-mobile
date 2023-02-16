@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Oops! Something went wrong.",
   "Uploading {fileName}...": "Uploading {fileName}...",
   "Failed to upload file: {fileName}": "Failed to upload file: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Adjunt {num}",
   "Failed to mark topic as read": "Failed to mark topic as read",
   "Search topics": "Cerca temes",

@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Hups! Jotain meni pieleen.",
   "Uploading {fileName}...": "Ladataan {fileName}...",
   "Failed to upload file: {fileName}": "Tiedoston lataaminen epäonnistui: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Aiheen merkitseminen luetuksi epäonnistui",
   "Search topics": "Etsi aiheita",

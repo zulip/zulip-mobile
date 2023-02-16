@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Ops! Algo correu mal.",
   "Uploading {fileName}...": "Enviando {fileName}...",
   "Failed to upload file: {fileName}": "Falha ao fazer upload do ficheiro: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Anexo {num}",
   "Failed to mark topic as read": "Falha ao marcar o tópico como lido",
   "Search topics": "Pesquisar tópicos",

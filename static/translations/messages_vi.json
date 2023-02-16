@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Đã xảy ra lỗi.",
   "Uploading {fileName}...": "Đang tải lên {fileName} ...",
   "Failed to upload file: {fileName}": "Không tải lên được: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Attachment {num}",
   "Failed to mark topic as read": "Không đánh dấu được chủ đề là đã đọc",
   "Search topics": "Tìm kiếm Topic",

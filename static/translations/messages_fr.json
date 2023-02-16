@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Oups! il y a eu une erreur.",
   "Uploading {fileName}...": "Envoi de {fileName}...",
   "Failed to upload file: {fileName}": "Échec du téléchargement du fichier : {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Pièce jointe {num}",
   "Failed to mark topic as read": "Impossible de marquer le sujet comme lu",
   "Search topics": "Effectuer une recherche dans les sujets ",

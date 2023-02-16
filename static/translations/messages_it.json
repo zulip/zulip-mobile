@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Ops! Qualcosa è andato storto.",
   "Uploading {fileName}...": "Uploading {fileName}...",
   "Failed to upload file: {fileName}": "Upload fallito del file: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Allegato {num}",
   "Failed to mark topic as read": "Impossibile contrassegnare l'argomento come letto",
   "Search topics": "Cerca argomenti",

@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "糟糕，有地方出錯了",
   "Uploading {fileName}...": "{fileName} 上傳中...",
   "Failed to upload file: {fileName}": "上傳檔案失敗: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "附檔 {num}",
   "Failed to mark topic as read": "標註主題已讀失敗",
   "Search topics": "搜尋主題",

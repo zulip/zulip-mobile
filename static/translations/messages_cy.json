@@ -358,6 +358,8 @@
   "Oops! Something went wrong.": "Wps! Aeth rhywbeth o'i le.",
   "Uploading {fileName}...": "Llwytho {fileName} ...",
   "Failed to upload file: {fileName}": "Failed to upload file: {fileName}",
+  "The server said the file is too large.": "The server said the file is too large.",
+  "The server said:\n\n{errorMessage}": "The server said:\n\n{errorMessage}",
   "Attachment {num}": "Ymlyniad {num}",
   "Failed to mark topic as read": "Wedi methu marcio'r pwnc fel y'i darllenwyd",
   "Search topics": "Chwilio pynciau",
