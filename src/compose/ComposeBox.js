@@ -33,7 +33,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import Touchable from '../common/Touchable';
 import Input from '../common/Input';
-import { showToast, showErrorAlert } from '../utils/info';
+import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
   isConversationNarrow,
@@ -340,7 +340,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           try {
             response = await api.uploadFile(auth, attachments[i].url, fileName);
           } catch {
-            showToast(_('Failed to upload file: {fileName}', { fileName }));
+            showErrorAlert(_('Failed to upload file: {fileName}', { fileName }));
             setMessageInputValue(state =>
               state.value.replace(
                 placeholder,
