@@ -100,7 +100,7 @@ export class Server5xxError extends ServerError {
  * as documented at the page https://zulip.com/api/rest-error-handling .
  */
 export class MalformedResponseError extends ServerError {
-  constructor(httpStatus: number, data: mixed) {
+  constructor(httpStatus: number, data?: mixed) {
     super(`Server responded with invalid message; HTTP status ${httpStatus}`, httpStatus);
     this.data = data;
   }

@@ -92,7 +92,7 @@ export default async (emojiDataUrl: URL): Promise<ServerEmojiData> => {
   try {
     json = (await response.json(): ServerEmojiDataRaw);
   } catch {
-    throw new MalformedResponseError(httpStatus, undefined);
+    throw new MalformedResponseError(httpStatus);
   }
 
   const transformed = tryTransform(json);
