@@ -78,7 +78,7 @@ export default async (emojiDataUrl: URL): Promise<ServerEmojiData> => {
     //
     // Don't bother trying to make an ApiError by parsing JSON for `code`,
     // `msg`, or `result`; this endpoint doesn't give them.
-    throw new RequestError(httpStatus);
+    throw new RequestError('Failed to fetch emoji data.', httpStatus);
   } else if (httpStatus >= 500 && httpStatus <= 599) {
     throw new Server5xxError(httpStatus);
   } else if (httpStatus <= 199 || (httpStatus >= 300 && httpStatus <= 399) || httpStatus >= 600) {

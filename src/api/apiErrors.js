@@ -21,6 +21,12 @@ export class RequestError extends ExtendableError {
    * as JSON, this value is `undefined`.
    */
   +data: mixed;
+
+  constructor(msg?: string, httpStatus?: number, data?: mixed) {
+    super(msg);
+    this.httpStatus = httpStatus;
+    this.data = data;
+  }
 }
 
 /**
@@ -54,10 +60,8 @@ export class ApiError extends RequestError {
   constructor(httpStatus: number, data: $ReadOnly<ApiResponseErrorData>) {
     // eslint-disable-next-line no-unused-vars
     const { result, code, msg, ...rest } = data;
-    super(msg);
-    this.data = rest;
+    super(msg, httpStatus, rest);
     this.code = code;
-    this.httpStatus = httpStatus;
   }
 }
 
@@ -76,10 +80,10 @@ export class NetworkError extends RequestError {}
 export class ServerError extends RequestError {
   +httpStatus: number;
 
+  // Not useless: makes `msg` and `httpStatus` required
+  // eslint-disable-next-line no-useless-constructor
   constructor(msg: string, httpStatus: number, data?: mixed) {
-    super(msg);
-    this.httpStatus = httpStatus;
-    this.data = data;
+    super(msg, httpStatus, data);
   }
 }
 
