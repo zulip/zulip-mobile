@@ -76,9 +76,10 @@ export class NetworkError extends RequestError {}
 export class ServerError extends RequestError {
   +httpStatus: number;
 
-  constructor(msg: string, httpStatus: number) {
+  constructor(msg: string, httpStatus: number, data?: mixed) {
     super(msg);
     this.httpStatus = httpStatus;
+    this.data = data;
   }
 }
 
@@ -101,8 +102,7 @@ export class Server5xxError extends ServerError {
  */
 export class MalformedResponseError extends ServerError {
   constructor(httpStatus: number, data?: mixed) {
-    super(`Server responded with invalid message; HTTP status ${httpStatus}`, httpStatus);
-    this.data = data;
+    super(`Server responded with invalid message; HTTP status ${httpStatus}`, httpStatus, data);
   }
 }
 
@@ -114,8 +114,7 @@ export class MalformedResponseError extends ServerError {
  */
 export class UnexpectedHttpStatusError extends ServerError {
   constructor(httpStatus: number, data?: mixed) {
-    super(`Server gave unexpected HTTP status: ${httpStatus}`, httpStatus);
-    this.data = data;
+    super(`Server gave unexpected HTTP status: ${httpStatus}`, httpStatus, data);
   }
 }
 
