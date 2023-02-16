@@ -113,7 +113,7 @@ export class MalformedResponseError extends ServerError {
  * give: https://zulip.com/api/rest-error-handling
  */
 export class UnexpectedHttpStatusError extends ServerError {
-  constructor(httpStatus: number, data: mixed) {
+  constructor(httpStatus: number, data?: mixed) {
     super(`Server gave unexpected HTTP status: ${httpStatus}`, httpStatus);
     this.data = data;
   }

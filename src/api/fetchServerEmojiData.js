@@ -84,8 +84,8 @@ export default async (emojiDataUrl: URL): Promise<ServerEmojiData> => {
   } else if (httpStatus <= 199 || (httpStatus >= 300 && httpStatus <= 399) || httpStatus >= 600) {
     // Seems like a server error; the endpoint doesn't document sending
     // these statuses. No reason to think parsing JSON would give anything
-    // useful; just say `data` is undefined.
-    throw new UnexpectedHttpStatusError(httpStatus, undefined);
+    // useful; just omit `data`.
+    throw new UnexpectedHttpStatusError(httpStatus);
   }
 
   let json = undefined;
