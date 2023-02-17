@@ -40,6 +40,7 @@ export default {
   ja: require('../../static/translations/messages_ja.json'),
   ko: require('../../static/translations/messages_ko.json'),
   lt: require('../../static/translations/messages_lt.json'),
+  lv: require('../../static/translations/messages_lv.json'),
   ml: require('../../static/translations/messages_ml.json'),
   mn: require('../../static/translations/messages_mn.json'),
   my: require('../../static/translations/messages_my.json'),

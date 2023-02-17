@@ -120,6 +120,10 @@ declare module '../../static/translations/messages_lt.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_lv.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_ml.json' {
   declare export default {| [string]: string |};
 }
