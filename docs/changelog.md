@@ -39,6 +39,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* The app now offers more help resolving issues with notifications. (#5654)
+* The search screen now loads older results as you scroll up. (#4859)
+* The app now offers more information when a file upload fails. (#5663)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We fixed a rare bug where corrupt, partial `Account` objects could appear
+  in state when an action races with removing an account. (PR #5656)
+
+* Resolved issues: PR #5656, PR #5663, #4859, PR #5654
+
 
 ## 27.200 (2023-02-01)
 
