@@ -40,7 +40,7 @@ const styles = createStyleSheet({
     marginVertical: 2,
   },
   icon: {
-    marginLeft: 16,
+    marginLeft: 24,
   },
   signedOutText: {
     fontStyle: 'italic',
@@ -113,10 +113,9 @@ export default function AccountItem(props: Props): Node {
           )}
         </View>
         {notificationReport.problems.length > 0 && (
-          <Pressable hitSlop={12} onPress={handlePressNotificationWarning}>
+          <Pressable style={styles.icon} hitSlop={12} onPress={handlePressNotificationWarning}>
             {({ pressed }) => (
               <IconAlertTriangle
-                style={styles.icon}
                 size={24}
                 color={pressed ? Color(kWarningColor).fade(0.5).toString() : kWarningColor}
               />
@@ -124,11 +123,10 @@ export default function AccountItem(props: Props): Node {
           </Pressable>
         )}
         {!showDoneIcon ? (
-          <Pressable hitSlop={12} onPress={() => props.onRemove(props.account)}>
+          <Pressable style={styles.icon} hitSlop={12} onPress={() => props.onRemove(props.account)}>
             {({ pressed }) => (
               <IconTrash
                 size={24}
-                style={styles.icon}
                 color={pressed ? Color('crimson').fade(0.5).toString() : 'crimson'}
               />
             )}
