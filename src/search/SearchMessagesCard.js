@@ -20,6 +20,8 @@ type Props = $ReadOnly<{|
   messages: $ReadOnlyArray<Message> | null,
   narrow: Narrow,
   isFetching: boolean,
+  fetchNewer: () => Promise<void> | void,
+  fetchOlder: () => Promise<void> | void,
 |}>;
 
 export default function SearchMessagesCard(props: Props): Node {
@@ -55,6 +57,8 @@ export default function SearchMessagesCard(props: Props): Node {
         // TODO: handle editing a message from the search results,
         // or make this prop optional
         startEditMessage={() => undefined}
+        fetchOlder={props.fetchOlder}
+        fetchNewer={props.fetchNewer}
         composeBoxRef={{ current: null }} // fake; no compose box on screen
       />
     </View>

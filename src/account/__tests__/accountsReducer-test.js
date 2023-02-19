@@ -14,6 +14,7 @@ import accountsReducer from '../accountsReducer';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
 import * as eg from '../../__tests__/lib/exampleData';
+import { identityOfAccount } from '../accountMisc';
 
 describe('accountsReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -63,7 +64,7 @@ describe('accountsReducer', () => {
       const prevState = deepFreeze([account1, account2, account3]);
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-        index: 0,
+        identity: identityOfAccount(account1),
       });
 
       const newState = accountsReducer(prevState, action);
@@ -76,7 +77,7 @@ describe('accountsReducer', () => {
 
       const action = deepFreeze({
         type: ACCOUNT_SWITCH,
-        index: 1,
+        identity: identityOfAccount(account2),
       });
 
       const expectedState = [account2, account1, account3];
@@ -165,19 +166,15 @@ describe('accountsReducer', () => {
   });
 
   describe('ACCOUNT_REMOVE', () => {
-    test('on account removal, delete item from list', () => {
-      const prevState = deepFreeze([eg.makeAccount()]);
-
-      const action = deepFreeze({
-        type: ACCOUNT_REMOVE,
-        index: 0,
-      });
-
-      const expectedState = [];
-
-      const newState = accountsReducer(prevState, action);
-
-      expect(newState).toEqual(expectedState);
+    test('deletes selected account but keeps the rest', () => {
+      const account1 = eg.makeAccount();
+      const account2 = eg.makeAccount();
+      expect(
+        accountsReducer(
+          deepFreeze([account1, account2]),
+          deepFreeze({ type: ACCOUNT_REMOVE, identity: identityOfAccount(account1) }),
+        ),
+      ).toEqual([account2]);
     });
   });
 

@@ -5,9 +5,6 @@ import { objectFromEntries } from '../jsBackport';
 export const caseInsensitiveCompareFunc = (a: string, b: string): number =>
   a.toLowerCase().localeCompare(b.toLowerCase());
 
-export const numberWithSeparators = (value: number | string): string =>
-  value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
 export function deeperMerge<K, V>(
   obj1: $ReadOnly<{| [K]: V |}>,
   obj2: $ReadOnly<{| [K]: V |}>,

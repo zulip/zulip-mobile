@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import { Clipboard, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import * as api from '../api';
 import config from '../config';
@@ -11,7 +12,7 @@ import { isUrlAnImage, tryParseUrl } from '../utils/url';
 import * as logging from '../utils/logging';
 import { filterUnreadMessagesInRange } from '../utils/unread';
 import { parseNarrow } from '../utils/narrow';
-import { fetchOlder, fetchNewer, doNarrow, messageLinkPress } from '../actions';
+import { doNarrow, messageLinkPress } from '../actions';
 import {
   showTopicActionSheet,
   showPmConversationActionSheet,
@@ -152,12 +153,11 @@ export type WebViewOutboundEvent =
 
 const fetchMore = (props: Props, event: WebViewOutboundEventScroll) => {
   const { innerHeight, offsetHeight, scrollY } = event;
-  const { dispatch, narrow } = props;
   if (scrollY < config.messageListThreshold) {
-    dispatch(fetchOlder(narrow));
+    props.fetchOlder();
   }
   if (innerHeight + scrollY >= offsetHeight - config.messageListThreshold) {
-    dispatch(fetchNewer(narrow));
+    props.fetchNewer();
   }
 };
 
@@ -312,7 +312,7 @@ export const handleWebViewOutboundEvent = (
       if (isUrlAnImage(event.href)) {
         handleImage(props, navigation, event.href, event.messageId);
       } else {
-        props.dispatch(messageLinkPress(event.href));
+        props.dispatch(messageLinkPress(event.href, props._));
       }
       break;
 

@@ -57,7 +57,7 @@ module.exports = {
     // own node_modules.
     extraNodeModules: objectFromEntries(
       // @babel/runtime makes the list because our Babel config (?) causes
-      // files like @zulip/shared/js/typing_status.js to need it, whereas
+      // files like @zulip/shared/lib/typing_status.js to need it, whereas
       // it's not a dependency of @zulip/shared itself.
       ['@babel/runtime', ...arrayFlatMap(linkablePackages, packageDeps)].map(name => [
         name,
@@ -73,5 +73,23 @@ module.exports = {
         inlineRequires: true,
       },
     }),
+
+    // Use 'metro-minify-terser' (the default minifier at Metro v0.73.0+,
+    // but we're not there yet) to get the keep_classnames option in the
+    // minifierConfig, below.
+    // TODO(react-native-71): Remove "not there yet" comment, and maybe
+    //   leave this unspecified to accept the default.
+    minifierPath: 'metro-minify-terser',
+
+    minifierConfig: {
+      // Looking at the implementation, it seems that the "minifier config"
+      // is passed straight to the `terser` minifier (thanks to
+      // `minifierPath` being set to 'metro-minify-terser'), so we should
+      // use `terser`'s doc:
+      //   https://github.com/terser/terser#minify-options
+
+      // Don't minify our custom Error class names (for logging's sake)
+      keep_classnames: /Error$/,
+    },
   },
 };

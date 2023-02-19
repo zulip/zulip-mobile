@@ -19,6 +19,16 @@ describe('streamsReducer', () => {
     });
   });
 
+  describe('REGISTER_COMPLETE', () => {
+    test('stores initial streams data', () => {
+      const streams = [eg.makeStream(), eg.makeStream()];
+
+      const prevState = eg.baseReduxState.streams;
+      const action = eg.mkActionRegisterComplete({ streams });
+      expect(streamsReducer(prevState, action)).toEqual(streams);
+    });
+  });
+
   describe('EVENT -> stream -> create', () => {
     test('add new stream', () => {
       const stream1 = eg.makeStream({ name: 'some stream', stream_id: 1 });

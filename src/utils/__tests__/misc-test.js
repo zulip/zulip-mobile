@@ -1,18 +1,5 @@
 /* @flow strict-local */
-import { isValidEmailFormat, numberWithSeparators, deeperMerge } from '../misc';
-
-describe('numberWithSeparators', () => {
-  test('do not change a small number', () => {
-    expect(numberWithSeparators(0)).toEqual('0');
-    expect(numberWithSeparators(123)).toEqual('123');
-  });
-
-  test('separates numbers with commas at 10 ^ 3', () => {
-    expect(numberWithSeparators(12345)).toEqual('12,345');
-    expect(numberWithSeparators(-12345)).toEqual('-12,345');
-    expect(numberWithSeparators(1234567890)).toEqual('1,234,567,890');
-  });
-});
+import { isValidEmailFormat, deeperMerge } from '../misc';
 
 describe('deeperMerge', () => {
   test('two empty objects merge into an empty object', () => {

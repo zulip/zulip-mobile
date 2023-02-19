@@ -6,7 +6,7 @@ import { UploadedAvatarURL } from '../../utils/avatar';
 import { EVENT_USER_ADD, EVENT } from '../../actionConstants';
 import { EventTypes, type RealmUserUpdateEvent } from '../../api/eventTypes';
 import type { User } from '../../types';
-import { RoleValues } from '../../api/permissionsTypes';
+import { Role } from '../../api/permissionsTypes';
 import usersReducer from '../usersReducer';
 import { randString } from '../../utils/misc';
 
@@ -115,7 +115,8 @@ describe('usersReducer', () => {
     });
 
     test('When the role of a user changes.', () => {
-      check({ role: RoleValues[(RoleValues.indexOf(theUser.role) + 1) % RoleValues.length] });
+      const roleValues = Array.from(Role.members());
+      check({ role: roleValues[(roleValues.indexOf(theUser.role) + 1) % roleValues.length] });
     });
 
     test("When a user's billing-admin status changes", () => {

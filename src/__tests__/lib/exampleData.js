@@ -53,10 +53,10 @@ import {
   EVENT_UPDATE_MESSAGE,
 } from '../../actionConstants';
 import rootReducer from '../../boot/reducers';
-import { authOfAccount } from '../../account/accountMisc';
+import { authOfAccount, identityOfAccount } from '../../account/accountMisc';
 import { HOME_NARROW } from '../../utils/narrow';
 import { type BackgroundData, getBackgroundData } from '../../webview/backgroundData';
-import { getDebug, getGlobalSettings } from '../../directSelectors';
+import { getGlobalSettings } from '../../directSelectors';
 import { messageMoved } from '../../api/misc';
 
 /* ========================================================================
@@ -699,7 +699,7 @@ export const realmState = (extra?: $Rest<RealmState, { ... }>): RealmState =>
 export const action = Object.freeze({
   account_switch: (deepFreeze({
     type: ACCOUNT_SWITCH,
-    index: 0,
+    identity: identityOfAccount(makeAccount()),
   }): AccountSwitchAction),
   login_success: (deepFreeze({
     type: LOGIN_SUCCESS,
@@ -1077,11 +1077,10 @@ export const baseBackgroundData: BackgroundData = deepFreeze(
       users: [selfUser],
     }),
     getGlobalSettings(baseReduxState),
-    getDebug(baseReduxState),
   ),
 );
 
 /** A BackgroundData value corresponding to plusReduxState. */
 export const plusBackgroundData: BackgroundData = deepFreeze(
-  getBackgroundData(plusReduxState, getGlobalSettings(plusReduxState), getDebug(plusReduxState)),
+  getBackgroundData(plusReduxState, getGlobalSettings(plusReduxState)),
 );

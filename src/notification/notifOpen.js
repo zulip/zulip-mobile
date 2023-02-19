@@ -7,7 +7,15 @@ import { NativeModules, Platform } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
-import type { Account, GlobalThunkAction, Narrow, Stream, UserId, UserOrBot } from '../types';
+import type {
+  Account,
+  GlobalThunkAction,
+  Identity,
+  Narrow,
+  Stream,
+  UserId,
+  UserOrBot,
+} from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import * as logging from '../utils/logging';
 import { fromPushNotificationIOS } from './extract';
@@ -19,20 +27,21 @@ import { getAccounts } from '../directSelectors';
 import { getAllUsersByEmail, getOwnUserId } from '../users/userSelectors';
 import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
-import { tryGetActiveAccountState } from '../account/accountsSelectors';
+import { getIsActiveAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
+import { identityOfAccount } from '../account/accountMisc';
 
 /**
  * Identify the account the notification is for, if possible.
  *
- * Returns an index into `accounts`, or `null` if we can't tell.
- * In the latter case, logs a warning.
+ * Returns an Identity of the account, or `null` if we haven't identified
+ * the account. In the latter case, logs a warning.
  *
  * @param accounts The accounts state in Redux.
  */
 export const getAccountFromNotificationData = (
   data: Notification,
   accounts: $ReadOnlyArray<Account>,
-): number | null => {
+): Identity | null => {
   const { realm_uri, user_id } = data;
   if (realm_uri == null) {
     // Old server, no realm info included.  This field appeared in
@@ -48,9 +57,9 @@ export const getAccountFromNotificationData = (
   }
 
   const urlMatches = [];
-  accounts.forEach((account, i) => {
+  accounts.forEach(account => {
     if (isUrlOnRealm(account.realm, realmUrl)) {
-      urlMatches.push(i);
+      urlMatches.push(account);
     }
   });
 
@@ -78,24 +87,23 @@ export const getAccountFromNotificationData = (
           realm_uri,
           parsed_url: realmUrl.toString(),
           match_count: urlMatches.length,
-          unique_identities_count: new Set(urlMatches.map(matchIndex => accounts[matchIndex].email))
-            .size,
+          unique_identities_count: new Set(urlMatches.map(account => account.email)).size,
         },
       );
       return null;
     } else {
-      return urlMatches[0];
+      return identityOfAccount(urlMatches[0]);
     }
   }
 
   // There may be multiple accounts in the notification's realm. Pick one
   // based on the notification's `user_id`.
-  const userMatch = urlMatches.find(urlMatch => accounts[urlMatch].userId === user_id);
+  const userMatch = urlMatches.find(account => account.userId === user_id);
   if (userMatch == null) {
     // Maybe we didn't get a userId match because the correct account just
     // hasn't had its userId recorded on it yet. See jsdoc on the Account
     // type for when that is.
-    const nullUserIdMatches = urlMatches.filter(urlMatch => accounts[urlMatch].userId === null);
+    const nullUserIdMatches = urlMatches.filter(account => account.userId === null);
     switch (nullUserIdMatches.length) {
       case 0:
         logging.warn(
@@ -103,7 +111,7 @@ export const getAccountFromNotificationData = (
         );
         return null;
       case 1:
-        return nullUserIdMatches[0];
+        return identityOfAccount(nullUserIdMatches[0]);
       default:
         logging.warn(
           'notifications: Multiple accounts found with matching realm and null user ID; could not choose',
@@ -112,7 +120,7 @@ export const getAccountFromNotificationData = (
         return null;
     }
   }
-  return userMatch;
+  return identityOfAccount(userMatch);
 };
 
 export const getNarrowFromNotificationData = (
@@ -201,10 +209,10 @@ export const narrowToNotification =
     }
 
     const globalState = getState();
-    const accountIndex = getAccountFromNotificationData(data, getAccounts(globalState));
-    if (accountIndex !== null && accountIndex > 0) {
+    const identity = getAccountFromNotificationData(data, getAccounts(globalState));
+    if (identity !== null && !getIsActiveAccount(getState(), identity)) {
       // Notification is for a non-active account.  Switch there.
-      dispatch(accountSwitch(accountIndex));
+      dispatch(accountSwitch(identity));
       // TODO actually narrow to conversation.
       return;
     }

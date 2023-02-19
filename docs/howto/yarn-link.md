@@ -46,6 +46,10 @@ $ readlink node_modules/@zulip/shared
 $ readlink -f node_modules/@zulip/shared
 /home/greg/z/zulip/static/shared
 
+    # Start `tsc --watch`, to mirror your edits into lib/.
+    # (Consider doing this in a separate terminal.)
+$ ( cd node_modules/@zulip/shared && yarn && yarn prepare && yarn tsc --watch ) &
+
     # Restart Flow to make it notice the symlink.
     # (Then it'll automatically notice edits, as usual.)
 $ npx flow stop && npx flow start
@@ -64,6 +68,7 @@ Quick reference for the second and subsequent time you do it:
 ```
     # in your zulip-mobile clone
 $ yarn link @zulip/shared && yarn
+$ ( cd node_modules/@zulip/shared && yarn && yarn prepare && yarn tsc --watch ) &
 $ npx flow stop && npx flow start
 
     # ... develop, test, etc. ...

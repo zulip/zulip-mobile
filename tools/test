@@ -22,14 +22,24 @@ this_dir=${BASH_SOURCE[0]%/*}
 
 ## CLI PARSING
 
+default_suites=(native flow lint jest prettier deps tsflower)
+extra_suites=(
+    intl  # Takes several seconds to run.
+)
+
 usage() {
     cat >&2 <<EOF
 usage: tools/test [OPTION]... [SUITE]...
 
 Run our tests.
 
-By default, run all suites, but only on files changed in this branch
-as found by \`tools/git changed-files \$(tools/git base)\`.
+By default, run only on files changed in this branch as found by
+\`tools/git changed-files \$(tools/git base)\`.
+
+By default, run ${#default_suites[@]} suite(s):
+  ${default_suites[*]}
+and skip ${#extra_suites[@]} suite(s):
+  ${extra_suites[*]}
 
 What tests to run:
   --all-files
@@ -48,22 +58,14 @@ What tests to run:
               run Jest tests on only one platform (iOS). This is
               usually fine, because the vast majority of our Jest
               tests don't depend meaningfully on the platform.
-  --all       In the given suites, run all tests on all files. Same as
-              --all-files --platform both.
+  --all       In the given suites, run all tests on all files, equivalently
+              to \`--all-files --platform both\`. If no list of suites was
+              specified, run all suites.
 
 Extra things to do:
   --coverage  Collect test-coverage information.  Only meaningful
               with --all.
   --fix       Fix issues found, where possible.
-
-Suites:
-  native
-  flow
-  lint
-  jest
-  prettier
-  deps
-  tsflower
 EOF
     exit 2
 }
@@ -71,6 +73,7 @@ EOF
 opt_coverage=
 opt_files=branch
 opt_platform=sloppy
+opt_all=
 opt_fix=
 opt_suites=()
 while (( $# )); do
@@ -86,18 +89,20 @@ while (( $# )); do
             esac
             shift
             ;;
-        --all) opt_files=all; opt_platform=both; shift;;
+        --all) opt_files=all; opt_platform=both; opt_all=1; shift;;
         --fix) opt_fix=1; shift;;
-        native|flow|lint|jest|prettier|deps|tsflower)
+        native|flow|lint|jest|prettier|deps|tsflower|intl)
             opt_suites+=("$1"); shift;;
         *) usage;;
     esac
 done
 
 if [ -z "$opt_suites" ]; then
-    # This default doesn't have to be the complete list; just be sure to
-    # document in the usage message any suites that it skips.
-    opt_suites=(native flow lint jest prettier deps tsflower)
+    if [ -n "${opt_all}" ]; then
+        opt_suites=( "${default_suites[@]}" "${extra_suites[@]}" )
+    else
+        opt_suites=( "${default_suites[@]}" )
+    fi
 fi
 
 files_base_commit=
@@ -280,6 +285,10 @@ run_tsflower() {
     tools/tsflower check
 }
 
+run_intl() {
+    tools/check-messages-en
+}
+
 failed=()
 for suite in "${opt_suites[@]}"; do
     echo "Running $suite..."
@@ -291,6 +300,7 @@ for suite in "${opt_suites[@]}"; do
         prettier) run_prettier ;;
         deps)     run_deps ;;
         tsflower) run_tsflower ;;
+        intl)     run_intl ;;
     esac || failed+=($suite)
 done
 
@@ -298,6 +308,9 @@ if [ -n "$failed" ]; then
     cat >&2 <<EOF
 
 FAILED: ${failed[*]}
+
+To rerun the suites that failed, run:
+  $ tools/test ${failed[*]}
 EOF
     exit 1
 fi

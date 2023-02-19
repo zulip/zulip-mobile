@@ -8,7 +8,6 @@ import {
   APP_ORIENTATION,
   GOT_PUSH_TOKEN,
   TOGGLE_OUTBOX_SENDING,
-  DEBUG_FLAG_TOGGLE,
   DISMISS_SERVER_COMPAT_NOTICE,
   REGISTER_START,
 } from '../../actionConstants';
@@ -90,14 +89,6 @@ describe('sessionReducer', () => {
     expect(
       sessionReducer(state, deepFreeze({ type: TOGGLE_OUTBOX_SENDING, sending: true })),
     ).toEqual({ ...baseState, outboxSending: true });
-  });
-
-  test('DEBUG_FLAG_TOGGLE', () => {
-    const action = deepFreeze({ type: DEBUG_FLAG_TOGGLE, key: 'someKey', value: true });
-    expect(sessionReducer(baseState, action)).toEqual({
-      ...baseState,
-      debug: { someKey: true },
-    });
   });
 
   test('DISMISS_SERVER_COMPAT_NOTICE', () => {

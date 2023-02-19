@@ -14,6 +14,7 @@
 // client, which are based on the language names that appear in Transifex.
 export default {
   ar: require('../../static/translations/messages_ar.json'),
+  be: require('../../static/translations/messages_be.json'),
   bg: require('../../static/translations/messages_bg.json'),
   bn: require('../../static/translations/messages_bn.json'),
   ca: require('../../static/translations/messages_ca.json'),
@@ -24,7 +25,6 @@ export default {
   el: require('../../static/translations/messages_el.json'),
   en: require('../../static/translations/messages_en.json'),
   'en-GB': require('../../static/translations/messages_en_GB.json'),
-  'en-NG': require('../../static/translations/messages_en_NG.json'),
   eo: require('../../static/translations/messages_eo.json'),
   es: require('../../static/translations/messages_es.json'),
   fa: require('../../static/translations/messages_fa.json'),
@@ -40,6 +40,7 @@ export default {
   ja: require('../../static/translations/messages_ja.json'),
   ko: require('../../static/translations/messages_ko.json'),
   lt: require('../../static/translations/messages_lt.json'),
+  lv: require('../../static/translations/messages_lv.json'),
   ml: require('../../static/translations/messages_ml.json'),
   mn: require('../../static/translations/messages_mn.json'),
   my: require('../../static/translations/messages_my.json'),

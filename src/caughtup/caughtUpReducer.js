@@ -32,8 +32,12 @@ export default (
   action: PerAccountApplicableAction,
 ): CaughtUpState => {
   switch (action.type) {
-    case REGISTER_COMPLETE:
     case RESET_ACCOUNT_DATA:
+      return initialState;
+
+    // Reset because `caughtUp` is server-data metadata, and we're resetting
+    // the server data it's supposed to apply to: `state.narrows`.
+    case REGISTER_COMPLETE:
       return initialState;
 
     case MESSAGE_FETCH_START: {

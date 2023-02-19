@@ -7,6 +7,7 @@ import type { CrossRealmBot, User } from './modelTypes';
 import { apiPost } from './apiFetch';
 import { AvatarURL } from '../utils/avatar';
 import { ZulipVersion } from '../utils/zulipVersion';
+import { ServerTooOldError, kMinAllowedServerVersion } from './apiErrors';
 
 const transformUser = (rawUser: {| ...User, avatar_url?: string | null |}, realm: URL): User => {
   const { avatar_url: rawAvatarUrl, email } = rawUser;
@@ -34,71 +35,82 @@ const transformCrossRealmBot = (
   };
 };
 
-const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => ({
-  ...rawInitialData,
+const transform = (rawInitialData: RawInitialData, auth: Auth): InitialData => {
+  // (Even ancient servers have `zulip_version` in the initial data.)
+  const zulipVersion = new ZulipVersion(rawInitialData.zulip_version);
 
-  zulip_feature_level: rawInitialData.zulip_feature_level ?? 0,
-  zulip_version: new ZulipVersion(rawInitialData.zulip_version),
+  // Do this at the top, before we can accidentally trip on some later code
+  // that's insensitive to ancient servers' behavior.
+  if (!zulipVersion.isAtLeast(kMinAllowedServerVersion)) {
+    throw new ServerTooOldError(zulipVersion);
+  }
 
-  // Transform the newer `realm_linkifiers` format, if present, to the
-  // older `realm_filters` format. We do the same transformation on
-  // 'realm_linkifiers' events.
-  // TODO(server-4.0): Switch to new format, if we haven't already;
-  //   and drop conversion.
-  realm_filters: rawInitialData.realm_linkifiers
-    ? rawInitialData.realm_linkifiers.map(({ pattern, url_format, id }) => [
-        pattern,
-        url_format,
-        id,
-      ])
-    : rawInitialData.realm_filters,
+  return {
+    ...rawInitialData,
 
-  // In 5.0 (feature level 100), the representation the server sends for "no
-  // limit" changed from 0 to `null`.
-  //
-  // It's convenient to emulate Server 5.0's representation in our own data
-  // structures. To get a correct initial value, it's sufficient to coerce
-  // `0` to null here, without even looking at the server feature level.
-  // That's because, in addition to the documented change in 5.0, there was
-  // another: 0 became an invalid value, which means we don't have to
-  // anticipate servers 5.0+ using it to mean anything, such as "0 seconds":
-  //   https://github.com/zulip/zulip/blob/b13bfa09c/zerver/lib/message.py#L1482.
-  //
-  // TODO(server-5.0) Remove this conditional.
-  realm_message_content_delete_limit_seconds:
-    rawInitialData.realm_message_content_delete_limit_seconds === 0
-      ? null
-      : rawInitialData.realm_message_content_delete_limit_seconds,
+    zulip_feature_level: rawInitialData.zulip_feature_level ?? 0,
+    zulip_version: zulipVersion,
 
-  realm_users: rawInitialData.realm_users.map(rawUser => transformUser(rawUser, auth.realm)),
-  realm_non_active_users: rawInitialData.realm_non_active_users.map(rawNonActiveUser =>
-    transformUser(rawNonActiveUser, auth.realm),
-  ),
-  cross_realm_bots: rawInitialData.cross_realm_bots.map(rawCrossRealmBot =>
-    transformCrossRealmBot(rawCrossRealmBot, auth.realm),
-  ),
+    // Transform the newer `realm_linkifiers` format, if present, to the
+    // older `realm_filters` format. We do the same transformation on
+    // 'realm_linkifiers' events.
+    // TODO(server-4.0): Switch to new format, if we haven't already;
+    //   and drop conversion.
+    realm_filters: rawInitialData.realm_linkifiers
+      ? rawInitialData.realm_linkifiers.map(({ pattern, url_format, id }) => [
+          pattern,
+          url_format,
+          id,
+        ])
+      : rawInitialData.realm_filters,
 
-  // The doc says the field will be removed in a future release. So, while
-  // we're still consuming it, fill it in if missing, with instructions from
-  // the doc:
-  //
-  // > Its value will always equal
-  // >   `can_create_public_streams || can_create_private_streams`.
-  //
-  // TODO(server-5.0): Only use `can_create_public_streams` and
-  //   `can_create_private_streams`, and simplify this away.
-  can_create_streams:
-    rawInitialData.can_create_streams
-    ?? (() => {
-      const canCreatePublicStreams = rawInitialData.can_create_public_streams;
-      const canCreatePrivateStreams = rawInitialData.can_create_private_streams;
-      invariant(
-        canCreatePublicStreams != null && canCreatePrivateStreams != null,
-        'these are both present if can_create_streams is missing; see doc',
-      );
-      return canCreatePublicStreams || canCreatePrivateStreams;
-    })(),
-});
+    // In 5.0 (feature level 100), the representation the server sends for "no
+    // limit" changed from 0 to `null`.
+    //
+    // It's convenient to emulate Server 5.0's representation in our own data
+    // structures. To get a correct initial value, it's sufficient to coerce
+    // `0` to null here, without even looking at the server feature level.
+    // That's because, in addition to the documented change in 5.0, there was
+    // another: 0 became an invalid value, which means we don't have to
+    // anticipate servers 5.0+ using it to mean anything, such as "0 seconds":
+    //   https://github.com/zulip/zulip/blob/b13bfa09c/zerver/lib/message.py#L1482.
+    //
+    // TODO(server-5.0) Remove this conditional.
+    realm_message_content_delete_limit_seconds:
+      rawInitialData.realm_message_content_delete_limit_seconds === 0
+        ? null
+        : rawInitialData.realm_message_content_delete_limit_seconds,
+
+    realm_users: rawInitialData.realm_users.map(rawUser => transformUser(rawUser, auth.realm)),
+    realm_non_active_users: rawInitialData.realm_non_active_users.map(rawNonActiveUser =>
+      transformUser(rawNonActiveUser, auth.realm),
+    ),
+    cross_realm_bots: rawInitialData.cross_realm_bots.map(rawCrossRealmBot =>
+      transformCrossRealmBot(rawCrossRealmBot, auth.realm),
+    ),
+
+    // The doc says the field will be removed in a future release. So, while
+    // we're still consuming it, fill it in if missing, with instructions from
+    // the doc:
+    //
+    // > Its value will always equal
+    // >   `can_create_public_streams || can_create_private_streams`.
+    //
+    // TODO(server-5.0): Only use `can_create_public_streams` and
+    //   `can_create_private_streams`, and simplify this away.
+    can_create_streams:
+      rawInitialData.can_create_streams
+      ?? (() => {
+        const canCreatePublicStreams = rawInitialData.can_create_public_streams;
+        const canCreatePrivateStreams = rawInitialData.can_create_private_streams;
+        invariant(
+          canCreatePublicStreams != null && canCreatePrivateStreams != null,
+          'these are both present if can_create_streams is missing; see doc',
+        );
+        return canCreatePublicStreams || canCreatePrivateStreams;
+      })(),
+  };
+};
 
 /** See https://zulip.com/api/register-queue */
 export default async (

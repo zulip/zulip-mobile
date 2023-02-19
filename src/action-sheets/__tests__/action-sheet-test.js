@@ -1,6 +1,6 @@
 // @flow strict-local
 import deepFreeze from 'deep-freeze';
-import * as resolved_topic from '@zulip/shared/js/resolved_topic';
+import * as resolved_topic from '@zulip/shared/lib/resolved_topic';
 
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';

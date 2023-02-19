@@ -47,7 +47,7 @@ export default function WebLink(props: Props): React.Node {
     <ZulipText
       style={componentStyles.link}
       onPress={() => {
-        openLinkWithUserPreference(url.toString(), globalSettings);
+        openLinkWithUserPreference(url, globalSettings);
       }}
       {...zulipTextProps}
     />

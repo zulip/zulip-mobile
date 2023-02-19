@@ -2,23 +2,35 @@
 
 import React, { useCallback } from 'react';
 import type { Node } from 'react';
+import { nativeApplicationVersion } from 'expo-application';
+import invariant from 'invariant';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
-import { useGlobalSelector, useDispatch } from '../react-redux';
+import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
 import NestedNavRow from '../common/NestedNavRow';
 import InputRowRadioButtons from '../common/InputRowRadioButtons';
 import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import {
-  IconDiagnostics,
   IconNotifications,
   IconLanguage,
   IconMoreHorizontal,
+  IconSmartphone,
+  IconServer,
+  IconAlertTriangle,
 } from '../common/Icons';
 import { setGlobalSettings } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
+import TextRow from '../common/TextRow';
+import { getIdentity, getServerVersion } from '../account/accountsSelectors';
+import { kMinSupportedVersion } from '../common/ServerCompatBanner';
+import { kWarningColor } from '../styles/constants';
+import { showErrorAlert } from '../utils/info';
+import { TranslationContext } from '../boot/TranslationProvider';
+import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
+import { keyOfIdentity } from '../account/accountMisc';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -28,10 +40,18 @@ type Props = $ReadOnly<{|
 export default function SettingsScreen(props: Props): Node {
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
-  const markMessagesReadOnScroll = useGlobalSelector(
-    state => getGlobalSettings(state).markMessagesReadOnScroll,
-  );
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+  const markMessagesReadOnScroll = globalSettings.markMessagesReadOnScroll;
+
+  const zulipVersion = useSelector(getServerVersion);
+  const identity = useSelector(getIdentity);
+  const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
+  const notificationReport = notificationReportsByIdentityKey.get(keyOfIdentity(identity));
+  invariant(notificationReport, 'SettingsScreen: expected notificationReport');
+
   const dispatch = useDispatch();
+  const _ = React.useContext(TranslationContext);
+
   const { navigation } = props;
 
   const handleThemeChange = useCallback(() => {
@@ -70,6 +90,11 @@ export default function SettingsScreen(props: Props): Node {
       <NestedNavRow
         icon={{ Component: IconNotifications }}
         title="Notifications"
+        {...(() =>
+          notificationReport.problems.length > 0 && {
+            icon: { Component: IconAlertTriangle, color: kWarningColor },
+            subtitle: 'Notifications for this account may not arrive.',
+          })()}
         onPress={() => {
           navigation.push('notifications');
         }}
@@ -82,18 +107,45 @@ export default function SettingsScreen(props: Props): Node {
         }}
       />
       <NestedNavRow
-        icon={{ Component: IconDiagnostics }}
-        title="Diagnostics"
-        onPress={() => {
-          navigation.push('diagnostics');
-        }}
-      />
-      <NestedNavRow
         icon={{ Component: IconMoreHorizontal }}
         title="Legal"
         onPress={() => {
           navigation.push('legal');
         }}
+      />
+      <TextRow
+        icon={{ Component: IconSmartphone }}
+        title="App version"
+        subtitle={{ text: '{_}', values: { _: `v${nativeApplicationVersion ?? '?.?.?'}` } }}
+      />
+      <TextRow
+        icon={{ Component: IconServer }}
+        title="Server version"
+        subtitle={{ text: '{_}', values: { _: zulipVersion.raw() } }}
+        {...(!zulipVersion.isAtLeast(kMinSupportedVersion) && {
+          icon: { Component: IconAlertTriangle, color: kWarningColor },
+          onPress: () => {
+            showErrorAlert(
+              'Server not supported',
+              _({
+                text: '{realm} is running Zulip Server {version}, which is unsupported. The minimum supported version is Zulip Server {minSupportedVersion}.',
+                values: {
+                  realm: identity.realm.toString(),
+                  version: zulipVersion.raw(),
+                  minSupportedVersion: kMinSupportedVersion.raw(),
+                },
+              }),
+              {
+                url: new URL(
+                  // TODO: Instead, link to new Help Center doc once we have it:
+                  //   https://github.com/zulip/zulip/issues/23842
+                  'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+                ),
+                globalSettings,
+              },
+            );
+          },
+        })}
       />
     </Screen>
   );

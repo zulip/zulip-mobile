@@ -33,11 +33,6 @@ import New1to1PmScreen from '../user-picker/New1to1PmScreen';
 import ChatScreen from '../chat/ChatScreen';
 import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
-import DebugScreen from '../settings/DebugScreen';
-import DiagnosticsScreen from '../diagnostics/DiagnosticsScreen';
-import VariablesScreen from '../diagnostics/VariablesScreen';
-import TimingScreen from '../diagnostics/TimingScreen';
-import StorageScreen from '../diagnostics/StorageScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import NewGroupPmScreen from '../user-picker/NewGroupPmScreen';
 import InviteUsersScreen from '../streams/InviteUsersScreen';
@@ -45,6 +40,7 @@ import StreamSettingsScreen from '../streams/StreamSettingsScreen';
 import CreateStreamScreen from '../streams/CreateStreamScreen';
 import EditStreamScreen from '../streams/EditStreamScreen';
 import NotificationsScreen from '../settings/NotificationsScreen';
+import NotifTroubleshootingScreen from '../settings/NotifTroubleshootingScreen';
 import TopicListScreen from '../topics/TopicListScreen';
 import EmojiPickerScreen from '../emoji/EmojiPickerScreen';
 import LegalScreen from '../settings/LegalScreen';
@@ -75,16 +71,12 @@ export type AppNavigatorParamList = {|
   +lightbox: RouteParamsOf<typeof LightboxScreen>,
   +'new-group-pm': RouteParamsOf<typeof NewGroupPmScreen>,
   +'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
-  +diagnostics: RouteParamsOf<typeof DiagnosticsScreen>,
-  +variables: RouteParamsOf<typeof VariablesScreen>,
-  +timing: RouteParamsOf<typeof TimingScreen>,
-  +storage: RouteParamsOf<typeof StorageScreen>,
-  +debug: RouteParamsOf<typeof DebugScreen>,
   +'stream-settings': RouteParamsOf<typeof StreamSettingsScreen>,
   +'edit-stream': RouteParamsOf<typeof EditStreamScreen>,
   +'create-stream': RouteParamsOf<typeof CreateStreamScreen>,
   +'topic-list': RouteParamsOf<typeof TopicListScreen>,
   +notifications: RouteParamsOf<typeof NotificationsScreen>,
+  +'notif-troubleshooting': RouteParamsOf<typeof NotifTroubleshootingScreen>,
   +legal: RouteParamsOf<typeof LegalScreen>,
   +'user-status': RouteParamsOf<typeof UserStatusScreen>,
   +sharing: RouteParamsOf<typeof SharingScreen>,
@@ -183,11 +175,6 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="lightbox" component={useHaveServerDataGate(LightboxScreen)} />
       <Stack.Screen name="new-group-pm" component={useHaveServerDataGate(NewGroupPmScreen)} />
       <Stack.Screen name="invite-users" component={useHaveServerDataGate(InviteUsersScreen)} />
-      <Stack.Screen name="diagnostics" component={useHaveServerDataGate(DiagnosticsScreen)} />
-      <Stack.Screen name="variables" component={useHaveServerDataGate(VariablesScreen)} />
-      <Stack.Screen name="timing" component={useHaveServerDataGate(TimingScreen)} />
-      <Stack.Screen name="storage" component={useHaveServerDataGate(StorageScreen)} />
-      <Stack.Screen name="debug" component={useHaveServerDataGate(DebugScreen)} />
       <Stack.Screen
         name="stream-settings"
         component={useHaveServerDataGate(StreamSettingsScreen)}
@@ -196,6 +183,10 @@ export default function AppNavigator(props: Props): Node {
       <Stack.Screen name="create-stream" component={useHaveServerDataGate(CreateStreamScreen)} />
       <Stack.Screen name="topic-list" component={useHaveServerDataGate(TopicListScreen)} />
       <Stack.Screen name="notifications" component={useHaveServerDataGate(NotificationsScreen)} />
+      <Stack.Screen
+        name="notif-troubleshooting"
+        component={useHaveServerDataGate(NotifTroubleshootingScreen)}
+      />
       <Stack.Screen name="legal" component={useHaveServerDataGate(LegalScreen)} />
       <Stack.Screen name="user-status" component={useHaveServerDataGate(UserStatusScreen)} />
       <Stack.Screen name="settings" component={useHaveServerDataGate(SettingsScreen)} />

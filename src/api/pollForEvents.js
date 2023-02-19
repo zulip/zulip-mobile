@@ -9,6 +9,9 @@ type ApiResponsePollEvents = {|
 |};
 
 /** See https://zulip.com/api/get-events */
+// TODO: Handle downgrading server across kThresholdVersion, which we'd hear
+//   about in `restart` events, by throwing a ServerTooOldError. This case
+//   seems pretty rare but is possible.
 export default (auth: Auth, queueId: string, lastEventId: number): Promise<ApiResponsePollEvents> =>
   apiGet(
     auth,

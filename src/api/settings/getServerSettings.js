@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import type { ApiResponseSuccess } from '../transportTypes';
 import { apiGet } from '../apiFetch';
-import { ApiError } from '../apiErrors';
+import { ApiError, ServerTooOldError, kMinAllowedServerVersion } from '../apiErrors';
 import { ZulipVersion } from '../../utils/zulipVersion';
 
 // This corresponds to AUTHENTICATION_FLAGS in zulip/zulip:zerver/models.py .
@@ -83,6 +83,15 @@ export type ServerSettings = $ReadOnly<{|
  * Make a ServerSettings from a raw API response.
  */
 function transform(raw: ApiResponseServerSettings): ServerSettings {
+  // (Even ancient servers have `zulip_version` in the response.)
+  const zulipVersion = new ZulipVersion(raw.zulip_version);
+
+  // Do this at the top, before we can accidentally trip on some later code
+  // that's insensitive to ancient servers' behavior.
+  if (!zulipVersion.isAtLeast(kMinAllowedServerVersion)) {
+    throw new ServerTooOldError(zulipVersion);
+  }
+
   const { realm_name } = raw;
   if (realm_name == null) {
     // See comment on realm_name in ApiResponseServerSettings.
@@ -101,7 +110,7 @@ function transform(raw: ApiResponseServerSettings): ServerSettings {
   return {
     ...raw,
     zulip_feature_level: raw.zulip_feature_level ?? 0,
-    zulip_version: new ZulipVersion(raw.zulip_version),
+    zulip_version: zulipVersion,
     realm_uri: new URL(raw.realm_uri),
     realm_name,
     realm_web_public_access_enabled: raw.realm_web_public_access_enabled ?? false,

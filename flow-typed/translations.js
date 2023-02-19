@@ -12,6 +12,10 @@ declare module '../../static/translations/messages_ar.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_be.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_bg.json' {
   declare export default {| [string]: string |};
 }
@@ -53,10 +57,6 @@ declare module '../../static/translations/messages_en.json' {
 }
 
 declare module '../../static/translations/messages_en_GB.json' {
-  declare export default {| [string]: string |};
-}
-
-declare module '../../static/translations/messages_en_NG.json' {
   declare export default {| [string]: string |};
 }
 
@@ -117,6 +117,10 @@ declare module '../../static/translations/messages_ko.json' {
 }
 
 declare module '../../static/translations/messages_lt.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_lv.json' {
   declare export default {| [string]: string |};
 }
 

@@ -16,21 +16,6 @@ import { getAccounts } from '../directSelectors';
 import { identityOfAccount, keyOfIdentity, identityOfAuth, authOfAccount } from './accountMisc';
 import { ZulipVersion } from '../utils/zulipVersion';
 
-/** See `getAccountStatuses`. */
-export type AccountStatus = {| ...Identity, isLoggedIn: boolean |};
-
-/**
- * The list of known accounts, with a boolean for logged-in vs. not.
- *
- * This should be used in preference to `getAccounts` where we don't
- * actually need the API keys, but just need to know whether we have them.
- */
-export const getAccountStatuses: GlobalSelector<$ReadOnlyArray<AccountStatus>> = createSelector(
-  getAccounts,
-  accounts =>
-    accounts.map(({ realm, email, apiKey }) => ({ realm, email, isLoggedIn: apiKey !== '' })),
-);
-
 /** The list of known accounts, reduced to `Identity`. */
 export const getIdentities: GlobalSelector<$ReadOnlyArray<Identity>> = createSelector(
   getAccounts,
@@ -88,6 +73,23 @@ export const getAccount = (state: PerAccountState): Account => {
   return accounts[0];
 };
 
+/**
+ * Whether the given identity matches the active account.
+ *
+ * Gives false if there is no active account.
+ */
+export const getIsActiveAccount = (state: GlobalState, identity: Identity): boolean => {
+  const maybeActiveAccountState = tryGetActiveAccountState(state);
+  if (!maybeActiveAccountState) {
+    // There is no active account for `identity` to match.
+    return false;
+  }
+  return (
+    keyOfIdentity(identityOfAccount(getAccount(maybeActiveAccountState)))
+    === keyOfIdentity(identity)
+  );
+};
+
 /** The realm URL for this account. */
 export const getRealmUrl = (state: PerAccountState): URL => getAccount(state).realm;
 
@@ -119,6 +121,12 @@ export const getServerVersion = (state: PerAccountState): ZulipVersion => {
   //   At that point probably just have a migration drop those Account
   //   records -- they mean accounts the user hasn't talked to since
   //   1e17f6695, from 2020-05.
+  //
+  //   Oh, and there's one other case where an Account record will lack this
+  //   data: immediately after login, before we complete the first initial
+  //   fetch.  That's fixable, though: we already have the version from
+  //   server_settings when we enter the login flow, so we just need to
+  //   remember that value and stick it in the initial Account record.
   invariant(zulipVersion, 'zulipVersion must be non-null');
   return zulipVersion;
 };

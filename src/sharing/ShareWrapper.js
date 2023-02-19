@@ -22,6 +22,7 @@ import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { ensureUnreachable } from '../generics';
 import { IconAttachment, IconCancel } from '../common/Icons';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
+import { ApiError, RequestError } from '../api/apiErrors';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -115,10 +116,6 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
     this.setState({ message });
   };
 
-  setSending = () => {
-    this.setState({ sending: true });
-  };
-
   /**
    * Send received shared data as a message.
    *
@@ -157,13 +154,39 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
       return;
     }
 
-    this.setSending();
+    this.setState({ sending: true });
     showToast(_('Sending message…'));
     if (sharedData.type === 'file') {
       const { files } = this.state;
       for (let i = 0; i < files.length; i++) {
-        const response = await api.uploadFile(auth, files[i].url, files[i].name);
-        messageToSend += `\n[${files[i].name}](${response.uri})\n`;
+        const { url, name: fileName } = files[i];
+        try {
+          const response = await api.uploadFile(auth, url, fileName);
+          messageToSend += `\n[${fileName}](${response.uri})\n`;
+        } catch (errorIllTyped) {
+          const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+          if (!(error instanceof Error)) {
+            logging.error('ShareWrapper: Unexpected non-error thrown');
+          }
+
+          let msg = undefined;
+          if (
+            error instanceof RequestError
+            && error.httpStatus === 413 // 413 Payload Too Large:
+            //   https://github.com/zulip/zulip-mobile/issues/5148#issuecomment-1092140960
+          ) {
+            msg = _('The server said the file is too large.');
+          } else if (error instanceof ApiError) {
+            msg = _('The server said:\n\n{errorMessage}', { errorMessage: error.message });
+          } else if (error instanceof Error && error.message.length > 0) {
+            msg = error.message;
+          }
+
+          this.setState({ sending: false });
+          showErrorAlert(_('Failed to upload file: {fileName}', { fileName }), msg);
+          return;
+        }
       }
     }
     const messageData =

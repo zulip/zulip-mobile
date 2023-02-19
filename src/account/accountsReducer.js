@@ -1,4 +1,6 @@
 /* @flow strict-local */
+import invariant from 'invariant';
+
 import {
   EVENT,
   REGISTER_COMPLETE,
@@ -11,32 +13,12 @@ import {
   ACCOUNT_REMOVE,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
-import type { AccountsState, Identity, Action } from '../types';
+import type { AccountsState, Identity, Action, Account } from '../types';
 import { NULL_ARRAY } from '../nullObjects';
 import { ZulipVersion } from '../utils/zulipVersion';
+import { identityOfAccount, keyOfIdentity } from './accountMisc';
 
 const initialState = NULL_ARRAY;
-
-const registerComplete = (state, action) => [
-  {
-    ...state[0],
-    userId: action.data.user_id,
-    zulipFeatureLevel: action.data.zulip_feature_level,
-    zulipVersion: action.data.zulip_version,
-    lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
-      ? null
-      : state[0].lastDismissedServerPushSetupNotice,
-  },
-  ...state.slice(1),
-];
-
-const accountSwitch = (state, action) => {
-  if (action.index === 0) {
-    return state;
-  }
-
-  return [state[action.index], ...state.slice(0, action.index), ...state.slice(action.index + 1)];
-};
 
 const findAccount = (state: AccountsState, identity: Identity): number => {
   const { realm, email } = identity;
@@ -45,91 +27,113 @@ const findAccount = (state: AccountsState, identity: Identity): number => {
   );
 };
 
-const loginSuccess = (state, action) => {
-  const { realm, email, apiKey } = action;
-  const accountIndex = findAccount(state, { realm, email });
-  if (accountIndex === -1) {
-    return [
-      {
-        realm,
-        email,
-        apiKey,
-        userId: null,
-        ackedPushToken: null,
-        zulipVersion: null,
-        zulipFeatureLevel: null,
-        lastDismissedServerPushSetupNotice: null,
-      },
-      ...state,
-    ];
-  }
-  return [
-    { ...state[accountIndex], apiKey, ackedPushToken: null },
-    ...state.slice(0, accountIndex),
-    ...state.slice(accountIndex + 1),
-  ];
-};
+function updateActiveAccount(state, change) {
+  const activeAccount: Account | void = state[0];
+  invariant(activeAccount, 'accounts reducer: expected active account');
 
-const ackPushToken = (state, action) => {
-  const { pushToken: ackedPushToken, identity } = action;
-  const accountIndex = findAccount(state, identity);
-  if (accountIndex === -1) {
-    return state;
-  }
-  return [
-    ...state.slice(0, accountIndex),
-    { ...state[accountIndex], ackedPushToken },
-    ...state.slice(accountIndex + 1),
-  ];
-};
-
-const unackPushToken = (state, action) => {
-  const { identity } = action;
-  const accountIndex = findAccount(state, identity);
-  if (accountIndex === -1) {
-    return state;
-  }
-  return [
-    ...state.slice(0, accountIndex),
-    { ...state[accountIndex], ackedPushToken: null },
-    ...state.slice(accountIndex + 1),
-  ];
-};
-
-const accountRemove = (state, action) => {
-  const newState = state.slice();
-  newState.splice(action.index, 1);
-  return newState;
-};
+  return [{ ...activeAccount, ...change }, ...state.slice(1)];
+}
 
 // eslint-disable-next-line default-param-last
 export default (state: AccountsState = initialState, action: Action): AccountsState => {
   switch (action.type) {
     case REGISTER_COMPLETE:
-      return registerComplete(state, action);
+      // TODO(#5009): Before implementing a multi-account schema (#5006),
+      //   this will be the wrong account if the active account changed
+      //   while the register was in progress. After #5006, this per-account
+      //   action should naturally act on its own per-account state.
+      return updateActiveAccount(state, {
+        userId: action.data.user_id,
+        zulipFeatureLevel: action.data.zulip_feature_level,
+        zulipVersion: action.data.zulip_version,
+        lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
+          ? null
+          : state[0].lastDismissedServerPushSetupNotice,
+      });
 
-    case ACCOUNT_SWITCH:
-      return accountSwitch(state, action);
+    case ACCOUNT_SWITCH: {
+      const index = state.findIndex(
+        a => keyOfIdentity(identityOfAccount(a)) === keyOfIdentity(action.identity),
+      );
+      const account: Account | void = state[index];
+      invariant(account, 'accounts reducer (ACCOUNT_SWITCH): destination account not found');
 
-    case LOGIN_SUCCESS:
-      return loginSuccess(state, action);
+      return index === 0
+        ? state // no change; skip computation
+        : [account, ...state.filter(a => a !== account)]; // put account first
+    }
 
-    case ACK_PUSH_TOKEN:
-      return ackPushToken(state, action);
+    case LOGIN_SUCCESS: {
+      const { realm, email, apiKey } = action;
+      const accountIndex = findAccount(state, { realm, email });
+      if (accountIndex === -1) {
+        return [
+          {
+            realm,
+            email,
+            apiKey,
+            userId: null,
+            ackedPushToken: null,
+            zulipVersion: null,
+            zulipFeatureLevel: null,
+            lastDismissedServerPushSetupNotice: null,
+          },
+          ...state,
+        ];
+      }
+      return [
+        { ...state[accountIndex], apiKey, ackedPushToken: null },
+        ...state.slice(0, accountIndex),
+        ...state.slice(accountIndex + 1),
+      ];
+    }
 
-    case UNACK_PUSH_TOKEN:
-      return unackPushToken(state, action);
+    case ACK_PUSH_TOKEN: {
+      const { pushToken: ackedPushToken, identity } = action;
+      const accountIndex = findAccount(state, identity);
+      if (accountIndex === -1) {
+        return state;
+      }
+      return [
+        ...state.slice(0, accountIndex),
+        { ...state[accountIndex], ackedPushToken },
+        ...state.slice(accountIndex + 1),
+      ];
+    }
+
+    case UNACK_PUSH_TOKEN: {
+      const { identity } = action;
+      const accountIndex = findAccount(state, identity);
+      if (accountIndex === -1) {
+        return state;
+      }
+      return [
+        ...state.slice(0, accountIndex),
+        { ...state[accountIndex], ackedPushToken: null },
+        ...state.slice(accountIndex + 1),
+      ];
+    }
 
     case LOGOUT: {
-      return [{ ...state[0], apiKey: '', ackedPushToken: null }, ...state.slice(1)];
+      // TODO: This will be the wrong account if the active account changed
+      //   between pressing "logout" and confirming with the confirmation
+      //   dialog. Fix, perhaps by having the LOGOUT action include an
+      //   Identity in its payload.
+      return updateActiveAccount(state, { apiKey: '', ackedPushToken: null });
     }
 
     case DISMISS_SERVER_PUSH_SETUP_NOTICE: {
-      return [{ ...state[0], lastDismissedServerPushSetupNotice: action.date }, ...state.slice(1)];
+      return updateActiveAccount(state, { lastDismissedServerPushSetupNotice: action.date });
     }
 
-    case ACCOUNT_REMOVE:
-      return accountRemove(state, action);
+    case ACCOUNT_REMOVE: {
+      const shouldRemove = a =>
+        keyOfIdentity(identityOfAccount(a)) === keyOfIdentity(action.identity);
+
+      invariant(state.some(shouldRemove), 'accounts reducer (ACCOUNT_REMOVE): account not found');
+
+      return state.filter(a => !shouldRemove(a));
+    }
 
     case EVENT: {
       const { event } = action;
@@ -142,14 +146,10 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
 
           // TODO: Detect if the feature level has changed, indicating an upgrade;
           //   if so, trigger a full refetch of server data.  See #4793.
-          return [
-            {
-              ...state[0],
-              zulipVersion: new ZulipVersion(zulip_version),
-              zulipFeatureLevel: zulip_feature_level,
-            },
-            ...state.slice(1),
-          ];
+          return updateActiveAccount(state, {
+            zulipVersion: new ZulipVersion(zulip_version),
+            zulipFeatureLevel: zulip_feature_level,
+          });
         }
         default:
           return state;

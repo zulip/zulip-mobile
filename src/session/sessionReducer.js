@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import type { Debug, Orientation, Action } from '../types';
+import type { Orientation, Action } from '../types';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -10,7 +10,6 @@ import {
   REGISTER_COMPLETE,
   APP_ORIENTATION,
   TOGGLE_OUTBOX_SENDING,
-  DEBUG_FLAG_TOGGLE,
   GOT_PUSH_TOKEN,
   DISMISS_SERVER_COMPAT_NOTICE,
 } from '../actionConstants';
@@ -92,8 +91,6 @@ export type GlobalSessionState = $ReadOnly<{
    */
   pushToken: string | null,
 
-  debug: Debug,
-
   ...
 }>;
 
@@ -123,7 +120,6 @@ const initialGlobalSessionState: $Exact<GlobalSessionState> = {
   isHydrated: false,
   orientation: 'PORTRAIT',
   pushToken: null,
-  debug: Object.freeze({}),
 };
 
 /** PRIVATE; exported only for tests. */
@@ -208,15 +204,6 @@ export default (state: SessionState = initialState, action: Action): SessionStat
 
     case TOGGLE_OUTBOX_SENDING:
       return { ...state, outboxSending: action.sending };
-
-    case DEBUG_FLAG_TOGGLE:
-      return {
-        ...state,
-        debug: {
-          ...state.debug,
-          [action.key]: action.value,
-        },
-      };
 
     case DISMISS_SERVER_COMPAT_NOTICE:
       return {

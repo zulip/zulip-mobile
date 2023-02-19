@@ -25,11 +25,11 @@ export default function LegalScreen(props: Props): Node {
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
   const openZulipPolicies = useCallback(() => {
-    openLinkWithUserPreference('https://zulip.com/policies/?nav=no', globalSettings);
+    openLinkWithUserPreference(new URL('https://zulip.com/policies/?nav=no'), globalSettings);
   }, [globalSettings]);
 
   const openRealmPolicies = useCallback(() => {
-    openLinkWithUserPreference(new URL('/policies/?nav=no', realm).toString(), globalSettings);
+    openLinkWithUserPreference(new URL('/policies/?nav=no', realm), globalSettings);
   }, [realm, globalSettings]);
 
   return (

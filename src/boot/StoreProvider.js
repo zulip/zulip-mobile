@@ -8,7 +8,6 @@ import { Provider } from '../react-redux';
 import * as logging from '../utils/logging';
 import { getHasAuth, getAccount, tryGetActiveAccountState } from '../selectors';
 import store, { restore } from './store';
-import timing from '../utils/timing';
 import { registerAndStartPolling } from '../events/eventActions';
 import { sendOutbox } from '../outbox/outboxActions';
 import { initNotifications } from '../notification/notifTokens';
@@ -44,10 +43,7 @@ export default function StoreProvider(props: Props): Node {
   );
 
   useEffect(() => {
-    timing.start('Store hydration');
     restore(() => {
-      timing.end('Store hydration');
-
       (async () => {
         const hasAuth = getHasAuth(store.getState());
 

@@ -2,6 +2,7 @@
 
 import { randString } from '../misc';
 import { ZulipVersion } from '../zulipVersion';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('ZulipVersion.prototype.isAtLeast(otherZulipVersion)', () => {
   // if i > j, versions[i][k] > versions[j][l] for all k, l
@@ -64,6 +65,15 @@ describe('ZulipVersion.prototype.raw()', () => {
   const raw = randString();
   test('Returns the same string the instance was constructed with', () => {
     expect(new ZulipVersion(raw).raw()).toBe(raw);
+  });
+});
+
+describe('ZulipVersion.prototype.toJSON()', () => {
+  const rawUnstructured = randString();
+  const rawStructured = eg.recentZulipVersion.raw();
+  test('Returns the same string the instance was constructed with', () => {
+    expect(new ZulipVersion(rawUnstructured).toJSON()).toBe(rawUnstructured);
+    expect(new ZulipVersion(rawStructured).toJSON()).toBe(rawStructured);
   });
 });
 

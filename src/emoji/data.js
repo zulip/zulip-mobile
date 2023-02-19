@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import * as typeahead from '@zulip/shared/js/typeahead';
+import * as typeahead from '@zulip/shared/lib/typeahead';
 import { defaultMemoize } from 'reselect';
 
 import * as api from '../api';

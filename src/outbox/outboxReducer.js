@@ -26,6 +26,7 @@ export default (
   action: PerAccountApplicableAction,
 ): OutboxState => {
   switch (action.type) {
+    // TODO(#3881): Figure out if we want this.
     case REGISTER_COMPLETE:
       return filterArray(state, (outbox: Outbox) => !outbox.isSent);
 

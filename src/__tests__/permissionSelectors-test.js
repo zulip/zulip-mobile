@@ -4,8 +4,6 @@ import invariant from 'invariant';
 import { getOwnUser, tryGetActiveAccountState, getRealm } from '../selectors';
 import {
   Role,
-  RoleValues,
-  type RoleT,
   CreatePublicOrPrivateStreamPolicy,
   type CreatePublicOrPrivateStreamPolicyT,
   CreateWebPublicStreamPolicy,
@@ -21,18 +19,20 @@ import rootReducer from '../boot/reducers';
 import { EVENT } from '../actionConstants';
 import * as eg from './lib/exampleData';
 import { EventTypes } from '../api/eventTypes';
-import { objectEntries } from '../flowPonyfill';
 
 describe('roleIsAtLeast', () => {
   const { Owner, Admin, Moderator, Member, Guest } = Role;
 
+  const roleValues: $ReadOnlyArray<Role> = Array.from(Role.members());
+
   // Keep this current with all possible roles, from least to most privilege.
   const kRolesAscending = [Guest, Member, Moderator, Admin, Owner];
-  expect(RoleValues).toIncludeSameMembers(kRolesAscending);
-  expect(RoleValues).toBeArrayOfSize(kRolesAscending.length);
+  expect(roleValues).toIncludeSameMembers(kRolesAscending);
+  expect(roleValues).toBeArrayOfSize(kRolesAscending.length);
 
-  objectEntries(Role).forEach(([thresholdRoleName, thresholdRole]) => {
-    objectEntries(Role).forEach(([thisRoleName, thisRole]) => {
+  const roleEntries = roleValues.map(role => [Role.getName(role), role]);
+  roleEntries.forEach(([thresholdRoleName, thresholdRole]) => {
+    roleEntries.forEach(([thisRoleName, thisRole]) => {
       const expected = kRolesAscending.indexOf(thisRole) >= kRolesAscending.indexOf(thresholdRole);
 
       const testName = expected
@@ -86,7 +86,7 @@ describe('getCanCreatePublicStreams', () => {
       expected,
     }: {
       policy: CreatePublicOrPrivateStreamPolicyT,
-      role: RoleT,
+      role: Role,
       waitingPeriodPassed: boolean | void,
       expected: boolean,
     }) => {
@@ -166,7 +166,7 @@ describe('getCanCreatePrivateStreams', () => {
       expected,
     }: {
       policy: CreatePublicOrPrivateStreamPolicyT,
-      role: RoleT,
+      role: Role,
       waitingPeriodPassed: boolean | void,
       expected: boolean,
     }) => {
@@ -301,7 +301,7 @@ describe('getCanCreateWebPublicStreams', () => {
       expected,
     }: {
       policy: CreateWebPublicStreamPolicy,
-      role: RoleT,
+      role: Role,
       expected: boolean,
     }) => {
       const globalState = [

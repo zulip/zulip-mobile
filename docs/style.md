@@ -757,7 +757,7 @@ For background, see [`docs/howto/shared.md`](howto/shared.md).
 **Use `import *` for shared code**: When importing a shared module,
 write the import with `import *` and the module's name, like this:
 ```js
-import * as typing_status from '@zulip/shared/js/typing_status';
+import * as typing_status from '@zulip/shared/lib/typing_status';
 ```
 
 We use this style because it matches how these modules are imported in

@@ -14,7 +14,7 @@ import type { LayoutEvent } from 'react-native/Libraries/Types/CoreEventTypes';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import invariant from 'invariant';
 // $FlowFixMe[untyped-import]
-import * as fenced_code from '@zulip/shared/js/fenced_code';
+import * as fenced_code from '@zulip/shared/lib/fenced_code';
 
 import { usePrevious } from '../reactUtils';
 import * as apiConstants from '../api/constants';
@@ -33,7 +33,7 @@ import { TranslationContext } from '../boot/TranslationProvider';
 import { draftUpdate, sendTypingStart, sendTypingStop } from '../actions';
 import Touchable from '../common/Touchable';
 import Input from '../common/Input';
-import { showToast, showErrorAlert } from '../utils/info';
+import { showErrorAlert } from '../utils/info';
 import { IconDone, IconSend } from '../common/Icons';
 import {
   isConversationNarrow,
@@ -73,6 +73,7 @@ import { tryFetch } from '../message/fetchActions';
 import { getMessageUrl } from '../utils/internalLinks';
 import * as logging from '../utils/logging';
 import type { Attachment } from './ComposeMenu';
+import { ApiError, RequestError } from '../api/apiErrors';
 
 /* eslint-disable no-shadow */
 
@@ -339,8 +340,27 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           let response = null;
           try {
             response = await api.uploadFile(auth, attachments[i].url, fileName);
-          } catch {
-            showToast(_('Failed to upload file: {fileName}', { fileName }));
+          } catch (errorIllTyped) {
+            const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+            if (!(error instanceof Error)) {
+              logging.error('ComposeBox: Unexpected non-error thrown');
+            }
+
+            let msg = undefined;
+            if (
+              error instanceof RequestError
+              && error.httpStatus === 413 // 413 Payload Too Large:
+              //   https://github.com/zulip/zulip-mobile/issues/5148#issuecomment-1092140960
+            ) {
+              msg = _('The server said the file is too large.');
+            } else if (error instanceof ApiError) {
+              msg = _('The server said:\n\n{errorMessage}', { errorMessage: error.message });
+            } else if (error instanceof Error && error.message.length > 0) {
+              msg = error.message;
+            }
+            showErrorAlert(_('Failed to upload file: {fileName}', { fileName }), msg);
+
             setMessageInputValue(state =>
               state.value.replace(
                 placeholder,

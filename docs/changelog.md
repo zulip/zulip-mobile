@@ -40,7 +40,99 @@ It doesn't include
 ## Unreleased
 
 
+## 27.201 (2023-02-17)
+
+### Highlights for users
+
+* The app now offers more help resolving issues with notifications. (#5654)
+* The search screen now loads older results as you scroll up. (#4859)
+* The app now offers more information when a file upload fails. (#5663)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We fixed a rare bug where corrupt, partial `Account` objects could appear
+  in state when an action races with removing an account. (PR #5656)
+
+* Resolved issues: PR #5656, PR #5663, #4859, PR #5654
+
+
+## 27.200 (2023-02-01)
+
+### Highlights for users
+
+* The mobile app will no longer connect to Zulip Server versions older than
+  2.0, which was released in 2019. Versions older than 3.0 are unsupported,
+  and server administrators should upgrade. (#5102)
+* (iOS) Fixed a bug where links to uploaded files would sometimes lead to an
+  error page instead of the file. (#4136)
+* Fixed a bug where no feedback was given when you tapped a link that
+  couldn't be opened. (#5518)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* We expect that classnames ending in "Error" are no longer minified, making
+  it easier to debug Sentry crash reports. (PR #5177)
+* We added an `intl` suite to `tools/test` to automate some checks on our
+  translation data. (PR #5476)
+* We now use tsc-generated versions of shared code. (PR #5628)
+* We have migrated to @react-native-clipboard/clipboard, fixing some
+  deprecation warnings. (PR #5648)
+* We fixed some small edge-case bugs with switching accounts and removing
+  accounts. (PR #5634)
+
+Resolved issues: #4136, #5518, PR #5634, PR #5177, #5102, #5534
+
+
+## 27.199 (2023-01-19)
+
+### Highlights for users, vs. v27.197 (last prod release)
+
+* (iOS) Fixed a bug in the compose box where tapping the "+" button or its
+  neighbors wouldn't work or would even erase your message draft. (#5463,
+  #5291)
+* (iOS) You can now upload file attachments like PDFs. (#4586)
+* (Android) When attaching an image on Android 13+, you get a sleek,
+  convenient new interface that lets you select multiple images. (PRs #5618
+  & #5638)
+* (iOS) You can now select multiple images to attach at the same time. (#2366)
+* When you attach an image in a message, the message no longer sends
+  automatically, so you can edit it first. (#4540)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for users, vs. v27.198 (last beta release)
+
+* Fixed a bug where the profile screen would sometimes crash with the
+  message "`text` or `children` should be non-nullish". (PR #5637)
+* When you attach an image in a message, the message no longer sends
+  automatically, so you can edit it first. (#4540)
+* (Android) On Android 13+, you can now select multiple images to attach at
+  the same time. (#5638)
+* (iOS) You can now select multiple images to attach at the same time.
+  (#5638)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Resolved issues: PR #5637, PR #5638, #4540, #2366
+
+
 ## 27.198 (2023-01-11)
+
+This was a beta-only release.
 
 ### Highlights for users
 
@@ -48,6 +140,8 @@ It doesn't include
   neighbors wouldn't work or would even erase your message draft. (#5463,
   #5291)
 * (iOS) You can now upload file attachments like PDFs. (#4586)
+* (Android) When attaching an image on Android 13+, you get a sleek,
+  convenient new interface. (PR #5618)
 * The org URL screen now links to a doc that can help you find your org URL.
   (PR #5604)
 * The in-app notification settings screen now links to the system

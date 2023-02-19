@@ -5,7 +5,7 @@ const identitySlice = ({ realm, email }): Identity => ({ realm, email });
 
 export const identityOfAuth: Auth => Identity = identitySlice;
 
-export const identityOfAccount: Account => Identity = identitySlice;
+export const identityOfAccount: ($ReadOnly<{ ...Identity, ... }>) => Identity = identitySlice;
 
 /** A string corresponding uniquely to an identity, for use in `Map`s. */
 export const keyOfIdentity = ({ realm, email }: Identity): string =>

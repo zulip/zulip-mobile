@@ -3,7 +3,6 @@
 import type {
   AlertWordsState,
   Auth,
-  Debug,
   FlagsState,
   GlobalSettingsState,
   ImageEmoji,
@@ -34,7 +33,7 @@ import { getMute } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getUserStatuses } from '../user-statuses/userStatusesModel';
 import { type UserStatusesState } from '../user-statuses/userStatusesCore';
-import { type RoleT } from '../api/permissionsTypes';
+import { Role } from '../api/permissionsTypes';
 import { getOwnUserRole } from '../permissionSelectors';
 import type { ServerEmojiData } from '../api/modelTypes';
 
@@ -52,13 +51,12 @@ export type BackgroundData = $ReadOnly<{|
   alertWords: AlertWordsState,
   allImageEmojiById: $ReadOnly<{| [id: string]: ImageEmoji |}>,
   auth: Auth,
-  debug: Debug,
   flags: FlagsState,
   mute: MuteState,
   allUsersById: Map<UserId, UserOrBot>,
   mutedUsers: MutedUsersState,
   ownUser: User,
-  ownUserRole: RoleT,
+  ownUserRole: Role,
   streams: Map<number, Stream>,
   subscriptions: Map<number, Subscription>,
   unread: UnreadState,
@@ -80,12 +78,10 @@ export type BackgroundData = $ReadOnly<{|
 export const getBackgroundData = (
   state: PerAccountState,
   globalSettings: GlobalSettingsState,
-  debug: Debug,
 ): BackgroundData => ({
   alertWords: state.alertWords,
   allImageEmojiById: getAllImageEmojiById(state),
   auth: getAuth(state),
-  debug,
   flags: getFlags(state),
   mute: getMute(state),
   allUsersById: getAllUsersById(state),

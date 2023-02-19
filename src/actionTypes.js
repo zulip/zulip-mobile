@@ -5,7 +5,6 @@ import {
   APP_ONLINE,
   DEAD_QUEUE,
   APP_ORIENTATION,
-  DEBUG_FLAG_TOGGLE,
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
@@ -140,24 +139,18 @@ type AppOrientationAction = $ReadOnly<{|
   orientation: Orientation,
 |}>;
 
-type DebugFlagToggleAction = $ReadOnly<{|
-  type: typeof DEBUG_FLAG_TOGGLE,
-  key: string,
-  value: boolean,
-|}>;
-
 type DismissServerCompatNoticeAction = $ReadOnly<{|
   type: typeof DISMISS_SERVER_COMPAT_NOTICE,
 |}>;
 
 export type AccountSwitchAction = $ReadOnly<{|
   type: typeof ACCOUNT_SWITCH,
-  index: number,
+  identity: Identity,
 |}>;
 
 type AccountRemoveAction = $ReadOnly<{|
   type: typeof ACCOUNT_REMOVE,
-  index: number,
+  identity: Identity,
 |}>;
 
 export type LoginSuccessAction = $ReadOnly<{|
@@ -689,7 +682,6 @@ export type AccountIndependentAction =
   | AppOnlineAction
   | AppOrientationAction
   | GotPushTokenAction
-  | DebugFlagToggleAction
   ;
 
 //
@@ -810,7 +802,6 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case APP_ONLINE:
     case APP_ORIENTATION:
     case GOT_PUSH_TOKEN:
-    case DEBUG_FLAG_TOGGLE:
       (action: AccountIndependentAction);
       return false;
 

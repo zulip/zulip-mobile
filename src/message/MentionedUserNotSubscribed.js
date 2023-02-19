@@ -11,6 +11,7 @@ import * as api from '../api';
 import ZulipButton from '../common/ZulipButton';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import { getAuth } from '../selectors';
+import { kWarningColor } from '../styles/constants';
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
@@ -23,7 +24,7 @@ const styles = createStyleSheet({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: 'hsl(40, 100%, 60%)', // Material warning-color
+    backgroundColor: kWarningColor,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },

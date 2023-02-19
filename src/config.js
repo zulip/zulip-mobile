@@ -6,8 +6,6 @@ type Config = {|
   messagesPerRequest: number,
   messageListThreshold: number,
   enableReduxLogging: boolean,
-  enableReduxSlowReducerWarnings: boolean,
-  slowReducersThreshold: number,
   enableErrorConsoleLogging: boolean,
   appOwnDomains: $ReadOnlyArray<string>,
 |};
@@ -21,8 +19,6 @@ const config: Config = {
   messagesPerRequest: 100,
   messageListThreshold: 4000,
   enableReduxLogging: isDevelopment && !!global.btoa,
-  enableReduxSlowReducerWarnings: isDevelopment && !!global.btoa,
-  slowReducersThreshold: 5,
   enableErrorConsoleLogging: true,
   appOwnDomains: ['zulip.com', 'zulipchat.com', 'chat.zulip.org'],
 };

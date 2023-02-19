@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import * as NavigationService from '../nav/NavigationService';
-import type { PerAccountAction, AllAccountsAction, GlobalThunkAction } from '../types';
+import type { PerAccountAction, AllAccountsAction, GlobalThunkAction, Identity } from '../types';
 import {
   ACCOUNT_SWITCH,
   ACCOUNT_REMOVE,
@@ -22,13 +22,13 @@ export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   date: new Date(),
 });
 
-const accountSwitchPlain = (index: number): AllAccountsAction => ({
+const accountSwitchPlain = (identity: Identity): AllAccountsAction => ({
   type: ACCOUNT_SWITCH,
-  index,
+  identity,
 });
 
 export const accountSwitch =
-  (index: number): GlobalThunkAction<Promise<void>> =>
+  (identity: Identity): GlobalThunkAction<Promise<void>> =>
   async (dispatch, getState, { activeAccountDispatch }) => {
     NavigationService.dispatch(resetToMainTabs());
 
@@ -38,7 +38,7 @@ export const accountSwitch =
     //   we won't have to do this.
     activeAccountDispatch(resetAccountData());
 
-    dispatch(accountSwitchPlain(index));
+    dispatch(accountSwitchPlain(identity));
 
     // Now dispatch some actions on the new, post-switch active account.
     // Because we just dispatched `accountSwitchPlain`, that new account
@@ -52,9 +52,9 @@ export const accountSwitch =
     activeAccountDispatch(initNotifications());
   };
 
-export const removeAccount = (index: number): AllAccountsAction => ({
+export const removeAccount = (identity: Identity): AllAccountsAction => ({
   type: ACCOUNT_REMOVE,
-  index,
+  identity,
 });
 
 const loginSuccessPlain = (realm: URL, email: string, apiKey: string): AllAccountsAction => ({

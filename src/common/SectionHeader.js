@@ -5,6 +5,7 @@ import { View } from 'react-native';
 
 import { ThemeContext, createStyleSheet } from '../styles';
 import ZulipTextIntl from './ZulipTextIntl';
+import type { LocalizableReactText } from '../types';
 
 const styles = createStyleSheet({
   header: {
@@ -14,7 +15,7 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  text: string,
+  text: LocalizableReactText,
 |}>;
 
 export default function SectionHeader(props: Props): Node {

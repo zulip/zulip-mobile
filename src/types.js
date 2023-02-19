@@ -3,7 +3,7 @@ import type { Node } from 'react';
 import type { IntlShape } from 'react-intl';
 import type { DangerouslyImpreciseStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import type { SubsetProperties } from './generics';
+import type { BoundedDiff, SubsetProperties } from './generics';
 import type {
   Auth,
   Topic,
@@ -58,7 +58,7 @@ export type InputSelection = {|
  * with `identityOfAccount` to convert at the boundary.
  * TODO: move more code that way.
  */
-export type Account = {|
+export type Account = $ReadOnly<{|
   ...Auth,
 
   /**
@@ -86,9 +86,11 @@ export type Account = {|
    * Because a server deploy invalidates event queues, this means the value
    * is always up to date for a server we have an active event queue on.
    *
-   * This is `null` just when representing an account which was last used on
-   * a version of the app which didn't record this information.  It's never
-   * `null` for an account for which we have server data.
+   * This is `null` briefly when we've logged in but not yet completed our
+   * first initial fetch on the account.  It's also `null` when representing
+   * an account which was last used on a version of the app which didn't
+   * record this information.  It's never `null` for an account for which we
+   * have server data.
    *
    * For use in:
    *  * how we make some API requests, in order to keep the logic isolated
@@ -107,9 +109,11 @@ export type Account = {|
    * This is designed to provide a simple way for mobile apps to decide
    * whether the server supports a given feature or API change.
    *
-   * This is `null` just when representing an account which was last used on
-   * a version of the app which didn't record this information.  It's never
-   * `null` for an account for which we have server data.
+   * This is `null` briefly when we've logged in but not yet completed our
+   * first initial fetch on the account.  It's also `null` when representing
+   * an account which was last used on a version of the app which didn't
+   * record this information.  It's never `null` for an account for which we
+   * have server data.
    *
    * Like zulipVersion, we learn the feature level from /server_settings
    * at the start of the login process, and again from /register when
@@ -138,7 +142,7 @@ export type Account = {|
    * apply.
    */
   lastDismissedServerPushSetupNotice: Date | null,
-|};
+|}>;
 
 /**
  * An identity belonging to this user in some Zulip org, with no secrets.
@@ -151,7 +155,7 @@ export type Account = {|
  * Use `identityOfAuth` or `identityOfAccount` to make one of these where
  * you have an `Auth` or `Account`.
  */
-export type Identity = $Diff<Auth, {| apiKey: string |}>;
+export type Identity = BoundedDiff<Auth, {| +apiKey: Auth['apiKey'] |}>;
 
 export type EmojiType = 'image' | 'unicode';
 
@@ -182,9 +186,6 @@ export type EditMessage = {|
   content: string,
   topic: string,
 |};
-
-/** Add debug setting here. */
-export type Debug = {||};
 
 export type TopicExtended = {|
   ...$Exact<Topic>,

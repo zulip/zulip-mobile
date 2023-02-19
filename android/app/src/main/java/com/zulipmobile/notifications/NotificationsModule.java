@@ -10,7 +10,13 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.iid.FirebaseInstanceId;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.zulipmobile.notifications.NotificationUiManager.TAG;
 
@@ -54,6 +60,30 @@ class NotificationsModule extends ReactContextBaseJavaModule {
             promise.resolve(Arguments.fromBundle(initialNotification));
             initialNotification = null;
         }
+    }
+
+    /**
+     * Tell the JavaScript caller about the availability of Google Play Services.
+     */
+    // Ideally we wouldn't depend on Google Play Services for notifications;
+    // that's #3838.
+    @ReactMethod
+    public void googlePlayServicesAvailability(Promise promise) {
+        final WritableMap result = Arguments.createMap();
+
+        final GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+
+        // https://developers.google.com/android/reference/com/google/android/gms/common/GoogleApiAvailability#isGooglePlayServicesAvailable(android.content.Context)
+        final ConnectionResult connectionResult = new ConnectionResult(
+                googleApiAvailability.isGooglePlayServicesAvailable(getReactApplicationContext()));
+
+        result.putInt("errorCode", connectionResult.getErrorCode());
+        result.putString("errorMessage", connectionResult.getErrorMessage());
+        result.putBoolean("hasResolution", connectionResult.hasResolution());
+        result.putBoolean("isSuccess", connectionResult.isSuccess());
+
+        // Keep return value in sync with the Flow type on the JS side.
+        promise.resolve(result);
     }
 
     /**

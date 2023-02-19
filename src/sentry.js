@@ -5,10 +5,10 @@ import { nativeApplicationVersion } from 'expo-application';
 // $FlowFixMe[untyped-import]
 import md5 from 'blueimp-md5';
 
-import type { AccountStatus } from './account/accountsSelectors';
+import type { Identity } from './types';
 import isAppOwnDomain from './isAppOwnDomain';
 import store from './boot/store';
-import { getAccountStatuses } from './account/accountsSelectors';
+import { getIdentities } from './account/accountsSelectors';
 import { sentryKey } from './sentryConfig';
 import { isUrlOnRealm } from './utils/url';
 
@@ -70,7 +70,7 @@ type HttpBreadcrumb = $ReadOnly<{|
   |},
 |}>;
 
-function shouldScrubHost(url: URL, accountStatuses: $ReadOnlyArray<AccountStatus>) {
+function shouldScrubHost(url: URL, identities: $ReadOnlyArray<Identity>) {
   if (isAppOwnDomain(url)) {
     return false;
   }
@@ -82,7 +82,7 @@ function shouldScrubHost(url: URL, accountStatuses: $ReadOnlyArray<AccountStatus
     return true;
   }
 
-  if (accountStatuses.some(({ realm }) => isUrlOnRealm(url, realm))) {
+  if (identities.some(({ realm }) => isUrlOnRealm(url, realm))) {
     // Definitely a request to a Zulip realm. Will catch requests to realms
     // in the account-statuses state, including those without `/api/v1`,
     // like `/avatar/{user_id}` (zulip/zulip@0f9970fd3 confirms that this
@@ -99,8 +99,8 @@ function scrubUrl(unscrubbedUrl: void | string): void | string {
   }
 
   const parsedUrl = new URL(unscrubbedUrl);
-  const accountStatuses = getAccountStatuses(store.getState());
-  if (!shouldScrubHost(parsedUrl, accountStatuses)) {
+  const identities = getIdentities(store.getState());
+  if (!shouldScrubHost(parsedUrl, identities)) {
     return unscrubbedUrl;
   }
 

@@ -90,6 +90,8 @@ export default function Screen(props: Props): Node {
         centerContent: {
           flexGrow: 1,
           justifyContent: 'center',
+          // TODO: decide whether to add `alignItems: 'center'`:
+          //   https://github.com/zulip/zulip-mobile/pull/4868#discussion_r665486501
         },
         padding: {
           padding: 16,

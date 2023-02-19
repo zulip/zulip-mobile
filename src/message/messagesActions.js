@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
-import type { Message, Narrow, ThunkAction } from '../types';
+import type { GetText, Message, Narrow, ThunkAction } from '../types';
 import { getAuth, getRealm, getMessages, getZulipFeatureLevel } from '../selectors';
 import { getNearOperandFromLink, getNarrowFromLink } from '../utils/internalLinks';
 import { openLinkWithUserPreference } from '../utils/openLink';
@@ -21,6 +21,7 @@ import {
   caseNarrowDefault,
 } from '../utils/narrow';
 import { hasMessageEverBeenInStream, hasMessageEverHadTopic } from './messageSelectors';
+import { showErrorAlert } from '../utils/info';
 
 /**
  * Navigate to the given narrow.
@@ -215,17 +216,22 @@ const doNarrowNearLink =
  * Handle a link tap that isn't an image we want to show in the lightbox.
  */
 export const messageLinkPress =
-  (href: string): ThunkAction<Promise<void>> =>
+  (href: string, _: GetText): ThunkAction<Promise<void>> =>
   async (dispatch, getState, { getGlobalSettings }) => {
     const state = getState();
     const auth = getAuth(state);
     const streamsById = getStreamsById(state);
     const streamsByName = getStreamsByName(state);
     const ownUserId = getOwnUserId(state);
-    const narrow = getNarrowFromLink(href, auth.realm, streamsById, streamsByName, ownUserId);
 
     const parsedUrl = tryParseUrl(href, auth.realm);
+    if (!parsedUrl) {
+      showErrorAlert(_('Cannot open link'), _('Invalid URL.'));
+      return;
+    }
     // TODO: Replace all uses of `href` below with `parsedUrl`.
+
+    const narrow = getNarrowFromLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId);
 
     // TODO: In some cases getNarrowFromLink successfully parses the link, but
     //   finds it points somewhere we can't see: in particular, to a stream
@@ -234,17 +240,17 @@ export const messageLinkPress =
     //   which should be futile.
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
-      const nearOperand = getNearOperandFromLink(href, auth.realm);
+      const nearOperand = getNearOperandFromLink(parsedUrl, auth.realm);
       if (nearOperand === null) {
         dispatch(doNarrow(narrow));
         return;
       }
 
       await dispatch(doNarrowNearLink(narrow, nearOperand));
-    } else if (!parsedUrl || !isUrlOnRealm(parsedUrl, auth.realm)) {
-      openLinkWithUserPreference(href, getGlobalSettings());
+    } else if (!isUrlOnRealm(parsedUrl, auth.realm)) {
+      openLinkWithUserPreference(parsedUrl, getGlobalSettings());
     } else {
       const url = (await api.tryGetFileTemporaryUrl(parsedUrl, auth)) ?? parsedUrl;
-      openLinkWithUserPreference(url.toString(), getGlobalSettings());
+      openLinkWithUserPreference(url, getGlobalSettings());
     }
   };

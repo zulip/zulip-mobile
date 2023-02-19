@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import * as typing_status from '@zulip/shared/js/typing_status';
+import * as typing_status from '@zulip/shared/lib/typing_status';
 
 import type { Auth, PerAccountState, Narrow, UserId, ThunkAction } from '../types';
 import * as api from '../api';

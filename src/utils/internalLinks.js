@@ -1,6 +1,6 @@
 /* @flow strict-local */
 import { addBreadcrumb } from '@sentry/react-native';
-import * as internal_url from '@zulip/shared/js/internal_url';
+import * as internal_url from '@zulip/shared/lib/internal_url';
 import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId, Message, Outbox, PmMessage, PmOutbox } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
@@ -17,18 +17,12 @@ import { isUrlOnRealm } from './url';
  *
  * If `url` ends with a slash, the returned array won't have '' as its last
  * element; that element is removed.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
-// TODO: Take a URL object for `url` instead of a string, and remove
-//   performance warning in the jsdoc.
 // TODO: Parse into an array of objects with { negated, operator, operand },
 //   like the web app's parse_narrow in static/js/hash_util.js.
 // TODO(#3757): Use @zulip/shared for that parsing.
-const getHashSegmentsFromNarrowLink = (url: string, realm: URL) => {
-  const result = new URL(url, realm).hash
+const getHashSegmentsFromNarrowLink = (url: URL, realm: URL) => {
+  const result = url.hash
     .split('/')
     // Remove the first item, "#narrow".
     .slice(1);
@@ -58,15 +52,11 @@ type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
  * PRIVATE -- exported only for tests.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
-export const getLinkType = (url: string, realm: URL): LinkType => {
-  if (!isNarrowLink(new URL(url, realm), realm)) {
+export const getLinkType = (url: URL, realm: URL): LinkType => {
+  if (!isNarrowLink(url, realm)) {
     return 'non-narrow';
   }
 
@@ -165,13 +155,9 @@ const parsePmOperand = operand => {
 
 /**
  * TODO write jsdoc
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
 export const getNarrowFromLink = (
-  url: string,
+  url: URL,
   realm: URL,
   streamsById: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
@@ -221,12 +207,8 @@ export const getNarrowFromLink = (
 /**
  * From a URL and realm with `isNarrowLink(url, realm) === true`, give
  *   message_id if the URL has /near/{message_id}, otherwise give null.
- *
- * This performs a call to `new URL` and therefore may take a fraction of a
- * millisecond.  Avoid using in a context where it might be called more than
- * 10 or 100 times per user action.
  */
-export const getNearOperandFromLink = (url: string, realm: URL): number | null => {
+export const getNearOperandFromLink = (url: URL, realm: URL): number | null => {
   // isNarrowLink(…) is true, by jsdoc, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 

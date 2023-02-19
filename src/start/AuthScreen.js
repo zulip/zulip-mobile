@@ -295,7 +295,7 @@ class AuthScreenInner extends PureComponent<Props> {
       id_token: credential.identityToken,
     });
 
-    openLinkEmbedded(new URL(`/complete/apple/?${params}`, serverSettings.realm_uri).toString());
+    openLinkEmbedded(new URL(`/complete/apple/?${params}`, serverSettings.realm_uri));
 
     // Currently, the rest is handled with the `zulip://` redirect,
     // same as in the web flow.

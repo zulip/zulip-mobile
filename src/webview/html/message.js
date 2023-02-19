@@ -2,7 +2,7 @@
 import { PixelRatio } from 'react-native';
 import invariant from 'invariant';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import * as poll_data from '@zulip/shared/js/poll_data';
+import * as poll_data from '@zulip/shared/lib/poll_data';
 
 import template from './template';
 import type {

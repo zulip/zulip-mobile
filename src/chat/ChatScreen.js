@@ -14,7 +14,7 @@ import MessageList from '../webview/MessageList';
 import NoMessages from '../message/NoMessages';
 import FetchError from './FetchError';
 import InvalidNarrow from './InvalidNarrow';
-import { fetchMessagesInNarrow } from '../message/fetchActions';
+import { fetchMessagesInNarrow, fetchMessages } from '../message/fetchActions';
 import ComposeBox, {
   type ImperativeHandle as ComposeBoxImperativeHandle,
 } from '../compose/ComposeBox';
@@ -22,7 +22,12 @@ import UnreadNotice from './UnreadNotice';
 import { showComposeBoxOnNarrow, caseNarrowDefault, keyFromNarrow } from '../utils/narrow';
 import { getLoading, getSession } from '../directSelectors';
 import { getFetchingForNarrow } from './fetchingSelectors';
-import { getShownMessagesForNarrow, isNarrowValid as getIsNarrowValid } from './narrowsSelectors';
+import {
+  getFirstMessageId,
+  getLastMessageId,
+  getShownMessagesForNarrow,
+  isNarrowValid as getIsNarrowValid,
+} from './narrowsSelectors';
 import { getFirstUnreadIdInNarrow } from '../message/messageSelectors';
 import { getDraftForNarrow } from '../drafts/draftsSelectors';
 import { addToOutbox } from '../actions';
@@ -31,6 +36,7 @@ import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import * as api from '../api';
 import { useConditionalEffect } from '../reactUtils';
+import config from '../config';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'chat'>,
@@ -149,9 +155,39 @@ export default function ChatScreen(props: Props): Node {
   const composeBoxRef = React.useRef<ComposeBoxImperativeHandle | null>(null);
 
   const auth = useSelector(getAuth);
+  const caughtUp = useSelector(state => getCaughtUpForNarrow(state, narrow));
   const dispatch = useDispatch();
   const fetching = useSelector(state => getFetchingForNarrow(state, narrow));
+  const firstMessageId = useSelector(state => getFirstMessageId(state, narrow));
+  const lastMessageId = useSelector(state => getLastMessageId(state, narrow));
+  const loading = useSelector(getLoading);
   const _ = useContext(TranslationContext);
+
+  const fetchOlder = () => {
+    if (!loading && !fetching.older && !caughtUp.older && firstMessageId !== undefined) {
+      dispatch(
+        fetchMessages({
+          narrow,
+          anchor: firstMessageId,
+          numBefore: config.messagesPerRequest,
+          numAfter: 0,
+        }),
+      );
+    }
+  };
+
+  const fetchNewer = () => {
+    if (!loading && !fetching.newer && !caughtUp.newer && lastMessageId !== undefined) {
+      dispatch(
+        fetchMessages({
+          narrow,
+          anchor: lastMessageId,
+          numBefore: 0,
+          numAfter: config.messagesPerRequest,
+        }),
+      );
+    }
+  };
 
   const sendCallback = useCallback(
     (message: string, destinationNarrow: Narrow) => {
@@ -230,6 +266,8 @@ export default function ChatScreen(props: Props): Node {
               }
               showMessagePlaceholders={showMessagePlaceholders}
               startEditMessage={setEditMessage}
+              fetchOlder={fetchOlder}
+              fetchNewer={fetchNewer}
               composeBoxRef={composeBoxRef}
             />
           );

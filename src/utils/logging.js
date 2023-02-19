@@ -28,10 +28,11 @@ export type Extras = {| +[key: string]: JSONable |};
  */
 // TODO: Add linting to make sure all our custom errors extend this
 export class ExtendableError extends Error {
-  // Careful! Minification might make this differ from what we see in our
-  // source code, which would be kind of sad. (I guess we'll find out?)
-  // Don't use this for equality checks or user-facing text:
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name#javascript_compressors_and_minifiers.
+  // Gotcha: Minification has been making this differ from what we see in
+  // our source code. Don't use in equality checks or user-facing text:
+  //   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name#javascript_compressors_and_minifiers
+  // However, we're trying Metro's `minifierConfig` to see if we can have it
+  // not minify classnames that end in Error.
   //
   // This will work even down a chain of subclasses, i.e.,
   // MyVerySpecificError extends MySpecificError extends ExtendableError. If

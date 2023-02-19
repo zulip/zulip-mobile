@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
-import * as typeahead from '@zulip/shared/js/typeahead';
+import * as typeahead from '@zulip/shared/lib/typeahead';
 
 import type { GetText, Narrow } from '../types';
 import { IconWildcardMention } from '../common/Icons';

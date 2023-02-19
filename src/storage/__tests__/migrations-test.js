@@ -5,6 +5,7 @@ import { historicalStoreKeys, migrations } from '../migrations';
 import { storeKeys } from '../../boot/store';
 import { createMigrationFunction } from '../../redux-persist-migrate';
 import { ZulipVersion } from '../../utils/zulipVersion';
+import * as eg from '../../__tests__/lib/exampleData';
 
 describe('historicalStoreKeys', () => {
   test('equals current storeKeys', () => {
@@ -21,7 +22,7 @@ describe('migrations', () => {
   const base = {
     // Include something non-empty for each of the storeKeys.
     migrations: { version: 3 },
-    accounts: [{ email: 'me@example.com', api_key: '1234', realm: 'https://chat.example' }],
+    accounts: [{ email: 'me@example.com', apiKey: '1234', realm: 'https://chat.example' }],
     drafts: { '[]': 'draft text' },
     // Real Outbox values have more properties, but fudge that.
     outbox: [{ isOutbox: true, isSent: false, type: 'private' }],
@@ -104,7 +105,7 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base52,
-    migrations: { version: 56 },
+    migrations: { version: 58 },
   };
 
   for (const [desc, before, after] of [
@@ -277,6 +278,28 @@ describe('migrations', () => {
         settings: { ...base37.settings, doNotMarkMessagesAsRead: true },
       },
       { ...endBase, settings: { ...endBase.settings, markMessagesReadOnScroll: 'never' } },
+    ],
+    [
+      'check 57 with an `undefined` in state.accounts',
+      { ...base52, migrations: { version: 56 }, accounts: [...base37.accounts, undefined] },
+      { ...endBase, accounts: [...base37.accounts] },
+    ],
+    [
+      'check 58 with a malformed Account in state.accounts',
+      {
+        ...base52,
+        migrations: { version: 57 },
+        accounts: [
+          {
+            userId: eg.selfUser.user_id,
+            zulipFeatureLevel: eg.recentZulipFeatureLevel,
+            zulipVersion: eg.recentZulipVersion,
+            lastDismissedServerPushSetupNotice: null,
+          },
+          ...base37.accounts,
+        ],
+      },
+      { ...endBase, accounts: [...base37.accounts] },
     ],
   ]) {
     /* eslint-disable no-loop-func */

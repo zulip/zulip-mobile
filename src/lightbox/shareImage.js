@@ -28,7 +28,7 @@ export default async (url: URL, auth: Auth) => {
     //
     // TODO(?): Could find a better way to convey this.
     showToast('Please share the image from your browser');
-    openLinkEmbedded(url.toString());
+    openLinkEmbedded(url);
     return;
   }
 

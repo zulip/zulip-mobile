@@ -22,7 +22,6 @@ import type {
   PerAccountSettingsState,
   GlobalSettingsState,
   TypingState,
-  Debug,
   VideoChatProvider,
   User,
 } from './types';
@@ -34,7 +33,6 @@ export const getSession = (state: PerAccountState): PerAccountSessionState => st
 export const getGlobalSession = (state: GlobalState): GlobalSessionState => state.session;
 
 export const getIsOnline = (state: GlobalState): boolean | null => state.session.isOnline;
-export const getDebug = (state: GlobalState): Debug => state.session.debug;
 export const getIsHydrated = (state: GlobalState): boolean => state.session.isHydrated;
 
 export const getCanCreateStreams = (state: PerAccountState): boolean =>
