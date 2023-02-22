@@ -6,8 +6,15 @@ import { ZulipVersion } from '../utils/zulipVersion';
 /**
  * Some kind of error from a Zulip API network request.
  *
+ * This is an abstract class: every instance should be an instance of a
+ * subclass.  Rather than construct it directly, use a subclass's
+ * constructor.
+ *
  * See subclasses: {@link ApiError}, {@link NetworkError}, {@link ServerError}.
  */
+// For why we just say "abstract" in the jsdoc without doing anything static
+// or dynamic to enforce that, see:
+//   https://github.com/zulip/zulip-mobile/pull/5664#issuecomment-1433918758
 export class RequestError extends ExtendableError {
   /** The HTTP status code in the response, if any. */
   +httpStatus: number | void;

@@ -3,8 +3,8 @@ import { networkActivityStart, networkActivityStop } from '../utils/networkActiv
 import {
   MalformedResponseError,
   NetworkError,
-  RequestError,
   Server5xxError,
+  ServerError,
   UnexpectedHttpStatusError,
 } from './apiErrors';
 import type { ServerEmojiData } from './modelTypes';
@@ -70,7 +70,7 @@ export default async (emojiDataUrl: URL): Promise<ServerEmojiData> => {
 
   const httpStatus = response.status;
   if (httpStatus >= 400 && httpStatus <= 499) {
-    // Client error…?
+    // A client error, supposedly.
     //
     // If 404, maybe we had the wrong idea of what URL to request (unlikely,
     // but would be a client error). Or maybe the server failed to get
@@ -78,7 +78,7 @@ export default async (emojiDataUrl: URL): Promise<ServerEmojiData> => {
     //
     // Don't bother trying to make an ApiError by parsing JSON for `code`,
     // `msg`, or `result`; this endpoint doesn't give them.
-    throw new RequestError(httpStatus);
+    throw new ServerError('Could not get server emoji data', httpStatus);
   } else if (httpStatus >= 500 && httpStatus <= 599) {
     throw new Server5xxError(httpStatus);
   } else if (httpStatus <= 199 || (httpStatus >= 300 && httpStatus <= 399) || httpStatus >= 600) {
