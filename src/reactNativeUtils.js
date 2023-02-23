@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AppState, Platform } from 'react-native';
-import type { AppStateValues } from 'react-native/Libraries/AppState/AppState';
+import type { AppStateValues as AppStateValuesBusted } from 'react-native/Libraries/AppState/AppState';
 // eslint-disable-next-line id-match
 import type { ____ViewStyle_Internal } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 import invariant from 'invariant';
@@ -29,11 +29,15 @@ export type ViewStylePropWithout<T: { ... }> = GenericStyleProp<
 >;
 
 /**
+ * Documented app-state values, plus any we've seen in the wild.
+ */
+type AppStateValues = AppStateValuesBusted | 'unknown';
+
+/**
  * A hook for AppState's current state value, updated on 'change' events.
  *
- * Gives `null` if the state isn't one of the documented values
- * (AppStateValues), which the upstream types allow for the initial value,
- * and logs to Sentry in that unexpected case.
+ * Gives `null` if the state isn't one of the expected values
+ * (AppStateValues), and logs to Sentry in that case.
  */
 export function useAppState(): null | AppStateValues {
   // Upstream has `?string`… probably they mean `AppStateValues`, but we'll
@@ -48,10 +52,11 @@ export function useAppState(): null | AppStateValues {
     || (typeof initialState === 'string'
       && initialState !== 'inactive'
       && initialState !== 'background'
-      && initialState !== 'active')
+      && initialState !== 'active'
+      && initialState !== 'unknown')
   ) {
     // If Flow errors here, adjust cases in the conditional.
-    typesEquivalent<AppStateValues, 'inactive' | 'background' | 'active'>();
+    typesEquivalent<AppStateValues, 'inactive' | 'background' | 'active' | 'unknown'>();
     logging.warn(`Unexpected AppState.currentState: ${initialState?.toString() ?? '[nullish]'}`);
     initialState = null;
   }
