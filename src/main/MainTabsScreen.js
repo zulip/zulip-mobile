@@ -13,11 +13,12 @@ import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigato
 import { bottomTabNavigatorConfig } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
-import { IconInbox, IconStream, IconPeople } from '../common/Icons';
+import { IconInbox, IconStream, IconPeople, IconPrivateChat } from '../common/Icons';
 import OwnAvatar from '../common/OwnAvatar';
 import ProfileScreen from '../account-info/ProfileScreen';
 import styles, { BRAND_COLOR, ThemeContext } from '../styles';
 import SubscriptionsScreen from '../streams/SubscriptionsScreen';
+import UsersProfileScreen from '../users/UsersProfileScreen';
 
 export type MainTabsNavigatorParamList = {|
   +home: RouteParamsOf<typeof HomeScreen>,
@@ -75,12 +76,20 @@ export default function MainTabsScreen(props: Props): Node {
           component={PmConversationsScreen}
           options={{
             tabBarLabel: 'Private messages',
-            tabBarIcon: ({ color }) => <IconPeople size={24} color={color} />,
+            tabBarIcon: ({ color }) => <IconPrivateChat size={24} color={color} />,
             tabBarBadge: unreadPmsCount > 0 ? unreadPmsCount : undefined,
             tabBarBadgeStyle: {
               color: 'white',
               backgroundColor: BRAND_COLOR,
             },
+          }}
+        />
+        <Tab.Screen
+          name="users"
+          component={UsersProfileScreen}
+          options={{
+            tabBarLabel: 'Users',
+            tabBarIcon: ({ color }) => <IconPeople size={24} color={color} />,
           }}
         />
         <Tab.Screen
