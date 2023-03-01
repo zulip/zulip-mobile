@@ -143,7 +143,7 @@ export default function UserStatusScreen(props: Props): Node {
   }, []);
 
   return (
-    <Screen title="User status">
+    <Screen title="Set your status">
       <View style={styles.inputRow}>
         {serverSupportsEmojiStatus && (
           <EmojiInput
