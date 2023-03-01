@@ -140,9 +140,10 @@ export default function NotificationsScreen(props: Props): Node {
     <Screen title="Notifications">
       <ServerPushSetupBanner isDismissable={false} />
       <NestedNavRow
-        icon={
+        leftElement={
           systemSettingsWarnings.length > 0
             ? {
+                type: 'icon',
                 Component: IconAlertTriangle,
                 color: kWarningColor,
               }
@@ -191,7 +192,11 @@ export default function NotificationsScreen(props: Props): Node {
               <NestedNavRow
                 {...(() =>
                   notificationReport.problems.length > 0 && {
-                    icon: { Component: IconAlertTriangle, color: kWarningColor },
+                    leftElement: {
+                      type: 'icon',
+                      Component: IconAlertTriangle,
+                      color: kWarningColor,
+                    },
                     subtitle: 'Notifications for this account may not arrive.',
                   })()}
                 title="Troubleshooting"
@@ -213,7 +218,11 @@ export default function NotificationsScreen(props: Props): Node {
                 }).length;
                 return problemAccountsCount > 0
                   ? {
-                      icon: { Component: IconAlertTriangle, color: kWarningColor },
+                      leftElement: {
+                        type: 'icon',
+                        Component: IconAlertTriangle,
+                        color: kWarningColor,
+                      },
                       subtitle: {
                         text: `\
 {problemAccountsCount, plural,

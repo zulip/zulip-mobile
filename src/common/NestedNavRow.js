@@ -3,18 +3,28 @@ import React, { useContext, useMemo } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import type { LocalizableReactText } from '../types';
+import type { EmojiType, LocalizableReactText } from '../types';
 import ZulipTextIntl from './ZulipTextIntl';
 import Touchable from './Touchable';
 import { IconRight } from './Icons';
 import type { SpecificIconType } from './Icons';
 import globalStyles, { ThemeContext, createStyleSheet } from '../styles';
+import Emoji from '../emoji/Emoji';
+import { ensureUnreachable } from '../generics';
 
 type Props = $ReadOnly<{|
-  icon?: {|
-    +Component: SpecificIconType,
-    +color?: string,
-  |},
+  /** An icon or emoji displayed at the left of the row. */
+  leftElement?:
+    | {|
+        +type: 'icon',
+        +Component: SpecificIconType,
+        +color?: string,
+      |}
+    | {|
+        +type: 'emoji',
+        +emojiCode: string,
+        +emojiType: EmojiType,
+      |},
 
   title: LocalizableReactText,
   subtitle?: LocalizableReactText,
@@ -34,7 +44,7 @@ type Props = $ReadOnly<{|
  * selectable option row instead, use `SelectableOptionRow`.
  */
 export default function NestedNavRow(props: Props): Node {
-  const { title, subtitle, titleBoldUppercase, onPress, icon } = props;
+  const { title, subtitle, titleBoldUppercase, onPress, leftElement } = props;
 
   const themeContext = useContext(ThemeContext);
 
@@ -51,10 +61,11 @@ export default function NestedNavRow(props: Props): Node {
           //   https://material.io/design/usability/accessibility.html#layout-and-typography
           minHeight: 48,
         },
+        leftElement: {
+          marginRight: 8,
+        },
         iconFromProps: {
           textAlign: 'center',
-          marginRight: 8,
-          color: icon?.color ?? themeContext.color,
         },
         textWrapper: {
           flex: 1,
@@ -72,13 +83,35 @@ export default function NestedNavRow(props: Props): Node {
           color: themeContext.color,
         },
       }),
-    [themeContext, icon, titleBoldUppercase],
+    [themeContext, titleBoldUppercase],
   );
 
   return (
     <Touchable onPress={onPress}>
       <View style={styles.container}>
-        {!!icon && <icon.Component size={24} style={styles.iconFromProps} />}
+        {leftElement && (
+          <View style={styles.leftElement}>
+            {(() => {
+              switch (leftElement.type) {
+                case 'icon':
+                  return (
+                    <leftElement.Component
+                      size={24}
+                      style={styles.iconFromProps}
+                      color={leftElement.color ?? themeContext.color}
+                    />
+                  );
+                case 'emoji':
+                  return (
+                    <Emoji size={24} code={leftElement.emojiCode} type={leftElement.emojiType} />
+                  );
+                default:
+                  ensureUnreachable(leftElement.type);
+              }
+            })()}
+          </View>
+        )}
+
         <View style={styles.textWrapper}>
           <ZulipTextIntl style={styles.title} text={title} />
           {subtitle !== undefined && <ZulipTextIntl style={styles.subtitle} text={subtitle} />}

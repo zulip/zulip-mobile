@@ -90,11 +90,11 @@ export default function SettingsScreen(props: Props): Node {
         }}
       />
       <NestedNavRow
-        icon={{ Component: IconNotifications }}
+        leftElement={{ type: 'icon', Component: IconNotifications }}
         title="Notifications"
         {...(() =>
           notificationReport.problems.length > 0 && {
-            icon: { Component: IconAlertTriangle, color: kWarningColor },
+            leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
             subtitle: 'Notifications for this account may not arrive.',
           })()}
         onPress={() => {
@@ -117,7 +117,7 @@ export default function SettingsScreen(props: Props): Node {
         search
       />
       <NestedNavRow
-        icon={{ Component: IconMoreHorizontal }}
+        leftElement={{ type: 'icon', Component: IconMoreHorizontal }}
         title="Legal"
         onPress={() => {
           navigation.push('legal');
