@@ -171,7 +171,7 @@ on that is
 
 1. First, generate a Certificate Signing Request (CSR). Apple
    Developer's instructions are
-   [here](https://help.apple.com/developer-account/#/devbfa00fef7).
+   [here](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request).
    You can use something like "John Appleseed APNs Sandbox" for the
    "Common Name."
 
