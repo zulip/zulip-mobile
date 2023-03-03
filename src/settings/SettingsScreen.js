@@ -31,6 +31,7 @@ import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
+import languages from './languages';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -42,6 +43,7 @@ export default function SettingsScreen(props: Props): Node {
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
   const globalSettings = useGlobalSelector(getGlobalSettings);
   const markMessagesReadOnScroll = globalSettings.markMessagesReadOnScroll;
+  const language = useGlobalSelector(state => getGlobalSettings(state).language);
 
   const zulipVersion = useSelector(getServerVersion);
   const identity = useSelector(getIdentity);
@@ -99,12 +101,20 @@ export default function SettingsScreen(props: Props): Node {
           navigation.push('notifications');
         }}
       />
-      <NestedNavRow
+      <InputRowRadioButtons
         icon={{ Component: IconLanguage }}
-        title="Language"
-        onPress={() => {
-          navigation.push('language');
+        navigation={navigation}
+        label="Language"
+        valueKey={language}
+        items={languages.map(l => ({
+          key: l.tag,
+          title: { text: '{_}', values: { _: l.selfname } },
+          subtitle: { text: '{_}', values: { _: l.name } },
+        }))}
+        onValueChange={value => {
+          dispatch(setGlobalSettings({ language: value }));
         }}
+        search
       />
       <NestedNavRow
         icon={{ Component: IconMoreHorizontal }}

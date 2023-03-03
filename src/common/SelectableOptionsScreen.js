@@ -95,8 +95,8 @@ export default function SelectableOptionsScreen<TItemKey: string | number>(
       ? items
       : items.filter(item => {
           // TODO: Is this the best way to filter? Where `title` and
-          //   `subtitle` are present, behavior is matched to the language
-          //   picker.
+          //   `subtitle` are present, behavior is matched to an old
+          //   implementation of the language picker.
 
           /* eslint-disable prefer-template */
           const itemData =

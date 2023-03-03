@@ -31,7 +31,6 @@ import PmConversationDetailsScreen from '../chat/PmConversationDetailsScreen';
 import SearchMessagesScreen from '../search/SearchMessagesScreen';
 import New1to1PmScreen from '../user-picker/New1to1PmScreen';
 import ChatScreen from '../chat/ChatScreen';
-import LanguageScreen from '../settings/LanguageScreen';
 import PasswordAuthScreen from '../start/PasswordAuthScreen';
 import LightboxScreen from '../lightbox/LightboxScreen';
 import NewGroupPmScreen from '../user-picker/NewGroupPmScreen';
@@ -67,7 +66,6 @@ export type AppNavigatorParamList = {|
   +'realm-input': RouteParamsOf<typeof RealmInputScreen>,
   +'search-messages': RouteParamsOf<typeof SearchMessagesScreen>,
   +'new-1to1-pm': RouteParamsOf<typeof New1to1PmScreen>,
-  +language: RouteParamsOf<typeof LanguageScreen>,
   +lightbox: RouteParamsOf<typeof LightboxScreen>,
   +'new-group-pm': RouteParamsOf<typeof NewGroupPmScreen>,
   +'invite-users': RouteParamsOf<typeof InviteUsersScreen>,
@@ -171,7 +169,6 @@ export default function AppNavigator(props: Props): Node {
         component={useHaveServerDataGate(SearchMessagesScreen)}
       />
       <Stack.Screen name="new-1to1-pm" component={useHaveServerDataGate(New1to1PmScreen)} />
-      <Stack.Screen name="language" component={useHaveServerDataGate(LanguageScreen)} />
       <Stack.Screen name="lightbox" component={useHaveServerDataGate(LightboxScreen)} />
       <Stack.Screen name="new-group-pm" component={useHaveServerDataGate(NewGroupPmScreen)} />
       <Stack.Screen name="invite-users" component={useHaveServerDataGate(InviteUsersScreen)} />
