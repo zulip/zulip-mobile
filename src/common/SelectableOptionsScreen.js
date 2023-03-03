@@ -11,6 +11,7 @@ import Screen from './Screen';
 import SelectableOptionRow from './SelectableOptionRow';
 import ZulipTextIntl from './ZulipTextIntl';
 import { createStyleSheet } from '../styles';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Item<TKey> = $ReadOnly<{|
   key: TKey,
@@ -55,6 +56,8 @@ type Props<TItemKey> = $ReadOnly<{|
       // variable. Better to offer this explicit, side-effect-free way for
       // the data to flow where it should, when it should.
       onRequestSelectionChange: (itemKey: TItemKey, requestedValue: boolean) => void,
+
+      search?: boolean,
     |},
   >,
 |}>;
@@ -82,7 +85,30 @@ export default function SelectableOptionsScreen<TItemKey: string | number>(
   props: Props<TItemKey>,
 ): Node {
   const { route } = props;
-  const { title, description, items, onRequestSelectionChange } = route.params;
+  const { title, description, items, onRequestSelectionChange, search } = route.params;
+
+  const _ = React.useContext(TranslationContext);
+
+  const [filter, setFilter] = React.useState('');
+  const filteredItems =
+    filter.trim() === ''
+      ? items
+      : items.filter(item => {
+          // TODO: Is this the best way to filter? Where `title` and
+          //   `subtitle` are present, behavior is matched to the language
+          //   picker.
+
+          /* eslint-disable prefer-template */
+          const itemData =
+            _(item.subtitle ?? { text: '{_}', values: { _: '' } }).toUpperCase()
+            + ' '
+            + _(item.title ?? { text: '{_}', values: { _: '' } }).toUpperCase();
+          /* eslint-enable prefer-template */
+
+          const filterData = filter.toUpperCase();
+
+          return itemData.includes(filterData);
+        });
 
   const styles = useMemo(
     () =>
@@ -93,13 +119,13 @@ export default function SelectableOptionsScreen<TItemKey: string | number>(
   );
 
   return (
-    <Screen title={title} scrollEnabled>
+    <Screen title={title} scrollEnabled search={search} searchBarOnChange={setFilter}>
       {description != null && (
         <View style={styles.descriptionWrapper}>
           <ZulipTextIntl text={description} />
         </View>
       )}
-      {items.map(item => (
+      {filteredItems.map(item => (
         <SelectableOptionRow
           key={item.key}
           itemKey={item.key}

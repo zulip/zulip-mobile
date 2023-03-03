@@ -55,6 +55,13 @@ type Props<TItemKey> = $ReadOnly<{|
   items: $ReadOnlyArray<Item<TItemKey>>,
 
   onValueChange: (newValue: TItemKey) => void,
+
+  /**
+   * Whether to offer a search bar at the top for filtering.
+   *
+   * The query is checked against items' `title` and `subtitle`.
+   */
+  search?: boolean,
 |}>;
 
 /**
@@ -71,7 +78,7 @@ type Props<TItemKey> = $ReadOnly<{|
 export default function InputRowRadioButtons<TItemKey: string | number>(
   props: Props<TItemKey>,
 ): Node {
-  const { navigation, label, description, valueKey, items, onValueChange } = props;
+  const { navigation, label, description, valueKey, items, onValueChange, search } = props;
 
   const screenKey: string = useRef(`selectable-options-${randString()}`).current;
 
@@ -97,8 +104,9 @@ export default function InputRowRadioButtons<TItemKey: string | number>(
         navigation.goBack();
         onValueChange(itemKey);
       },
+      search,
     }),
-    [navigation, label, description, items, valueKey, onValueChange],
+    [navigation, label, description, items, valueKey, onValueChange, search],
   );
 
   const handleRowPressed = useCallback(() => {
