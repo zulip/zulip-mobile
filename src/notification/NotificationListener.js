@@ -1,14 +1,22 @@
 /* @flow strict-local */
-import { DeviceEventEmitter, Platform } from 'react-native';
+import { DeviceEventEmitter, Platform, NativeModules, NativeEventEmitter } from 'react-native';
 import type { PushNotificationEventName } from '@react-native-community/push-notification-ios';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import invariant from 'invariant';
 
 import type { JSONableDict } from '../utils/jsonable';
 import type { GlobalDispatch } from '../types';
 import { androidGetToken, handleDeviceToken } from './notifTokens';
 import type { Notification } from './types';
 import * as logging from '../utils/logging';
+import { fromAPNs } from './extract';
 import { narrowToNotification } from './notifOpen';
+
+// TODO: Could go in a separate file, with some thin wrapper perhaps.
+const iosNativeEventEmitter =
+  Platform.OS === 'ios'
+    ? new NativeEventEmitter<{| +response: [JSONableDict] |}>(NativeModules.ZLPNotificationsEvents)
+    : null;
 
 /**
  * From ios/RNCPushNotificationIOS.m in @rnc/push-notification-ios at 1.2.2.
@@ -42,11 +50,26 @@ export default class NotificationListener {
   }
 
   /** Private. */
-  // prettier-ignore
   listenIOS(
     args:
-      {| +name: PushNotificationEventName, +handler: (...empty) => void | Promise<void> |}
+      | {| +name: PushNotificationEventName, +handler: (...empty) => void | Promise<void> |}
+      | {| +name: 'response', +handler: JSONableDict => void |},
   ) {
+    invariant(
+      iosNativeEventEmitter != null,
+      'NotificationListener: expected `iosNativeEventEmitter` in listenIOS',
+    );
+
+    if (args.name === 'response') {
+      const { name, handler } = args;
+      const sub = iosNativeEventEmitter.addListener(name, handler);
+      this.unsubs.push(() => sub.remove());
+      return;
+    }
+
+    // TODO: Use iosNativeEventEmitter (as above) instead of
+    //   PushNotificationIOS (as below) for all iOS events
+
     // In the native code, the PushNotificationEventName we pass here
     // is mapped to something else (see implementation):
     //
@@ -96,6 +119,16 @@ export default class NotificationListener {
       this.listenAndroid('notificationOpened', this.handleNotificationOpen);
       this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
+      this.listenIOS({
+        name: 'response',
+        handler: payload => {
+          const dataFromAPNs = fromAPNs(payload);
+          if (!dataFromAPNs) {
+            return;
+          }
+          this.handleNotificationOpen(dataFromAPNs);
+        },
+      });
       this.listenIOS({ name: 'register', handler: this.handleDeviceToken });
       this.listenIOS({ name: 'registrationError', handler: this.handleIOSRegistrationFailure });
     }

@@ -11,6 +11,9 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import "ExpoModulesCore-Swift.h"
+#import "ZulipMobile-Swift.h"
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -119,8 +122,9 @@
 didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler
 {
-  [RNCPushNotificationIOS didReceiveNotificationResponse:response];
-  completionHandler();
+  [ZLPNotificationsEvents userNotificationCenter:center
+                                      didReceive:response
+                           withCompletionHandler:completionHandler];
 }
 
 // Called when a notification is delivered to a foreground app.

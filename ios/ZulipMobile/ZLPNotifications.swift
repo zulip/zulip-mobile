@@ -1,6 +1,47 @@
 import Foundation
 import UIKit
 import React.RCTBridgeModule
+import React.RCTConvert
+import React.RCTEventEmitter
+
+@objc(ZLPNotificationsEvents)
+class ZLPNotificationsEvents: RCTEventEmitter {
+  static var currentInstance: ZLPNotificationsEvents? = nil
+
+  override func startObserving() -> Void {
+    super.startObserving()
+    ZLPNotificationsEvents.currentInstance = self
+  }
+
+  override func stopObserving() -> Void {
+    ZLPNotificationsEvents.currentInstance = nil
+    super.stopObserving()
+  }
+
+  @objc
+  override func supportedEvents() -> [String] {
+    return ["response"]
+  }
+
+  @objc
+  class func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: () -> Void
+  ) {
+    currentInstance?.sendEvent(
+      withName: "response",
+
+      // The RCTJSONClean was copied over from
+      // @react-native-community/push-notification-ios; possibly we don't
+      // need it.
+      body: RCTJSONClean(
+        response.notification.request.content.userInfo
+      )
+    )
+    completionHandler()
+  }
+}
 
 @objc(ZLPNotificationsStatus)
 class ZLPNotificationsStatus: NSObject {
