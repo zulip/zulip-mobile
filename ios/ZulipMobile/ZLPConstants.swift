@@ -3,15 +3,16 @@ import UIKit
 
 @objc(ZLPConstants)
 class ZLPConstants: NSObject {
-
-
   // For why we include this, see
   //   https://reactnative.dev/docs/0.68/native-modules-ios#exporting-constants
   @objc
   static func requiresMainQueueSetup() -> Bool {
-    // Initialization may be done on any thread; we don't need access to
-    // UIKit.
-    return false
+    // UIApplication, which we use in `constantsToExport`, is provided by
+    // UIKit. I think that means we should return `true` here. From the doc
+    // linked above:
+    // > If your module does not require access to UIKit, then you should
+    // > respond to `+ requiresMainQueueSetup` with NO.
+    return true
   }
 
   @objc
