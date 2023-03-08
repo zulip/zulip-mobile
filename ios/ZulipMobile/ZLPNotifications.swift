@@ -1,3 +1,7 @@
+import Foundation
+import UIKit
+import React.RCTBridgeModule
+
 @objc(ZLPNotifications)
 class ZLPNotifications: NSObject {
   // For why we include this, see
