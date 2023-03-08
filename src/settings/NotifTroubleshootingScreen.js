@@ -48,7 +48,7 @@ import { Role } from '../api/permissionsTypes';
 
 const {
   Notifications, // android
-  ZLPNotifications, // ios
+  ZLPNotificationsStatus, // ios
 } = NativeModules;
 
 type Props = $ReadOnly<{|
@@ -92,7 +92,7 @@ function useNativeState() {
     (async () => {
       const systemSettingsEnabled: boolean = await (Platform.OS === 'android'
         ? Notifications.areNotificationsEnabled()
-        : ZLPNotifications.areNotificationsAuthorized());
+        : ZLPNotificationsStatus.areNotificationsAuthorized());
       setResult(r => ({ ...r, systemSettingsEnabled }));
     })();
 

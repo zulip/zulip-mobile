@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 import React.RCTBridgeModule
 
-@objc(ZLPNotifications)
-class ZLPNotifications: NSObject {
+@objc(ZLPNotificationsStatus)
+class ZLPNotificationsStatus: NSObject {
   /// Whether the app can receive remote notifications.
   // Ideally we could subscribe to changes in this value, but there
   // doesn't seem to be an API for that. The caller can poll, e.g., by
