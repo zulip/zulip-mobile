@@ -8,7 +8,6 @@ import type { GlobalDispatch } from '../types';
 import { androidGetToken, handleDeviceToken } from './notifTokens';
 import type { Notification } from './types';
 import * as logging from '../utils/logging';
-import { fromPushNotificationIOS } from './extract';
 import { narrowToNotification } from './notifOpen';
 
 /**
@@ -92,13 +91,6 @@ export default class NotificationListener {
       this.listenAndroid('notificationOpened', this.handleNotificationOpen);
       this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
-      this.listenIOS('notification', (notification: PushNotificationIOS) => {
-        const dataFromAPNs = fromPushNotificationIOS(notification);
-        if (!dataFromAPNs) {
-          return;
-        }
-        this.handleNotificationOpen(dataFromAPNs);
-      });
       this.listenIOS('register', this.handleDeviceToken);
       this.listenIOS('registrationError', this.handleIOSRegistrationFailure);
     }
