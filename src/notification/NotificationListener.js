@@ -42,7 +42,11 @@ export default class NotificationListener {
   }
 
   /** Private. */
-  listenIOS(name: PushNotificationEventName, handler: (...empty) => void | Promise<void>) {
+  // prettier-ignore
+  listenIOS(
+    args:
+      {| +name: PushNotificationEventName, +handler: (...empty) => void | Promise<void> |}
+  ) {
     // In the native code, the PushNotificationEventName we pass here
     // is mapped to something else (see implementation):
     //
@@ -50,6 +54,7 @@ export default class NotificationListener {
     // 'localNotification' -> 'localNotificationReceived'
     // 'register'          -> 'remoteNotificationsRegistered'
     // 'registrationError' -> 'remoteNotificationRegistrationError'
+    const { name, handler } = args;
     PushNotificationIOS.addEventListener(name, handler);
     this.unsubs.push(() => PushNotificationIOS.removeEventListener(name));
   }
@@ -91,8 +96,8 @@ export default class NotificationListener {
       this.listenAndroid('notificationOpened', this.handleNotificationOpen);
       this.listenAndroid('remoteNotificationsRegistered', this.handleDeviceToken);
     } else {
-      this.listenIOS('register', this.handleDeviceToken);
-      this.listenIOS('registrationError', this.handleIOSRegistrationFailure);
+      this.listenIOS({ name: 'register', handler: this.handleDeviceToken });
+      this.listenIOS({ name: 'registrationError', handler: this.handleIOSRegistrationFailure });
     }
 
     if (Platform.OS === 'android') {
