@@ -215,12 +215,13 @@ export default function NotificationsScreen(props: Props): Node {
                   ? {
                       icon: { Component: IconAlertTriangle, color: kWarningColor },
                       subtitle: {
-                        text: `\
-{problemAccountsCount, plural,
-  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}
-  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}
-}`,
-                        values: { problemAccountsCount },
+                        text: '{_}',
+                        values: {
+                          _:
+                            problemAccountsCount === 1
+                              ? `Notifications for ${problemAccountsCount} other logged-in account may not arrive.`
+                              : `Notifications for ${problemAccountsCount} other logged-in accounts may not arrive.`,
+                        },
                       },
                     }
                   : undefined;

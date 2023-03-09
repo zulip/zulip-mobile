@@ -192,10 +192,18 @@ function main() {
 
   const possibleUiStrings = getPossibleUiStrings(getPossibleUiStringFilePaths());
 
+  const ignoreDanglingMessageIds = new Set([
+    // Just for the cherry-pick release v27.202, we removed these messages
+    // from the UI component tree; let them dangle.
+    '{num_of_people, plural,\n  one {This message has been <z-link>read</z-link> by {num_of_people} person:}\n  other {This message has been <z-link>read</z-link> by {num_of_people} people:}}',
+    '{problemAccountsCount, plural,\n  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}\n  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}\n}',
+    '{unreadCount, plural,\n  one {{unreadCount} unread message}\n  other {{unreadCount} unread messages}\n}',
+  ]);
+
   // Check each key ("message ID" in formatjs's lingo) against
   // possibleUiStrings, and make a list of any that aren't found.
   const danglingMessageIds = Object.keys(messages_en).filter(
-    messageId => !possibleUiStrings.has(messageId),
+    messageId => !possibleUiStrings.has(messageId) && !ignoreDanglingMessageIds.has(messageId),
   );
 
   if (danglingMessageIds.length > 0) {
