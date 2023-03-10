@@ -6,7 +6,7 @@ import { View, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import useFetchedDataWithRefresh from '../common/useFetchedDataWithRefresh';
-import ZulipText from '../common/ZulipText';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 import { useGlobalSelector, useSelector } from '../react-redux';
 import * as api from '../api';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -22,6 +22,7 @@ import type { UserId } from '../api/idTypes';
 import { getGlobalSettings } from '../directSelectors';
 import type { UserOrBot } from '../api/modelTypes';
 import LoadingIndicator from '../common/LoadingIndicator';
+import WebLink from '../common/WebLink';
 import { createStyleSheet } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -122,14 +123,26 @@ export default function ReadReceiptsScreen(props: Props): Node {
     [onPressUser],
   );
 
-  const summaryText = useMemo(
+  const localizableSummaryText = useMemo(
     () =>
       displayUserIds.length > 0
-        ? displayUserIds.length === 1
-          ? `This message has been read by ${displayUserIds.length} person:`
-          : `This message has been read by ${displayUserIds.length} people:`
+        ? {
+            // This is actually the same string as in the web app; see where
+            // that's set in static/js/read_receipts.js
+            text: `\
+{num_of_people, plural,
+  one {This message has been <z-link>read</z-link> by {num_of_people} person:}
+  other {This message has been <z-link>read</z-link> by {num_of_people} people:}\
+}`,
+            values: {
+              num_of_people: displayUserIds.length,
+              'z-link': chunks => (
+                <WebLink url={new URL('/help/read-receipts', auth.realm)}>{chunks}</WebLink>
+              ),
+            },
+          }
         : 'No one has read this message yet.',
-    [displayUserIds.length],
+    [auth.realm, displayUserIds.length],
   );
 
   const styles = useMemo(
@@ -146,7 +159,7 @@ export default function ReadReceiptsScreen(props: Props): Node {
       {latestSuccessResult ? (
         <View style={styles.flex1}>
           <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.summaryTextWrapper}>
-            <ZulipText text={summaryText} />
+            <ZulipTextIntl text={localizableSummaryText} />
           </SafeAreaView>
           <FlatList style={styles.flex1} data={displayUserIds} renderItem={renderItem} />
         </View>
