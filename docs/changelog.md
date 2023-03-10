@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.202 (2023-03-10)
+
 This is an iOS-only stable release in the v27.201 series, with a bugfix
 atop v27.201.
 
