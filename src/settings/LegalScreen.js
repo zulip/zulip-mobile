@@ -72,6 +72,8 @@ type Props = $ReadOnly<{|
   route: RouteProp<'legal', void>,
 |}>;
 
+const zulipPoliciesUrl = new URL('https://zulip.com/policies/?nav=no');
+
 /**
  * A global, all-accounts screen linking to terms for all realms we know about.
  */
@@ -81,12 +83,17 @@ export default function LegalScreen(props: Props): Node {
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
   const openZulipPolicies = useCallback(() => {
-    openLinkWithUserPreference(new URL('https://zulip.com/policies/?nav=no'), globalSettings);
+    openLinkWithUserPreference(zulipPoliciesUrl, globalSettings);
   }, [globalSettings]);
 
   return (
     <Screen title="Legal">
-      <NavRow title="Zulip terms" onPress={openZulipPolicies} type="external" />
+      <NavRow
+        title="Zulip terms"
+        subtitle={{ text: '{_}', values: { _: zulipPoliciesUrl.toString() } }}
+        onPress={openZulipPolicies}
+        type="external"
+      />
       {viewModel.map(({ realm, name, policiesUrl }) => (
         <NavRow
           key={realm.toString()}
