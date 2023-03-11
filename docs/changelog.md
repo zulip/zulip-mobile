@@ -40,6 +40,14 @@ It doesn't include
 ## Unreleased
 
 
+## 27.203 (2023-03-10)
+
+### Highlights for users
+
+This release is identical to version v27.201, except we've now correctly
+marked the app as requiring iOS 14+.
+
+
 ## 27.202 (2023-03-10)
 
 This is an iOS-only stable release in the v27.201 series, with a bugfix
