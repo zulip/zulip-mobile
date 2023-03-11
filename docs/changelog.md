@@ -40,6 +40,26 @@ It doesn't include
 ## Unreleased
 
 
+## 27.203 (2023-03-10)
+
+### Highlights for users
+
+This release is identical to version v27.201, except we've now correctly
+marked the app as requiring iOS 14+.
+
+
+## 27.202 (2023-03-10)
+
+This is an iOS-only stable release in the v27.201 series, with a bugfix
+atop v27.201.
+
+### Highlights for users
+
+* (iOS) Fixed a bug on devices running iOS 12 where the unread notice would
+  show nonsense instead of the number of unread messages. (#5670)
+
+Note: This will be the last release to support iOS 12 and 13.
+
 ## 27.201 (2023-02-17)
 
 ### Highlights for users
