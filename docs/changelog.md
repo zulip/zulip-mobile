@@ -39,6 +39,19 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Fixed a bug where tapping a notification wouldn't bring you to the
+  conversation. (#5679)
+* Fixed a bug where the app wouldn't work if your email address contained
+  diacritics or characters from non-Latin scripts. (PR #5178)
+
+### Highlights for developers
+
+* We've adapted the topic-mute model to the new `user_topic` API. (#5380)
+
+* Resolved issues: #5679, #5380, PR #5178
+
 
 ## 27.203 (2023-03-10)
 
