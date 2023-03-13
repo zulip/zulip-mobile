@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.204 (2023-03-13)
+
 ### Highlights for users
 
 * (iOS) Fixed a bug where tapping a notification wouldn't bring you to the
