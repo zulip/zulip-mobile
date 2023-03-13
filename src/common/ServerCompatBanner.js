@@ -19,7 +19,7 @@ import { Role } from '../api/permissionsTypes';
 // TODO: Instead, link to new Help Center doc once we have it:
 //   https://github.com/zulip/zulip/issues/23842
 export const kServerSupportDocUrl: URL = new URL(
-  'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+  'https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#compatibility-and-upgrading',
 );
 
 /**
