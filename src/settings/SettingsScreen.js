@@ -25,7 +25,7 @@ import { setGlobalSettings } from '../actions';
 import { shouldUseInAppBrowser } from '../utils/openLink';
 import TextRow from '../common/TextRow';
 import { getIdentity, getServerVersion } from '../account/accountsSelectors';
-import { kMinSupportedVersion } from '../common/ServerCompatBanner';
+import { kMinSupportedVersion, kServerSupportDocUrl } from '../common/ServerCompatBanner';
 import { kWarningColor } from '../styles/constants';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -145,14 +145,7 @@ export default function SettingsScreen(props: Props): Node {
                   minSupportedVersion: kMinSupportedVersion.raw(),
                 },
               }),
-              {
-                url: new URL(
-                  // TODO: Instead, link to new Help Center doc once we have it:
-                  //   https://github.com/zulip/zulip/issues/23842
-                  'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
-                ),
-                globalSettings,
-              },
+              { url: kServerSupportDocUrl, globalSettings },
             );
           },
         })}

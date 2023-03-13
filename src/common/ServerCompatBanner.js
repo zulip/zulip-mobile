@@ -14,10 +14,18 @@ import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 
 /**
+ * The doc stating our oldest supported server version.
+ */
+// TODO: Instead, link to new Help Center doc once we have it:
+//   https://github.com/zulip/zulip/issues/23842
+export const kServerSupportDocUrl: URL = new URL(
+  'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
+);
+
+/**
  * The oldest version we currently support.
  *
- * Should match what we say at:
- *   https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading
+ * Should match what we say at kServerSupportDocUrl.
  *
  * See also kMinAllowedServerVersion in apiErrors.js, for the version below
  * which we just refuse to connect.
@@ -98,14 +106,7 @@ export default function ServerCompatBanner(props: Props): Node {
           id: 'learn-more',
           label: 'Learn more',
           onPress: () => {
-            openLinkWithUserPreference(
-              // TODO: Instead, link to new Help Center doc once we have it:
-              //   https://github.com/zulip/zulip/issues/23842
-              new URL(
-                'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
-              ),
-              settings,
-            );
+            openLinkWithUserPreference(kServerSupportDocUrl, settings);
           },
         },
       ]}

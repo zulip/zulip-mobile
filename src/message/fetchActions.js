@@ -38,7 +38,11 @@ import { ALL_PRIVATE_NARROW, apiNarrowOfNarrow, caseNarrow, topicNarrow } from '
 import { BackoffMachine, promiseTimeout, TimeoutError } from '../utils/async';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import type { ServerSettings } from '../api/settings/getServerSettings';
-import { kMinSupportedVersion, kNextMinSupportedVersion } from '../common/ServerCompatBanner';
+import {
+  kMinSupportedVersion,
+  kNextMinSupportedVersion,
+  kServerSupportDocUrl,
+} from '../common/ServerCompatBanner';
 
 const messageFetchStart = (
   narrow: Narrow,
@@ -400,13 +404,7 @@ export async function fetchServerSettings(realm: URL): Promise<
           minSupportedVersion: kMinSupportedVersion.raw(),
         },
       };
-      learnMoreButton = {
-        url: new URL(
-          // TODO: Instead, link to new Help Center doc once we have it:
-          //   https://github.com/zulip/zulip/issues/23842
-          'https://zulip.readthedocs.io/en/stable/overview/release-lifecycle.html#compatibility-and-upgrading',
-        ),
-      };
+      learnMoreButton = { url: kServerSupportDocUrl };
       logging.setTagsFromServerVersion(error.version);
       logging.error(error, {
         kMinAllowedServerVersion: kMinAllowedServerVersion.raw(),
