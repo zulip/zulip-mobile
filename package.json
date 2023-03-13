@@ -32,7 +32,7 @@
     "@react-navigation/bottom-tabs": "npm:@zulip/react-navigation-bottom-tabs@5.11.16-0.zulip.1",
     "@react-navigation/material-top-tabs": "^5.2.19",
     "@react-navigation/native": "^5.7.6",
-    "@react-navigation/stack": "^5.9.3",
+    "@react-navigation/stack": "npm:@zulip/react-navigation-stack@5.14.10-0.zulip.1",
     "@sentry/react-native": "^3.1.1",
     "@zulip/shared": "0.0.18",
     "base-64": "^1.0.0",
