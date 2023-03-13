@@ -46,6 +46,10 @@ It doesn't include
 * Fixed a bug where the app wouldn't work if your email address contained
   diacritics or characters from non-Latin scripts. (PR #5178)
 
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
 ### Highlights for developers
 
 * We've adapted the topic-mute model to the new `user_topic` API. (#5380)
