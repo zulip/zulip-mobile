@@ -45,7 +45,7 @@ export default function PasswordInput(props: Props): Node {
 
   return (
     <View>
-      <Input {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none"  type="password"/>
+      <Input type="password" {...props} secureTextEntry={isHidden} autoCorrect={false} autoCapitalize="none"/>
       <Touchable style={styles.showPasswordButton} onPress={handleShow}>
         <ZulipTextIntl style={styles.showPasswordButtonText} text={isHidden ? 'show' : 'hide'} />
       </Touchable>
