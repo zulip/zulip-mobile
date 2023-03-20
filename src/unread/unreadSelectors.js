@@ -161,7 +161,6 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         unread: 0,
         data: [],
       };
-      totals.set(streamId, total);
 
       for (const [topic, msgIds] of streamData) {
         if (isTopicMuted(streamId, topic, mute)) {
@@ -177,6 +176,11 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
           lastUnreadMsgId: msgIds.last(),
         });
       }
+      if (total.data.length === 0) {
+        continue;
+      }
+
+      totals.set(streamId, total);
     }
 
     const sortedStreams = Array.from(totals.values())
@@ -187,7 +191,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       stream.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
     });
 
-    return sortedStreams.filter(stream => stream.data.length > 0);
+    return sortedStreams;
   },
 );
 
