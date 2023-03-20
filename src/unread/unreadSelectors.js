@@ -147,6 +147,9 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } =
         subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
 
+      if (!in_home_view) {
+        continue;
+      }
       const total = {
         key: `stream:${streamId}`,
         streamId,
@@ -163,9 +166,10 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
 
       for (const [topic, msgIds] of streamData) {
         const isMuted = isTopicMuted(streamId, topic, mute);
-        if (!isMuted) {
-          total.unread += msgIds.size;
+        if (isMuted) {
+          continue;
         }
+        total.unread += msgIds.size;
         const isMentioned = msgIds.some(id => unreadMsgIds.has(id));
         total.data.push({
           key: topic,
@@ -186,12 +190,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       stream.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
     });
 
-    return sortedStreams
-      .map(stream => ({
-        ...stream,
-        data: stream.data.filter(topic => !topic.isMuted),
-      }))
-      .filter(stream => !stream.isMuted && stream.data.length > 0);
+    return sortedStreams.filter(stream => stream.data.length > 0);
   },
 );
 
