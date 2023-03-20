@@ -180,18 +180,13 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         continue;
       }
 
+      total.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
       totals.set(streamId, total);
     }
 
-    const sortedStreams = Array.from(totals.values())
+    return Array.from(totals.values())
       .sort((a, b) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
       .sort((a, b) => +b.isPinned - +a.isPinned);
-
-    sortedStreams.forEach(stream => {
-      stream.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
-    });
-
-    return sortedStreams;
   },
 );
 
