@@ -150,25 +150,16 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       if (!in_home_view) {
         continue;
       }
-      const total = {
-        key: `stream:${streamId}`,
-        streamId,
-        streamName: name,
-        isPrivate: invite_only,
-        isPinned: pin_to_top,
-        isWebPublic: is_web_public,
-        color,
-        unread: 0,
-        data: [],
-      };
 
+      let totalUnread = 0;
+      const topics = [];
       for (const [topic, msgIds] of streamData) {
         if (isTopicMuted(streamId, topic, mute)) {
           continue;
         }
-        total.unread += msgIds.size;
+        totalUnread += msgIds.size;
         const isMentioned = msgIds.some(id => unreadMsgIds.has(id));
-        total.data.push({
+        topics.push({
           key: topic,
           topic,
           unread: msgIds.size,
@@ -176,12 +167,22 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
           lastUnreadMsgId: msgIds.last(),
         });
       }
-      if (total.data.length === 0) {
+      if (topics.length === 0) {
         continue;
       }
 
-      total.data.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
-      totals.set(streamId, total);
+      topics.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
+      totals.set(streamId, {
+        key: `stream:${streamId}`,
+        streamId,
+        streamName: name,
+        isPrivate: invite_only,
+        isPinned: pin_to_top,
+        isWebPublic: is_web_public,
+        color,
+        unread: totalUnread,
+        data: topics,
+      });
     }
 
     return Array.from(totals.values())
