@@ -23,7 +23,7 @@ import {
   caseNarrow,
   streamIdOfNarrow,
 } from '../utils/narrow';
-import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
+import { getMute, isTopicVisibleInStream, isTopicVisible } from '../mute/muteModel';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
 import { getStreamsById, getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
@@ -115,14 +115,12 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             const sub = subscriptions.get(message.stream_id);
             if (!sub) {
               // If there's no matching subscription, then the user must have
-              // unsubscribed from the stream since the message was received.  Leave
-              // those messages out of this view, just like for a muted stream.
+              // unsubscribed from the stream since the message was received.
+              // Leave those messages out of this view, just as we would if
+              // the user had muted the stream (without unmuting topics).
               return false;
             }
-            return (
-              sub.in_home_view
-              && isTopicVisibleInStream(message.stream_id, message.subject, mute)
-            );
+            return isTopicVisible(message.stream_id, message.subject, sub, mute);
           }),
 
         stream: _ =>

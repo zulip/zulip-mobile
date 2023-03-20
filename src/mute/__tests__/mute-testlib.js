@@ -16,13 +16,23 @@ export const makeUserTopic = (
   last_updated: 12345, // arbitrary value; we ignore last_updated here
 });
 
-export const makeMuteState = (data: $ReadOnlyArray<[Stream, string]>): MuteState =>
+/**
+ * Convenience constructor for a MuteState.
+ *
+ * The tuples are (stream, topic, policy).
+ * The policy defaults to UserTopicVisibilityPolicy.Muted.
+ */
+export const makeMuteState = (
+  data: $ReadOnlyArray<[Stream, string] | [Stream, string, UserTopicVisibilityPolicy]>,
+): MuteState =>
   reducer(
     undefined,
     eg.mkActionRegisterComplete({
-      user_topics: data.map(([stream, topic]) =>
-        makeUserTopic(stream, topic, UserTopicVisibilityPolicy.Muted),
-      ),
+      user_topics: data.map(args => {
+        // $FlowIgnore[invalid-tuple-index]: we're supplying a default
+        const [stream, topic, policy = UserTopicVisibilityPolicy.Muted] = args;
+        return makeUserTopic(stream, topic, policy);
+      }),
     }),
     eg.reduxState(),
   );

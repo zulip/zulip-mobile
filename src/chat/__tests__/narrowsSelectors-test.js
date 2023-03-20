@@ -23,6 +23,7 @@ import {
 import { NULL_SUBSCRIPTION } from '../../nullObjects';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
+import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
 
 describe('getMessagesForNarrow', () => {
   const message = eg.streamMessage({ id: 123 });
@@ -96,6 +97,7 @@ describe('getShownMessagesForNarrow', () => {
   const subscription = eg.subscription;
   const mutedSubscription = { ...subscription, in_home_view: false };
   const muteTopic = makeMuteState([[stream, message.subject]]);
+  const unmuteTopic = makeMuteState([[stream, message.subject, UserTopicVisibilityPolicy.Unmuted]]);
 
   const makeStateGeneral = (message, narrow, extra) =>
     eg.reduxStatePlus({
@@ -124,6 +126,12 @@ describe('getShownMessagesForNarrow', () => {
 
     test('stream message hidden if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(false);
+    });
+
+    test('stream message shown if topic unmuted, even though stream muted', () => {
+      expect(shown(makeState({ subscriptions: [mutedSubscription], mute: unmuteTopic }))).toEqual(
+        true,
+      );
     });
 
     test('stream message hidden if topic muted', () => {

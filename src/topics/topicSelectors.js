@@ -6,7 +6,7 @@ import { getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
-import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
+import { getMute, isTopicVisible } from '../mute/muteModel';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
@@ -36,13 +36,14 @@ export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number
       return undefined;
     }
 
-    // If we're looking at a stream the user isn't subscribed to, then
-    // they won't see unreads from it even if they somehow have
-    // individual topics set to unmuted.  So effectively it's all muted.
-    const streamMuted = subscription ? !subscription.in_home_view : true;
-
     return topicList.map(({ name, max_id }): TopicExtended => {
-      const isMuted = streamMuted || !isTopicVisibleInStream(streamId, name, mute);
+      // prettier-ignore
+      const isMuted = subscription
+        ? !isTopicVisible(streamId, name, subscription, mute)
+        // If we're looking at a stream the user isn't subscribed to, then
+        // they won't see unreads from it even if they somehow have
+        // individual topics set to unmuted.  So effectively it's all muted.
+        : true;
       const unreadCount = getUnreadCountForTopic(unread, streamId, name);
       return { name, max_id, isMuted, unreadCount };
     });

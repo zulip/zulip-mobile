@@ -653,6 +653,7 @@ export const constructTopicActionButtons = (args: {|
         buttons.push(unmuteTopic);
         break;
       case UserTopicVisibilityPolicy.None:
+      case UserTopicVisibilityPolicy.Unmuted:
         buttons.push(muteTopic);
         break;
     }

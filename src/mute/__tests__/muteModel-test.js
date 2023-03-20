@@ -2,7 +2,13 @@
 import deepFreeze from 'deep-freeze';
 
 import fullReducer from '../../boot/reducers';
-import { getMute, getTopicVisibilityPolicy, isTopicVisibleInStream, reducer } from '../muteModel';
+import {
+  getMute,
+  getTopicVisibilityPolicy,
+  isTopicVisible,
+  isTopicVisibleInStream,
+  reducer,
+} from '../muteModel';
 import { EVENT, EVENT_MUTED_TOPICS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeMuteState, makeUserTopic } from './mute-testlib';
@@ -31,6 +37,13 @@ describe('getters', () => {
     test('with topic muted', () => {
       check(makeMuteState([[eg.stream, 'topic']]), UserTopicVisibilityPolicy.Muted);
     });
+
+    test('with topic unmuted', () => {
+      check(
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Unmuted]]),
+        UserTopicVisibilityPolicy.Unmuted,
+      );
+    });
   });
 
   describe('isTopicVisibleInStream', () => {
@@ -49,6 +62,44 @@ describe('getters', () => {
     test('with topic muted', () => {
       check(makeMuteState([[eg.stream, 'topic']]), false);
     });
+
+    test('with topic unmuted', () => {
+      check(makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Unmuted]]), true);
+    });
+  });
+
+  describe('isTopicVisible', () => {
+    function check(streamMuted, topicPolicy, expected) {
+      const subscription = { ...eg.subscription, in_home_view: !streamMuted };
+      const state = makeMuteState(
+        topicPolicy === UserTopicVisibilityPolicy.None ? [] : [[eg.stream, 'topic', topicPolicy]],
+      );
+      expect(isTopicVisible(eg.stream.stream_id, 'topic', subscription, state)).toEqual(expected);
+    }
+
+    test('stream unmuted, topic-policy None', () => {
+      check(false, UserTopicVisibilityPolicy.None, true);
+    });
+
+    test('stream unmuted, topic-policy Muted', () => {
+      check(false, UserTopicVisibilityPolicy.Muted, false);
+    });
+
+    test('stream unmuted, topic-policy Unmuted', () => {
+      check(false, UserTopicVisibilityPolicy.Unmuted, true);
+    });
+
+    test('stream muted, topic-policy None', () => {
+      check(true, UserTopicVisibilityPolicy.None, false);
+    });
+
+    test('stream muted, topic-policy Muted', () => {
+      check(true, UserTopicVisibilityPolicy.Muted, false);
+    });
+
+    test('stream muted, topic-policy Unmuted', () => {
+      check(true, UserTopicVisibilityPolicy.Unmuted, true);
+    });
   });
 });
 
@@ -56,10 +107,16 @@ describe('reducer', () => {
   describe('REGISTER_COMPLETE', () => {
     test('in modern user_topics format: unit test', () => {
       const action = eg.mkActionRegisterComplete({
-        user_topics: [makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted)],
+        user_topics: [
+          makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted),
+          makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted),
+        ],
       });
       expect(reducer(initialState, action, eg.plusReduxState)).toEqual(
-        makeMuteState([[eg.stream, 'topic']]),
+        makeMuteState([
+          [eg.stream, 'topic', UserTopicVisibilityPolicy.Muted],
+          [eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted],
+        ]),
       );
     });
 
@@ -67,11 +124,19 @@ describe('reducer', () => {
       const action = eg.mkActionRegisterComplete({
         streams: [eg.stream],
         subscriptions: [eg.subscription],
-        user_topics: [makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted)],
+        user_topics: [
+          makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted),
+          makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted),
+        ],
       });
       const newState = tryGetActiveAccountState(fullReducer(eg.plusReduxState, action));
       expect(newState).toBeTruthy();
-      expect(newState && getMute(newState)).toEqual(makeMuteState([[eg.stream, 'topic']]));
+      expect(newState && getMute(newState)).toEqual(
+        makeMuteState([
+          [eg.stream, 'topic', UserTopicVisibilityPolicy.Muted],
+          [eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted],
+        ]),
+      );
     });
 
     test('in old muted_topics format: unit test', () => {
@@ -117,18 +182,34 @@ describe('reducer', () => {
       check(
         initialState,
         makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted),
-        makeMuteState([[eg.stream, 'topic']]),
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Muted]]),
       );
     });
 
     test('add in existing stream', () => {
       check(
-        makeMuteState([[eg.stream, 'topic']]),
-        makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Muted),
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Muted]]),
+        makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted),
         makeMuteState([
-          [eg.stream, 'topic'],
-          [eg.stream, 'other topic'],
+          [eg.stream, 'topic', UserTopicVisibilityPolicy.Muted],
+          [eg.stream, 'other topic', UserTopicVisibilityPolicy.Unmuted],
         ]),
+      );
+    });
+
+    test('change Muted -> Unmuted', () => {
+      check(
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Muted]]),
+        makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Unmuted),
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Unmuted]]),
+      );
+    });
+
+    test('change Unmuted -> Muted', () => {
+      check(
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Unmuted]]),
+        makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted),
+        makeMuteState([[eg.stream, 'topic', UserTopicVisibilityPolicy.Muted]]),
       );
     });
 

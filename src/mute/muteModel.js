@@ -1,7 +1,12 @@
 /* @flow strict-local */
 import Immutable from 'immutable';
 
-import type { MuteState, PerAccountApplicableAction, PerAccountState } from '../types';
+import type {
+  MuteState,
+  PerAccountApplicableAction,
+  PerAccountState,
+  Subscription,
+} from '../types';
 import { UserTopicVisibilityPolicy } from '../api/modelTypes';
 import { EventTypes } from '../api/eventTypes';
 import {
@@ -40,7 +45,14 @@ export function getTopicVisibilityPolicy(
  * Whether this topic should appear when already focusing on its stream.
  *
  * This is false if the user's visibility policy for the topic is Muted,
- * and true if the policy is None.
+ * and true if the policy is Unmuted or None.
+ *
+ * This function is appropriate for muting calculations in UI contexts that
+ * are already specific to a stream: for example the stream's unread count,
+ * or the message list in the stream's narrow.
+ *
+ * For UI contexts that are not specific to a particular stream, see
+ * `isTopicVisible`.
  */
 export function isTopicVisibleInStream(streamId: number, topic: string, mute: MuteState): boolean {
   const policy = getTopicVisibilityPolicy(mute, streamId, topic);
@@ -49,6 +61,35 @@ export function isTopicVisibleInStream(streamId: number, topic: string, mute: Mu
       return true;
     case UserTopicVisibilityPolicy.Muted:
       return false;
+    case UserTopicVisibilityPolicy.Unmuted:
+      return true;
+  }
+}
+
+/**
+ * Whether this topic should appear when not specifically focusing on this stream.
+ *
+ * This takes into account the user's visibility policy for the stream
+ * overall, as well as their policy for this topic.
+ *
+ * For UI contexts that are specific to a particular stream, see
+ * `isTopicVisibleInStream`.
+ */
+export function isTopicVisible(
+  streamId: number,
+  topic: string,
+  subscription: Subscription,
+  mute: MuteState,
+): boolean {
+  switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
+    case UserTopicVisibilityPolicy.None: {
+      const streamMuted = !subscription.in_home_view;
+      return !streamMuted;
+    }
+    case UserTopicVisibilityPolicy.Muted:
+      return false;
+    case UserTopicVisibilityPolicy.Unmuted:
+      return true;
   }
 }
 

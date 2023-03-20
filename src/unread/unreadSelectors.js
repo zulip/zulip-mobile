@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { Narrow, Selector } from '../types';
 import type { UnreadStreamItem } from './UnreadCards';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
-import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
+import { getMute, isTopicVisibleInStream, isTopicVisible } from '../mute/muteModel';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById, getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { caseNarrow } from '../utils/narrow';
@@ -158,16 +158,12 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         continue;
       }
 
-      const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } = subscription;
-
-      if (!in_home_view) {
-        continue;
-      }
+      const { name, color, invite_only, pin_to_top, is_web_public } = subscription;
 
       let totalUnread = 0;
       const topics = [];
       for (const [topic, msgIds] of streamData) {
-        if (!isTopicVisibleInStream(streamId, topic, mute)) {
+        if (!isTopicVisible(streamId, topic, subscription, mute)) {
           continue;
         }
         totalUnread += msgIds.size;
