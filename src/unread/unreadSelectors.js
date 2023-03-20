@@ -141,7 +141,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
   getMute,
   getUnreadMentions,
   (subscriptionsById, unreadStreams, mute, unreadMentions) => {
-    const totals = new Map();
+    const result = [];
     const unreadMsgIds = new Set(unreadMentions);
     for (const [streamId, streamData] of unreadStreams.entries()) {
       const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } =
@@ -172,7 +172,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       }
 
       topics.sort((a, b) => b.lastUnreadMsgId - a.lastUnreadMsgId);
-      totals.set(streamId, {
+      result.push({
         key: `stream:${streamId}`,
         streamId,
         streamName: name,
@@ -185,9 +185,10 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       });
     }
 
-    return Array.from(totals.values())
-      .sort((a, b) => caseInsensitiveCompareFunc(a.streamName, b.streamName))
-      .sort((a, b) => +b.isPinned - +a.isPinned);
+    result.sort((a, b) => caseInsensitiveCompareFunc(a.streamName, b.streamName));
+    result.sort((a, b) => +b.isPinned - +a.isPinned);
+
+    return result;
   },
 );
 
