@@ -8,7 +8,6 @@ import { getMute, isTopicMuted } from '../mute/muteModel';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById, getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { caseNarrow } from '../utils/narrow';
-import { NULL_SUBSCRIPTION } from '../nullObjects';
 import {
   getUnread,
   getUnreadPms,
@@ -145,8 +144,21 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
     const result = [];
     const unreadMsgIds = new Set(unreadMentions);
     for (const [streamId, streamData] of unreadStreams.entries()) {
-      const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } =
-        subscriptionsById.get(streamId) || NULL_SUBSCRIPTION;
+      const subscription = subscriptionsById.get(streamId);
+      if (!subscription) {
+        // We have a loose invariant that you can't have unreads in a stream
+        // you're not subscribed to.  It's "loose" because when you unsubscribe
+        // from a stream you had unreads in, the server only asynchronously
+        // marks them as read:
+        //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/unreads.20in.20unsubscribed.20streams/near/1456534
+        // In the UI, though, we generally want to fix things up so that
+        // it's as if the invariant were a real invariant.  So if we find
+        // some supposed "unreads" in a stream with no subscription,
+        // avert our eyes; those "unread" records don't count.
+        continue;
+      }
+
+      const { name, color, in_home_view, invite_only, pin_to_top, is_web_public } = subscription;
 
       if (!in_home_view) {
         continue;

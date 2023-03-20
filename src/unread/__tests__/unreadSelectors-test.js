@@ -365,6 +365,14 @@ describe('getUnreadStreamsAndTopics', () => {
     ]);
   });
 
+  test('streams with no subscription are not included', () => {
+    const state = eg.reduxStatePlus({
+      subscriptions: [],
+      unread: unreadState,
+    });
+    expect(getUnreadStreamsAndTopics(state)).toEqual([]);
+  });
+
   test('muted streams are not included', () => {
     const state = eg.reduxStatePlus({
       subscriptions: subscriptions.map(s => ({ ...s, in_home_view: false })),
