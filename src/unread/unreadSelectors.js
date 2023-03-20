@@ -154,7 +154,6 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
         key: `stream:${streamId}`,
         streamId,
         streamName: name,
-        isMuted: !in_home_view,
         isPrivate: invite_only,
         isPinned: pin_to_top,
         isWebPublic: is_web_public,
@@ -165,8 +164,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       totals.set(streamId, total);
 
       for (const [topic, msgIds] of streamData) {
-        const isMuted = isTopicMuted(streamId, topic, mute);
-        if (isMuted) {
+        if (isTopicMuted(streamId, topic, mute)) {
           continue;
         }
         total.unread += msgIds.size;
@@ -177,7 +175,6 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
           unread: msgIds.size,
           isMentioned,
           lastUnreadMsgId: msgIds.last(),
-          isMuted,
         });
       }
     }

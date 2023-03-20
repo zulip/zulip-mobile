@@ -28,7 +28,6 @@ export type UnreadStreamItem = {|
   streamName: string,
   unread: number,
   color: string,
-  isMuted: boolean,
   isPinned: boolean,
   isPrivate: boolean,
   isWebPublic: boolean | void,
@@ -37,7 +36,6 @@ export type UnreadStreamItem = {|
     topic: string,
     isMentioned: boolean,
     unread: number,
-    isMuted: boolean,
     lastUnreadMsgId: number,
   |}>,
 |};
@@ -90,7 +88,7 @@ export default function UnreadCards(props: Props): Node {
             iconSize={16}
             isCollapsed={collapsedStreamIds.has(section.streamId)}
             handleExpandCollapse={handleExpandCollapse}
-            isMuted={section.isMuted}
+            isMuted={false}
             isPrivate={section.isPrivate}
             isWebPublic={section.isWebPublic}
             backgroundColor={section.color}
@@ -108,7 +106,7 @@ export default function UnreadCards(props: Props): Node {
           <TopicItem
             streamId={section.streamId}
             name={item.topic}
-            isMuted={section.isMuted || item.isMuted}
+            isMuted={false}
             isSelected={false}
             unreadCount={item.unread}
             isMentioned={item.isMentioned}
