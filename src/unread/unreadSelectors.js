@@ -125,8 +125,8 @@ export const getUnreadTotal: Selector<number> = createSelector(
     unreadStreamTotal + unreadPmsTotal + unreadHuddlesTotal + mentionsTotal,
 );
 
-/** Helper for getUnreadStreamsAndTopicsSansMuted; see there. */
-export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem>> = createSelector(
+/** Helper for getUnreadStreamsAndTopics; see there. */
+const getUnreadStreamsAndTopicsInner: Selector<$ReadOnlyArray<UnreadStreamItem>> = createSelector(
   getSubscriptionsById,
   getUnreadStreams,
   getMute,
@@ -191,15 +191,16 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
  * contains in `.data` an array with an element for each unmuted topic that
  * has unreads.
  */
-export const getUnreadStreamsAndTopicsSansMuted: Selector<$ReadOnlyArray<UnreadStreamItem>> =
-  createSelector(getUnreadStreamsAndTopics, unreadStreamsAndTopics =>
+export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem>> = createSelector(
+  getUnreadStreamsAndTopicsInner,
+  unreadStreamsAndTopics =>
     unreadStreamsAndTopics
       .map(stream => ({
         ...stream,
         data: stream.data.filter(topic => !topic.isMuted),
       }))
       .filter(stream => !stream.isMuted && stream.data.length > 0),
-  );
+);
 
 /**
  * Total number of unreads in the given narrow... mostly.

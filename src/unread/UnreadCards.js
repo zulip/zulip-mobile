@@ -11,14 +11,13 @@ import PmConversationList from '../pm-conversations/PmConversationList';
 import StreamItem from '../streams/StreamItem';
 import TopicItem from '../streams/TopicItem';
 import { streamNarrow, topicNarrow } from '../utils/narrow';
-import { getUnreadConversations, getUnreadStreamsAndTopicsSansMuted } from '../selectors';
+import { getUnreadConversations, getUnreadStreamsAndTopics } from '../selectors';
 import { doNarrow } from '../actions';
 
 /**
  * An item in the data prepared for this UI by its helper selectors.
  *
- * See `getUnreadStreamsAndTopicsSansMuted`, and its helper
- * `getUnreadStreamsAndTopics`.
+ * See `getUnreadStreamsAndTopics`.
  *
  * The exact collection of data included here is just an assortment of what
  * the UI in this file happens to need.
@@ -48,7 +47,7 @@ type Props = $ReadOnly<{||}>;
 export default function UnreadCards(props: Props): Node {
   const dispatch = useDispatch();
   const conversations = useSelector(getUnreadConversations);
-  const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopicsSansMuted);
+  const unreadStreamsAndTopics = useSelector(getUnreadStreamsAndTopics);
 
   const [collapsedStreamIds, setCollapsedStreamIds] = useState(Immutable.Set<number>());
 
