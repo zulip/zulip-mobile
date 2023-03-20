@@ -28,8 +28,9 @@ export const getUnreadByStream: Selector<{| [number]: number |}> = createSelecto
     for (const [streamId, streamData] of unreadStreams.entries()) {
       let total = 0;
       for (const [topic, msgIds] of streamData) {
-        const isMuted = isTopicMuted(streamId, topic, mute);
-        total += isMuted ? 0 : msgIds.size;
+        if (!isTopicMuted(streamId, topic, mute)) {
+          total += msgIds.size;
+        }
       }
       totals[streamId] = total;
     }
