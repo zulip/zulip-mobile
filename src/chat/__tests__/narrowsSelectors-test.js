@@ -95,7 +95,7 @@ describe('getShownMessagesForNarrow', () => {
   const message = eg.streamMessage();
   const subscription = eg.subscription;
   const mutedSubscription = { ...subscription, in_home_view: false };
-  const mutes = makeMuteState([[stream, message.subject]]);
+  const muteTopic = makeMuteState([[stream, message.subject]]);
 
   const makeStateGeneral = (message, narrow, extra) =>
     eg.reduxStatePlus({
@@ -110,31 +110,31 @@ describe('getShownMessagesForNarrow', () => {
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
-    test('private messages are never muted', () => {
+    test('private message shown', () => {
       expect(shown(makeStateGeneral(eg.pmMessage(), narrow))).toEqual(true);
     });
 
-    test('message in a stream is not muted if stream and topic not muted', () => {
+    test('stream message shown in base case', () => {
       expect(shown(makeState())).toEqual(true);
     });
 
-    test('message in a stream is muted if stream is not in subscriptions', () => {
+    test('stream message hidden if not subscribed to stream', () => {
       expect(shown(makeState({ subscriptions: [] }))).toEqual(false);
     });
 
-    test('message in a stream is muted if the stream is muted', () => {
+    test('stream message hidden if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(false);
     });
 
-    test('message in a stream is muted if the topic is muted and topic matches', () => {
-      expect(shown(makeState({ mute: mutes }))).toEqual(false);
+    test('stream message hidden if topic muted', () => {
+      expect(shown(makeState({ mute: muteTopic }))).toEqual(false);
     });
 
-    test('@-mention message is never muted', () => {
+    test('@-mention message is always shown', () => {
       const flags = { ...eg.plusReduxState.flags, mentioned: { [message.id]: true } };
       expect(shown(makeState({ flags, subscriptions: [] }))).toEqual(true);
       expect(shown(makeState({ flags, subscriptions: [mutedSubscription] }))).toEqual(true);
-      expect(shown(makeState({ flags, mute: mutes }))).toEqual(true);
+      expect(shown(makeState({ flags, mute: muteTopic }))).toEqual(true);
     });
   });
 
@@ -143,23 +143,23 @@ describe('getShownMessagesForNarrow', () => {
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
-    test('message not muted even if stream not subscribed', () => {
+    test('message shown even if not subscribed to stream', () => {
       expect(shown(makeState({ subscriptions: [] }))).toEqual(true);
     });
 
-    test('message not muted even if stream is muted', () => {
+    test('message shown even if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(true);
     });
 
-    test('message muted if topic is muted', () => {
-      expect(shown(makeState({ mute: mutes }))).toEqual(false);
+    test('message hidden if topic muted', () => {
+      expect(shown(makeState({ mute: muteTopic }))).toEqual(false);
     });
 
-    test('@-mention message is never muted', () => {
+    test('@-mention message is always shown', () => {
       const flags = { ...eg.plusReduxState.flags, mentioned: { [message.id]: true } };
       expect(shown(makeState({ flags, subscriptions: [] }))).toEqual(true);
       expect(shown(makeState({ flags, subscriptions: [mutedSubscription] }))).toEqual(true);
-      expect(shown(makeState({ flags, mute: mutes }))).toEqual(true);
+      expect(shown(makeState({ flags, mute: muteTopic }))).toEqual(true);
     });
   });
 
@@ -168,16 +168,16 @@ describe('getShownMessagesForNarrow', () => {
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
-    test('message not muted even if stream not subscribed', () => {
+    test('message shown even if not subscribed to stream', () => {
       expect(shown(makeState({ subscriptions: [] }))).toEqual(true);
     });
 
-    test('message not muted even if stream is muted', () => {
+    test('message shown even if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(true);
     });
 
-    test('message not muted even if topic is muted', () => {
-      expect(shown(makeState({ mute: mutes }))).toEqual(true);
+    test('message shown even if topic muted', () => {
+      expect(shown(makeState({ mute: muteTopic }))).toEqual(true);
     });
   });
 
@@ -186,16 +186,16 @@ describe('getShownMessagesForNarrow', () => {
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
-    test('message not muted even if stream not subscribed', () => {
+    test('message shown even if not subscribed to stream', () => {
       expect(shown(makeState({ subscriptions: [] }))).toEqual(true);
     });
 
-    test('message not muted even if stream is muted', () => {
+    test('message shown even if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(true);
     });
 
-    test('message not muted even if topic is muted', () => {
-      expect(shown(makeState({ mute: mutes }))).toEqual(true);
+    test('message shown even if topic muted', () => {
+      expect(shown(makeState({ mute: muteTopic }))).toEqual(true);
     });
   });
 
@@ -204,16 +204,16 @@ describe('getShownMessagesForNarrow', () => {
     const makeState = extra => makeStateGeneral(message, narrow, extra);
     const shown = state => shownGeneral(state, narrow);
 
-    test('message not muted even if stream not subscribed', () => {
+    test('message shown even if not subscribed to stream', () => {
       expect(shown(makeState({ subscriptions: [] }))).toEqual(true);
     });
 
-    test('message not muted even if stream is muted', () => {
+    test('message shown even if stream muted', () => {
       expect(shown(makeState({ subscriptions: [mutedSubscription] }))).toEqual(true);
     });
 
-    test('message not muted even if topic is muted', () => {
-      expect(shown(makeState({ mute: mutes }))).toEqual(true);
+    test('message shown even if topic muted', () => {
+      expect(shown(makeState({ mute: muteTopic }))).toEqual(true);
     });
   });
 });
