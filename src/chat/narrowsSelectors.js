@@ -23,7 +23,7 @@ import {
   caseNarrow,
   streamIdOfNarrow,
 } from '../utils/narrow';
-import { getMute, isTopicMuted } from '../mute/muteModel';
+import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
 import { NULL_ARRAY, NULL_SUBSCRIPTION } from '../nullObjects';
 import * as logging from '../utils/logging';
 import { getStreamsById, getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
@@ -121,7 +121,7 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             }
             return (
               sub.in_home_view
-              && !isTopicMuted(message.stream_id, message.subject, mute)
+              && isTopicVisibleInStream(message.stream_id, message.subject, mute)
             );
           }),
 
@@ -133,7 +133,7 @@ export const getShownMessagesForNarrow: Selector<$ReadOnlyArray<Message | Outbox
             if (flags.mentioned[message.id]) {
               return true;
             }
-            return !isTopicMuted(message.stream_id, message.subject, mute);
+            return isTopicVisibleInStream(message.stream_id, message.subject, mute);
           }),
 
         // In the starred-message view, ignore stream/topic mutes.

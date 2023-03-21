@@ -36,13 +36,19 @@ export function getTopicVisibilityPolicy(
   return mute.get(streamId)?.get(topic) ?? UserTopicVisibilityPolicy.None;
 }
 
-export function isTopicMuted(streamId: number, topic: string, mute: MuteState): boolean {
+/**
+ * Whether this topic should appear when already focusing on its stream.
+ *
+ * This is false if the user's visibility policy for the topic is Muted,
+ * and true if the policy is None.
+ */
+export function isTopicVisibleInStream(streamId: number, topic: string, mute: MuteState): boolean {
   const policy = getTopicVisibilityPolicy(mute, streamId, topic);
   switch (policy) {
     case UserTopicVisibilityPolicy.None:
-      return false;
-    case UserTopicVisibilityPolicy.Muted:
       return true;
+    case UserTopicVisibilityPolicy.Muted:
+      return false;
   }
 }
 

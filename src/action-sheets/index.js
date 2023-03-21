@@ -32,7 +32,7 @@ import {
 } from '../utils/narrow';
 import { pmUiRecipientsFromKeyRecipients } from '../utils/recipient';
 import type { PmKeyRecipients } from '../utils/recipient';
-import { isTopicMuted } from '../mute/muteModel';
+import { getTopicVisibilityPolicy } from '../mute/muteModel';
 import * as api from '../api';
 import { showConfirmationDialog, showErrorAlert, showToast } from '../utils/info';
 import { doNarrow, deleteOutboxMessage, fetchSomeMessageIdForConversation } from '../actions';
@@ -648,10 +648,13 @@ export const constructTopicActionButtons = (args: {|
   }
   if (sub && !streamMuted) {
     // Stream subscribed and not muted.
-    if (isTopicMuted(streamId, topic, mute)) {
-      buttons.push(unmuteTopic);
-    } else {
-      buttons.push(muteTopic);
+    switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
+      case UserTopicVisibilityPolicy.Muted:
+        buttons.push(unmuteTopic);
+        break;
+      case UserTopicVisibilityPolicy.None:
+        buttons.push(muteTopic);
+        break;
     }
   } else if (sub && streamMuted) {
     // TODO(#5691): offer new "unmute topic" concept, when server supports it

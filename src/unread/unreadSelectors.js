@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import type { Narrow, Selector } from '../types';
 import type { UnreadStreamItem } from './UnreadCards';
 import { caseInsensitiveCompareFunc } from '../utils/misc';
-import { getMute, isTopicMuted } from '../mute/muteModel';
+import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
 import { getOwnUserId } from '../users/userSelectors';
 import { getSubscriptionsById, getStreamsById } from '../subscriptions/subscriptionSelectors';
 import { caseNarrow } from '../utils/narrow';
@@ -27,7 +27,7 @@ export const getUnreadByStream: Selector<{| [number]: number |}> = createSelecto
     for (const [streamId, streamData] of unreadStreams.entries()) {
       let total = 0;
       for (const [topic, msgIds] of streamData) {
-        if (!isTopicMuted(streamId, topic, mute)) {
+        if (isTopicVisibleInStream(streamId, topic, mute)) {
           total += msgIds.size;
         }
       }
@@ -167,7 +167,7 @@ export const getUnreadStreamsAndTopics: Selector<$ReadOnlyArray<UnreadStreamItem
       let totalUnread = 0;
       const topics = [];
       for (const [topic, msgIds] of streamData) {
-        if (isTopicMuted(streamId, topic, mute)) {
+        if (!isTopicVisibleInStream(streamId, topic, mute)) {
           continue;
         }
         totalUnread += msgIds.size;
@@ -228,7 +228,7 @@ export const getUnreadCountForNarrow: Selector<number, Narrow> = createSelector(
         unread.streams
           .get(streamId)
           ?.entrySeq()
-          .filterNot(([topic, _]) => isTopicMuted(streamId, topic, mute))
+          .filter(([topic, _]) => isTopicVisibleInStream(streamId, topic, mute))
           .map(([_, msgIds]) => msgIds.size)
           .reduce((s, x) => s + x, 0) ?? 0,
 

@@ -6,7 +6,7 @@ import { getTopics } from '../directSelectors';
 import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
-import { getMute, isTopicMuted } from '../mute/muteModel';
+import { getMute, isTopicVisibleInStream } from '../mute/muteModel';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
@@ -42,7 +42,7 @@ export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number
     const streamMuted = subscription ? !subscription.in_home_view : true;
 
     return topicList.map(({ name, max_id }): TopicExtended => {
-      const isMuted = streamMuted || isTopicMuted(streamId, name, mute);
+      const isMuted = streamMuted || !isTopicVisibleInStream(streamId, name, mute);
       const unreadCount = getUnreadCountForTopic(unread, streamId, name);
       return { name, max_id, isMuted, unreadCount };
     });

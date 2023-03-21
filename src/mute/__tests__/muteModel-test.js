@@ -2,7 +2,7 @@
 import deepFreeze from 'deep-freeze';
 
 import fullReducer from '../../boot/reducers';
-import { getMute, getTopicVisibilityPolicy, isTopicMuted, reducer } from '../muteModel';
+import { getMute, getTopicVisibilityPolicy, isTopicVisibleInStream, reducer } from '../muteModel';
 import { EVENT, EVENT_MUTED_TOPICS } from '../../actionConstants';
 import * as eg from '../../__tests__/lib/exampleData';
 import { makeMuteState, makeUserTopic } from './mute-testlib';
@@ -33,21 +33,21 @@ describe('getters', () => {
     });
   });
 
-  describe('isTopicMuted', () => {
+  describe('isTopicVisibleInStream', () => {
     function check(state, expected) {
-      expect(isTopicMuted(eg.stream.stream_id, 'topic', state)).toEqual(expected);
+      expect(isTopicVisibleInStream(eg.stream.stream_id, 'topic', state)).toEqual(expected);
     }
 
     test('with nothing for stream', () => {
-      check(makeMuteState([]), false);
+      check(makeMuteState([]), true);
     });
 
     test('with nothing for topic', () => {
-      check(makeMuteState([[eg.stream, 'other topic']]), false);
+      check(makeMuteState([[eg.stream, 'other topic']]), true);
     });
 
     test('with topic muted', () => {
-      check(makeMuteState([[eg.stream, 'topic']]), true);
+      check(makeMuteState([[eg.stream, 'topic']]), false);
     });
   });
 });
