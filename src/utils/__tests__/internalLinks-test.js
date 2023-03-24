@@ -117,22 +117,13 @@ describe('isNarrowLink', () => {
 });
 
 describe('getLinkType', () => {
-  test('only link containing "stream" is a stream link', () => {
-    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
+  test('link containing "stream" is a stream link', () => {
     expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
     expect(getLinkType(new URL('/#narrow/stream/stream/', realm), realm)).toBe('stream');
-  });
-
-  test('when a url is not a topic narrow return false', () => {
-    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
-    expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
-    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/', realm), realm)).toBe(
-      'home',
-    );
     expect(getLinkType(new URL('/#narrow/stream/topic/', realm), realm)).toBe('stream');
   });
 
-  test('when a url is a topic narrow return true', () => {
+  test('link containing "topic" is a topic link', () => {
     expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
     expect(
       getLinkType(new URL('/#narrow/stream/mobile/subject/topic/near/378333', realm), realm),
@@ -150,8 +141,7 @@ describe('getLinkType', () => {
     );
   });
 
-  test('only link containing "pm-with" is a group link', () => {
-    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
+  test('link containing "pm-with" is a PM link', () => {
     expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
     expect(getLinkType(new URL('/#narrow/pm-with/1,2-group/near/1', realm), realm)).toBe('pm');
     expect(
@@ -159,13 +149,23 @@ describe('getLinkType', () => {
     ).toBe('pm');
   });
 
-  test('only link containing "is" is a special link', () => {
-    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
+  test('link containing "is" with valid operand is a special link', () => {
     expect(getLinkType(new URL('/#narrow/is/private', realm), realm)).toBe('special');
     expect(getLinkType(new URL('/#narrow/is/starred', realm), realm)).toBe('special');
     expect(getLinkType(new URL('/#narrow/is/mentioned', realm), realm)).toBe('special');
+  });
+
+  test('unexpected link shape gives "home"', () => {
+    // `near` with no operand
+    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/', realm), realm)).toBe(
+      'home',
+    );
+
+    // `is` with invalid operand
     expect(getLinkType(new URL('/#narrow/is/men', realm), realm)).toBe('home');
     expect(getLinkType(new URL('/#narrow/is/men/stream', realm), realm)).toBe('home');
+
+    // invalid operand `are`; `stream` operator with no operand
     expect(getLinkType(new URL('/#narrow/are/men/stream', realm), realm)).toBe('home');
   });
 });
