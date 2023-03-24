@@ -123,17 +123,19 @@ describe('isNarrowLink', () => {
 
 describe('getLinkType', () => {
   const mkCheck = (expected: LinkType) => hash => {
-    expect(getLinkType(new URL(hash, realm), realm)).toBe(expected);
+    test(`${hash} - should return ${expected}`, () => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe(expected);
+    });
   };
 
-  test('link containing "stream" is a stream link', () => {
+  describe('link containing "stream" is a stream link', () => {
     const check = mkCheck('stream');
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
       check(hash),
     );
   });
 
-  test('link containing "topic" is a topic link', () => {
+  describe('link containing "topic" is a topic link', () => {
     const check = mkCheck('topic');
     [
       '/#narrow/stream/jest/topic/test',
@@ -145,7 +147,7 @@ describe('getLinkType', () => {
     ].forEach(hash => check(hash));
   });
 
-  test('link containing "pm-with" is a PM link', () => {
+  describe('link containing "pm-with" is a PM link', () => {
     const check = mkCheck('pm');
     [
       '/#narrow/pm-with/1,2-group',
@@ -154,14 +156,14 @@ describe('getLinkType', () => {
     ].forEach(hash => check(hash));
   });
 
-  test('link containing "is" with valid operand is a special link', () => {
+  describe('link containing "is" with valid operand is a special link', () => {
     const check = mkCheck('special');
     ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
       check(hash),
     );
   });
 
-  test('unexpected link shape gives "home"', () => {
+  describe('unexpected link shape gives "home"', () => {
     const check = mkCheck('home');
     [
       // `near` with no operand
