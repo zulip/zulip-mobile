@@ -165,6 +165,8 @@ describe('getNarrowFromLink (part 1)', () => {
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
       check(hash),
     );
+
+    // TODO: Test with modern-style stream links that use stream IDs
   });
 
   describe('link containing "topic" is a topic link', () => {
