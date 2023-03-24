@@ -16,6 +16,7 @@ import {
 } from '../internalLinks';
 import * as eg from '../../__tests__/lib/exampleData';
 import { isUrlRelative } from '../url';
+import type { LinkType } from '../internalLinks';
 
 const realm = new URL('https://example.com');
 const urlOnRealm = relativeUrl => {
@@ -121,19 +122,19 @@ describe('isNarrowLink', () => {
 });
 
 describe('getLinkType', () => {
+  const mkCheck = (expected: LinkType) => hash => {
+    expect(getLinkType(new URL(hash, realm), realm)).toBe(expected);
+  };
+
   test('link containing "stream" is a stream link', () => {
-    const check = hash => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe('stream');
-    };
+    const check = mkCheck('stream');
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
       check(hash),
     );
   });
 
   test('link containing "topic" is a topic link', () => {
-    const check = hash => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe('topic');
-    };
+    const check = mkCheck('topic');
     [
       '/#narrow/stream/jest/topic/test',
       '/#narrow/stream/mobile/subject/topic/near/378333',
@@ -145,9 +146,7 @@ describe('getLinkType', () => {
   });
 
   test('link containing "pm-with" is a PM link', () => {
-    const check = hash => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe('pm');
-    };
+    const check = mkCheck('pm');
     [
       '/#narrow/pm-with/1,2-group',
       '/#narrow/pm-with/1,2-group/near/1',
@@ -156,18 +155,14 @@ describe('getLinkType', () => {
   });
 
   test('link containing "is" with valid operand is a special link', () => {
-    const check = hash => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe('special');
-    };
+    const check = mkCheck('special');
     ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
       check(hash),
     );
   });
 
   test('unexpected link shape gives "home"', () => {
-    const check = hash => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe('home');
-    };
+    const check = mkCheck('home');
     [
       // `near` with no operand
       '/#narrow/stream/stream/topic/topic/near/',

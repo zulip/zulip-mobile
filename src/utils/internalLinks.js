@@ -48,7 +48,8 @@ export const isNarrowLink = (url: URL, realm: URL): boolean =>
   && url.search === ''
   && /^#narrow\//i.test(url.hash);
 
-type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
+/* PRIVATE: Exported only for tests. */
+export type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
  * PRIVATE -- exported only for tests.
