@@ -229,7 +229,6 @@ export const messageLinkPress =
       showErrorAlert(_('Cannot open link'), _('Invalid URL.'));
       return;
     }
-    // TODO: Replace all uses of `href` below with `parsedUrl`.
 
     const narrow = getNarrowFromLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId);
 
