@@ -117,11 +117,7 @@ describe('isNarrowLink', () => {
 });
 
 describe('getLinkType', () => {
-  test('links to a different domain are of "non-narrow" type', () => {
-    expect(getLinkType(new URL('https://google.com/some-path'), realm)).toBe('non-narrow');
-  });
-
-  test('only in-app link containing "stream" is a stream link', () => {
+  test('only link containing "stream" is a stream link', () => {
     expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
     expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
     expect(getLinkType(new URL('/#narrow/stream/stream/', realm), realm)).toBe('stream');
@@ -154,7 +150,7 @@ describe('getLinkType', () => {
     );
   });
 
-  test('only in-app link containing "pm-with" is a group link', () => {
+  test('only link containing "pm-with" is a group link', () => {
     expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
     expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
     expect(getLinkType(new URL('/#narrow/pm-with/1,2-group/near/1', realm), realm)).toBe('pm');
@@ -163,7 +159,7 @@ describe('getLinkType', () => {
     ).toBe('pm');
   });
 
-  test('only in-app link containing "is" is a special link', () => {
+  test('only link containing "is" is a special link', () => {
     expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
     expect(getLinkType(new URL('/#narrow/is/private', realm), realm)).toBe('special');
     expect(getLinkType(new URL('/#narrow/is/starred', realm), realm)).toBe('special');

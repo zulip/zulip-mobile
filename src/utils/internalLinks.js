@@ -48,19 +48,18 @@ export const isNarrowLink = (url: URL, realm: URL): boolean =>
   && url.search === ''
   && /^#narrow\//i.test(url.hash);
 
-type LinkType = 'non-narrow' | 'home' | 'pm' | 'topic' | 'stream' | 'special';
+type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
 
 /**
  * PRIVATE -- exported only for tests.
+ *
+ * The passed `url` must appear to be a link to a Zulip narrow on the given
+ * `realm`. In particular, `isNarrowLink(url, realm)` must be true.
  */
 // TODO: Work out what this does, write a jsdoc for its interface, and
 // reimplement using URL object (not just for the realm)
 export const getLinkType = (url: URL, realm: URL): LinkType => {
-  if (!isNarrowLink(url, realm)) {
-    return 'non-narrow';
-  }
-
-  // isNarrowLink(…) is true, by early return above, so this call is OK.
+  // isNarrowLink(…) is true, by jsdoc, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   if (
@@ -163,11 +162,11 @@ export const getNarrowFromLink = (
   streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
-  const type = getLinkType(url, realm);
-
-  if (type === 'non-narrow') {
+  if (!isNarrowLink(url, realm)) {
     return null;
   }
+
+  const type = getLinkType(url, realm);
 
   // isNarrowLink(…) is true, by early return above, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
