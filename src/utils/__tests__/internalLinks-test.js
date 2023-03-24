@@ -6,17 +6,27 @@ import invariant from 'invariant';
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check", "expectStream"] }] */
 
 import type { Stream } from '../../types';
-import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
+import {
+  streamNarrow,
+  topicNarrow,
+  pmNarrowFromUsersUnsafe,
+  STARRED_NARROW,
+  isPmNarrow,
+  isStreamNarrow,
+  isTopicNarrow,
+  isSpecialNarrow,
+} from '../narrow';
 import {
   isNarrowLink,
-  getLinkType,
   getNarrowFromLink,
   getNearOperandFromLink,
   decodeHashComponent,
 } from '../internalLinks';
 import * as eg from '../../__tests__/lib/exampleData';
 import { isUrlRelative } from '../url';
-import type { LinkType } from '../internalLinks';
+import { getStreamsById, getStreamsByName } from '../../subscriptions/subscriptionSelectors';
+import { getOwnUserId } from '../../users/userSelectors';
+import type { Narrow } from '../narrow';
 
 const realm = new URL('https://example.com');
 const urlOnRealm = relativeUrl => {
@@ -121,22 +131,44 @@ describe('isNarrowLink', () => {
   }
 });
 
-describe('getLinkType', () => {
-  const mkCheck = (expected: LinkType) => hash => {
-    test(`${hash} - should return ${expected}`, () => {
-      expect(getLinkType(new URL(hash, realm), realm)).toBe(expected);
-    });
+// TODO: Combine / dedupe with "getNarrowFromLink (part 2)" tests, below
+describe('getNarrowFromLink (part 1)', () => {
+  const mkCheck = (narrowExpectation: (Narrow => boolean) | null) => hash => {
+    const streams = [
+      eg.makeStream({ name: 'jest' }),
+      eg.makeStream({ name: 'stream' }),
+      eg.makeStream({ name: 'topic' }),
+      eg.makeStream({ name: 'mobile' }),
+    ];
+    const baseState = eg.reduxStatePlus({ streams });
+    const narrow = getNarrowFromLink(
+      new URL(hash, realm),
+      realm,
+      getStreamsById(baseState),
+      getStreamsByName(baseState),
+      getOwnUserId(baseState),
+    );
+
+    if (typeof narrowExpectation === 'function') {
+      test(`${hash} - ${narrowExpectation.name} should be true`, () => {
+        expect(narrow && narrowExpectation(narrow)).toBeTrue();
+      });
+    } else {
+      test(`${hash} - should return null`, () => {
+        expect(narrow).toBeNull();
+      });
+    }
   };
 
   describe('link containing "stream" is a stream link', () => {
-    const check = mkCheck('stream');
+    const check = mkCheck(isStreamNarrow);
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
       check(hash),
     );
   });
 
   describe('link containing "topic" is a topic link', () => {
-    const check = mkCheck('topic');
+    const check = mkCheck(isTopicNarrow);
     [
       '/#narrow/stream/jest/topic/test',
       '/#narrow/stream/mobile/subject/topic/near/378333',
@@ -148,7 +180,7 @@ describe('getLinkType', () => {
   });
 
   describe('link containing "pm-with" is a PM link', () => {
-    const check = mkCheck('pm');
+    const check = mkCheck(isPmNarrow);
     [
       '/#narrow/pm-with/1,2-group',
       '/#narrow/pm-with/1,2-group/near/1',
@@ -157,14 +189,14 @@ describe('getLinkType', () => {
   });
 
   describe('link containing "is" with valid operand is a special link', () => {
-    const check = mkCheck('special');
+    const check = mkCheck(isSpecialNarrow);
     ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
       check(hash),
     );
   });
 
-  describe('unexpected link shape gives "home"', () => {
-    const check = mkCheck('home');
+  describe('unexpected link shape gives null', () => {
+    const check = mkCheck(null);
     [
       // `near` with no operand
       '/#narrow/stream/stream/topic/topic/near/',
@@ -198,7 +230,8 @@ describe('decodeHashComponent', () => {
   });
 });
 
-describe('getNarrowFromLink', () => {
+// TODO: Combine / dedupe with "getNarrowFromLink (part 1)" tests above
+describe('getNarrowFromLink (part 2)', () => {
   const [userB, userC] = [eg.makeUser(), eg.makeUser()];
 
   const streamGeneral = eg.makeStream({ name: 'general' });

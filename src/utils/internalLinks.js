@@ -5,7 +5,6 @@ import { makeUserId } from '../api/idTypes';
 import type { Narrow, Stream, UserId, Message, Outbox, PmMessage, PmOutbox } from '../types';
 import { topicNarrow, streamNarrow, specialNarrow, pmNarrowFromRecipients } from './narrow';
 import { pmKeyRecipientsFromIds, recipientsOfPrivateMessage } from './recipient';
-import { ensureUnreachable } from '../generics';
 import { isUrlOnRealm } from './url';
 
 /**
@@ -47,51 +46,6 @@ export const isNarrowLink = (url: URL, realm: URL): boolean =>
   && url.pathname === '/'
   && url.search === ''
   && /^#narrow\//i.test(url.hash);
-
-/* PRIVATE: Exported only for tests. */
-export type LinkType = 'home' | 'pm' | 'topic' | 'stream' | 'special';
-
-/**
- * PRIVATE -- exported only for tests.
- *
- * The passed `url` must appear to be a link to a Zulip narrow on the given
- * `realm`. In particular, `isNarrowLink(url, realm)` must be true.
- */
-// TODO: Work out what this does, write a jsdoc for its interface, and
-// reimplement using URL object (not just for the realm)
-export const getLinkType = (url: URL, realm: URL): LinkType => {
-  // isNarrowLink(…) is true, by jsdoc, so this call is OK.
-  const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
-
-  if (
-    (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
-    || (hashSegments.length === 4 && hashSegments[0] === 'pm-with' && hashSegments[2] === 'near')
-  ) {
-    return 'pm';
-  }
-
-  if (
-    (hashSegments.length === 4 || hashSegments.length === 6)
-    && hashSegments[0] === 'stream'
-    && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
-  ) {
-    return 'topic';
-  }
-
-  if (hashSegments.length === 2 && hashSegments[0] === 'stream') {
-    return 'stream';
-  }
-
-  if (
-    hashSegments.length === 2
-    && hashSegments[0] === 'is'
-    && /^(private|starred|mentioned)/i.test(hashSegments[1])
-  ) {
-    return 'special';
-  }
-
-  return 'home';
-};
 
 /** Decode a dot-encoded string. */
 // The Zulip webapp uses this encoding in narrow-links:
@@ -167,41 +121,49 @@ export const getNarrowFromLink = (
     return null;
   }
 
-  const type = getLinkType(url, realm);
-
   // isNarrowLink(…) is true, by early return above, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
-  switch (type) {
-    case 'pm': {
-      // TODO: This case is pretty useless in practice, due to basically a
-      //   bug in the webapp: the URL that appears in the location bar for a
-      //   group PM conversation excludes self, so it's unusable for anyone
-      //   else.  In particular this will foil you if, say, you try to give
-      //   someone else in the conversation a link to a particular message.
-      const ids = parsePmOperand(hashSegments[1]);
-      return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
-    }
-    case 'topic': {
-      const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
-      return stream && topicNarrow(stream.stream_id, parseTopicOperand(hashSegments[3]));
-    }
-    case 'stream': {
-      const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
-      return stream && streamNarrow(stream.stream_id);
-    }
-    case 'special':
-      try {
-        return specialNarrow(hashSegments[1]);
-      } catch {
-        return null;
-      }
-    case 'home':
-      return null; // TODO(?): Give HOME_NARROW
-    default:
-      ensureUnreachable(type);
-      return null;
+  if (
+    (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
+    || (hashSegments.length === 4 && hashSegments[0] === 'pm-with' && hashSegments[2] === 'near')
+  ) {
+    // TODO: This case is pretty useless in practice, due to basically a
+    //   bug in the webapp: the URL that appears in the location bar for a
+    //   group PM conversation excludes self, so it's unusable for anyone
+    //   else.  In particular this will foil you if, say, you try to give
+    //   someone else in the conversation a link to a particular message.
+    const ids = parsePmOperand(hashSegments[1]);
+    return pmNarrowFromRecipients(pmKeyRecipientsFromIds(ids, ownUserId));
   }
+
+  if (
+    (hashSegments.length === 4 || hashSegments.length === 6)
+    && hashSegments[0] === 'stream'
+    && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
+  ) {
+    const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
+    return stream && topicNarrow(stream.stream_id, parseTopicOperand(hashSegments[3]));
+  }
+
+  if (hashSegments.length === 2 && hashSegments[0] === 'stream') {
+    const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
+    return stream && streamNarrow(stream.stream_id);
+  }
+
+  if (
+    hashSegments.length === 2
+    && hashSegments[0] === 'is'
+    && /^(private|starred|mentioned)/i.test(hashSegments[1])
+  ) {
+    try {
+      return specialNarrow(hashSegments[1]);
+    } catch {
+      return null;
+    }
+  }
+
+  return null; // TODO(?) Give HOME_NARROW
 };
 
 /**
