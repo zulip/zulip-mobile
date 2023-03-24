@@ -1,6 +1,10 @@
 /* @flow strict-local */
 import invariant from 'invariant';
 
+// Tell ESLint to recognize `expectStream` as a helper function that
+// runs assertions.
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check", "expectStream"] }] */
+
 import type { Stream } from '../../types';
 import { streamNarrow, topicNarrow, pmNarrowFromUsersUnsafe, STARRED_NARROW } from '../narrow';
 import {
@@ -118,55 +122,63 @@ describe('isNarrowLink', () => {
 
 describe('getLinkType', () => {
   test('link containing "stream" is a stream link', () => {
-    expect(getLinkType(new URL('/#narrow/stream/jest', realm), realm)).toBe('stream');
-    expect(getLinkType(new URL('/#narrow/stream/stream/', realm), realm)).toBe('stream');
-    expect(getLinkType(new URL('/#narrow/stream/topic/', realm), realm)).toBe('stream');
+    const check = hash => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe('stream');
+    };
+    ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
+      check(hash),
+    );
   });
 
   test('link containing "topic" is a topic link', () => {
-    expect(getLinkType(new URL('/#narrow/stream/jest/topic/test', realm), realm)).toBe('topic');
-    expect(
-      getLinkType(new URL('/#narrow/stream/mobile/subject/topic/near/378333', realm), realm),
-    ).toBe('topic');
-    expect(getLinkType(new URL('/#narrow/stream/mobile/topic/topic/', realm), realm)).toBe('topic');
-    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/1', realm), realm)).toBe(
-      'topic',
-    );
-    expect(getLinkType(new URL('/#narrow/stream/stream/subject/topic/near/1', realm), realm)).toBe(
-      'topic',
-    );
-
-    expect(getLinkType(new URL('/#narrow/stream/stream/subject/topic', realm), realm)).toBe(
-      'topic',
-    );
+    const check = hash => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe('topic');
+    };
+    [
+      '/#narrow/stream/jest/topic/test',
+      '/#narrow/stream/mobile/subject/topic/near/378333',
+      '/#narrow/stream/mobile/topic/topic/',
+      '/#narrow/stream/stream/topic/topic/near/1',
+      '/#narrow/stream/stream/subject/topic/near/1',
+      '/#narrow/stream/stream/subject/topic',
+    ].forEach(hash => check(hash));
   });
 
   test('link containing "pm-with" is a PM link', () => {
-    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group', realm), realm)).toBe('pm');
-    expect(getLinkType(new URL('/#narrow/pm-with/1,2-group/near/1', realm), realm)).toBe('pm');
-    expect(
-      getLinkType(new URL('/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3', realm), realm),
-    ).toBe('pm');
+    const check = hash => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe('pm');
+    };
+    [
+      '/#narrow/pm-with/1,2-group',
+      '/#narrow/pm-with/1,2-group/near/1',
+      '/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3',
+    ].forEach(hash => check(hash));
   });
 
   test('link containing "is" with valid operand is a special link', () => {
-    expect(getLinkType(new URL('/#narrow/is/private', realm), realm)).toBe('special');
-    expect(getLinkType(new URL('/#narrow/is/starred', realm), realm)).toBe('special');
-    expect(getLinkType(new URL('/#narrow/is/mentioned', realm), realm)).toBe('special');
+    const check = hash => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe('special');
+    };
+    ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
+      check(hash),
+    );
   });
 
   test('unexpected link shape gives "home"', () => {
-    // `near` with no operand
-    expect(getLinkType(new URL('/#narrow/stream/stream/topic/topic/near/', realm), realm)).toBe(
-      'home',
-    );
+    const check = hash => {
+      expect(getLinkType(new URL(hash, realm), realm)).toBe('home');
+    };
+    [
+      // `near` with no operand
+      '/#narrow/stream/stream/topic/topic/near/',
 
-    // `is` with invalid operand
-    expect(getLinkType(new URL('/#narrow/is/men', realm), realm)).toBe('home');
-    expect(getLinkType(new URL('/#narrow/is/men/stream', realm), realm)).toBe('home');
+      // `is` with invalid operand
+      '/#narrow/is/men',
+      '/#narrow/is/men/stream',
 
-    // invalid operand `are`; `stream` operator with no operand
-    expect(getLinkType(new URL('/#narrow/are/men/stream', realm), realm)).toBe('home');
+      // invalid operand `are`; `stream` operator with no operand
+      '/#narrow/are/men/stream',
+    ].forEach(hash => check(hash));
   });
 });
 
@@ -209,9 +221,6 @@ describe('getNarrowFromLink', () => {
   });
 
   describe('on stream links', () => {
-    // Tell ESLint to recognize `expectStream` as a helper function that
-    // runs assertions.
-    /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "expectStream"] }] */
     const expectStream = (operand, streams, expectedStream: null | Stream) => {
       expect(get(`#narrow/stream/${operand}`, streams)).toEqual(
         expectedStream === null ? null : streamNarrow(expectedStream.stream_id),
