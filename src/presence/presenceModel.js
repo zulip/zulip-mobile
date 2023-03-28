@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import Immutable from 'immutable';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import differenceInDays from 'date-fns/differenceInDays';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
@@ -24,7 +25,6 @@ import {
   REGISTER_COMPLETE,
   RESET_ACCOUNT_DATA,
 } from '../actionConstants';
-import { NULL_OBJECT } from '../nullObjects';
 
 //
 //
@@ -34,7 +34,7 @@ import { NULL_OBJECT } from '../nullObjects';
 export const getPresence = (state: PerAccountState): PresenceState => state.presence;
 
 export function getUserPresenceByEmail(state: PresenceState, email: string): UserPresence | void {
-  return state[email];
+  return state.byEmail.get(email);
 }
 
 //
@@ -196,7 +196,9 @@ export const getPresenceStatusForUserId = (
 // Reducer.
 //
 
-const initialState: PresenceState = NULL_OBJECT;
+const initialState: PresenceState = {
+  byEmail: Immutable.Map(),
+};
 
 export function reducer(
   state: PresenceState = initialState, // eslint-disable-line default-param-last
@@ -206,22 +208,23 @@ export function reducer(
     case RESET_ACCOUNT_DATA:
       return initialState;
 
-    case REGISTER_COMPLETE:
-      return (
-        action.data.presences
-        // TODO(#5102): Delete fallback once we enforce any threshold for
-        //   ancient servers we refuse to connect to. It was added in
-        //   #2878 (2018-11-16), but it wasn't clear even then, it seems,
-        //   whether any servers actually omit the data. The API doc
-        //   doesn't mention any servers that omit it, and our Flow types
-        //   mark it required.
-        || initialState
-      );
+    case REGISTER_COMPLETE: {
+      // TODO(#5102): Delete fallback once we enforce any threshold for
+      //   ancient servers we refuse to connect to. It was added in
+      //   #2878 (2018-11-16), but it wasn't clear even then, it seems,
+      //   whether any servers actually omit the data. The API doc
+      //   doesn't mention any servers that omit it, and our Flow types
+      //   mark it required.
+      const data = action.data.presences ?? {};
+      return {
+        byEmail: Immutable.Map(data),
+      };
+    }
 
     case PRESENCE_RESPONSE:
       return {
         ...state,
-        ...action.presence,
+        byEmail: state.byEmail.merge(action.presence),
       };
 
     case EVENT_PRESENCE: {
@@ -233,25 +236,23 @@ export function reducer(
         return state;
       }
 
-      const oldUserPresence = getUserPresenceByEmail(state, action.email);
       return {
         ...state,
-        // Flow bug (unresolved):
-        // https://github.com/facebook/flow/issues/8276
-        // $FlowIssue[cannot-spread-indexer] #8276
-        [action.email]: {
-          ...oldUserPresence,
-          ...action.presence,
-          // Flow bug (unresolved):
-          // https://github.com/facebook/flow/issues/8276
-          // $FlowIssue[cannot-spread-indexer] #8276
-          aggregated: getAggregatedPresence({
-            ...oldUserPresence,
+        byEmail: state.byEmail.update(action.email, (userPresence: UserPresence): UserPresence =>
+          // $FlowIssue[cannot-spread-indexer] https://github.com/facebook/flow/issues/8276
+          ({
+            ...userPresence,
             ...action.presence,
+            // $FlowIssue[cannot-spread-indexer] https://github.com/facebook/flow/issues/8276
+            aggregated: getAggregatedPresence({
+              ...userPresence,
+              ...action.presence,
+            }),
           }),
-        },
+        ),
       };
     }
+
     default:
       return state;
   }

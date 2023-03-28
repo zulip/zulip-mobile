@@ -218,7 +218,7 @@ export type OutboxState = $ReadOnlyArray<Outbox>;
  *   presence status.
  */
 export type PresenceState = $ReadOnly<{|
-  [email: string]: UserPresence,
+  byEmail: Immutable.Map<string, UserPresence>,
 |}>;
 
 /**
