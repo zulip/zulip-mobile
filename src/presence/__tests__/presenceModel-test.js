@@ -18,6 +18,9 @@ import type { PerAccountState } from '../../reduxTypes';
 
 const currentTimestamp = Date.now() / 1000;
 
+// TODO test offlineThresholdSeconds varying
+const offlineThresholdSeconds = 140;
+
 describe('getAggregatedPresence', () => {
   const oldAggregatedClientPresence = {
     client: 'website',
@@ -27,11 +30,18 @@ describe('getAggregatedPresence', () => {
 
   test('aggregated status is active if any of the client has status active with age less than threshold', () => {
     expect(
-      getAggregatedPresence({
-        website: { client: 'website', timestamp: currentTimestamp - 100, status: 'idle' },
-        zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 120, status: 'active' },
-        aggregated: oldAggregatedClientPresence,
-      }),
+      getAggregatedPresence(
+        {
+          website: { client: 'website', timestamp: currentTimestamp - 100, status: 'idle' },
+          zulipMobile: {
+            client: 'zulipMobile',
+            timestamp: currentTimestamp - 120,
+            status: 'active',
+          },
+          aggregated: oldAggregatedClientPresence,
+        },
+        offlineThresholdSeconds,
+      ),
     ).toEqual({
       client: 'zulipMobile',
       status: 'active',
@@ -41,36 +51,53 @@ describe('getAggregatedPresence', () => {
 
   test('aggregated status is idle if any of the client has status idle with age less than threshold and no client has status active with age has than threshold', () => {
     expect(
-      getAggregatedPresence({
-        website: { client: 'website', timestamp: currentTimestamp - 100, status: 'idle' },
-        zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 220, status: 'active' },
-        aggregated: oldAggregatedClientPresence,
-      }),
+      getAggregatedPresence(
+        {
+          website: { client: 'website', timestamp: currentTimestamp - 100, status: 'idle' },
+          zulipMobile: {
+            client: 'zulipMobile',
+            timestamp: currentTimestamp - 220,
+            status: 'active',
+          },
+          aggregated: oldAggregatedClientPresence,
+        },
+        offlineThresholdSeconds,
+      ),
     ).toEqual({ client: 'website', status: 'idle', timestamp: currentTimestamp - 100 });
   });
 
   test('aggregated status is offline if no client has status active or idle with age less than threshold', () => {
     expect(
-      getAggregatedPresence({
-        zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 400, status: 'active' },
-        website: { client: 'website', timestamp: currentTimestamp - 200, status: 'idle' },
-        zulipAndroid: {
-          client: 'zulipAndroid',
-          timestamp: currentTimestamp - 500,
-          status: 'active',
+      getAggregatedPresence(
+        {
+          zulipMobile: {
+            client: 'zulipMobile',
+            timestamp: currentTimestamp - 400,
+            status: 'active',
+          },
+          website: { client: 'website', timestamp: currentTimestamp - 200, status: 'idle' },
+          zulipAndroid: {
+            client: 'zulipAndroid',
+            timestamp: currentTimestamp - 500,
+            status: 'active',
+          },
+          aggregated: oldAggregatedClientPresence,
         },
-        aggregated: oldAggregatedClientPresence,
-      }),
+        offlineThresholdSeconds,
+      ),
     ).toEqual({ client: '', timestamp: currentTimestamp - 200, status: 'offline' });
   });
 
-  test('do not consider presence if its age is greater than OFFLINE_THRESHOLD_SECS', () => {
+  test('do not consider presence if its age is greater than offline threshold', () => {
     expect(
-      getAggregatedPresence({
-        website: { client: 'website', timestamp: currentTimestamp - 300, status: 'active' },
-        zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 10, status: 'idle' },
-        aggregated: oldAggregatedClientPresence,
-      }),
+      getAggregatedPresence(
+        {
+          website: { client: 'website', timestamp: currentTimestamp - 300, status: 'active' },
+          zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 10, status: 'idle' },
+          aggregated: oldAggregatedClientPresence,
+        },
+        offlineThresholdSeconds,
+      ),
     ).toEqual({
       client: 'zulipMobile',
       status: 'idle',
@@ -78,12 +105,32 @@ describe('getAggregatedPresence', () => {
     });
   });
 
+  test('Use specified offline threshold', () => {
+    expect(
+      getAggregatedPresence(
+        {
+          website: { client: 'website', timestamp: currentTimestamp - 300, status: 'active' },
+          zulipMobile: { client: 'zulipMobile', timestamp: currentTimestamp - 10, status: 'idle' },
+          aggregated: oldAggregatedClientPresence,
+        },
+        360,
+      ),
+    ).toEqual({
+      client: 'website',
+      status: 'active',
+      timestamp: currentTimestamp - 10,
+    });
+  });
+
   test('Do not consider old aggregated', () => {
     expect(
-      getAggregatedPresence({
-        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
-        website: { client: 'website', status: 'idle', timestamp: currentTimestamp - 10 },
-      }),
+      getAggregatedPresence(
+        {
+          aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+          website: { client: 'website', status: 'idle', timestamp: currentTimestamp - 10 },
+        },
+        offlineThresholdSeconds,
+      ),
     ).toEqual({ client: 'website', status: 'idle', timestamp: currentTimestamp - 10 });
   });
 });

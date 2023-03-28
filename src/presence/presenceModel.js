@@ -67,14 +67,17 @@ const OFFLINE_THRESHOLD_SECS = 140;
  * This logic should match `status_from_timestamp` in the web app's
  * `static/js/presence.js` at 1ae07b93d^.
  */
-export const getAggregatedPresence = (presence: UserPresence): ClientPresence => {
+export const getAggregatedPresence = (
+  presence: UserPresence,
+  offlineThresholdSeconds: number,
+): ClientPresence => {
   /* Gives an artificial ClientPresence object where
    * - `timestamp` is the latest `timestamp` of all ClientPresence
    *   objects in the input, and
    * - `status` is the greatest `status` of all *recent* ClientPresence
    *   objects, where `active` > `idle` > `offline`. If there are no
    *   recent ClientPresence objects (i.e., they are all at least as
-   *   old as OFFLINE_THRESHOLD_SECS), `status` is 'offline'. If there
+   *   old as offlineThresholdSeconds), `status` is 'offline'. If there
    *   are several ClientPresence objects with the greatest
    *   PresenceStatus, an arbitrary one is chosen.
    * - `client` is the `client` of the ClientPresence object from the
@@ -101,7 +104,7 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
     if (timestamp < devicePresence.timestamp) {
       timestamp = devicePresence.timestamp;
     }
-    if (age < OFFLINE_THRESHOLD_SECS) {
+    if (age < offlineThresholdSeconds) {
       if (presenceStatusGeq(devicePresence.status, status)) {
         client = device;
         status = devicePresence.status;
@@ -241,11 +244,14 @@ export function reducer(
           ({
             ...userPresence,
             ...action.presence,
-            // $FlowIssue[cannot-spread-indexer] https://github.com/facebook/flow/issues/8276
-            aggregated: getAggregatedPresence({
-              ...userPresence,
-              ...action.presence,
-            }),
+            aggregated: getAggregatedPresence(
+              // $FlowIssue[cannot-spread-indexer] https://github.com/facebook/flow/issues/8276
+              {
+                ...userPresence,
+                ...action.presence,
+              },
+              state.offlineThresholdSeconds,
+            ),
           }),
         ),
       };
