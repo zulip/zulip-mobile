@@ -13,6 +13,7 @@ import {
   groupUsersByStatus,
 } from '../userHelpers';
 import * as eg from '../../__tests__/lib/exampleData';
+import { makePresenceState } from '../../presence/__tests__/presence-testlib';
 
 describe('filterUserList', () => {
   test('empty input results in empty list', () => {
@@ -164,7 +165,7 @@ describe('sortUserList', () => {
     const user2 = eg.makeUser({ full_name: 'xyz' });
     const user3 = eg.makeUser({ full_name: 'jkl' });
     const users = deepFreeze([user1, user2, user3]);
-    const presences = {};
+    const presences = makePresenceState([]);
     const shouldMatch = [user1, user3, user2];
 
     const sortedUsers = sortUserList(users, presences);
@@ -178,24 +179,14 @@ describe('sortUserList', () => {
     const user3 = eg.makeUser({ full_name: 'Bob' });
     const user4 = eg.makeUser({ full_name: 'Rick' });
     const users = deepFreeze([user1, user2, user3, user4]);
-    const presences = {
-      [user1.email]: {
-        aggregated: { client: 'website', status: 'offline', timestamp: Date.now() / 1000 - 300 },
-      },
-      [user2.email]: {
-        aggregated: {
-          client: 'website',
-          status: 'active',
-          timestamp: Date.now() / 1000 - 120 * 60,
-        },
-      },
-      [user3.email]: {
-        aggregated: { client: 'website', status: 'idle', timestamp: Date.now() / 1000 - 20 * 60 },
-      },
-      [user4.email]: {
-        aggregated: { client: 'website', status: 'active', timestamp: Date.now() / 1000 },
-      },
-    };
+
+    const now = Date.now() / 1000;
+    const presences = makePresenceState([
+      [user1, { aggregated: { client: 'website', status: 'offline', timestamp: now - 300 } }],
+      [user2, { aggregated: { client: 'website', status: 'active', timestamp: now - 120 * 60 } }],
+      [user3, { aggregated: { client: 'website', status: 'idle', timestamp: now - 20 * 60 } }],
+      [user4, { aggregated: { client: 'website', status: 'active', timestamp: now } }],
+    ]);
     const shouldMatch = [user4, user3, user2, user1];
 
     const sortedUsers = sortUserList(users, presences);
@@ -248,7 +239,7 @@ describe('filterUserStartWith', () => {
 describe('groupUsersByStatus', () => {
   test('empty input results in empty map !!!', () => {
     const users = deepFreeze([]);
-    const presence = deepFreeze({});
+    const presence = makePresenceState([]);
 
     const groupedUsers = groupUsersByStatus(users, presence);
     expect(groupedUsers).toEqual({ active: [], idle: [], unavailable: [], offline: [] });
@@ -260,17 +251,12 @@ describe('groupUsersByStatus', () => {
     const user3 = eg.makeUser();
     const user4 = eg.makeUser();
     const users = deepFreeze([user1, user2, user3, user4]);
-    const presence = {
-      [user1.email]: {
-        aggregated: { client: 'website', status: 'active', timestamp: Date.now() / 1000 },
-      },
-      [user2.email]: {
-        aggregated: { client: 'website', status: 'idle', timestamp: Date.now() / 1000 - 10 },
-      },
-      [user3.email]: {
-        aggregated: { client: 'website', status: 'offline', timestamp: Date.now() / 1000 - 150 },
-      },
-    };
+    const now = Date.now() / 1000;
+    const presence = makePresenceState([
+      [user1, { aggregated: { client: 'website', status: 'active', timestamp: now } }],
+      [user2, { aggregated: { client: 'website', status: 'idle', timestamp: now - 10 } }],
+      [user3, { aggregated: { client: 'website', status: 'offline', timestamp: now - 150 } }],
+    ]);
     const expectedResult = {
       active: [user1],
       idle: [user2],
