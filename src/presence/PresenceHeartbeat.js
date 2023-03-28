@@ -2,10 +2,11 @@
 import * as React from 'react';
 import { AppState } from 'react-native';
 
-import { useGlobalSelector, useDispatch } from '../react-redux';
+import { useGlobalSelector, useSelector, useDispatch } from '../react-redux';
 import { getHasAuth } from '../account/accountsSelectors';
 import { reportPresence } from '../actions';
 import Heartbeat from './heartbeat';
+import { getPresence } from './presenceModel';
 
 type Props = $ReadOnly<{||}>;
 
@@ -16,6 +17,7 @@ type Props = $ReadOnly<{||}>;
 export default function PresenceHeartbeat(props: Props): React.Node {
   const dispatch = useDispatch();
   const hasAuth = useGlobalSelector(getHasAuth); // a job for withHaveServerDataGate?
+  const pingIntervalSeconds = useSelector(state => getPresence(state).pingIntervalSeconds);
 
   React.useEffect(() => {
     if (!hasAuth) {
@@ -26,8 +28,7 @@ export default function PresenceHeartbeat(props: Props): React.Node {
       // TODO(#5005): should ensure this gets the intended account
       dispatch(reportPresence(true));
     };
-    // TODO(#5669): get heartbeat interval from PresenceState
-    const heartbeat = new Heartbeat(onHeartbeat, 1000 * 60);
+    const heartbeat = new Heartbeat(onHeartbeat, pingIntervalSeconds * 1000);
 
     // React to any state change.
     const updateHeartbeatState = () => {
@@ -42,7 +43,7 @@ export default function PresenceHeartbeat(props: Props): React.Node {
       sub.remove();
       heartbeat.stop(); // unconditional stop
     };
-  }, [dispatch, hasAuth]);
+  }, [dispatch, hasAuth, pingIntervalSeconds]);
 
   return null;
 }
