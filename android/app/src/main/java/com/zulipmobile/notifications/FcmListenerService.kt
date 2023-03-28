@@ -2,7 +2,6 @@ package com.zulipmobile.notifications
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.facebook.react.bridge.ReactContext
 import com.facebook.react.ReactApplication
 
 class FcmListenerService : FirebaseMessagingService() {
