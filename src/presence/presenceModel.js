@@ -28,10 +28,19 @@ import { NULL_OBJECT } from '../nullObjects';
 
 //
 //
-// Selectors, getters, and friends
+// Simple selectors and getters.
 //
 
 export const getPresence = (state: PerAccountState): PresenceState => state.presence;
+
+export function getUserPresenceByEmail(state: PresenceState, email: string): UserPresence | void {
+  return state[email];
+}
+
+//
+//
+// More-complex selectors, getters, and friends.
+//
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
@@ -168,7 +177,7 @@ export const getPresenceStatusForUserId = (
   if (!user) {
     return null;
   }
-  const userPresence = (presence[user.email]: UserPresence | void);
+  const userPresence = getUserPresenceByEmail(presence, user.email);
   if (!userPresence || !userPresence.aggregated) {
     return null;
   }
@@ -224,19 +233,20 @@ export function reducer(
         return state;
       }
 
+      const oldUserPresence = getUserPresenceByEmail(state, action.email);
       return {
         ...state,
         // Flow bug (unresolved):
         // https://github.com/facebook/flow/issues/8276
         // $FlowIssue[cannot-spread-indexer] #8276
         [action.email]: {
-          ...state[action.email],
+          ...oldUserPresence,
           ...action.presence,
           // Flow bug (unresolved):
           // https://github.com/facebook/flow/issues/8276
           // $FlowIssue[cannot-spread-indexer] #8276
           aggregated: getAggregatedPresence({
-            ...state[action.email],
+            ...oldUserPresence,
             ...action.presence,
           }),
         },

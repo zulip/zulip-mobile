@@ -7,7 +7,11 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import { getZulipFeatureLevel } from '../selectors';
-import { getPresence, presenceToHumanTime } from '../presence/presenceModel';
+import {
+  getPresence,
+  getUserPresenceByEmail,
+  presenceToHumanTime,
+} from '../presence/presenceModel';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import ZulipText from '../common/ZulipText';
 
@@ -20,7 +24,9 @@ export default function ActivityText(props: Props): Node {
   const { style } = props;
 
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
-  const presence = useSelector(state => getPresence(state)[props.user.email]);
+  const presence = useSelector(state =>
+    getUserPresenceByEmail(getPresence(state), props.user.email),
+  );
   const userStatus = useSelector(state => getUserStatus(state, props.user.user_id));
 
   if (!presence) {

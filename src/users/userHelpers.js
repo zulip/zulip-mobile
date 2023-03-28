@@ -12,7 +12,7 @@ import type {
   UserOrBot,
 } from '../types';
 import { ensureUnreachable } from '../types';
-import { statusFromPresence } from '../presence/presenceModel';
+import { getUserPresenceByEmail, statusFromPresence } from '../presence/presenceModel';
 
 type UsersByStatus = {|
   active: UserOrBot[],
@@ -27,13 +27,13 @@ export const groupUsersByStatus = (
 ): UsersByStatus => {
   const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
   users.forEach(user => {
-    const status = statusFromPresence(presences[user.email]);
+    const status = statusFromPresence(getUserPresenceByEmail(presences, user.email));
     groupedUsers[status].push(user);
   });
   return groupedUsers;
 };
 
-const statusOrder = (presence: UserPresence): number => {
+const statusOrder = (presence: UserPresence | void): number => {
   const status = statusFromPresence(presence);
   switch (status) {
     case 'active':
@@ -54,7 +54,8 @@ export const sortUserList = (
 ): $ReadOnlyArray<UserOrBot> =>
   [...users].sort(
     (x1, x2) =>
-      statusOrder(presences[x1.email]) - statusOrder(presences[x2.email])
+      statusOrder(getUserPresenceByEmail(presences, x1.email))
+        - statusOrder(getUserPresenceByEmail(presences, x2.email))
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 
