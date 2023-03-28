@@ -4,7 +4,7 @@ import deepFreeze from 'deep-freeze';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { PRESENCE_RESPONSE, EVENT_PRESENCE } from '../../actionConstants';
-import presenceReducer from '../presenceReducer';
+import { reducer as presenceReducer } from '../presenceModel';
 import { makePresenceState } from './presence-testlib';
 
 const currentTimestamp = Date.now() / 1000;

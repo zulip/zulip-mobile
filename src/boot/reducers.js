@@ -15,7 +15,7 @@ import { reducer as mute } from '../mute/muteModel';
 import mutedUsers from '../mute/mutedUsersReducer';
 import outbox from '../outbox/outboxReducer';
 import { reducer as pmConversations } from '../pm-conversations/pmConversationsModel';
-import presence from '../presence/presenceReducer';
+import { reducer as presence } from '../presence/presenceModel';
 import realm from '../realm/realmReducer';
 import session from '../session/sessionReducer';
 import settings from '../settings/settingsReducer';

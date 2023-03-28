@@ -1,7 +1,7 @@
 // @flow strict-local
 import type { User, UserPresence } from '../../api/modelTypes';
 import { type PresenceState } from '../../reduxTypes';
-import reducer from '../presenceReducer';
+import { reducer } from '../presenceModel';
 import * as eg from '../../__tests__/lib/exampleData';
 import { objectFromEntries } from '../../jsBackport';
 

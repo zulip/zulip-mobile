@@ -12,10 +12,10 @@ import { objectEntries } from '../flowPonyfill';
 
 const initialState: PresenceState = NULL_OBJECT;
 
-export default (
+export function reducer(
   state: PresenceState = initialState, // eslint-disable-line default-param-last
   action: PerAccountApplicableAction,
-): PresenceState => {
+): PresenceState {
   switch (action.type) {
     case RESET_ACCOUNT_DATA:
       return initialState;
@@ -68,4 +68,4 @@ export default (
     default:
       return state;
   }
-};
+}
