@@ -54,6 +54,7 @@ const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
   }
 };
 
+// TODO(#5669): get OFFLINE_THRESHOLD_SECS from PresenceState
 const OFFLINE_THRESHOLD_SECS = 140;
 
 /**
@@ -198,6 +199,8 @@ export const getPresenceStatusForUserId = (
 //
 
 const initialState: PresenceState = {
+  pingIntervalSeconds: 60,
+  offlineThresholdSeconds: 140,
   byEmail: Immutable.Map(),
 };
 
@@ -211,6 +214,8 @@ export function reducer(
 
     case REGISTER_COMPLETE:
       return {
+        pingIntervalSeconds: action.data.server_presence_ping_interval_seconds ?? 60,
+        offlineThresholdSeconds: action.data.server_presence_offline_threshold_seconds ?? 140,
         byEmail: Immutable.Map(action.data.presences),
       };
 

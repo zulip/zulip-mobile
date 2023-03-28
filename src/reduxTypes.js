@@ -218,6 +218,8 @@ export type OutboxState = $ReadOnlyArray<Outbox>;
  *   presence status.
  */
 export type PresenceState = $ReadOnly<{|
+  pingIntervalSeconds: number,
+  offlineThresholdSeconds: number,
   byEmail: Immutable.Map<string, UserPresence>,
 |}>;
 

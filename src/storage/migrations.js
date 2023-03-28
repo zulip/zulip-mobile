@@ -512,7 +512,7 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Change `state.mute` data structure: was a plain JS Map.
   '59': dropCache,
 
-  // Changed `state.presence`, but no migration because that's in `discardKeys`.
+  // Changed `state.presence` (twice), but no migration because that's in `discardKeys`.
 
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)

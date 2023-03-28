@@ -26,6 +26,7 @@ export default function PresenceHeartbeat(props: Props): React.Node {
       // TODO(#5005): should ensure this gets the intended account
       dispatch(reportPresence(true));
     };
+    // TODO(#5669): get heartbeat interval from PresenceState
     const heartbeat = new Heartbeat(onHeartbeat, 1000 * 60);
 
     // React to any state change.

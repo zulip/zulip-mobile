@@ -61,6 +61,14 @@ export type RawInitialDataBase = $ReadOnly<{|
    * `zulip_feature_level`, above.
    */
   zulip_version: string,
+
+  /** New in FL 164; use 60 when absent. */
+  // TODO(server-7.0): simplify to always-present
+  server_presence_ping_interval_seconds?: number,
+
+  /** New in FL 164; use 140 when absent. */
+  // TODO(server-7.0): simplify to always-present
+  server_presence_offline_threshold_seconds?: number,
 |}>;
 
 /**
