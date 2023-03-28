@@ -7,7 +7,7 @@ import { PRESENCE_RESPONSE, EVENT_PRESENCE } from '../../actionConstants';
 import {
   reducer as presenceReducer,
   getAggregatedPresence,
-  presenceToHumanTime,
+  userLastActiveAsRelativeTimeString,
   statusFromPresence,
   statusFromPresenceAndUserStatus,
 } from '../presenceModel';
@@ -85,10 +85,10 @@ describe('getAggregatedPresence', () => {
   });
 });
 
-describe('presenceToHumanTime', () => {
-  test('given a presence return human readable time', () => {
+describe('userLastActiveAsRelativeTimeString', () => {
+  test('given a presence return a relative time', () => {
     expect(
-      presenceToHumanTime(
+      userLastActiveAsRelativeTimeString(
         {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
         },
@@ -100,7 +100,7 @@ describe('presenceToHumanTime', () => {
 
   test('if less than a threshold, the user is currently active', () => {
     expect(
-      presenceToHumanTime(
+      userLastActiveAsRelativeTimeString(
         {
           aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
         },
@@ -113,7 +113,7 @@ describe('presenceToHumanTime', () => {
   // TODO(server-6.0): Remove
   test('Pre-FL 148: if less than a day and user is "away", use imprecise "today"', () => {
     expect(
-      presenceToHumanTime(
+      userLastActiveAsRelativeTimeString(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
         { away: true, status_text: null, status_emoji: null },
         147,
@@ -125,7 +125,7 @@ describe('presenceToHumanTime', () => {
   //   above after the status parameter is gone.
   test('FL 148: if less than a day and user is "away", *don\'t* use imprecise "today"', () => {
     expect(
-      presenceToHumanTime(
+      userLastActiveAsRelativeTimeString(
         { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
         { away: true, status_text: null, status_emoji: null },
         148,

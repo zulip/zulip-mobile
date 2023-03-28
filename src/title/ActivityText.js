@@ -10,7 +10,7 @@ import { getZulipFeatureLevel } from '../selectors';
 import {
   getPresence,
   getUserPresenceByEmail,
-  presenceToHumanTime,
+  userLastActiveAsRelativeTimeString,
 } from '../presence/presenceModel';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import ZulipText from '../common/ZulipText';
@@ -33,7 +33,7 @@ export default function ActivityText(props: Props): Node {
     return null;
   }
 
-  const activity = presenceToHumanTime(presence, userStatus, zulipFeatureLevel);
+  const activeTime = userLastActiveAsRelativeTimeString(presence, userStatus, zulipFeatureLevel);
 
-  return <ZulipText style={style} text={`Active ${activity}`} />;
+  return <ZulipText style={style} text={`Active ${activeTime}`} />;
 }

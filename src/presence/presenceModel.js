@@ -111,7 +111,7 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   return { client, status, timestamp };
 };
 
-export const presenceToHumanTime = (
+export const userLastActiveAsRelativeTimeString = (
   presence: UserPresence,
   status: UserStatus,
   zulipFeatureLevel: number,
