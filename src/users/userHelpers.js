@@ -12,7 +12,7 @@ import type {
   UserOrBot,
 } from '../types';
 import { ensureUnreachable } from '../types';
-import { statusFromPresence } from '../utils/presence';
+import { statusFromPresence } from '../presence/presenceModel';
 
 type UsersByStatus = {|
   active: UserOrBot[],

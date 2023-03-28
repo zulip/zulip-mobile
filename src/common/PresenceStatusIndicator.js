@@ -6,7 +6,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import { createStyleSheet, ThemeContext } from '../styles';
 import { useSelector } from '../react-redux';
-import { getPresenceStatusForUserId } from '../utils/presence';
+import { getPresenceStatusForUserId } from '../presence/presenceModel';
 import { ensureUnreachable } from '../types';
 import type { UserId } from '../types';
 

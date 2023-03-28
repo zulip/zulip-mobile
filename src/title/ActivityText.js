@@ -8,7 +8,7 @@ import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
 import { getPresence, getZulipFeatureLevel } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
-import { presenceToHumanTime } from '../utils/presence';
+import { presenceToHumanTime } from '../presence/presenceModel';
 import ZulipText from '../common/ZulipText';
 
 type Props = $ReadOnly<{|
