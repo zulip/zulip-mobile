@@ -11,7 +11,7 @@ import SearchEmptyState from '../common/SearchEmptyState';
 import UserItem from './UserItem';
 import { sortUserList, filterUserList, groupUsersByStatus } from './userHelpers';
 import { getMutedUsers } from '../selectors';
-import { getPresence } from '../directSelectors';
+import { getPresence } from '../presence/presenceModel';
 import { ensureUnreachable } from '../generics';
 
 const styles = createStyleSheet({

@@ -15,7 +15,6 @@ import { ensureUnreachable } from '../types';
 import { objectEntries } from '../flowPonyfill';
 import type { PerAccountState } from '../reduxTypes';
 import type { UserId } from '../api/idTypes';
-import { getPresence } from '../directSelectors';
 import { tryGetUserForId } from '../users/userSelectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { getZulipFeatureLevel } from '../account/accountsSelectors';
@@ -31,6 +30,8 @@ import { NULL_OBJECT } from '../nullObjects';
 //
 // Selectors, getters, and friends
 //
+
+export const getPresence = (state: PerAccountState): PresenceState => state.presence;
 
 /** The relation `>=`, where `active` > `idle` > `offline`. */
 const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {

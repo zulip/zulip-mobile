@@ -15,7 +15,6 @@ import type {
   MutedUsersState,
   NarrowsState,
   TopicsState,
-  PresenceState,
   CrossRealmBot,
   RealmEmojiById,
   RealmState,
@@ -77,8 +76,6 @@ export const getSubscriptions = (state: PerAccountState): SubscriptionsState => 
  * or `getStreamsById` instead.
  */
 export const getStreams = (state: PerAccountState): StreamsState => state.streams;
-
-export const getPresence = (state: PerAccountState): PresenceState => state.presence;
 
 export const getOutbox = (state: PerAccountState): OutboxState => state.outbox;
 

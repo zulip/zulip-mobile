@@ -6,9 +6,9 @@ import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import type { UserOrBot } from '../types';
 import { useSelector } from '../react-redux';
-import { getPresence, getZulipFeatureLevel } from '../selectors';
+import { getZulipFeatureLevel } from '../selectors';
+import { getPresence, presenceToHumanTime } from '../presence/presenceModel';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
-import { presenceToHumanTime } from '../presence/presenceModel';
 import ZulipText from '../common/ZulipText';
 
 type Props = $ReadOnly<{|
