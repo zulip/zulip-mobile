@@ -164,7 +164,7 @@ export const statusFromPresence = (presence: UserPresence | void): PresenceStatu
 };
 
 // TODO(server-6.0): Remove; UserStatus['away'] was deprecated at FL 148.
-export const statusFromPresenceAndUserStatus = (
+const statusFromPresenceAndUserStatus = (
   presence: UserPresence | void,
   userStatus: UserStatus,
 ): PresenceStatus | 'unavailable' =>

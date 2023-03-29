@@ -9,11 +9,12 @@ import {
   reducer as presenceReducer,
   getAggregatedPresence,
   statusFromPresence,
-  statusFromPresenceAndUserStatus,
   getUserLastActiveAsRelativeTimeString,
+  getPresenceStatusForUserId,
 } from '../presenceModel';
 import { makePresenceState } from './presence-testlib';
 import type { UserPresence, UserStatus } from '../../api/modelTypes';
+import type { PerAccountState } from '../../reduxTypes';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -189,23 +190,40 @@ describe('statusFromPresence', () => {
   });
 });
 
-describe('statusFromPresenceAndUserStatus', () => {
+describe('getPresenceStatusForUserId, server < FL 148', () => {
+  function makeState(args: {
+    userPresence: UserPresence,
+    userStatus: UserStatus,
+    zulipFeatureLevel?: number,
+  }): PerAccountState {
+    const { userPresence, userStatus, zulipFeatureLevel = eg.recentZulipFeatureLevel } = args;
+    return eg.reduxStatePlus({
+      presence: makePresenceState([[eg.otherUser, userPresence]]),
+      userStatuses: Immutable.Map([[eg.otherUser.user_id, userStatus]]),
+      accounts: [{ ...eg.plusReduxState.accounts[0], zulipFeatureLevel }],
+    });
+  }
+
   test('if `userPresence` is provided but `away` is false do not change', () => {
-    expect(
-      statusFromPresenceAndUserStatus(
-        { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: false, status_text: 'Hello, world!', status_emoji: null },
-      ),
-    ).toBe('active');
+    const state = makeState({
+      userPresence: {
+        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+      },
+      userStatus: { away: false, status_text: 'Hello, world!', status_emoji: null },
+      zulipFeatureLevel: 147,
+    });
+    expect(getPresenceStatusForUserId(state, eg.otherUser.user_id)).toBe('active');
   });
 
   test('if `userPresence` is provided and `away` is `true` override status with "unavailable"', () => {
-    expect(
-      statusFromPresenceAndUserStatus(
-        { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: true, status_text: null, status_emoji: null },
-      ),
-    ).toBe('unavailable');
+    const state = makeState({
+      userPresence: {
+        aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+      },
+      userStatus: { away: true, status_text: null, status_emoji: null },
+      zulipFeatureLevel: 147,
+    });
+    expect(getPresenceStatusForUserId(state, eg.otherUser.user_id)).toBe('unavailable');
   });
 });
 
