@@ -120,7 +120,8 @@ export function getUserLastActiveAsRelativeTimeString(
   user: UserOrBot,
   dateNow: number,
 ): string | null {
-  const presence = getUserPresenceByEmail(getPresence(state), user.email);
+  const presenceState = getPresence(state);
+  const presence = getUserPresenceByEmail(presenceState, user.email);
   if (!presence) {
     return null;
   }
@@ -142,7 +143,7 @@ export function getUserLastActiveAsRelativeTimeString(
     return 'today';
   }
 
-  return differenceInSeconds(dateNow, lastTimeActive) < OFFLINE_THRESHOLD_SECS
+  return differenceInSeconds(dateNow, lastTimeActive) < presenceState.offlineThresholdSeconds
     ? 'now'
     : `${formatDistanceToNow(lastTimeActive)} ago`;
 }

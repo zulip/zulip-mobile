@@ -140,11 +140,17 @@ describe('getUserLastActiveAsRelativeTimeString', () => {
     userPresence: UserPresence,
     userStatus: UserStatus,
     zulipFeatureLevel?: number,
+    offlineThresholdSeconds?: number,
   }): string | null {
-    const { userPresence, userStatus, zulipFeatureLevel = eg.recentZulipFeatureLevel } = args;
+    const {
+      userPresence,
+      userStatus,
+      zulipFeatureLevel = eg.recentZulipFeatureLevel,
+      offlineThresholdSeconds, // eslint-disable-line no-shadow
+    } = args;
     return getUserLastActiveAsRelativeTimeString(
       eg.reduxStatePlus({
-        presence: makePresenceState([[eg.otherUser, userPresence]]),
+        presence: makePresenceState([[eg.otherUser, userPresence]], { offlineThresholdSeconds }),
         userStatuses: Immutable.Map([[eg.otherUser.user_id, userStatus]]),
         accounts: [{ ...eg.plusReduxState.accounts[0], zulipFeatureLevel }],
       }),
@@ -167,6 +173,16 @@ describe('getUserLastActiveAsRelativeTimeString', () => {
     };
     const userStatus = { away: false, status_text: null, status_emoji: null };
     expect(lastActiveString({ userPresence, userStatus })).toBe('now');
+  });
+
+  test('Use specified offline threshold', () => {
+    const userPresence = {
+      aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+    };
+    const userStatus = { away: false, status_text: null, status_emoji: null };
+    expect(lastActiveString({ userPresence, userStatus, offlineThresholdSeconds: 80 })).toBe(
+      '2 minutes ago',
+    );
   });
 
   // TODO(server-6.0): Remove
