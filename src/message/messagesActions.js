@@ -3,7 +3,11 @@ import * as logging from '../utils/logging';
 import * as NavigationService from '../nav/NavigationService';
 import type { GetText, Message, Narrow, ThunkAction } from '../types';
 import { getAuth, getRealm, getMessages, getZulipFeatureLevel } from '../selectors';
-import { getNearOperandFromLink, getNarrowFromLink } from '../utils/internalLinks';
+import {
+  getNearOperandFromLink,
+  getNarrowFromNarrowLink,
+  isNarrowLink,
+} from '../utils/internalLinks';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { navigateToChat } from '../nav/navActions';
 import { FIRST_UNREAD_ANCHOR } from '../anchor';
@@ -232,7 +236,9 @@ export const messageLinkPress =
       return;
     }
 
-    const narrow = getNarrowFromLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId);
+    const narrow = isNarrowLink(parsedUrl, auth.realm)
+      ? getNarrowFromNarrowLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId)
+      : null;
 
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.

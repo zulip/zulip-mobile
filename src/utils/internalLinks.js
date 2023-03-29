@@ -34,8 +34,6 @@ const getHashSegmentsFromNarrowLink = (url: URL, realm: URL) => {
 };
 
 /**
- * PRIVATE -- exported only for tests.
- *
  * Test for a link to a Zulip narrow on the given realm.
  *
  * True just if the given URL appears to be a link to a Zulip narrow on the
@@ -119,20 +117,30 @@ const parsePmOperand = operand => {
 };
 
 /**
- * TODO write jsdoc
+ * Gives a Narrow object for the given narrow link, or `null`.
+ *
+ * Returns null if any of the operator/operand pairs are invalid.
+ *
+ * Since narrow links can combine operators in ways our Narrow type can't
+ * represent, this can also return null for valid narrow links.
+ *
+ * This can also return null for some valid narrow links that our Narrow
+ * type *could* accurately represent. We should try to understand these
+ * better, but some kinds will be rare, even unheard-of:
+ *   #narrow/topic/mobile.20releases/stream/1-announce (stream/topic reversed)
+ *   #narrow/stream/1-announce/stream/1-announce (duplicated operator)
+ *
+ * The passed `url` must appear to be a link to a Zulip narrow on the given
+ * `realm`. In particular, `isNarrowLink(url, realm)` must be true.
  */
-export const getNarrowFromLink = (
+export const getNarrowFromNarrowLink = (
   url: URL,
   realm: URL,
   streamsById: Map<number, Stream>,
   streamsByName: Map<string, Stream>,
   ownUserId: UserId,
 ): Narrow | null => {
-  if (!isNarrowLink(url, realm)) {
-    return null;
-  }
-
-  // isNarrowLink(…) is true, by early return above, so this call is OK.
+  // isNarrowLink(…) is true, by jsdoc, so this call is OK.
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   if (

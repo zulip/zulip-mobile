@@ -18,7 +18,7 @@ import {
 } from '../narrow';
 import {
   isNarrowLink,
-  getNarrowFromLink,
+  getNarrowFromNarrowLink,
   getNearOperandFromLink,
   decodeHashComponent,
 } from '../internalLinks';
@@ -131,8 +131,8 @@ describe('isNarrowLink', () => {
   }
 });
 
-// TODO: Combine / dedupe with "getNarrowFromLink (part 2)" tests, below
-describe('getNarrowFromLink (part 1)', () => {
+// TODO: Combine / dedupe with "getNarrowFromNarrowLink (part 2)" tests, below
+describe('getNarrowFromNarrowLink (part 1)', () => {
   const mkCheck = (narrowExpectation: (Narrow => boolean) | null) => hash => {
     const streams = [
       eg.makeStream({ name: 'jest' }),
@@ -141,7 +141,7 @@ describe('getNarrowFromLink (part 1)', () => {
       eg.makeStream({ name: 'mobile' }),
     ];
     const baseState = eg.reduxStatePlus({ streams });
-    const narrow = getNarrowFromLink(
+    const narrow = getNarrowFromNarrowLink(
       new URL(hash, realm),
       realm,
       getStreamsById(baseState),
@@ -232,25 +232,21 @@ describe('decodeHashComponent', () => {
   });
 });
 
-// TODO: Combine / dedupe with "getNarrowFromLink (part 1)" tests above
-describe('getNarrowFromLink (part 2)', () => {
+// TODO: Combine / dedupe with "getNarrowFromNarrowLink (part 1)" tests above
+describe('getNarrowFromNarrowLink (part 2)', () => {
   const [userB, userC] = [eg.makeUser(), eg.makeUser()];
 
   const streamGeneral = eg.makeStream({ name: 'general' });
 
   // TODO: Take URL object instead of string
   const get = (url, streams: $ReadOnlyArray<Stream>) =>
-    getNarrowFromLink(
+    getNarrowFromNarrowLink(
       new URL(url, 'https://example.com'),
       new URL('https://example.com'),
       new Map(streams.map(s => [s.stream_id, s])),
       new Map(streams.map(s => [s.name, s])),
       eg.selfUser.user_id,
     );
-
-  test('on link to realm domain but not narrow: return null', () => {
-    expect(get('https://example.com/user_uploads', [])).toEqual(null);
-  });
 
   describe('on stream links', () => {
     const expectStream = (operand, streams, expectedStream: null | Stream) => {
