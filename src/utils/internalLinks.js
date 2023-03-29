@@ -66,19 +66,16 @@ export const decodeHashComponent = (string: string): string => {
 };
 
 /**
- * Parse the operand of a `stream` operator.
+ * Parse the operand of a `stream` operator, returning a stream ID.
  *
  * Return null if the operand doesn't match any known stream.
  */
-const parseStreamOperand = (operand, streamsById, streamsByName): null | Stream => {
+const parseStreamOperand = (operand, streamsById, streamsByName): null | number => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
   const newFormatStreamId = match ? parseInt(match[1], 10) : null;
-  if (newFormatStreamId != null) {
-    const stream = streamsById.get(newFormatStreamId);
-    if (stream) {
-      return stream;
-    }
+  if (newFormatStreamId != null && streamsById.has(newFormatStreamId)) {
+    return newFormatStreamId;
   }
 
   // Old format: just stream name.  This case is relevant indefinitely,
@@ -86,7 +83,7 @@ const parseStreamOperand = (operand, streamsById, streamsByName): null | Stream 
   const streamName = decodeHashComponent(operand);
   const stream = streamsByName.get(streamName);
   if (stream) {
-    return stream;
+    return stream.stream_id;
   }
 
   // Not any stream we know.  (Most likely this means a stream the user
@@ -142,13 +139,13 @@ export const getNarrowFromLink = (
     && hashSegments[0] === 'stream'
     && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
   ) {
-    const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
-    return stream && topicNarrow(stream.stream_id, parseTopicOperand(hashSegments[3]));
+    const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
+    return streamId != null ? topicNarrow(streamId, parseTopicOperand(hashSegments[3])) : null;
   }
 
   if (hashSegments.length === 2 && hashSegments[0] === 'stream') {
-    const stream = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
-    return stream && streamNarrow(stream.stream_id);
+    const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
+    return streamId != null ? streamNarrow(streamId) : null;
   }
 
   if (
