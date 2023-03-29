@@ -121,19 +121,19 @@ export function getUserLastActiveAsRelativeTimeString(
   if (!presence) {
     return null;
   }
-  const userStatus = getUserStatus(state, user.user_id);
-  const zulipFeatureLevel = getZulipFeatureLevel(state);
-
-  if (!presence || !presence.aggregated) {
+  if (!presence.aggregated) {
     return 'never';
   }
-
   const lastTimeActive = new Date(presence.aggregated.timestamp * 1000);
 
   // "Invisible mode", new in FL 148, doesn't involve UserStatus['away']:
   //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
   // TODO(server-6.0): Simplify this away.
-  if (zulipFeatureLevel < 148 && userStatus.away && differenceInDays(dateNow, lastTimeActive) < 1) {
+  if (
+    getZulipFeatureLevel(state) < 148
+    && getUserStatus(state, user.user_id).away
+    && differenceInDays(dateNow, lastTimeActive) < 1
+  ) {
     // Be vague when an unavailable user is recently online.
     // TODO: This phrasing doesn't really match the logic and can be misleading.
     return 'today';
