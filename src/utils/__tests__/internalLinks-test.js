@@ -263,6 +263,10 @@ describe('getNarrowFromLink (part 2)', () => {
       expectStream(`${streamGeneral.stream_id}-general`, [streamGeneral], streamGeneral);
     });
 
+    test('if stream not found, use stream ID anyway', () => {
+      expectStream(`${streamGeneral.stream_id}-general`, [], streamGeneral);
+    });
+
     test('on stream link with wrong name: ID wins', () => {
       expectStream(`${streamGeneral.stream_id}-nonsense`, [streamGeneral], streamGeneral);
       expectStream(`${streamGeneral.stream_id}-`, [streamGeneral], streamGeneral);

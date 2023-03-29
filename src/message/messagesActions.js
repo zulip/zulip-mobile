@@ -19,9 +19,11 @@ import {
   topicOfNarrow,
   streamNarrow,
   caseNarrowDefault,
+  isConversationNarrow,
 } from '../utils/narrow';
 import { hasMessageEverBeenInStream, hasMessageEverHadTopic } from './messageSelectors';
 import { showErrorAlert } from '../utils/info';
+import { isNarrowValid } from '../chat/narrowsSelectors';
 
 /**
  * Navigate to the given narrow.
@@ -232,14 +234,22 @@ export const messageLinkPress =
 
     const narrow = getNarrowFromLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId);
 
-    // TODO(#5698): In some cases getNarrowFromLink successfully parses the link, but
-    //   finds it points somewhere we can't see: in particular, to a stream
-    //   that's hidden from our user (perhaps doesn't exist.)  For those,
-    //   perhaps give an error instead of falling back to opening in browser,
-    //   which should be futile.
     if (narrow) {
       // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
       const nearOperand = getNearOperandFromLink(parsedUrl, auth.realm);
+
+      if (!isNarrowValid(state, narrow)) {
+        // E.g., a stream that's hidden from our user (perhaps doesn't exist).
+        const msg =
+          nearOperand !== null
+            ? 'That message could not be found.'
+            : isConversationNarrow(narrow)
+            ? 'That conversation could not be found.'
+            : 'Those messages could not be found.';
+        showErrorAlert(_('Cannot open link'), _(msg));
+        return;
+      }
+
       if (nearOperand === null) {
         dispatch(doNarrow(narrow));
         return;

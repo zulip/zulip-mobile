@@ -211,6 +211,9 @@ export const getStreamInNarrow: Selector<Subscription | {| ...Stream, in_home_vi
   },
 );
 
+/**
+ * Whether PerAccountState has all data mentioned in `narrow` (user IDs etc.)
+ */
 export const isNarrowValid: Selector<boolean, Narrow> = createSelector(
   (state, narrow) => narrow,
   state => getStreamsById(state),

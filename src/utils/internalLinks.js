@@ -68,7 +68,14 @@ export const decodeHashComponent = (string: string): string => {
 /**
  * Parse the operand of a `stream` operator, returning a stream ID.
  *
- * Return null if the operand doesn't match any known stream.
+ * The ID might point to a stream that's hidden from our user (perhaps
+ * doesn't exist). If so, most likely the user doesn't have permission to
+ * see the stream's existence -- like with a guest user for any stream
+ * they're not in, or any non-admin with a private stream they're not in.
+ * Could be that whoever wrote the link just made something up.
+ *
+ * Returns null if the operand has an unexpected shape, or has the old shape
+ * (stream name but no ID) and we don't know of a stream by the given name.
  */
 // Why does this parser need stream data? Because the operand formats
 // ("new" and "old") collide, and in choosing which format to apply, we
@@ -91,12 +98,14 @@ const parseStreamOperand = (operand, streamsById, streamsByName): null | number 
     return stream.stream_id;
   }
 
-  // Not any stream we know.  (Most likely this means a stream the user
-  // doesn't have permission to see the existence of -- like with a guest
-  // user for any stream they're not in, or any non-admin with a private
-  // stream they're not in.  Could also be an old-format link to a stream
-  // that's since been renamed… or whoever wrote the link could always have
-  // just made something up.)
+  if (newFormatStreamId != null) {
+    // Neither format found a Stream, so it's hidden or doesn't exist. But
+    // at least we have a stream ID; give that to the caller. (See jsdoc.)
+    return newFormatStreamId;
+  }
+
+  // Unexpected shape, or the old shape and we don't know of a stream with
+  // the given name.
   return null;
 };
 
