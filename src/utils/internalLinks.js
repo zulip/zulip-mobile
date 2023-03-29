@@ -73,9 +73,9 @@ export const decodeHashComponent = (string: string): string => {
 const parseStreamOperand = (operand, streamsById, streamsByName): null | Stream => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
-  if (match) {
-    const streamId = parseInt(match[1], 10);
-    const stream = streamsById.get(streamId);
+  const newFormatStreamId = match ? parseInt(match[1], 10) : null;
+  if (newFormatStreamId != null) {
+    const stream = streamsById.get(newFormatStreamId);
     if (stream) {
       return stream;
     }
