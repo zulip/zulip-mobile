@@ -70,6 +70,11 @@ export const decodeHashComponent = (string: string): string => {
  *
  * Return null if the operand doesn't match any known stream.
  */
+// Why does this parser need stream data? Because the operand formats
+// ("new" and "old") collide, and in choosing which format to apply, we
+// want to know if one or the other would give a real stream we know
+// about. Also, we can't get a stream ID from an "old"-format operand
+// without a mapping from stream names to IDs.
 const parseStreamOperand = (operand, streamsById, streamsByName): null | number => {
   // "New" (2018) format: ${stream_id}-${stream_name} .
   const match = /^([\d]+)(?:-.*)?$/.exec(operand);
