@@ -229,6 +229,7 @@ export const messageLinkPress =
     const streamsById = getStreamsById(state);
     const streamsByName = getStreamsByName(state);
     const ownUserId = getOwnUserId(state);
+    const globalSettings = getGlobalSettings();
 
     const parsedUrl = tryParseUrl(href, auth.realm);
     if (!parsedUrl) {
@@ -252,7 +253,7 @@ export const messageLinkPress =
         // …Could also be an invalid narrow link, or one that we *could*
         // parse but just haven't (e.g., operands in an unexpected order).
         // Opening the browser won't be ideal in those cases.
-        openLinkWithUserPreference(parsedUrl, getGlobalSettings());
+        openLinkWithUserPreference(parsedUrl, globalSettings);
         return;
       }
 
@@ -277,9 +278,9 @@ export const messageLinkPress =
 
       await dispatch(doNarrowNearLink(narrow, nearOperand));
     } else if (!isUrlOnRealm(parsedUrl, auth.realm)) {
-      openLinkWithUserPreference(parsedUrl, getGlobalSettings());
+      openLinkWithUserPreference(parsedUrl, globalSettings);
     } else {
       const url = (await api.tryGetFileTemporaryUrl(parsedUrl, auth)) ?? parsedUrl;
-      openLinkWithUserPreference(url, getGlobalSettings());
+      openLinkWithUserPreference(url, globalSettings);
     }
   };
