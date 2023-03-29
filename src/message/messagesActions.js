@@ -232,7 +232,7 @@ export const messageLinkPress =
 
     const narrow = getNarrowFromLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId);
 
-    // TODO: In some cases getNarrowFromLink successfully parses the link, but
+    // TODO(#5698): In some cases getNarrowFromLink successfully parses the link, but
     //   finds it points somewhere we can't see: in particular, to a stream
     //   that's hidden from our user (perhaps doesn't exist.)  For those,
     //   perhaps give an error instead of falling back to opening in browser,
