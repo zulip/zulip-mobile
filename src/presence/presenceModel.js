@@ -25,6 +25,7 @@ import {
   REGISTER_COMPLETE,
   RESET_ACCOUNT_DATA,
 } from '../actionConstants';
+import type { UserOrBot } from '../api/modelTypes';
 
 //
 //
@@ -111,11 +112,18 @@ export const getAggregatedPresence = (presence: UserPresence): ClientPresence =>
   return { client, status, timestamp };
 };
 
-export const userLastActiveAsRelativeTimeString = (
-  presence: UserPresence,
-  status: UserStatus,
-  zulipFeatureLevel: number,
-): string => {
+export function getUserLastActiveAsRelativeTimeString(
+  state: PerAccountState,
+  user: UserOrBot,
+  dateNow: number,
+): string | null {
+  const presence = getUserPresenceByEmail(getPresence(state), user.email);
+  if (!presence) {
+    return null;
+  }
+  const userStatus = getUserStatus(state, user.user_id);
+  const zulipFeatureLevel = getZulipFeatureLevel(state);
+
   if (!presence || !presence.aggregated) {
     return 'never';
   }
@@ -124,17 +132,17 @@ export const userLastActiveAsRelativeTimeString = (
 
   // "Invisible mode", new in FL 148, doesn't involve UserStatus['away']:
   //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
-  // TODO(server-6.0): Remove this `if` block and the `status` parameter.
-  if (zulipFeatureLevel < 148 && status.away && differenceInDays(Date.now(), lastTimeActive) < 1) {
+  // TODO(server-6.0): Simplify this away.
+  if (zulipFeatureLevel < 148 && userStatus.away && differenceInDays(dateNow, lastTimeActive) < 1) {
     // Be vague when an unavailable user is recently online.
     // TODO: This phrasing doesn't really match the logic and can be misleading.
     return 'today';
   }
 
-  return differenceInSeconds(Date.now(), lastTimeActive) < OFFLINE_THRESHOLD_SECS
+  return differenceInSeconds(dateNow, lastTimeActive) < OFFLINE_THRESHOLD_SECS
     ? 'now'
     : `${formatDistanceToNow(lastTimeActive)} ago`;
-};
+}
 
 export const statusFromPresence = (presence: UserPresence | void): PresenceStatus => {
   if (!presence || !presence.aggregated) {

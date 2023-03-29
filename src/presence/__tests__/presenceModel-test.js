@@ -2,16 +2,18 @@
 
 import deepFreeze from 'deep-freeze';
 
+import Immutable from 'immutable';
 import * as eg from '../../__tests__/lib/exampleData';
 import { PRESENCE_RESPONSE, EVENT_PRESENCE } from '../../actionConstants';
 import {
   reducer as presenceReducer,
   getAggregatedPresence,
-  userLastActiveAsRelativeTimeString,
   statusFromPresence,
   statusFromPresenceAndUserStatus,
+  getUserLastActiveAsRelativeTimeString,
 } from '../presenceModel';
 import { makePresenceState } from './presence-testlib';
+import type { UserPresence, UserStatus } from '../../api/modelTypes';
 
 const currentTimestamp = Date.now() / 1000;
 
@@ -85,52 +87,59 @@ describe('getAggregatedPresence', () => {
   });
 });
 
-describe('userLastActiveAsRelativeTimeString', () => {
-  test('given a presence return a relative time', () => {
-    expect(
-      userLastActiveAsRelativeTimeString(
-        {
-          aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
-        },
-        { away: false, status_text: null, status_emoji: null },
-        eg.recentZulipFeatureLevel,
-      ),
-    ).toBe('4 minutes ago');
+describe('getUserLastActiveAsRelativeTimeString', () => {
+  function lastActiveString(args: {
+    userPresence: UserPresence,
+    userStatus: UserStatus,
+    zulipFeatureLevel?: number,
+  }): string | null {
+    const { userPresence, userStatus, zulipFeatureLevel = eg.recentZulipFeatureLevel } = args;
+    return getUserLastActiveAsRelativeTimeString(
+      eg.reduxStatePlus({
+        presence: makePresenceState([[eg.otherUser, userPresence]]),
+        userStatuses: Immutable.Map([[eg.otherUser.user_id, userStatus]]),
+        accounts: [{ ...eg.plusReduxState.accounts[0], zulipFeatureLevel }],
+      }),
+      eg.otherUser,
+      currentTimestamp * 1000,
+    );
+  }
+
+  test('a recent time', () => {
+    const userPresence = {
+      aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 240 },
+    };
+    const userStatus = { away: false, status_text: null, status_emoji: null };
+    expect(lastActiveString({ userPresence, userStatus })).toBe('4 minutes ago');
   });
 
   test('if less than a threshold, the user is currently active', () => {
-    expect(
-      userLastActiveAsRelativeTimeString(
-        {
-          aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
-        },
-        { away: false, status_text: null, status_emoji: null },
-        eg.recentZulipFeatureLevel,
-      ),
-    ).toBe('now');
+    const userPresence = {
+      aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+    };
+    const userStatus = { away: false, status_text: null, status_emoji: null };
+    expect(lastActiveString({ userPresence, userStatus })).toBe('now');
   });
 
   // TODO(server-6.0): Remove
   test('Pre-FL 148: if less than a day and user is "away", use imprecise "today"', () => {
-    expect(
-      userLastActiveAsRelativeTimeString(
-        { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: true, status_text: null, status_emoji: null },
-        147,
-      ),
-    ).toBe('today');
+    const userPresence = {
+      aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+    };
+    const userStatus = { away: true, status_text: null, status_emoji: null };
+    const zulipFeatureLevel = 147;
+    expect(lastActiveString({ userPresence, userStatus, zulipFeatureLevel })).toBe('today');
   });
 
   // TODO(server-6.0): Remove, once this test case is redundant with those
   //   above after the status parameter is gone.
   test('FL 148: if less than a day and user is "away", *don\'t* use imprecise "today"', () => {
-    expect(
-      userLastActiveAsRelativeTimeString(
-        { aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 } },
-        { away: true, status_text: null, status_emoji: null },
-        148,
-      ),
-    ).not.toBe('today');
+    const userPresence = {
+      aggregated: { client: 'website', status: 'active', timestamp: currentTimestamp - 100 },
+    };
+    const userStatus = { away: true, status_text: null, status_emoji: null };
+    const zulipFeatureLevel = 148;
+    expect(lastActiveString({ userPresence, userStatus, zulipFeatureLevel })).not.toBe('today');
   });
 });
 
