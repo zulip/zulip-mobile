@@ -236,12 +236,26 @@ export const messageLinkPress =
       return;
     }
 
-    const narrow = isNarrowLink(parsedUrl, auth.realm)
-      ? getNarrowFromNarrowLink(parsedUrl, auth.realm, streamsById, streamsByName, ownUserId)
-      : null;
+    if (isNarrowLink(parsedUrl, auth.realm)) {
+      const narrow = getNarrowFromNarrowLink(
+        parsedUrl,
+        auth.realm,
+        streamsById,
+        streamsByName,
+        ownUserId,
+      );
 
-    if (narrow) {
-      // This call is OK: `narrow` is truthy, so isNarrowLink(…) was true.
+      if (!narrow) {
+        // Open mobile web, because it could be a valid narrow link that web
+        // can handle but mobile can't; our Narrow type can't represent it.
+        //
+        // …Could also be an invalid narrow link, or one that we *could*
+        // parse but just haven't (e.g., operands in an unexpected order).
+        // Opening the browser won't be ideal in those cases.
+        openLinkWithUserPreference(parsedUrl, getGlobalSettings());
+        return;
+      }
+
       const nearOperand = getNearOperandFromLink(parsedUrl, auth.realm);
 
       if (!isNarrowValid(state, narrow)) {
