@@ -680,7 +680,6 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
  */
 export const reduxStatePlus = (
   extra?: $Rest<GlobalState, { ... }>,
-  // $FlowFixMe[not-an-object]
 ): GlobalState & PerAccountState =>
   dubJointState(deepFreeze({ ...(plusReduxState: GlobalState), ...extra }));
 

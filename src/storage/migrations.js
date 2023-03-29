@@ -134,7 +134,8 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   '10': state => {
     const newLocaleNames = { zh: 'zh-Hans', id: 'id-ID' };
     // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
-    const { locale } = state.settings;
+    // $FlowIgnore[incompatible-type]: `locale` renamed to `language` in 31
+    const locale: string = state.settings.locale;
     const newLocale = newLocaleNames[locale] ?? locale;
     // $FlowIgnore[prop-missing]
     return {
@@ -244,7 +245,8 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Rename locale `id-ID` back to `id`.
   '26': state => {
     // $FlowIgnore[prop-missing]: `locale` renamed to `language` in 31
-    const { locale } = state.settings;
+    // $FlowIgnore[incompatible-type]: `locale` renamed to `language` in 31
+    const locale: string = state.settings.locale;
     const newLocale = locale === 'id-ID' ? 'id' : locale;
     // $FlowIgnore[prop-missing]
     return {
@@ -299,12 +301,13 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Rename to `state.settings.language` from `state.settings.locale`.
   '31': state => {
     // $FlowIgnore[prop-missing]: migration fudge
-    const { locale: language, ...settingsRest } = state.settings;
+    const { locale, ...settingsRest } = state.settings;
     return {
       ...state,
       settings: {
         ...settingsRest,
-        language,
+        // $FlowIgnore[incompatible-cast] - is string when migration runs
+        language: (locale: string),
       },
     };
   },
@@ -455,7 +458,11 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
       ...state,
       settings: {
         ...restSettings,
-        markMessagesReadOnScroll: (doNotMarkMessagesAsRead: boolean) ? 'never' : 'always',
+        markMessagesReadOnScroll:
+          // $FlowIgnore[incompatible-cast] - is boolean when migration runs
+          (doNotMarkMessagesAsRead: boolean)
+            ? 'never' // newline to narrow FlowIgnore's scope, above
+            : 'always',
       },
     };
   },

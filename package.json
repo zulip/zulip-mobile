@@ -109,7 +109,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.5.0",
-    "flow-bin": "^0.170.0",
+    "flow-bin": "^0.175.1",
     "flow-coverage-report": "^0.8.0",
     "flow-parser": "<0.159.0",
     "flow-typed": "^3.3.1",

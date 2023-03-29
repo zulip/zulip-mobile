@@ -243,6 +243,7 @@ describe('expo-sqlite', () => {
       expect(await select(db, 'SELECT x FROM foo')).toEqual([{ x: 1 }]);
 
       // $FlowFixMe[prop-missing]
+      // $FlowFixMe[incompatible-use]
       db._db.allowUnhandled();
 
       let _ops = undefined;
