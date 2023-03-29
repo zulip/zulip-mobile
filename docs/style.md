@@ -38,8 +38,8 @@
     initializer at `let`.
   * [[link](#immutable-provide-type)] Always provide a type when
     writing an empty `Immutable` value.
-  * [[link](#immutable-no-object-as-map)] Don't construct an `Immutable.Map`
-    with an object-as-map.
+  * [[link](#immutable-no-computed-property)] Don't initialize an
+    `Immutable.Map` with an object literal having a computed property.
   * [[link](#react-function-prop-defaults)] Don't use React
     `defaultProps` for function components.
 * [Internal to Zulip and our codebase](#zulip)
@@ -544,20 +544,26 @@ in Flow, or a design limitation of Flow, or an issue in the Flow types
 provided by Immutable.js, or some combination.)
 
 
-<div id="immutable-no-object-as-map" />
+<div id="immutable-no-object-as-map" /> <!-- old name -->
+<div id="immutable-no-computed-property" />
 
-**Don't construct an `Immutable.Map` with an object-as-map**: Whenever you
-create a non-empty `Immutable.Map`, pass an array of entries instead of an
-object-as-map. For example:
+**Don't initialize an `Immutable.Map` with an object literal having
+a computed property**: When you create an `Immutable.Map`, you can
+initialize its contents with an array of entries or an object-as-map.
+If you have literal data but a key that is not a string literal,
+use an array.  Do not use an object literal with a computed property.
+For example:
 ```js
-Immutable.Map([[HOME_NARROW_STR, [1, 2]]]) // good
+Immutable.Map(data) // good - not a literal
+Immutable.Map({ a: 3 }) // good - not a computed property
+Immutable.Map([['a', 3]]) // also good
 
-Immutable.Map({ [HOME_NARROW_STR]: [1, 2] }) // BAD -- don't do
+Immutable.Map({ [HOME_NARROW_STR]: [1, 2] }) // BAD - don't do
+Immutable.Map([[HOME_NARROW_STR, [1, 2]]]) // good - do this instead
 ```
 
 This is essential in order to get effective type-checking of the value
-passed to the `Immutable.Map` function when a key is computed (like
-`HOME_NARROW_STR`) instead of literal (like 'foo'). In the Immutable type
+passed to the `Immutable.Map` function. In the Immutable type
 definition, the object-as-map branch involves an object type with an indexer
 property, and in general [Flow seems to have trouble with those][].
 
