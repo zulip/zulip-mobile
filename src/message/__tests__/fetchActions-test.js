@@ -309,10 +309,9 @@ describe('fetchActions', () => {
       });
 
       test('rejects when user is not logged in, dispatches MESSAGE_FETCH_ERROR', async () => {
-        const stateWithoutAccount = {
-          ...baseState,
+        const stateWithoutAccount = eg.reduxStatePlus({
           accounts: [],
-        };
+        });
         const store = mockStore<GlobalState, Action>(stateWithoutAccount);
 
         const response = {
