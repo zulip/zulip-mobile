@@ -208,18 +208,10 @@ export function reducer(
     case RESET_ACCOUNT_DATA:
       return initialState;
 
-    case REGISTER_COMPLETE: {
-      // TODO(#5102): Delete fallback once we enforce any threshold for
-      //   ancient servers we refuse to connect to. It was added in
-      //   #2878 (2018-11-16), but it wasn't clear even then, it seems,
-      //   whether any servers actually omit the data. The API doc
-      //   doesn't mention any servers that omit it, and our Flow types
-      //   mark it required.
-      const data = action.data.presences ?? {};
+    case REGISTER_COMPLETE:
       return {
-        byEmail: Immutable.Map(data),
+        byEmail: Immutable.Map(action.data.presences),
       };
-    }
 
     case PRESENCE_RESPONSE:
       return {
