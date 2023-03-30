@@ -693,8 +693,9 @@ export type NarrowElement =
  | {| +operator: 'stream', +operand: string | number |} // stream ID
  | {| +operator: 'pm-with', +operand: string | $ReadOnlyArray<UserId> |}
  | {| +operator: 'sender', +operand: string | UserId |}
- | {| +operator: 'group-pm-with', +operand: string | UserId |}
  | {| +operator: 'near' | 'id', +operand: number |} // message ID
+ // ('group-pm-with' was accepted at least through server 6.x, but support
+ // will be dropped: https://github.com/zulip/zulip/issues/24806 )
  ;
 
 /**
