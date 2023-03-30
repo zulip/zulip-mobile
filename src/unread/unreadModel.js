@@ -129,11 +129,7 @@ function streamsReducer(
       return initialStreamsState;
 
     case REGISTER_COMPLETE: {
-      // TODO(#5102): Delete fallback once we refuse to connect to Zulip
-      //   servers before 1.7.0, when it seems this feature was added; see
-      //   comment on InitialDataUpdateMessageFlags.
-      // flowlint-next-line unnecessary-optional-chain:off
-      const data = action.data.unread_msgs?.streams ?? [];
+      const data = action.data.unread_msgs.streams;
 
       // First, collect together all the data for a given stream, just in a
       // plain old Array.

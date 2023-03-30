@@ -94,13 +94,7 @@ export default (
       return initialState;
 
     case REGISTER_COMPLETE:
-      return (
-        (action.data.unread_msgs && action.data.unread_msgs.huddles)
-        // TODO(#5102): Delete fallback once we refuse to connect to Zulip
-        //   servers before 1.7.0, when it seems this feature was added; see
-        //   comment on InitialDataUpdateMessageFlags.
-        || initialState
-      );
+      return action.data.unread_msgs.huddles;
 
     case EVENT_NEW_MESSAGE:
       return eventNewMessage(state, action);

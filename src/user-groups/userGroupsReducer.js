@@ -52,8 +52,7 @@ export default (
       return initialState;
 
     case REGISTER_COMPLETE:
-      // TODO(#5102): Remove fallback for pre-1.8 servers
-      return action.data.realm_user_groups || initialState;
+      return action.data.realm_user_groups;
 
     case EVENT_USER_GROUP_ADD:
       return [...state, action.group];

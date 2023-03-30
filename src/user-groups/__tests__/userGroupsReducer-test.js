@@ -22,26 +22,6 @@ describe('userGroupsReducer', () => {
         userGroupsReducer(prevState, eg.mkActionRegisterComplete({ realm_user_groups: [group] })),
       ).toEqual([group]);
     });
-
-    // TODO(#5102): Remove this test case, which is for pre-1.8 servers.
-    test('when no data is given reset state', () => {
-      const prevState = deepFreeze([eg.makeUserGroup()]);
-      expect(
-        userGroupsReducer(
-          prevState,
-          eg.mkActionRegisterComplete({
-            // Hmm, we should need a Flow suppression here. This property is
-            // marked required in InitialData, and this explicit undefined is
-            // meant to defy that; see TODO(#5102) above.
-            // mkActionRegisterComplete is designed to accept input with this or
-            // any property *omitted*… and I think, as a side effect of handling
-            // that, Flow mistakenly accepts an explicit undefined here, so it
-            // doesn't catch the resulting malformed InitialData.
-            realm_user_groups: undefined,
-          }),
-        ),
-      ).toEqual([]);
-    });
   });
 
   describe('RESET_ACCOUNT_DATA', () => {

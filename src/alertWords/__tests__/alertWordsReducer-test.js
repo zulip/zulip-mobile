@@ -26,26 +26,6 @@ describe('alertWordsReducer', () => {
         ),
       ).toEqual(['word', '@mobile-core', 'alert']);
     });
-
-    // TODO(#5102): Delete; see comment on implementation.
-    test('when no `alert_words` data is given reset state', () => {
-      const prevState = deepFreeze(['word']);
-      const actualState = alertWordsReducer(
-        prevState,
-        eg.mkActionRegisterComplete({
-          // Hmm, we should need a Flow suppression here. This property is
-          // marked required in InitialData, and this explicit undefined is
-          // meant to defy that; see TODO(#5102) above.
-          // mkActionRegisterComplete is designed to accept input with this or
-          // any property *omitted*… and I think, as a side effect of handling
-          // that, Flow mistakenly accepts an explicit undefined here, so it
-          // doesn't catch the resulting malformed InitialData.
-          alert_words: undefined,
-        }),
-      );
-
-      expect(actualState).toEqual([]);
-    });
   });
 
   describe('EVENT_ALERT_WORDS', () => {
