@@ -269,10 +269,7 @@ export default (
                 return oldMessage;
               }
 
-              // FlowIssue: https://github.com/facebook/flow/issues/8833
-              //   The cast `: 'stream'` is silly but harmless, and works
-              //   around a Flow issue which causes an error.
-              if (oldMessage.type !== ('stream': 'stream')) {
+              if (oldMessage.type !== 'stream') {
                 logging.warn('messagesReducer: got update_message with stream/topic move on PM');
                 return oldMessage;
               }
