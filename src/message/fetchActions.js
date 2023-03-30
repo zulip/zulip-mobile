@@ -374,7 +374,6 @@ export async function fetchServerSettings(realm: URL): Promise<
 > {
   try {
     return { type: 'success', value: await api.getServerSettings(realm) };
-    // TODO(#5102): Disallow connecting to ancient servers
   } catch (errorIllTyped) {
     const error: mixed = errorIllTyped;
 
