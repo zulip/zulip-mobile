@@ -144,8 +144,11 @@ export const getNarrowFromNarrowLink = (
   const hashSegments = getHashSegmentsFromNarrowLink(url, realm);
 
   if (
-    (hashSegments.length === 2 && hashSegments[0] === 'pm-with')
-    || (hashSegments.length === 4 && hashSegments[0] === 'pm-with' && hashSegments[2] === 'near')
+    // 'dm' is new in server-7.0; means the same as 'pm-with'
+    (hashSegments.length === 2 && (hashSegments[0] === 'pm-with' || hashSegments[0] === 'dm'))
+    || (hashSegments.length === 4
+      && (hashSegments[0] === 'pm-with' || hashSegments[0] === 'dm')
+      && hashSegments[2] === 'near')
   ) {
     // TODO: This case is pretty useless in practice, due to basically a
     //   bug in the webapp: the URL that appears in the location bar for a
@@ -175,9 +178,18 @@ export const getNarrowFromNarrowLink = (
     && hashSegments[0] === 'is'
     && (hashSegments[1] === 'starred'
       || hashSegments[1] === 'mentioned'
+      || hashSegments[1] === 'dm' // new in server-7.0; means the same as 'private'
       || hashSegments[1] === 'private')
   ) {
-    return specialNarrow(hashSegments[1]);
+    switch (hashSegments[1]) {
+      case 'starred':
+        return specialNarrow('starred');
+      case 'mentioned':
+        return specialNarrow('mentioned');
+      case 'dm':
+      case 'private':
+        return specialNarrow('dm');
+    }
   }
 
   return null; // TODO(?) Give HOME_NARROW

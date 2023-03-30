@@ -47,7 +47,8 @@ describe('isNarrowLink', () => {
     [true, 'with numeric stream ID', urlOnRealm('#narrow/stream/123-jest')],
     [true, 'with numeric stream ID and topic', urlOnRealm('#narrow/stream/123-jest/topic/topic1')],
 
-    [true, 'with numeric pm user IDs', urlOnRealm('#narrow/pm-with/123-mark')],
+    [true, 'with numeric pm user IDs (new operator)', urlOnRealm('#narrow/dm/123-mark')],
+    [true, 'with numeric pm user IDs (old operator)', urlOnRealm('#narrow/pm-with/123-mark')],
 
     [false, 'wrong fragment', urlOnRealm('#nope')],
     [false, 'wrong path', urlOnRealm('/user_uploads/#narrow/stream/jest')],
@@ -183,6 +184,15 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     ].forEach(hash => check(hash));
   });
 
+  describe('"/#narrow/dm/<…>" is a PM link', () => {
+    const check = mkCheck(isPmNarrow);
+    [
+      '/#narrow/dm/1,2-group',
+      '/#narrow/dm/1,2-group/near/1',
+      '/#narrow/dm/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3',
+    ].forEach(hash => check(hash));
+  });
+
   describe('"/#narrow/pm-with/<…>" is a PM link', () => {
     const check = mkCheck(isPmNarrow);
     [
@@ -194,9 +204,12 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
 
   describe('"/#narrow/is/<…>" with valid operand is a special link', () => {
     const check = mkCheck(isSpecialNarrow);
-    ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
-      check(hash),
-    );
+    [
+      '/#narrow/is/dm',
+      '/#narrow/is/private',
+      '/#narrow/is/starred',
+      '/#narrow/is/mentioned',
+    ].forEach(hash => check(hash));
   });
 
   describe('unexpected link shape gives null', () => {
@@ -375,6 +388,9 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
 
   test('on group PM link', () => {
     const ids = `${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/dm/${ids}-group`, [])).toEqual(
+      pmNarrowFromUsersUnsafe([userB, userC]),
+    );
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`, [])).toEqual(
       pmNarrowFromUsersUnsafe([userB, userC]),
     );
@@ -383,12 +399,16 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
   test('on group PM link including self', () => {
     // The webapp doesn't generate these, but best to handle them anyway.
     const ids = `${eg.selfUser.user_id},${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/dm/${ids}-group`, [])).toEqual(
+      pmNarrowFromUsersUnsafe([userB, userC]),
+    );
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group`, [])).toEqual(
       pmNarrowFromUsersUnsafe([userB, userC]),
     );
   });
 
   test('on a special link', () => {
+    expect(get('/#narrow/is/dm', [])).toEqual(ALL_PRIVATE_NARROW);
     expect(get('/#narrow/is/private', [])).toEqual(ALL_PRIVATE_NARROW);
     expect(get('/#narrow/is/starred', [])).toEqual(STARRED_NARROW);
     expect(get('/#narrow/is/mentioned', [])).toEqual(MENTIONED_NARROW);
@@ -396,6 +416,9 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
 
   test('on a message link', () => {
     const ids = `${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/dm/${ids}-group/near/2`, [])).toEqual(
+      pmNarrowFromUsersUnsafe([userB, userC]),
+    );
     expect(get(`https://example.com/#narrow/pm-with/${ids}-group/near/2`, [])).toEqual(
       pmNarrowFromUsersUnsafe([userB, userC]),
     );
@@ -421,6 +444,7 @@ describe('getNearOperandFromLink', () => {
   });
 
   test('when link is a group link, return anchor message id', () => {
+    expect(getNearOperandFromLink(new URL('/#narrow/dm/1,3-group/near/1/', realm), realm)).toBe(1);
     expect(
       getNearOperandFromLink(new URL('/#narrow/pm-with/1,3-group/near/1/', realm), realm),
     ).toBe(1);

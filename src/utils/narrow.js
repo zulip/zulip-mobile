@@ -124,13 +124,13 @@ export const pmNarrowFromUsersUnsafe = (recipients: $ReadOnlyArray<UserOrBot>): 
 export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow =>
   pmNarrowInternal(pmKeyRecipientsFor1to1(user.user_id));
 
-export const specialNarrow = (operand: 'starred' | 'mentioned' | 'private'): Narrow => {
+export const specialNarrow = (operand: 'starred' | 'mentioned' | 'dm'): Narrow => {
   switch (operand) {
     case 'starred':
       return Object.freeze({ type: 'starred' });
     case 'mentioned':
       return Object.freeze({ type: 'mentioned' });
-    case 'private':
+    case 'dm':
       return Object.freeze({ type: 'all-pm' });
     default:
       ensureUnreachable(operand);
@@ -146,7 +146,7 @@ export const MENTIONED_NARROW: Narrow = specialNarrow('mentioned');
 
 export const MENTIONED_NARROW_STR: string = keyFromNarrow(MENTIONED_NARROW);
 
-export const ALL_PRIVATE_NARROW: Narrow = specialNarrow('private');
+export const ALL_PRIVATE_NARROW: Narrow = specialNarrow('dm');
 
 export const ALL_PRIVATE_NARROW_STR: string = keyFromNarrow(ALL_PRIVATE_NARROW);
 
@@ -437,6 +437,7 @@ export const apiNarrowOfNarrow = (
     ],
     pm: ids => {
       const emails = ids.map(id => get('user', allUsersById, id).email);
+      // TODO(server-7.0): send `dm` rather than `pm-with`
       // TODO(server-2.1): just send IDs instead
       return [{ operator: 'pm-with', operand: emails.join(',') }];
     },
@@ -444,6 +445,8 @@ export const apiNarrowOfNarrow = (
     home: () => [],
     starred: () => [{ operator: 'is', operand: 'starred' }],
     mentioned: () => [{ operator: 'is', operand: 'mentioned' }],
+
+    // TODO(server-7.0): send `is:dm` rather than `is:private`
     allPrivate: () => [{ operator: 'is', operand: 'private' }],
   });
 };
