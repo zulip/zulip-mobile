@@ -160,7 +160,7 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     }
   };
 
-  describe('link containing "stream" is a stream link', () => {
+  describe('"/#narrow/stream/<…>" is a stream link', () => {
     const check = mkCheck(isStreamNarrow);
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
       check(hash),
@@ -169,7 +169,7 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     // TODO: Test with modern-style stream links that use stream IDs
   });
 
-  describe('link containing "topic" is a topic link', () => {
+  describe('"/#narrow/stream/<…>/topic/<…>" is a topic link', () => {
     const check = mkCheck(isTopicNarrow);
     [
       '/#narrow/stream/jest/topic/test',
@@ -181,7 +181,7 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     ].forEach(hash => check(hash));
   });
 
-  describe('link containing "pm-with" is a PM link', () => {
+  describe('"/#narrow/pm-with/<…>" is a PM link', () => {
     const check = mkCheck(isPmNarrow);
     [
       '/#narrow/pm-with/1,2-group',
@@ -190,7 +190,7 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     ].forEach(hash => check(hash));
   });
 
-  describe('link containing "is" with valid operand is a special link', () => {
+  describe('"/#narrow/is/<…>" with valid operand is a special link', () => {
     const check = mkCheck(isSpecialNarrow);
     ['/#narrow/is/private', '/#narrow/is/starred', '/#narrow/is/mentioned'].forEach(hash =>
       check(hash),
