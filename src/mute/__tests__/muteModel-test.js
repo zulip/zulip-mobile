@@ -95,16 +95,6 @@ describe('reducer', () => {
       expect(newState).toBeTruthy();
       expect(newState && getMute(newState)).toEqual(makeMuteState([[eg.stream, 'topic']]));
     });
-
-    // TODO(#5102): Delete; see comment on implementation.
-    test('in ancient no-muted-topics format', () => {
-      const state = makeMuteState([[eg.stream, 'topic']]);
-      const action = eg.mkActionRegisterComplete({
-        muted_topics: undefined,
-        user_topics: undefined,
-      });
-      expect(reducer(state, action, eg.plusReduxState)).toEqual(initialState);
-    });
   });
 
   describe('RESET_ACCOUNT_DATA', () => {

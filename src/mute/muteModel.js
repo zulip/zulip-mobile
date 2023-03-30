@@ -111,12 +111,10 @@ export const reducer = (
       // TODO(server-6.0): Stop caring about that, when we cut muted_topics.
       return convertLegacy(
         action.data.muted_topics
-          // TODO(#5102): Delete fallback once we enforce any threshold for
-          //   ancient servers we refuse to connect to. It was added in
-          //   #2878 (2018-11-16), but it wasn't clear even then, it seems,
-          //   whether any servers actually omit the data. The API doc
-          //   doesn't mention any servers that omit it, and our Flow types
-          //   mark it required.
+          // Unnecessary fallback just to satisfy Flow: the old
+          // `muted_topics` is absent only when the new `user_topics` is
+          // present (ignoring ancient unsupported servers), but Flow
+          // doesn't track that.
           ?? [],
         getStreamsByName(globalState),
       );
