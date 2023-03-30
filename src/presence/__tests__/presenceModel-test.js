@@ -224,28 +224,6 @@ describe('presenceReducer', () => {
       const expectedState = makePresenceState([[user, userPresence]]);
       expect(presenceReducer(prevState, action)).toEqual(expectedState);
     });
-
-    // TODO(#5102): Delete; see comment on implementation.
-    test('when no `presence` data is given reset state', () => {
-      const user = eg.otherUser;
-      const userPresence = {
-        aggregated: { client: 'website', status: 'active', timestamp: 123 },
-        website: { client: 'website', status: 'active', timestamp: 123 },
-      };
-      const prevState = makePresenceState([[user, userPresence]]);
-      const action = eg.mkActionRegisterComplete({
-        // Hmm, we should need a Flow suppression here. This property is
-        // marked required in InitialData, and this explicit undefined is
-        // meant to defy that; see TODO(#5102) above.
-        // mkActionRegisterComplete is designed to accept input with this or
-        // any property *omitted*… and I think, as a side effect of handling
-        // that, Flow mistakenly accepts an explicit undefined here, so it
-        // doesn't catch the resulting malformed InitialData.
-        presences: undefined,
-      });
-      const expectedState = makePresenceState([]);
-      expect(presenceReducer(prevState, action)).toEqual(expectedState);
-    });
   });
 
   describe('PRESENCE_RESPONSE', () => {
