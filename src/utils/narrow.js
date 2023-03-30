@@ -13,6 +13,7 @@ import {
   makePmKeyRecipients_UNSAFE,
 } from './recipient';
 import type { UserMessageFlag } from '../api/modelTypes';
+import { ensureUnreachable } from '../generics';
 
 /* eslint-disable no-use-before-define */
 
@@ -123,17 +124,18 @@ export const pmNarrowFromUsersUnsafe = (recipients: $ReadOnlyArray<UserOrBot>): 
 export const pm1to1NarrowFromUser = (user: UserOrBot): Narrow =>
   pmNarrowInternal(pmKeyRecipientsFor1to1(user.user_id));
 
-export const specialNarrow = (operand: string): Narrow => {
-  if (operand === 'starred') {
-    return Object.freeze({ type: 'starred' });
+export const specialNarrow = (operand: 'starred' | 'mentioned' | 'private'): Narrow => {
+  switch (operand) {
+    case 'starred':
+      return Object.freeze({ type: 'starred' });
+    case 'mentioned':
+      return Object.freeze({ type: 'mentioned' });
+    case 'private':
+      return Object.freeze({ type: 'all-pm' });
+    default:
+      ensureUnreachable(operand);
+      throw new Error();
   }
-  if (operand === 'mentioned') {
-    return Object.freeze({ type: 'mentioned' });
-  }
-  if (operand === 'private') {
-    return Object.freeze({ type: 'all-pm' });
-  }
-  throw new Error(`specialNarrow: got unsupported operand: ${operand}`);
 };
 
 export const STARRED_NARROW: Narrow = specialNarrow('starred');

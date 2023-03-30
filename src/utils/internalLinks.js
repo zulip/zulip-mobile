@@ -173,13 +173,11 @@ export const getNarrowFromNarrowLink = (
   if (
     hashSegments.length === 2
     && hashSegments[0] === 'is'
-    && /^(private|starred|mentioned)/i.test(hashSegments[1])
+    && (hashSegments[1] === 'starred'
+      || hashSegments[1] === 'mentioned'
+      || hashSegments[1] === 'private')
   ) {
-    try {
-      return specialNarrow(hashSegments[1]);
-    } catch {
-      return null;
-    }
+    return specialNarrow(hashSegments[1]);
   }
 
   return null; // TODO(?) Give HOME_NARROW
