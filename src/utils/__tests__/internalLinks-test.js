@@ -15,6 +15,8 @@ import {
   isStreamNarrow,
   isTopicNarrow,
   isSpecialNarrow,
+  ALL_PRIVATE_NARROW,
+  MENTIONED_NARROW,
 } from '../narrow';
 import {
   isNarrowLink,
@@ -387,7 +389,9 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
   });
 
   test('on a special link', () => {
-    expect(get('https://example.com/#narrow/is/starred', [])).toEqual(STARRED_NARROW);
+    expect(get('/#narrow/is/private', [])).toEqual(ALL_PRIVATE_NARROW);
+    expect(get('/#narrow/is/starred', [])).toEqual(STARRED_NARROW);
+    expect(get('/#narrow/is/mentioned', [])).toEqual(MENTIONED_NARROW);
   });
 
   test('on a message link', () => {
