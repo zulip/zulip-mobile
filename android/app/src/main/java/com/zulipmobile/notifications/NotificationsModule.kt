@@ -10,7 +10,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import java.lang.Exception
 
-internal class NotificationsModule(reactContext: ReactApplicationContext?) :
+internal class NotificationsModule(reactContext: ReactApplicationContext) :
         ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {
         return "Notifications"
@@ -76,7 +76,7 @@ internal class NotificationsModule(reactContext: ReactApplicationContext?) :
 
     companion object {
         var initialNotification: Bundle? = null
-        fun emitToken(reactContext: ReactContext?, token: String?) {
+        fun emitToken(reactContext: ReactContext?, token: String) {
             if (reactContext == null) {
                 // Perhaps this is possible if InstanceIDListenerService gets invoked?
                 return
