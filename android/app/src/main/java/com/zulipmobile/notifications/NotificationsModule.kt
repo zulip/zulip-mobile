@@ -43,19 +43,18 @@ internal class NotificationsModule(reactContext: ReactApplicationContext) :
     // that's #3838.
     @ReactMethod
     fun googlePlayServicesAvailability(promise: Promise) {
-        val result = Arguments.createMap()
         val googleApiAvailability = GoogleApiAvailability.getInstance()
 
         // https://developers.google.com/android/reference/com/google/android/gms/common/GoogleApiAvailability#isGooglePlayServicesAvailable(android.content.Context)
         val connectionResult = ConnectionResult(
             googleApiAvailability.isGooglePlayServicesAvailable(reactApplicationContext))
-        result.putInt("errorCode", connectionResult.errorCode)
-        result.putString("errorMessage", connectionResult.errorMessage)
-        result.putBoolean("hasResolution", connectionResult.hasResolution())
-        result.putBoolean("isSuccess", connectionResult.isSuccess)
-
-        // Keep return value in sync with the Flow type on the JS side.
-        promise.resolve(result)
+        promise.resolve(Arguments.createMap().apply {
+            // Keep return value in sync with the Flow type on the JS side.
+            putInt("errorCode", connectionResult.errorCode)
+            putString("errorMessage", connectionResult.errorMessage)
+            putBoolean("hasResolution", connectionResult.hasResolution())
+            putBoolean("isSuccess", connectionResult.isSuccess)
+        })
     }
 
     /**
