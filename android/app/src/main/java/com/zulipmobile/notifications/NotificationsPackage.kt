@@ -12,8 +12,6 @@ class NotificationsPackage : ReactPackage {
     }
 
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
-        val modules: MutableList<NativeModule> = ArrayList()
-        modules.add(NotificationsModule(reactContext))
-        return modules
+        return listOf(NotificationsModule(reactContext))
     }
 }
