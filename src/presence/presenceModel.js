@@ -8,7 +8,6 @@ import type {
   ClientPresence,
   UserPresence,
   PresenceStatus,
-  UserStatus,
   PresenceState,
   PerAccountApplicableAction,
 } from '../types';
@@ -163,13 +162,6 @@ export const statusFromPresence = (presence: UserPresence | void): PresenceStatu
   return presence.aggregated.status;
 };
 
-// TODO(server-6.0): Remove; UserStatus['away'] was deprecated at FL 148.
-const statusFromPresenceAndUserStatus = (
-  presence: UserPresence | void,
-  userStatus: UserStatus,
-): PresenceStatus | 'unavailable' =>
-  userStatus.away ? 'unavailable' : statusFromPresence(presence);
-
 /**
  * Get a user's overall presence status, aggregated from all their devices.
  *
@@ -189,14 +181,14 @@ export const getPresenceStatusForUserId = (
   if (!userPresence || !userPresence.aggregated) {
     return null;
   }
-  const userStatus = getUserStatus(state, userId);
 
-  // "Invisible mode", new in FL 148, doesn't involve UserStatus['away']:
+  // TODO(server-6.0): Cut this; UserStatus['away'] was replaced by "invisible mode".
   //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
-  // TODO(server-6.0): Simplify to just statusFromPresence.
-  return getZulipFeatureLevel(state) >= 148
-    ? statusFromPresence(userPresence)
-    : statusFromPresenceAndUserStatus(userPresence, userStatus);
+  if (getZulipFeatureLevel(state) < 148 && getUserStatus(state, userId).away) {
+    return 'unavailable';
+  }
+
+  return statusFromPresence(userPresence);
 };
 
 //
