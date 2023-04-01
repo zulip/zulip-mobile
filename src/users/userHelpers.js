@@ -5,14 +5,14 @@ import * as typeahead from '@zulip/shared/lib/typeahead';
 
 import type {
   MutedUsersState,
-  UserPresence,
   UserId,
   UserGroup,
   PresenceState,
+  PresenceStatus,
   UserOrBot,
 } from '../types';
 import { ensureUnreachable } from '../types';
-import { getUserPresenceByEmail, statusFromPresence } from '../presence/presenceModel';
+import { getPresenceOnlyStatusForUser } from '../presence/presenceModel';
 
 type UsersByStatus = {|
   active: UserOrBot[],
@@ -27,14 +27,13 @@ export const groupUsersByStatus = (
 ): UsersByStatus => {
   const groupedUsers = { active: [], idle: [], offline: [], unavailable: [] };
   users.forEach(user => {
-    const status = statusFromPresence(getUserPresenceByEmail(presences, user.email));
+    const status = getPresenceOnlyStatusForUser(presences, user) ?? 'offline';
     groupedUsers[status].push(user);
   });
   return groupedUsers;
 };
 
-const statusOrder = (presence: UserPresence | void): number => {
-  const status = statusFromPresence(presence);
+const statusOrder = (status: PresenceStatus): number => {
   switch (status) {
     case 'active':
       return 1;
@@ -54,8 +53,8 @@ export const sortUserList = (
 ): $ReadOnlyArray<UserOrBot> =>
   [...users].sort(
     (x1, x2) =>
-      statusOrder(getUserPresenceByEmail(presences, x1.email))
-        - statusOrder(getUserPresenceByEmail(presences, x2.email))
+      statusOrder(getPresenceOnlyStatusForUser(presences, x1) ?? 'offline')
+        - statusOrder(getPresenceOnlyStatusForUser(presences, x2) ?? 'offline')
       || x1.full_name.toLowerCase().localeCompare(x2.full_name.toLowerCase()),
   );
 

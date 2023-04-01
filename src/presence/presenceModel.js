@@ -33,7 +33,7 @@ import type { UserOrBot } from '../api/modelTypes';
 
 export const getPresence = (state: PerAccountState): PresenceState => state.presence;
 
-export function getUserPresenceByEmail(state: PresenceState, email: string): UserPresence | void {
+function getUserPresenceByEmail(state: PresenceState, email: string): UserPresence | void {
   return state.byEmail.get(email);
 }
 
@@ -143,24 +143,29 @@ export function getUserLastActiveAsRelativeTimeString(
     : `${formatDistanceToNow(lastTimeActive)} ago`;
 }
 
-export const statusFromPresence = (presence: UserPresence | void): PresenceStatus => {
-  if (!presence || !presence.aggregated) {
+export function getPresenceOnlyStatusForUser(
+  state: PresenceState,
+  user: UserOrBot,
+): PresenceStatus | null {
+  const userPresence = getUserPresenceByEmail(state, user.email);
+  if (!userPresence || !userPresence.aggregated) {
+    return null;
+  }
+  const { status, timestamp } = userPresence.aggregated;
+
+  if (status === 'offline') {
     return 'offline';
   }
 
-  if (presence.aggregated.status === 'offline') {
-    return 'offline';
-  }
-
-  const timestampDate = new Date(presence.aggregated.timestamp * 1000);
+  const timestampDate = new Date(timestamp * 1000);
   const diffToNowInSeconds = differenceInSeconds(Date.now(), timestampDate);
 
   if (diffToNowInSeconds > OFFLINE_THRESHOLD_SECS) {
     return 'offline';
   }
 
-  return presence.aggregated.status;
-};
+  return status;
+}
 
 /**
  * Get a user's overall presence status, aggregated from all their devices.
@@ -183,12 +188,8 @@ export const getPresenceStatusForUserId = (
   if (!user) {
     return null;
   }
-  const userPresence = getUserPresenceByEmail(presence, user.email);
-  if (!userPresence || !userPresence.aggregated) {
-    return null;
-  }
 
-  return statusFromPresence(userPresence);
+  return getPresenceOnlyStatusForUser(presence, user);
 };
 
 //

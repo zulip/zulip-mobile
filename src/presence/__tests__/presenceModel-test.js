@@ -8,9 +8,9 @@ import { PRESENCE_RESPONSE, EVENT_PRESENCE } from '../../actionConstants';
 import {
   reducer as presenceReducer,
   getAggregatedPresence,
-  statusFromPresence,
   getUserLastActiveAsRelativeTimeString,
   getPresenceStatusForUserId,
+  getPresenceOnlyStatusForUser,
 } from '../presenceModel';
 import { makePresenceState } from './presence-testlib';
 import type { UserPresence, UserStatus } from '../../api/modelTypes';
@@ -144,48 +144,52 @@ describe('getUserLastActiveAsRelativeTimeString', () => {
   });
 });
 
-describe('statusFromPresence', () => {
+describe('getPresenceOnlyStatusForUser', () => {
   test('if aggregate status is "offline" the result is always "offline"', () => {
+    const userPresence = {
+      aggregated: { client: 'website', status: 'offline', timestamp: currentTimestamp - 100 },
+    };
     expect(
-      statusFromPresence({
-        aggregated: { client: 'website', status: 'offline', timestamp: currentTimestamp - 100 },
-      }),
+      getPresenceOnlyStatusForUser(makePresenceState([[eg.otherUser, userPresence]]), eg.otherUser),
     ).toBe('offline');
   });
 
   test('if status is not "offline" but last activity was more than 1hr ago result is still "offline"', () => {
+    const userPresence = {
+      aggregated: {
+        client: 'website',
+        status: 'active',
+        timestamp: Math.trunc(Date.now() / 1000 - 2 * 60 * 60), // two hours
+      },
+    };
     expect(
-      statusFromPresence({
-        aggregated: {
-          client: 'website',
-          status: 'active',
-          timestamp: Math.trunc(Date.now() / 1000 - 2 * 60 * 60), // two hours
-        },
-      }),
+      getPresenceOnlyStatusForUser(makePresenceState([[eg.otherUser, userPresence]]), eg.otherUser),
     ).toBe('offline');
   });
 
   test('if status is  "idle" and last activity is less than 140 seconds then result remain "idle"', () => {
+    const userPresence = {
+      aggregated: {
+        client: 'website',
+        status: 'idle',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
+      },
+    };
     expect(
-      statusFromPresence({
-        aggregated: {
-          client: 'website',
-          status: 'idle',
-          timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
-        },
-      }),
+      getPresenceOnlyStatusForUser(makePresenceState([[eg.otherUser, userPresence]]), eg.otherUser),
     ).toBe('idle');
   });
 
   test('if status is not "offline" and last activity was less than 5min ago result is "active"', () => {
+    const userPresence = {
+      aggregated: {
+        client: 'website',
+        status: 'active',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
+      },
+    };
     expect(
-      statusFromPresence({
-        aggregated: {
-          client: 'website',
-          status: 'active',
-          timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
-        },
-      }),
+      getPresenceOnlyStatusForUser(makePresenceState([[eg.otherUser, userPresence]]), eg.otherUser),
     ).toBe('active');
   });
 });
