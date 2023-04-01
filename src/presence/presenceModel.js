@@ -54,9 +54,6 @@ const presenceStatusGeq = (a: PresenceStatus, b: PresenceStatus): boolean => {
   }
 };
 
-// TODO(#5669): get OFFLINE_THRESHOLD_SECS from PresenceState
-const OFFLINE_THRESHOLD_SECS = 140;
-
 /**
  * Aggregate our information on a user's presence across their clients.
  *
@@ -165,7 +162,7 @@ export function getPresenceOnlyStatusForUser(
   const timestampDate = new Date(timestamp * 1000);
   const diffToNowInSeconds = differenceInSeconds(Date.now(), timestampDate);
 
-  if (diffToNowInSeconds > OFFLINE_THRESHOLD_SECS) {
+  if (diffToNowInSeconds > state.offlineThresholdSeconds) {
     return 'offline';
   }
 

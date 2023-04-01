@@ -243,6 +243,22 @@ describe('getPresenceOnlyStatusForUser', () => {
     ).toBe('idle');
   });
 
+  test('Use specified offline threshold', () => {
+    const userPresence = {
+      aggregated: {
+        client: 'website',
+        status: 'idle',
+        timestamp: Math.trunc(Date.now() / 1000 - 60), // 1 minute
+      },
+    };
+    expect(
+      getPresenceOnlyStatusForUser(
+        makePresenceState([[eg.otherUser, userPresence]], { offlineThresholdSeconds: 40 }),
+        eg.otherUser,
+      ),
+    ).toBe('offline');
+  });
+
   test('if status is not "offline" and last activity was less than 5min ago result is "active"', () => {
     const userPresence = {
       aggregated: {
