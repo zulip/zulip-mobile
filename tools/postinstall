@@ -3,6 +3,10 @@ set -eu
 
 ROOT_DIR=$(git rev-parse --show-toplevel)
 
+patch_package() {
+    node_modules/.bin/patch-package
+}
+
 pod_install() {
     [[ "$OSTYPE" == "darwin"* ]] \
         || return 0
@@ -24,6 +28,8 @@ EOF
 jetify() {
     node_modules/.bin/jetify
 }
+
+patch_package
 
 pod_install
 
