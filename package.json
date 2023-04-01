@@ -24,7 +24,7 @@
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.8.0",
     "@react-native-async-storage/async-storage": "~1.17.3",
-    "@react-native-camera-roll/camera-roll": "^5.0.4",
+    "@react-native-camera-roll/camera-roll": "^5.0.4 <5.3.0",
     "@react-native-clipboard/clipboard": "^1.11.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "6.0.0",

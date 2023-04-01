@@ -9,7 +9,14 @@ export type GroupTypes =
   | 'Library'
   | 'PhotoStream'
   | 'SavedPhotos';
-export type Include = 'filename' | 'fileSize' | 'location' | 'imageSize' | 'playableDuration';
+export type Include =
+  | 'filename'
+  | 'fileSize'
+  | 'fileExtension'
+  | 'location'
+  | 'imageSize'
+  | 'playableDuration'
+  | 'orientation';
 export type AssetType = 'All' | 'Videos' | 'Photos';
 
 export type GetPhotosParams = {
@@ -31,11 +38,14 @@ export type PhotoIdentifier = {
     group_name: string,
     image: {
       filename: string | null,
+      filepath: string | null,
+      extension: string | null,
       uri: string,
       height: number,
       width: number,
       fileSize: number | null,
       playableDuration: number,
+      orientation: number | null,
       ...
     },
     timestamp: number,

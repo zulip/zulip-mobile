@@ -10,10 +10,10 @@ Should be easy to fix, then.
  1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
-index 525cabed3..707a2fc94 100644
+index 77a4779d0..8386689df 100644
 --- types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
 +++ types/@react-native-camera-roll/camera-roll/lib/typescript/CameraRoll.js.flow
-@@ -81,27 +81,30 @@ export type Album = {
+@@ -91,27 +91,30 @@ export type Album = {
  };
  
  declare export class CameraRoll {
