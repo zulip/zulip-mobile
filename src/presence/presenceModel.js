@@ -172,6 +172,12 @@ export const getPresenceStatusForUserId = (
   state: PerAccountState,
   userId: UserId,
 ): PresenceStatus | 'unavailable' | null => {
+  // TODO(server-6.0): Cut this; UserStatus['away'] was replaced by "invisible mode".
+  //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
+  if (getZulipFeatureLevel(state) < 148 && getUserStatus(state, userId).away) {
+    return 'unavailable';
+  }
+
   const presence = getPresence(state);
   const user = tryGetUserForId(state, userId);
   if (!user) {
@@ -180,12 +186,6 @@ export const getPresenceStatusForUserId = (
   const userPresence = getUserPresenceByEmail(presence, user.email);
   if (!userPresence || !userPresence.aggregated) {
     return null;
-  }
-
-  // TODO(server-6.0): Cut this; UserStatus['away'] was replaced by "invisible mode".
-  //   https://chat.zulip.org/#narrow/stream/2-general/topic/.22unavailable.22.20status/near/1454779
-  if (getZulipFeatureLevel(state) < 148 && getUserStatus(state, userId).away) {
-    return 'unavailable';
   }
 
   return statusFromPresence(userPresence);
