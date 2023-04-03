@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.facebook.react.bridge.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.zulipmobile.emitEvent
 import java.lang.Exception
 
 internal class NotificationsModule(reactContext: ReactApplicationContext) :
@@ -81,7 +82,7 @@ internal class NotificationsModule(reactContext: ReactApplicationContext) :
                 return
             }
             Log.i(TAG, "Got token; emitting event")
-            emit(reactContext, "remoteNotificationsRegistered", token)
+            reactContext.emitEvent("remoteNotificationsRegistered", token)
         }
     }
 }

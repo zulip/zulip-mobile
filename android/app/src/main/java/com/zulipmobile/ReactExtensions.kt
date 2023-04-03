@@ -5,6 +5,13 @@ import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.ReactContext
+import com.facebook.react.modules.core.DeviceEventManagerModule
+
+// A convenience shortcut.
+fun ReactContext.emitEvent(eventName: String, data: Any?) {
+    getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+        .emit(eventName, data)
+}
 
 /**
  * Like getReactInstanceManager, but just return what exists; avoid trying to create.

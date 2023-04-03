@@ -7,7 +7,7 @@ import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.common.LifecycleState
-import com.facebook.react.modules.core.DeviceEventManagerModule
+import com.zulipmobile.emitEvent
 
 /**
  * Methods for telling React about a notification.
@@ -76,12 +76,6 @@ internal fun notifyReact(reactContext: ReactContext?, data: Bundle) {
         ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
             // JS is running and has already reached foreground.  It won't check
             // initialNotification again, but it will see a notificationOpened event.
-            emit(reactContext, "notificationOpened", Arguments.fromBundle(data))
+            reactContext.emitEvent("notificationOpened", Arguments.fromBundle(data))
     }
-}
-
-fun emit(reactContext: ReactContext, eventName: String, data: Any?) {
-    reactContext
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
-        .emit(eventName, data)
 }

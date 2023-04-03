@@ -13,7 +13,7 @@ import com.facebook.react.bridge.WritableMap
 import com.zulipmobile.ZLog
 import com.zulipmobile.notifications.ReactAppStatus
 import com.zulipmobile.notifications.appStatus
-import com.zulipmobile.notifications.emit
+import com.zulipmobile.emitEvent
 
 @JvmField
 val TAG = "ShareToZulip"
@@ -43,7 +43,7 @@ internal fun handleSend(
         ReactAppStatus.BACKGROUND, ReactAppStatus.FOREGROUND ->
             // JS is running and has already reached foreground. It won't check
             // initialSharedData again, but it will see a shareReceived event.
-            emit(reactContext, "shareReceived", params)
+            reactContext.emitEvent("shareReceived", params)
     }
 }
 
