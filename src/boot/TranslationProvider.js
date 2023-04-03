@@ -1,6 +1,5 @@
 /* @flow strict-local */
-import React, { type Context, useContext } from 'react';
-import type { ComponentType, ElementConfig, Node } from 'react';
+import * as React from 'react';
 import { Text } from 'react-native';
 import { IntlProvider, IntlContext } from 'react-intl';
 import type { IntlShape } from 'react-intl';
@@ -11,7 +10,7 @@ import { getGlobalSettings } from '../selectors';
 import messages from '../i18n/messages';
 
 // $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
-export const TranslationContext: Context<GetText> = React.createContext(undefined);
+export const TranslationContext: React.Context<GetText> = React.createContext(undefined);
 
 /**
  * Provide `_` to the wrapped component, passing other props through.
@@ -21,11 +20,11 @@ export const TranslationContext: Context<GetText> = React.createContext(undefine
  * simply saying `context: TranslationContext` may be more convenient.
  * Or in a function component, `const _ = useContext(TranslationContext);`.
  */
-export function withGetText<P: { +_: GetText, ... }, C: ComponentType<P>>(
+export function withGetText<P: { +_: GetText, ... }, C: React.ComponentType<P>>(
   WrappedComponent: C,
-): ComponentType<$ReadOnly<$Exact<$Diff<ElementConfig<C>, {| _: GetText |}>>>> {
+): React.ComponentType<$ReadOnly<$Exact<$Diff<React.ElementConfig<C>, {| _: GetText |}>>>> {
   // eslint-disable-next-line func-names
-  return function (props: $Exact<$Diff<ElementConfig<C>, {| _: GetText |}>>): Node {
+  return function (props: $Exact<$Diff<React.ElementConfig<C>, {| _: GetText |}>>): React.Node {
     return (
       <TranslationContext.Consumer>
         {_ => <WrappedComponent _={_} {...props} />}
@@ -61,8 +60,8 @@ const makeGetText = (intl: IntlShape): GetText => {
  *
  * See the `GetTypes` type for why we like the new shape.
  */
-function TranslationContextTranslator(props: {| +children: Node |}): Node {
-  const intlContextValue = useContext(IntlContext);
+function TranslationContextTranslator(props: {| +children: React.Node |}): React.Node {
+  const intlContextValue = React.useContext(IntlContext);
 
   return (
     <TranslationContext.Provider value={makeGetText(intlContextValue)}>
@@ -72,10 +71,10 @@ function TranslationContextTranslator(props: {| +children: Node |}): Node {
 }
 
 type Props = $ReadOnly<{|
-  children: Node,
+  children: React.Node,
 |}>;
 
-export default function TranslationProvider(props: Props): Node {
+export default function TranslationProvider(props: Props): React.Node {
   const { children } = props;
   const language = useGlobalSelector(state => getGlobalSettings(state).language);
 
