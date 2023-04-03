@@ -10,9 +10,9 @@ import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
+import com.zulipmobile.ReactAppStatus
 import com.zulipmobile.ZLog
-import com.zulipmobile.notifications.ReactAppStatus
-import com.zulipmobile.notifications.appStatus
+import com.zulipmobile.appStatus
 import com.zulipmobile.emitEvent
 
 @JvmField
