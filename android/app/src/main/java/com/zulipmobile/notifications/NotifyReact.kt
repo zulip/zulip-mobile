@@ -4,8 +4,6 @@ package com.zulipmobile.notifications
 
 import android.os.Bundle
 import android.util.Log
-import com.facebook.react.ReactInstanceManager
-import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.common.LifecycleState
@@ -17,16 +15,6 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
  * This logic was largely inherited from the wix library.
  * TODO: Replace this with a fresh implementation based on RN upstream docs.
  */
-
-/**
- * Like getReactInstanceManager, but just return what exists; avoid trying to create.
- *
- * When there isn't already an instance manager, if we call
- * getReactInstanceManager it'll try to create one... which asserts we're
- * on the UI thread, which isn't true if e.g. we got here from a Service.
- */
-fun ReactNativeHost.tryGetReactInstanceManager(): ReactInstanceManager? =
-    if (this.hasInstance()) this.reactInstanceManager else null
 
 /**
  * A distillation of ReactContext.getLifecycleState() and related information.

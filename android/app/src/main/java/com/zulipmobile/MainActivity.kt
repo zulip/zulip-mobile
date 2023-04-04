@@ -6,25 +6,10 @@ import android.os.Bundle
 import android.webkit.WebView
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
-import com.facebook.react.ReactApplication
 import com.facebook.react.ReactRootView
-import com.facebook.react.bridge.ReactContext
 import com.zulipmobile.notifications.*
 import com.zulipmobile.sharing.handleSend
 import expo.modules.ReactActivityDelegateWrapper
-
-// A convenience shortcut.
-fun ReactApplication.tryGetReactContext(): ReactContext? =
-    this.reactNativeHost.tryGetReactInstanceManager()?.currentReactContext
-
-/**
- * Like `.application`, but with a more specific type.
- *
- * This expresses the invariant that a ReactActivity's application
- * should always be a ReactApplication.
- */
-val ReactActivity.reactApplication: ReactApplication
-    get() = application as ReactApplication
 
 open class MainActivity : ReactActivity() {
     /**
