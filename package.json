@@ -140,7 +140,6 @@
     "yarn-deduplicate": "^3.0.0"
   },
   "resolutions": {
-    "hermes-parser": ">=0.4.8",
     "jest-expo/react-test-renderer": "17.0.2",
     "prettier-eslint-cli/prettier-eslint": "^15.0.0",
     "react-native/use-subscription": ">=1.0.0 <1.6.0"
