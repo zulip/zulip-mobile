@@ -1,13 +1,15 @@
 package com.zulipmobile
 
-import android.os.Build
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.webkit.WebView
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
-import com.facebook.react.ReactRootView
-import com.zulipmobile.notifications.*
+import com.zulipmobile.notifications.EXTRA_NOTIFICATION_DATA
+import com.zulipmobile.notifications.NOTIFICATION_URL_AUTHORITY
+import com.zulipmobile.notifications.logNotificationData
+import com.zulipmobile.notifications.notifyReact
 import com.zulipmobile.sharing.handleSend
 import expo.modules.ReactActivityDelegateWrapper
 
