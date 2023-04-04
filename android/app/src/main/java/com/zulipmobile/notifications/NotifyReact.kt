@@ -2,13 +2,12 @@
 
 package com.zulipmobile.notifications
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
-import com.zulipmobile.ReactAppStatus
-import com.zulipmobile.appStatus
-import com.zulipmobile.emitEvent
+import com.zulipmobile.*
 
 /**
  * Methods for telling React about a notification.
@@ -16,6 +15,31 @@ import com.zulipmobile.emitEvent
  * This logic was largely inherited from the wix library.
  * TODO: Replace this with a fresh implementation based on RN upstream docs.
  */
+
+/**
+ * Recognize if an ACTION_VIEW intent came from tapping a notification; handle it if so
+ *
+ * Just if the intent is recognized,
+ * sends a 'notificationOpened' event to the JavaScript layer
+ * and returns true.
+ * Else does nothing and returns false.
+ *
+ * Do not call if `intent.action` is not ACTION_VIEW.
+ */
+internal fun maybeHandleViewNotif(intent: Intent, maybeReactContext: ReactContext?): Boolean {
+    assert(intent.action == Intent.ACTION_VIEW)
+
+    val url = intent.data
+    // Launch MainActivity on tapping a notification
+    if (url?.scheme == "zulip" && url.authority == NOTIFICATION_URL_AUTHORITY) {
+        val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
+        logNotificationData("notif opened", data)
+        notifyReact(maybeReactContext, data)
+        return true
+    }
+
+    return false
+}
 
 internal fun notifyReact(reactContext: ReactContext?, data: Bundle) {
     // TODO deduplicate this with handleSend in SharingHelper.kt; see

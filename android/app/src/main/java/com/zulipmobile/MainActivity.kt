@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.webkit.WebView
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
-import com.zulipmobile.notifications.EXTRA_NOTIFICATION_DATA
-import com.zulipmobile.notifications.NOTIFICATION_URL_AUTHORITY
-import com.zulipmobile.notifications.logNotificationData
-import com.zulipmobile.notifications.notifyReact
+import com.zulipmobile.notifications.maybeHandleViewNotif
 import com.zulipmobile.sharing.handleSend
 import expo.modules.ReactActivityDelegateWrapper
 
@@ -32,7 +29,6 @@ open class MainActivity : ReactActivity() {
     /* Returns true just if we did handle the intent. */
     private fun maybeHandleIntent(intent: Intent?): Boolean {
         intent ?: return false
-        val url = intent.data
         when (intent.action) {
             // Share-to-Zulip
             Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE -> {
@@ -40,18 +36,15 @@ open class MainActivity : ReactActivity() {
                 return true
             }
 
-            Intent.ACTION_VIEW -> when {
-                // Launch MainActivity on tapping a notification
-                url?.scheme == "zulip" && url.authority == NOTIFICATION_URL_AUTHORITY -> {
-                    val data = intent.getBundleExtra(EXTRA_NOTIFICATION_DATA) ?: return false
-                    logNotificationData("notif opened", data)
-                    notifyReact(reactApplication.tryGetReactContext(), data)
+            Intent.ACTION_VIEW -> {
+                if (maybeHandleViewNotif(intent, reactApplication.tryGetReactContext())) {
+                    // Notification tapped
                     return true
                 }
 
                 // Let RN handle other intents.  In particular web-auth intents (parsed in
                 // src/start/webAuth.js) have ACTION_VIEW, scheme "zulip", and authority "login".
-                else -> return false
+                return false
             }
 
             // For other intents, let RN handle it.
