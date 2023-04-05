@@ -84,3 +84,20 @@ export function androidSdkVersion(): number {
   // 10 it won't be 10, it'll be 29.
   return (Platform.Version: number);
 }
+
+/**
+ * The Android user-visible version string, with no promised structure.
+ */
+// This is Build.VERSION.RELEASE as of RN v0.68.5:
+//   https://reactnative.dev/docs/platform#constants
+//   https://github.com/facebook/react-native/blob/v0.68.5/ReactAndroid/src/main/java/com/facebook/react/modules/systeminfo/AndroidInfoModule.java#L69
+//   https://developer.android.com/reference/android/os/Build.VERSION#RELEASE
+export function androidRelease(): string {
+  invariant(Platform.OS === 'android', 'androidRelease called on iOS');
+
+  // Flow isn't refining `Platform` to a type that corresponds to values
+  // we'll see on Android.
+  //
+  // (If changing the implementation, adjust comment below jsdoc.)
+  return (Platform.constants.Release: string);
+}

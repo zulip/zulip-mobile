@@ -139,11 +139,6 @@ jest.mock('react-native-simple-toast', () => ({
   showWithGravity: jest.fn(),
 }));
 
-jest.mock('react-native-device-info', () => ({
-  getSystemName: jest.fn().mockReturnValue('ios'),
-  getSystemVersion: jest.fn().mockReturnValue('13.3.1'),
-}));
-
 // Set up our `logging` module with mocks, which tests can use as desired.
 //
 // This global version just passes the calls right through to the real
