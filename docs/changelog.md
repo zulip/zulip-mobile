@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.205 (2023-04-06)
+
 ### Highlights for users
 
 * (iOS) Fixed an issue where text inputs wouldn't respond to tapping near
