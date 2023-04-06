@@ -39,6 +39,37 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) Fixed an issue where text inputs wouldn't respond to tapping near
+  the left edge of the screen. (#5486)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Bumped `kMinSupportedVersion` to "4.0". (PR #5707)
+
+* We now use presence tuning parameters from the server, when available.
+  (#5669)
+
+* We now support narrow links with new "/dm/…" and "/is/dm" filters (the new
+  way to say "/pm-with/…" and "/is/private"). (#5692)
+
+* Ran `yarn upgrade`. (PR #5713)
+
+* Upgraded Flow to v0.175.1. (PR #5700)
+
+* Prep work toward supporting unmuted topics in muted streams. (PR #5690)
+
+* Converted more of our Java code to Kotlin. (PR #5695, PR #5701)
+
+* Used `patch-package` to fix an Xcode build failure in `react-native`. (PR #5709)
+
+* Resolved issues: #5669, #5692, #5698, #5702, #5486
+
 
 ## 27.204 (2023-03-13)
 
