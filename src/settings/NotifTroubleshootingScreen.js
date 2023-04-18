@@ -14,7 +14,7 @@ import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import Screen from '../common/Screen';
 import { createStyleSheet } from '../styles';
-import { useGlobalSelector, useSelector } from '../react-redux';
+import { useDispatch, useGlobalSelector, useSelector } from '../react-redux';
 import {
   getAccounts,
   getGlobalSession,
@@ -29,7 +29,7 @@ import {
   getZulipFeatureLevel,
   tryGetActiveAccountState,
 } from '../account/accountsSelectors';
-import { showToast } from '../utils/info';
+import { showErrorAlert, showToast } from '../utils/info';
 import Input from '../common/Input';
 import ZulipButton from '../common/ZulipButton';
 import { identityOfAccount, keyOfIdentity } from '../account/accountMisc';
@@ -46,6 +46,8 @@ import isAppOwnDomain from '../isAppOwnDomain';
 import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
+import { initNotifications } from '../notification/notifTokens';
+import { ApiError } from '../api/apiErrors';
 
 const {
   Notifications, // android
@@ -305,6 +307,7 @@ function useMailComposerIsAvailable(): boolean | null {
  */
 export default function NotifTroubleshootingScreen(props: Props): React.Node {
   const _ = React.useContext(TranslationContext);
+  const dispatch = useDispatch();
 
   const settings = useGlobalSelector(getGlobalSettings);
 
@@ -338,6 +341,28 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
       }),
     [],
   );
+
+  const handlePressRetryRegister = React.useCallback(async () => {
+    try {
+      await dispatch(initNotifications());
+    } catch (errorIllTyped) {
+      const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+      if (!(error instanceof Error)) {
+        logging.error('Unexpected non-error thrown');
+      }
+
+      let msg = undefined;
+      if (error instanceof ApiError) {
+        msg = _('The server said:\n\n{errorMessage}', {
+          errorMessage: error.message,
+        });
+      } else if (error instanceof Error && error.message.length > 0) {
+        msg = error.message;
+      }
+      showErrorAlert(_('Registration failed'), msg);
+    }
+  }, [_, dispatch]);
 
   const reportJson = React.useMemo(() => jsonifyNotificationReport(report), [report]);
 
@@ -467,10 +492,29 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         break;
 
       case NotificationProblem.TokenNotAcked: {
-        // TODO: Could offer:
-        //   - Re-request registering token with server, and show if a/the
-        //     request hasn't completed
-        alerts.push(genericAlert);
+        invariant(
+          report.registerPushTokenRequestsInProgress != null,
+          'report.registerPushTokenRequestsInProgress missing for active account?',
+        );
+        const isInProgress = report.registerPushTokenRequestsInProgress > 0;
+        alerts.push(
+          <AlertItem
+            bottomMargin
+            text={{
+              text: isInProgress
+                ? 'The Zulip server at {realm} has not yet registered your device token. A request is in progress.'
+                : 'The Zulip server at {realm} has not yet registered your device token.',
+              values: { realm: identity.realm.toString() },
+            }}
+            buttons={
+              isInProgress
+                ? undefined
+                : [{ id: 'retry', label: 'Retry', onPress: handlePressRetryRegister }]
+            }
+          />,
+        );
+
+        alerts.push(genericAlert); // Still point to support for good measure
         break;
       }
 
