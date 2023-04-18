@@ -42,8 +42,7 @@ export type PerAccountSessionState = $ReadOnly<{
   outboxSending: boolean,
 
   /**
-   * Whether `ServerCompatNotice` (which we'll add soon) has been
-   *   dismissed this session.
+   * Whether `ServerCompatBanner` has been dismissed this session.
    *
    * We put this in the per-session state deliberately, so that users
    * see the notice on every startup until the server is upgraded.
