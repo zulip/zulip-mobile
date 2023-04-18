@@ -123,9 +123,10 @@ function useNativeState() {
  */
 export enum NotificationProblem {
   TokenNotAcked = 0,
-  SystemSettingsDisabled = 1,
-  GooglePlayServicesNotAvailable = 2,
-  ServerHasNotEnabled = 3,
+  TokenUnknown = 1,
+  SystemSettingsDisabled = 2,
+  GooglePlayServicesNotAvailable = 3,
+  ServerHasNotEnabled = 4,
 
   // TODO: more, such as:
   //   - Can't reach the server (ideally after #5615, to be less buggy)
@@ -244,7 +245,9 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
             if (serverData && !serverData.pushNotificationsEnabled) {
               problems.push(NotificationProblem.ServerHasNotEnabled);
             }
-            if (ackedPushToken == null || pushToken !== ackedPushToken) {
+            if (pushToken == null) {
+              problems.push(NotificationProblem.TokenUnknown);
+            } else if (pushToken !== ackedPushToken) {
               problems.push(NotificationProblem.TokenNotAcked);
             }
           }
@@ -465,11 +468,18 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
 
       case NotificationProblem.TokenNotAcked: {
         // TODO: Could offer:
-        //   - Re-request the device token from the platform (#5329 may be
-        //     an obstacle), and show if a/the request hasn't completed
         //   - Re-request registering token with server, and show if a/the
         //     request hasn't completed
         alerts.push(genericAlert);
+        break;
+      }
+
+      case NotificationProblem.TokenUnknown: {
+        // TODO: Could offer:
+        //   - Re-request the device token from the platform (#5329 may be
+        //     an obstacle), and show if a/the request hasn't completed
+        alerts.push(genericAlert);
+        break;
       }
     }
   });
