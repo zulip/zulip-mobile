@@ -20,6 +20,7 @@ import {
   getGlobalSession,
   getGlobalSettings,
   getRealm,
+  getSession,
   getSettings,
 } from '../directSelectors';
 import {
@@ -150,6 +151,14 @@ export type NotificationReport = {|
   +ackedPushToken: string | null,
 
   /**
+   * See PerAccountSessionState.registerPushTokenRequestsInProgress.
+   *
+   * Pre-#5006, this will be undefined except for the active account if any.
+   */
+  // TODO(#5006): When we maintain this for all accounts, include it for all.
+  +registerPushTokenRequestsInProgress: number | void,
+
+  /**
    * Server data from an event queue, if any.
    *
    * Pre-#5006, this will be undefined except for the active, logged-in
@@ -200,12 +209,15 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
           const identity = identityOfAccount(account);
           const isLoggedIn = apiKey !== '';
 
+          let registerPushTokenRequestsInProgress = undefined;
           let serverData = undefined;
           if (
             activeAccountState
             && keyOfIdentity(identityOfAccount(getAccount(activeAccountState)))
               === keyOfIdentity(identityOfAccount(account))
           ) {
+            registerPushTokenRequestsInProgress =
+              getSession(activeAccountState).registerPushTokenRequestsInProgress;
             serverData = getHaveServerData(activeAccountState)
               ? {
                   zulipVersion: getServerVersion(activeAccountState),
@@ -249,6 +261,7 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
               isLoggedIn,
               devicePushToken: pushToken,
               ackedPushToken,
+              registerPushTokenRequestsInProgress,
               serverData,
             },
           ];
