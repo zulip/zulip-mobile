@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import type { GlobalState } from '../reduxTypes';
 import type { Orientation, Action } from '../types';
 import {
   REHYDRATE,
@@ -134,8 +135,11 @@ const initialState: SessionState = {
   ...initialPerAccountSessionState,
 };
 
-// eslint-disable-next-line default-param-last
-export default (state: SessionState = initialState, action: Action): SessionState => {
+export default (
+  state: SessionState = initialState, // eslint-disable-line default-param-last
+  action: Action,
+  globalState: GlobalState,
+): SessionState => {
   switch (action.type) {
     case DEAD_QUEUE:
       return {
