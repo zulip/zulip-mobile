@@ -392,19 +392,12 @@ describe('fetchActions', () => {
 
         // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseFailure(fetchError);
-        // $FlowFixMe[prop-missing]: Jest mock
-        logging.info.mockReturnValue();
 
         await expect(
           store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
           ),
         ).rejects.toThrow(fetchError);
-
-        // $FlowFixMe[prop-missing]: Jest mock
-        expect(logging.info.mock.calls).toHaveLength(1);
-        // $FlowFixMe[prop-missing]: Jest mock
-        logging.info.mockReset();
       });
     });
 

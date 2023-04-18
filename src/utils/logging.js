@@ -214,16 +214,20 @@ export const warn: (event: string | Error, extras?: Extras) => void = makeLogFun
 /**
  * Log an event at "info" severity.
  *
- * The event will be logged to the console as appropriate.
- *
- * This will *not* log any information to Sentry.  Consider also calling
- * `Sentry.addBreadcrumb`.
+ * The event will be logged to Sentry and/or the console as appropriate.
  *
  * See also:
  *  * `logging.warn` and `logging.error` for logging at higher severity
+ *  * `Sentry.addBreadcrumb`, to add background data to an eventual Sentry
+ *    report, but without causing a Sentry report.
+ *
+ * @param event A string describing the nature of the event to be logged, or an
+ *   exception whose `.message` is such a string. Related events should have
+ *   identical such strings, when feasible.
+ * @param extras Diagnostic data which may differ between separate occurrences
+ *   of the event.
  */
-export const info = (event: string | Error | { ... }) => {
-  if (config.enableErrorConsoleLogging) {
-    console.log(event);
-  }
-};
+export const info: (event: string | Error, extras?: Extras) => void = makeLogFunction({
+  consoleMethod: console.info,
+  severity: Severity.Info,
+});

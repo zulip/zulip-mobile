@@ -85,7 +85,6 @@ export const apiCall = async (
     const { httpStatus, data } = error instanceof RequestError ? error : {};
 
     const response = data !== undefined ? data : '(none, or not valid JSON)';
-    logging.info({ route, params, httpStatus, response });
     Sentry.addBreadcrumb({
       category: 'api',
       level: 'info',
