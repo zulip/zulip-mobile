@@ -135,7 +135,8 @@ export enum NotificationProblem {
  * Data relevant to an account's push notifications, for support requests.
  *
  * Use jsonifyNotificationReport to get this into the form we want the user
- * to send the data in.
+ * to send the data in. One thing that does is strip away properties with
+ * value `undefined`.
  */
 export type NotificationReport = {|
   ...Identity,
@@ -151,8 +152,9 @@ export type NotificationReport = {|
   /**
    * Server data from an event queue, if any.
    *
-   * Pre-#5006, this will only be present for the active, logged-in
-   * account, if it exists.
+   * Pre-#5006, this will be undefined except for the active, logged-in
+   * account, if it exists. For an active account that doesn't have server
+   * data yet, will be null.
    */
   // TODO(#5006): When we store server data for multiple accounts, include
   //   this for all accounts that have server data.
@@ -163,7 +165,7 @@ export type NotificationReport = {|
     +offlineNotification: boolean,
     +onlineNotification: boolean,
     +streamNotification: boolean,
-  |} | null,
+  |} | null | void,
 |};
 
 /**
@@ -198,21 +200,22 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
           const identity = identityOfAccount(account);
           const isLoggedIn = apiKey !== '';
 
-          let serverData = null;
+          let serverData = undefined;
           if (
             activeAccountState
             && keyOfIdentity(identityOfAccount(getAccount(activeAccountState)))
               === keyOfIdentity(identityOfAccount(account))
-            && getHaveServerData(activeAccountState)
           ) {
-            serverData = {
-              zulipVersion: getServerVersion(activeAccountState),
-              zulipFeatureLevel: getZulipFeatureLevel(activeAccountState),
-              pushNotificationsEnabled: getRealm(activeAccountState).pushNotificationsEnabled,
-              offlineNotification: getSettings(activeAccountState).offlineNotification,
-              onlineNotification: getSettings(activeAccountState).onlineNotification,
-              streamNotification: getSettings(activeAccountState).streamNotification,
-            };
+            serverData = getHaveServerData(activeAccountState)
+              ? {
+                  zulipVersion: getServerVersion(activeAccountState),
+                  zulipFeatureLevel: getZulipFeatureLevel(activeAccountState),
+                  pushNotificationsEnabled: getRealm(activeAccountState).pushNotificationsEnabled,
+                  offlineNotification: getSettings(activeAccountState).offlineNotification,
+                  onlineNotification: getSettings(activeAccountState).onlineNotification,
+                  streamNotification: getSettings(activeAccountState).streamNotification,
+                }
+              : null;
           }
 
           const problems = [];
