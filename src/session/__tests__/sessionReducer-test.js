@@ -10,9 +10,12 @@ import {
   TOGGLE_OUTBOX_SENDING,
   DISMISS_SERVER_COMPAT_NOTICE,
   REGISTER_START,
+  REGISTER_PUSH_TOKEN_START,
+  REGISTER_PUSH_TOKEN_END,
 } from '../../actionConstants';
 import sessionReducer, { initialPerAccountSessionState } from '../sessionReducer';
 import * as eg from '../../__tests__/lib/exampleData';
+import { identityOfAccount } from '../../account/accountMisc';
 
 describe('sessionReducer', () => {
   const baseState = eg.baseReduxState.session;
@@ -92,6 +95,35 @@ describe('sessionReducer', () => {
       ...baseState,
       pushToken,
     });
+  });
+
+  test('REGISTER_PUSH_TOKEN_START / REGISTER_PUSH_TOKEN_END increment/decrement counter', () => {
+    const run = (state, type, account) =>
+      sessionReducer(
+        state,
+        type === 'start'
+          ? { type: REGISTER_PUSH_TOKEN_START, identity: identityOfAccount(account) }
+          : { type: REGISTER_PUSH_TOKEN_END, identity: identityOfAccount(account) },
+        eg.plusReduxState,
+      );
+
+    const state1 = run(baseState, 'start', eg.selfAccount);
+    expect(state1.registerPushTokenRequestsInProgress).toEqual(1);
+
+    const state2 = run(state1, 'start', eg.selfAccount);
+    expect(state2.registerPushTokenRequestsInProgress).toEqual(2);
+
+    const state3 = run(state2, 'end', eg.selfAccount);
+    expect(state3.registerPushTokenRequestsInProgress).toEqual(1);
+
+    const state4 = run(state3, 'end', eg.selfAccount);
+    expect(state4.registerPushTokenRequestsInProgress).toEqual(0);
+
+    const state5 = run(state4, 'start', eg.makeAccount());
+    expect(state5).toBe(state4);
+
+    const state7 = run(state5, 'end', eg.makeAccount());
+    expect(state7).toBe(state5);
   });
 
   test('TOGGLE_OUTBOX_SENDING', () => {

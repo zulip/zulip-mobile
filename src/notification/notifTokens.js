@@ -6,7 +6,13 @@
 import { NativeModules, Platform } from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
-import { GOT_PUSH_TOKEN, ACK_PUSH_TOKEN, UNACK_PUSH_TOKEN } from '../actionConstants';
+import {
+  GOT_PUSH_TOKEN,
+  ACK_PUSH_TOKEN,
+  REGISTER_PUSH_TOKEN_START,
+  UNACK_PUSH_TOKEN,
+  REGISTER_PUSH_TOKEN_END,
+} from '../actionConstants';
 import type {
   Account,
   Identity,
@@ -119,6 +125,16 @@ const unackPushToken = (identity: Identity): AllAccountsAction => ({
   identity,
 });
 
+const registerPushTokenStart = (identity: Identity): AllAccountsAction => ({
+  type: REGISTER_PUSH_TOKEN_START,
+  identity,
+});
+
+const registerPushTokenEnd = (identity: Identity): AllAccountsAction => ({
+  type: REGISTER_PUSH_TOKEN_END,
+  identity,
+});
+
 const ackPushToken = (pushToken: string, identity: Identity): AllAccountsAction => ({
   type: ACK_PUSH_TOKEN,
   identity,
@@ -148,8 +164,14 @@ const sendPushToken =
       return;
     }
     const auth = authOfAccount(account);
-    await api.savePushToken(auth, Platform.OS, pushToken);
-    dispatch(ackPushToken(pushToken, identityOfAccount(account)));
+    const identity = identityOfAccount(account);
+    dispatch(registerPushTokenStart(identity));
+    try {
+      await api.savePushToken(auth, Platform.OS, pushToken);
+      dispatch(ackPushToken(pushToken, identity));
+    } finally {
+      dispatch(registerPushTokenEnd(identity));
+    }
   };
 
 /** Tell this account's server about our device token, if needed. */

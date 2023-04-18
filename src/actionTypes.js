@@ -58,6 +58,8 @@ import {
   EVENT_SUBSCRIPTION,
   EVENT,
   DISMISS_SERVER_COMPAT_NOTICE,
+  REGISTER_PUSH_TOKEN_START,
+  REGISTER_PUSH_TOKEN_END,
 } from './actionConstants';
 
 import type { UserMessageFlag } from './api/modelTypes';
@@ -183,6 +185,18 @@ type GotPushTokenAction = $ReadOnly<{|
 /** We're about to tell the server to forget our device token. */
 type UnackPushTokenAction = $ReadOnly<{|
   type: typeof UNACK_PUSH_TOKEN,
+  identity: Identity,
+|}>;
+
+/** We've started a request to register our device token. */
+type RegisterPushTokenStartAction = $ReadOnly<{|
+  type: typeof REGISTER_PUSH_TOKEN_START,
+  identity: Identity,
+|}>;
+
+/** A request to register our device token has ended (success or failure). */
+type RegisterPushTokenEndAction = $ReadOnly<{|
+  type: typeof REGISTER_PUSH_TOKEN_END,
   identity: Identity,
 |}>;
 
@@ -671,9 +685,9 @@ export type AllAccountsAction =
   | LoginSuccessAction
   | LogoutAction
   | DismissServerPushSetupNoticeAction
-  // These two are about a specific account… but not just the active one,
+  // These four are about a specific account… but not just the active one,
   // and they encode which one they mean.
-  | AckPushTokenAction | UnackPushTokenAction
+  | RegisterPushTokenEndAction | RegisterPushTokenStartAction | AckPushTokenAction | UnackPushTokenAction
   ;
 
 /** Plain actions not affecting any per-account state. */
@@ -794,6 +808,8 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case ACCOUNT_REMOVE:
     case LOGIN_SUCCESS:
     case LOGOUT:
+    case REGISTER_PUSH_TOKEN_START:
+    case REGISTER_PUSH_TOKEN_END:
     case ACK_PUSH_TOKEN:
     case UNACK_PUSH_TOKEN:
       (action: AllAccountsAction);

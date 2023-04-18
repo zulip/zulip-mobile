@@ -1,6 +1,8 @@
 /* @flow strict-local */
 import type { GlobalState } from '../reduxTypes';
 import type { Orientation, Action } from '../types';
+import { keyOfIdentity } from '../account/accountMisc';
+import { getIdentity, tryGetActiveAccountState } from '../account/accountsSelectors';
 import {
   REHYDRATE,
   DEAD_QUEUE,
@@ -13,6 +15,8 @@ import {
   TOGGLE_OUTBOX_SENDING,
   GOT_PUSH_TOKEN,
   DISMISS_SERVER_COMPAT_NOTICE,
+  REGISTER_PUSH_TOKEN_START,
+  REGISTER_PUSH_TOKEN_END,
 } from '../actionConstants';
 
 /**
@@ -52,6 +56,11 @@ export type PerAccountSessionState = $ReadOnly<{
    * doesn't act on the notice.
    */
   hasDismissedServerCompatNotice: boolean,
+
+  /**
+   * How many `api.savePushToken` requests are in progress for this account.
+   */
+  registerPushTokenRequestsInProgress: number,
 
   ...
 }>;
@@ -128,6 +137,7 @@ export const initialPerAccountSessionState: $Exact<PerAccountSessionState> = {
   loading: false,
   outboxSending: false,
   hasDismissedServerCompatNotice: false,
+  registerPushTokenRequestsInProgress: 0,
 };
 
 const initialState: SessionState = {
@@ -204,6 +214,36 @@ export default (
         ...state,
         pushToken: action.pushToken,
       };
+
+    case REGISTER_PUSH_TOKEN_START: {
+      // TODO(#5006): Do for any account, not just the active one
+      const activeAccountState = tryGetActiveAccountState(globalState);
+      if (
+        !activeAccountState
+        || keyOfIdentity(action.identity) !== keyOfIdentity(getIdentity(activeAccountState))
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        registerPushTokenRequestsInProgress: state.registerPushTokenRequestsInProgress + 1,
+      };
+    }
+
+    case REGISTER_PUSH_TOKEN_END: {
+      // TODO(#5006): Do for any account, not just the active one
+      const activeAccountState = tryGetActiveAccountState(globalState);
+      if (
+        !activeAccountState
+        || keyOfIdentity(action.identity) !== keyOfIdentity(getIdentity(activeAccountState))
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        registerPushTokenRequestsInProgress: state.registerPushTokenRequestsInProgress - 1,
+      };
+    }
 
     case TOGGLE_OUTBOX_SENDING:
       return { ...state, outboxSending: action.sending };
