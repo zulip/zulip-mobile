@@ -278,6 +278,15 @@ const markAsUnreadFromMessage = {
   },
 };
 
+const unmuteTopicInMutedStream = {
+  title: 'Unmute topic',
+  errorMessage: 'Failed to unmute topic',
+  action: async ({ auth, streamId, topic, streams, zulipFeatureLevel }) => {
+    invariant(zulipFeatureLevel >= 170, 'Should only attempt to unmute in muted stream on FL 170+');
+    await api.updateUserTopic(auth, streamId, topic, UserTopicVisibilityPolicy.Unmuted);
+  },
+};
+
 const unmuteTopic = {
   title: 'Unmute topic',
   errorMessage: 'Failed to unmute topic',
@@ -631,13 +640,14 @@ export const constructTopicActionButtons = (args: {|
     ownUserRole: Role,
     subscriptions: Map<number, Subscription>,
     unread: UnreadState,
+    zulipFeatureLevel: number,
     ...
   }>,
   streamId: number,
   topic: string,
 |}): Button<TopicArgs>[] => {
   const { backgroundData, streamId, topic } = args;
-  const { mute, ownUserRole, subscriptions, unread } = backgroundData;
+  const { mute, ownUserRole, subscriptions, unread, zulipFeatureLevel } = backgroundData;
   const sub = subscriptions.get(streamId);
   const streamMuted = !!sub && !sub.in_home_view;
 
@@ -658,7 +668,19 @@ export const constructTopicActionButtons = (args: {|
         break;
     }
   } else if (sub && streamMuted) {
-    // TODO(#5691): offer new "unmute topic" concept, when server supports it
+    // Muted stream.
+    // TODO(server-7.0): Simplify this condition away.
+    if (zulipFeatureLevel >= 170) {
+      switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
+        case UserTopicVisibilityPolicy.None:
+        case UserTopicVisibilityPolicy.Muted:
+          buttons.push(unmuteTopicInMutedStream);
+          break;
+        case UserTopicVisibilityPolicy.Unmuted:
+          buttons.push(muteTopic);
+          break;
+      }
+    }
   } else {
     // Not subscribed to stream at all; no muting.
   }
