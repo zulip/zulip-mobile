@@ -50,6 +50,7 @@ import subscriptionRemove from './subscriptions/subscriptionRemove';
 import setSubscriptionProperty from './subscriptions/setSubscriptionProperty';
 import getSubscriptionToStream from './subscriptions/getSubscriptionToStream';
 import setTopicMute from './subscriptions/setTopicMute';
+import updateUserTopic from './subscriptions/updateUserTopic';
 import tryGetFileTemporaryUrl from './tryGetFileTemporaryUrl';
 import getUsers from './users/getUsers';
 import createUser from './users/createUser';
@@ -98,6 +99,7 @@ export {
   sendSubmessage,
   getSubscriptions,
   setTopicMute,
+  updateUserTopic,
   subscriptionAdd,
   subscriptionRemove,
   setSubscriptionProperty,
