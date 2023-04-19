@@ -21,6 +21,7 @@ import type {
   Stream,
   LocalizableText,
 } from '../types';
+import { UserTopicVisibilityPolicy } from '../api/modelTypes';
 import type { UnreadState } from '../unread/unreadModelTypes';
 import {
   apiNarrowOfNarrow,
@@ -280,22 +281,32 @@ const markAsUnreadFromMessage = {
 const unmuteTopic = {
   title: 'Unmute topic',
   errorMessage: 'Failed to unmute topic',
-  action: async ({ auth, streamId, topic, streams }) => {
-    const stream = streams.get(streamId);
-    invariant(stream !== undefined, 'Stream with provided streamId must exist.');
-    // This still uses a stream name (#3918) because the API method does; see there.
-    await api.setTopicMute(auth, stream.name, topic, false);
+  action: async ({ auth, streamId, topic, streams, zulipFeatureLevel }) => {
+    if (zulipFeatureLevel >= 170) {
+      await api.updateUserTopic(auth, streamId, topic, UserTopicVisibilityPolicy.None);
+    } else {
+      // TODO(server-7.0): Cut this fallback to setTopicMute.
+      const stream = streams.get(streamId);
+      invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+      // This still uses a stream name (#3918) because the API method does; see there.
+      await api.setTopicMute(auth, stream.name, topic, false);
+    }
   },
 };
 
 const muteTopic = {
   title: 'Mute topic',
   errorMessage: 'Failed to mute topic',
-  action: async ({ auth, streamId, topic, streams }) => {
-    const stream = streams.get(streamId);
-    invariant(stream !== undefined, 'Stream with provided streamId must exist.');
-    // This still uses a stream name (#3918) because the API method does; see there.
-    await api.setTopicMute(auth, stream.name, topic, true);
+  action: async ({ auth, streamId, topic, streams, zulipFeatureLevel }) => {
+    if (zulipFeatureLevel >= 170) {
+      await api.updateUserTopic(auth, streamId, topic, UserTopicVisibilityPolicy.Muted);
+    } else {
+      // TODO(server-7.0): Cut this fallback to setTopicMute.
+      const stream = streams.get(streamId);
+      invariant(stream !== undefined, 'Stream with provided streamId must exist.');
+      // This still uses a stream name (#3918) because the API method does; see there.
+      await api.setTopicMute(auth, stream.name, topic, true);
+    }
   },
 };
 
