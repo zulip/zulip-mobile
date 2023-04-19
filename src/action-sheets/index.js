@@ -627,16 +627,25 @@ export const constructTopicActionButtons = (args: {|
 |}): Button<TopicArgs>[] => {
   const { backgroundData, streamId, topic } = args;
   const { mute, ownUserRole, subscriptions, unread } = backgroundData;
+  const sub = subscriptions.get(streamId);
+  const streamMuted = !!sub && !sub.in_home_view;
 
   const buttons = [];
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
   if (unreadCount > 0) {
     buttons.push(markTopicAsRead);
   }
-  if (isTopicMuted(streamId, topic, mute)) {
-    buttons.push(unmuteTopic);
+  if (sub && !streamMuted) {
+    // Stream subscribed and not muted.
+    if (isTopicMuted(streamId, topic, mute)) {
+      buttons.push(unmuteTopic);
+    } else {
+      buttons.push(muteTopic);
+    }
+  } else if (sub && streamMuted) {
+    // TODO(#5691): offer new "unmute topic" concept, when server supports it
   } else {
-    buttons.push(muteTopic);
+    // Not subscribed to stream at all; no muting.
   }
   if (!resolved_topic.is_resolved(topic)) {
     buttons.push(resolveTopic);
@@ -646,11 +655,12 @@ export const constructTopicActionButtons = (args: {|
   if (roleIsAtLeast(ownUserRole, Role.Admin)) {
     buttons.push(deleteTopic);
   }
-  const sub = subscriptions.get(streamId);
-  if (sub && !sub.in_home_view) {
+  if (sub && streamMuted) {
     buttons.push(unmuteStream);
-  } else {
+  } else if (sub && !streamMuted) {
     buttons.push(muteStream);
+  } else {
+    // Not subscribed to stream at all; no muting.
   }
   buttons.push(copyLinkToTopic);
   buttons.push(showStreamSettings);
