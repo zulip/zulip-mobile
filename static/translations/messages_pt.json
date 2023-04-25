@@ -1,5 +1,5 @@
 {
-  "Please describe the problem.": "Please describe the problem.",
+  "Please describe the problem.": "Por favor, descreva o problema",
   "If there are other details you would like to share, please write them here.": "If there are other details you would like to share, please write them here.",
   "App version": "App version",
   "Server version": "Server version",
@@ -352,7 +352,7 @@
   "Couldn’t load information about {fullName}": "Não foi possível carregar as informações sobre  {fullName}",
   "What’s your status?": "Qual é o seu status?",
   "Click to join video call": "Clique para se juntar à chamada de video",
-  "Busy": "Busy",
+  "Busy": "Ocupado",
   "In a meeting": "In a meeting",
   "Commuting": "Commuting",
   "Out sick": "Out sick",
