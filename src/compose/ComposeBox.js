@@ -263,15 +263,10 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
 
-  const topicSelectionAllowed = useMemo(() => {
-    if (isEditing) {
-      return isStreamOrTopicNarrow(narrow);
-    }
-    if (!isStreamNarrow(narrow)) {
-      return false;
-    }
-    return true;
-  }, [isEditing, narrow]);
+  const topicSelectionAllowed = useMemo(
+    () => (isEditing ? isStreamOrTopicNarrow(narrow) : isStreamNarrow(narrow)),
+    [isEditing, narrow],
+  );
 
   const topicInputVisible = topicSelectionAllowed && (focusState.either || isEditing);
 
