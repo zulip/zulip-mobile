@@ -387,8 +387,9 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   const anyQuoteAndReplyInProgress = activeQuoteAndRepliesCount > 0;
   const doQuoteAndReply = useCallback(
     async message => {
-      // TODO: If not already there, re-narrow to `message`'s conversation
-      //   narrow, with getNarrowForReply, and do the quote-and-reply there.
+      // TODO: For composing a new message (i.e. isEditing is false), if
+      //   not already there, re-narrow to `message`'s conversation narrow,
+      //   with getNarrowForReply, and do the quote-and-reply there.
       //   Discussion:
       //   https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/.23M1975.20Quote.20and.20reply/near/1455302
 
