@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.206 (2023-04-25)
+
 ### Highlights for users
 
 * We've added more failure handling to the notification troubleshooting
