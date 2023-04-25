@@ -24,6 +24,10 @@ declare module '../../static/translations/messages_bn.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_bqi.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_ca.json' {
   declare export default {| [string]: string |};
 }
