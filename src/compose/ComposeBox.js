@@ -138,6 +138,7 @@ function getQuoteAndReplyText(args: {|
   user: UserOrBot,
   realm: URL,
   streamsById: Map<number, Stream>,
+  zulipFeatureLevel: number,
   _: GetText,
 |}): string {
   // Modeled on replace_content in static/js/compose_actions.js in the
@@ -150,13 +151,13 @@ function getQuoteAndReplyText(args: {|
   //   message content
   //   ```
 
-  const { message, rawContent, user, realm, streamsById, _ } = args;
+  const { message, rawContent, user, realm, streamsById, zulipFeatureLevel, _ } = args;
   const authorLine = _({
     // Matches the web-app string
     text: '{username} [said]({link_to_message}):',
     values: {
       username: `@_**${user.full_name}|${user.user_id}**`,
-      link_to_message: getMessageUrl(realm, message, streamsById).toString(),
+      link_to_message: getMessageUrl(realm, message, streamsById, zulipFeatureLevel).toString(),
     },
   });
   const fence = fenced_code.get_unused_fence(rawContent);
@@ -439,6 +440,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           user,
           realm: auth.realm,
           streamsById,
+          zulipFeatureLevel,
           _,
         });
         setMessageInputValue(state => state.value.replace(quotingPlaceholder, quoteAndReplyText));

@@ -256,13 +256,19 @@ export const getStreamUrl = (
  */
 // Based on pm_perma_link in static/js/people.js in the zulip/zulip repo.
 // TODO(shared): Share that code.
-export const getPmConversationLinkForMessage = (realm: URL, message: PmMessage | PmOutbox): URL => {
+export const getPmConversationLinkForMessage = (
+  realm: URL,
+  message: PmMessage | PmOutbox,
+  zulipFeatureLevel: number,
+): URL => {
   const recipientIds = recipientsOfPrivateMessage(message)
     .map(r => r.id)
     .sort((a, b) => a - b);
-  const suffix = recipientIds.length >= 3 ? 'group' : 'pm';
+  const suffix = recipientIds.length >= 3 ? 'group' : zulipFeatureLevel >= 177 ? 'dm' : 'pm';
   const slug = `${recipientIds.join(',')}-${suffix}`;
-  return new URL(`#narrow/pm-with/${slug}`, realm);
+  // TODO(server-7.0): Remove FL 177 condition (here and on `suffix`)
+  const operator = zulipFeatureLevel >= 177 ? 'dm' : 'pm-with';
+  return new URL(`#narrow/${operator}/${slug}`, realm);
 };
 
 /**
@@ -272,6 +278,7 @@ export const getMessageUrl = (
   realm: URL,
   message: Message | Outbox,
   streamsById: Map<number, Stream>,
+  zulipFeatureLevel: number,
 ): URL => {
   let result = undefined;
 
@@ -279,7 +286,7 @@ export const getMessageUrl = (
   if (message.type === 'stream') {
     result = getStreamTopicUrl(realm, message.stream_id, message.subject, streamsById);
   } else {
-    result = getPmConversationLinkForMessage(realm, message);
+    result = getPmConversationLinkForMessage(realm, message, zulipFeatureLevel);
   }
 
   // …then add the part that points to the message.
