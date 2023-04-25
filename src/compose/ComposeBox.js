@@ -496,9 +496,8 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       // to focus it, but we're about to show it.  Focus that, if the user
       // hasn't already selected a topic.
       topicInputRef.current?.focus();
-    } else {
-      setFocusState(state => ({ ...state, message: true, either: true }));
     }
+    setFocusState(state => ({ ...state, message: true, either: true }));
   }, [isEditing, narrow, focusState.either, topicInputState.value, topicInputRef]);
 
   const handleMessageBlur = useCallback(() => {
