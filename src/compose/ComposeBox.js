@@ -263,7 +263,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
 
-  const canSelectTopic = useMemo(() => {
+  const topicInputVisible = useMemo(() => {
     if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
@@ -678,7 +678,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           // (https://stackoverflow.com/a/49817873), which doesn't work
           // either. However, a combinarion of the two of them seems to
           // work.
-          ...(!canSelectTopic && { position: 'absolute', transform: [{ scale: 0 }] }),
+          ...(!topicInputVisible && { position: 'absolute', transform: [{ scale: 0 }] }),
         },
         composeTextInput: {
           // These border attributes override styles set in <Input />.
@@ -691,7 +691,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           backgroundColor,
         },
       }),
-    [inputMarginPadding, backgroundColor, height, submitButtonDisabled, canSelectTopic],
+    [inputMarginPadding, backgroundColor, height, submitButtonDisabled, topicInputVisible],
   );
 
   const submitButtonHitSlop = useMemo(() => ({ top: 8, right: 8, bottom: 8, left: 8 }), []);
