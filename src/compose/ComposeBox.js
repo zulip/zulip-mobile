@@ -448,6 +448,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           _,
         });
         setMessageInputValue(state => state.value.replace(quotingPlaceholder, quoteAndReplyText));
+        messageInputRef.current?.focus();
       } finally {
         setActiveQuoteAndRepliesCount(v => v - 1);
         activeInvocations.current = activeInvocations.current.filter(x => x !== serialNumber);
@@ -464,6 +465,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       topicSelectionAllowed,
       topicInputState.value,
       setTopicInputValue,
+      messageInputRef,
     ],
   );
   useImperativeHandle(ref, () => ({ doQuoteAndReply }), [doQuoteAndReply]);
