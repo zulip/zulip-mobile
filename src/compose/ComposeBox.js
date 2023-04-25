@@ -432,6 +432,12 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           return;
         }
 
+        if (topicSelectionAllowed && topicInputState.value === '' && message.type === 'stream') {
+          // Later, this won't be necessary in the case of composing a new
+          // message. See TODO above about re-narrowing to `message`'s
+          // conversation.
+          setTopicInputValue(message.subject);
+        }
         const quoteAndReplyText = getQuoteAndReplyText({
           message,
           rawContent,
@@ -455,6 +461,9 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       setMessageInputValue,
       zulipFeatureLevel,
       _,
+      topicSelectionAllowed,
+      topicInputState.value,
+      setTopicInputValue,
     ],
   );
   useImperativeHandle(ref, () => ({ doQuoteAndReply }), [doQuoteAndReply]);
