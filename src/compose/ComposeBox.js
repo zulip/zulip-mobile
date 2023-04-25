@@ -263,15 +263,17 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     setFocusState(state => ({ ...state, either: state.message || state.topic }));
   }, []);
 
-  const topicInputVisible = useMemo(() => {
+  const topicSelectionAllowed = useMemo(() => {
     if (isEditing) {
       return isStreamOrTopicNarrow(narrow);
     }
     if (!isStreamNarrow(narrow)) {
       return false;
     }
-    return focusState.either;
-  }, [isEditing, narrow, focusState.either]);
+    return true;
+  }, [isEditing, narrow]);
+
+  const topicInputVisible = topicSelectionAllowed && (focusState.either || isEditing);
 
   /**
    * Inserts text at the message input's cursor position.
