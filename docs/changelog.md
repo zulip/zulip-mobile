@@ -39,6 +39,20 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* We've added more failure handling to the notification troubleshooting
+  screen. (PR #5721)
+* We now offer the app in Luri (Bakhtiari). Many thanks to our kind volunteer
+  translators!
+
+
+### Highlights for developers
+
+* Users can now retry the register-device-token request on demand, and if
+  the server gives an error, they can see the message in the client.
+  (PR #5721)
+
 
 ## 27.205 (2023-04-06)
 
