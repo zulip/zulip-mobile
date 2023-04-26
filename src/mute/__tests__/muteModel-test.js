@@ -150,52 +150,25 @@ describe('reducer', () => {
         initialState,
       );
     });
-
-    describe('redundantly after EVENT_MUTED_TOPICS', () => {
-      // The server may send both muted_topics events and user_topic events,
-      // because we don't set event_types in our /register request:
-      //   https://github.com/zulip/zulip/pull/21251#issuecomment-1133466148
-      // So we may get one of these after a muted_topics event has already
-      // set the new state.
-      //
-      // (Or we might get user_topic first and then muted_topics, but that
-      // doesn't require any testing of its own -- when handling the
-      // muted_topics event it doesn't matter what the previous state was.)
-
-      test('add', () => {
-        check(
-          makeMuteState([[eg.stream, 'topic']]),
-          makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.Muted),
-          makeMuteState([[eg.stream, 'topic']]),
-        );
-      });
-
-      test('remove, leaving others in stream', () => {
-        check(
-          makeMuteState([[eg.stream, 'topic']]),
-          makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.None),
-          makeMuteState([[eg.stream, 'topic']]),
-        );
-      });
-
-      test('remove, as last in stream', () => {
-        check(
-          makeMuteState([]),
-          makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.None),
-          makeMuteState([]),
-        );
-      });
-    });
   });
 
   describe('EVENT_MUTED_TOPICS (legacy)', () => {
-    test('appends and test a new muted topic', () => {
-      const action = deepFreeze({
-        type: EVENT_MUTED_TOPICS,
-        id: -1,
-        muted_topics: [[eg.stream.name, 'topic']],
+    const action = deepFreeze({
+      type: EVENT_MUTED_TOPICS,
+      id: -1,
+      muted_topics: [[eg.stream.name, 'topic']],
+    });
+
+    test('ignored when on a current server', () => {
+      expect(reducer(initialState, action, eg.plusReduxState)).toEqual(initialState);
+    });
+
+    test('sets the state, when on an old server lacking user_topic', () => {
+      const globalState = eg.reduxStatePlus({
+        // TODO(server-6.0): We'll drop this muted_topics event type entirely.
+        accounts: [{ ...eg.plusReduxState.accounts[0], zulipFeatureLevel: 133 }],
       });
-      expect(reducer(initialState, action, eg.plusReduxState)).toEqual(
+      expect(reducer(initialState, action, globalState)).toEqual(
         makeMuteState([[eg.stream, 'topic']]),
       );
     });

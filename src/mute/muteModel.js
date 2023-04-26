@@ -14,6 +14,7 @@ import { getStreamsByName } from '../subscriptions/subscriptionSelectors';
 import * as logging from '../utils/logging';
 import DefaultMap from '../utils/DefaultMap';
 import { updateAndPrune } from '../immutableUtils';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 //
 //
@@ -119,8 +120,20 @@ export const reducer = (
         getStreamsByName(globalState),
       );
 
-    case EVENT_MUTED_TOPICS:
+    case EVENT_MUTED_TOPICS: {
+      if (getZulipFeatureLevel(globalState) >= 134) {
+        // TODO(server-6.0): Drop this muted_topics event type entirely.
+        // This event type is obsoleted by `user_topic`, so we can ignore it.
+        //
+        // The server sends both types of events, because we
+        // don't set event_types in our /register request:
+        //   https://github.com/zulip/zulip/pull/21251#issuecomment-1133466148
+        // But if we interpreted the muted_topics events as usual,
+        // we'd throw away all policies other than None or Muted.
+        return state;
+      }
       return convertLegacy(action.muted_topics, getStreamsByName(globalState));
+    }
 
     case EVENT: {
       const { event } = action;
