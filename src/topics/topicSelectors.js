@@ -7,6 +7,7 @@ import { getUnread, getUnreadCountForTopic } from '../unread/unreadModel';
 import { NULL_ARRAY } from '../nullObjects';
 import { isStreamNarrow, streamIdOfNarrow } from '../utils/narrow';
 import { getMute, isTopicMuted } from '../mute/muteModel';
+import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 
 export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = createSelector(
   (state, narrow) => narrow,
@@ -27,15 +28,21 @@ export const getTopicsForNarrow: Selector<$ReadOnlyArray<string>, Narrow> = crea
 export const getTopicsForStream: Selector<?$ReadOnlyArray<TopicExtended>, number> = createSelector(
   (state, streamId) => streamId,
   (state, streamId) => getTopics(state)[streamId],
+  (state, streamId) => getSubscriptionsById(state).get(streamId),
   state => getMute(state),
   state => getUnread(state),
-  (streamId, topicList, mute, unread) => {
+  (streamId, topicList, subscription, mute, unread) => {
     if (!topicList) {
       return undefined;
     }
 
-    return topicList.map(({ name, max_id }) => {
-      const isMuted = isTopicMuted(streamId, name, mute);
+    // If we're looking at a stream the user isn't subscribed to, then
+    // they won't see unreads from it even if they somehow have
+    // individual topics set to unmuted.  So effectively it's all muted.
+    const streamMuted = subscription ? !subscription.in_home_view : true;
+
+    return topicList.map(({ name, max_id }): TopicExtended => {
+      const isMuted = streamMuted || isTopicMuted(streamId, name, mute);
       const unreadCount = getUnreadCountForTopic(unread, streamId, name);
       return { name, max_id, isMuted, unreadCount };
     });
