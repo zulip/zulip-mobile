@@ -486,10 +486,11 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   );
 
   const handleMessageFocus = useCallback(() => {
+    setFocusState(state => ({ ...state, message: true, either: true }));
     if (
       !isEditing
       && isStreamNarrow(narrow)
-      && !focusState.either
+      && !focusState.either // not affected by setFocusState above; React state is set asynchronously
       && topicInputState.value === ''
     ) {
       // We weren't showing the topic input when the user tapped on the input
@@ -497,7 +498,6 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
       // hasn't already selected a topic.
       topicInputRef.current?.focus();
     }
-    setFocusState(state => ({ ...state, message: true, either: true }));
   }, [isEditing, narrow, focusState.either, topicInputState.value, topicInputRef]);
 
   const handleMessageBlur = useCallback(() => {
