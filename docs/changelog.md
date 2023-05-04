@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.207 (2023-05-04)
+
 ### Highlights for users
 
 * Support for unmuting topics in a muted stream, an upcoming Zulip Server 7
