@@ -39,6 +39,25 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Support for unmuting topics in a muted stream, an upcoming Zulip Server 7
+  feature. (#5727, #5691)
+* (Android) We believe we have fixed a nasty bug where the keyboard would
+  freeze while typing on a Samsung device. If the issue persists, please
+  report it! (#5729)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
+
+### Highlights for developers
+
+* Changed where we generate `/pm-with/…` links (just in quote-and-reply) to
+  use the new `/dm/…` format instead. (#5710)
+
+* Resolved issues: #5729, #5691, #5362, #5726, #5710
+
 
 ## 27.206 (2023-04-25)
 
