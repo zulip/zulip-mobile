@@ -47,8 +47,8 @@ It doesn't include
 * Support for unmuting topics in a muted stream, an upcoming Zulip Server 7
   feature. (#5727, #5691)
 * (Android) We believe we have fixed a nasty bug where the keyboard would
-  freeze while typing on a Samsung device. If the issue persists, please
-  report it! (#5729)
+  freeze while typing on some Samsung devices. If the issue persists,
+  please report it! (#5729)
 
 Plus, like every release, other fixes and improvements for your Zulip
 experience.
