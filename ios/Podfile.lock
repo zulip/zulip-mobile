@@ -314,7 +314,7 @@ PODS:
     - React-Core
   - react-native-document-picker (8.2.0):
     - React-Core
-  - react-native-image-picker (4.10.3):
+  - react-native-image-picker (5.3.1):
     - React-Core
   - react-native-netinfo (6.0.0):
     - React-Core
@@ -735,7 +735,7 @@ SPEC CHECKSUMS:
   React-logger: b75b80500ea80457b2cf169427d66de986cdcb29
   react-native-cameraroll: cb752fda6d5268f1646b4390bd5be1f27706b9a0
   react-native-document-picker: 495c444c0c773c6e83a5d91165890ecb1c0a399a
-  react-native-image-picker: 60f4246eb5bb7187fc15638a8c1f13abd3820695
+  react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-photo-view: ea0ec91bf5991a6843e740b1f47ab355171c996c
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
