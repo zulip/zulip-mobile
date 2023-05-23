@@ -82,7 +82,7 @@ export default function SettingsScreen(props: Props): Node {
             key: 'conversation-views-only',
             title: 'Only in conversation views',
             subtitle:
-              'Messages will be automatically marked as read only when viewing a single topic or private message conversation.',
+              'Messages will be automatically marked as read only when viewing a single topic or direct message conversation.',
           },
         ]}
         onValueChange={value => {

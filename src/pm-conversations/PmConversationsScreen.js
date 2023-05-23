@@ -61,7 +61,7 @@ export default function PmConversationsScreen(props: Props): Node {
           secondary
           Icon={IconPerson}
           style={styles.button}
-          text="New PM"
+          text="New DM"
           onPress={() => {
             setTimeout(() => navigation.push('new-1to1-pm'));
           }}
@@ -70,7 +70,7 @@ export default function PmConversationsScreen(props: Props): Node {
           secondary
           Icon={IconPeople}
           style={styles.button}
-          text="New group PM"
+          text="New group DM"
           onPress={() => {
             setTimeout(() => navigation.push('new-group-pm'));
           }}

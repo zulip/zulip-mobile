@@ -91,7 +91,7 @@ export default function AccountDetailsScreen(props: Props): Node {
       )}
       <ZulipButton
         style={styles.pmButton}
-        text={isActive ? 'Send private message' : 'View private messages'}
+        text={isActive ? 'Send direct message' : 'View direct messages'}
         onPress={handleChatPress}
         Icon={IconPrivateChat}
       />

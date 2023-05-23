@@ -81,7 +81,7 @@ export default function SharingScreen(props: Props): Node {
           initialParams={params}
           options={{
             tabBarLabel: ({ color }) => (
-              <ZulipTextIntl style={[styles.tab, { color }]} text="Private Message" />
+              <ZulipTextIntl style={[styles.tab, { color }]} text="Direct message" />
             ),
           }}
         />

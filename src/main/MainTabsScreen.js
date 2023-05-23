@@ -74,7 +74,7 @@ export default function MainTabsScreen(props: Props): Node {
           name="pm-conversations"
           component={PmConversationsScreen}
           options={{
-            tabBarLabel: 'Private messages',
+            tabBarLabel: 'Direct messages',
             tabBarIcon: ({ color }) => <IconPeople size={24} color={color} />,
             tabBarBadge: unreadPmsCount > 0 ? unreadPmsCount : undefined,
             tabBarBadgeStyle: {
