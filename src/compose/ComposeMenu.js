@@ -88,6 +88,18 @@ const kShouldOfferImageMultiselect =
   // Android 13
   || androidSdkVersion() >= 33;
 
+// As of r-n-image-picker v5.3.1, this is needed to ensure that any received
+// videos have a `fileName` that includes a filename extension. (Servers
+// will interpret the filename extension.) See library implementation.
+//
+// For older Android, it seems the alternative is a generic file-picker UI
+// not specialized to images/videos (in a library codepath that uses
+// Intent.ACTION_GET_CONTENT).
+const kShouldOfferImagePickerMixedMedia =
+  Platform.OS === 'ios'
+  // Android 13
+  || androidSdkVersion() >= 33;
+
 type MenuButtonProps = $ReadOnly<{|
   onPress: () => void | Promise<void>,
   IconComponent: SpecificIconType,
@@ -215,8 +227,7 @@ export default function ComposeMenu(props: Props): Node {
   const handleImagePicker = useCallback(() => {
     launchImageLibrary(
       {
-        // TODO(#3624): Try 'mixed', to allow both photos and videos
-        mediaType: 'photo',
+        mediaType: kShouldOfferImagePickerMixedMedia ? 'mixed' : 'photo',
 
         quality: 1.0,
         includeBase64: false,
