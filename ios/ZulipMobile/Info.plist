@@ -54,6 +54,8 @@
 	<string>By allowing camera access, you can take photos and send them in Zulip messages.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>By allowing microphone access, you can take videos and send them in Zulip messages.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Save photos you choose from Zulip to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
