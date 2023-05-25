@@ -249,7 +249,7 @@
   "Delete message": "Supprimer le message",
   "System settings for Zulip": "Paramètres système pour Zulip",
   "Troubleshooting": "Dépannage",
-  "Email {supportEmail}": "Email {supportEmail}",
+  "Email {supportEmail}": "Envoyer un mail à {supportEmail}",
   "Draft saved": "Brouillon sauvegardé",
   "Email sent": "E-mail envoyé",
   "Notifications for this account may not arrive.": "Les notifications pour ce compte pourraient de pas arriver.",
