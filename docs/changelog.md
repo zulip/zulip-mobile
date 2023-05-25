@@ -39,6 +39,14 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* "Private messages" are now called "direct messages", following that rename
+  in Zulip Server 7.0. (#5731)
+
+Plus, like every release, other fixes and improvements for your Zulip
+experience.
+
 
 ## 27.207 (2023-05-04)
 
