@@ -38,12 +38,6 @@ export const fromAPNsImpl = (data: ?JSONableDict): Notification | void => {
   //
   // For the format this parses, see `ApnsPayload` in src/api/notificationTypes.js .
   //
-  // Though in one case what it actually receives is more like this:
-  //   $Rest<ApnsPayload, {| aps: mixed |}>
-  // That case is the "initial notification", a notification that launched
-  // the app by being tapped, because the `PushNotificationIOS` library
-  // parses the `ApnsPayload` and gives us (through `getData`) everything
-  // but the `aps` property.
 
   /** Helper function: fail. */
   const err = (style: string) =>
