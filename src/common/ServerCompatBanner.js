@@ -25,7 +25,8 @@ export const kServerSupportDocUrl: URL = new URL(
 /**
  * The oldest version we currently support.
  *
- * Should match what we say at kServerSupportDocUrl.
+ * Should match the policy stated at kServerSupportDocUrl: all versions
+ * below this should be older than 18 months.
  *
  * See also kMinAllowedServerVersion in apiErrors.js, for the version below
  * which we just refuse to connect.
