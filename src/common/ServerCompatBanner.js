@@ -31,7 +31,7 @@ export const kServerSupportDocUrl: URL = new URL(
  * See also kMinAllowedServerVersion in apiErrors.js, for the version below
  * which we just refuse to connect.
  */
-export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('4.0');
+export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('4.10');
 
 /**
  * The next value we'll give to kMinSupportedVersion in the future.
