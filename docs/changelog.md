@@ -39,6 +39,22 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (iOS) You can now upload video attachments from your camera or media
+  library. (#3624, #5733)
+* (Android) You can now upload video attachments from your media library
+  (Android 13+). (#3624)
+
+
+### Highlights for developers
+
+* Bumped `kMinAllowedServerVersion` to 3.0. (PR #5747)
+
+* Bumped `kMinSupportedVersion` to 4.10. (PR #5748)
+
+* Resolved issues: #3624, #5733
+
 
 ## 27.208 (2023-05-25)
 
