@@ -32,11 +32,6 @@ export const kServerSupportDocUrl: URL = new URL(
  * which we just refuse to connect.
  */
 export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('4.0');
-// Notes on known breakage at older versions:
-//  * Before 1.8, the server doesn't send found_newest / found_oldest on
-//    fetching messages, and so `state.caughtUp` will never have truthy
-//    values.  This probably means annoying behavior in a message list,
-//    as we keep trying to fetch newer messages.
 
 /**
  * The next value we'll give to kMinSupportedVersion in the future.
