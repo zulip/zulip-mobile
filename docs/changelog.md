@@ -39,6 +39,17 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.210 (2023-08-29)
+
+This is an Android-only release.
+
+### Highlights for users
+
+* (Android) In this release, we adjust some build configuration as required
+  by Google Play. (We set targetSdkVersion to 33, a.k.a. Android 13.) (#5453)
+
+
 ### Highlights for developers
 
 * Bumped `targetSdkVersion` to 33, aka Android 13. (#5453)
