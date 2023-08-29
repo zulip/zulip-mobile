@@ -39,6 +39,12 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for developers
+
+* Bumped `targetSdkVersion` to 33, aka Android 13. (#5453)
+
+* Resolved issues: #5453
+
 
 ## 27.209 (2023-08-18)
 
