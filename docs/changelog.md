@@ -42,7 +42,8 @@ It doesn't include
 
 ## 27.211 (2023-08-31)
 
-This is an Android-only release.
+This is an Android-only release. It is the same as v27.209 except its
+version number.
 
 ### Highlights for users
 
