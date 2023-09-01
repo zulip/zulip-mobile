@@ -39,6 +39,18 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Fixed a bug introduced in v27.210 where notifications stopped working on
+  Android 13. (#5752)
+
+
+### Highlights for developers
+
+* Reverted the `targetSdkVersion` bump to 33, so it's back to 31. (#5752)
+
+* Resolved issues: PR #5752
+
 
 ## 27.210 (2023-08-29)
 
