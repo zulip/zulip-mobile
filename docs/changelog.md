@@ -39,6 +39,11 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.211 (2023-08-31)
+
+This is an Android-only release.
+
 ### Highlights for users
 
 * Fixed a bug introduced in v27.210 where notifications stopped working on
