@@ -45,10 +45,13 @@ It doesn't include
 This is an Android-only release. It is the same as v27.209 except its
 version number.
 
+
 ### Highlights for users
 
 * Fixed a bug introduced in v27.210 where notifications stopped working on
   Android 13. (#5752)
+
+This release is identical to v27.209 except for its version number.
 
 
 ### Highlights for developers
@@ -61,6 +64,7 @@ version number.
 ## 27.210 (2023-08-29)
 
 This is an Android-only release.
+
 
 ### Highlights for users
 
