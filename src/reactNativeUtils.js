@@ -101,3 +101,45 @@ export function androidRelease(): string {
   // (If changing the implementation, adjust comment below jsdoc.)
   return (Platform.constants.Release: string);
 }
+
+/**
+ * The manufacturer of the Android device.
+ *
+ * E.g., "Google", "samsung".
+ */
+// This is Build.MANUFACTURER as of RN v0.68.7:
+//   https://reactnative.dev/docs/platform#constants
+//   https://github.com/facebook/react-native/blob/v0.68.7/ReactAndroid/src/main/java/com/facebook/react/modules/systeminfo/AndroidInfoModule.java#L73
+//   https://developer.android.com/reference/android/os/Build#MANUFACTURER
+export function androidManufacturer(): string {
+  invariant(Platform.OS === 'android', 'androidManufacturer called on iOS');
+  return (Platform.constants.Manufacturer: string);
+}
+
+/**
+ * "The consumer-visible brand with which the product/hardware will be associated, if any."
+ *
+ * E.g., "google", "samsung".
+ */
+// This is Build.BRAND as of RN v0.68.7:
+//   https://reactnative.dev/docs/platform#constants
+//   https://github.com/facebook/react-native/blob/v0.68.7/ReactAndroid/src/main/java/com/facebook/react/modules/systeminfo/AndroidInfoModule.java#L74
+//   https://developer.android.com/reference/android/os/Build#BRAND
+export function androidBrand(): string {
+  invariant(Platform.OS === 'android', 'androidBrand called on iOS');
+  return (Platform.constants.Brand: string);
+}
+
+/**
+ * "The end-user-visible name for the end product."
+ *
+ * E.g., "Pixel 5", "sdk_gphone64_x86_64", "SM-G960U1".
+ */
+// This is Build.MODEL as of RN v0.68.7:
+//   https://reactnative.dev/docs/platform#constants
+//   https://github.com/facebook/react-native/blob/v0.68.7/ReactAndroid/src/main/java/com/facebook/react/modules/systeminfo/AndroidInfoModule.java#L72
+//   https://developer.android.com/reference/android/os/Build#MODEL
+export function androidModel(): string {
+  invariant(Platform.OS === 'android', 'androidModel called on iOS');
+  return (Platform.constants.Model: string);
+}

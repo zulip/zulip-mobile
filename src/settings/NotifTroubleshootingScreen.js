@@ -38,7 +38,7 @@ import ZulipText from '../common/ZulipText';
 import type { Identity } from '../types';
 import type { SubsetProperties } from '../generics';
 import type { ZulipVersion } from '../utils/zulipVersion';
-import { useAppState } from '../reactNativeUtils';
+import { androidBrand, androidManufacturer, androidModel, useAppState } from '../reactNativeUtils';
 import * as logging from '../utils/logging';
 import { getHaveServerData } from '../haveServerDataSelectors';
 import { TranslationContext } from '../boot/TranslationProvider';
@@ -147,6 +147,9 @@ export type NotificationReport = {|
   +isSelfHosted: boolean,
   +platform: SubsetProperties<typeof Platform, {| +OS: mixed, +Version: mixed, +isPad: boolean |}>,
   +nativeApplicationVersion: string | null,
+  +manufacturer?: string,
+  +brand?: string,
+  +model?: string,
   +nativeState: NativeState,
   +problems: $ReadOnlyArray<NotificationProblem>,
   +isLoggedIn: boolean,
@@ -261,6 +264,11 @@ export function useNotificationReportsByIdentityKey(): Map<string, NotificationR
               isSelfHosted: !isAppOwnDomain(identity.realm),
               platform,
               nativeApplicationVersion,
+              ...(Platform.OS === 'android' && {
+                manufacturer: androidManufacturer(),
+                brand: androidBrand(),
+                model: androidModel(),
+              }),
               nativeState,
               problems,
               isLoggedIn,
