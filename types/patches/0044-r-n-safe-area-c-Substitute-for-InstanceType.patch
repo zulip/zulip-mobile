@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Greg Price <greg@zulip.com>
+Date: Tue, 8 Nov 2022 13:50:31 -0800
+Subject: [???] r-n-safe-area-c: Substitute for InstanceType
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is an accurate substitution whenever the operand is a React
+component type (a subtype of React.AbstractComponent<…>, in Flow
+terms), which this one is.
+
+I'm not sure how to write a good substitution for InstanceType in
+general.
+---
+ .../lib/typescript/src/SafeArea.types.js.flow                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+index 81a9fb120..8c47333c4 100644
+--- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+@@ -55,4 +55,4 @@ export type NativeSafeAreaViewProps = {
+   ...
+ };
+ 
+-export type NativeSafeAreaViewInstance = InstanceType<typeof NativeSafeAreaView>;
++export type NativeSafeAreaViewInstance = React.ElementRef<typeof NativeSafeAreaView>;
+-- 
+2.32.0
+

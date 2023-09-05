@@ -25,17 +25,17 @@ interface declaration to an object type, with `extends` turned into
 a spread, when the base is an object type -- as it is in these
 examples.
 ---
- .../lib/typescript/SafeArea.types.js.flow     | 22 +++++++++++--------
- .../lib/typescript/SafeAreaContext.js.flow    | 12 +++++-----
- .../specs/NativeSafeAreaProvider.js.flow      |  8 ++++---
- .../specs/NativeSafeAreaView.js.flow          | 10 +++++----
- 4 files changed, 31 insertions(+), 21 deletions(-)
+ .../lib/typescript/src/SafeArea.types.js.flow | 24 +++++++++++--------
+ .../typescript/src/SafeAreaContext.js.flow    | 12 ++++++----
+ .../src/specs/NativeSafeAreaProvider.js.flow  |  8 ++++---
+ .../src/specs/NativeSafeAreaView.js.flow      | 10 ++++----
+ 4 files changed, 32 insertions(+), 22 deletions(-)
 
-diff --git types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
-index 88ba6cc09..056367669 100644
---- types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
-+++ types/react-native-safe-area-context/lib/typescript/SafeArea.types.js.flow
-@@ -33,13 +33,17 @@ export interface Metrics {
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+index 3a71dca37..81a9fb120 100644
+--- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+@@ -40,15 +40,19 @@ export interface Metrics {
  export type InsetChangedEvent = $tsflower_subst$RN$NativeSyntheticEvent<Metrics>;
  export type InsetChangeNativeCallback = (event: InsetChangedEvent) => void;
  
@@ -43,29 +43,32 @@ index 88ba6cc09..056367669 100644
 -  children?: $tsflower_subst$React$ReactNode;
 -  onInsetsChange: InsetChangeNativeCallback;
 -}
+-
+-export interface NativeSafeAreaViewProps extends $tsflower_subst$RN$ViewProps {
+-  children?: $tsflower_subst$React$ReactNode;
+-  mode?: 'padding' | 'margin';
+-  edges?: Edges;
+-}
 +export type NativeSafeAreaProviderProps = {
 +  ...$tsflower_subst$RN$ViewProps,
 +  children?: $tsflower_subst$React$ReactNode,
 +  onInsetsChange: InsetChangeNativeCallback,
 +  ...
 +};
- 
--export interface NativeSafeAreaViewProps extends $tsflower_subst$RN$ViewProps {
--  children?: $tsflower_subst$React$ReactNode;
--  mode?: 'padding' | 'margin';
--  edges?: $ReadOnlyArray<Edge>;
--}
++
 +export type NativeSafeAreaViewProps = {
 +  ...$tsflower_subst$RN$ViewProps,
 +  children?: $tsflower_subst$React$ReactNode,
 +  mode?: 'padding' | 'margin',
-+  edges?: $ReadOnlyArray<Edge>,
++  edges?: Edges,
 +  ...
 +};
-diff --git types/react-native-safe-area-context/lib/typescript/SafeAreaContext.js.flow types/react-native-safe-area-context/lib/typescript/SafeAreaContext.js.flow
+ 
+ export type NativeSafeAreaViewInstance = InstanceType<typeof NativeSafeAreaView>;
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeAreaContext.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeAreaContext.js.flow
 index 7231a733b..5e7699444 100644
---- types/react-native-safe-area-context/lib/typescript/SafeAreaContext.js.flow
-+++ types/react-native-safe-area-context/lib/typescript/SafeAreaContext.js.flow
+--- types/react-native-safe-area-context/lib/typescript/src/SafeAreaContext.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeAreaContext.js.flow
 @@ -18,11 +18,13 @@ import { type EdgeInsets, type Metrics, type Rect } from './SafeArea.types';
  declare export var SafeAreaInsetsContext: $tsflower_subst$React$Context<EdgeInsets | null>;
  declare export var SafeAreaFrameContext: $tsflower_subst$React$Context<Rect | null>;
@@ -85,10 +88,10 @@ index 7231a733b..5e7699444 100644
  
  declare export function SafeAreaProvider(SafeAreaProviderProps): $tsflower_subst$React$JSX$Element;
  declare export function useSafeAreaInsets(): EdgeInsets;
-diff --git types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaProvider.js.flow types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaProvider.js.flow
+diff --git types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaProvider.js.flow types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaProvider.js.flow
 index 7a1594b3b..5d9e21df4 100644
---- types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaProvider.js.flow
-+++ types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaProvider.js.flow
+--- types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaProvider.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaProvider.js.flow
 @@ -27,8 +27,10 @@ export type Event = Readonly<{
    ...
  }>;
@@ -103,22 +106,28 @@ index 7a1594b3b..5d9e21df4 100644
 +};
  declare var _default: HostComponent<NativeProps>;
  export default _default;
-diff --git types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaView.js.flow types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaView.js.flow
-index 6e8337b9b..300c246bb 100644
---- types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaView.js.flow
-+++ types/react-native-safe-area-context/lib/typescript/specs/NativeSafeAreaView.js.flow
-@@ -5,10 +5,12 @@ import type { ViewProps as $tsflower_subst$RN$ViewProps } from 'tsflower/subst/r
+diff --git types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaView.js.flow types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaView.js.flow
+index e30582cb5..87fdeaef0 100644
+--- types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaView.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/specs/NativeSafeAreaView.js.flow
+@@ -6,16 +6,18 @@ import type { Readonly } from 'tsflower/subst/lib';
  import { typeof WithDefault } from 'react-native/Libraries/Types/CodegenTypes';
  import { type HostComponent } from 'react-native';
  
 -export interface NativeProps extends $tsflower_subst$RN$ViewProps {
 -  mode?: WithDefault<'padding' | 'margin', 'padding'>;
--  edges /* tsflower-warning: unimplemented: 'readonly' as type operator */?: string[] /*  readonly string[] */;
--}
 +export type NativeProps = {
 +  ...$tsflower_subst$RN$ViewProps,
 +  mode?: WithDefault<'padding' | 'margin', 'padding'>,
-+  edges /* tsflower-warning: unimplemented: 'readonly' as type operator */?: string[] /*  readonly string[] */,
+   edges?: Readonly<{
+     top: string,
+     right: string,
+     bottom: string,
+     left: string,
+     ...
+-  }>;
+-}
++  }>,
 +  ...
 +};
  

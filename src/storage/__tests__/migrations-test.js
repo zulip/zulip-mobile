@@ -302,7 +302,6 @@ describe('migrations', () => {
       { ...endBase, accounts: [...base37.accounts] },
     ],
   ]) {
-    /* eslint-disable no-loop-func */
     test(desc, async () => {
       // $FlowIgnore[incompatible-exact]
       // $FlowIgnore[incompatible-type]
