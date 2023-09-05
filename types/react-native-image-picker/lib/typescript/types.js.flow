@@ -20,6 +20,7 @@ export interface OptionsCommon {
     | 'popover'
     | 'overFullScreen'
     | 'overCurrentContext';
+  assetRepresentationMode?: 'auto' | 'current' | 'compatible';
 }
 
 export interface ImageLibraryOptions extends OptionsCommon {

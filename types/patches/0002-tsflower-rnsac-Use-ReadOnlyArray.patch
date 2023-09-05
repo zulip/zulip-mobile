@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Fri, 1 Sep 2023 18:05:02 -0700
+Subject: [tsflower] rnsac: Use $ReadOnlyArray
+
+---
+ .../lib/typescript/src/SafeArea.types.js.flow                 | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+index 2a11287b6..c4e816378 100644
+--- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+@@ -17,9 +17,7 @@ export type EdgeMode = 'off' | 'additive' | 'maximum';
+ export type EdgeRecord =
+   Partial<$FlowFixMe /* Record<Edge, EdgeMode> */ /* tsflower-unimplemented: Record with key type TypeReference */>;
+ 
+-export type Edges =
+-  /* tsflower-warning: unimplemented: 'readonly' as type operator */
+-  Edge[] /*  readonly Edge[] */ | Readonly<EdgeRecord>;
++export type Edges = $ReadOnlyArray<Edge> | Readonly<EdgeRecord>;
+ 
+ export interface EdgeInsets {
+   top: number;
+-- 
+2.32.0
+

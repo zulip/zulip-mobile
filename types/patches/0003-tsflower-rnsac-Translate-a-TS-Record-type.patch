@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Fri, 1 Sep 2023 18:29:58 -0700
+Subject: [tsflower] rnsac: Translate a TS `Record` type
+
+---
+ .../lib/typescript/src/SafeArea.types.js.flow                  | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+index c4e816378..3a71dca37 100644
+--- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
+@@ -14,8 +14,7 @@ import 'react-native';
+ import NativeSafeAreaView from './specs/NativeSafeAreaView';
+ export type Edge = 'top' | 'right' | 'bottom' | 'left';
+ export type EdgeMode = 'off' | 'additive' | 'maximum';
+-export type EdgeRecord =
+-  Partial<$FlowFixMe /* Record<Edge, EdgeMode> */ /* tsflower-unimplemented: Record with key type TypeReference */>;
++export type EdgeRecord = {| [Edge]: EdgeMode |};
+ 
+ export type Edges = $ReadOnlyArray<Edge> | Readonly<EdgeRecord>;
+ 
+-- 
+2.32.0
+

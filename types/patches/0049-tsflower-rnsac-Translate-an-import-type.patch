@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Fri, 1 Sep 2023 18:46:31 -0700
+Subject: [tsflower] rnsac: Translate an "import type"
+
+TsFlower has a TODO for this:
+  https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/tsflower.3A.20TS.20import.20types/near/1472027
+
+Also, remove the second and third arguments passed to a
+React.Component, as I see a comment that suggests it might be wrong
+to pass them. I don't get a Flow error if I leave them in, but they
+don't look very interesting anyway.
+---
+ .../lib/typescript/src/SafeAreaView.js.flow                | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git types/react-native-safe-area-context/lib/typescript/src/SafeAreaView.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeAreaView.js.flow
+index c046448cc..2e1cecb6c 100644
+--- types/react-native-safe-area-context/lib/typescript/src/SafeAreaView.js.flow
++++ types/react-native-safe-area-context/lib/typescript/src/SafeAreaView.js.flow
+@@ -11,11 +11,10 @@ import type {
+ import type { Readonly } from 'tsflower/subst/lib';
+ import * as React from 'react';
+ import { type NativeSafeAreaViewProps } from './SafeArea.types';
++import { type NativeProps } from './specs/NativeSafeAreaView';
++
+ export type SafeAreaViewProps = NativeSafeAreaViewProps;
+ declare export var SafeAreaView: $tsflower_subst$React$ForwardRefExoticComponent<
+   NativeSafeAreaViewProps &
+-    $tsflower_subst$React$RefAttributes<
+-      $FlowFixMe /* React.Component<import("./specs/NativeSafeAreaView").NativeProps, {}, any> */ /* tsflower-error: bad React.Component: 3 arguments (expected 0-2) */ &
+-        Readonly<NativeMethods>,
+-    >,
++    $tsflower_subst$React$RefAttributes<React.Component<NativeProps> & Readonly<NativeMethods>>,
+ >;
+-- 
+2.32.0
+
