@@ -39,6 +39,27 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* In an interleaved stream view, "Quote and reply" now fills the topic
+  input, if it was empty, and focuses the message input. (#5718)
+
+
+### Highlights for developers
+
+* Bumped `targetSdkVersion` to 33, aka Android 13, this time handling the
+  new POST_NOTIFICATIONS permission. (#5753, #5453)
+
+* Bumped `kMinAllowedServerVersion` to 4.0 and
+  `kMinSupportedVersion` to 5.0. (PR #5762)
+
+* Ran `yarn upgrade`. (PR #5756)
+
+* (Android) Added device manufacturer/model to notification troubleshooting
+  data. (PR #5754)
+
+* Resolved issues: #5718, #5753, #5453
+
 
 ## 27.211 (2023-08-31)
 
