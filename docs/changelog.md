@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.212 (2023-09-15)
+
 ### Highlights for users
 
 * In an interleaved stream view, "Quote and reply" now fills the topic
