@@ -436,14 +436,14 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (3.4.3):
+  - RNSentry (5.9.2):
     - React-Core
-    - Sentry (= 7.11.0)
+    - Sentry/HybridSDK (= 8.11.0)
   - RNVectorIcons (9.2.0):
     - React-Core
-  - Sentry (7.11.0):
-    - Sentry/Core (= 7.11.0)
-  - Sentry/Core (7.11.0)
+  - Sentry/HybridSDK (8.11.0):
+    - SentryPrivate (= 8.11.0)
+  - SentryPrivate (8.11.0)
   - SocketRocket (0.6.0)
   - Toast (4.0.0)
   - Yoga (1.14.0)
@@ -554,6 +554,7 @@ SPEC REPOS:
     - libevent
     - OpenSSL-Universal
     - Sentry
+    - SentryPrivate
     - SocketRocket
     - Toast
     - YogaKit
@@ -757,9 +758,10 @@ SPEC CHECKSUMS:
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
   RNReanimated: e7d8afaf8fed4b3bf1a46e06adb2e04a2b248f1c
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  RNSentry: 85f6525b5fe8d2ada065858026b338605b3c09da
+  RNSentry: da8111ddd855157a9e21294153156b85ae5d6be4
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
-  Sentry: 0c5cd63d714187b4a39c331c1f0eb04ba7868341
+  Sentry: 39d57e691e311bdb73bc1ab5bbebbd6bc890050d
+  SentryPrivate: 48712023cdfd523735c2edb6b06bedf26c4730a3
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 0bc4b37c3b8a345336ff601e2cf7d9704bab7e93

@@ -1,4 +1,6 @@
-// @flow
+/*
+ * @flow strict-local
+ */
 
 import * as Sentry from '@sentry/react-native';
 import { isSentryActive } from '../sentry';
@@ -13,7 +15,7 @@ describe('sentry', () => {
       expect(isSentryActive()).toBeFalse();
       Sentry.addBreadcrumb({
         message: 'test message',
-        level: Sentry.Severity.Debug,
+        level: 'debug',
       });
       expect(isSentryActive()).toBeFalse();
     });

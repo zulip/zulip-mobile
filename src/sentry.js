@@ -1,6 +1,5 @@
 /* @flow strict-local */
 import * as Sentry from '@sentry/react-native';
-import type { Breadcrumb, BreadcrumbHint } from '@sentry/react-native';
 import { nativeApplicationVersion } from 'expo-application';
 // $FlowFixMe[untyped-import]
 import md5 from 'blueimp-md5';
@@ -11,6 +10,10 @@ import store from './boot/store';
 import { getIdentities } from './account/accountsSelectors';
 import { sentryKey } from './sentryConfig';
 import { isUrlOnRealm } from './utils/url';
+
+// TODO import from @sentry/react-native libdef
+type Breadcrumb = $FlowFixMe;
+type BreadcrumbHint = $FlowFixMe;
 
 export const isSentryActive = (): boolean => {
   // Hub#getClient() is documented as possibly returning undefined, but the
@@ -122,8 +125,6 @@ function scrubUrl(unscrubbedUrl: void | string): void | string {
 function scrubBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb {
   switch (breadcrumb.type) {
     case 'http': {
-      // $FlowIgnore[incompatible-indexer] | We assume it's an
-      // $FlowIgnore[incompatible-type]    | HttpBreadcrumb; see jsdoc.
       const httpBreadcrumb: HttpBreadcrumb = breadcrumb;
       return {
         ...httpBreadcrumb,
