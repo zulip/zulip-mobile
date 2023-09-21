@@ -39,6 +39,12 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.213 (2023-09-20)
+
+This is an Android-only release in the v27.211 series.
+
+
 ### Highlights for users
 
 * (Android) Disabled Sentry error reporting, which was causing
