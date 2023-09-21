@@ -102,12 +102,9 @@ simple terminology for the process we follow with both.
   tools/checkout-keystore
   ```
 
-* Apply the Sentry client key (using the local branch created for this
-  in initial setup):
-
-  ```
-  git rebase @ release-secrets
-  ```
+* Do *not* apply the Sentry client key from the `release-secrets`
+  branch; if you're already on that branch (from e.g. making the iOS
+  build), move off of it.  See our issues #5757 and #5766.
 
 * Build the app, as both good old-fashioned APKs and a fancy new AAB:
 
