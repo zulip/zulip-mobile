@@ -39,6 +39,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) Disabled Sentry error reporting, which was causing
+  crashes following a recent Android update. (#5757)
+
+
+### Highlights for developers
+
+* Disabled Sentry on Android, as a workaround for the newly-frequent
+  crash bug #5757.
+
 
 ## 27.211 (2023-08-31)
 
