@@ -39,19 +39,36 @@ It doesn't include
 
 ## Unreleased
 
-### Highlights for users
+### Highlights for users, vs. v27.213 (last prod release)
+
+
+### Highlights for developers, vs. v27.212 (last release from main)
+
+* Disabled Sentry on Android, as a workaround for the newly-frequent
+  crash bug #5757.
+
+
+## 27.213 (2023-09-20)
+
+This is an Android-only release in the v27.211 series.
+
+
+### Highlights for users, vs. v27.211
 
 * (Android) Disabled Sentry error reporting, which was causing
   crashes following a recent Android update. (#5757)
 
 
-### Highlights for developers
+### Highlights for developers, vs. v27.211
 
 * Disabled Sentry on Android, as a workaround for the newly-frequent
   crash bug #5757.
 
 
 ## 27.212 (2023-09-15)
+
+This was an alpha-only release.
+
 
 ### Highlights for users
 
