@@ -212,8 +212,9 @@ function streamsReducer(
         }
 
         // We rely in `setUnion` below on these being sorted.  Even if we
-        // didn't, and sorted there, it wouldn't catch messages that are in
-        // newlyUnreadState but not the existing state.  So sort here too.
+        // didn't, and sorted there, it wouldn't catch topics that are in
+        // newlyUnreadState but not the existing state (because `mergeWith`
+        // would use those verbatim).  So sort here.
         newlyUnreadState = newlyUnreadState.map(e => e.map(messages => messages.sort()));
 
         return state.mergeWith(
