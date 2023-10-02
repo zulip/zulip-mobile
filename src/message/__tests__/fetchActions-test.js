@@ -340,48 +340,39 @@ describe('fetchActions', () => {
       });
 
       test("rejects when validation-at-the-edge can't handle data, dispatches MESSAGE_FETCH_ERROR", async () => {
+        // Regression test for #4156.  There was a server bug that caused
+        // message data to be malformed, and though it was only briefly in
+        // main, a user did run into it in real life:
+        //   https://github.com/zulip/zulip-mobile/issues/4156#issuecomment-655905093
+        //
         // This validation is done in transformFetchedMessages in
         // rawModelTypes.
-        //
-        // Simulate #4156, a real-life problem that a user at server commit
-        // 0af2f9d838 ran into [1], by having `user` be missing on reactions
-        // on a message:
-        //   https://github.com/zulip/zulip-mobile/issues/4156#issuecomment-655905093
+
         const store = mockStore<GlobalState, Action>(baseState);
 
-        // Missing `user` (and `user_id`, for good measure), to
-        // simulate #4156.
-        const faultyReaction = {
-          reaction_type: 'unicode_emoji',
-          emoji_code: '1f44d',
-          emoji_name: 'thumbs_up',
-        };
-
         const response = {
-          // Flow would complain at `faultyReaction` if it
+          // Flow would complain at `sender_email` if it
           // type-checked `response`, but we should ignore it if that
-          // day comes. It's badly shaped on purpose.
-          messages: [{ ...fetchedMessage1, reactions: [faultyReaction] }],
+          // day comes. It's badly typed on purpose.
+          messages: [{ ...fetchedMessage1, avatar_url: null, sender_email: undefined }],
           result: 'success',
         };
         // $FlowFixMe[prop-missing]: See mock in jest/globalFetch.js.
         fetch.mockResponseSuccess(JSON.stringify(response));
 
+        const expectedError = Error("Cannot read properties of undefined (reading 'toLowerCase')");
+
         await expect(
           store.dispatch(
             fetchMessages({ narrow: HOME_NARROW, anchor: 0, numBefore: 1, numAfter: 1 }),
           ),
-        ).rejects.toThrow(
-          // Update this with changes to the error type.
-          TypeError,
-        );
+        ).rejects.toThrow(expectedError);
 
         const actions = store.getActions();
 
         expect(actions[actions.length - 1]).toMatchObject({
           type: 'MESSAGE_FETCH_ERROR',
-          // Update this with changes to the error type.
-          error: expect.any(TypeError),
+          error: expectedError,
         });
       });
 

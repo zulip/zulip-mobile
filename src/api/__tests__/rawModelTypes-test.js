@@ -1,31 +1,14 @@
 /* @flow strict-local */
-import {
-  transformFetchedMessage,
-  type FetchedMessage,
-  type FetchedReaction,
-} from '../rawModelTypes';
+import { transformFetchedMessage, type FetchedMessage } from '../rawModelTypes';
 import { identityOfAuth } from '../../account/accountMisc';
 import * as eg from '../../__tests__/lib/exampleData';
 import type { Message } from '../modelTypes';
 import { GravatarURL } from '../../utils/avatar';
 
 describe('transformFetchedMessage', () => {
-  const reactingUser = eg.makeUser();
-
-  const serverReaction: FetchedReaction = {
-    emoji_name: '+1',
-    reaction_type: 'unicode_emoji',
-    emoji_code: '1f44d',
-    user: {
-      email: reactingUser.email,
-      full_name: reactingUser.full_name,
-      id: reactingUser.user_id,
-    },
-  };
-
   const fetchedMessage: FetchedMessage = {
     ...eg.streamMessage(),
-    reactions: [serverReaction],
+    reactions: [eg.unicodeEmojiReaction],
     avatar_url: null,
     edit_history: [
       {
@@ -46,14 +29,6 @@ describe('transformFetchedMessage', () => {
 
     const expectedOutput: Message = {
       ...fetchedMessage,
-      reactions: [
-        {
-          user_id: reactingUser.user_id,
-          emoji_name: serverReaction.emoji_name,
-          reaction_type: serverReaction.reaction_type,
-          emoji_code: serverReaction.emoji_code,
-        },
-      ],
       avatar_url: GravatarURL.validateAndConstructInstance({ email: fetchedMessage.sender_email }),
       edit_history:
         // $FlowIgnore[incompatible-cast] - See MessageEdit type
@@ -66,10 +41,6 @@ describe('transformFetchedMessage', () => {
       eg.recentZulipFeatureLevel,
       true,
     );
-
-    test('In reactions, replace user object with `user_id`', () => {
-      expect(actualOutput.reactions).toEqual(expectedOutput.reactions);
-    });
 
     test('Converts avatar_url correctly', () => {
       expect(actualOutput.avatar_url).toEqual(expectedOutput.avatar_url);

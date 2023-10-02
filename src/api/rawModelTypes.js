@@ -1,34 +1,8 @@
 /* @flow strict-local */
 
 import type { Identity } from '../types';
-import type {
-  PmMessage,
-  StreamMessage,
-  Message,
-  MessageEdit,
-  Reaction,
-  UserId,
-} from './modelTypes';
+import type { PmMessage, StreamMessage, Message, MessageEdit, UserId } from './modelTypes';
 import { AvatarURL } from '../utils/avatar';
-
-/**
- * The variant of `Reaction` found in a fetch-message(s) response.
- *
- * Note that reaction events have a *different* variation; see their
- * handling in `eventToAction`.
- */
-// We shouldn't have to rely on this format on servers at feature
-// level 2+; those newer servers include a top-level `user_id` field
-// in addition to the `user` object. See #4072.
-// TODO(server-3.0): Simplify this away.
-export type FetchedReaction = $ReadOnly<{|
-  ...$Diff<Reaction, {| user_id: mixed |}>,
-  user: $ReadOnly<{|
-    email: string,
-    full_name: string,
-    id: UserId,
-  |}>,
-|}>;
 
 /**
  * The elements of Message.edit_history found in a fetch-message(s) response.
@@ -56,7 +30,6 @@ export type FetchedMessageEdit = $ReadOnly<{|
 type FetchedMessageOf<M: Message> = $ReadOnly<{|
   ...$Exact<M>,
   avatar_url: string | null,
-  reactions: $ReadOnlyArray<FetchedReaction>,
 
   // Unlike Message['edit_history'], this can't be `null`.
   edit_history?: $ReadOnlyArray<FetchedMessageEdit>,
@@ -79,13 +52,6 @@ export const transformFetchedMessage = <M: Message>(
     email: message.sender_email,
     userId: message.sender_id,
     realm: identity.realm,
-  }),
-  reactions: message.reactions.map(reaction => {
-    const { user, ...restReaction } = reaction;
-    return {
-      ...restReaction,
-      user_id: user.id,
-    };
   }),
 
   // Why condition on allowEditHistory? See MessageBase['edit_history'].
