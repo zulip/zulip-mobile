@@ -436,7 +436,7 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.9.2):
+  - RNSentry (5.10.0):
     - React-Core
     - Sentry/HybridSDK (= 8.11.0)
   - RNVectorIcons (9.2.0):
@@ -758,7 +758,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
   RNReanimated: e7d8afaf8fed4b3bf1a46e06adb2e04a2b248f1c
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  RNSentry: da8111ddd855157a9e21294153156b85ae5d6be4
+  RNSentry: 11917f7bf3e28806aca4c2791c6ba7522d8f09fe
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Sentry: 39d57e691e311bdb73bc1ab5bbebbd6bc890050d
   SentryPrivate: 48712023cdfd523735c2edb6b06bedf26c4730a3

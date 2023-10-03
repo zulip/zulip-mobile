@@ -36,6 +36,12 @@ export type Options = {|
       same effect. */
   dsn: string,
 
+  /** Enable NDK on Android
+￼   *
+￼   * @default true
+￼   */
+  enableNdk?: boolean,
+
   ignoreErrors?: Array<string | RegExp>,
 
   /**
