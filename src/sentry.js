@@ -4,6 +4,7 @@ import { nativeApplicationVersion } from 'expo-application';
 // $FlowFixMe[untyped-import]
 import md5 from 'blueimp-md5';
 
+import { Platform } from 'react-native';
 import type { Identity } from './types';
 import isAppOwnDomain from './isAppOwnDomain';
 import store from './boot/store';
@@ -153,10 +154,22 @@ export const initializeSentry = () => {
 
     Sentry.init({
       dsn: key,
+
       ignoreErrors: [
         // RN's fetch implementation can raise these; we sometimes mimic it
         'Network request failed',
       ],
+
+      ...(Platform.OS === 'android'
+        ? {
+            // Disable Sentry's native code (libsentry.so), because it has
+            // memory-corruption bugs that cause the app to crash.
+            //   https://github.com/zulip/zulip-mobile/issues/5766
+            //   https://github.com/getsentry/sentry-java/issues/2955#issuecomment-1739030872
+            enableNdk: false,
+          }
+        : Object.freeze({})),
+
       beforeBreadcrumb(breadcrumb: Breadcrumb, hint?: BreadcrumbHint): Breadcrumb | null {
         try {
           return scrubBreadcrumb(breadcrumb, hint);
