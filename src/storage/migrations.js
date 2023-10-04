@@ -514,6 +514,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
 
   // Changed `state.presence` (twice), but no migration because that's in `discardKeys`.
 
+  // Discard invalid enum values from `state.mute`.
+  '60': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

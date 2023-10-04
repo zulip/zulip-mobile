@@ -15,6 +15,7 @@ import { makeMuteState, makeUserTopic } from './mute-testlib';
 import { tryGetActiveAccountState } from '../../selectors';
 import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
+import * as logging from '../../utils/logging';
 
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
 
@@ -139,6 +140,25 @@ describe('reducer', () => {
       );
     });
 
+    test('in modern user_topics format: invalid enum values discarded', () => {
+      // $FlowFixMe[prop-missing]: Jest mock
+      logging.warn.mockReturnValue();
+
+      const action1 = eg.mkActionRegisterComplete({
+        user_topics: [
+          // $FlowIgnore[incompatible-call]: simulates a future server
+          makeUserTopic(eg.stream, 'topic', 42),
+          makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Muted),
+        ],
+      });
+      const action2 = eg.mkActionRegisterComplete({
+        user_topics: [makeUserTopic(eg.stream, 'other topic', UserTopicVisibilityPolicy.Muted)],
+      });
+      expect(reducer(initialState, action1, eg.plusReduxState)).toEqual(
+        reducer(initialState, action2, eg.plusReduxState),
+      );
+    });
+
     test('in old muted_topics format: unit test', () => {
       const action = eg.mkActionRegisterComplete({
         muted_topics: [[eg.stream.name, 'topic']],
@@ -229,6 +249,21 @@ describe('reducer', () => {
         makeMuteState([[eg.stream, 'topic']]),
         makeUserTopic(eg.stream, 'topic', UserTopicVisibilityPolicy.None),
         initialState,
+      );
+    });
+
+    test('treat invalid enum value as removing', () => {
+      // $FlowFixMe[prop-missing]: Jest mock
+      logging.warn.mockReturnValue();
+
+      check(
+        makeMuteState([
+          [eg.stream, 'topic'],
+          [eg.stream, 'other topic'],
+        ]),
+        // $FlowIgnore[incompatible-call]: simulates a future server
+        makeUserTopic(eg.stream, 'topic', 999),
+        makeMuteState([[eg.stream, 'other topic']]),
       );
     });
   });
