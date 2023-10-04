@@ -664,6 +664,7 @@ export const constructTopicActionButtons = (args: {|
         break;
       case UserTopicVisibilityPolicy.None:
       case UserTopicVisibilityPolicy.Unmuted:
+      case UserTopicVisibilityPolicy.Followed:
         buttons.push(muteTopic);
         break;
     }
@@ -677,6 +678,7 @@ export const constructTopicActionButtons = (args: {|
           buttons.push(unmuteTopicInMutedStream);
           break;
         case UserTopicVisibilityPolicy.Unmuted:
+        case UserTopicVisibilityPolicy.Followed:
           buttons.push(muteTopic);
           break;
       }
