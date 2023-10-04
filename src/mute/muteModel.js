@@ -62,6 +62,7 @@ export function isTopicVisibleInStream(streamId: number, topic: string, mute: Mu
     case UserTopicVisibilityPolicy.Muted:
       return false;
     case UserTopicVisibilityPolicy.Unmuted:
+    case UserTopicVisibilityPolicy.Followed:
       return true;
   }
 }
@@ -89,6 +90,7 @@ export function isTopicVisible(
     case UserTopicVisibilityPolicy.Muted:
       return false;
     case UserTopicVisibilityPolicy.Unmuted:
+    case UserTopicVisibilityPolicy.Followed:
       return true;
   }
 }

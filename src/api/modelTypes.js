@@ -644,6 +644,10 @@ export enum UserTopicVisibilityPolicy {
   None = 0,
   Muted = 1,
   Unmuted = 2,
+  // Not in the API docs yet.  But it is, uh, in the server implementation:
+  //   https://github.com/zulip/zulip/blob/2ec8273c6/zerver/models.py#L2794-L2797
+  // TODO(server): delete this comment once documented
+  Followed = 3,
 }
 
 /**
