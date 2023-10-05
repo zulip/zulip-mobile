@@ -41,11 +41,20 @@ It doesn't include
 
 ### Highlights for users, vs. v27.213 (last prod release)
 
+* In an interleaved stream view, "Quote and reply" now fills the topic
+  input, if it was empty, and focuses the message input. (#5718)
+
 
 ### Highlights for developers, vs. v27.212 (last release from main)
 
-* Disabled Sentry on Android, as a workaround for the newly-frequent
-  crash bug #5757.
+* (Android) Configured Sentry with `enableNdk: false`, as a workaround for
+  the crash bug #5757. (#5766)
+
+* In the notification troubleshooting screen, when the email library reports
+  successfully sending a support email, that fact will be reported in
+  Sentry. (PR #5775)
+
+* Resolved issues: #5766
 
 
 ## 27.213 (2023-09-20)
