@@ -408,7 +408,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         break;
       case MailComposer.MailComposerStatus.SENT:
         showToast(_('Email sent'));
-        logging.info('NotifTroubleshootingScreen: MailComposer reports a sent email.');
+        logging.warn('NotifTroubleshootingScreen: MailComposer reports a sent email.');
         break;
       case MailComposer.MailComposerStatus.UNDETERMINED:
         logging.warn('MailComposerStatus.UNDETERMINED');
