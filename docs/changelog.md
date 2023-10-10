@@ -40,6 +40,24 @@ It doesn't include
 ## Unreleased
 
 
+## 27.215 (2023-10-10)
+
+This is an Android-only release in the v27.211 series,
+with cherry-picked changes atop v27.213.
+
+
+### Highlights for users
+
+* (Android) Update various behavior on Android 13+ as required by
+  Google Play. (#5453)
+
+
+### Highlights for developers
+
+* Bumped `targetSdkVersion` to 33, aka Android 13, this time handling the
+  new POST_NOTIFICATIONS permission. (#5753, #5453)
+
+
 ## 27.213 (2023-09-20)
 
 This is an Android-only release in the v27.211 series.
