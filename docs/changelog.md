@@ -42,6 +42,9 @@ It doesn't include
 
 ## 27.216 (2023-10-10)
 
+This is an Android-only release.
+
+
 ### Highlights for users, vs. v27.214 (last beta release)
 
 * (Android) Disabled Sentry error reporting, to resolve
@@ -55,7 +58,7 @@ It doesn't include
 
 ## 27.215 (2023-10-10)
 
-This is an Android-only release in the v27.211 series,
+This was an alpha-only, Android-only release in the v27.211 series,
 with cherry-picked changes atop v27.213.
 
 
@@ -72,6 +75,9 @@ with cherry-picked changes atop v27.213.
 
 
 ## 27.214 (2023-10-05)
+
+On Android this was a beta-only release.
+
 
 ### Highlights for users, vs. v27.213 (last prod release)
 
