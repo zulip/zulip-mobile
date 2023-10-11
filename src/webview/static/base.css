@@ -506,6 +506,9 @@ th, td {
   color: white;
 }
 
+/* TODO differentiate these three kinds of mentions */
+/* TODO differentiate on .user-mention-me (whether mention includes self-user) */
+.topic-mention,
 .user-group-mention,
 .user-mention {
   white-space: nowrap;
