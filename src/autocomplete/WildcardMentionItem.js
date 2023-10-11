@@ -26,6 +26,7 @@ export enum WildcardMentionType {
   All = 0,
   Everyone = 1,
   Stream = 2,
+  Topic = 3,
 }
 
 /**
@@ -45,6 +46,8 @@ const englishCanonicalStringOf = (type: WildcardMentionType): string => {
       return 'everyone';
     case WildcardMentionType.Stream:
       return 'stream';
+    case WildcardMentionType.Topic:
+      return 'topic';
   }
 };
 
@@ -74,6 +77,8 @@ const descriptionOf = (
       );
     case WildcardMentionType.Stream:
       return _('Notify stream');
+    case WildcardMentionType.Topic:
+      return _('Notify topic');
   }
 };
 
@@ -104,6 +109,11 @@ export const getWildcardMentionsForQuery = (
     && queryMatchesWildcard(WildcardMentionType.Stream)
   ) {
     results.push(WildcardMentionType.Stream);
+  }
+
+  // Then show @-topic if it applies.
+  if (isStreamOrTopicNarrow(destinationNarrow) && queryMatchesWildcard(WildcardMentionType.Topic)) {
+    results.push(WildcardMentionType.Topic);
   }
 
   return results;
