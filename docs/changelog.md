@@ -43,6 +43,13 @@ It doesn't include
 ## 27.216 (2023-10-10)
 
 This is an Android-only release.
+The equivalent release for iOS was v27.214.
+
+
+### Highlights for users, vs. v27.213 (last prod release)
+
+* In an interleaved stream view, "Quote and reply" now fills the topic
+  input, if it was empty, and focuses the message input. (#5718)
 
 
 ### Highlights for users, vs. v27.214 (last beta release)
@@ -76,7 +83,9 @@ with cherry-picked changes atop v27.213.
 
 ## 27.214 (2023-10-05)
 
-On Android this was a beta-only release.
+On Android this was a beta-only release,
+and the corresponding production release was v27.216.
+On iOS this was a normal production release.
 
 
 ### Highlights for users, vs. v27.213 (last prod release)
