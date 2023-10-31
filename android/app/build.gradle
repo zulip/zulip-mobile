@@ -201,6 +201,14 @@ android {
     }
 }
 
+// Disable all Sentry's native code.  This doesn't seem to impair
+// Sentry's reporting of JVM or JS exceptions.  Suggested by
+// upstream:
+//   https://github.com/getsentry/sentry-java/issues/2955#issuecomment-1765732363
+configurations.configureEach {
+  exclude group: "io.sentry", module: "sentry-android-ndk"
+}
+
 repositories {
     mavenCentral()
 }
