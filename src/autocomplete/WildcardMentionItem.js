@@ -85,6 +85,7 @@ const descriptionOf = (
 export const getWildcardMentionsForQuery = (
   query: string,
   destinationNarrow: Narrow,
+  topicMentionSupported: boolean,
   _: GetText,
 ): $ReadOnlyArray<WildcardMentionType> => {
   const queryMatchesWildcard = (type: WildcardMentionType): boolean =>
@@ -112,7 +113,11 @@ export const getWildcardMentionsForQuery = (
   }
 
   // Then show @-topic if it applies.
-  if (isStreamOrTopicNarrow(destinationNarrow) && queryMatchesWildcard(WildcardMentionType.Topic)) {
+  if (
+    topicMentionSupported
+    && isStreamOrTopicNarrow(destinationNarrow)
+    && queryMatchesWildcard(WildcardMentionType.Topic)
+  ) {
     results.push(WildcardMentionType.Topic);
   }
 

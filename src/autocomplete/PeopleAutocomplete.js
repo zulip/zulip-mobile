@@ -67,7 +67,14 @@ export default function PeopleAutocomplete(props: Props): Node {
   );
 
   const filteredUserGroups = getAutocompleteUserGroupSuggestions(userGroups, filter);
-  const wildcardMentionsForQuery = getWildcardMentionsForQuery(filter, destinationNarrow, _);
+  const wildcardMentionsForQuery = getWildcardMentionsForQuery(
+    filter,
+    destinationNarrow,
+    // TODO condition on feature level, once we know which one:
+    //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.40topic/near/1669340
+    false,
+    _,
+  );
   const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
 
   if (filteredUserGroups.length + filteredUsers.length === 0) {
