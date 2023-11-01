@@ -37,6 +37,7 @@ export default {
   hr: require('../../static/translations/messages_hr.json'),
   hu: require('../../static/translations/messages_hu.json'),
   id: require('../../static/translations/messages_id.json'),
+  ig: require('../../static/translations/messages_ig.json'),
   it: require('../../static/translations/messages_it.json'),
   ja: require('../../static/translations/messages_ja.json'),
   ko: require('../../static/translations/messages_ko.json'),

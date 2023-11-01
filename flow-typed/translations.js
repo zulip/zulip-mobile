@@ -108,6 +108,10 @@ declare module '../../static/translations/messages_id.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_ig.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_it.json' {
   declare export default {| [string]: string |};
 }
