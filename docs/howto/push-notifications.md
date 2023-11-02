@@ -3,6 +3,15 @@
 This doc describes how to test and develop changes to Zulip's mobile
 push notifications.
 
+#### Contents (with permalinks)
+
+* [General tips](#general-tips)
+* [Testing server-side changes (iOS or Android)](#server)
+* [Testing client-side changes on Android](#android)
+* [Testing client-side changes on iOS](#ios)
+
+
+<div id="general-tips" />
 
 ## General tips
 
@@ -46,6 +55,8 @@ When testing Zulip's push notifications:
   home screen or to a different app to get it off the screen.  Or
   keep it on screen, or force-kill it, to test different scenarios!
 
+
+<div id="server" />
 
 ## Testing server-side changes (iOS or Android)
 
@@ -105,6 +116,8 @@ Then, each time you test:
    let's debug.
 
 
+<div id="android" />
+
 ## Testing client-side changes on Android
 
 Happily, this is straightforward: just edit, build, and run the app
@@ -146,6 +159,8 @@ make it into the final code you send in a PR.  Here's another example:
     Log.v(TAG, String.format("update: %d", conversations.size()));
 ```
 
+
+<div id="ios" />
 
 ## Testing client-side changes on iOS
 
