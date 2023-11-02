@@ -39,6 +39,21 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated translations for Chinese (China), Danish, German, and Persian.
+  Thanks as always to our kind volunteer translators!
+
+
+### Highlights for developers
+
+* Re-enabled Sentry, this time with no libsentry.so. (#5782)
+
+* We now render @topic mentions (an upcoming Zulip Server 8 feature)
+  correctly in the message list. (#5746)
+
+* Resolved issues: #5782, #5746
+
 
 ## 27.216 (2023-10-10)
 
