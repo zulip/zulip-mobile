@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.217 (2023-11-02)
+
 ### Highlights for users
 
 * Updated translations for Chinese (China), Danish, German, and Persian.
