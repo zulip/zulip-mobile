@@ -175,8 +175,8 @@ idiosyncratic capitalization shown.
 
 ### Current workaround
 
-This workaround means using a development server. If that won't work
-for you, you'll have to try the second workaround, below.
+This workaround means using a development server.  You'll first need
+to [set up the dev server for mobile development](dev-server.md).
 
 You can tell your development server to talk to Apple's APNs "sandbox"
 server, instead of its server meant for production, but you'll need a
@@ -184,62 +184,49 @@ certificate signed by Apple authorizing you to do so. Some background
 on that is
 [here](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns/#2947606).
 
-1. First, generate a Certificate Signing Request (CSR). Apple
-   Developer's instructions are
-   [here](https://developer.apple.com/help/account/create-certificates/create-a-certificate-signing-request).
-   You can use something like "John Appleseed APNs Sandbox" for the
-   "Common Name."
+1. First, generate a certificate signing request (CSR) and
+   corresponding private key.  Use the `tools/setup/apns/prep-cert`
+   script from the Zulip server tree:
+   ```
+   $ tools/setup/apns/prep-cert request /tmp/apns.key /tmp/apns.csr
+   ```
 
 2. Greg is authorized in Apple Developer to upload the CSR and obtain
-   the actual certificate, so you should send it to him and ask him to
-   do that. He'll follow something like [these
-   instructions](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/establishing_a_certificate-based_connection_to_apns)
-   to upload your CSR and obtain an APNs SSL (Sandbox) certificate
-   (not Sandbox & Production). Greg will send you the certificate.
-   Open the file, so Keychain Access will import it into your
-   keychain.
+   the actual certificate, so you should send `apns.csr` to him and
+   ask him to do that.  He'll follow the steps at
+   https://developer.apple.com/account/resources/certificates/add
+   with:
+   * Cert type: “Apple Push Notification service SSL (Sandbox)"
+     (not "Sandbox & Production")
+   * App ID: 66KHCWMEYB.org.zulip.Zulip
 
-   (Note: When you created the CSR, Keychain Access also created a
-   private key. The CSR itself is not the private key, so it doesn't
-   require extra care to send over the Internet. As of 2020-03-02, the
-   APNs certificate doc incorrectly conflates the CSR and the private
-   key. The CSR file contains only the public key and a signed hash of
-   the request itself; this can be confirmed by extracting its
-   contents with OpenSSL:
+   to obtain a certificate file `aps_development.cer`,
+   and send it back to you.
 
-   `openssl asn1parse -i -in CertificateSigningRequest.certSigningRequest`
+3. Combine the certificate with the key using the same tool:
+   ```
+   $ tools/setup/apns/prep-cert combine \
+       /tmp/apns.key /tmp/aps_development.cer /tmp/apns-dev.pem
+   ```
 
-   `openssl req -in CertificateSigningRequest.certSigningRequest -text -noout`
+   The file `/tmp/apns-dev.pem` is the output of all the steps
+   up to this point.
+   You can now delete the other files `/tmp/apns.key`, `/tmp/apns.csr`,
+   and `/tmp/aps_development.cer`.
 
-   .)
-
-3. Keychain Access will recognize that the certificate corresponds to
-   your private key. Select them both and choose to export them to a
-   single .p12 (PKCS #12 format) file.
-
-4. Move the .p12 file into your zulip.git clone, in /zproject. Then
-   ssh into the Vagrant container (`vagrant ssh`) and convert the .p12
-   file into a .pem file, with
-
-   `openssl pkcs12 -in Certificates.p12 -out apns-sandbox.pem -nodes`
-
-   (replacing Certificates.p12 with whatever your filename is). If
-   openssl isn't installed, run `sudo apt install openssl`. Then
-   delete the .p12 file; you won't need it anymore.
-
-5. The .pem file contains your private key, so be sure you don't push
+4. The .pem file contains your private key, so be sure you don't push
    it to GitHub! One way this could be done is with the .gitignore
    file, but .gitignore is itself version-controlled, and other people
    probably don't have a .pem file with the same name. The
-   .git/info/exclude file lets you tell Git what to ignore, but it
+   `.git/info/exclude` file lets you tell Git what to ignore, but it
    isn't in version control, so other people won't be confused by its
-   contents. Add a line with "zproject/apns-sandbox.pem" (or whatever
+   contents. Add a line with "zproject/apns-dev.pem" (or whatever
    the path is for you). Confirm that the .pem file isn't being
    tracked by Git; it should not show up at all when you run `git
    status`.
 
-6. Add a line with `APNS_CERT_FILE = "zproject/apns-sandbox.pem"` to
-   zproject/dev_settings.py. This lets Python use the certificate to
+5. Add a line with `APNS_CERT_FILE = "zproject/apns-dev.pem"` to
+   `zproject/dev_settings.py`. This lets Python use the certificate to
    communicate with the APNs sandbox server.
 
 Now, restart the server, and you should be receiving notifications on
