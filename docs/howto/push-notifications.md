@@ -206,38 +206,25 @@ on that is
 3. Combine the certificate with the key using the same tool:
    ```
    $ tools/setup/apns/prep-cert combine \
-       /tmp/apns.key /tmp/aps_development.cer /tmp/apns-dev.pem
+       /tmp/apns.key /tmp/aps_development.cer zproject/apns-dev.pem
    ```
 
-   The file `/tmp/apns-dev.pem` is the output of all the steps
+   The file `zproject/apns-dev.pem` is the output of all the steps
    up to this point.
    You can now delete the other files `/tmp/apns.key`, `/tmp/apns.csr`,
    and `/tmp/aps_development.cer`.
 
-4. The .pem file contains your private key, so be sure you don't push
-   it to GitHub! One way this could be done is with the .gitignore
-   file, but .gitignore is itself version-controlled, and other people
-   probably don't have a .pem file with the same name. The
-   `.git/info/exclude` file lets you tell Git what to ignore, but it
-   isn't in version control, so other people won't be confused by its
-   contents. Add a line with "zproject/apns-dev.pem" (or whatever
-   the path is for you). Confirm that the .pem file isn't being
-   tracked by Git; it should not show up at all when you run `git
-   status`.
+4. Restart `tools/run-dev` to let the server pick up the change.
+   It should automatically see the file `zproject/apns-dev.pem`
+   and use it to communicate with the APNs sandbox server.
 
-5. Add a line with `APNS_CERT_FILE = "zproject/apns-dev.pem"` to
-   `zproject/dev_settings.py`. This lets Python use the certificate to
-   communicate with the APNs sandbox server.
+You should now be getting notifications on your iOS development build!
 
-Now, restart the server, and you should be receiving notifications on
-your iOS development build! Be sure mobile notification settings are
-on, using the web app's settings interface. (You're all set to do this
-if your branch is up-to-date with a version of `main` from 2020-03
-or later; if not, you'll need the changes in [this
-commit](https://github.com/zulip/zulip/commit/23ba2b63c5c10f43b02a2bb2c470cc6ff597d839)).
-If it's not working, please say so in
-[#mobile](https://chat.zulip.org/#narrow/stream/48-mobile) on
+If it's not working, first check that mobile notification settings are
+on, using the web app's settings interface.  Then please ask for help
+in [#mobile](https://chat.zulip.org/#narrow/stream/48-mobile) on
 chat.zulip.org, so we can debug.
+
 
 ### Another workaround (if the first doesn't work)
 
