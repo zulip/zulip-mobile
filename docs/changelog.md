@@ -39,6 +39,18 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated translations for Belarusian, German, and Persian.
+  Thanks as always to our kind volunteer translators!
+
+
+### Highlights for developers
+
+* Increased the typing-started expiry period from 15s to 45s. (PR #5786)
+
+* Resolved issues: PR #5786
+
 
 ## 27.217 (2023-11-02)
 
