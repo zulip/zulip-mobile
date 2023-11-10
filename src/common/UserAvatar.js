@@ -45,23 +45,28 @@ function UserAvatar(props: Props): Node {
 
   const auth = useSelector(state => getAuth(state));
 
+  let userImage;
+  if (isMuted) {
+    userImage = <IconUserBlank size={size} color={color} style={iconStyle} />;
+  } else {
+    userImage = (
+      <Image
+        source={{
+          uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
+          ...(avatarUrl instanceof FallbackAvatarURL
+            ? { headers: getAuthHeaders(auth) }
+            : undefined),
+        }}
+        style={style}
+        resizeMode="cover"
+      />
+    );
+  }
+
   return (
     <Touchable onPress={onPress}>
       <View accessibilityIgnoresInvertColors>
-        {!isMuted ? (
-          <Image
-            source={{
-              uri: avatarUrl.get(PixelRatio.getPixelSizeForLayoutSize(size)).toString(),
-              ...(avatarUrl instanceof FallbackAvatarURL
-                ? { headers: getAuthHeaders(auth) }
-                : undefined),
-            }}
-            style={style}
-            resizeMode="cover"
-          />
-        ) : (
-          <IconUserBlank size={size} color={color} style={iconStyle} />
-        )}
+        {userImage}
         {children}
       </View>
     </Touchable>
