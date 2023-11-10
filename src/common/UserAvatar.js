@@ -8,7 +8,7 @@ import { getAuthHeaders } from '../api/transport';
 import { getAuth } from '../account/accountsSelectors';
 import Touchable from './Touchable';
 import { AvatarURL, FallbackAvatarURL } from '../utils/avatar';
-import { IconUserMuted } from './Icons';
+import { IconUserBlank } from './Icons';
 import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
@@ -60,7 +60,7 @@ function UserAvatar(props: Props): Node {
             resizeMode="cover"
           />
         ) : (
-          <IconUserMuted size={size} color={color} style={iconStyle} />
+          <IconUserBlank size={size} color={color} style={iconStyle} />
         )}
         {children}
       </View>
