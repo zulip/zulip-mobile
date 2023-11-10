@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
+import invariant from 'invariant';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
 import type { UserId } from '../types';
@@ -17,11 +18,16 @@ import AccountDetails from './AccountDetails';
 import ZulipText from '../common/ZulipText';
 import ActivityText from '../title/ActivityText';
 import { doNarrow } from '../actions';
-import { getUserIsActive, getUserForId } from '../users/userSelectors';
+import { getUserIsActive, tryGetUserForId } from '../users/userSelectors';
 import { nowInTimeZone } from '../utils/date';
 import CustomProfileFields from './CustomProfileFields';
 
 const styles = createStyleSheet({
+  errorText: {
+    marginHorizontal: 16,
+    marginVertical: 32,
+    textAlign: 'center',
+  },
   pmButton: {
     marginHorizontal: 16,
     marginBottom: 16,
@@ -46,12 +52,21 @@ type Props = $ReadOnly<{|
 
 export default function AccountDetailsScreen(props: Props): Node {
   const dispatch = useDispatch();
-  const user = useSelector(state => getUserForId(state, props.route.params.userId));
+  const user = useSelector(state => tryGetUserForId(state, props.route.params.userId));
   const isActive = useSelector(state => getUserIsActive(state, props.route.params.userId));
 
   const handleChatPress = useCallback(() => {
+    invariant(user, 'Callback handleChatPress is used only if user is known');
     dispatch(doNarrow(pm1to1NarrowFromUser(user)));
   }, [user, dispatch]);
+
+  if (!user) {
+    return (
+      <Screen title="Error">
+        <ZulipText style={styles.errorText} text="Could not show user profile." />
+      </Screen>
+    );
+  }
 
   let localTime: string | null = null;
   // See comments at CrossRealmBot and User at src/api/modelTypes.js.
