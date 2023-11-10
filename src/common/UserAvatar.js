@@ -12,7 +12,7 @@ import { IconUserBlank } from './Icons';
 import { ThemeContext } from '../styles';
 
 type Props = $ReadOnly<{|
-  avatarUrl: AvatarURL,
+  avatarUrl: AvatarURL | null,
   size: number,
   isMuted?: boolean,
   children?: Node,
@@ -46,7 +46,7 @@ function UserAvatar(props: Props): Node {
   const auth = useSelector(state => getAuth(state));
 
   let userImage;
-  if (isMuted) {
+  if (isMuted || !avatarUrl) {
     userImage = <IconUserBlank size={size} color={color} style={iconStyle} />;
   } else {
     userImage = (
