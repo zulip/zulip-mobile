@@ -125,7 +125,7 @@ export const getOwnUser = (state: PerAccountState): User => {
  *
  * See `getUserForId` for a version which only ever returns a real user,
  * throwing if none.  That makes it a bit simpler to use in contexts where
- * we assume the relevant user must exist, which is true of most of the app.
+ * we assume the relevant user must exist.
  */
 export const tryGetUserForId = (state: PerAccountState, userId: UserId): UserOrBot | null =>
   getAllUsersById(state).get(userId) ?? null;
@@ -136,9 +136,13 @@ export const tryGetUserForId = (state: PerAccountState, userId: UserId): UserOrB
  * This works for any user in this Zulip org/realm, including deactivated
  * users and cross-realm bots.  See `getAllUsers` for details.
  *
- * Throws if no such user exists.
+ * Throws if no such user exists in our data.  This is therefore only
+ * appropriate when we can know the given user must be one we know about,
+ * which is uncommon.  (For example, even if we're looking at a message the
+ * user sent: we might be a guest with limited access to users, and the
+ * other user might no longer be in the stream so not be in our data.)
  *
- * See `tryGetUserForId` for a non-throwing version.
+ * Generally use `tryGetUserForId` instead.
  */
 export const getUserForId = (state: PerAccountState, userId: UserId): UserOrBot => {
   const user = tryGetUserForId(state, userId);
