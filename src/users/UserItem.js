@@ -1,4 +1,5 @@
 /* @flow strict-local */
+import invariant from 'invariant';
 import React, { useCallback, useContext } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
@@ -11,7 +12,7 @@ import UnreadCount from '../common/UnreadCount';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
-import { getUserForId } from './userSelectors';
+import { tryGetUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { emojiTypeFromReactionType } from '../emoji/data';
@@ -40,16 +41,33 @@ export default function UserItem(props: Props): Node {
   } = props;
   const _ = useContext(TranslationContext);
 
-  const user = useSelector(state => getUserForId(state, userId));
+  const user = useSelector(state => tryGetUserForId(state, userId));
 
-  const isMuted = useSelector(getMutedUsers).has(user.user_id);
-  const userStatusEmoji = useSelector(state => getUserStatus(state, user.user_id)).status_emoji;
+  const isMuted = useSelector(getMutedUsers).has(userId);
+  const userStatusEmoji = useSelector(
+    state => user && getUserStatus(state, user.user_id),
+  )?.status_emoji;
 
-  const handlePress = useCallback(() => {
-    if (onPress) {
-      onPress(user);
-    }
+  // eslint-disable-next-line no-underscore-dangle
+  const _handlePress = useCallback(() => {
+    invariant(user, 'Callback is used only if user is known');
+    invariant(onPress, 'Callback is used only if onPress provided');
+    onPress(user);
   }, [onPress, user]);
+  const handlePress = onPress && user ? _handlePress : undefined;
+
+  let displayName;
+  let displayEmail;
+  if (!user) {
+    displayName = _('(unknown user)');
+    displayEmail = null;
+  } else if (isMuted) {
+    displayName = _('Muted user');
+    displayEmail = null;
+  } else {
+    displayName = user.full_name;
+    displayEmail = showEmail ? user.email : null;
+  }
 
   const styles = React.useMemo(
     () =>
@@ -94,20 +112,20 @@ export default function UserItem(props: Props): Node {
         <UserAvatarWithPresence
           // At size medium, keep just big enough for a 48px touch target.
           size={size === 'large' ? 48 : 32}
-          userId={user.user_id}
-          onPress={onPress && handlePress}
+          userId={userId}
+          onPress={handlePress}
         />
         <View style={styles.textWrapper}>
           <ZulipText
             style={[styles.text, isSelected && styles.selectedText]}
-            text={isMuted ? _('Muted user') : user.full_name}
+            text={displayName}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
-          {showEmail && !isMuted && (
+          {displayEmail != null && (
             <ZulipText
               style={[styles.text, styles.textEmail, isSelected && styles.selectedText]}
-              text={user.email}
+              text={displayEmail}
               numberOfLines={1}
               ellipsizeMode="tail"
             />
