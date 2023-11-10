@@ -40,7 +40,7 @@ export default function UserAvatarWithPresence(props: Props): Node {
 
   if (!user) {
     logging.warn("UserAvatarWithPresence: couldn't find user for ID", { userId });
-    return null;
+    return <UserAvatar avatarUrl={null} size={size} isMuted onPress={undefined} />;
   }
 
   return (
