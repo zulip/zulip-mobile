@@ -119,3 +119,4 @@ export const IconWildcardMention: SpecificIconType = makeIcon(FontAwesome, 'bull
 
 // eslint-disable-next-line react/function-component-definition
 export const IconWebPublic: SpecificIconType = props => <ZulipIcon name="globe" {...props} />;
+export const IconAllMessages: SpecificIconType = makeIcon(Feather, 'align-left');
