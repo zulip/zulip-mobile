@@ -866,7 +866,7 @@ documentBody.addEventListener('click', (e: MouseEvent) => {
     inlineImageLink
     /* The web app displays certain videos inline, but on mobile
      * we'd rather let another app handle them, as links. */
-    && !inlineImageLink.closest('.youtube-video, .vimeo-video')
+    && !inlineImageLink.closest('.message_inline_video, .youtube-video, .vimeo-video')
   ) {
     sendMessage({
       type: 'image',

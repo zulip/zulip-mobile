@@ -751,7 +751,7 @@ var compiledWebviewJs = (function (exports) {
       return;
     }
     const inlineImageLink = target.closest('.message_inline_image a');
-    if (inlineImageLink && !inlineImageLink.closest('.youtube-video, .vimeo-video')) {
+    if (inlineImageLink && !inlineImageLink.closest('.message_inline_video, .youtube-video, .vimeo-video')) {
       sendMessage({
         type: 'image',
         src: requireAttribute(inlineImageLink, 'href'),
