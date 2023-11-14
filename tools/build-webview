@@ -193,5 +193,7 @@ sync "src/webview/static" "${dest}" <<EOF
 -,r /katex
 
 + /base.css
++ /images/
++ /images/play_button.svg
 - *
 EOF

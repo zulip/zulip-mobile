@@ -541,6 +541,27 @@ time {
   object-fit: contain;
 }
 
+.message_inline_video {
+  position: relative;
+}
+.message_inline_video video {
+  width: 240px;
+  height: 160px;
+  background: black;
+}
+.message_inline_video::after {
+  content: "";
+  background-image: url("images/play_button.svg");
+  display: block;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: calc(50% - 16px);
+  left: calc(50% - 16px);
+  border-radius: 100%;
+  transform: scale(0.8);
+}
+
 .twitter-tweet {
   border: 2px solid hsla(203, 89%, 53%, 0.5);
   background: hsla(203, 89%, 53%, 0.1);
