@@ -192,7 +192,6 @@ sync "src/webview/static" "${dest}" <<EOF
 # Leave alone the katex directory we just made.
 -,r /katex
 
-+ /index.html
 + /base.css
 - *
 EOF
