@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.219 (2023-11-15)
+
 ### Highlights for users
 
 * Support for @topic mentions, an upcoming Zulip Server 8 feature. (#5792)
