@@ -39,6 +39,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Support for @topic mentions, an upcoming Zulip Server 8 feature. (#5792)
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Quick fix for a display issue with inline video previws, an upcoming Zulip
+  Server 8 feature. (#5781)
+
+* Compatibility fixes for the upcoming "limited guests" feature in Zulip
+  Server 8. (PR #5790)
+
+* Resolved issues: PR #5781
+
 
 ## 27.218 (2023-11-09)
 
