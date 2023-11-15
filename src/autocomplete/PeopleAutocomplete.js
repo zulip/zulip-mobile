@@ -20,6 +20,7 @@ import WildcardMentionItem, {
   WildcardMentionType,
 } from './WildcardMentionItem';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 type Props = $ReadOnly<{|
   filter: string,
@@ -32,6 +33,7 @@ export default function PeopleAutocomplete(props: Props): Node {
 
   const _ = useContext(TranslationContext);
 
+  const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const mutedUsers = useSelector(getMutedUsers);
   const ownUserId = useSelector(getOwnUserId);
   const users = useSelector(getSortedUsers);
@@ -70,9 +72,8 @@ export default function PeopleAutocomplete(props: Props): Node {
   const wildcardMentionsForQuery = getWildcardMentionsForQuery(
     filter,
     destinationNarrow,
-    // TODO condition on feature level, once we know which one:
-    //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.40topic/near/1669340
-    false,
+    // TODO(server-8.0)
+    zulipFeatureLevel >= 224,
     _,
   );
   const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
