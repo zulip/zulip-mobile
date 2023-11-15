@@ -46,16 +46,16 @@ It doesn't include
 
 * Support for @topic mentions, an upcoming Zulip Server 8 feature. (#5792)
 
+* Support for the upcoming Zulip Server 8 feature of showing video
+  links and video files uploaded directly in Zulip. (#5781)
+
 Plus other fixes and improvements for your Zulip experience.
 
 
 ### Highlights for developers
 
-* Quick fix for a display issue with inline video previews, an upcoming Zulip
-  Server 8 feature. (#5781)
-
 * Compatibility fixes for the upcoming "limited guests" feature in Zulip
-  Server 8. (PR #5790)
+  Server 8. (PR #5790, part of #5787)
 
 * Resolved issues: PR #5790, #5781
 
