@@ -95,6 +95,20 @@ export function isTopicVisible(
   }
 }
 
+/**
+ * Whether the user is following this topic.
+ */
+export function isTopicFollowed(streamId: number, topic: string, mute: MuteState): boolean {
+  switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
+    case UserTopicVisibilityPolicy.None:
+    case UserTopicVisibilityPolicy.Muted:
+    case UserTopicVisibilityPolicy.Unmuted:
+      return false;
+    case UserTopicVisibilityPolicy.Followed:
+      return true;
+  }
+}
+
 //
 //
 // Reducer.
