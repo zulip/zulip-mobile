@@ -46,12 +46,16 @@ const fontName = 'zulip-icons';
 // The root of our tree.
 const rootDir = path.dirname(__dirname);
 
+function listSvgFiles(dirPath) {
+  return fs
+    .readdirSync(dirPath)
+    .filter(name => name.endsWith('.svg'))
+    .map(name => path.join(dirPath, name));
+}
+
 async function main() {
   const srcDir = path.join(packagePath('@zulip/shared'), 'icons');
-  const iconFiles = fs
-    .readdirSync(srcDir)
-    .filter(name => name.endsWith('.svg'))
-    .map(name => path.join(srcDir, name));
+  const iconFiles = listSvgFiles(srcDir);
 
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-icon-font-'));
 
