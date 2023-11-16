@@ -16,7 +16,7 @@ import escape from 'lodash.escape';
  */
 export default (
   strings: $ReadOnlyArray<string>,
-  ...values: $ReadOnlyArray<string | number>
+  ...values: $ReadOnlyArray<string | number | boolean>
 ): string => {
   // $FlowIssue[prop-missing] #2616 github.com/facebook/flow/issues/2616
   const raw: $ReadOnlyArray<string> = strings.raw;
