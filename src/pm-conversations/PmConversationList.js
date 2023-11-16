@@ -14,6 +14,7 @@ import { getMutedUsers } from '../selectors';
 
 type Props = $ReadOnly<{|
   conversations: $ReadOnlyArray<PmConversationData>,
+  extraPaddingEnd?: number,
 |}>;
 
 /**
@@ -36,7 +37,7 @@ export default function PmConversationList(props: Props): Node {
     [dispatch],
   );
 
-  const { conversations } = props;
+  const { conversations, extraPaddingEnd = 0 } = props;
   const mutedUsers = useSelector(getMutedUsers);
 
   const styles = useMemo(
@@ -44,9 +45,10 @@ export default function PmConversationList(props: Props): Node {
       list: {
         flex: 1,
         flexDirection: 'column',
+        paddingRight: extraPaddingEnd,
       },
     }),
-    [],
+    [extraPaddingEnd],
   );
 
   return (

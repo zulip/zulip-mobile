@@ -44,6 +44,7 @@ type Props = $ReadOnly<{|
   unreadCount?: number,
   iconSize: number,
   offersSubscribeButton?: boolean,
+  extraPaddingEnd?: number,
   // These stream names are here for a mix of good reasons and (#3918) bad ones.
   // To audit all uses, change `name` to write-only (`-name:`), and run Flow.
   onPress: ({ stream_id: number, name: string, ... }) => void,
@@ -87,6 +88,7 @@ export default function StreamItem(props: Props): Node {
     iconSize,
     offersSubscribeButton = false,
     unreadCount,
+    extraPaddingEnd = 0,
     onPress,
     onSubscribeButtonPressed,
   } = props;
@@ -127,7 +129,7 @@ export default function StreamItem(props: Props): Node {
         alignItems: 'center',
         paddingVertical: handleExpandCollapse ? 0 : 8,
         paddingLeft: handleExpandCollapse ? 0 : 16,
-        paddingRight: 16,
+        paddingRight: extraPaddingEnd + 16,
         backgroundColor,
         opacity: isMuted ? 0.5 : 1,
       },
@@ -156,7 +158,7 @@ export default function StreamItem(props: Props): Node {
         fontSize: 12,
       },
     }),
-    [backgroundColor, handleExpandCollapse, isMuted, textColor],
+    [backgroundColor, extraPaddingEnd, handleExpandCollapse, isMuted, textColor],
   );
 
   const collapseButton = handleExpandCollapse && (

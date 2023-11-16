@@ -93,6 +93,7 @@ export default function UnreadCards(props: Props): Node {
             isWebPublic={section.isWebPublic}
             backgroundColor={section.color}
             unreadCount={section.unread}
+            extraPaddingEnd={20}
             onPress={stream => {
               setTimeout(() => dispatch(doNarrow(streamNarrow(stream.stream_id))));
             }}
@@ -101,7 +102,7 @@ export default function UnreadCards(props: Props): Node {
       }
       renderItem={({ item, section }) =>
         section.key === 'private' ? (
-          <PmConversationList {...item} />
+          <PmConversationList extraPaddingEnd={20} {...item} />
         ) : (
           <TopicItem
             streamId={section.streamId}

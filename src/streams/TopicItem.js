@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 import styles, { BRAND_COLOR, createStyleSheet } from '../styles';
-import { IconMention } from '../common/Icons';
+import { IconMention, IconFollow } from '../common/Icons';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
@@ -22,10 +22,11 @@ import {
   getOwnUser,
   getZulipFeatureLevel,
 } from '../selectors';
-import { getMute } from '../mute/muteModel';
+import { getMute, isTopicFollowed } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
 import { getOwnUserRole } from '../permissionSelectors';
 import { useNavigation } from '../react-navigation';
+import { ThemeContext } from '../styles/theme';
 
 const componentStyles = createStyleSheet({
   selectedRow: {
@@ -43,6 +44,11 @@ const componentStyles = createStyleSheet({
   },
   muted: {
     opacity: 0.5,
+  },
+  followedIcon: {
+    paddingLeft: 4,
+    width: 20,
+    opacity: 0.2,
   },
 });
 
@@ -84,6 +90,10 @@ export default function TopicItem(props: Props): Node {
     zulipFeatureLevel: getZulipFeatureLevel(state),
   }));
 
+  const theme = useContext(ThemeContext);
+  const iconColor = theme.themeName === 'dark' ? 'white' : 'black';
+  const isFollowed = useSelector(state => isTopicFollowed(streamId, name, getMute(state)));
+
   return (
     <Touchable
       onPress={() => onPress(streamId, name)}
@@ -112,6 +122,12 @@ export default function TopicItem(props: Props): Node {
         />
         {isMentioned && <IconMention size={14} style={componentStyles.mentionedLabel} />}
         <UnreadCount count={unreadCount} inverse={isSelected} />
+        {isFollowed ? (
+          <IconFollow style={componentStyles.followedIcon} size={14} color={iconColor} />
+        ) : (
+          // $FlowFixMe[incompatible-type]: complains about `color` but that's not present
+          <View style={componentStyles.followedIcon} />
+        )}
       </View>
     </Touchable>
   );
