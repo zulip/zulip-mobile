@@ -11,5 +11,6 @@ export default {
   "globe": 61700,
   "language": 61701,
   "mute": 61702,
-  "readreceipts": 61703
+  "readreceipts": 61703,
+  "follow": 61704
 };

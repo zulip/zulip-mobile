@@ -117,5 +117,6 @@ export const IconAlertTriangle: SpecificIconType = makeIcon(Feather, 'alert-tria
 // WildcardMentionItem depends on this being square.
 export const IconWildcardMention: SpecificIconType = makeIcon(FontAwesome, 'bullhorn');
 
-// eslint-disable-next-line react/function-component-definition
+/* eslint-disable react/function-component-definition */
 export const IconWebPublic: SpecificIconType = props => <ZulipIcon name="globe" {...props} />;
+export const IconFollow: SpecificIconType = props => <ZulipIcon name="follow" {...props} />;

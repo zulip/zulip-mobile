@@ -54,8 +54,10 @@ function listSvgFiles(dirPath) {
 }
 
 async function main() {
-  const srcDir = path.join(packagePath('@zulip/shared'), 'icons');
-  const iconFiles = listSvgFiles(srcDir);
+  const iconFiles = [
+    ...listSvgFiles(path.join(packagePath('@zulip/shared'), 'icons')),
+    ...listSvgFiles(path.join(rootDir, 'static/icons')),
+  ];
 
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-icon-font-'));
 
