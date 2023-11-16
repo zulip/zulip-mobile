@@ -1,24 +1,16 @@
 /* @flow strict-local */
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { Node } from 'react';
 import { FlatList } from 'react-native';
 import { useDispatch, useSelector } from '../react-redux';
 
 import type { PmConversationData, UserOrBot } from '../types';
-import { createStyleSheet } from '../styles';
 import { type PmKeyUsers } from '../utils/recipient';
 import { pm1to1NarrowFromUser, pmNarrowFromUsers } from '../utils/narrow';
 import UserItem from '../users/UserItem';
 import GroupPmConversationItem from './GroupPmConversationItem';
 import { doNarrow } from '../actions';
 import { getMutedUsers } from '../selectors';
-
-const styles = createStyleSheet({
-  list: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-});
 
 type Props = $ReadOnly<{|
   conversations: $ReadOnlyArray<PmConversationData>,
@@ -46,6 +38,16 @@ export default function PmConversationList(props: Props): Node {
 
   const { conversations } = props;
   const mutedUsers = useSelector(getMutedUsers);
+
+  const styles = useMemo(
+    () => ({
+      list: {
+        flex: 1,
+        flexDirection: 'column',
+      },
+    }),
+    [],
+  );
 
   return (
     <FlatList
