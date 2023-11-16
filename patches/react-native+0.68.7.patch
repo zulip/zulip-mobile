@@ -1,3 +1,76 @@
+diff --git a/node_modules/react-native/jest/setup.js b/node_modules/react-native/jest/setup.js
+index 5bc654475..e61bbf49c 100644
+--- a/node_modules/react-native/jest/setup.js
++++ b/node_modules/react-native/jest/setup.js
+@@ -15,22 +15,52 @@ const mockComponent = jest.requireActual('./mockComponent');
+ jest.requireActual('@react-native/polyfills/Object.es8');
+ jest.requireActual('@react-native/polyfills/error-guard');
+ 
+-global.__DEV__ = true;
+-
+-global.performance = {
+-  now: jest.fn(Date.now),
+-};
+-
+-global.Promise = jest.requireActual('promise');
+-global.regeneratorRuntime = jest.requireActual('regenerator-runtime/runtime');
+-global.window = global;
+-
+-global.requestAnimationFrame = function (callback) {
+-  return setTimeout(callback, 0);
+-};
+-global.cancelAnimationFrame = function (id) {
+-  clearTimeout(id);
+-};
++Object.defineProperties(global, {
++  __DEV__: {
++    configurable: true,
++    enumerable: true,
++    value: true,
++    writable: true,
++  },
++  Promise: {
++    configurable: true,
++    enumerable: true,
++    value: jest.requireActual('promise'),
++    writable: true,
++  },
++  cancelAnimationFrame: {
++    configurable: true,
++    enumerable: true,
++    value: id => clearTimeout(id),
++    writable: true,
++  },
++  performance: {
++    configurable: true,
++    enumerable: true,
++    value: {
++      now: jest.fn(Date.now),
++    },
++    writable: true,
++  },
++  regeneratorRuntime: {
++    configurable: true,
++    enumerable: true,
++    value: jest.requireActual('regenerator-runtime/runtime'),
++    writable: true,
++  },
++  requestAnimationFrame: {
++    configurable: true,
++    enumerable: true,
++    value: callback => setTimeout(callback, 0),
++    writable: true,
++  },
++  window: {
++    configurable: true,
++    enumerable: true,
++    value: global,
++    writable: true,
++  },
++});
+ 
+ // there's a __mock__ for it.
+ jest.setMock(
 diff --git a/node_modules/react-native/scripts/react_native_pods.rb b/node_modules/react-native/scripts/react_native_pods.rb
 index f2ceeda..c618f77 100644
 --- a/node_modules/react-native/scripts/react_native_pods.rb
