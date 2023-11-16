@@ -19,6 +19,7 @@ import {
   streamNameOfStreamMessage,
 } from '../../utils/recipient';
 import { base64Utf8Encode } from '../../utils/encoding';
+import { isTopicFollowed } from '../../mute/muteModel';
 
 const renderTopic = message =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -32,7 +33,7 @@ const renderTopic = message =>
  * This is a private helper of messageListElementHtml.
  */
 export default (
-  { ownUser, subscriptions }: BackgroundData,
+  { mute, ownUser, subscriptions }: BackgroundData,
   element: HeaderMessageListElement,
 ): string => {
   const { subsequentMessage: message, style: headerStyle } = element;
@@ -41,6 +42,7 @@ export default (
     const streamName = streamNameOfStreamMessage(message);
     const topicNarrowStr = keyFromNarrow(topicNarrow(message.stream_id, message.subject));
     const topicHtml = renderTopic(message);
+    const isFollowed = isTopicFollowed(message.stream_id, message.subject, mute);
 
     if (headerStyle === 'topic+date') {
       return template`\
@@ -49,7 +51,7 @@ export default (
   data-narrow="${base64Utf8Encode(topicNarrowStr)}"
   data-msg-id="${message.id}"
 >
-  <div class="topic-text">$!${topicHtml}</div>
+  <div class="topic-text" data-followed="${isFollowed}">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
 </div>`;
     } else if (headerStyle === 'full') {
@@ -70,7 +72,7 @@ export default (
        data-narrow="${base64Utf8Encode(streamNarrowStr)}">
     # ${streamName}
   </div>
-  <div class="topic-text">$!${topicHtml}</div>
+  <div class="topic-text" data-followed="${isFollowed}">$!${topicHtml}</div>
   <div class="topic-date">${humanDate(new Date(message.timestamp * 1000))}</div>
 </div>`;
     } else {

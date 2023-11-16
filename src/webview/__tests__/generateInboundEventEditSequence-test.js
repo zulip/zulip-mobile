@@ -29,6 +29,8 @@ import getMessageListElements from '../../message/getMessageListElements';
 import { getGlobalSettings } from '../../selectors';
 import { getBackgroundData } from '../backgroundData';
 import { randString } from '../../utils/misc';
+import { makeMuteState } from '../../mute/__tests__/mute-testlib';
+import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
 
 // Tell ESLint to recognize `check` as a helper function that runs
 // assertions.
@@ -439,6 +441,23 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
             // no subscription for stream1
             eg.makeSubscription({ stream: stream2 }),
           ],
+        }),
+      });
+    });
+
+    test('message in followed topic', () => {
+      check({
+        narrow: HOME_NARROW,
+        messages: [baseSingleMessage],
+        state: eg.reduxStatePlus({
+          streams: [...eg.plusReduxState.streams, stream1],
+          subscriptions: [
+            ...eg.plusReduxState.subscriptions,
+            eg.makeSubscription({ stream: stream1 }),
+          ],
+          mute: makeMuteState([
+            [stream1, baseSingleMessage.subject, UserTopicVisibilityPolicy.Followed],
+          ]),
         }),
       });
     });
@@ -986,6 +1005,42 @@ describe('getEditSequence correct for interesting changes', () => {
           messages: [message],
           state: eg.reduxStatePlus({
             flags: { ...eg.plusReduxState.flags, starred: {} },
+          }),
+        },
+      );
+    });
+
+    test('follow a topic', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            mute: makeMuteState([]),
+          }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            mute: makeMuteState([[eg.stream, message.subject, UserTopicVisibilityPolicy.Followed]]),
+          }),
+        },
+      );
+    });
+
+    test('unfollow a topic', () => {
+      const message = eg.streamMessage();
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            mute: makeMuteState([[eg.stream, message.subject, UserTopicVisibilityPolicy.Followed]]),
+          }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            mute: makeMuteState([]),
           }),
         },
       );

@@ -8,6 +8,7 @@ import { ensureUnreachable } from '../generics';
 import type { BackgroundData } from './backgroundData';
 import messageListElementHtml from './html/messageListElementHtml';
 import { getUserStatusFromModel } from '../user-statuses/userStatusesCore';
+import { isTopicFollowed } from '../mute/muteModel';
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -72,7 +73,19 @@ function doElementsDifferInterestingly(
       return !isEqual(oldElement, newElement);
     case 'header':
       // TODO(?): False positives on `.subsequentMessage.content` changes
-      return !isEqual(oldElement, newElement);
+      if (!isEqual(oldElement, newElement)) {
+        return true;
+      }
+      if (newElement.subsequentMessage?.type === 'stream') {
+        const message = newElement.subsequentMessage;
+        if (
+          isTopicFollowed(message.stream_id, message.subject, oldBackgroundData.mute)
+          !== isTopicFollowed(message.stream_id, message.subject, newBackgroundData.mute)
+        ) {
+          return true;
+        }
+      }
+      return false;
     case 'message': {
       invariant(newElement.type === 'message', 'oldElement.type equals newElement.type');
 

@@ -116,9 +116,21 @@ body {
 .topic-text {
   flex: 1;
   padding: 0 8px;
+  display: flex;
+  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   pointer-events: none;
+}
+.topic-text[data-followed="true"]::after {
+  content: "";
+  background-image: url("images/follow.svg");
+  margin-left: 12px;
+  width: 17px;
+  height: 17px;
+  /* opacity: 0.2 on web, but that's with the pastel stream colors;
+   * 0.3 stands up better to our gray. */
+  opacity: 0.3;
 }
 .topic-date {
   opacity: 0.5;

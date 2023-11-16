@@ -3,8 +3,10 @@
 import * as eg from '../../../__tests__/lib/exampleData';
 import header from '../header';
 import type { BackgroundData } from '../../backgroundData';
+import { makeMuteState } from '../../../mute/__tests__/mute-testlib';
 
 const backgroundData: BackgroundData = ({
+  mute: makeMuteState([]),
   ownEmail: eg.selfUser.email,
   subscriptions: [eg.stream],
   streams: new Map([[eg.stream.stream_id, eg.stream]]),
