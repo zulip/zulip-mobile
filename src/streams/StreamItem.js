@@ -125,9 +125,9 @@ export default function StreamItem(props: Props): Node {
       wrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        ...(handleExpandCollapse
-          ? { paddingRight: 16 }
-          : { paddingVertical: 8, paddingHorizontal: 16 }),
+        paddingVertical: handleExpandCollapse ? 0 : 8,
+        paddingLeft: handleExpandCollapse ? 0 : 16,
+        paddingRight: 16,
         backgroundColor,
         opacity: isMuted ? 0.5 : 1,
       },
