@@ -98,6 +98,21 @@ describe('constructTopicActionButtons', () => {
     expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Mute topic');
   });
 
+  test('show followTopic on muted topic', () => {
+    const mute = makeMuteState([[eg.stream, topic]]);
+    expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Follow topic');
+  });
+
+  test('show followTopic', () => {
+    const mute = makeMuteState([]);
+    expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Follow topic');
+  });
+
+  test('show unfollowTopic', () => {
+    const mute = makeMuteState([[eg.stream, topic, UserTopicVisibilityPolicy.Followed]]);
+    expect(titles({ ...eg.plusBackgroundData, mute })).toContain('Unfollow topic');
+  });
+
   test('show resolveTopic', () => {
     expect(titles({ ...eg.plusBackgroundData })).toContain('Resolve topic');
   });
