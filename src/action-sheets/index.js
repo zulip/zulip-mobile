@@ -319,6 +319,24 @@ const muteTopic = {
   },
 };
 
+const followTopic = {
+  title: 'Follow topic',
+  errorMessage: 'Failed to follow topic',
+  action: async ({ auth, streamId, topic, zulipFeatureLevel }) => {
+    invariant(zulipFeatureLevel >= 219, 'Should only attempt to follow topic on FL 219+');
+    await api.updateUserTopic(auth, streamId, topic, UserTopicVisibilityPolicy.Followed);
+  },
+};
+
+const unfollowTopic = {
+  title: 'Unfollow topic',
+  errorMessage: 'Failed to unfollow topic',
+  action: async ({ auth, streamId, topic, zulipFeatureLevel }) => {
+    invariant(zulipFeatureLevel >= 219, 'Should only attempt to unfollow topic on FL 219+');
+    await api.updateUserTopic(auth, streamId, topic, UserTopicVisibilityPolicy.None);
+  },
+};
+
 const copyLinkToTopic = {
   title: 'Copy link to topic',
   errorMessage: 'Failed to copy topic link',
@@ -651,6 +669,11 @@ export const constructTopicActionButtons = (args: {|
   const sub = subscriptions.get(streamId);
   const streamMuted = !!sub && !sub.in_home_view;
 
+  // TODO(server-7.0): Simplify this condition away.
+  const supportsUnmutingTopics = zulipFeatureLevel >= 170;
+  // TODO(server-8.0): Simplify this condition away.
+  const supportsFollowingTopics = zulipFeatureLevel >= 219;
+
   const buttons = [];
   const unreadCount = getUnreadCountForTopic(unread, streamId, topic);
   if (unreadCount > 0) {
@@ -661,25 +684,46 @@ export const constructTopicActionButtons = (args: {|
     switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
       case UserTopicVisibilityPolicy.Muted:
         buttons.push(unmuteTopic);
+        if (supportsFollowingTopics) {
+          buttons.push(followTopic);
+        }
         break;
       case UserTopicVisibilityPolicy.None:
       case UserTopicVisibilityPolicy.Unmuted:
+        buttons.push(muteTopic);
+        if (supportsFollowingTopics) {
+          buttons.push(followTopic);
+        }
+        break;
       case UserTopicVisibilityPolicy.Followed:
         buttons.push(muteTopic);
+        if (supportsFollowingTopics) {
+          buttons.push(unfollowTopic);
+        }
         break;
     }
   } else if (sub && streamMuted) {
     // Muted stream.
-    // TODO(server-7.0): Simplify this condition away.
-    if (zulipFeatureLevel >= 170) {
+    if (supportsUnmutingTopics) {
       switch (getTopicVisibilityPolicy(mute, streamId, topic)) {
         case UserTopicVisibilityPolicy.None:
         case UserTopicVisibilityPolicy.Muted:
           buttons.push(unmuteTopicInMutedStream);
+          if (supportsFollowingTopics) {
+            buttons.push(followTopic);
+          }
           break;
         case UserTopicVisibilityPolicy.Unmuted:
+          buttons.push(muteTopic);
+          if (supportsFollowingTopics) {
+            buttons.push(followTopic);
+          }
+          break;
         case UserTopicVisibilityPolicy.Followed:
           buttons.push(muteTopic);
+          if (supportsFollowingTopics) {
+            buttons.push(unfollowTopic);
+          }
           break;
       }
     }
