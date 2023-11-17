@@ -212,8 +212,8 @@ export const userStatusEmojiRealm: UserStatus['status_emoji'] = deepFreeze({
 export const realm: URL = new URL('https://zulip.example.org');
 
 /** These may be raised but should not be lowered. */
-export const recentZulipVersion: ZulipVersion = new ZulipVersion('6.0-dev-2191-gf56ce7a159');
-export const recentZulipFeatureLevel = 153;
+export const recentZulipVersion: ZulipVersion = new ZulipVersion('8.0-dev-2894-g86100cdb4e');
+export const recentZulipFeatureLevel = 226;
 
 export const makeAccount = (
   args: {|
