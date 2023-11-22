@@ -13,6 +13,7 @@
 // language names: they have the names given to them by the `tx` Transifex
 // client, which are based on the language names that appear in Transifex.
 export default {
+  am: require('../../static/translations/messages_am.json'),
   ar: require('../../static/translations/messages_ar.json'),
   be: require('../../static/translations/messages_be.json'),
   bg: require('../../static/translations/messages_bg.json'),
@@ -41,6 +42,7 @@ export default {
   it: require('../../static/translations/messages_it.json'),
   ja: require('../../static/translations/messages_ja.json'),
   ko: require('../../static/translations/messages_ko.json'),
+  kw: require('../../static/translations/messages_kw.json'),
   lt: require('../../static/translations/messages_lt.json'),
   lv: require('../../static/translations/messages_lv.json'),
   ml: require('../../static/translations/messages_ml.json'),
