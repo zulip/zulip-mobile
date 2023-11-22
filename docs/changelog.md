@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.220 (2023-11-22)
+
 ### Highlights for users
 
 * Support for followed topics, an upcoming Zulip Server 8 feature. (#5769,
