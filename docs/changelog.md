@@ -39,6 +39,19 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Support for followed topics, an upcoming Zulip Server 8 feature. (#5769,
+  #5770, #5771)
+
+* We now offer the app in Latvian and Tagalog. Thanks as always to our kind
+  volunteer translators!
+
+
+### Highlights for developers
+
+* Resolved issues:  #5771, #5770, #5769
+
 
 ## 27.219 (2023-11-15)
 
