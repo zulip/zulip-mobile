@@ -10,10 +10,11 @@ import { getAuth, getSettings } from '../selectors';
 import SwitchRow from '../common/SwitchRow';
 import * as api from '../api';
 import NavRow from '../common/NavRow';
+import TextRow from '../common/TextRow';
 import { IconAlertTriangle } from '../common/Icons';
 import { kWarningColor } from '../styles/constants';
-import { getIdentity } from '../account/accountsSelectors';
-import { getGlobalSettings, getRealm, getRealmName } from '../directSelectors';
+import { getIdentity, getZulipFeatureLevel } from '../account/accountsSelectors';
+import { getGlobalSession, getGlobalSettings, getRealm, getRealmName } from '../directSelectors';
 import ZulipText from '../common/ZulipText';
 import SettingsGroup from './SettingsGroup';
 import { openLinkWithUserPreference } from '../utils/openLink';
@@ -21,6 +22,10 @@ import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScree
 import { keyOfIdentity } from '../account/accountMisc';
 import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
+import { ApiError } from '../api/apiErrors';
+import { showErrorAlert } from '../utils/info';
+import * as logging from '../utils/logging';
+import { TranslationContext } from '../boot/TranslationProvider';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -32,6 +37,8 @@ type Props = $ReadOnly<{|
 export default function PerAccountNotificationSettingsGroup(props: Props): Node {
   const { navigation } = props;
 
+  const _ = React.useContext(TranslationContext);
+
   const auth = useSelector(getAuth);
   const identity = useSelector(getIdentity);
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
@@ -41,6 +48,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
     'NotificationsScreen: expected notificationReport for current account',
   );
   const realmName = useSelector(getRealmName);
+  const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
   const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
@@ -49,6 +57,11 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
 
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
+  const pushToken = useGlobalSelector(state => getGlobalSession(state).pushToken);
+
+  // Helper variable so that we can refer to the button correctly in
+  // other UI text.
+  const troubleshootingPageTitle = 'Troubleshooting';
   const handleTroubleshootingPress = useCallback(() => {
     navigation.push('notif-troubleshooting');
   }, [navigation]);
@@ -79,6 +92,62 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       value: !streamNotification,
     });
   }, [streamNotification, auth]);
+
+  const [testNotificationRequestInProgress, setTestNotificationRequestInProgress] =
+    React.useState(false);
+  const handleTestNotificationPress = React.useCallback(async () => {
+    invariant(pushToken != null, 'should be disabled if pushToken missing');
+    setTestNotificationRequestInProgress(true);
+    try {
+      await api.sendTestNotification(auth, { token: pushToken });
+    } catch (errorIllTyped) {
+      const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+      if (!(error instanceof Error)) {
+        logging.error('Unexpected non-error thrown from api.sendTestNotification');
+        return;
+      }
+
+      let msg = undefined;
+      if (error instanceof ApiError) {
+        // TODO recognize error.code and try to fix? give better feedback?
+        msg = _('The server said:\n\n{errorMessage}', { errorMessage: error.message });
+      } else if (error.message.length > 0) {
+        msg = error.message;
+      }
+      showErrorAlert(_('Failed to send test notification'), msg);
+    } finally {
+      setTestNotificationRequestInProgress(false);
+    }
+  }, [_, auth, pushToken]);
+
+  let testNotificationDisabled = false;
+  if (zulipFeatureLevel < 217) {
+    testNotificationDisabled = {
+      title: 'Server upgrade required',
+      message: {
+        text: 'This feature requires {zulipServerVersion} or higher.',
+        values: { zulipServerVersion: 'Zulip Server 8' },
+      },
+      learnMoreButton: {
+        url: new URL('https://zulip.readthedocs.io/en/latest/production/upgrade.html'),
+        text: 'How to upgrade (for server administrators)',
+      },
+    };
+  } else if (pushToken == null) {
+    testNotificationDisabled = {
+      title: 'Cannot send test notification',
+      message: {
+        text: 'Please tap “{troubleshootingPageTitle}” for more details.',
+        values: { troubleshootingPageTitle: _(troubleshootingPageTitle) },
+      },
+    };
+  } else if (testNotificationRequestInProgress) {
+    testNotificationDisabled = {
+      title: 'Request in progress',
+      message: 'Please wait. A request is already in progress.',
+    };
+  }
 
   const children = pushNotificationsEnabled
     ? [
@@ -111,8 +180,14 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
               },
               subtitle: 'Notifications for this account may not arrive.',
             })()}
-        title="Troubleshooting"
+        title={troubleshootingPageTitle}
         onPress={handleTroubleshootingPress}
+      />,
+      <TextRow
+        key="test"
+        title="Send a test notification"
+        onPress={handleTestNotificationPress}
+        disabled={testNotificationDisabled}
       />,
       ]
     : [
