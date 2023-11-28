@@ -53,13 +53,19 @@ import java.net.URL
 val TAG = "ZulipNotif"
 
 /**
- * The constant numeric "ID" we use for all notifications, along with unique tags.
+ * The constant numeric "ID" we use for all non-test notifications,
+ * along with unique tags.
  *
  * Because we construct a unique string "tag" for each distinct notification,
  * and Android notifications are identified by the pair (tag, ID), it's simplest
  * to leave these numeric IDs all the same.
  */
 private val NOTIFICATION_ID = 435
+
+/**
+ * The constant numeric "ID" we use for test notifications.
+ */
+private val TEST_NOTIFICATION_ID = 234
 
 /** The authority in the `zulip:` URL for opening a notification. */
 @JvmField
@@ -101,6 +107,8 @@ internal fun onReceived(context: Context, mapData: Map<String, String>) {
         updateNotification(context, fcmMessage)
     } else if (fcmMessage is RemoveFcmMessage) {
         removeNotification(context, fcmMessage)
+    } else if (fcmMessage is TestFcmMessage) {
+        showTestNotification(context, fcmMessage)
     }
 }
 
@@ -371,5 +379,30 @@ private fun updateNotification(
         // replace it with the updated notification we've just constructed.
         notify(groupKey, NOTIFICATION_ID, summaryNotification)
         notify(conversationKey, NOTIFICATION_ID, notification)
+    }
+}
+
+/** Handle a TestFcmMessage, showing the test notification. */
+private fun showTestNotification(context: Context, fcmMessage: TestFcmMessage) {
+    val groupKey = extractGroupKey(fcmMessage.identity)
+
+    val notification = NotificationCompat.Builder(context, CHANNEL_ID).apply {
+        setZulipChannelLikeSettings(context)
+
+        // TODO(i18n)
+        setContentTitle("Test notification")
+        val realmUrl = fcmMessage.identity.realmUri.toString()
+        val realmName = fcmMessage.realmName
+        setContentText(
+            if (realmName != null) "This is a test notification from ${realmName} (${realmUrl})."
+            else "This is a test notification from ${realmUrl} ."
+        )
+
+        color = context.getColor(R.color.brandColor)
+        setSmallIcon(if (BuildConfig.DEBUG) R.mipmap.ic_launcher else R.drawable.zulip_notification)
+    }.build()
+
+    NotificationManagerCompat.from(context).apply {
+        notify(groupKey, TEST_NOTIFICATION_ID, notification)
     }
 }
