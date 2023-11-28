@@ -4,6 +4,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 
 import SwitchRow from '../common/SwitchRow';
+import TextRow from '../common/TextRow';
 import NavRow from '../common/NavRow';
 import type { LocalizableReactText } from '../types';
 import { createStyleSheet } from '../styles';
@@ -18,7 +19,9 @@ type Props = $ReadOnly<{|
   // layout in some subtle way.
   title: LocalizableReactText,
 
-  children: $ReadOnlyArray<React$Element<typeof SwitchRow> | React$Element<typeof NavRow>>,
+  children: $ReadOnlyArray<
+    React$Element<typeof SwitchRow> | React$Element<typeof NavRow> | React$Element<typeof TextRow>,
+  >,
 |}>;
 
 export default function SettingsGroup(props: Props): React.Node {
