@@ -337,3 +337,41 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         }
     }
 }
+
+class TestFcmMessageTest : FcmMessageTestBase() {
+    object Example {
+        val base = FcmMessageTestBase.Example.base.plus(sequenceOf(
+            "event" to "test",
+            "realm_name" to "Zulip Community",
+        ))
+
+        val legacy = base
+            .plus("event" to "test-by-device-token")
+            .minus("realm_name")
+
+        internal val identity = FcmMessageTestBase.Example.identity
+    }
+
+    @Test
+    fun `'test' messages parse as TestFcmMessage`() {
+        val message = FcmMessage.fromFcmData(Example.base)
+        expect.that(message).isInstanceOf(TestFcmMessage::class.java)
+    }
+
+    @Test
+    fun `legacy test messages parse as TestFcmMessage`() {
+        val message = FcmMessage.fromFcmData(Example.legacy)
+        expect.that(message).isInstanceOf(TestFcmMessage::class.java)
+    }
+
+    @Test
+    fun `parse failures on malformed data`() {
+        assertParseFails(Example.base.minus("server"))
+        assertParseFails(Example.base.minus("realm_id"))
+        assertParseFails(Example.base.plus("realm_id" to "abc"))
+        assertParseFails(Example.base.plus("realm_id" to "12,34"))
+        assertParseFails(Example.base.minus("realm_uri"))
+        assertParseFails(Example.base.plus("realm_uri" to "zulip.example.com"))
+        assertParseFails(Example.base.plus("realm_uri" to "/examplecorp"))
+    }
+}

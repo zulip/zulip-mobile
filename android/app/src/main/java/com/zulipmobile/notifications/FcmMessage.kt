@@ -79,6 +79,11 @@ sealed class FcmMessage {
             when (val eventType = data["event"]) {
                 "message" -> MessageFcmMessage.fromFcmData(data)
                 "remove" -> RemoveFcmMessage.fromFcmData(data)
+
+                // The latter, longer name is deprecated:
+                //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.2323997.20Endpoint.20for.20test.20notification/near/1690777
+                "test", "test-by-device-token" -> TestFcmMessage.fromFcmData(data)
+
                 null -> throw FcmMessageParseException("missing event type")
                 else -> throw FcmMessageParseException("unknown event type: $eventType")
             }
@@ -193,6 +198,23 @@ data class RemoveFcmMessage(
             return RemoveFcmMessage(
                 identity = extractIdentity(data),
                 messageIds = messageIds
+            )
+        }
+    }
+}
+
+data class TestFcmMessage(
+    val identity: Identity,
+
+    // Hopefully to be added before 8.0 release; discussion:
+    //   https://chat.zulip.org/#narrow/stream/378-api-design/topic/.2323997.20Endpoint.20for.20test.20notification/near/1691552
+    val realmName: String?,
+) : FcmMessage() {
+    companion object {
+        fun fromFcmData(data: Map<String, String>): TestFcmMessage {
+            return TestFcmMessage(
+                identity = extractIdentity(data),
+                realmName = data["realm_name"],
             )
         }
     }
