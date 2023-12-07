@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.221 (2023-12-07)
+
 ### Highlights for users
 
 * New "Send a test notification" button in the notification settings,
