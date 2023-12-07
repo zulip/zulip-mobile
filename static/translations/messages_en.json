@@ -75,7 +75,7 @@
   "Share canceled": "Share canceled",
   "Zulip terms": "Zulip terms",
   "Terms for {realmName}": "Terms for {realmName}",
-  "Remind me later": "Remind me later",
+  "Dismiss": "Dismiss",
   "Push notifications are not enabled for {realmName}.": "Push notifications are not enabled for {realmName}.",
   "The Zulip server at {realm} has not yet registered your device token. A request is in progress.": "The Zulip server at {realm} has not yet registered your device token. A request is in progress.",
   "The Zulip server at {realm} has not yet registered your device token.": "The Zulip server at {realm} has not yet registered your device token.",

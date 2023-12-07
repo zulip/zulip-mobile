@@ -81,7 +81,7 @@ export default function ServerCompatBanner(props: Props): Node {
       buttons={[
         {
           id: 'dismiss',
-          label: 'Remind me later',
+          label: 'Dismiss',
           onPress: () => {
             dispatch(dismissCompatNotice());
           },

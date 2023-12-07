@@ -59,7 +59,7 @@ export default function ServerPushSetupBanner(props: Props): Node {
   const buttons = [];
   buttons.push({
     id: 'dismiss',
-    label: 'Remind me later',
+    label: 'Dismiss',
     onPress: () => {
       dispatch(dismissServerPushSetupNotice());
     },
