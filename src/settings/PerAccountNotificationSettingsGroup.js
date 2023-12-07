@@ -124,14 +124,14 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   let testNotificationDisabled = false;
   if (zulipFeatureLevel < 217) {
     testNotificationDisabled = {
-      title: 'Server upgrade required',
+      title: 'Feature not available',
       message: {
-        text: 'This feature requires {zulipServerVersion} or higher.',
-        values: { zulipServerVersion: 'Zulip Server 8' },
+        text: 'This feature is only available for organizations on {zulipServerNameWithMinVersion}+.',
+        values: { zulipServerNameWithMinVersion: 'Zulip Server 8.0' },
       },
       learnMoreButton: {
-        url: new URL('https://zulip.readthedocs.io/en/latest/production/upgrade.html'),
-        text: 'How to upgrade (for server administrators)',
+        url: new URL('https://zulip.readthedocs.io/en/stable/production/upgrade.html'),
+        text: 'Upgrade instructions for server administrators',
       },
     };
   } else if (pushToken == null) {
