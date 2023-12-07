@@ -15,6 +15,7 @@ import type { AppNavigationProp } from '../nav/AppNavigator';
 import Screen from '../common/Screen';
 import { createStyleSheet } from '../styles';
 import { useDispatch, useGlobalSelector, useSelector } from '../react-redux';
+import { getRealmName } from '../selectors';
 import {
   getAccounts,
   getGlobalSession,
@@ -44,8 +45,6 @@ import { getHaveServerData } from '../haveServerDataSelectors';
 import { TranslationContext } from '../boot/TranslationProvider';
 import isAppOwnDomain from '../isAppOwnDomain';
 import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
-import { Role } from '../api/permissionsTypes';
 import { initNotifications } from '../notification/notifTokens';
 import { ApiError } from '../api/apiErrors';
 
@@ -321,7 +320,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
 
   const account = useSelector(getAccount);
   const identity = identityOfAccount(account);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+  const realmName = useSelector(getRealmName);
 
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
   const report = notificationReportsByIdentityKey.get(keyOfIdentity(identityOfAccount(account)));
@@ -470,17 +469,19 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         alerts.push(
           <AlertItem
             bottomMargin
-            text={
-              isAtLeastAdmin
-                ? {
-                    text: 'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',
-                    values: { realm: identity.realm.toString() },
-                  }
-                : {
-                    text: 'The Zulip server at {realm} is not set up to deliver push notifications.',
-                    values: { realm: identity.realm.toString() },
-                  }
-            }
+            text={{
+              text: 'Push notifications are not enabled for {realmName}.',
+              values: {
+                realmName: (
+                  <ZulipText
+                    inheritColor
+                    inheritFontSize
+                    style={{ fontWeight: 'bold' }}
+                    text={realmName}
+                  />
+                ),
+              },
+            }}
             buttons={[
               {
                 id: 'learn-more',

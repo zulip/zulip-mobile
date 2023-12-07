@@ -6,12 +6,12 @@ import subWeeks from 'date-fns/subWeeks';
 
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
-import { getIdentity, getAccount } from '../account/accountsSelectors';
+import { getAccount } from '../account/accountsSelectors';
 import { getRealm, getGlobalSettings } from '../directSelectors';
+import { getRealmName } from '../selectors';
 import { dismissServerPushSetupNotice } from '../account/accountActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
-import { Role } from '../api/permissionsTypes';
+import ZulipText from './ZulipText';
 
 type Props = $ReadOnly<{||}>;
 
@@ -31,8 +31,7 @@ export default function ServerPushSetupBanner(props: Props): Node {
     state => getAccount(state).lastDismissedServerPushSetupNotice,
   );
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
-  const realm = useSelector(state => getIdentity(state).realm);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+  const realmName = useSelector(getRealmName);
   const settings = useGlobalSelector(getGlobalSettings);
 
   let visible = false;
@@ -48,15 +47,14 @@ export default function ServerPushSetupBanner(props: Props): Node {
     // don't show
   } else {
     visible = true;
-    text = isAtLeastAdmin
-      ? {
-          text: 'The Zulip server at {realm} is not set up to deliver push notifications.',
-          values: { realm: realm.toString() },
-        }
-      : {
-          text: 'The Zulip server at {realm} is not set up to deliver push notifications. Please contact your administrator.',
-          values: { realm: realm.toString() },
-        };
+    text = {
+      text: 'Push notifications are not enabled for {realmName}.',
+      values: {
+        realmName: (
+          <ZulipText inheritColor inheritFontSize style={{ fontWeight: 'bold' }} text={realmName} />
+        ),
+      },
+    };
   }
 
   const buttons = [];

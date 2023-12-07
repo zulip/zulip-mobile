@@ -20,8 +20,6 @@ import SettingsGroup from './SettingsGroup';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
-import { Role } from '../api/permissionsTypes';
 import { ApiError } from '../api/apiErrors';
 import { showErrorAlert } from '../utils/info';
 import * as logging from '../utils/logging';
@@ -50,7 +48,6 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const realmName = useSelector(getRealmName);
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
@@ -196,9 +193,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
         type="external"
         leftElement={{ type: 'icon', Component: IconAlertTriangle, color: kWarningColor }}
         title={{
-            text: isAtLeastAdmin
-              ? '{realmName} is not set up to deliver push notifications.'
-              : '{realmName} is not set up to deliver push notifications. Please contact your administrator.',
+            text: 'Push notifications are not enabled for {realmName}.',
             values: {
               realmName: (
                 <ZulipText
