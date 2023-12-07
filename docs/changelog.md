@@ -39,6 +39,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* New "Send a test notification" button in the notification settings,
+  if your organization is running Zulip Server 8 (to be released soon).
+  (#5796)
+
+
+### Highlights for developers
+
+* Resolved issues: #5796
+
 
 ## 27.220 (2023-11-22)
 
