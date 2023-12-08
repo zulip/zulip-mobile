@@ -48,7 +48,16 @@ export default function LegalScreen(props: Props): Node {
         //   We should link to them.
         title={{
           text: 'Terms for {realmName}',
-          values: { realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} /> },
+          values: {
+            realmName: (
+              <ZulipText
+                inheritColor
+                inheritFontSize
+                style={{ fontWeight: 'bold' }}
+                text={realmName}
+              />
+            ),
+          },
         }}
         onPress={openRealmPolicies}
         type="external"

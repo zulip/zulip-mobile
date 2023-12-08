@@ -200,7 +200,14 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
               ? '{realmName} is not set up to deliver push notifications.'
               : '{realmName} is not set up to deliver push notifications. Please contact your administrator.',
             values: {
-              realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
+              realmName: (
+                <ZulipText
+                  inheritColor
+                  inheritFontSize
+                  style={{ fontWeight: 'bold' }}
+                  text={realmName}
+                />
+              ),
             },
           }}
         onPress={() => {
@@ -219,8 +226,22 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       title={{
         text: 'Notification settings for this account ({email} in {realmName}):',
         values: {
-          email: <ZulipText style={{ fontWeight: 'bold' }} text={identity.email} />,
-          realmName: <ZulipText style={{ fontWeight: 'bold' }} text={realmName} />,
+          email: (
+            <ZulipText
+              inheritColor
+              inheritFontSize
+              style={{ fontWeight: 'bold' }}
+              text={identity.email}
+            />
+          ),
+          realmName: (
+            <ZulipText
+              inheritColor
+              inheritFontSize
+              style={{ fontWeight: 'bold' }}
+              text={realmName}
+            />
+          ),
         },
       }}
     >
