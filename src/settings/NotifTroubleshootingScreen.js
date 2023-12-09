@@ -461,7 +461,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         alerts.push(
           <AlertItem
             bottomMargin
-            text="Notifications require Google Play Services, which is unavailable on this device."
+            text="Notifications require Google Play Services, which is unavailable."
           />,
         );
         break;

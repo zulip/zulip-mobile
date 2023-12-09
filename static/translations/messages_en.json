@@ -271,7 +271,7 @@
   "Email sent": "Email sent",
   "Notifications for this account may not arrive.": "Notifications for this account may not arrive.",
   "Notifications are disabled in system settings.": "Notifications are disabled in system settings.",
-  "Notifications require Google Play Services, which is unavailable on this device.": "Notifications require Google Play Services, which is unavailable on this device.",
+  "Notifications require Google Play Services, which is unavailable.": "Notifications require Google Play Services, which is unavailable.",
   "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.": "Notifications for this account may not arrive. Please contact {supportEmail} with the details below.",
   "{problemAccountsCount, plural,\n  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}\n  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}\n}": "{problemAccountsCount, plural,\n  one {Notifications for {problemAccountsCount} other logged-in account may not arrive.}\n  other {Notifications for {problemAccountsCount} other logged-in accounts may not arrive.}\n}",
   "Details": "Details",
