@@ -50,7 +50,6 @@ export default function AlertItem(props: Props): React.Node {
           marginBottom: bottomMargin ? 8 : undefined,
         },
         text: {
-          fontWeight: 'bold',
           color: kWarningColor,
         },
         buttonsRow: {
