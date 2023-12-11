@@ -76,7 +76,8 @@ First, three one-time setup steps:
    This matches the default setting for a production install of the
    Zulip server (generated from `zproject/prod_settings_template.py`.)
 
-   You can keep this around via `git stash`.
+   The Zulip server will helpfully print a line on startup to remind
+   you that this settings override file exists.
 
 3. Register your development server with our production bouncer by
    running the following command:
