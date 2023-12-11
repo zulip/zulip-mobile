@@ -67,7 +67,7 @@ First, three one-time setup steps:
 
 1. [Set up the dev server for mobile development](dev-server.md).
 
-2. Add the following line to `zproject/dev_settings.py`:
+2. Create a `zproject/custom_dev_settings.py` with the following line:
 
    ```python
    PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
