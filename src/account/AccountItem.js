@@ -11,12 +11,18 @@ import Touchable from '../common/Touchable';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import { IconAlertTriangle, IconDone, IconTrash } from '../common/Icons';
 import { useGlobalDispatch, useGlobalSelector } from '../react-redux';
-import { getIsActiveAccount } from './accountsSelectors';
+import { getIsActiveAccount, tryGetActiveAccountState } from './accountsSelectors';
 import type { AccountStatus } from './AccountPickScreen';
 import { kWarningColor } from '../styles/constants';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { accountSwitch } from './accountActions';
 import { useNavigation } from '../react-navigation';
+import {
+  chooseNotifProblemForShortText,
+  notifProblemShortText,
+} from '../settings/NotifTroubleshootingScreen';
+import { getRealmName } from '../directSelectors';
+import { getHaveServerData } from '../haveServerDataSelectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -73,10 +79,27 @@ export default function AccountItem(props: Props): Node {
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 
+  const activeAccountState = useGlobalSelector(tryGetActiveAccountState);
+  // The fallback text '(unknown organization name)' is never expected to
+  // appear in the UI. As of writing, notifProblemShortText doesn't use its
+  // realmName param except for a NotificationProblem which we only select
+  // when we have server data for the relevant account. When we have that,
+  // `realmName` will be the real realm name, not the fallback.
+  // TODO(#5005) look for server data even when this item's account is not
+  //   the active one.
+  const realmName =
+    isActiveAccount && activeAccountState != null && getHaveServerData(activeAccountState)
+      ? getRealmName(activeAccountState)
+      : '(unknown organization name)';
+  const singleNotifProblem = chooseNotifProblemForShortText({ report: notificationReport });
+
   const handlePressNotificationWarning = React.useCallback(() => {
+    if (singleNotifProblem == null) {
+      return;
+    }
     Alert.alert(
       _('Notifications'),
-      _('Notifications for this account may not arrive.'),
+      _(notifProblemShortText(singleNotifProblem, realmName)),
       [
         { text: _('Cancel'), style: 'cancel' },
         {
@@ -90,7 +113,7 @@ export default function AccountItem(props: Props): Node {
       ],
       { cancelable: true },
     );
-  }, [email, realm, navigation, dispatch, _]);
+  }, [email, singleNotifProblem, realm, realmName, navigation, dispatch, _]);
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.account)}>
@@ -112,7 +135,7 @@ export default function AccountItem(props: Props): Node {
             <ZulipTextIntl style={styles.signedOutText} text="Signed out" numberOfLines={1} />
           )}
         </View>
-        {notificationReport.problems.length > 0 && (
+        {singleNotifProblem != null && (
           <Pressable style={styles.icon} hitSlop={12} onPress={handlePressNotificationWarning}>
             {({ pressed }) => (
               <IconAlertTriangle

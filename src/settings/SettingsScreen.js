@@ -29,9 +29,14 @@ import { kMinSupportedVersion, kServerSupportDocUrl } from '../common/ServerComp
 import { kWarningColor } from '../styles/constants';
 import { showErrorAlert } from '../utils/info';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
+import {
+  useNotificationReportsByIdentityKey,
+  chooseNotifProblemForShortText,
+  notifProblemShortReactText,
+} from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
 import languages from './languages';
+import { getRealmName } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -50,6 +55,7 @@ export default function SettingsScreen(props: Props): Node {
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
   const notificationReport = notificationReportsByIdentityKey.get(keyOfIdentity(identity));
   invariant(notificationReport, 'SettingsScreen: expected notificationReport');
+  const realmName = useSelector(getRealmName);
 
   const dispatch = useDispatch();
   const _ = React.useContext(TranslationContext);
@@ -92,11 +98,15 @@ export default function SettingsScreen(props: Props): Node {
       <NavRow
         leftElement={{ type: 'icon', Component: IconNotifications }}
         title="Notifications"
-        {...(() =>
-          notificationReport.problems.length > 0 && {
-            leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
-            subtitle: 'Notifications for this account may not arrive.',
-          })()}
+        {...(() => {
+          const problem = chooseNotifProblemForShortText({ report: notificationReport });
+          return (
+            problem != null && {
+              leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
+              subtitle: notifProblemShortReactText(problem, realmName),
+            }
+          );
+        })()}
         onPress={() => {
           navigation.push('notifications');
         }}

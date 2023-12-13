@@ -22,6 +22,7 @@ import {
   useNotificationReportsByIdentityKey,
   NotificationProblem,
   notifProblemShortReactText,
+  chooseNotifProblemForShortText,
 } from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
 import { ApiError } from '../api/apiErrors';
@@ -172,15 +173,15 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       />,
       <NavRow
         key="troubleshooting"
-        {...(() =>
-            notificationReport.problems.length > 0 && {
-              leftElement: {
-                type: 'icon',
-                Component: IconAlertTriangle,
-                color: kWarningColor,
-              },
-              subtitle: 'Notifications for this account may not arrive.',
-            })()}
+        {...(() => {
+            const problem = chooseNotifProblemForShortText({ report: notificationReport });
+            return (
+              problem != null && {
+                leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
+                subtitle: notifProblemShortReactText(problem, realmName),
+              }
+            );
+          })()}
         title={troubleshootingPageTitle}
         onPress={handleTroubleshootingPress}
       />,

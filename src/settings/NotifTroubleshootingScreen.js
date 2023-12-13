@@ -134,6 +134,35 @@ export enum NotificationProblem {
   //   - Android notification sound file missing (#5484)
 }
 
+const notifProblemsHighToLowShortTextPrecedence: $ReadOnlyArray<NotificationProblem> = [
+  NotificationProblem.SystemSettingsDisabled,
+  NotificationProblem.GooglePlayServicesNotAvailable,
+  NotificationProblem.ServerHasNotEnabled,
+  NotificationProblem.TokenNotAcked,
+  NotificationProblem.TokenUnknown,
+];
+
+invariant(
+  new Set(notifProblemsHighToLowShortTextPrecedence).size
+    === [...NotificationProblem.members()].length,
+  'notifProblemsHighToLowShortTextPrecedence missing or duplicate members',
+);
+
+/**
+ * Which of a NotificationReport's `problem`s to show short text for if any.
+ *
+ * Use this with notifProblemShortText and notifProblemShortReactText,
+ * where there's room for just one problem's short text, like in the
+ * NavRow leading to the notification settings screen.
+ */
+export const chooseNotifProblemForShortText = (args: {|
+  // eslint-disable-next-line no-use-before-define
+  report: { +problems: NotificationReport['problems'], ... },
+|}): NotificationProblem | null => {
+  const { report } = args;
+  return notifProblemsHighToLowShortTextPrecedence.find(p => report.problems.includes(p)) ?? null;
+};
+
 /**
  * A one-line summary of a NotificationProblem, as LocalizableText.
  *
