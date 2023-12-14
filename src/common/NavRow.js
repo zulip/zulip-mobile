@@ -42,7 +42,7 @@ type Props = $ReadOnly<{|
    * 'nested': navigate to a "nested" screen.
    * 'external': open a URL with the user's `BrowserPreference`
    */
-  onPress: () => void,
+  onPress: () => void | Promise<void>,
 |}>;
 
 /**
