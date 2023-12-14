@@ -36,7 +36,7 @@ import ZulipButton from '../common/ZulipButton';
 import { identityOfAccount, keyOfIdentity } from '../account/accountMisc';
 import AlertItem from '../common/AlertItem';
 import ZulipText from '../common/ZulipText';
-import type { Identity, LocalizableReactText } from '../types';
+import type { Identity, LocalizableText, LocalizableReactText } from '../types';
 import type { SubsetProperties } from '../generics';
 import type { ZulipVersion } from '../utils/zulipVersion';
 import { androidBrand, androidManufacturer, androidModel, useAppState } from '../reactNativeUtils';
@@ -135,12 +135,14 @@ export enum NotificationProblem {
 }
 
 /**
- * A one-line summary of a NotificationProblem, as LocalizableReactText.
+ * A one-line summary of a NotificationProblem, as LocalizableText.
+ *
+ * For this as a LocalizableReactText, see notifProblemShortReactText.
  */
-export const notifProblemShortReactText = (
+export const notifProblemShortText = (
   problem: NotificationProblem,
   realmName: string,
-): LocalizableReactText => {
+): LocalizableText => {
   switch (problem) {
     case NotificationProblem.TokenNotAcked:
     case NotificationProblem.TokenUnknown:
@@ -149,6 +151,29 @@ export const notifProblemShortReactText = (
       return 'Notifications are disabled in system settings.';
     case NotificationProblem.GooglePlayServicesNotAvailable:
       return 'Notifications require Google Play Services, which is unavailable.';
+    case NotificationProblem.ServerHasNotEnabled:
+      return {
+        text: 'Push notifications are not enabled for {realmName}.',
+        values: { realmName },
+      };
+  }
+};
+
+/**
+ * A one-line summary of a NotificationProblem, as LocalizableReactText.
+ *
+ * For this as a LocalizableText, see notifProblemShortText.
+ */
+export const notifProblemShortReactText = (
+  problem: NotificationProblem,
+  realmName: string,
+): LocalizableReactText => {
+  switch (problem) {
+    case NotificationProblem.TokenNotAcked:
+    case NotificationProblem.TokenUnknown:
+    case NotificationProblem.SystemSettingsDisabled:
+    case NotificationProblem.GooglePlayServicesNotAvailable:
+      return notifProblemShortText(problem, realmName);
     case NotificationProblem.ServerHasNotEnabled:
       return {
         text: 'Push notifications are not enabled for {realmName}.',
