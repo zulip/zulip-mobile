@@ -36,7 +36,7 @@ import ZulipButton from '../common/ZulipButton';
 import { identityOfAccount, keyOfIdentity } from '../account/accountMisc';
 import AlertItem from '../common/AlertItem';
 import ZulipText from '../common/ZulipText';
-import type { Identity } from '../types';
+import type { Identity, LocalizableReactText } from '../types';
 import type { SubsetProperties } from '../generics';
 import type { ZulipVersion } from '../utils/zulipVersion';
 import { androidBrand, androidManufacturer, androidModel, useAppState } from '../reactNativeUtils';
@@ -133,6 +133,38 @@ export enum NotificationProblem {
   //   - Can't reach the server (ideally after #5615, to be less buggy)
   //   - Android notification sound file missing (#5484)
 }
+
+/**
+ * A one-line summary of a NotificationProblem, as LocalizableReactText.
+ */
+export const notifProblemShortReactText = (
+  problem: NotificationProblem,
+  realmName: string,
+): LocalizableReactText => {
+  switch (problem) {
+    case NotificationProblem.TokenNotAcked:
+    case NotificationProblem.TokenUnknown:
+      return 'Notifications for this account may not arrive.';
+    case NotificationProblem.SystemSettingsDisabled:
+      return 'Notifications are disabled in system settings.';
+    case NotificationProblem.GooglePlayServicesNotAvailable:
+      return 'Notifications require Google Play Services, which is unavailable.';
+    case NotificationProblem.ServerHasNotEnabled:
+      return {
+        text: 'Push notifications are not enabled for {realmName}.',
+        values: {
+          realmName: (
+            <ZulipText
+              inheritColor
+              inheritFontSize
+              style={{ fontWeight: 'bold' }}
+              text={realmName}
+            />
+          ),
+        },
+      };
+  }
+};
 
 /**
  * Data relevant to an account's push notifications, for support requests.
@@ -446,7 +478,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
               { id: 'fix', label: 'Open settings', onPress: openSystemNotificationSettings },
             ]}
             bottomMargin
-            text="Notifications are disabled in system settings."
+            text={notifProblemShortReactText(problem, realmName)}
           />,
         );
         break;
@@ -458,10 +490,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         //     fix problems with Google Play Services:
         //       https://developers.google.com/android/reference/com/google/android/gms/common/GoogleApiAvailability
         alerts.push(
-          <AlertItem
-            bottomMargin
-            text="Notifications require Google Play Services, which is unavailable."
-          />,
+          <AlertItem bottomMargin text={notifProblemShortReactText(problem, realmName)} />,
         );
         break;
 
@@ -469,19 +498,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         alerts.push(
           <AlertItem
             bottomMargin
-            text={{
-              text: 'Push notifications are not enabled for {realmName}.',
-              values: {
-                realmName: (
-                  <ZulipText
-                    inheritColor
-                    inheritFontSize
-                    style={{ fontWeight: 'bold' }}
-                    text={realmName}
-                  />
-                ),
-              },
-            }}
+            text={notifProblemShortReactText(problem, realmName)}
             buttons={[
               {
                 id: 'learn-more',

@@ -11,7 +11,10 @@ import { getRealm, getGlobalSettings } from '../directSelectors';
 import { getRealmName } from '../selectors';
 import { dismissServerPushSetupNotice } from '../account/accountActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
-import ZulipText from './ZulipText';
+import {
+  NotificationProblem,
+  notifProblemShortReactText,
+} from '../settings/NotifTroubleshootingScreen';
 
 type Props = $ReadOnly<{||}>;
 
@@ -47,14 +50,7 @@ export default function ServerPushSetupBanner(props: Props): Node {
     // don't show
   } else {
     visible = true;
-    text = {
-      text: 'Push notifications are not enabled for {realmName}.',
-      values: {
-        realmName: (
-          <ZulipText inheritColor inheritFontSize style={{ fontWeight: 'bold' }} text={realmName} />
-        ),
-      },
-    };
+    text = notifProblemShortReactText(NotificationProblem.ServerHasNotEnabled, realmName);
   }
 
   const buttons = [];

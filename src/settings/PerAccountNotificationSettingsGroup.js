@@ -18,7 +18,11 @@ import { getGlobalSession, getGlobalSettings, getRealm, getRealmName } from '../
 import ZulipText from '../common/ZulipText';
 import SettingsGroup from './SettingsGroup';
 import { openLinkWithUserPreference } from '../utils/openLink';
-import { useNotificationReportsByIdentityKey } from './NotifTroubleshootingScreen';
+import {
+  useNotificationReportsByIdentityKey,
+  NotificationProblem,
+  notifProblemShortReactText,
+} from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
 import { ApiError } from '../api/apiErrors';
 import { showErrorAlert } from '../utils/info';
@@ -192,19 +196,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
         key="not-enabled"
         type="external"
         leftElement={{ type: 'icon', Component: IconAlertTriangle, color: kWarningColor }}
-        title={{
-            text: 'Push notifications are not enabled for {realmName}.',
-            values: {
-              realmName: (
-                <ZulipText
-                  inheritColor
-                  inheritFontSize
-                  style={{ fontWeight: 'bold' }}
-                  text={realmName}
-                />
-              ),
-            },
-          }}
+        title={notifProblemShortReactText(NotificationProblem.ServerHasNotEnabled, realmName)}
         onPress={() => {
             openLinkWithUserPreference(
               new URL(
