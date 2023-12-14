@@ -46,6 +46,7 @@ import isAppOwnDomain from '../isAppOwnDomain';
 import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
 import { initNotifications } from '../notification/notifTokens';
 import { ApiError } from '../api/apiErrors';
+import NavRow from '../common/NavRow';
 import RowGroup from '../common/RowGroup';
 import TextRow from '../common/TextRow';
 
@@ -464,6 +465,13 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
 
   const mailComposerIsAvailable = useMailComposerIsAvailable();
 
+  const handlePressTroubleshootingGuide = React.useCallback(() => {
+    openLinkWithUserPreference(
+      new URL('https://zulip.com/help/mobile-notifications#troubleshooting-mobile-notifications'),
+      settings,
+    );
+  }, [settings]);
+
   const handlePressEmailSupport = React.useCallback(async () => {
     const result = await MailComposer.composeAsync({
       recipients: ['support@zulip.com'],
@@ -619,6 +627,13 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         <RowGroup>
           {(() => {
             const children = [];
+            children.push(
+              <NavRow
+                type="external"
+                title="Troubleshooting guide"
+                onPress={handlePressTroubleshootingGuide}
+              />,
+            );
             if (mailComposerIsAvailable === true) {
               children.push(
                 <TextRow
