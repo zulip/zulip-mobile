@@ -16,7 +16,7 @@ import { kWarningColor } from '../styles/constants';
 import { getIdentity, getZulipFeatureLevel } from '../account/accountsSelectors';
 import { getGlobalSession, getGlobalSettings, getRealm, getRealmName } from '../directSelectors';
 import ZulipText from '../common/ZulipText';
-import SettingsGroup from './SettingsGroup';
+import RowGroup from '../common/RowGroup';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import {
   useNotificationReportsByIdentityKey,
@@ -35,7 +35,7 @@ type Props = $ReadOnly<{|
 |}>;
 
 /**
- * A SettingsGroup with per-account settings for NotificationsScreen.
+ * A RowGroup with per-account settings for NotificationsScreen.
  */
 export default function PerAccountNotificationSettingsGroup(props: Props): Node {
   const { navigation } = props;
@@ -210,7 +210,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       ];
 
   return (
-    <SettingsGroup
+    <RowGroup
       title={{
         text: 'Notification settings for this account ({email} in {realmName}):',
         values: {
@@ -234,6 +234,6 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       }}
     >
       {children}
-    </SettingsGroup>
+    </RowGroup>
   );
 }

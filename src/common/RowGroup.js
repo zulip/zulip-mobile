@@ -3,13 +3,13 @@
 import * as React from 'react';
 import { View } from 'react-native';
 
-import SwitchRow from '../common/SwitchRow';
-import TextRow from '../common/TextRow';
-import NavRow from '../common/NavRow';
+import SwitchRow from './SwitchRow';
+import TextRow from './TextRow';
+import NavRow from './NavRow';
 import type { LocalizableReactText } from '../types';
 import { createStyleSheet } from '../styles';
 import { QUARTER_COLOR } from '../styles/constants';
-import ZulipTextIntl from '../common/ZulipTextIntl';
+import ZulipTextIntl from './ZulipTextIntl';
 
 type Props = $ReadOnly<{|
   /**
@@ -17,14 +17,14 @@ type Props = $ReadOnly<{|
    */
   // The need to suggest a colon is probably a sign that we can improve the
   // layout in some subtle way.
-  title: LocalizableReactText,
+  title?: LocalizableReactText,
 
   children: $ReadOnlyArray<
     React$Element<typeof SwitchRow> | React$Element<typeof NavRow> | React$Element<typeof TextRow>,
   >,
 |}>;
 
-export default function SettingsGroup(props: Props): React.Node {
+export default function RowGroup(props: Props): React.Node {
   const { title, children } = props;
 
   const styles = React.useMemo(
@@ -47,9 +47,11 @@ export default function SettingsGroup(props: Props): React.Node {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <ZulipTextIntl text={title} />
-      </View>
+      {title != null && (
+        <View style={styles.headerContainer}>
+          <ZulipTextIntl text={title} />
+        </View>
+      )}
       {children}
     </View>
   );
