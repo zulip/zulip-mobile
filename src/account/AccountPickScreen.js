@@ -34,6 +34,8 @@ export type AccountStatus = {|
   // list of problems that are likely to prevent notifications from working.
   // We'll use it to warn on each account item that has problems.
   +notificationReport: { +problems: NotificationReport['problems'], ... },
+
+  +silenceServerPushSetupWarnings: boolean,
 |};
 
 /**
@@ -45,7 +47,7 @@ function useAccountStatuses(): $ReadOnlyArray<AccountStatus> {
   const accounts = useGlobalSelector(getAccounts);
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
 
-  return accounts.map(({ realm, email, apiKey }) => {
+  return accounts.map(({ realm, email, apiKey, silenceServerPushSetupWarnings }) => {
     const notificationReport = notificationReportsByIdentityKey.get(
       keyOfIdentity({ realm, email }),
     );
@@ -56,6 +58,7 @@ function useAccountStatuses(): $ReadOnlyArray<AccountStatus> {
       email,
       isLoggedIn: apiKey !== '',
       notificationReport,
+      silenceServerPushSetupWarnings,
     };
   });
 }

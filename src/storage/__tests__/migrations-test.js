@@ -105,7 +105,8 @@ describe('migrations', () => {
   // What `base` becomes after all migrations.
   const endBase = {
     ...base52,
-    migrations: { version: 61 },
+    migrations: { version: 62 },
+    accounts: base52.accounts.map(a => ({ ...a, silenceServerPushSetupWarnings: false })),
   };
 
   for (const [desc, before, after] of [
@@ -282,7 +283,7 @@ describe('migrations', () => {
     [
       'check 57 with an `undefined` in state.accounts',
       { ...base52, migrations: { version: 56 }, accounts: [...base37.accounts, undefined] },
-      { ...endBase, accounts: [...base37.accounts] },
+      { ...endBase, accounts: [...endBase.accounts] },
     ],
     [
       'check 58 with a malformed Account in state.accounts',
@@ -299,8 +300,9 @@ describe('migrations', () => {
           ...base37.accounts,
         ],
       },
-      { ...endBase, accounts: [...base37.accounts] },
+      { ...endBase, accounts: [...endBase.accounts] },
     ],
+    // 61 covered by whole
   ]) {
     test(desc, async () => {
       // $FlowIgnore[incompatible-exact]

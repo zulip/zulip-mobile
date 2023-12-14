@@ -60,6 +60,7 @@ import {
   DISMISS_SERVER_COMPAT_NOTICE,
   REGISTER_PUSH_TOKEN_START,
   REGISTER_PUSH_TOKEN_END,
+  SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
 } from './actionConstants';
 
 import type { UserMessageFlag } from './api/modelTypes';
@@ -174,6 +175,11 @@ export type ResetAccountDataAction = $ReadOnly<{|
 type DismissServerPushSetupNoticeAction = $ReadOnly<{|
   type: typeof DISMISS_SERVER_PUSH_SETUP_NOTICE,
   date: Date,
+|}>;
+
+type SetSilenceServerPushSetupWarningsAction = $ReadOnly<{|
+  type: typeof SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
+  value: boolean,
 |}>;
 
 /** We learned the device token from the system.  See `SessionState`. */
@@ -671,6 +677,7 @@ export type PerAccountAction =
   // state.session
   | DismissServerCompatNoticeAction
   | DismissServerPushSetupNoticeAction
+  | SetSilenceServerPushSetupWarningsAction
   | ToggleOutboxSendingAction
   ;
 
@@ -797,6 +804,7 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case CLEAR_TYPING:
     case DISMISS_SERVER_COMPAT_NOTICE:
     case DISMISS_SERVER_PUSH_SETUP_NOTICE:
+    case SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS:
     case TOGGLE_OUTBOX_SENDING:
       (action: PerAccountAction);
       (action: PerAccountApplicableAction);

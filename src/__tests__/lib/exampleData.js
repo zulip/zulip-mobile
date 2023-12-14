@@ -248,6 +248,7 @@ export const makeAccount = (
     zulipVersion: zulipVersionInner,
     ackedPushToken,
     lastDismissedServerPushSetupNotice,
+    silenceServerPushSetupWarnings: false,
   });
 };
 
@@ -648,6 +649,7 @@ export const plusReduxState: GlobalState & PerAccountState = reduxState({
       zulipVersion: recentZulipVersion,
       zulipFeatureLevel: recentZulipFeatureLevel,
       lastDismissedServerPushSetupNotice: null,
+      silenceServerPushSetupWarnings: false,
     },
   ],
   realm: {

@@ -6,6 +6,7 @@ import {
   ACCOUNT_REMOVE,
   LOGIN_SUCCESS,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
+  SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
 } from '../actionConstants';
 import { registerAndStartPolling } from '../events/eventActions';
 import { resetToMainTabs } from '../nav/navActions';
@@ -20,6 +21,11 @@ export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   // functions of their params:
   //   https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#rules-of-reducers
   date: new Date(),
+});
+
+export const setSilenceServerPushSetupWarnings = (value: boolean): PerAccountAction => ({
+  type: SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
+  value,
 });
 
 const accountSwitchPlain = (identity: Identity): AllAccountsAction => ({

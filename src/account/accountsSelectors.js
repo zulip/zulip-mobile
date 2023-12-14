@@ -159,6 +159,9 @@ export const getZulipFeatureLevel = (state: PerAccountState): number => {
   return zulipFeatureLevel;
 };
 
+export const getSilenceServerPushSetupWarnings = (state: PerAccountState): boolean =>
+  getAccount(state).silenceServerPushSetupWarnings;
+
 /**
  * The auth object for this account, if logged in; else undefined.
  *

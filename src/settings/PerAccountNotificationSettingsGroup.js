@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import invariant from 'invariant';
 
 import type { AppNavigationMethods } from '../nav/AppNavigator';
-import { useGlobalSelector, useSelector } from '../react-redux';
+import { useDispatch, useGlobalSelector, useSelector } from '../react-redux';
 import { getAuth, getSettings } from '../selectors';
 import SwitchRow from '../common/SwitchRow';
 import * as api from '../api';
@@ -13,7 +13,11 @@ import NavRow from '../common/NavRow';
 import TextRow from '../common/TextRow';
 import { IconAlertTriangle } from '../common/Icons';
 import { kWarningColor } from '../styles/constants';
-import { getIdentity, getZulipFeatureLevel } from '../account/accountsSelectors';
+import {
+  getIdentity,
+  getSilenceServerPushSetupWarnings,
+  getZulipFeatureLevel,
+} from '../account/accountsSelectors';
 import { getGlobalSession, getGlobalSettings, getRealm, getRealmName } from '../directSelectors';
 import ZulipText from '../common/ZulipText';
 import RowGroup from '../common/RowGroup';
@@ -29,6 +33,7 @@ import { ApiError } from '../api/apiErrors';
 import { showErrorAlert } from '../utils/info';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { setSilenceServerPushSetupWarnings } from '../account/accountActions';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -40,6 +45,7 @@ type Props = $ReadOnly<{|
 export default function PerAccountNotificationSettingsGroup(props: Props): Node {
   const { navigation } = props;
 
+  const dispatch = useDispatch();
   const _ = React.useContext(TranslationContext);
 
   const auth = useSelector(getAuth);
@@ -53,6 +59,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const realmName = useSelector(getRealmName);
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
+  const silenceServerPushSetupWarnings = useSelector(getSilenceServerPushSetupWarnings);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
   const streamNotification = useSelector(state => getSettings(state).streamNotification);
@@ -60,6 +67,10 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
   const pushToken = useGlobalSelector(state => getGlobalSession(state).pushToken);
+
+  const handleSilenceWarningsChange = React.useCallback(() => {
+    dispatch(setSilenceServerPushSetupWarnings(!silenceServerPushSetupWarnings));
+  }, [dispatch, silenceServerPushSetupWarnings]);
 
   // Helper variable so that we can refer to the button correctly in
   // other UI text.
@@ -211,6 +222,15 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       />,
     );
   }
+
+  children.push(
+    <SwitchRow
+      key="silence-warnings"
+      label="Silence warnings about disabled mobile push notifications"
+      value={silenceServerPushSetupWarnings}
+      onValueChange={handleSilenceWarningsChange}
+    />,
+  );
 
   return (
     <RowGroup

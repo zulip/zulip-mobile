@@ -11,6 +11,7 @@ import {
   LOGOUT,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
   ACCOUNT_REMOVE,
+  SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
 import type { AccountsState, Identity, Action, Account } from '../types';
@@ -77,6 +78,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
             zulipVersion: null,
             zulipFeatureLevel: null,
             lastDismissedServerPushSetupNotice: null,
+            silenceServerPushSetupWarnings: false,
           },
           ...state,
         ];
@@ -124,6 +126,10 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
 
     case DISMISS_SERVER_PUSH_SETUP_NOTICE: {
       return updateActiveAccount(state, { lastDismissedServerPushSetupNotice: action.date });
+    }
+
+    case SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS: {
+      return updateActiveAccount(state, { silenceServerPushSetupWarnings: action.value });
     }
 
     case ACCOUNT_REMOVE: {

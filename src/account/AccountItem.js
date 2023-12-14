@@ -62,7 +62,8 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function AccountItem(props: Props): Node {
-  const { email, realm, isLoggedIn, notificationReport } = props.account;
+  const { email, realm, isLoggedIn, notificationReport, silenceServerPushSetupWarnings } =
+    props.account;
 
   const _ = React.useContext(TranslationContext);
   const navigation = useNavigation();
@@ -91,7 +92,10 @@ export default function AccountItem(props: Props): Node {
     isActiveAccount && activeAccountState != null && getHaveServerData(activeAccountState)
       ? getRealmName(activeAccountState)
       : '(unknown organization name)';
-  const singleNotifProblem = chooseNotifProblemForShortText({ report: notificationReport });
+  const singleNotifProblem = chooseNotifProblemForShortText({
+    report: notificationReport,
+    ignoreServerHasNotEnabled: silenceServerPushSetupWarnings,
+  });
 
   const handlePressNotificationWarning = React.useCallback(() => {
     if (singleNotifProblem == null) {

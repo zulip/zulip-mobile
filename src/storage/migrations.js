@@ -520,6 +520,12 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Fix emailAddressVisibility accidentally being undefined/dropped
   '61': dropCache,
 
+  // Add silenceServerPushSetupWarnings to accounts.
+  '62': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({ ...a, silenceServerPushSetupWarnings: false })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

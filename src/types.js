@@ -142,6 +142,22 @@ export type Account = $ReadOnly<{|
    * apply.
    */
   lastDismissedServerPushSetupNotice: Date | null,
+
+  /**
+   * The setting to silence prominent warnings about disabled notifications.
+   *
+   * ("Disabled" meaning in particular that the realm hasn't enabled
+   * notifications, i.e., RealmState.pushNotificationsEnabled is false.)
+   *
+   * Users will set this if they want something more permanent than the
+   * ServerPushSetupBanner's "Dismiss" button. That button only snoozes the
+   * banner (for two weeks, as of writing), but this setting makes the
+   * banner never appear. (The banner's information will still be available
+   * on the "Notifications" screen.)
+   *
+   * Defaults to off / `false`.
+   */
+  silenceServerPushSetupWarnings: boolean,
 |}>;
 
 /**

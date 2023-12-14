@@ -6,7 +6,7 @@ import subWeeks from 'date-fns/subWeeks';
 
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useDispatch } from '../react-redux';
-import { getAccount } from '../account/accountsSelectors';
+import { getAccount, getSilenceServerPushSetupWarnings } from '../account/accountsSelectors';
 import { getRealm } from '../directSelectors';
 import { getRealmName } from '../selectors';
 import { dismissServerPushSetupNotice } from '../account/accountActions';
@@ -38,11 +38,14 @@ export default function ServerPushSetupBanner(props: Props): Node {
     state => getAccount(state).lastDismissedServerPushSetupNotice,
   );
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
+  const silenceServerPushSetupWarnings = useSelector(getSilenceServerPushSetupWarnings);
   const realmName = useSelector(getRealmName);
 
   let visible = false;
   let text = '';
   if (pushNotificationsEnabled) {
+    // don't show
+  } else if (silenceServerPushSetupWarnings) {
     // don't show
   } else if (
     lastDismissedServerPushSetupNotice !== null

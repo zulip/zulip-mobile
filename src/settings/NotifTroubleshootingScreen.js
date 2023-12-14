@@ -160,9 +160,17 @@ invariant(
 export const chooseNotifProblemForShortText = (args: {|
   // eslint-disable-next-line no-use-before-define
   report: { +problems: NotificationReport['problems'], ... },
+  ignoreServerHasNotEnabled?: boolean,
 |}): NotificationProblem | null => {
-  const { report } = args;
-  return notifProblemsHighToLowShortTextPrecedence.find(p => report.problems.includes(p)) ?? null;
+  const { report, ignoreServerHasNotEnabled = false } = args;
+  const result = notifProblemsHighToLowShortTextPrecedence.find(p => {
+    if (p === NotificationProblem.ServerHasNotEnabled && ignoreServerHasNotEnabled) {
+      return false;
+    }
+    return report.problems.includes(p);
+  });
+
+  return result ?? null;
 };
 
 /**
