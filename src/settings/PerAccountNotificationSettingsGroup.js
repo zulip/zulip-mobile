@@ -201,7 +201,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
         onPress={() => {
             openLinkWithUserPreference(
               new URL(
-                'https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html',
+                'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
               ),
               globalSettings,
             );

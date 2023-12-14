@@ -66,7 +66,9 @@ export default function ServerPushSetupBanner(props: Props): Node {
     label: 'Learn more',
     onPress: () => {
       openLinkWithUserPreference(
-        new URL('https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html'),
+        new URL(
+          'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
+        ),
         settings,
       );
     },

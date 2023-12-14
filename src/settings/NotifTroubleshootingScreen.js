@@ -560,7 +560,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
                 onPress: () => {
                   openLinkWithUserPreference(
                     new URL(
-                      'https://zulip.readthedocs.io/en/stable/production/mobile-push-notifications.html',
+                      'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
                     ),
                     settings,
                   );
