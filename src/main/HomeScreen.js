@@ -70,7 +70,7 @@ export default function HomeScreen(props: Props): Node {
         />
       </View>
       <ServerCompatBanner />
-      <ServerPushSetupBanner />
+      <ServerPushSetupBanner navigation={navigation} />
       <LoadingBanner />
       <UnreadCards />
     </SafeAreaView>

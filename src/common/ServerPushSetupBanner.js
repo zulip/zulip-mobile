@@ -5,18 +5,20 @@ import type { Node } from 'react';
 import subWeeks from 'date-fns/subWeeks';
 
 import ZulipBanner from './ZulipBanner';
-import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
+import { useSelector, useDispatch } from '../react-redux';
 import { getAccount } from '../account/accountsSelectors';
-import { getRealm, getGlobalSettings } from '../directSelectors';
+import { getRealm } from '../directSelectors';
 import { getRealmName } from '../selectors';
 import { dismissServerPushSetupNotice } from '../account/accountActions';
-import { openLinkWithUserPreference } from '../utils/openLink';
 import {
   NotificationProblem,
   notifProblemShortReactText,
 } from '../settings/NotifTroubleshootingScreen';
+import type { AppNavigationMethods } from '../nav/AppNavigator';
 
-type Props = $ReadOnly<{||}>;
+type Props = $ReadOnly<{|
+  navigation: AppNavigationMethods,
+|}>;
 
 /**
  * A "nag banner" saying the server hasn't enabled push notifications, if so
@@ -28,6 +30,8 @@ type Props = $ReadOnly<{||}>;
  * un-setup, a new notice will apply.)
  */
 export default function ServerPushSetupBanner(props: Props): Node {
+  const { navigation } = props;
+
   const dispatch = useDispatch();
 
   const lastDismissedServerPushSetupNotice = useSelector(
@@ -35,7 +39,6 @@ export default function ServerPushSetupBanner(props: Props): Node {
   );
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
   const realmName = useSelector(getRealmName);
-  const settings = useGlobalSelector(getGlobalSettings);
 
   let visible = false;
   let text = '';
@@ -65,12 +68,8 @@ export default function ServerPushSetupBanner(props: Props): Node {
     id: 'learn-more',
     label: 'Learn more',
     onPress: () => {
-      openLinkWithUserPreference(
-        new URL(
-          'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
-        ),
-        settings,
-      );
+      dispatch(dismissServerPushSetupNotice());
+      navigation.push('notifications');
     },
   });
 
