@@ -684,7 +684,6 @@ export type AllAccountsAction =
   | AccountRemoveAction
   | LoginSuccessAction
   | LogoutAction
-  | DismissServerPushSetupNoticeAction
   // These four are about a specific account… but not just the active one,
   // and they encode which one they mean.
   | RegisterPushTokenEndAction | RegisterPushTokenStartAction | AckPushTokenAction | UnackPushTokenAction
