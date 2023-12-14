@@ -2,7 +2,7 @@
 
 import invariant from 'invariant';
 import * as React from 'react';
-import { Platform, ScrollView, NativeModules } from 'react-native';
+import { Platform, View, ScrollView, NativeModules } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Clipboard from '@react-native-clipboard/clipboard';
 import * as MailComposer from 'expo-mail-composer';
@@ -609,42 +609,48 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
   });
 
   return (
-    <Screen scrollEnabled={false} title="Troubleshooting" padding>
+    <Screen scrollEnabled={false} title="Troubleshooting">
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
-        {
-          // TODO: Avoid comparing these complex UI-describing objects:
-          //   https://github.com/zulip/zulip-mobile/pull/5654#discussion_r1105122407
-          uniq(alerts) // Deduplicate genericAlert, which multiple problems might map to
-        }
-        {mailComposerIsAvailable === true && (
-          <ZulipButton
-            style={styles.button}
-            text={{
-              text: 'Email {supportEmail}',
-              values: {
-                supportEmail: (
-                  <ZulipText
-                    inheritColor
-                    inheritFontSize
-                    style={styles.emailText}
-                    text="support@zulip.com"
-                  />
-                ),
-              },
-            }}
-            onPress={handlePressEmailSupport}
-          />
-        )}
-        <ZulipButton style={styles.button} text="Copy to clipboard" onPress={handlePressCopy} />
-        {Platform.OS === 'android' ? (
-          // ScrollView for Android-only symptoms like
-          // facebook/react-native#23117
-          <ScrollView style={{ flex: 1 }}>
+        <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+          {
+            // TODO: Avoid comparing these complex UI-describing objects:
+            //   https://github.com/zulip/zulip-mobile/pull/5654#discussion_r1105122407
+            uniq(alerts) // Deduplicate genericAlert, which multiple problems might map to
+          }
+        </View>
+        <View style={{ paddingHorizontal: 16 }}>
+          {mailComposerIsAvailable === true && (
+            <ZulipButton
+              style={styles.button}
+              text={{
+                text: 'Email {supportEmail}',
+                values: {
+                  supportEmail: (
+                    <ZulipText
+                      inheritColor
+                      inheritFontSize
+                      style={styles.emailText}
+                      text="support@zulip.com"
+                    />
+                  ),
+                },
+              }}
+              onPress={handlePressEmailSupport}
+            />
+          )}
+          <ZulipButton style={styles.button} text="Copy to clipboard" onPress={handlePressCopy} />
+        </View>
+        <View style={{ paddingHorizontal: 16, paddingBottom: 16, flex: 1 }}>
+          {Platform.OS === 'android' ? (
+            // ScrollView for Android-only symptoms like
+            // facebook/react-native#23117
+            <ScrollView style={{ flex: 1 }}>
+              <Input editable={false} multiline style={styles.reportTextInput} value={reportJson} />
+            </ScrollView>
+          ) : (
             <Input editable={false} multiline style={styles.reportTextInput} value={reportJson} />
-          </ScrollView>
-        ) : (
-          <Input editable={false} multiline style={styles.reportTextInput} value={reportJson} />
-        )}
+          )}
+        </View>
       </SafeAreaView>
     </Screen>
   );
