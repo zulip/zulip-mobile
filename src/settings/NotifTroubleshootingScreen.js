@@ -32,7 +32,6 @@ import {
 } from '../account/accountsSelectors';
 import { showErrorAlert, showToast } from '../utils/info';
 import Input from '../common/Input';
-import ZulipButton from '../common/ZulipButton';
 import { identityOfAccount, keyOfIdentity } from '../account/accountMisc';
 import AlertItem from '../common/AlertItem';
 import ZulipText from '../common/ZulipText';
@@ -47,6 +46,8 @@ import isAppOwnDomain from '../isAppOwnDomain';
 import { openLinkWithUserPreference, openSystemNotificationSettings } from '../utils/openLink';
 import { initNotifications } from '../notification/notifTokens';
 import { ApiError } from '../api/apiErrors';
+import RowGroup from '../common/RowGroup';
+import TextRow from '../common/TextRow';
 
 const {
   Notifications, // android
@@ -418,9 +419,6 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
         contentArea: {
           flex: 1,
         },
-        button: {
-          marginBottom: 8,
-        },
         emailText: {
           fontWeight: 'bold',
         },
@@ -618,29 +616,34 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
             uniq(alerts) // Deduplicate genericAlert, which multiple problems might map to
           }
         </View>
-        <View style={{ paddingHorizontal: 16 }}>
-          {mailComposerIsAvailable === true && (
-            <ZulipButton
-              style={styles.button}
-              text={{
-                text: 'Email {supportEmail}',
-                values: {
-                  supportEmail: (
-                    <ZulipText
-                      inheritColor
-                      inheritFontSize
-                      style={styles.emailText}
-                      text="support@zulip.com"
-                    />
-                  ),
-                },
-              }}
-              onPress={handlePressEmailSupport}
-            />
-          )}
-          <ZulipButton style={styles.button} text="Copy to clipboard" onPress={handlePressCopy} />
-        </View>
-        <View style={{ paddingHorizontal: 16, paddingBottom: 16, flex: 1 }}>
+        <RowGroup>
+          {(() => {
+            const children = [];
+            if (mailComposerIsAvailable === true) {
+              children.push(
+                <TextRow
+                  title={{
+                    text: 'Email {supportEmail}',
+                    values: {
+                      supportEmail: (
+                        <ZulipText
+                          inheritColor
+                          inheritFontSize
+                          style={styles.emailText}
+                          text="support@zulip.com"
+                        />
+                      ),
+                    },
+                  }}
+                  onPress={handlePressEmailSupport}
+                />,
+              );
+            }
+            children.push(<TextRow title="Copy to clipboard" onPress={handlePressCopy} />);
+            return children;
+          })()}
+        </RowGroup>
+        <View style={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 16, flex: 1 }}>
           {Platform.OS === 'android' ? (
             // ScrollView for Android-only symptoms like
             // facebook/react-native#23117
