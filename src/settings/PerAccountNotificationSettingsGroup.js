@@ -151,8 +151,9 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
     };
   }
 
-  const children = pushNotificationsEnabled
-    ? [
+  const children = [];
+  if (pushNotificationsEnabled) {
+    children.push(
       <SwitchRow
         key="offlineNotification"
         label="Notifications when offline"
@@ -174,14 +175,14 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
       <NavRow
         key="troubleshooting"
         {...(() => {
-            const problem = chooseNotifProblemForShortText({ report: notificationReport });
-            return (
-              problem != null && {
-                leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
-                subtitle: notifProblemShortReactText(problem, realmName),
-              }
-            );
-          })()}
+          const problem = chooseNotifProblemForShortText({ report: notificationReport });
+          return (
+            problem != null && {
+              leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
+              subtitle: notifProblemShortReactText(problem, realmName),
+            }
+          );
+        })()}
         title={troubleshootingPageTitle}
         onPress={handleTroubleshootingPress}
       />,
@@ -191,23 +192,25 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
         onPress={handleTestNotificationPress}
         disabled={testNotificationDisabled}
       />,
-      ]
-    : [
+    );
+  } else {
+    children.push(
       <NavRow
         key="not-enabled"
         type="external"
         leftElement={{ type: 'icon', Component: IconAlertTriangle, color: kWarningColor }}
         title={notifProblemShortReactText(NotificationProblem.ServerHasNotEnabled, realmName)}
         onPress={() => {
-            openLinkWithUserPreference(
-              new URL(
-                'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
-              ),
-              globalSettings,
-            );
-          }}
+          openLinkWithUserPreference(
+            new URL(
+              'https://zulip.com/help/mobile-notifications#enabling-push-notifications-for-self-hosted-servers',
+            ),
+            globalSettings,
+          );
+        }}
       />,
-      ];
+    );
+  }
 
   return (
     <RowGroup
