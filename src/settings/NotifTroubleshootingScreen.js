@@ -522,7 +522,7 @@ export default function NotifTroubleshootingScreen(props: Props): React.Node {
     <AlertItem
       bottomMargin
       text={{
-        text: 'Notifications for this account may not arrive. Please contact {supportEmail} with the details below.',
+        text: 'Notifications for this account may not arrive. Please refer to the troubleshooting guide or contact {supportEmail} with the details below.',
         values: {
           supportEmail: (
             <ZulipText
