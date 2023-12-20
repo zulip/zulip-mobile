@@ -68,7 +68,7 @@ describe('realmReducer', () => {
         waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
         allowEditHistory: action.data.realm_allow_edit_history,
         enableReadReceipts: action.data.realm_enable_read_receipts,
-        emailAddressVisibility: action.data.realm_email_address_visibility,
+        emailAddressVisibility: null,
 
         //
         // InitialDataRealmUser

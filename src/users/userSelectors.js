@@ -323,9 +323,7 @@ export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): stri
   if (user.delivery_email !== undefined) {
     return user.delivery_email;
   } else if (realm.emailAddressVisibility === EmailAddressVisibility.Everyone) {
-    // On future servers, we expect this case will never happen: we'll always include
-    // a delivery_email when you have access, including when the visibility is Everyone
-    // https://github.com/zulip/zulip-mobile/pull/5515#discussion_r997731727
+    // TODO(server-7.0): Not reached on FL 163+, where delivery_email is always present.
     return user.email;
   } else {
     return null;

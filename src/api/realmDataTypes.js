@@ -59,7 +59,7 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_disallow_disposable_email_addresses'],
   edit_topic_policy:
     InitialDataRealm['realm_edit_topic_policy'],
-  email_address_visibility:
+  email_address_visibility: // removed in feat. 163
     InitialDataRealm['realm_email_address_visibility'],
   email_changes_disabled:
     InitialDataRealm['realm_email_changes_disabled'],

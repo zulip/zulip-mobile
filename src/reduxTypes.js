@@ -310,7 +310,7 @@ export type RealmState = {|
   +waitingPeriodThreshold: number,
   +allowEditHistory: boolean,
   +enableReadReceipts: boolean,
-  +emailAddressVisibility: EmailAddressVisibility,
+  +emailAddressVisibility: EmailAddressVisibility | null,
 
   //
   // InitialDataRealmUser

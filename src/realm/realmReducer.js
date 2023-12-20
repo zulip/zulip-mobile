@@ -8,7 +8,6 @@ import type {
 import {
   CreatePublicOrPrivateStreamPolicy,
   CreateWebPublicStreamPolicy,
-  EmailAddressVisibility,
 } from '../api/permissionsTypes';
 import { EventTypes } from '../api/eventTypes';
 import {
@@ -53,7 +52,7 @@ const initialState = {
   waitingPeriodThreshold: 90,
   allowEditHistory: false,
   enableReadReceipts: false,
-  emailAddressVisibility: EmailAddressVisibility.Admins,
+  emailAddressVisibility: null,
 
   //
   // InitialDataRealmUser
@@ -165,7 +164,7 @@ export default (
         waitingPeriodThreshold: action.data.realm_waiting_period_threshold,
         allowEditHistory: action.data.realm_allow_edit_history,
         enableReadReceipts: action.data.realm_enable_read_receipts ?? false,
-        emailAddressVisibility: action.data.realm_email_address_visibility,
+        emailAddressVisibility: action.data.realm_email_address_visibility ?? null,
 
         //
         // InitialDataRealmUser
