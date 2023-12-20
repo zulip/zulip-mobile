@@ -764,7 +764,6 @@ export const action = Object.freeze({
       realm_avatar_changes_disabled: false,
       realm_bot_creation_policy: 3,
       realm_bot_domain: 'example.com',
-      realm_community_topic_editing_limit_seconds: 600,
       realm_create_private_stream_policy: 3,
       realm_create_public_stream_policy: 3,
       realm_create_web_public_stream_policy: CreateWebPublicStreamPolicy.ModeratorOrAbove,

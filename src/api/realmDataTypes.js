@@ -12,7 +12,7 @@ import type { InitialDataRealm } from './initialDataTypes';
  * start with "realm_"). But we expect the values to be typed the same.
  */
 /* prettier-ignore */
-// Current to FL 140.
+// Current to FL 237.
 export type RealmDataForUpdate = $ReadOnly<{
   //
   // Keep alphabetical by the InitialDataRealm property. So by
@@ -35,8 +35,10 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_authentication_methods'],
   bot_creation_policy:
     InitialDataRealm['realm_bot_creation_policy'],
-  community_topic_editing_limit_seconds:
-    InitialDataRealm['realm_community_topic_editing_limit_seconds'],
+  can_access_all_users_group:
+    InitialDataRealm['realm_can_access_all_users_group'],
+  create_multiuse_invite_group:
+    InitialDataRealm['realm_create_multiuse_invite_group'],
   create_private_stream_policy:
     InitialDataRealm['realm_create_private_stream_policy'],
   create_public_stream_policy:
@@ -65,6 +67,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_email_changes_disabled'],
   emails_restricted_to_domains:
     InitialDataRealm['realm_emails_restricted_to_domains'],
+  enable_guest_user_indicator:
+    InitialDataRealm['realm_enable_guest_user_indicator'],
   enable_read_receipts:
     InitialDataRealm['realm_enable_read_receipts'],
   enable_spectator_access:
@@ -87,6 +91,8 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_invite_to_realm_policy'],
   invite_to_stream_policy:
     InitialDataRealm['realm_invite_to_stream_policy'],
+  jitsi_server_url:
+    InitialDataRealm['realm_jitsi_server_url'],
   logo_source:
     InitialDataRealm['realm_logo_source'],
   logo_url:
@@ -101,6 +107,10 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_message_content_edit_limit_seconds'],
   move_messages_between_streams_policy:
     InitialDataRealm['realm_move_messages_between_streams_policy'],
+  move_messages_between_streams_limit_seconds:
+    InitialDataRealm['realm_move_messages_between_streams_limit_seconds'],
+  move_messages_within_stream_limit_seconds:
+    InitialDataRealm['realm_move_messages_within_stream_limit_seconds'],
   name:
     InitialDataRealm['realm_name'],
   name_changes_disabled:
@@ -111,12 +121,18 @@ export type RealmDataForUpdate = $ReadOnly<{
     InitialDataRealm['realm_night_logo_url'],
   notifications_stream_id:
     InitialDataRealm['realm_notifications_stream_id'],
+  org_type:
+    InitialDataRealm['realm_org_type'],
   plan_type:
     InitialDataRealm['realm_plan_type'],
   presence_disabled:
     InitialDataRealm['realm_presence_disabled'],
   private_message_policy:
     InitialDataRealm['realm_private_message_policy'],
+  push_notifications_enabled:
+    InitialDataRealm['realm_push_notifications_enabled'],
+  push_notifications_enabled_end_timestamp:
+    InitialDataRealm['realm_push_notifications_enabled_end_timestamp'],
   send_welcome_emails:
     InitialDataRealm['realm_send_welcome_emails'],
   signup_notifications_stream_id:

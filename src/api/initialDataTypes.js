@@ -25,6 +25,7 @@ import type {
   EmailAddressVisibility,
 } from './permissionsTypes';
 import type { ZulipVersion } from '../utils/zulipVersion';
+import type { JSONableDict } from '../utils/jsonable';
 
 /*
    The types in this file are organized by which `fetch_event_types` values
@@ -109,7 +110,7 @@ export type AvailableVideoChatProviders = $ReadOnly<{|
   [providerName: string]: $ReadOnly<{| name: string, id: number |}>,
 |}>;
 
-// This is current to feature level 140.
+// This is current to feature level 237.
 export type InitialDataRealm = $ReadOnly<{|
   //
   // Keep alphabetical order. When changing this, also change our type for
@@ -121,7 +122,7 @@ export type InitialDataRealm = $ReadOnly<{|
   // TODO(server-5.0): Added, at feat. 74.
   event_queue_longpoll_timeout_seconds?: number,
 
-  jitsi_server_url?: string, // TODO: Really optional?
+  jitsi_server_url?: string, // deprecated
   max_avatar_file_size_mib: number,
   max_file_upload_size_mib: number,
 
@@ -173,8 +174,11 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_bot_creation_policy: number,
   realm_bot_domain: string,
 
-  // TODO(server-3.0): Added in feat. 11
-  realm_community_topic_editing_limit_seconds?: number,
+  // TODO(server-8.0): Added in feat. 225
+  realm_can_access_all_users_group?: boolean,
+
+  // TODO(server-8.0): Added in feat. 209
+  realm_create_multiuse_invite_group?: number,
 
   // TODO(server-5.0): Added in feat. 102, replacing
   // realm_create_stream_policy for private streams
@@ -194,6 +198,7 @@ export type InitialDataRealm = $ReadOnly<{|
   //   CreateWebPublicStreamPolicy.Nobody.
   realm_create_web_public_stream_policy?: CreateWebPublicStreamPolicy,
 
+  // TODO(server-8.0): In feat. 195+, just `string`, not `string | null`.
   realm_default_code_block_language: string | null,
 
   // TODO(server-2.1): Added in commit 2.1.0-rc1~1382.
@@ -230,6 +235,9 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_email_changes_disabled: boolean,
   realm_emails_restricted_to_domains: boolean,
 
+  // TODO(server-8.0): Added in feat. 216
+  realm_enable_guest_user_indicator?: boolean,
+
   // TODO(server-6.0): Added in feat. 137; if absent, treat as false.
   realm_enable_read_receipts?: boolean,
 
@@ -254,6 +262,10 @@ export type InitialDataRealm = $ReadOnly<{|
 
   realm_invite_to_stream_policy: number,
   realm_is_zephyr_mirror_realm: boolean,
+
+  // TODO(server-8.0): Added in feat. 212
+  realm_jitsi_server_url?: string | null,
+
   realm_logo_source: 'D' | 'U',
   realm_logo_url: string,
   realm_mandatory_topics: boolean,
@@ -274,6 +286,12 @@ export type InitialDataRealm = $ReadOnly<{|
   // TODO(server-4.0): Added in feat. 56
   realm_move_messages_between_streams_policy?: number,
 
+  // TODO(server-7.0): Added in feat. 162
+  realm_move_messages_between_streams_limit_seconds?: number | null,
+
+  // TODO(server-7.0): Added in feat. 162
+  realm_move_messages_within_stream_limit_seconds?: number | null,
+
   realm_name: string,
   realm_name_changes_disabled: boolean,
   realm_night_logo_source: 'D' | 'U',
@@ -288,6 +306,10 @@ export type InitialDataRealm = $ReadOnly<{|
   realm_presence_disabled: boolean,
   realm_private_message_policy: number,
   realm_push_notifications_enabled: boolean,
+
+  // TODO(server-8.0): Added in feat. 231
+  realm_push_notifications_enabled_end_timestamp?: number | null,
+
   realm_send_welcome_emails: boolean,
   realm_signup_notifications_stream_id: number,
 
@@ -318,6 +340,10 @@ export type InitialDataRealm = $ReadOnly<{|
   server_generation: number,
   server_inline_image_preview: boolean,
   server_inline_url_embed_preview: boolean,
+
+  // TODO(server-8.0): Added in feat. 212
+  server_jitsi_server_url?: string | null,
+
   server_name_changes_disabled: boolean,
 
   // TODO(server-5.0): Added in feat. 74
@@ -330,6 +356,18 @@ export type InitialDataRealm = $ReadOnly<{|
   // Use 60 when absent.
   // TODO(server-7.0): Added in feat. 164. (Remove comment about using 60.)
   server_presence_ping_interval_seconds?: number,
+
+  // TODO(server-8.0): Added in feat. 221
+  server_supported_permission_settings?: JSONableDict, // unstable
+
+  // TODO(server-8.0): Added in feat. 204
+  server_typing_started_expiry_period_milliseconds?: number,
+
+  // TODO(server-8.0): Added in feat. 204
+  server_typing_started_wait_period_milliseconds?: number,
+
+  // TODO(server-8.0): Added in feat. 204
+  server_typing_stopped_wait_period_milliseconds?: number,
 
   // TODO(server-5.0): Added in feat. 110; if absent, treat as false.
   server_web_public_streams_enabled?: boolean,
