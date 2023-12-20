@@ -53,6 +53,7 @@ const initialState = {
   allowEditHistory: false,
   enableReadReceipts: false,
   emailAddressVisibility: null,
+  enableGuestUserIndicator: false,
 
   //
   // InitialDataRealmUser
@@ -163,6 +164,7 @@ export default (
         allowEditHistory: action.data.realm_allow_edit_history,
         enableReadReceipts: action.data.realm_enable_read_receipts ?? false,
         emailAddressVisibility: action.data.realm_email_address_visibility ?? null,
+        enableGuestUserIndicator: action.data.realm_enable_guest_user_indicator ?? true,
 
         //
         // InitialDataRealmUser
@@ -282,6 +284,9 @@ export default (
             }
             if (data.email_address_visibility !== undefined) {
               result.emailAddressVisibility = data.email_address_visibility;
+            }
+            if (data.enable_guest_user_indicator !== undefined) {
+              result.enableGuestUserIndicator = data.enable_guest_user_indicator;
             }
 
             return result;

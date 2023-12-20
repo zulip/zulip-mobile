@@ -69,6 +69,7 @@ describe('realmReducer', () => {
         allowEditHistory: action.data.realm_allow_edit_history,
         enableReadReceipts: action.data.realm_enable_read_receipts,
         emailAddressVisibility: null,
+        enableGuestUserIndicator: true,
 
         //
         // InitialDataRealmUser
@@ -553,6 +554,14 @@ describe('realmReducer', () => {
         check(Moderators, Admins);
         check(Moderators, Members);
         check(Moderators, Nobody);
+      });
+
+      describe('enableGuestUserIndicator / enable_guest_user_indicator', () => {
+        const check = mkCheck('enableGuestUserIndicator', 'enable_guest_user_indicator');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
       });
     });
   });

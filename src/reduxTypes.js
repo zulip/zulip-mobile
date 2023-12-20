@@ -311,6 +311,7 @@ export type RealmState = {|
   +allowEditHistory: boolean,
   +enableReadReceipts: boolean,
   +emailAddressVisibility: EmailAddressVisibility | null,
+  +enableGuestUserIndicator: boolean,
 
   //
   // InitialDataRealmUser

@@ -529,6 +529,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Made UserOrBot.role required; removed is_owner, is_admin, is_guest
   '63': dropCache,
 
+  // Add enableGuestUserIndicator to state.realm
+  '64': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };
