@@ -151,6 +151,22 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
             zulipFeatureLevel: zulip_feature_level,
           });
         }
+
+        case EventTypes.realm: {
+          if (event.op === 'update_dict') {
+            return updateActiveAccount(state, {
+              lastDismissedServerPushSetupNotice:
+                event.data.push_notifications_enabled === true
+                  ? null
+                  : state[0].lastDismissedServerPushSetupNotice,
+            });
+          }
+
+          // (We've converted any `op: 'update'` events to
+          //   `op: 'update_dict'` events near the edge.)
+          return state;
+        }
+
         default:
           return state;
       }

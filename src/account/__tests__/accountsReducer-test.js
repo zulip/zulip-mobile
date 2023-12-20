@@ -15,6 +15,7 @@ import { ZulipVersion } from '../../utils/zulipVersion';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { identityOfAccount } from '../accountMisc';
+import { EventTypes } from '../../api/eventTypes';
 
 describe('accountsReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -217,6 +218,71 @@ describe('accountsReducer', () => {
           },
         }),
       ).toEqual(prevState);
+    });
+  });
+
+  describe('EventTypes.realm, op update_dict', () => {
+    const stateWithDismissedNotice = [
+      { ...eg.plusReduxState.accounts[0], lastDismissedServerPushSetupNotice: new Date() },
+    ];
+    const stateWithoutDismissedNotice = [
+      { ...eg.plusReduxState.accounts[0], lastDismissedServerPushSetupNotice: null },
+    ];
+
+    const eventCommon = { id: 0, type: EventTypes.realm, op: 'update_dict', property: 'default' };
+
+    test('data.push_notifications_enabled is true, on state with dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: { push_notifications_enabled: true } },
+        }),
+      ).toEqual(stateWithoutDismissedNotice);
+    });
+
+    test('data.push_notifications_enabled is true, on state without dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithoutDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: { push_notifications_enabled: true } },
+        }),
+      ).toEqual(stateWithoutDismissedNotice);
+    });
+
+    test('data.push_notifications_enabled is false, on state with dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: { push_notifications_enabled: false } },
+        }),
+      ).toEqual(stateWithDismissedNotice);
+    });
+
+    test('data.push_notifications_enabled is false, on state without dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithoutDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: { push_notifications_enabled: false } },
+        }),
+      ).toEqual(stateWithoutDismissedNotice);
+    });
+
+    test('data.push_notifications_enabled is absent, on state with dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: {} },
+        }),
+      ).toEqual(stateWithDismissedNotice);
+    });
+
+    test('data.push_notifications_enabled is absent, on state without dismissed notice', () => {
+      expect(
+        accountsReducer(stateWithoutDismissedNotice, {
+          type: EVENT,
+          event: { ...eventCommon, data: {} },
+        }),
+      ).toEqual(stateWithoutDismissedNotice);
     });
   });
 });

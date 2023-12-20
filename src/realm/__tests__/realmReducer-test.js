@@ -409,6 +409,14 @@ describe('realmReducer', () => {
         check(900, 300);
       });
 
+      describe('pushNotificationsEnabled / push_notifications_enabled', () => {
+        const check = mkCheck('pushNotificationsEnabled', 'push_notifications_enabled');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
+      });
+
       describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {
         // TODO(server-5.0): Stop expecting create_stream_policy; remove.
 

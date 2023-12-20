@@ -258,6 +258,9 @@ export default (
             if (data.message_content_edit_limit_seconds !== undefined) {
               result.messageContentEditLimitSeconds = data.message_content_edit_limit_seconds;
             }
+            if (data.push_notifications_enabled !== undefined) {
+              result.pushNotificationsEnabled = data.push_notifications_enabled;
+            }
             if (data.create_stream_policy !== undefined) {
               // TODO(server-5.0): Stop expecting create_stream_policy; simplify.
               result.createPublicStreamPolicy = data.create_stream_policy;
