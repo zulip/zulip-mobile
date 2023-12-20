@@ -25,7 +25,6 @@ const styles = createStyleSheet({
     textAlign: 'center',
   },
   textFrame: {
-    height: 20,
     width: 50,
     flexDirection: 'row',
   },
@@ -66,7 +65,6 @@ export default class AvatarItem extends PureComponent<Props> {
     const animatedStyle = {
       transform: [{ scale: this.animatedValue }],
     };
-    const firstName = user.full_name.trim().split(' ')[0];
 
     return (
       <Animated.View style={[styles.wrapper, animatedStyle]}>
@@ -81,7 +79,7 @@ export default class AvatarItem extends PureComponent<Props> {
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
-          <ZulipText style={styles.text} text={firstName} numberOfLines={1} />
+          <ZulipText style={styles.text} text={user.full_name} />
         </View>
       </Animated.View>
     );
