@@ -5,12 +5,13 @@ import type { Node } from 'react';
 
 import ZulipBanner from './ZulipBanner';
 import { useSelector, useGlobalSelector, useDispatch } from '../react-redux';
+import { getOwnUser } from '../selectors';
 import { getIdentity, getServerVersion } from '../account/accountsSelectors';
 import { getSession, getGlobalSettings } from '../directSelectors';
 import { dismissCompatNotice } from '../session/sessionActions';
 import { openLinkWithUserPreference } from '../utils/openLink';
 import { ZulipVersion } from '../utils/zulipVersion';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 
 /**
@@ -52,7 +53,7 @@ export default function ServerCompatBanner(props: Props): Node {
   );
   const zulipVersion = useSelector(getServerVersion);
   const realm = useSelector(state => getIdentity(state).realm);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUser(state).role, Role.Admin));
   const settings = useGlobalSelector(getGlobalSettings);
 
   let visible = false;

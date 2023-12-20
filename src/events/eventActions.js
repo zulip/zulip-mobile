@@ -14,9 +14,9 @@ import { REGISTER_START, REGISTER_ABORT, REGISTER_COMPLETE, DEAD_QUEUE } from '.
 import { logout } from '../account/logoutActions';
 import eventToAction from './eventToAction';
 import doEventActionSideEffects from './doEventActionSideEffects';
-import { getAccount, tryGetAuth, getIdentity } from '../selectors';
+import { getAccount, tryGetAuth, getOwnUser, getIdentity } from '../selectors';
 import { getHaveServerData } from '../haveServerDataSelectors';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 import { authOfAccount, identityOfAccount, identityOfAuth } from '../account/accountMisc';
 import { BackoffMachine, TimeoutError } from '../utils/async';
@@ -77,7 +77,7 @@ const registerAbort =
           const realmStr = getIdentity(getState()).realm.toString();
           switch (reason) {
             case 'server':
-              return roleIsAtLeast(getOwnUserRole(getState()), Role.Admin)
+              return roleIsAtLeast(getOwnUser(getState()).role, Role.Admin)
                 ? `Could not connect to ${realmStr} because the server encountered an error. Please check the server logs.`
                 : `Could not connect to ${realmStr} because the server encountered an error. Please ask an admin to check the server logs.`;
             case 'network':

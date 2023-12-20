@@ -4,39 +4,7 @@ import { ensureUnreachable } from './types';
 import { Role, CreateWebPublicStreamPolicy } from './api/permissionsTypes';
 import { getRealm, getOwnUser, getUserForId } from './selectors';
 
-const { Guest, Member, Moderator, Admin, Owner } = Role;
-
-/**
- * The Role of the self-user.
- *
- * For servers at FL 59 (version 4.0) or above, this will be live-updated
- * when the role changes while we're polling an event queue.
- */
-// TODO(server-4.0): Probably just delete this and use User.role directly?
-export function getOwnUserRole(state: PerAccountState): Role {
-  const fromUserObject = getOwnUser(state).role;
-
-  if (fromUserObject !== undefined) {
-    return fromUserObject;
-  }
-
-  // Servers don't send events to update these.
-  /* $FlowIgnore[cannot-read]: Write-only markers are so we don't read these
-     properties except for in this one spot, where we use them as a fallback. */
-  const { isOwner, isAdmin, isModerator, isGuest } = getRealm(state);
-
-  if (isOwner) {
-    return Owner;
-  } else if (isAdmin) {
-    return Admin;
-  } else if (isModerator) {
-    return Moderator;
-  } else if (isGuest) {
-    return Guest;
-  } else {
-    return Member;
-  }
-}
+const { Member, Moderator, Admin, Owner } = Role;
 
 export function roleIsAtLeast(thisRole: Role, thresholdRole: Role): boolean {
   return (thisRole: number) <= (thresholdRole: number); // Roles with more privilege have lower numbers.
@@ -83,7 +51,7 @@ export function getHasUserPassedWaitingPeriod(state: PerAccountState, userId: Us
 export function getCanCreatePublicStreams(state: PerAccountState): boolean {
   const { createPublicStreamPolicy } = getRealm(state);
   const ownUser = getOwnUser(state);
-  const role = getOwnUserRole(state);
+  const role = ownUser.role;
 
   switch (createPublicStreamPolicy) {
     case 4: // ModeratorOrAbove
@@ -114,7 +82,7 @@ export function getCanCreatePublicStreams(state: PerAccountState): boolean {
 export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
   const { createPrivateStreamPolicy } = getRealm(state);
   const ownUser = getOwnUser(state);
-  const role = getOwnUserRole(state);
+  const role = ownUser.role;
 
   switch (createPrivateStreamPolicy) {
     case 4: // ModeratorOrAbove
@@ -157,7 +125,7 @@ export function getCanCreatePrivateStreams(state: PerAccountState): boolean {
 export function getCanCreateWebPublicStreams(state: PerAccountState): boolean {
   const { webPublicStreamsEnabled, enableSpectatorAccess, createWebPublicStreamPolicy } =
     getRealm(state);
-  const role = getOwnUserRole(state);
+  const role = getOwnUser(state).role;
 
   if (!webPublicStreamsEnabled || !enableSpectatorAccess) {
     return false;

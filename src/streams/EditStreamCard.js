@@ -16,7 +16,6 @@ import {
   getCanCreatePublicStreams,
   getCanCreatePrivateStreams,
   getCanCreateWebPublicStreams,
-  getOwnUserRole,
   roleIsAtLeast,
 } from '../permissionSelectors';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
@@ -28,6 +27,7 @@ import styles from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
 import type { LocalizableText } from '../types';
 import { showConfirmationDialog } from '../utils/info';
+import { getOwnUser } from '../users/userSelectors';
 
 type PropsBase = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -165,7 +165,7 @@ function useStreamPrivacyOptions(initialValue: Privacy, isNewStream: boolean) {
   const canCreatePublicStreams = useSelector(getCanCreatePublicStreams);
   const canCreatePrivateStreams = useSelector(getCanCreatePrivateStreams);
   const canCreateWebPublicStreams = useSelector(getCanCreateWebPublicStreams);
-  const ownUserRole = useSelector(getOwnUserRole);
+  const ownUserRole = useSelector(getOwnUser).role;
   const realmUrl = useSelector(getRealmUrl);
 
   const shouldDisableIfNotInitialValue = useCallback(

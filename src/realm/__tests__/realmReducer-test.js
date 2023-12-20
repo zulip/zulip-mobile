@@ -75,10 +75,6 @@ describe('realmReducer', () => {
         //
 
         canCreateStreams: action.data.can_create_streams,
-        isAdmin: action.data.is_admin,
-        isOwner: action.data.is_owner,
-        isModerator: action.data.is_moderator,
-        isGuest: action.data.is_guest,
         user_id: action.data.user_id,
         email: action.data.email,
         crossRealmBots: action.data.cross_realm_bots,
@@ -238,12 +234,6 @@ describe('realmReducer', () => {
     type EventUpdatableRealmState = $Rest<
       RealmState,
       {|
-        // TODO(server-4.0): Remove these four deprecated properties.
-        isOwner: mixed,
-        isAdmin: mixed,
-        isModerator: mixed,
-        isGuest: mixed,
-
         serverEmojiData: mixed,
 
         // Incomplete; add others as needed to satisfy Flow.

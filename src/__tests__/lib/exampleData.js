@@ -21,7 +21,7 @@ import { randString, randInt } from '../../utils/misc';
 import { makeUserId } from '../../api/idTypes';
 import type { InitialData } from '../../api/apiTypes';
 import { EventTypes, type UpdateMessageEvent } from '../../api/eventTypes';
-import { CreateWebPublicStreamPolicy } from '../../api/permissionsTypes';
+import { CreateWebPublicStreamPolicy, Role } from '../../api/permissionsTypes';
 import type {
   AccountSwitchAction,
   LoginSuccessAction,
@@ -161,7 +161,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
 
     email: args.email ?? `${randName}@example.org`,
     full_name: args.full_name ?? `${randName} User`,
-    is_admin: false,
+    role: Role.Member,
     timezone: 'UTC',
     user_id,
   });
@@ -175,8 +175,6 @@ export const makeUser = (args: UserOrBotPropertiesArgs = Object.freeze({})): Use
     is_bot: false,
     bot_type: null,
     // bot_owner omitted
-
-    is_guest: false,
     profile_data: {},
   });
 
@@ -860,10 +858,7 @@ export const action = Object.freeze({
       can_create_web_public_streams: false,
       can_subscribe_other_users: false,
       can_invite_others_to_realm: false,
-
-      // $FlowIgnore[cannot-read]: Faithfully representing what servers send
-      is_admin: selfUser.is_admin,
-
+      is_admin: false,
       is_owner: false,
       is_billing_admin: selfUser.is_billing_admin,
       is_moderator: false,

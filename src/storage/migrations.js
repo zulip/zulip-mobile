@@ -526,6 +526,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
     accounts: state.accounts.map(a => ({ ...a, silenceServerPushSetupWarnings: false })),
   }),
 
+  // Made UserOrBot.role required; removed is_owner, is_admin, is_guest
+  '63': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

@@ -287,14 +287,6 @@ export type User = {|
   // FL 121. The doc wrongly says it always appears. See
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
-  // Deprecated (by us); these don't have events to update them. Use the
-  // `role` property when available. For the self user, use getOwnUserRole,
-  // which has a fallback for when `role` is absent.
-  // TODO(server-4.0): Remove these and rely on `role`.
-  -is_owner?: boolean, // TODO(server-3.0): New in FL 8
-  -is_admin: boolean,
-  -is_guest?: boolean, // TODO(server-1.9): New; if absent, treat as false.
-
   // TODO(server-5.0): New in FL 73
   +is_billing_admin?: boolean,
 
@@ -311,8 +303,7 @@ export type User = {|
   // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
   +bot_owner?: string,
 
-  // TODO(server-4.0): New in FL 59
-  +role?: Role,
+  +role: Role,
 
   // The ? is for future-proofing. Greg explains in 2020-02, at
   // https://github.com/zulip/zulip-mobile/pull/3789#discussion_r378554698 ,
@@ -373,13 +364,6 @@ export type CrossRealmBot = {|
   // FL 121. The doc wrongly says it always appears. See
   //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/.60is_active.60.20in.20.60.2Fregister.60.20response/near/1371606
 
-  // Deprecated (by us); these don't have events to update them. Use the
-  // `role` property when available.
-  // TODO(server-4.0): Remove these and rely on `role`.
-  -is_owner?: boolean, // TODO(server-3.0): New in FL 8
-  -is_admin: boolean,
-  -is_guest?: boolean, // TODO(server-1.9): New; if absent, treat as false.
-
   // TODO(server-5.0): New in FL 73
   +is_billing_admin?: boolean,
 
@@ -399,8 +383,7 @@ export type CrossRealmBot = {|
   // TODO(server-3.0): Replaced in FL 1 by bot_owner_id
   // +bot_owner?: string,
 
-  // TODO(server-4.0): New in FL 59
-  +role?: Role,
+  +role: Role,
 
   // The ? is for future-proofing.  For bots it's always '':
   //   https://github.com/zulip/zulip-mobile/pull/3789#issuecomment-581218576

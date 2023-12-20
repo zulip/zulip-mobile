@@ -24,7 +24,6 @@ import {
 } from '../selectors';
 import { getMute, isTopicFollowed } from '../mute/muteModel';
 import { getUnread } from '../unread/unreadModel';
-import { getOwnUserRole } from '../permissionSelectors';
 import { useNavigation } from '../react-navigation';
 import { ThemeContext } from '../styles/theme';
 
@@ -78,17 +77,20 @@ export default function TopicItem(props: Props): Node {
   const _ = useContext(TranslationContext);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const backgroundData = useSelector(state => ({
-    auth: getAuth(state),
-    mute: getMute(state),
-    streams: getStreamsById(state),
-    subscriptions: getSubscriptionsById(state),
-    unread: getUnread(state),
-    ownUser: getOwnUser(state),
-    ownUserRole: getOwnUserRole(state),
-    flags: getFlags(state),
-    zulipFeatureLevel: getZulipFeatureLevel(state),
-  }));
+  const backgroundData = useSelector(state => {
+    const ownUser = getOwnUser(state);
+    return {
+      auth: getAuth(state),
+      mute: getMute(state),
+      streams: getStreamsById(state),
+      subscriptions: getSubscriptionsById(state),
+      unread: getUnread(state),
+      ownUser,
+      ownUserRole: ownUser.role,
+      flags: getFlags(state),
+      zulipFeatureLevel: getZulipFeatureLevel(state),
+    };
+  });
 
   const theme = useContext(ThemeContext);
   const iconColor = theme.themeName === 'dark' ? 'white' : 'black';

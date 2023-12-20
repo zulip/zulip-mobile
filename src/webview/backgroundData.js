@@ -34,7 +34,6 @@ import { getUnread } from '../unread/unreadModel';
 import { getUserStatuses } from '../user-statuses/userStatusesModel';
 import { type UserStatusesState } from '../user-statuses/userStatusesCore';
 import { Role } from '../api/permissionsTypes';
-import { getOwnUserRole } from '../permissionSelectors';
 import type { ServerEmojiData } from '../api/modelTypes';
 
 /**
@@ -78,24 +77,27 @@ export type BackgroundData = $ReadOnly<{|
 export const getBackgroundData = (
   state: PerAccountState,
   globalSettings: GlobalSettingsState,
-): BackgroundData => ({
-  alertWords: state.alertWords,
-  allImageEmojiById: getAllImageEmojiById(state),
-  auth: getAuth(state),
-  flags: getFlags(state),
-  mute: getMute(state),
-  allUsersById: getAllUsersById(state),
-  mutedUsers: getMutedUsers(state),
-  ownUser: getOwnUser(state),
-  ownUserRole: getOwnUserRole(state),
-  streams: getStreamsById(state),
-  subscriptions: getSubscriptionsById(state),
-  unread: getUnread(state),
-  twentyFourHourTime: getRealm(state).twentyFourHourTime,
-  userSettingStreamNotification: getSettings(state).streamNotification,
-  displayEmojiReactionUsers: getSettings(state).displayEmojiReactionUsers,
-  userStatuses: getUserStatuses(state),
-  zulipFeatureLevel: getZulipFeatureLevel(state),
-  serverEmojiData: getRealm(state).serverEmojiData,
-  enableReadReceipts: getRealm(state).enableReadReceipts,
-});
+): BackgroundData => {
+  const ownUser = getOwnUser(state);
+  return {
+    alertWords: state.alertWords,
+    allImageEmojiById: getAllImageEmojiById(state),
+    auth: getAuth(state),
+    flags: getFlags(state),
+    mute: getMute(state),
+    allUsersById: getAllUsersById(state),
+    mutedUsers: getMutedUsers(state),
+    ownUser,
+    ownUserRole: ownUser.role,
+    streams: getStreamsById(state),
+    subscriptions: getSubscriptionsById(state),
+    unread: getUnread(state),
+    twentyFourHourTime: getRealm(state).twentyFourHourTime,
+    userSettingStreamNotification: getSettings(state).streamNotification,
+    displayEmojiReactionUsers: getSettings(state).displayEmojiReactionUsers,
+    userStatuses: getUserStatuses(state),
+    zulipFeatureLevel: getZulipFeatureLevel(state),
+    serverEmojiData: getRealm(state).serverEmojiData,
+    enableReadReceipts: getRealm(state).enableReadReceipts,
+  };
+};

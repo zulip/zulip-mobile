@@ -11,14 +11,14 @@ import SwitchRow from '../common/SwitchRow';
 import Screen from '../common/Screen';
 import ZulipButton from '../common/ZulipButton';
 import { getSettings } from '../directSelectors';
-import { getAuth, getStreamForId } from '../selectors';
+import { getAuth, getOwnUser, getStreamForId } from '../selectors';
 import StreamCard from './StreamCard';
 import { IconPin, IconMute, IconNotifications, IconEdit, IconPlusSquare } from '../common/Icons';
 import styles from '../styles';
 import { getSubscriptionsById } from '../subscriptions/subscriptionSelectors';
 import * as api from '../api';
 import getIsNotificationEnabled from './getIsNotificationEnabled';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 
 type Props = $ReadOnly<{|
@@ -29,7 +29,7 @@ type Props = $ReadOnly<{|
 export default function StreamSettingsScreen(props: Props): Node {
   const { navigation } = props;
   const auth = useSelector(getAuth);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUser(state).role, Role.Admin));
   const stream = useSelector(state => getStreamForId(state, props.route.params.streamId));
   const subscription = useSelector(state =>
     getSubscriptionsById(state).get(props.route.params.streamId),

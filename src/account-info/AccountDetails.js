@@ -16,8 +16,6 @@ import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import { getDisplayEmailForUser } from '../selectors';
 import { Role } from '../api/permissionsTypes';
 import ZulipTextIntl from '../common/ZulipTextIntl';
-import { getOwnUserId } from '../users/userSelectors';
-import { getOwnUserRole } from '../permissionSelectors';
 
 const componentStyles = createStyleSheet({
   componentListItem: {
@@ -71,16 +69,6 @@ export default function AccountDetails(props: Props): Node {
   );
   const realm = useSelector(state => state.realm);
   const displayEmail = getDisplayEmailForUser(realm, user);
-  const ownUserId = useSelector(getOwnUserId);
-  const ownUserRole = useSelector(getOwnUserRole);
-
-  // user.role will be missing when the server has feature level <59. For
-  // those old servers, we can use getOwnUserRole for the "own" (or "self")
-  // user's role, but nothing will give us the role of a non-"own" user, so
-  // we just won't show any role in that case.
-  // TODO(server-4.0): user.role will never be missing; use that for "own"
-  //   and non-"own" users.
-  const role = user.user_id === ownUserId ? ownUserRole : user.role;
 
   return (
     <ComponentList outerSpacing itemStyle={componentStyles.componentListItem}>
@@ -105,14 +93,9 @@ export default function AccountDetails(props: Props): Node {
           <ZulipText selectable style={styles.largerText} text={displayEmail} />
         </View>
       )}
-      {
-        // TODO(server-4.0): Remove conditional; we'll always know the role.
-        role != null && (
-          <View>
-            <ZulipTextIntl selectable style={styles.largerText} text={getRoleText(role)} />
-          </View>
-        )
-      }
+      <View>
+        <ZulipTextIntl selectable style={styles.largerText} text={getRoleText(user.role)} />
+      </View>
       {showStatus && (
         <View style={componentStyles.statusWrapper}>
           {userStatusEmoji && (

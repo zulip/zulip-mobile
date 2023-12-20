@@ -51,6 +51,7 @@ import AnnouncementOnly from '../message/AnnouncementOnly';
 import MentionWarnings from './MentionWarnings';
 import {
   getAuth,
+  getOwnUser,
   getStreamInNarrow,
   getStreamsById,
   getVideoChatProvider,
@@ -66,7 +67,7 @@ import AutocompleteView from '../autocomplete/AutocompleteView';
 import { getAllUsersById, getOwnUserId } from '../users/userSelectors';
 import * as api from '../api';
 import { ensureUnreachable } from '../generics';
-import { getOwnUserRole, roleIsAtLeast } from '../permissionSelectors';
+import { roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 import useUncontrolledInput from '../useUncontrolledInput';
 import { tryFetch } from '../message/fetchActions';
@@ -187,7 +188,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const ownUserId = useSelector(getOwnUserId);
   const allUsersById = useSelector(getAllUsersById);
-  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUserRole(state), Role.Admin));
+  const isAtLeastAdmin = useSelector(state => roleIsAtLeast(getOwnUser(state).role, Role.Admin));
   const isAnnouncementOnly = useSelector(state =>
     getIsActiveStreamAnnouncementOnly(state, props.narrow),
   );

@@ -26,7 +26,6 @@ import { getMute, isTopicFollowed } from '../mute/muteModel';
 import { showStreamActionSheet, showTopicActionSheet } from '../action-sheets';
 import type { ShowActionSheetWithOptions } from '../action-sheets';
 import { getUnread } from '../unread/unreadModel';
-import { getOwnUserRole } from '../permissionSelectors';
 import { useNavigation } from '../react-navigation';
 import { IconFollow } from '../common/Icons';
 
@@ -62,18 +61,21 @@ export default function TitleStream(props: Props): Node {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const stream = useSelector(state => getStreamInNarrow(state, narrow));
-  const backgroundData = useSelector(state => ({
-    auth: getAuth(state),
-    mute: getMute(state),
-    streams: getStreamsById(state),
-    subscriptions: getSubscriptionsById(state),
-    unread: getUnread(state),
-    ownUser: getOwnUser(state),
-    ownUserRole: getOwnUserRole(state),
-    flags: getFlags(state),
-    userSettingStreamNotification: getSettings(state).streamNotification,
-    zulipFeatureLevel: getZulipFeatureLevel(state),
-  }));
+  const backgroundData = useSelector(state => {
+    const ownUser = getOwnUser(state);
+    return {
+      auth: getAuth(state),
+      mute: getMute(state),
+      streams: getStreamsById(state),
+      subscriptions: getSubscriptionsById(state),
+      unread: getUnread(state),
+      ownUser,
+      ownUserRole: ownUser.role,
+      flags: getFlags(state),
+      userSettingStreamNotification: getSettings(state).streamNotification,
+      zulipFeatureLevel: getZulipFeatureLevel(state),
+    };
+  });
 
   const showActionSheetWithOptions: ShowActionSheetWithOptions =
     useActionSheet().showActionSheetWithOptions;
