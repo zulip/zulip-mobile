@@ -1,7 +1,7 @@
 /* @flow strict-local */
 import React from 'react';
 import type { Node } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { shortTime, humanDate } from '../utils/date';
@@ -12,6 +12,7 @@ import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 import { useSelector } from '../react-redux';
 import { tryGetUserForId } from '../users/userSelectors';
 import type { Message } from '../api/modelTypes';
+import ZulipText from '../common/ZulipText';
 
 const styles = createStyleSheet({
   text: {
@@ -63,12 +64,12 @@ export default function LightboxHeader(props: Props): Node {
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         <UserAvatarWithPresence size={36} userId={senderId} />
         <View style={styles.text}>
-          <Text style={styles.name} numberOfLines={1}>
+          <ZulipText style={styles.name} numberOfLines={1}>
             {sender?.full_name ?? message.sender_full_name}
-          </Text>
-          <Text style={styles.subheader} numberOfLines={1}>
+          </ZulipText>
+          <ZulipText style={styles.subheader} numberOfLines={1}>
             {subheader}
-          </Text>
+          </ZulipText>
         </View>
         <Pressable style={styles.rightIconTouchTarget} onPress={onPressBack} hitSlop={12}>
           {({ pressed }) => <Icon size={24} color={pressed ? 'gray' : 'white'} name="x" />}
