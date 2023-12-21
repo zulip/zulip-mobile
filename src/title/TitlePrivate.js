@@ -11,9 +11,10 @@ import Touchable from '../common/Touchable';
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
-import { getFullNameText, tryGetUserForId } from '../users/userSelectors';
+import { getFullNameReactText, tryGetUserForId } from '../users/userSelectors';
 import { useNavigation } from '../react-navigation';
 import ZulipTextIntl from '../common/ZulipTextIntl';
+import { getRealm } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   userId: UserId,
@@ -29,6 +30,7 @@ const componentStyles = createStyleSheet({
 export default function TitlePrivate(props: Props): Node {
   const { userId, color } = props;
   const user = useSelector(state => tryGetUserForId(state, userId));
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
   const navigation = useNavigation();
   if (!user) {
     return null;
@@ -52,7 +54,7 @@ export default function TitlePrivate(props: Props): Node {
             style={[styles.navTitle, { color }]}
             numberOfLines={1}
             ellipsizeMode="tail"
-            text={getFullNameText({ user })}
+            text={getFullNameReactText({ user, enableGuestUserIndicator })}
           />
           <ActivityText style={[styles.navSubtitle, { color }]} user={user} />
         </View>

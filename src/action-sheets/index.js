@@ -999,10 +999,16 @@ export const showPmConversationActionSheet = (args: {|
     navigation: AppNavigationMethods,
     _: GetText,
   |},
-  backgroundData: $ReadOnly<{ ownUser: User, allUsersById: Map<UserId, UserOrBot>, ... }>,
+  backgroundData: $ReadOnly<{
+    ownUser: User,
+    allUsersById: Map<UserId, UserOrBot>,
+    enableGuestUserIndicator: boolean,
+    ...
+  }>,
   pmKeyRecipients: PmKeyRecipients,
 |}): void => {
   const { showActionSheetWithOptions, callbacks, backgroundData, pmKeyRecipients } = args;
+  const { enableGuestUserIndicator } = backgroundData;
   showActionSheet({
     showActionSheetWithOptions,
     // TODO(ios-14.5): Check for Intl.ListFormat support in all environments
@@ -1012,7 +1018,7 @@ export const showPmConversationActionSheet = (args: {|
       .map(userId => {
         const user = backgroundData.allUsersById.get(userId);
         invariant(user, 'allUsersById incomplete; could not show PM action sheet');
-        return callbacks._(getFullNameText({ user }));
+        return callbacks._(getFullNameText({ user, enableGuestUserIndicator }));
       })
       .sort()
       .join(', '),

@@ -57,7 +57,7 @@ function areElementsInOrder(elements: $ReadOnlyArray<MessageListElement>): boole
  *
  * Ignores all background data that doesn't belong to the two particular
  * elements and could plausibly affect all elements: language, narrow,
- * dark/light theme, current date, user's role (e.g., admin), etc.
+ * dark/light theme, current date, self-user's role (e.g., admin), etc.
  */
 function doElementsDifferInterestingly(
   oldElement,
@@ -105,7 +105,10 @@ function doElementsDifferInterestingly(
         for (const recipient of messageRecipients) {
           const oldRecipientUser = oldBackgroundData.allUsersById.get(recipient.id);
           const newRecipientUser = newBackgroundData.allUsersById.get(recipient.id);
-          if (oldRecipientUser?.full_name !== newRecipientUser?.full_name) {
+          if (
+            oldRecipientUser?.full_name !== newRecipientUser?.full_name
+            || oldRecipientUser?.role !== newRecipientUser?.role
+          ) {
             return true;
           }
         }
@@ -138,6 +141,7 @@ function doElementsDifferInterestingly(
               !== newBackgroundData.flags[flagName][newElement.message.id],
         )
         || oldSender?.full_name !== newSender?.full_name
+        || oldSender?.role !== newSender?.role
         || oldBackgroundData.mutedUsers.get(oldElement.message.sender_id)
           !== newBackgroundData.mutedUsers.get(newElement.message.sender_id)
         || getUserStatusFromModel(oldBackgroundData.userStatuses, oldElement.message.sender_id)
@@ -177,6 +181,9 @@ export function getEditSequence(
   }
 
   const hasLanguageChanged = oldArgs._ !== newArgs._;
+  const hasGuestIndicatorSettingChanged =
+    oldArgs.backgroundData.enableGuestUserIndicator
+    !== newArgs.backgroundData.enableGuestUserIndicator;
 
   const result = [];
 
@@ -210,8 +217,8 @@ export function getEditSequence(
       //
       // False positives might be acceptable; false negatives are not.
       if (
-        // Replace any translated text, like muted-user placeholders.
-        hasLanguageChanged
+        hasLanguageChanged // Replace any translated text, like muted-user placeholders.
+        || hasGuestIndicatorSettingChanged // Add/remove guest indicators
         || doElementsDifferInterestingly(
           oldElement,
           newElement,

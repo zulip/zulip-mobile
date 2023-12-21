@@ -32,6 +32,7 @@ import { randString } from '../../utils/misc';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
 import { mock_ } from '../../__tests__/lib/intl';
+import { Role } from '../../api/permissionsTypes';
 
 // Tell ESLint to recognize `check` as a helper function that runs
 // assertions.
@@ -572,6 +573,31 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
             state,
           });
         });
+        test('guest user reacts', () => {
+          check({
+            narrow: HOME_NARROW,
+            messages: [
+              {
+                ...baseSingleMessage,
+                reactions: [{ ...eg.realmEmojiReaction, user_id: stableOtherUser.user_id }],
+              },
+            ],
+            state: eg.reduxStatePlus({
+              settings: { ...eg.plusReduxState.settings, displayEmojiReactionUsers: true },
+              realm: {
+                ...eg.plusReduxState.realm,
+                user_id: stableSelfUser.user_id,
+                enableGuestUserIndicator: true,
+              },
+              users: [
+                stableSelfUser,
+                stableOtherUser,
+                { ...stableOtherUser, role: Role.Guest },
+                stableFourthUser,
+              ],
+            }),
+          });
+        });
       });
     });
 
@@ -665,6 +691,17 @@ describe('messages -> piece descriptors -> content HTML is stable/sensible', () 
         messages: [baseSingleMessage],
         state: eg.reduxStatePlus({
           mutedUsers: Immutable.Map([[baseSingleMessage.sender_id, 1644366787]]),
+        }),
+      });
+    });
+
+    test('guest sender, with enableGuestUserIndicator', () => {
+      check({
+        narrow: HOME_NARROW,
+        messages: [baseSingleMessage],
+        state: eg.reduxStatePlus({
+          realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: true },
+          users: [...eg.plusReduxState.users, { ...singleMessageSender, role: Role.Guest }],
         }),
       });
     });
@@ -919,6 +956,46 @@ describe('getEditSequence correct for interesting changes', () => {
         },
       );
     });
+
+    test('enableGuestUserIndicator turns on, affecting a recipient user', () => {
+      const user = { ...eg.otherUser, role: Role.Guest };
+      const users = [eg.selfUser, user];
+      const message = eg.pmMessage({ sender: eg.selfUser, recipients: [eg.otherUser, user] });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: false },
+            users,
+          }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: true },
+            users,
+          }),
+        },
+      );
+    });
+
+    test('recipient user became guest', () => {
+      const user = { ...eg.otherUser, role: Role.Member };
+      const message = eg.pmMessage({
+        sender: eg.selfUser,
+        recipients: [eg.otherUser, user],
+      });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({ users: [eg.selfUser, user] }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({ users: [eg.selfUser, { ...user, role: Role.Guest }] }),
+        },
+      );
+    });
   });
 
   describe('within a given message', () => {
@@ -1076,6 +1153,50 @@ describe('getEditSequence correct for interesting changes', () => {
           messages: [message],
           state: eg.reduxStatePlus({
             users: [...baseUsers, { ...sender, full_name: `${sender.full_name}, Jr.` }],
+          }),
+        },
+      );
+    });
+
+    test('sender becomes guest', () => {
+      const baseUsers = eg.plusReduxState.users;
+      const sender = eg.makeUser({ role: Role.Member });
+      const message = eg.streamMessage({ sender });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: true },
+            users: [...baseUsers, sender],
+          }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: true },
+            users: [...baseUsers, { ...sender, role: Role.Guest }],
+          }),
+        },
+      );
+    });
+
+    test('enableGuestUserIndicator turns on, and sender is guest', () => {
+      const sender = eg.makeUser({ role: Role.Guest });
+      const users = [...eg.plusReduxState.users, sender];
+      const message = eg.streamMessage({ sender });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: false },
+            users,
+          }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            realm: { ...eg.plusReduxState.realm, enableGuestUserIndicator: true },
+            users,
           }),
         },
       );

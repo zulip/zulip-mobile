@@ -43,7 +43,7 @@ const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): strin
 // Like get_display_full_names in the web app's people.js, but also gives
 // "You" so callers don't have to.
 const getDisplayFullNames = (userIds, backgroundData, _) => {
-  const { allUsersById, mutedUsers, ownUser } = backgroundData;
+  const { allUsersById, mutedUsers, ownUser, enableGuestUserIndicator } = backgroundData;
   return userIds.map(id => {
     const user = allUsersById.get(id);
     if (!user) {
@@ -55,7 +55,8 @@ const getDisplayFullNames = (userIds, backgroundData, _) => {
       return _('You');
     }
 
-    return _(getFullNameOrMutedUserText({ user, mutedUsers }));
+    // TODO use italics for "(guest)"
+    return _(getFullNameOrMutedUserText({ user, mutedUsers, enableGuestUserIndicator }));
   });
 };
 
@@ -282,7 +283,15 @@ $!${divOpenHtml}
   const { sender_id } = message;
   const sender = backgroundData.allUsersById.get(sender_id) ?? null;
   const senderFullName =
-    sender != null ? _(getFullNameText({ user: sender })) : message.sender_full_name;
+    sender != null
+      ? _(
+          // TODO use italics for "(guest)"
+          getFullNameText({
+            user: sender,
+            enableGuestUserIndicator: backgroundData.enableGuestUserIndicator,
+          }),
+        )
+      : message.sender_full_name;
   const avatarUrl = message.avatar_url
     .get(
       // 48 logical pixels; see `.avatar` and `.avatar img` in

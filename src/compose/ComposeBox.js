@@ -196,7 +196,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
   const stream = useSelector(state => getStreamInNarrow(state, props.narrow));
   const streamsById = useSelector(getStreamsById);
   const videoChatProvider = useSelector(getVideoChatProvider);
-  const mandatoryTopics = useSelector(state => getRealm(state).mandatoryTopics);
+  const { mandatoryTopics, enableGuestUserIndicator } = useSelector(getRealm);
 
   const mentionWarnings = React.useRef<React$ElementRef<typeof MentionWarnings> | null>(null);
 
@@ -714,7 +714,14 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     return <AnnouncementOnly />;
   }
 
-  const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById, _);
+  const placeholder = getComposeInputPlaceholder(
+    narrow,
+    ownUserId,
+    allUsersById,
+    streamsById,
+    enableGuestUserIndicator,
+    _,
+  );
 
   const SubmitButtonIcon = isEditing ? IconDone : IconSend;
 

@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import { createSelector } from 'reselect';
+import React from 'react';
 
 import type {
   CustomProfileField,
@@ -9,12 +10,14 @@ import type {
   User,
   UserId,
   LocalizableText,
+  LocalizableReactText,
 } from '../types';
 import type { MutedUsersState, RealmState } from '../reduxTypes';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import * as logging from '../utils/logging';
 import { ensureUnreachable } from '../generics';
-import { EmailAddressVisibility } from '../api/permissionsTypes';
+import { EmailAddressVisibility, Role } from '../api/permissionsTypes';
+import ZulipText from '../common/ZulipText';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -337,14 +340,57 @@ export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): stri
  * Accepts `null` for the `user` argument; in that case, the text is
  * "(unknown user)".
  *
+ * For the same text as LocalizableReactText, see getFullNameReactText.
+ *
  * For a function that gives "Muted user" if the user is muted, see
  * getFullNameOrMutedUserText.
  */
-export function getFullNameText(args: {| user: UserOrBot | null |}): LocalizableText {
-  const { user } = args;
+export function getFullNameText(args: {|
+  user: UserOrBot | null,
+  enableGuestUserIndicator: boolean,
+|}): LocalizableText {
+  const { user, enableGuestUserIndicator } = args;
 
   if (user == null) {
     return '(unknown user)';
+  }
+
+  if (user.role === Role.Guest && enableGuestUserIndicator) {
+    return { text: '{userFullName} (guest)', values: { userFullName: user.full_name } };
+  }
+
+  return { text: '{_}', values: { _: user.full_name } };
+}
+
+const italicTextStyle = { fontStyle: 'italic' };
+
+/**
+ * Display text for a user's name, ignoring muting, as LocalizableReactText.
+ *
+ * Just like getFullNameText, but gives LocalizableReactText.
+ */
+export function getFullNameReactText(args: {|
+  +user: UserOrBot | null,
+  +enableGuestUserIndicator: boolean,
+|}): LocalizableReactText {
+  const { user, enableGuestUserIndicator } = args;
+
+  if (user == null) {
+    return '(unknown user)';
+  }
+
+  if (user.role === Role.Guest && enableGuestUserIndicator) {
+    return {
+      text: '{userFullName} <i>(guest)</i>',
+      values: {
+        userFullName: user.full_name,
+        i: chunks => (
+          <ZulipText inheritColor inheritFontSize style={italicTextStyle}>
+            {chunks}
+          </ZulipText>
+        ),
+      },
+    };
   }
 
   return { text: '{_}', values: { _: user.full_name } };
@@ -358,13 +404,17 @@ export function getFullNameText(args: {| user: UserOrBot | null |}): Localizable
  *
  * If the user is muted, gives "Muted user".
  *
+ * For the same text as LocalizableReactText, see
+ * getFullNameOrMutedUserReactText.
+ *
  * For a function that ignores muting, see getFullNameOrMutedUserText.
  */
 export function getFullNameOrMutedUserText(args: {|
   user: UserOrBot | null,
   mutedUsers: MutedUsersState,
+  enableGuestUserIndicator: boolean,
 |}): LocalizableText {
-  const { user, mutedUsers } = args;
+  const { user, mutedUsers, enableGuestUserIndicator } = args;
 
   if (user == null) {
     return '(unknown user)';
@@ -374,5 +424,28 @@ export function getFullNameOrMutedUserText(args: {|
     return 'Muted user';
   }
 
-  return getFullNameText({ user });
+  return getFullNameText({ user, enableGuestUserIndicator });
+}
+
+/**
+ * Display text for a user's name, as LocalizableReactText.
+ *
+ * Just like getFullNameOrMutedUserText, but gives LocalizableReactText.
+ */
+export function getFullNameOrMutedUserReactText(args: {|
+  user: UserOrBot | null,
+  mutedUsers: MutedUsersState,
+  enableGuestUserIndicator: boolean,
+|}): LocalizableReactText {
+  const { user, mutedUsers, enableGuestUserIndicator } = args;
+
+  if (user == null) {
+    return '(unknown user)';
+  }
+
+  if (mutedUsers.has(user.user_id)) {
+    return 'Muted user';
+  }
+
+  return getFullNameReactText({ user, enableGuestUserIndicator });
 }

@@ -11,12 +11,13 @@ import UnreadCount from '../common/UnreadCount';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
-import { getFullNameOrMutedUserText, tryGetUserForId } from './userSelectors';
+import { getFullNameOrMutedUserReactText, tryGetUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import Emoji from '../emoji/Emoji';
 import ZulipTextIntl from '../common/ZulipTextIntl';
+import { getRealm } from '../directSelectors';
 
 type Props = $ReadOnly<{|
   userId: UserId,
@@ -40,6 +41,8 @@ export default function UserItem(props: Props): Node {
     size = 'large',
   } = props;
 
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
+
   const user = useSelector(state => tryGetUserForId(state, userId));
 
   const mutedUsers = useSelector(getMutedUsers);
@@ -56,7 +59,11 @@ export default function UserItem(props: Props): Node {
   }, [onPress, user]);
   const handlePress = onPress && user ? _handlePress : undefined;
 
-  const displayName = getFullNameOrMutedUserText({ user, mutedUsers });
+  const displayName = getFullNameOrMutedUserReactText({
+    user,
+    mutedUsers,
+    enableGuestUserIndicator,
+  });
   let displayEmail = null;
   if (user != null && !isMuted && showEmail) {
     displayEmail = user.email;

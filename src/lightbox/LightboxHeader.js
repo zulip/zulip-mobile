@@ -10,7 +10,8 @@ import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 import { useSelector } from '../react-redux';
-import { getFullNameText, tryGetUserForId } from '../users/userSelectors';
+import { getFullNameReactText, tryGetUserForId } from '../users/userSelectors';
+import { getRealm } from '../directSelectors';
 import type { Message } from '../api/modelTypes';
 import ZulipText from '../common/ZulipText';
 import ZulipTextIntl from '../common/ZulipTextIntl';
@@ -58,6 +59,7 @@ export default function LightboxHeader(props: Props): Node {
   const subheader = `${displayDate} at ${time}`;
 
   const sender = useSelector(state => tryGetUserForId(state, senderId));
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
 
   return (
     <SafeAreaView mode="padding" edges={['top']}>
@@ -69,7 +71,7 @@ export default function LightboxHeader(props: Props): Node {
             <ZulipTextIntl
               style={styles.name}
               numberOfLines={1}
-              text={getFullNameText({ user: sender })}
+              text={getFullNameReactText({ user: sender, enableGuestUserIndicator })}
             />
           ) : (
             <ZulipText style={styles.name} numberOfLines={1} text={message.sender_full_name} />

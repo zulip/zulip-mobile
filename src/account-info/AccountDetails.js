@@ -16,7 +16,7 @@ import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import { getDisplayEmailForUser } from '../selectors';
 import { Role } from '../api/permissionsTypes';
 import ZulipTextIntl from '../common/ZulipTextIntl';
-import { getFullNameText } from '../users/userSelectors';
+import { getFullNameReactText } from '../users/userSelectors';
 
 const componentStyles = createStyleSheet({
   componentListItem: {
@@ -69,6 +69,7 @@ export default function AccountDetails(props: Props): Node {
     state => getUserStatus(state, props.user.user_id).status_emoji,
   );
   const realm = useSelector(state => state.realm);
+  const { enableGuestUserIndicator } = realm;
   const displayEmail = getDisplayEmailForUser(realm, user);
 
   return (
@@ -86,7 +87,7 @@ export default function AccountDetails(props: Props): Node {
         <ZulipTextIntl
           selectable
           style={[styles.largerText, componentStyles.boldText]}
-          text={getFullNameText({ user })}
+          text={getFullNameReactText({ user, enableGuestUserIndicator })}
         />
       </View>
       {displayEmail !== null && showEmail && (

@@ -9,8 +9,10 @@ import ComponentWithOverlay from '../common/ComponentWithOverlay';
 import Touchable from '../common/Touchable';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
-import { getFullNameText } from '../users/userSelectors';
+import { getFullNameReactText } from '../users/userSelectors';
 import ZulipTextIntl from '../common/ZulipTextIntl';
+import { useSelector } from '../react-redux';
+import { getRealm } from '../directSelectors';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -40,6 +42,9 @@ type Props = $ReadOnly<{|
  */
 export default function AvatarItem(props: Props): Node {
   const { user, onPress } = props;
+
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
+
   const handlePress = React.useCallback(() => {
     onPress(user.user_id);
   }, [onPress, user.user_id]);
@@ -57,7 +62,10 @@ export default function AvatarItem(props: Props): Node {
         </ComponentWithOverlay>
       </Touchable>
       <View style={styles.textFrame}>
-        <ZulipTextIntl style={styles.text} text={getFullNameText({ user })} />
+        <ZulipTextIntl
+          style={styles.text}
+          text={getFullNameReactText({ user, enableGuestUserIndicator })}
+        />
       </View>
     </View>
   );

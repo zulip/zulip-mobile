@@ -131,6 +131,7 @@ type UserOrBotPropertiesArgs = {|
   email?: string,
   full_name?: string,
   avatar_url?: AvatarURL,
+  role?: Role,
 |};
 
 /**
@@ -161,7 +162,7 @@ const userOrBotProperties = (args: UserOrBotPropertiesArgs) => {
 
     email: args.email ?? `${randName}@example.org`,
     full_name: args.full_name ?? `${randName} User`,
-    role: Role.Member,
+    role: args.role ?? Role.Member,
     timezone: 'UTC',
     user_id,
   });

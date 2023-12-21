@@ -359,6 +359,8 @@
   "No reactions": "No reactions",
   "See who reacted": "See who reacted",
   "Muted user": "Muted user",
+  "{userFullName} (guest)": "{userFullName} (guest)",
+  "{userFullName} <i>(guest)</i>": "{userFullName} <i>(guest)</i>",
   "Only organization admins are allowed to post to this stream.": "Only organization admins are allowed to post to this stream.",
   "Connecting...": "Connecting...",
   "Set your status": "Set your status",

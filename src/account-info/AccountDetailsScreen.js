@@ -18,9 +18,10 @@ import AccountDetails from './AccountDetails';
 import ZulipText from '../common/ZulipText';
 import ActivityText from '../title/ActivityText';
 import { doNarrow } from '../actions';
-import { getFullNameText, getUserIsActive, tryGetUserForId } from '../users/userSelectors';
+import { getFullNameReactText, getUserIsActive, tryGetUserForId } from '../users/userSelectors';
 import { nowInTimeZone } from '../utils/date';
 import CustomProfileFields from './CustomProfileFields';
+import { getRealm } from '../directSelectors';
 
 const styles = createStyleSheet({
   errorText: {
@@ -54,6 +55,7 @@ export default function AccountDetailsScreen(props: Props): Node {
   const dispatch = useDispatch();
   const user = useSelector(state => tryGetUserForId(state, props.route.params.userId));
   const isActive = useSelector(state => getUserIsActive(state, props.route.params.userId));
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
 
   const handleChatPress = useCallback(() => {
     invariant(user, 'Callback handleChatPress is used only if user is known');
@@ -80,7 +82,7 @@ export default function AccountDetailsScreen(props: Props): Node {
   }
 
   return (
-    <Screen title={getFullNameText({ user })}>
+    <Screen title={getFullNameReactText({ user, enableGuestUserIndicator })}>
       <AccountDetails user={user} showEmail showStatus />
       <View style={styles.itemWrapper}>
         <ActivityText style={globalStyles.largerText} user={user} />

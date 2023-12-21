@@ -24,6 +24,7 @@ describe('getComposeInputPlaceholder', () => {
       ownUserId,
       usersById,
       streamsById,
+      false,
       mock_,
     );
     expect(placeholder).toEqual({
@@ -39,6 +40,7 @@ describe('getComposeInputPlaceholder', () => {
       ownUserId,
       usersById,
       streamsById,
+      false,
       mock_,
     );
     expect(placeholder).toEqual({ text: 'Jot down something' });
@@ -51,6 +53,7 @@ describe('getComposeInputPlaceholder', () => {
       ownUserId,
       usersById,
       streamsById,
+      false,
       mock_,
     );
     expect(placeholder).toEqual({
@@ -66,6 +69,7 @@ describe('getComposeInputPlaceholder', () => {
       ownUserId,
       usersById,
       streamsById,
+      false,
       mock_,
     );
     expect(placeholder).toEqual({ text: 'Reply' });
@@ -78,6 +82,7 @@ describe('getComposeInputPlaceholder', () => {
       ownUserId,
       usersById,
       streamsById,
+      false,
       mock_,
     );
     expect(placeholder).toEqual({ text: 'Message group' });

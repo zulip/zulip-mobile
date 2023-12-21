@@ -12,8 +12,12 @@ import Touchable from '../common/Touchable';
 import UnreadCount from '../common/UnreadCount';
 import { getMutedUsers } from '../selectors';
 import { TranslationContext } from '../boot/TranslationProvider';
-import { getFullNameOrMutedUserText } from '../users/userSelectors';
+import {
+  getFullNameOrMutedUserReactText,
+  getFullNameOrMutedUserText,
+} from '../users/userSelectors';
 import ZulipTextIntl from '../common/ZulipTextIntl';
+import { getRealm } from '../directSelectors';
 
 const componentStyles = createStyleSheet({
   text: {
@@ -43,7 +47,10 @@ export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(
 
   const _ = useContext(TranslationContext);
   const mutedUsers = useSelector(getMutedUsers);
-  const names = users.map(user => _(getFullNameOrMutedUserText({ user, mutedUsers })));
+  const enableGuestUserIndicator = useSelector(state => getRealm(state).enableGuestUserIndicator);
+  const names = users.map(user =>
+    _(getFullNameOrMutedUserText({ user, mutedUsers, enableGuestUserIndicator })),
+  );
 
   const namesReact = [];
   users.forEach((user, i) => {
@@ -57,7 +64,7 @@ export default function GroupPmConversationItem<U: $ReadOnlyArray<UserOrBot>>(
         key={`${user.user_id}`}
         inheritColor
         inheritFontSize
-        text={getFullNameOrMutedUserText({ user, mutedUsers })}
+        text={getFullNameOrMutedUserReactText({ user, mutedUsers, enableGuestUserIndicator })}
       />,
     );
   });

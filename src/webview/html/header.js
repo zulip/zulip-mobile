@@ -34,7 +34,14 @@ const renderTopic = message =>
  * This is a private helper of messageListElementHtml.
  */
 export default (
-  { mute, ownUser, subscriptions, allUsersById, mutedUsers }: BackgroundData,
+  {
+    mute,
+    ownUser,
+    subscriptions,
+    allUsersById,
+    mutedUsers,
+    enableGuestUserIndicator,
+  }: BackgroundData,
   element: HeaderMessageListElement,
   _: GetText,
 ): string => {
@@ -101,7 +108,10 @@ export default (
   ${uiRecipients
     .map(r => {
       const user = allUsersById.get(r.id);
-      return user != null ? _(getFullNameOrMutedUserText({ user, mutedUsers })) : r.full_name;
+      // TODO use italics for "(guest)"
+      return user != null
+        ? _(getFullNameOrMutedUserText({ user, mutedUsers, enableGuestUserIndicator }))
+        : r.full_name;
     })
     .sort()
     .join(', ')}

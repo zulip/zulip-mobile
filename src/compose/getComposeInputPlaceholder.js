@@ -8,6 +8,7 @@ export default (
   ownUserId: UserId,
   allUsersById: Map<UserId, UserOrBot>,
   streamsById: Map<number, Stream>,
+  enableGuestUserIndicator: boolean,
   _: GetText,
 ): LocalizableText =>
   caseNarrowDefault(
@@ -30,7 +31,7 @@ export default (
 
         return {
           text: 'Message {recipient}',
-          values: { recipient: _(getFullNameText({ user })) },
+          values: { recipient: _(getFullNameText({ user, enableGuestUserIndicator })) },
         };
       },
       stream: streamId => {
