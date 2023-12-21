@@ -16,12 +16,12 @@ describe('getComposeInputPlaceholder', () => {
   const ownUserId = eg.selfUser.user_id;
   const streamsById = getStreamsById(eg.plusReduxState);
 
-  test('returns "Message @ThisPerson" object for person narrow', () => {
+  test('returns "Message This Person" object for person narrow', () => {
     const narrow = deepFreeze(pm1to1NarrowFromUser(eg.otherUser));
     const placeholder = getComposeInputPlaceholder(narrow, ownUserId, usersById, streamsById);
     expect(placeholder).toEqual({
       text: 'Message {recipient}',
-      values: { recipient: `@${eg.otherUser.full_name}` },
+      values: { recipient: eg.otherUser.full_name },
     });
   });
 

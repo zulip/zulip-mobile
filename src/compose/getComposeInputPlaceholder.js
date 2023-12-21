@@ -28,7 +28,7 @@ export default (
 
         return {
           text: 'Message {recipient}',
-          values: { recipient: `@${user.full_name}` },
+          values: { recipient: user.full_name },
         };
       },
       stream: streamId => {
