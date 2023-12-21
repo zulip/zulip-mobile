@@ -111,9 +111,7 @@ export default function Lightbox(props: Props): Node {
             onPressBack={() => {
               navigation.dispatch(navigateBack());
             }}
-            timestamp={message.timestamp}
-            senderName={message.sender_full_name}
-            senderId={message.sender_id}
+            message={message}
           />
         </View>
         <View style={styles.footer}>

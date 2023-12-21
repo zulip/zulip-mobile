@@ -9,7 +9,9 @@ import { createStyleSheet } from '../styles';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
-import type { UserId } from '../api/idTypes';
+import { useSelector } from '../react-redux';
+import { tryGetUserForId } from '../users/userSelectors';
+import type { Message } from '../api/modelTypes';
 
 const styles = createStyleSheet({
   text: {
@@ -39,25 +41,21 @@ const styles = createStyleSheet({
 });
 
 type Props = $ReadOnly<{|
-  senderName: string,
-  senderId: UserId,
-  timestamp: number,
+  message: Message,
   onPressBack: () => void,
 |}>;
 
 /**
  * Shows sender's name and date of photo being displayed.
- *
- * @prop [senderName] - The sender's full name.
- * @prop [avatarUrl]
- * @prop [timestamp]
- * @prop [onPressBack]
  */
 export default function LightboxHeader(props: Props): Node {
-  const { onPressBack, senderName, senderId, timestamp } = props;
+  const { onPressBack, message } = props;
+  const { timestamp, sender_id: senderId } = message;
   const displayDate = humanDate(new Date(timestamp * 1000));
   const time = shortTime(new Date(timestamp * 1000));
   const subheader = `${displayDate} at ${time}`;
+
+  const sender = useSelector(state => tryGetUserForId(state, senderId));
 
   return (
     <SafeAreaView mode="padding" edges={['top']}>
@@ -66,7 +64,7 @@ export default function LightboxHeader(props: Props): Node {
         <UserAvatarWithPresence size={36} userId={senderId} />
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={1}>
-            {senderName}
+            {sender?.full_name ?? message.sender_full_name}
           </Text>
           <Text style={styles.subheader} numberOfLines={1}>
             {subheader}
