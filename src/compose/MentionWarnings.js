@@ -13,6 +13,7 @@ import { showToast } from '../utils/info';
 
 import MentionedUserNotSubscribed from '../message/MentionedUserNotSubscribed';
 import { makeUserId } from '../api/idTypes';
+import { getFullNameText } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
   narrow: Narrow,
@@ -86,7 +87,7 @@ function MentionWarningsInner(props: Props, ref): Node {
     (mentionedUser: UserOrBot) => {
       showToast(
         _('Couldn’t load information about {fullName}', {
-          fullName: mentionedUser.full_name,
+          fullName: _(getFullNameText({ user: mentionedUser })),
         }),
       );
     },

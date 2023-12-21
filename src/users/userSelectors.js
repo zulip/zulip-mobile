@@ -8,8 +8,9 @@ import type {
   Selector,
   User,
   UserId,
+  LocalizableText,
 } from '../types';
-import type { RealmState } from '../reduxTypes';
+import type { MutedUsersState, RealmState } from '../reduxTypes';
 import { getUsers, getCrossRealmBots, getNonActiveUsers } from '../directSelectors';
 import * as logging from '../utils/logging';
 import { ensureUnreachable } from '../generics';
@@ -328,4 +329,50 @@ export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): stri
   } else {
     return null;
   }
+}
+
+/**
+ * Display text for a user's name, ignoring muting, as LocalizableText.
+ *
+ * Accepts `null` for the `user` argument; in that case, the text is
+ * "(unknown user)".
+ *
+ * For a function that gives "Muted user" if the user is muted, see
+ * getFullNameOrMutedUserText.
+ */
+export function getFullNameText(args: {| user: UserOrBot | null |}): LocalizableText {
+  const { user } = args;
+
+  if (user == null) {
+    return '(unknown user)';
+  }
+
+  return { text: '{_}', values: { _: user.full_name } };
+}
+
+/**
+ * Display text for a user's name, as LocalizableText.
+ *
+ * Accepts `null` for the `user` argument; in that case, the text is
+ * "(unknown user)".
+ *
+ * If the user is muted, gives "Muted user".
+ *
+ * For a function that ignores muting, see getFullNameOrMutedUserText.
+ */
+export function getFullNameOrMutedUserText(args: {|
+  user: UserOrBot | null,
+  mutedUsers: MutedUsersState,
+|}): LocalizableText {
+  const { user, mutedUsers } = args;
+
+  if (user == null) {
+    return '(unknown user)';
+  }
+
+  if (mutedUsers.has(user.user_id)) {
+    return 'Muted user';
+  }
+
+  return getFullNameText({ user });
 }

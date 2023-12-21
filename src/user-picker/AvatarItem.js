@@ -7,10 +7,11 @@ import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedVa
 import type { UserId, UserOrBot } from '../types';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import ComponentWithOverlay from '../common/ComponentWithOverlay';
-import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
 import { createStyleSheet } from '../styles';
 import { IconCancel } from '../common/Icons';
+import { getFullNameText } from '../users/userSelectors';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -79,7 +80,7 @@ export default class AvatarItem extends PureComponent<Props> {
           </ComponentWithOverlay>
         </Touchable>
         <View style={styles.textFrame}>
-          <ZulipText style={styles.text} text={user.full_name} />
+          <ZulipTextIntl style={styles.text} text={getFullNameText({ user })} />
         </View>
       </Animated.View>
     );

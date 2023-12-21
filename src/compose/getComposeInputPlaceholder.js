@@ -1,5 +1,6 @@
 /* @flow strict-local */
-import type { Narrow, Stream, UserId, UserOrBot, LocalizableText } from '../types';
+import type { Narrow, Stream, UserId, UserOrBot, LocalizableText, GetText } from '../types';
+import { getFullNameText } from '../users/userSelectors';
 import { caseNarrowDefault } from '../utils/narrow';
 
 export default (
@@ -7,6 +8,7 @@ export default (
   ownUserId: UserId,
   allUsersById: Map<UserId, UserOrBot>,
   streamsById: Map<number, Stream>,
+  _: GetText,
 ): LocalizableText =>
   caseNarrowDefault(
     narrow,
@@ -28,7 +30,7 @@ export default (
 
         return {
           text: 'Message {recipient}',
-          values: { recipient: user.full_name },
+          values: { recipient: _(getFullNameText({ user })) },
         };
       },
       stream: streamId => {

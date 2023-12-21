@@ -10,9 +10,10 @@ import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { Icon } from '../common/Icons';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 import { useSelector } from '../react-redux';
-import { tryGetUserForId } from '../users/userSelectors';
+import { getFullNameText, tryGetUserForId } from '../users/userSelectors';
 import type { Message } from '../api/modelTypes';
 import ZulipText from '../common/ZulipText';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 const styles = createStyleSheet({
   text: {
@@ -64,9 +65,15 @@ export default function LightboxHeader(props: Props): Node {
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         <UserAvatarWithPresence size={36} userId={senderId} />
         <View style={styles.text}>
-          <ZulipText style={styles.name} numberOfLines={1}>
-            {sender?.full_name ?? message.sender_full_name}
-          </ZulipText>
+          {sender != null ? (
+            <ZulipTextIntl
+              style={styles.name}
+              numberOfLines={1}
+              text={getFullNameText({ user: sender })}
+            />
+          ) : (
+            <ZulipText style={styles.name} numberOfLines={1} text={message.sender_full_name} />
+          )}
           <ZulipText style={styles.subheader} numberOfLines={1}>
             {subheader}
           </ZulipText>

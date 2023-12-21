@@ -16,6 +16,7 @@ import PresenceStatusIndicator from '../common/PresenceStatusIndicator';
 import { getDisplayEmailForUser } from '../selectors';
 import { Role } from '../api/permissionsTypes';
 import ZulipTextIntl from '../common/ZulipTextIntl';
+import { getFullNameText } from '../users/userSelectors';
 
 const componentStyles = createStyleSheet({
   componentListItem: {
@@ -82,10 +83,10 @@ export default function AccountDetails(props: Props): Node {
           hideIfOffline={false}
           useOpaqueBackground={false}
         />
-        <ZulipText
+        <ZulipTextIntl
           selectable
           style={[styles.largerText, componentStyles.boldText]}
-          text={user.full_name}
+          text={getFullNameText({ user })}
         />
       </View>
       {displayEmail !== null && showEmail && (

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { Node } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import type { UserId } from '../types';
 import styles, { createStyleSheet } from '../styles';
@@ -11,8 +11,9 @@ import Touchable from '../common/Touchable';
 import ViewPlaceholder from '../common/ViewPlaceholder';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import ActivityText from './ActivityText';
-import { tryGetUserForId } from '../users/userSelectors';
+import { getFullNameText, tryGetUserForId } from '../users/userSelectors';
 import { useNavigation } from '../react-navigation';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 type Props = $ReadOnly<{|
   userId: UserId,
@@ -47,9 +48,12 @@ export default function TitlePrivate(props: Props): Node {
         <UserAvatarWithPresence size={32} userId={user.user_id} />
         <ViewPlaceholder width={8} />
         <View style={componentStyles.textWrapper}>
-          <Text style={[styles.navTitle, { color }]} numberOfLines={1} ellipsizeMode="tail">
-            {user.full_name}
-          </Text>
+          <ZulipTextIntl
+            style={[styles.navTitle, { color }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            text={getFullNameText({ user })}
+          />
           <ActivityText style={[styles.navSubtitle, { color }]} user={user} />
         </View>
       </View>

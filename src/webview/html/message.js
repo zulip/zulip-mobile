@@ -26,6 +26,7 @@ import { displayCharacterForUnicodeEmojiCode } from '../../emoji/data';
 import processAlertWords from './processAlertWords';
 import * as logging from '../../utils/logging';
 import { getUserStatusFromModel } from '../../user-statuses/userStatusesCore';
+import { getFullNameOrMutedUserText, getFullNameText } from '../../users/userSelectors';
 
 const messageTagsAsHtml = (isStarred: boolean, timeEdited: number | void): string => {
   const pieces = [];
@@ -54,11 +55,7 @@ const getDisplayFullNames = (userIds, backgroundData, _) => {
       return _('You');
     }
 
-    if (mutedUsers.has(id)) {
-      return _('Muted user');
-    }
-
-    return user.full_name;
+    return _(getFullNameOrMutedUserText({ user, mutedUsers }));
   });
 };
 
@@ -283,8 +280,9 @@ $!${divOpenHtml}
   }
 
   const { sender_id } = message;
-  const sender = backgroundData.allUsersById.get(sender_id);
-  const senderFullName = sender?.full_name ?? message.sender_full_name;
+  const sender = backgroundData.allUsersById.get(sender_id) ?? null;
+  const senderFullName =
+    sender != null ? _(getFullNameText({ user: sender })) : message.sender_full_name;
   const avatarUrl = message.avatar_url
     .get(
       // 48 logical pixels; see `.avatar` and `.avatar img` in

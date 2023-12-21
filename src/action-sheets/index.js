@@ -47,6 +47,7 @@ import { roleIsAtLeast } from '../permissionSelectors';
 import { kNotificationBotEmail } from '../api/constants';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
 import { type ImperativeHandle as ComposeBoxImperativeHandle } from '../compose/ComposeBox';
+import { getFullNameText } from '../users/userSelectors';
 
 // TODO really this belongs in a libdef.
 export type ShowActionSheetWithOptions = (
@@ -1011,7 +1012,7 @@ export const showPmConversationActionSheet = (args: {|
       .map(userId => {
         const user = backgroundData.allUsersById.get(userId);
         invariant(user, 'allUsersById incomplete; could not show PM action sheet');
-        return user.full_name;
+        return callbacks._(getFullNameText({ user }));
       })
       .sort()
       .join(', '),

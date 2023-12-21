@@ -20,6 +20,7 @@ import {
 } from '../../utils/recipient';
 import { base64Utf8Encode } from '../../utils/encoding';
 import { isTopicFollowed } from '../../mute/muteModel';
+import { getFullNameOrMutedUserText } from '../../users/userSelectors';
 
 const renderTopic = message =>
   // TODO: pin down if '' happens, and what its proper semantics are.
@@ -98,9 +99,10 @@ export default (
   data-msg-id="${message.id}"
 >
   ${uiRecipients
-    .map(r =>
-      mutedUsers.has(r.id) ? _('Muted user') : allUsersById.get(r.id)?.full_name ?? r.full_name,
-    )
+    .map(r => {
+      const user = allUsersById.get(r.id);
+      return user != null ? _(getFullNameOrMutedUserText({ user, mutedUsers })) : r.full_name;
+    })
     .sort()
     .join(', ')}
 </div>`;

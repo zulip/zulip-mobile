@@ -1,10 +1,9 @@
 /* @flow strict-local */
 import invariant from 'invariant';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
-import { TranslationContext } from '../boot/TranslationProvider';
 import type { UserId, UserOrBot } from '../types';
 import ZulipText from '../common/ZulipText';
 import Touchable from '../common/Touchable';
@@ -12,11 +11,12 @@ import UnreadCount from '../common/UnreadCount';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
 import { createStyleSheet, BRAND_COLOR } from '../styles';
 import { useSelector } from '../react-redux';
-import { tryGetUserForId } from './userSelectors';
+import { getFullNameOrMutedUserText, tryGetUserForId } from './userSelectors';
 import { getMutedUsers } from '../selectors';
 import { getUserStatus } from '../user-statuses/userStatusesModel';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import Emoji from '../emoji/Emoji';
+import ZulipTextIntl from '../common/ZulipTextIntl';
 
 type Props = $ReadOnly<{|
   userId: UserId,
@@ -39,11 +39,11 @@ export default function UserItem(props: Props): Node {
     showEmail = false,
     size = 'large',
   } = props;
-  const _ = useContext(TranslationContext);
 
   const user = useSelector(state => tryGetUserForId(state, userId));
 
-  const isMuted = useSelector(getMutedUsers).has(userId);
+  const mutedUsers = useSelector(getMutedUsers);
+  const isMuted = mutedUsers.has(userId);
   const userStatusEmoji = useSelector(
     state => user && getUserStatus(state, user.user_id),
   )?.status_emoji;
@@ -56,17 +56,10 @@ export default function UserItem(props: Props): Node {
   }, [onPress, user]);
   const handlePress = onPress && user ? _handlePress : undefined;
 
-  let displayName;
-  let displayEmail;
-  if (!user) {
-    displayName = _('(unknown user)');
-    displayEmail = null;
-  } else if (isMuted) {
-    displayName = _('Muted user');
-    displayEmail = null;
-  } else {
-    displayName = user.full_name;
-    displayEmail = showEmail ? user.email : null;
+  const displayName = getFullNameOrMutedUserText({ user, mutedUsers });
+  let displayEmail = null;
+  if (user != null && !isMuted && showEmail) {
+    displayEmail = user.email;
   }
 
   const styles = React.useMemo(
@@ -116,7 +109,7 @@ export default function UserItem(props: Props): Node {
           onPress={handlePress}
         />
         <View style={styles.textWrapper}>
-          <ZulipText
+          <ZulipTextIntl
             style={[styles.text, isSelected && styles.selectedText]}
             text={displayName}
             numberOfLines={1}

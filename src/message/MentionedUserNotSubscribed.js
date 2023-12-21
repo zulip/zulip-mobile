@@ -12,6 +12,7 @@ import ZulipButton from '../common/ZulipButton';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import { getAuth } from '../selectors';
 import { kWarningColor } from '../styles/constants';
+import { getFullNameText } from '../users/userSelectors';
 
 type Props = $ReadOnly<{|
   user: UserOrBot,
@@ -72,7 +73,11 @@ export default function MentionedUserNotSubscribed(props: Props): Node {
         <ZulipTextIntl
           text={{
             text: '{username} will not be notified unless you subscribe them to this stream.',
-            values: { username: user.full_name },
+            values: {
+              username: (
+                <ZulipTextIntl inheritColor inheritFontSize text={getFullNameText({ user })} />
+              ),
+            },
           }}
           style={styles.text}
         />

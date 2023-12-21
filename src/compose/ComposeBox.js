@@ -714,7 +714,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
     return <AnnouncementOnly />;
   }
 
-  const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById);
+  const placeholder = getComposeInputPlaceholder(narrow, ownUserId, allUsersById, streamsById, _);
 
   const SubmitButtonIcon = isEditing ? IconDone : IconSend;
 

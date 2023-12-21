@@ -18,7 +18,7 @@ import AccountDetails from './AccountDetails';
 import ZulipText from '../common/ZulipText';
 import ActivityText from '../title/ActivityText';
 import { doNarrow } from '../actions';
-import { getUserIsActive, tryGetUserForId } from '../users/userSelectors';
+import { getFullNameText, getUserIsActive, tryGetUserForId } from '../users/userSelectors';
 import { nowInTimeZone } from '../utils/date';
 import CustomProfileFields from './CustomProfileFields';
 
@@ -79,16 +79,8 @@ export default function AccountDetailsScreen(props: Props): Node {
     }
   }
 
-  const title = {
-    text: '{_}',
-    values: {
-      // This causes the name not to get translated.
-      _: user.full_name,
-    },
-  };
-
   return (
-    <Screen title={title}>
+    <Screen title={getFullNameText({ user })}>
       <AccountDetails user={user} showEmail showStatus />
       <View style={styles.itemWrapper}>
         <ActivityText style={globalStyles.largerText} user={user} />
