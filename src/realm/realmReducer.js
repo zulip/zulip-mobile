@@ -143,6 +143,8 @@ export default (
           providerId: action.data.realm_video_chat_provider,
         }),
 
+        // Realm settings.
+        // These should each get updated on realm/update_dict events, below.
         mandatoryTopics: action.data.realm_mandatory_topics,
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
@@ -267,6 +269,7 @@ export default (
             if (data.create_private_stream_policy !== undefined) {
               result.createPrivateStreamPolicy = data.create_private_stream_policy;
             }
+            // no event updates result.webPublicStreamsEnabled, because it's a server setting
             if (data.create_web_public_stream_policy !== undefined) {
               result.createWebPublicStreamPolicy = data.create_web_public_stream_policy;
             }
