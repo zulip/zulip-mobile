@@ -31,13 +31,11 @@ import { getBackgroundData } from '../backgroundData';
 import { randString } from '../../utils/misc';
 import { makeMuteState } from '../../mute/__tests__/mute-testlib';
 import { UserTopicVisibilityPolicy } from '../../api/modelTypes';
+import { mock_ } from '../../__tests__/lib/intl';
 
 // Tell ESLint to recognize `check` as a helper function that runs
 // assertions.
 /* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "check"] }] */
-
-// Our translation function, usually given the name _.
-const mock_ = m => (typeof m === 'object' ? m.text : m); // eslint-disable-line no-underscore-dangle
 
 const user1 = eg.makeUser({ user_id: 1, full_name: 'Nonrandom name one User' });
 const user2 = eg.makeUser({ user_id: 2, full_name: 'Nonrandom name two User' });
