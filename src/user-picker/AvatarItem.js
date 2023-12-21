@@ -1,8 +1,7 @@
 /* @flow strict-local */
 import React, { PureComponent } from 'react';
 import type { Node } from 'react';
-import { Animated, Easing, View } from 'react-native';
-import type AnimatedValue from 'react-native/Libraries/Animated/nodes/AnimatedValue';
+import { View } from 'react-native';
 
 import type { UserId, UserOrBot } from '../types';
 import UserAvatarWithPresence from '../common/UserAvatarWithPresence';
@@ -40,35 +39,16 @@ type Props = $ReadOnly<{|
  * Pressable avatar for items in the user-picker card.
  */
 export default class AvatarItem extends PureComponent<Props> {
-  animatedValue: AnimatedValue = new Animated.Value(0);
-
-  componentDidMount() {
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-      easing: Easing.elastic(),
-    }).start();
-  }
-
   handlePress: () => void = () => {
     const { user, onPress } = this.props;
-    Animated.timing(this.animatedValue, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-      easing: Easing.elastic(),
-    }).start(() => onPress(user.user_id));
+    onPress(user.user_id);
   };
 
   render(): Node {
     const { user } = this.props;
-    const animatedStyle = {
-      transform: [{ scale: this.animatedValue }],
-    };
 
     return (
-      <Animated.View style={[styles.wrapper, animatedStyle]}>
+      <View style={styles.wrapper}>
         <Touchable onPress={this.handlePress}>
           <ComponentWithOverlay
             overlaySize={20}
@@ -82,7 +62,7 @@ export default class AvatarItem extends PureComponent<Props> {
         <View style={styles.textFrame}>
           <ZulipTextIntl style={styles.text} text={getFullNameText({ user })} />
         </View>
-      </Animated.View>
+      </View>
     );
   }
 }
