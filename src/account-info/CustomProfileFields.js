@@ -5,10 +5,8 @@ import { View } from 'react-native';
 import { type UserOrBot, type UserId } from '../api/modelTypes';
 import WebLink from '../common/WebLink';
 import ZulipText from '../common/ZulipText';
-import ZulipTextIntl from '../common/ZulipTextIntl';
 import { ensureUnreachable } from '../generics';
 import { useSelector } from '../react-redux';
-import { tryGetUserForId } from '../selectors';
 import {
   type CustomProfileFieldValue,
   getCustomProfileFieldsForUser,
@@ -16,15 +14,12 @@ import {
 import UserItem from '../users/UserItem';
 import { useNavigation } from '../react-navigation';
 
-/* eslint-disable no-shadow */
-
 type Props = {|
   +user: UserOrBot,
 |};
 
 function CustomProfileFieldUser(props: {| +userId: UserId |}): React.Node {
   const { userId } = props;
-  const user = useSelector(state => tryGetUserForId(state, userId));
 
   const navigation = useNavigation();
   const onPress = React.useCallback(
@@ -33,10 +28,6 @@ function CustomProfileFieldUser(props: {| +userId: UserId |}): React.Node {
     },
     [navigation],
   );
-
-  if (!user) {
-    return <ZulipTextIntl text="(unknown user)" />;
-  }
 
   return <UserItem userId={userId} onPress={onPress} size="medium" />;
 }
