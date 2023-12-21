@@ -1,5 +1,5 @@
 /* @flow strict-local */
-import React, { PureComponent } from 'react';
+import React from 'react';
 import type { Node } from 'react';
 import { View } from 'react-native';
 
@@ -38,31 +38,27 @@ type Props = $ReadOnly<{|
 /**
  * Pressable avatar for items in the user-picker card.
  */
-export default class AvatarItem extends PureComponent<Props> {
-  handlePress: () => void = () => {
-    const { user, onPress } = this.props;
+export default function AvatarItem(props: Props): Node {
+  const { user, onPress } = props;
+  const handlePress = React.useCallback(() => {
     onPress(user.user_id);
-  };
+  }, [onPress, user.user_id]);
 
-  render(): Node {
-    const { user } = this.props;
-
-    return (
-      <View style={styles.wrapper}>
-        <Touchable onPress={this.handlePress}>
-          <ComponentWithOverlay
-            overlaySize={20}
-            overlayColor="white"
-            overlayPosition="bottom-right"
-            overlay={<IconCancel color="gray" size={20} />}
-          >
-            <UserAvatarWithPresence key={user.user_id} size={50} userId={user.user_id} />
-          </ComponentWithOverlay>
-        </Touchable>
-        <View style={styles.textFrame}>
-          <ZulipTextIntl style={styles.text} text={getFullNameText({ user })} />
-        </View>
+  return (
+    <View style={styles.wrapper}>
+      <Touchable onPress={handlePress}>
+        <ComponentWithOverlay
+          overlaySize={20}
+          overlayColor="white"
+          overlayPosition="bottom-right"
+          overlay={<IconCancel color="gray" size={20} />}
+        >
+          <UserAvatarWithPresence key={user.user_id} size={50} userId={user.user_id} />
+        </ComponentWithOverlay>
+      </Touchable>
+      <View style={styles.textFrame}>
+        <ZulipTextIntl style={styles.text} text={getFullNameText({ user })} />
       </View>
-    );
-  }
+    </View>
+  );
 }
