@@ -83,7 +83,7 @@ export default function AccountDetailsScreen(props: Props): Node {
     text: '{_}',
     values: {
       // This causes the name not to get translated.
-      _: user.full_name || ' ',
+      _: user.full_name,
     },
   };
 
