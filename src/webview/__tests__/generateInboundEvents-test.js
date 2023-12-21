@@ -118,7 +118,7 @@ describe('generateInboundEvents', () => {
   });
 
   test('when the rendered messages differ (even deeply) a "content" message is returned', () => {
-    const message = eg.streamMessage();
+    const message = eg.streamMessage({ sender: eg.selfUser });
 
     const prevProps = {
       ...baseProps,

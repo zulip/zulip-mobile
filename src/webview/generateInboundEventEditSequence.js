@@ -115,6 +115,11 @@ function doElementsDifferInterestingly(
     case 'message': {
       invariant(newElement.type === 'message', 'oldElement.type equals newElement.type');
 
+      const oldMessage = oldElement.message;
+      const oldSender = oldBackgroundData.allUsersById.get(oldMessage.sender_id);
+      const newMessage = newElement.message;
+      const newSender = newBackgroundData.allUsersById.get(newMessage.sender_id);
+
       return (
         !isEqual(oldElement, newElement)
         // TODO(?): Flags are metadata on a message, not "background data".
@@ -132,6 +137,7 @@ function doElementsDifferInterestingly(
             && oldBackgroundData.flags[flagName][oldElement.message.id]
               !== newBackgroundData.flags[flagName][newElement.message.id],
         )
+        || oldSender?.full_name !== newSender?.full_name
         || oldBackgroundData.mutedUsers.get(oldElement.message.sender_id)
           !== newBackgroundData.mutedUsers.get(newElement.message.sender_id)
         || getUserStatusFromModel(oldBackgroundData.userStatuses, oldElement.message.sender_id)

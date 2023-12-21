@@ -1065,8 +1065,26 @@ describe('getEditSequence correct for interesting changes', () => {
       );
     });
 
-    // TODO(#5208): We haven't settled how we want to track name/avatar
-    test.todo("sender's name/avatar changed");
+    test("sender's name changed", () => {
+      const baseUsers = eg.plusReduxState.users;
+      const sender = eg.makeUser();
+      const message = eg.streamMessage({ sender });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({ users: [...baseUsers, sender] }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            users: [...baseUsers, { ...sender, full_name: `${sender.full_name}, Jr.` }],
+          }),
+        },
+      );
+    });
+
+    // TODO(#5208)
+    test.todo("sender's avatar changed");
 
     test('mute a sender', () => {
       const message = eg.streamMessage();

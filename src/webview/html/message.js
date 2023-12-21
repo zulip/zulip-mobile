@@ -282,7 +282,9 @@ $!${divOpenHtml}
 </div>`;
   }
 
-  const { sender_full_name, sender_id } = message;
+  const { sender_id } = message;
+  const sender = backgroundData.allUsersById.get(sender_id);
+  const senderFullName = sender?.full_name ?? message.sender_full_name;
   const avatarUrl = message.avatar_url
     .get(
       // 48 logical pixels; see `.avatar` and `.avatar img` in
@@ -293,7 +295,7 @@ $!${divOpenHtml}
   const subheaderHtml = template`\
 <div class="subheader">
   <div class="name-and-status-emoji" data-sender-id="${sender_id}">
-    ${sender_full_name}$!${senderEmojiStatus(
+    ${senderFullName}$!${senderEmojiStatus(
     getUserStatusFromModel(backgroundData.userStatuses, sender_id).status_emoji,
     backgroundData,
   )}
@@ -310,7 +312,7 @@ $!${divOpenHtml}
   return template`\
 $!${divOpenHtml}
   <div class="avatar">
-    <img src="${avatarUrl}" alt="${sender_full_name}" class="avatar-img" data-sender-id="${sender_id}">
+    <img src="${avatarUrl}" alt="${senderFullName}" class="avatar-img" data-sender-id="${sender_id}">
   </div>
   <div class="content">
     $!${subheaderHtml}
