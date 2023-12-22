@@ -3,7 +3,7 @@ import invariant from 'invariant';
 
 import template from './template';
 import { ensureUnreachable } from '../../types';
-import type { HeaderMessageListElement } from '../../types';
+import type { GetText, HeaderMessageListElement } from '../../types';
 import type { BackgroundData } from '../backgroundData';
 import {
   streamNarrow,
@@ -33,8 +33,9 @@ const renderTopic = message =>
  * This is a private helper of messageListElementHtml.
  */
 export default (
-  { mute, ownUser, subscriptions, allUsersById }: BackgroundData,
+  { mute, ownUser, subscriptions, allUsersById, mutedUsers }: BackgroundData,
   element: HeaderMessageListElement,
+  _: GetText,
 ): string => {
   const { subsequentMessage: message, style: headerStyle } = element;
 
@@ -97,7 +98,9 @@ export default (
   data-msg-id="${message.id}"
 >
   ${uiRecipients
-    .map(r => allUsersById.get(r.id)?.full_name ?? r.full_name)
+    .map(r =>
+      mutedUsers.has(r.id) ? _('Muted user') : allUsersById.get(r.id)?.full_name ?? r.full_name,
+    )
     .sort()
     .join(', ')}
 </div>`;

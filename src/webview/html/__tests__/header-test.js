@@ -4,6 +4,7 @@ import * as eg from '../../../__tests__/lib/exampleData';
 import header from '../header';
 import type { BackgroundData } from '../../backgroundData';
 import { makeMuteState } from '../../../mute/__tests__/mute-testlib';
+import { mock_ } from '../../../__tests__/lib/intl';
 
 const backgroundData: BackgroundData = ({
   mute: makeMuteState([]),
@@ -15,12 +16,16 @@ const backgroundData: BackgroundData = ({
 describe('header', () => {
   test('correctly encodes `<` in topic, in stream narrow', () => {
     const m = eg.streamMessage({ subject: '1 < 2' });
-    const h = header(backgroundData, {
-      type: 'header',
-      key: [m.id, 1],
-      style: 'topic+date',
-      subsequentMessage: m,
-    });
+    const h = header(
+      backgroundData,
+      {
+        type: 'header',
+        key: [m.id, 1],
+        style: 'topic+date',
+        subsequentMessage: m,
+      },
+      mock_,
+    );
     expect(h).not.toContain('1 < 2');
     expect(h).toContain('1 &lt; 2');
     expect(h).not.toContain('1 &amp;lt; 2');
