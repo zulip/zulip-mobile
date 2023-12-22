@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`getEditSequence correct for interesting changes DM recipient headers recipient user's name changed 1`] = `1`;
+
 exports[`getEditSequence correct for interesting changes from empty to empty 1`] = `0`;
 
 exports[`getEditSequence correct for interesting changes from empty to many messages 1`] = `40`;

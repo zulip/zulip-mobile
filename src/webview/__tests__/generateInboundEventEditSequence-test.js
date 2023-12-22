@@ -904,6 +904,25 @@ describe('getEditSequence correct for interesting changes', () => {
     });
   });
 
+  describe('DM recipient headers', () => {
+    test("recipient user's name changed", () => {
+      const sender = eg.selfUser;
+      const message = eg.pmMessage({ sender, recipients: [eg.selfUser, eg.otherUser] });
+      check(
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({ users: [eg.selfUser, eg.otherUser] }),
+        },
+        {
+          messages: [message],
+          state: eg.reduxStatePlus({
+            users: [eg.selfUser, { ...eg.otherUser, full_name: `${sender.full_name}, Jr.` }],
+          }),
+        },
+      );
+    });
+  });
+
   describe('within a given message', () => {
     test('add reactions to a message', () => {
       const message = eg.streamMessage();

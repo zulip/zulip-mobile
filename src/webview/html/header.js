@@ -33,7 +33,7 @@ const renderTopic = message =>
  * This is a private helper of messageListElementHtml.
  */
 export default (
-  { mute, ownUser, subscriptions }: BackgroundData,
+  { mute, ownUser, subscriptions, allUsersById }: BackgroundData,
   element: HeaderMessageListElement,
 ): string => {
   const { subsequentMessage: message, style: headerStyle } = element;
@@ -97,7 +97,7 @@ export default (
   data-msg-id="${message.id}"
 >
   ${uiRecipients
-    .map(r => r.full_name)
+    .map(r => allUsersById.get(r.id)?.full_name ?? r.full_name)
     .sort()
     .join(', ')}
 </div>`;

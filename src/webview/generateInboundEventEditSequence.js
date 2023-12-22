@@ -9,6 +9,7 @@ import type { BackgroundData } from './backgroundData';
 import messageListElementHtml from './html/messageListElementHtml';
 import { getUserStatusFromModel } from '../user-statuses/userStatusesCore';
 import { isTopicFollowed } from '../mute/muteModel';
+import { pmUiRecipientsFromMessage } from '../utils/recipient';
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -71,21 +72,46 @@ function doElementsDifferInterestingly(
     case 'time':
       // TODO(?): False positives on `.subsequentMessage.content` changes
       return !isEqual(oldElement, newElement);
-    case 'header':
+    case 'header': {
+      invariant(newElement.type === 'header', 'oldElement.type equals newElement.type');
+
       // TODO(?): False positives on `.subsequentMessage.content` changes
       if (!isEqual(oldElement, newElement)) {
         return true;
       }
-      if (newElement.subsequentMessage?.type === 'stream') {
-        const message = newElement.subsequentMessage;
+      const subsequentMessage = oldElement.subsequentMessage;
+      if (subsequentMessage.type === 'stream') {
         if (
-          isTopicFollowed(message.stream_id, message.subject, oldBackgroundData.mute)
-          !== isTopicFollowed(message.stream_id, message.subject, newBackgroundData.mute)
+          isTopicFollowed(
+            subsequentMessage.stream_id,
+            subsequentMessage.subject,
+            oldBackgroundData.mute,
+          )
+          !== isTopicFollowed(
+            subsequentMessage.stream_id,
+            subsequentMessage.subject,
+            newBackgroundData.mute,
+          )
         ) {
           return true;
         }
+      } else {
+        invariant(
+          oldBackgroundData.ownUser.user_id === newBackgroundData.ownUser.user_id,
+          'self-user ID not supposed to change',
+        );
+        const ownUserId = oldBackgroundData.ownUser.user_id;
+        const messageRecipients = pmUiRecipientsFromMessage(subsequentMessage, ownUserId);
+        for (const recipient of messageRecipients) {
+          const oldRecipientUser = oldBackgroundData.allUsersById.get(recipient.id);
+          const newRecipientUser = newBackgroundData.allUsersById.get(recipient.id);
+          if (oldRecipientUser?.full_name !== newRecipientUser?.full_name) {
+            return true;
+          }
+        }
       }
       return false;
+    }
     case 'message': {
       invariant(newElement.type === 'message', 'oldElement.type equals newElement.type');
 
