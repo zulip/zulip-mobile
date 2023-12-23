@@ -391,6 +391,24 @@ describe('realmReducer', () => {
         check(false, false);
       });
 
+      describe('messageContentDeleteLimitSeconds / message_content_delete_limit_seconds', () => {
+        const check = mkCheck(
+          'messageContentDeleteLimitSeconds',
+          'message_content_delete_limit_seconds',
+        );
+        check(900, 900);
+        check(900, 300);
+      });
+
+      describe('messageContentEditLimitSeconds / message_content_edit_limit_seconds', () => {
+        const check = mkCheck(
+          'messageContentEditLimitSeconds',
+          'message_content_edit_limit_seconds',
+        );
+        check(900, 900);
+        check(900, 300);
+      });
+
       describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {
         // TODO(server-5.0): Stop expecting create_stream_policy; remove.
 
