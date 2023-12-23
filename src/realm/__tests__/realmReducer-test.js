@@ -383,65 +383,12 @@ describe('realmReducer', () => {
         check('foo', 'bar');
       });
 
-      describe('enableSpectatorAccess / enable_spectator_access', () => {
-        const check = mkCheck('enableSpectatorAccess', 'enable_spectator_access');
+      describe('mandatoryTopics / mandatory_topics', () => {
+        const check = mkCheck('mandatoryTopics', 'mandatory_topics');
         check(true, true);
         check(true, false);
         check(false, true);
         check(false, false);
-      });
-
-      describe('createWebPublicStreamPolicy / create_web_public_stream_policy', () => {
-        const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;
-        const check = mkCheck('createWebPublicStreamPolicy', 'create_web_public_stream_policy');
-        check(AdminOrAbove, ModeratorOrAbove);
-        check(AdminOrAbove, Nobody);
-        check(AdminOrAbove, OwnerOnly);
-        check(ModeratorOrAbove, AdminOrAbove);
-        check(ModeratorOrAbove, Nobody);
-        check(ModeratorOrAbove, OwnerOnly);
-        check(Nobody, AdminOrAbove);
-        check(Nobody, ModeratorOrAbove);
-        check(Nobody, OwnerOnly);
-        check(OwnerOnly, AdminOrAbove);
-        check(OwnerOnly, ModeratorOrAbove);
-        check(OwnerOnly, Nobody);
-      });
-
-      describe('createPublicStreamPolicy / create_public_stream_policy', () => {
-        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
-          CreatePublicOrPrivateStreamPolicy;
-        const check = mkCheck('createPublicStreamPolicy', 'create_public_stream_policy');
-        check(MemberOrAbove, AdminOrAbove);
-        check(MemberOrAbove, FullMemberOrAbove);
-        check(MemberOrAbove, ModeratorOrAbove);
-        check(AdminOrAbove, MemberOrAbove);
-        check(AdminOrAbove, FullMemberOrAbove);
-        check(AdminOrAbove, ModeratorOrAbove);
-        check(FullMemberOrAbove, MemberOrAbove);
-        check(FullMemberOrAbove, AdminOrAbove);
-        check(FullMemberOrAbove, ModeratorOrAbove);
-        check(ModeratorOrAbove, MemberOrAbove);
-        check(ModeratorOrAbove, AdminOrAbove);
-        check(ModeratorOrAbove, FullMemberOrAbove);
-      });
-
-      describe('createPrivateStreamPolicy / create_private_stream_policy', () => {
-        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
-          CreatePublicOrPrivateStreamPolicy;
-        const check = mkCheck('createPrivateStreamPolicy', 'create_private_stream_policy');
-        check(MemberOrAbove, AdminOrAbove);
-        check(MemberOrAbove, FullMemberOrAbove);
-        check(MemberOrAbove, ModeratorOrAbove);
-        check(AdminOrAbove, MemberOrAbove);
-        check(AdminOrAbove, FullMemberOrAbove);
-        check(AdminOrAbove, ModeratorOrAbove);
-        check(FullMemberOrAbove, MemberOrAbove);
-        check(FullMemberOrAbove, AdminOrAbove);
-        check(FullMemberOrAbove, ModeratorOrAbove);
-        check(ModeratorOrAbove, MemberOrAbove);
-        check(ModeratorOrAbove, AdminOrAbove);
-        check(ModeratorOrAbove, FullMemberOrAbove);
       });
 
       describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {
@@ -482,6 +429,67 @@ describe('realmReducer', () => {
         check(ModeratorOrAbove, MemberOrAbove);
         check(ModeratorOrAbove, AdminOrAbove);
         check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('createPublicStreamPolicy / create_public_stream_policy', () => {
+        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
+          CreatePublicOrPrivateStreamPolicy;
+        const check = mkCheck('createPublicStreamPolicy', 'create_public_stream_policy');
+        check(MemberOrAbove, AdminOrAbove);
+        check(MemberOrAbove, FullMemberOrAbove);
+        check(MemberOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, MemberOrAbove);
+        check(AdminOrAbove, FullMemberOrAbove);
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(FullMemberOrAbove, MemberOrAbove);
+        check(FullMemberOrAbove, AdminOrAbove);
+        check(FullMemberOrAbove, ModeratorOrAbove);
+        check(ModeratorOrAbove, MemberOrAbove);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('createPrivateStreamPolicy / create_private_stream_policy', () => {
+        const { MemberOrAbove, AdminOrAbove, FullMemberOrAbove, ModeratorOrAbove } =
+          CreatePublicOrPrivateStreamPolicy;
+        const check = mkCheck('createPrivateStreamPolicy', 'create_private_stream_policy');
+        check(MemberOrAbove, AdminOrAbove);
+        check(MemberOrAbove, FullMemberOrAbove);
+        check(MemberOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, MemberOrAbove);
+        check(AdminOrAbove, FullMemberOrAbove);
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(FullMemberOrAbove, MemberOrAbove);
+        check(FullMemberOrAbove, AdminOrAbove);
+        check(FullMemberOrAbove, ModeratorOrAbove);
+        check(ModeratorOrAbove, MemberOrAbove);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, FullMemberOrAbove);
+      });
+
+      describe('createWebPublicStreamPolicy / create_web_public_stream_policy', () => {
+        const { AdminOrAbove, ModeratorOrAbove, Nobody, OwnerOnly } = CreateWebPublicStreamPolicy;
+        const check = mkCheck('createWebPublicStreamPolicy', 'create_web_public_stream_policy');
+        check(AdminOrAbove, ModeratorOrAbove);
+        check(AdminOrAbove, Nobody);
+        check(AdminOrAbove, OwnerOnly);
+        check(ModeratorOrAbove, AdminOrAbove);
+        check(ModeratorOrAbove, Nobody);
+        check(ModeratorOrAbove, OwnerOnly);
+        check(Nobody, AdminOrAbove);
+        check(Nobody, ModeratorOrAbove);
+        check(Nobody, OwnerOnly);
+        check(OwnerOnly, AdminOrAbove);
+        check(OwnerOnly, ModeratorOrAbove);
+        check(OwnerOnly, Nobody);
+      });
+
+      describe('enableSpectatorAccess / enable_spectator_access', () => {
+        const check = mkCheck('enableSpectatorAccess', 'enable_spectator_access');
+        check(true, true);
+        check(true, false);
+        check(false, true);
+        check(false, false);
       });
 
       describe('waitingPeriodThreshold / waiting_period_threshold', () => {
