@@ -34,6 +34,7 @@ import {
   chooseNotifProblemForShortText,
   notifProblemShortReactText,
 } from './NotifTroubleshootingScreen';
+import { noTranslation } from '../i18n/i18n';
 import { keyOfIdentity } from '../account/accountMisc';
 import languages from './languages';
 import { getRealmName } from '../directSelectors';
@@ -118,8 +119,8 @@ export default function SettingsScreen(props: Props): Node {
         valueKey={language}
         items={languages.map(l => ({
           key: l.tag,
-          title: { text: '{_}', values: { _: l.selfname } },
-          subtitle: { text: '{_}', values: { _: l.name } },
+          title: noTranslation(l.selfname),
+          subtitle: noTranslation(l.name),
         }))}
         onValueChange={value => {
           dispatch(setGlobalSettings({ language: value }));
@@ -136,12 +137,12 @@ export default function SettingsScreen(props: Props): Node {
       <TextRow
         icon={{ Component: IconSmartphone }}
         title="App version"
-        subtitle={{ text: '{_}', values: { _: `v${nativeApplicationVersion ?? '?.?.?'}` } }}
+        subtitle={noTranslation(`v${nativeApplicationVersion ?? '?.?.?'}`)}
       />
       <TextRow
         icon={{ Component: IconServer }}
         title="Server version"
-        subtitle={{ text: '{_}', values: { _: zulipVersion.raw() } }}
+        subtitle={noTranslation(zulipVersion.raw())}
         {...(!zulipVersion.isAtLeast(kMinSupportedVersion) && {
           icon: { Component: IconAlertTriangle, color: kWarningColor },
           onPress: () => {

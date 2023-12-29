@@ -12,6 +12,7 @@ import SelectableOptionRow from './SelectableOptionRow';
 import ZulipTextIntl from './ZulipTextIntl';
 import { createStyleSheet } from '../styles';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { noTranslation } from '../i18n/i18n';
 
 type Item<TKey> = $ReadOnly<{|
   key: TKey,
@@ -100,9 +101,9 @@ export default function SelectableOptionsScreen<TItemKey: string | number>(
 
           /* eslint-disable prefer-template */
           const itemData =
-            _(item.subtitle ?? { text: '{_}', values: { _: '' } }).toUpperCase()
+            _(item.subtitle ?? noTranslation('')).toUpperCase()
             + ' '
-            + _(item.title ?? { text: '{_}', values: { _: '' } }).toUpperCase();
+            + _(item.title ?? noTranslation('')).toUpperCase();
           /* eslint-enable prefer-template */
 
           const filterData = filter.toUpperCase();

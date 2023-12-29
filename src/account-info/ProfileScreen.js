@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { type UserId } from '../api/idTypes';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { noTranslation } from '../i18n/i18n';
 import type { RouteProp } from '../react-navigation';
 import type { MainTabsNavigationProp } from '../main/MainTabsScreen';
 import { createStyleSheet } from '../styles';
@@ -146,7 +147,7 @@ export default function ProfileScreen(props: Props): Node {
               : undefined
           }
           title="Set your status"
-          subtitle={status_text != null ? { text: '{_}', values: { _: status_text } } : undefined}
+          subtitle={status_text != null ? noTranslation(status_text) : undefined}
           onPress={() => {
             navigation.push('user-status');
           }}

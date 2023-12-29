@@ -6,6 +6,7 @@ import type { Node } from 'react';
 import { FlatList, View, Pressable } from 'react-native';
 
 import { TranslationContext } from '../boot/TranslationProvider';
+import { noTranslation } from '../i18n/i18n';
 import { createStyleSheet, BRAND_COLOR, HIGHLIGHT_COLOR } from '../styles';
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -180,15 +181,12 @@ export default function UserStatusScreen(props: Props): Node {
               itemKey={index}
               title={
                 serverSupportsEmojiStatus
-                  ? {
-                      text: '{_}',
-                      values: {
-                        _: `${displayCharacterForUnicodeEmojiCode(
-                          emoji.emoji_code,
-                          serverEmojiData,
-                        )} ${translatedText}`,
-                      },
-                    }
+                  ? noTranslation(
+                      `${displayCharacterForUnicodeEmojiCode(
+                        emoji.emoji_code,
+                        serverEmojiData,
+                      )} ${translatedText}`,
+                    )
                   : text
               }
               selected={

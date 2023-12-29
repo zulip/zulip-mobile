@@ -18,6 +18,7 @@ import * as logging from '../utils/logging';
 import { ensureUnreachable } from '../generics';
 import { EmailAddressVisibility, Role } from '../api/permissionsTypes';
 import ZulipText from '../common/ZulipText';
+import { noTranslation } from '../i18n/i18n';
 
 /**
  * All users in this Zulip org (aka realm).
@@ -359,7 +360,7 @@ export function getFullNameText(args: {|
     return { text: '{userFullName} (guest)', values: { userFullName: user.full_name } };
   }
 
-  return { text: '{_}', values: { _: user.full_name } };
+  return noTranslation(user.full_name);
 }
 
 const italicTextStyle = { fontStyle: 'italic' };
@@ -393,7 +394,7 @@ export function getFullNameReactText(args: {|
     };
   }
 
-  return { text: '{_}', values: { _: user.full_name } };
+  return noTranslation(user.full_name);
 }
 
 /**
