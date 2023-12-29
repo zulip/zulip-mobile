@@ -67,15 +67,15 @@ export default function LightboxHeader(props: Props): Node {
       <SafeAreaView mode="padding" edges={['right', 'left']} style={styles.contentArea}>
         <UserAvatarWithPresence size={36} userId={senderId} />
         <View style={styles.text}>
-          {sender != null ? (
-            <ZulipTextIntl
-              style={styles.name}
-              numberOfLines={1}
-              text={getFullNameReactText({ user: sender, enableGuestUserIndicator })}
-            />
-          ) : (
-            <ZulipText style={styles.name} numberOfLines={1} text={message.sender_full_name} />
-          )}
+          <ZulipTextIntl
+            style={styles.name}
+            numberOfLines={1}
+            text={getFullNameReactText({
+              user: sender,
+              enableGuestUserIndicator,
+              fallback: message.sender_full_name,
+            })}
+          />
           <ZulipText style={styles.subheader} numberOfLines={1}>
             {subheader}
           </ZulipText>

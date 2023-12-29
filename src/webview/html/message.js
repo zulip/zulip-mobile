@@ -282,16 +282,14 @@ $!${divOpenHtml}
 
   const { sender_id } = message;
   const sender = backgroundData.allUsersById.get(sender_id) ?? null;
-  const senderFullName =
-    sender != null
-      ? _(
-          // TODO use italics for "(guest)"
-          getFullNameText({
-            user: sender,
-            enableGuestUserIndicator: backgroundData.enableGuestUserIndicator,
-          }),
-        )
-      : message.sender_full_name;
+  const senderFullName = _(
+    // TODO use italics for "(guest)"
+    getFullNameText({
+      user: sender,
+      enableGuestUserIndicator: backgroundData.enableGuestUserIndicator,
+      fallback: message.sender_full_name,
+    }),
+  );
   const avatarUrl = message.avatar_url
     .get(
       // 48 logical pixels; see `.avatar` and `.avatar img` in

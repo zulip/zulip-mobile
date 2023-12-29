@@ -338,7 +338,8 @@ export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): stri
 /**
  * Display text for a user's name, ignoring muting, as LocalizableText.
  *
- * Accepts `null` for the `user` argument; in that case, the text is
+ * Accepts `null` for the `user` argument; in that case, the name is
+ * taken from `fallback` if present, and otherwise the text is
  * "(unknown user)".
  *
  * For the same text as LocalizableReactText, see getFullNameReactText.
@@ -349,11 +350,12 @@ export function getDisplayEmailForUser(realm: RealmState, user: UserOrBot): stri
 export function getFullNameText(args: {|
   user: UserOrBot | null,
   enableGuestUserIndicator: boolean,
+  fallback?: string,
 |}): LocalizableText {
-  const { user, enableGuestUserIndicator } = args;
+  const { user, enableGuestUserIndicator, fallback } = args;
 
   if (user == null) {
-    return '(unknown user)';
+    return fallback != null ? noTranslation(fallback) : '(unknown user)';
   }
 
   if (user.role === Role.Guest && enableGuestUserIndicator) {
@@ -373,11 +375,12 @@ const italicTextStyle = { fontStyle: 'italic' };
 export function getFullNameReactText(args: {|
   +user: UserOrBot | null,
   +enableGuestUserIndicator: boolean,
+  +fallback?: string,
 |}): LocalizableReactText {
-  const { user, enableGuestUserIndicator } = args;
+  const { user, enableGuestUserIndicator, fallback } = args;
 
   if (user == null) {
-    return '(unknown user)';
+    return fallback != null ? noTranslation(fallback) : '(unknown user)';
   }
 
   if (user.role === Role.Guest && enableGuestUserIndicator) {
@@ -400,7 +403,8 @@ export function getFullNameReactText(args: {|
 /**
  * Display text for a user's name, as LocalizableText.
  *
- * Accepts `null` for the `user` argument; in that case, the text is
+ * Accepts `null` for the `user` argument; in that case, the name is
+ * taken from `fallback` if present, and otherwise the text is
  * "(unknown user)".
  *
  * If the user is muted, gives "Muted user".
@@ -414,11 +418,12 @@ export function getFullNameOrMutedUserText(args: {|
   user: UserOrBot | null,
   mutedUsers: MutedUsersState,
   enableGuestUserIndicator: boolean,
+  fallback?: string,
 |}): LocalizableText {
-  const { user, mutedUsers, enableGuestUserIndicator } = args;
+  const { user, mutedUsers, enableGuestUserIndicator, fallback } = args;
 
   if (user == null) {
-    return '(unknown user)';
+    return fallback != null ? noTranslation(fallback) : '(unknown user)';
   }
 
   if (mutedUsers.has(user.user_id)) {
@@ -437,11 +442,12 @@ export function getFullNameOrMutedUserReactText(args: {|
   user: UserOrBot | null,
   mutedUsers: MutedUsersState,
   enableGuestUserIndicator: boolean,
+  fallback?: string,
 |}): LocalizableReactText {
-  const { user, mutedUsers, enableGuestUserIndicator } = args;
+  const { user, mutedUsers, enableGuestUserIndicator, fallback } = args;
 
   if (user == null) {
-    return '(unknown user)';
+    return fallback != null ? noTranslation(fallback) : '(unknown user)';
   }
 
   if (mutedUsers.has(user.user_id)) {

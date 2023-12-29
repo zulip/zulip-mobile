@@ -107,11 +107,16 @@ export default (
 >
   ${uiRecipients
     .map(r => {
-      const user = allUsersById.get(r.id);
+      const user = allUsersById.get(r.id) ?? null;
       // TODO use italics for "(guest)"
-      return user != null
-        ? _(getFullNameOrMutedUserText({ user, mutedUsers, enableGuestUserIndicator }))
-        : r.full_name;
+      return _(
+        getFullNameOrMutedUserText({
+          user,
+          mutedUsers,
+          enableGuestUserIndicator,
+          fallback: r.full_name,
+        }),
+      );
     })
     .sort()
     .join(', ')}
