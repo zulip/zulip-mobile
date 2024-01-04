@@ -6,6 +6,7 @@ import { flagsStateToStringList } from '../html/message';
 import { HOME_NARROW } from '../../utils/narrow';
 import * as eg from '../../__tests__/lib/exampleData';
 import type { Props } from '../MessageList';
+import { mock_ } from '../../__tests__/lib/intl';
 
 describe('generateInboundEvents', () => {
   const baseSelectorProps = deepFreeze({
@@ -18,14 +19,7 @@ describe('generateInboundEvents', () => {
     doNotMarkMessagesAsRead: false,
   });
 
-  type FudgedProps = {|
-    ...Props,
-
-    // `intl` property is complicated and not worth testing
-    _: $FlowFixMe,
-  |};
-
-  const baseProps: FudgedProps = deepFreeze({
+  const baseProps: Props = deepFreeze({
     narrow: HOME_NARROW,
     showMessagePlaceholders: false,
     startEditMessage: jest.fn(),
@@ -36,7 +30,7 @@ describe('generateInboundEvents', () => {
     fetchOlder: jest.fn(),
     fetchNewer: jest.fn(),
 
-    _: jest.fn(),
+    _: mock_,
     setDoNotMarkMessagesAsRead: jest.fn(),
   });
 
