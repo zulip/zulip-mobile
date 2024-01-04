@@ -145,6 +145,7 @@ const rewriteHtml = (auth: Auth, element: Element | Document = document) => {
   rewriteImageUrls(auth, element);
   rewriteTime(element);
   rewriteSpoilers(element);
+  // TODO add "(guest)" marker on @-mentions
 };
 
 export default rewriteHtml;
