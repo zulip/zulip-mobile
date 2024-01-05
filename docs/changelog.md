@@ -48,6 +48,7 @@ It doesn't include
   organization is running Zulip Server 8.0+ and has turned the
   indicator off: https://zulip.com/help/guest-users . (#5804)
 
+Plus other fixes and improvements for your Zulip experience.
 
 ### Highlights for developers
 
