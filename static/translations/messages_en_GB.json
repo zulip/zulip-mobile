@@ -260,7 +260,7 @@
   "Send a test notification": "Send a test notification",
   "Failed to send test notification": "Failed to send test notification",
   "Feature not available": "Feature not available",
-  "This feature is only available for organizations on {zulipServerNameWithMinVersion}+.": "This feature is only available for organizations on {zulipServerNameWithMinVersion}+.",
+  "This feature is only available for organizations on {zulipServerNameWithMinVersion}+.": "This feature is only available for organisations on {zulipServerNameWithMinVersion}+.",
   "Upgrade instructions for server administrators": "Upgrade instructions for server administrators",
   "Cannot send test notification": "Cannot send test notification",
   "Please tap “{troubleshootingPageTitle}” for more details.": "Please tap “{troubleshootingPageTitle}” for more details.",
