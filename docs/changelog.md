@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.222 (2024-01-05)
+
 ### Highlights for users
 
 * We now show a "(guest)" indicator on guest users' names, unless your
