@@ -39,6 +39,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* We now show a "(guest)" indicator on guest users' names, unless your
+  organization is running Zulip Server 8.0+ and has turned the
+  indicator off: https://zulip.com/help/guest-users . (#5804)
+
+
+### Highlights for developers
+
+* Resolved issues: #5804, #5785, #5805
+
 
 ## 27.221 (2023-12-07)
 
