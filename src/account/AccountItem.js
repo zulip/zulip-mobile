@@ -19,10 +19,15 @@ import { accountSwitch } from './accountActions';
 import { useNavigation } from '../react-navigation';
 import {
   chooseNotifProblemForShortText,
+  kPushNotificationsEnabledEndDoc,
   notifProblemShortText,
+  pushNotificationsEnabledEndTimestampWarning,
 } from '../settings/NotifTroubleshootingScreen';
-import { getRealmName } from '../directSelectors';
+import { getGlobalSettings, getRealmName } from '../directSelectors';
 import { getHaveServerData } from '../haveServerDataSelectors';
+import { useDateRefreshedAtInterval } from '../reactUtils';
+import { openLinkWithUserPreference } from '../utils/openLink';
+import * as logging from '../utils/logging';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -69,6 +74,8 @@ export default function AccountItem(props: Props): Node {
   const navigation = useNavigation();
   const dispatch = useGlobalDispatch();
 
+  const globalSettings = useGlobalSelector(getGlobalSettings);
+
   const isActiveAccount = useGlobalSelector(state => getIsActiveAccount(state, { email, realm }));
 
   // Don't show the "remove account" button (the "trash" icon) for the
@@ -80,6 +87,8 @@ export default function AccountItem(props: Props): Node {
   const backgroundItemColor = isLoggedIn ? 'hsla(177, 70%, 47%, 0.1)' : 'hsla(0,0%,50%,0.1)';
   const textColor = isLoggedIn ? BRAND_COLOR : 'gray';
 
+  const dateNow = useDateRefreshedAtInterval(60_000);
+
   const activeAccountState = useGlobalSelector(tryGetActiveAccountState);
   // The fallback text '(unknown organization name)' is never expected to
   // appear in the UI. As of writing, notifProblemShortText doesn't use its
@@ -88,36 +97,73 @@ export default function AccountItem(props: Props): Node {
   // `realmName` will be the real realm name, not the fallback.
   // TODO(#5005) look for server data even when this item's account is not
   //   the active one.
-  const realmName =
-    isActiveAccount && activeAccountState != null && getHaveServerData(activeAccountState)
-      ? getRealmName(activeAccountState)
-      : '(unknown organization name)';
+  let realmName = '(unknown organization name)';
+  let expiryWarning = null;
+  if (isActiveAccount && activeAccountState != null && getHaveServerData(activeAccountState)) {
+    realmName = getRealmName(activeAccountState);
+    expiryWarning = silenceServerPushSetupWarnings
+      ? null
+      : pushNotificationsEnabledEndTimestampWarning(activeAccountState, dateNow);
+  }
   const singleNotifProblem = chooseNotifProblemForShortText({
     report: notificationReport,
     ignoreServerHasNotEnabled: silenceServerPushSetupWarnings,
   });
 
   const handlePressNotificationWarning = React.useCallback(() => {
-    if (singleNotifProblem == null) {
+    if (expiryWarning == null && singleNotifProblem == null) {
+      logging.warn('AccountItem: Notification warning pressed with nothing to show');
       return;
     }
-    Alert.alert(
-      _('Notifications'),
-      _(notifProblemShortText(singleNotifProblem, realmName)),
-      [
-        { text: _('Cancel'), style: 'cancel' },
-        {
-          text: _('Details'),
-          onPress: () => {
-            dispatch(accountSwitch({ realm, email }));
-            navigation.push('notifications');
+
+    if (singleNotifProblem != null) {
+      Alert.alert(
+        _('Notifications'),
+        _(notifProblemShortText(singleNotifProblem, realmName)),
+        [
+          { text: _('Cancel'), style: 'cancel' },
+          {
+            text: _('Details'),
+            onPress: () => {
+              dispatch(accountSwitch({ realm, email }));
+              navigation.push('notifications');
+            },
+            style: 'default',
           },
-          style: 'default',
-        },
-      ],
-      { cancelable: true },
-    );
-  }, [email, singleNotifProblem, realm, realmName, navigation, dispatch, _]);
+        ],
+        { cancelable: true },
+      );
+      return;
+    }
+
+    if (expiryWarning != null) {
+      Alert.alert(
+        _('Notifications'),
+        _(expiryWarning.text),
+        [
+          { text: _('Cancel'), style: 'cancel' },
+          {
+            text: _('Details'),
+            onPress: () => {
+              openLinkWithUserPreference(kPushNotificationsEnabledEndDoc, globalSettings);
+            },
+            style: 'default',
+          },
+        ],
+        { cancelable: true },
+      );
+    }
+  }, [
+    email,
+    singleNotifProblem,
+    expiryWarning,
+    realm,
+    realmName,
+    globalSettings,
+    navigation,
+    dispatch,
+    _,
+  ]);
 
   return (
     <Touchable style={styles.wrapper} onPress={() => props.onSelect(props.account)}>
@@ -139,7 +185,7 @@ export default function AccountItem(props: Props): Node {
             <ZulipTextIntl style={styles.signedOutText} text="Signed out" numberOfLines={1} />
           )}
         </View>
-        {singleNotifProblem != null && (
+        {(singleNotifProblem != null || expiryWarning != null) && (
           <Pressable style={styles.icon} hitSlop={12} onPress={handlePressNotificationWarning}>
             {({ pressed }) => (
               <IconAlertTriangle

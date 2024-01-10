@@ -27,6 +27,8 @@ import {
   NotificationProblem,
   notifProblemShortReactText,
   chooseNotifProblemForShortText,
+  pushNotificationsEnabledEndTimestampWarning,
+  kPushNotificationsEnabledEndDoc,
 } from './NotifTroubleshootingScreen';
 import { keyOfIdentity } from '../account/accountMisc';
 import { ApiError } from '../api/apiErrors';
@@ -34,6 +36,7 @@ import { showErrorAlert } from '../utils/info';
 import * as logging from '../utils/logging';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { setSilenceServerPushSetupWarnings } from '../account/accountActions';
+import { useDateRefreshedAtInterval } from '../reactUtils';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -48,6 +51,8 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const dispatch = useDispatch();
   const _ = React.useContext(TranslationContext);
 
+  const dateNow = useDateRefreshedAtInterval(60_000);
+
   const auth = useSelector(getAuth);
   const identity = useSelector(getIdentity);
   const notificationReportsByIdentityKey = useNotificationReportsByIdentityKey();
@@ -59,6 +64,8 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const realmName = useSelector(getRealmName);
   const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
   const pushNotificationsEnabled = useSelector(state => getRealm(state).pushNotificationsEnabled);
+  const perAccountState = useSelector(state => state);
+  const expiryWarning = pushNotificationsEnabledEndTimestampWarning(perAccountState, dateNow);
   const silenceServerPushSetupWarnings = useSelector(getSilenceServerPushSetupWarnings);
   const offlineNotification = useSelector(state => getSettings(state).offlineNotification);
   const onlineNotification = useSelector(state => getSettings(state).onlineNotification);
@@ -67,6 +74,10 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   const globalSettings = useGlobalSelector(getGlobalSettings);
 
   const pushToken = useGlobalSelector(state => getGlobalSession(state).pushToken);
+
+  const handleExpiryWarningPress = React.useCallback(() => {
+    openLinkWithUserPreference(kPushNotificationsEnabledEndDoc, globalSettings);
+  }, [globalSettings]);
 
   const handleSilenceWarningsChange = React.useCallback(() => {
     dispatch(setSilenceServerPushSetupWarnings(!silenceServerPushSetupWarnings));
@@ -163,6 +174,17 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   }
 
   const children = [];
+  if (expiryWarning != null) {
+    children.push(
+      <NavRow
+        key="expiry"
+        type="external"
+        leftElement={{ type: 'icon', Component: IconAlertTriangle, color: kWarningColor }}
+        title={expiryWarning.reactText}
+        onPress={handleExpiryWarningPress}
+      />,
+    );
+  }
   if (pushNotificationsEnabled) {
     children.push(
       <SwitchRow

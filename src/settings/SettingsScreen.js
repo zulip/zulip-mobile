@@ -33,11 +33,13 @@ import {
   useNotificationReportsByIdentityKey,
   chooseNotifProblemForShortText,
   notifProblemShortReactText,
+  pushNotificationsEnabledEndTimestampWarning,
 } from './NotifTroubleshootingScreen';
 import { noTranslation } from '../i18n/i18n';
 import { keyOfIdentity } from '../account/accountMisc';
 import languages from './languages';
 import { getRealmName } from '../directSelectors';
+import { useDateRefreshedAtInterval } from '../reactUtils';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationProp<'settings'>,
@@ -45,11 +47,16 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function SettingsScreen(props: Props): Node {
+  const dateNow = useDateRefreshedAtInterval(60_000);
+
   const theme = useGlobalSelector(state => getGlobalSettings(state).theme);
   const browser = useGlobalSelector(state => getGlobalSettings(state).browser);
   const globalSettings = useGlobalSelector(getGlobalSettings);
   const markMessagesReadOnScroll = globalSettings.markMessagesReadOnScroll;
   const language = useGlobalSelector(state => getGlobalSettings(state).language);
+
+  const perAccountState = useSelector(state => state);
+  const expiryWarning = pushNotificationsEnabledEndTimestampWarning(perAccountState, dateNow);
 
   const zulipVersion = useSelector(getServerVersion);
   const identity = useSelector(getIdentity);
@@ -101,12 +108,20 @@ export default function SettingsScreen(props: Props): Node {
         title="Notifications"
         {...(() => {
           const problem = chooseNotifProblemForShortText({ report: notificationReport });
-          return (
-            problem != null && {
-              leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
-              subtitle: notifProblemShortReactText(problem, realmName),
-            }
-          );
+          if (expiryWarning == null && problem == null) {
+            return;
+          }
+          let subtitle = undefined;
+          if (problem != null) {
+            subtitle = notifProblemShortReactText(problem, realmName);
+          } else if (expiryWarning != null) {
+            subtitle = expiryWarning.reactText;
+          }
+          invariant(subtitle != null, 'expected non-null `expiryWarning` or `problem`');
+          return {
+            leftElement: { type: 'icon', Component: IconAlertTriangle, color: kWarningColor },
+            subtitle,
+          };
         })()}
         onPress={() => {
           navigation.push('notifications');
