@@ -44,6 +44,7 @@ const initialState = {
   messageContentDeleteLimitSeconds: null,
   messageContentEditLimitSeconds: 1,
   pushNotificationsEnabled: true,
+  pushNotificationsEnabledEndTimestamp: null,
   createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
   createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicy.MemberOrAbove,
   webPublicStreamsEnabled: false,
@@ -146,6 +147,8 @@ export default (
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
+        pushNotificationsEnabledEndTimestamp:
+          action.data.realm_push_notifications_enabled_end_timestamp ?? null,
         createPublicStreamPolicy:
           action.data.realm_create_public_stream_policy
           ?? action.data.realm_create_stream_policy
@@ -254,6 +257,10 @@ export default (
             }
             if (data.push_notifications_enabled !== undefined) {
               result.pushNotificationsEnabled = data.push_notifications_enabled;
+            }
+            if (data.push_notifications_enabled_end_timestamp !== undefined) {
+              result.pushNotificationsEnabledEndTimestamp =
+                data.push_notifications_enabled_end_timestamp;
             }
             if (data.create_stream_policy !== undefined) {
               // TODO(server-5.0): Stop expecting create_stream_policy; simplify.

@@ -532,6 +532,9 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add enableGuestUserIndicator to state.realm
   '64': dropCache,
 
+  // Add pushNotificationsEnabledEndTimestamp to state.realm
+  '65': dropCache,
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

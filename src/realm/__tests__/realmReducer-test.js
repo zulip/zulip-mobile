@@ -60,6 +60,8 @@ describe('realmReducer', () => {
         messageContentDeleteLimitSeconds: action.data.realm_message_content_delete_limit_seconds,
         messageContentEditLimitSeconds: action.data.realm_message_content_edit_limit_seconds,
         pushNotificationsEnabled: action.data.realm_push_notifications_enabled,
+        pushNotificationsEnabledEndTimestamp:
+          action.data.realm_push_notifications_enabled_end_timestamp,
         webPublicStreamsEnabled: action.data.server_web_public_streams_enabled,
         createPublicStreamPolicy: action.data.realm_create_public_stream_policy,
         createPrivateStreamPolicy: action.data.realm_create_private_stream_policy,
@@ -406,6 +408,16 @@ describe('realmReducer', () => {
         check(true, false);
         check(false, true);
         check(false, false);
+      });
+
+      describe('pushNotificationsEnabledEndTimestamp / push_notifications_enabled_end_timestamp', () => {
+        const check = mkCheck(
+          'pushNotificationsEnabledEndTimestamp',
+          'push_notifications_enabled_end_timestamp',
+        );
+        check(123, null);
+        check(null, 123);
+        check(123, 234);
       });
 
       describe('create{Private,Public}StreamPolicy / create_stream_policy', () => {

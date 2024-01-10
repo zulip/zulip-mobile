@@ -302,6 +302,7 @@ export type RealmState = {|
   +messageContentDeleteLimitSeconds: number | null,
   +messageContentEditLimitSeconds: number,
   +pushNotificationsEnabled: boolean,
+  +pushNotificationsEnabledEndTimestamp: number | null,
   +createPublicStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
   +createPrivateStreamPolicy: CreatePublicOrPrivateStreamPolicyT,
   +webPublicStreamsEnabled: boolean,

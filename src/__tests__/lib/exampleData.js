@@ -817,6 +817,7 @@ export const action = Object.freeze({
       realm_presence_disabled: true,
       realm_private_message_policy: 3,
       realm_push_notifications_enabled: true,
+      realm_push_notifications_enabled_end_timestamp: 1704926069,
       realm_send_welcome_emails: true,
       realm_signup_notifications_stream_id: 3,
       realm_upload_quota_mib: 10,
