@@ -12,27 +12,6 @@ import messages from '../i18n/messages';
 // $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
 export const TranslationContext: React.Context<GetText> = React.createContext(undefined);
 
-/**
- * Provide `_` to the wrapped component, passing other props through.
- *
- * This can be useful when the component is already using its `context`
- * property for a different context provider.  When that isn't the case,
- * simply saying `context: TranslationContext` may be more convenient.
- * Or in a function component, `const _ = useContext(TranslationContext);`.
- */
-export function withGetText<P: { +_: GetText, ... }, C: React.ComponentType<P>>(
-  WrappedComponent: C,
-): React.ComponentType<$ReadOnly<$Exact<$Diff<React.ElementConfig<C>, {| _: GetText |}>>>> {
-  // eslint-disable-next-line func-names
-  return function (props: $Exact<$Diff<React.ElementConfig<C>, {| _: GetText |}>>): React.Node {
-    return (
-      <TranslationContext.Consumer>
-        {_ => <WrappedComponent _={_} {...props} />}
-      </TranslationContext.Consumer>
-    );
-  };
-}
-
 const makeGetText = (intl: IntlShape): GetText => {
   const _ = (message, values_) => {
     const text = typeof message === 'object' ? message.text : message;

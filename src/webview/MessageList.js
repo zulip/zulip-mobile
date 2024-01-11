@@ -65,8 +65,8 @@ type OuterProps = $ReadOnly<{|
  *
  * This can be thought of -- hence the name -- as the React props for a
  * notional inner component, like we'd have if we obtained this data through
- * HOCs like `connect` and `withGetText`.  (Instead, we use Hooks, and don't
- * have a separate inner component.)
+ * HOCs like `connect`.  (Instead, we use Hooks, and don't have a separate
+ * inner component.)
  */
 export type Props = $ReadOnly<{|
   ...OuterProps,
