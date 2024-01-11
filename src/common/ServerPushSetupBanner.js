@@ -15,6 +15,7 @@ import {
   notifProblemShortReactText,
 } from '../settings/NotifTroubleshootingScreen';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
+import { useDateRefreshedAtInterval } from '../reactUtils';
 
 type Props = $ReadOnly<{|
   navigation: AppNavigationMethods,
@@ -41,6 +42,8 @@ export default function ServerPushSetupBanner(props: Props): Node {
   const silenceServerPushSetupWarnings = useSelector(getSilenceServerPushSetupWarnings);
   const realmName = useSelector(getRealmName);
 
+  const dateNow = useDateRefreshedAtInterval(60_000);
+
   let visible = false;
   let text = '';
   if (pushNotificationsEnabled) {
@@ -49,9 +52,7 @@ export default function ServerPushSetupBanner(props: Props): Node {
     // don't show
   } else if (
     lastDismissedServerPushSetupNotice !== null
-    // TODO: Could rerender this component on an interval, to give an
-    //   upper bound on how outdated this `new Date()` can be.
-    && lastDismissedServerPushSetupNotice >= subWeeks(new Date(), 2)
+    && lastDismissedServerPushSetupNotice >= subWeeks(dateNow, 2)
   ) {
     // don't show
   } else {

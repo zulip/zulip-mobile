@@ -149,3 +149,29 @@ export const useHasStayedTrueForMs = (value: boolean, duration: number): boolean
 //   https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
 export const useConditionalEffect = (cb: () => void | (() => void), value: boolean): void =>
   React.useEffect(() => (value ? cb() : undefined), [value, cb]);
+
+/**
+ * A Date, as React state that refreshes regularly at an interval.
+ *
+ * Use this in a React component that relies on the current date, to make it
+ * periodically rerender with a refreshed date value.
+ *
+ * Don't change the value of refreshIntervalMs.
+ *
+ * This uses `setTimeout`, which is subject to slightly late timeouts:
+ *   https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#reasons_for_delays_longer_than_specified
+ * so don't expect millisecond precision.
+ */
+export const useDateRefreshedAtInterval = (refreshIntervalMs: number): Date => {
+  useDebugAssertConstant(refreshIntervalMs);
+
+  const [date, setDate] = React.useState(new Date());
+  useConditionalEffect(
+    React.useCallback(() => {
+      setDate(new Date());
+    }, []),
+    useHasNotChangedForMs(date, refreshIntervalMs),
+  );
+
+  return date;
+};

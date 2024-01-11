@@ -3,9 +3,11 @@ import React from 'react';
 import type { ComponentType } from 'react';
 // $FlowFixMe[untyped-import]
 import { create, act } from 'react-test-renderer';
+// $FlowFixMe[untyped-import]
+import * as ReactHooksTesting from '@testing-library/react-hooks';
 
 import { fakeSleep } from './lib/fakeTimers';
-import { useHasStayedTrueForMs } from '../reactUtils';
+import { useDateRefreshedAtInterval, useHasStayedTrueForMs } from '../reactUtils';
 
 describe('useHasNotChangedForMs', () => {
   // This gets indirect coverage because useHasStayedTrueForMs calls it, and
@@ -33,6 +35,11 @@ describe('useHasStayedTrueForMs', () => {
    *   repeatedly
    * - boring details like how the mock component is implemented
    */
+  // We wrote these tests a long time before our first experiment with
+  // @testing-library/react-hooks (for useDateRefreshedAtInterval), in which
+  // we let the library take care of defining and rendering a component. The
+  // setup for these older tests is much more verbose.
+  //
   // I'm not totally clear on everything `act` does, but react-test-renderer
   // seems to recommend it strongly enough that we actually get errors if we
   // don't use it. Following links --
@@ -248,4 +255,40 @@ describe('useHasStayedTrueForMs', () => {
       await testSequence(currentSequence);
     });
   }
+});
+
+test('useDateRefreshedAtInterval', async () => {
+  const interval = 60_000;
+
+  function sleep(ms: number): Promise<void> {
+    return ReactHooksTesting.act(() => fakeSleep(ms));
+  }
+
+  // https://react-hooks-testing-library.com/reference/api#renderhook
+  const { result } = ReactHooksTesting.renderHook(() => useDateRefreshedAtInterval(interval));
+
+  let value = result.current;
+  expect(result.error).toBeUndefined();
+
+  await sleep(interval / 10);
+  expect(result.error).toBeUndefined();
+  expect(result.current).toBe(value);
+
+  await sleep(interval / 10);
+  expect(result.error).toBeUndefined();
+  expect(result.current).toBe(value);
+
+  await sleep(interval);
+  expect(result.error).toBeUndefined();
+  expect(result.current).not.toBe(value);
+  expect((result.current - value) * 1000).toBeGreaterThanOrEqual(interval);
+  value = result.current;
+
+  await sleep(interval / 10);
+  expect(result.error).toBeUndefined();
+  expect(result.current).toBe(value);
+
+  await sleep(interval / 10);
+  expect(result.error).toBeUndefined();
+  expect(result.current).toBe(value);
 });
