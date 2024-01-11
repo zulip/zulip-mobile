@@ -372,15 +372,8 @@ export type LocalizableReactText =
 /**
  * Usually called `_`, and invoked like `_('Message')` -> `'Nachricht'`.
  *
- * To use, put these two lines at the top of a React component's body:
- *
- *     static contextType = TranslationContext;
- *     context: GetText;
- *
- * and then in methods, say `const _ = this.context`.
- *
- * Alternatively, for when `context` is already in use: use `withGetText`
- * and then say `const { _ } = this.props`.
+ * To use:
+ *   const _ = React.useContext(TranslationContext);
  */
 export type GetText = {|
   (message: string, values?: {| +[string]: MessageFormatPrimitiveValue |}): string,
