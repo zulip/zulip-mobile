@@ -150,7 +150,7 @@ export type Account = $ReadOnly<{|
    * notifications, i.e., RealmState.pushNotificationsEnabled is false.)
    *
    * Users will set this if they want something more permanent than the
-   * ServerPushSetupBanner's "Dismiss" button. That button only snoozes the
+   * ServerNotifsDisabledBanner's "Dismiss" button. That button only snoozes the
    * banner (for two weeks, as of writing), but this setting makes the
    * banner never appear. (The banner's information will still be available
    * on the "Notifications" screen.)

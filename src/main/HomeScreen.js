@@ -16,7 +16,7 @@ import IconUnreadMentions from '../nav/IconUnreadMentions';
 import { BRAND_COLOR, createStyleSheet } from '../styles';
 import LoadingBanner from '../common/LoadingBanner';
 import ServerCompatBanner from '../common/ServerCompatBanner';
-import ServerPushSetupBanner from '../common/ServerPushSetupBanner';
+import ServerNotifsDisabledBanner from '../common/ServerNotifsDisabledBanner';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
 
 const styles = createStyleSheet({
@@ -70,7 +70,7 @@ export default function HomeScreen(props: Props): Node {
         />
       </View>
       <ServerCompatBanner />
-      <ServerPushSetupBanner navigation={navigation} />
+      <ServerNotifsDisabledBanner navigation={navigation} />
       <LoadingBanner />
       <UnreadCards />
     </SafeAreaView>
