@@ -55,6 +55,24 @@ describe('accountsReducer', () => {
         ),
       ).toEqual([{ ...account1, zulipFeatureLevel: newZulipFeatureLevel }, account2, account3]);
     });
+
+    test('when realm_push_notifications_enabled: true, clears lastDismissedServerPushSetupNotice', () => {
+      const account = { ...eg.selfAccount, lastDismissedServerPushSetupNotice: new Date() };
+      const actualState = accountsReducer(
+        [account],
+        eg.mkActionRegisterComplete({ realm_push_notifications_enabled: true }),
+      );
+      expect(actualState).toEqual([{ ...account, lastDismissedServerPushSetupNotice: null }]);
+    });
+
+    test('when realm_push_notifications_enabled: false, preserves lastDismissedServerPushSetupNotice', () => {
+      const account = { ...eg.selfAccount, lastDismissedServerPushSetupNotice: new Date() };
+      const actualState = accountsReducer(
+        [account],
+        eg.mkActionRegisterComplete({ realm_push_notifications_enabled: false }),
+      );
+      expect(actualState).toEqual([account]);
+    });
   });
 
   describe('ACCOUNT_SWITCH', () => {
