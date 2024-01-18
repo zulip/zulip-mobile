@@ -535,6 +535,12 @@ const migrationsInner: {| [string]: (LessPartialState) => LessPartialState |} = 
   // Add pushNotificationsEnabledEndTimestamp to state.realm
   '65': dropCache,
 
+  // Add `accounts[].lastDismissedServerNotifsExpiringBanner`, as Date | null.
+  '66': state => ({
+    ...state,
+    accounts: state.accounts.map(a => ({ ...a, lastDismissedServerNotifsExpiringBanner: null })),
+  }),
+
   // TIP: When adding a migration, consider just using `dropCache`.
   //   (See its jsdoc for guidance on when that's the right answer.)
 };

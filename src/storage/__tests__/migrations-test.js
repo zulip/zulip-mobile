@@ -106,13 +106,24 @@ describe('migrations', () => {
   const base62 = {
     ...base52,
     migrations: { version: 62 },
-    accounts: base52.accounts.map(a => ({ ...a, silenceServerPushSetupWarnings: false })),
+    // $FlowIgnore[prop-missing] same type-lie as in the test, below at end
+    accounts: base52.accounts.map(a => ({
+      ...a,
+      silenceServerPushSetupWarnings: false,
+    })),
+  };
+
+  // What `base` becomes after migrations up through 66.
+  const base66 = {
+    ...base62,
+    migrations: { version: 66 },
+    accounts: base62.accounts.map(a => ({ ...a, lastDismissedServerNotifsExpiringBanner: null })),
   };
 
   // What `base` becomes after all migrations.
   const endBase = {
-    ...base62,
-    migrations: { version: 65 },
+    ...base66,
+    migrations: { version: 66 },
   };
 
   for (const [desc, before, after] of [

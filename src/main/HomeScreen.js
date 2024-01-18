@@ -18,6 +18,7 @@ import LoadingBanner from '../common/LoadingBanner';
 import ServerCompatBanner from '../common/ServerCompatBanner';
 import ServerNotifsDisabledBanner from '../common/ServerNotifsDisabledBanner';
 import { OfflineNoticePlaceholder } from '../boot/OfflineNoticeProvider';
+import ServerNotifsExpiringBanner from '../common/ServerNotifsExpiringBanner';
 
 const styles = createStyleSheet({
   wrapper: {
@@ -71,6 +72,7 @@ export default function HomeScreen(props: Props): Node {
       </View>
       <ServerCompatBanner />
       <ServerNotifsDisabledBanner navigation={navigation} />
+      <ServerNotifsExpiringBanner />
       <LoadingBanner />
       <UnreadCards />
     </SafeAreaView>

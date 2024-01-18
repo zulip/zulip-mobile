@@ -12,6 +12,7 @@ import {
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
   ACCOUNT_REMOVE,
   SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
+  DISMISS_SERVER_NOTIFS_EXPIRING_BANNER,
 } from '../actionConstants';
 import { EventTypes } from '../api/eventTypes';
 import type { AccountsState, Identity, Action, Account } from '../types';
@@ -51,6 +52,10 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
         lastDismissedServerPushSetupNotice: action.data.realm_push_notifications_enabled
           ? null
           : current.lastDismissedServerPushSetupNotice,
+        lastDismissedServerNotifsExpiringBanner:
+          action.data.realm_push_notifications_enabled_end_timestamp == null
+            ? null
+            : current.lastDismissedServerNotifsExpiringBanner,
       }));
 
     case ACCOUNT_SWITCH: {
@@ -79,6 +84,7 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
             zulipVersion: null,
             zulipFeatureLevel: null,
             lastDismissedServerPushSetupNotice: null,
+            lastDismissedServerNotifsExpiringBanner: null,
             silenceServerPushSetupWarnings: false,
           },
           ...state,
@@ -136,6 +142,13 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
       }));
     }
 
+    case DISMISS_SERVER_NOTIFS_EXPIRING_BANNER: {
+      return updateActiveAccount(state, current => ({
+        ...current,
+        lastDismissedServerNotifsExpiringBanner: action.date,
+      }));
+    }
+
     case SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS: {
       return updateActiveAccount(state, current => ({
         ...current,
@@ -178,6 +191,10 @@ export default (state: AccountsState = initialState, action: Action): AccountsSt
                 event.data.push_notifications_enabled === true
                   ? null
                   : current.lastDismissedServerPushSetupNotice,
+              lastDismissedServerNotifsExpiringBanner:
+                event.data.push_notifications_enabled_end_timestamp === null
+                  ? null
+                  : current.lastDismissedServerNotifsExpiringBanner,
             }));
           }
 

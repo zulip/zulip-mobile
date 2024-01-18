@@ -7,6 +7,7 @@ import {
   LOGIN_SUCCESS,
   DISMISS_SERVER_PUSH_SETUP_NOTICE,
   SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
+  DISMISS_SERVER_NOTIFS_EXPIRING_BANNER,
 } from '../actionConstants';
 import { registerAndStartPolling } from '../events/eventActions';
 import { resetToMainTabs } from '../nav/navActions';
@@ -16,6 +17,15 @@ import { resetAccountData } from './logoutActions';
 
 export const dismissServerPushSetupNotice = (): PerAccountAction => ({
   type: DISMISS_SERVER_PUSH_SETUP_NOTICE,
+
+  // We don't compute this in a reducer function. Those should be pure
+  // functions of their params:
+  //   https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#rules-of-reducers
+  date: new Date(),
+});
+
+export const dismissServerNotifsExpiringBanner = (): PerAccountAction => ({
+  type: DISMISS_SERVER_NOTIFS_EXPIRING_BANNER,
 
   // We don't compute this in a reducer function. Those should be pure
   // functions of their params:

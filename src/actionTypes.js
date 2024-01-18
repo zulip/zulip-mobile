@@ -61,6 +61,7 @@ import {
   REGISTER_PUSH_TOKEN_START,
   REGISTER_PUSH_TOKEN_END,
   SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS,
+  DISMISS_SERVER_NOTIFS_EXPIRING_BANNER,
 } from './actionConstants';
 
 import type { UserMessageFlag } from './api/modelTypes';
@@ -174,6 +175,11 @@ export type ResetAccountDataAction = $ReadOnly<{|
 
 type DismissServerPushSetupNoticeAction = $ReadOnly<{|
   type: typeof DISMISS_SERVER_PUSH_SETUP_NOTICE,
+  date: Date,
+|}>;
+
+type DismissServerNotifsExpiringBannerAction = $ReadOnly<{|
+  type: typeof DISMISS_SERVER_NOTIFS_EXPIRING_BANNER,
   date: Date,
 |}>;
 
@@ -677,6 +683,7 @@ export type PerAccountAction =
   // state.session
   | DismissServerCompatNoticeAction
   | DismissServerPushSetupNoticeAction
+  | DismissServerNotifsExpiringBannerAction
   | SetSilenceServerPushSetupWarningsAction
   | ToggleOutboxSendingAction
   ;
@@ -804,6 +811,7 @@ export function isPerAccountApplicableAction(action: Action): boolean {
     case CLEAR_TYPING:
     case DISMISS_SERVER_COMPAT_NOTICE:
     case DISMISS_SERVER_PUSH_SETUP_NOTICE:
+    case DISMISS_SERVER_NOTIFS_EXPIRING_BANNER:
     case SET_SILENCE_SERVER_PUSH_SETUP_WARNINGS:
     case TOGGLE_OUTBOX_SENDING:
       (action: PerAccountAction);

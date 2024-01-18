@@ -73,6 +73,31 @@ describe('accountsReducer', () => {
       );
       expect(actualState).toEqual([account]);
     });
+
+    test('when realm_push_notifications_enabled_end_timestamp is null, clears lastDismissedServerNotifsExpiringBanner', () => {
+      const account = { ...eg.selfAccount, lastDismissedServerNotifsExpiringBanner: new Date() };
+      const actualState = accountsReducer(
+        [account],
+        eg.mkActionRegisterComplete({ realm_push_notifications_enabled_end_timestamp: null }),
+      );
+      expect(actualState).toEqual([{ ...account, lastDismissedServerNotifsExpiringBanner: null }]);
+    });
+
+    test('when realm_push_notifications_enabled_end_timestamp is not null, preserves lastDismissedServerNotifsExpiringBanner', () => {
+      const account = { ...eg.selfAccount, lastDismissedServerNotifsExpiringBanner: new Date() };
+      const actualState = accountsReducer(
+        [account],
+        eg.mkActionRegisterComplete({ realm_push_notifications_enabled_end_timestamp: 1705616035 }),
+      );
+      expect(actualState).toEqual([account]);
+    });
+
+    // TODO(server-8.0)
+    test('legacy: when realm_push_notifications_enabled_end_timestamp missing, preserves lastDismissedServerNotifsExpiringBanner: null', () => {
+      const account = { ...eg.selfAccount, lastDismissedServerNotifsExpiringBanner: null };
+      const actualState = accountsReducer([account], eg.mkActionRegisterComplete({}));
+      expect(actualState).toEqual([account]);
+    });
   });
 
   describe('ACCOUNT_SWITCH', () => {
@@ -294,6 +319,59 @@ describe('accountsReducer', () => {
       test('data.push_notifications_enabled is absent, on state without dismissed notice', () => {
         const actualState = accountsReducer(stateWithoutDismissedNotice, eventWith({}));
         expect(actualState).toEqual(stateWithoutDismissedNotice);
+      });
+    });
+
+    describe('lastDismissedServerNotifsExpiringBanner', () => {
+      const stateWithDismissedBanner = [
+        { ...eg.plusReduxState.accounts[0], lastDismissedServerNotifsExpiringBanner: new Date() },
+      ];
+      const stateWithoutDismissedBanner = [
+        { ...eg.plusReduxState.accounts[0], lastDismissedServerNotifsExpiringBanner: null },
+      ];
+
+      const someTimestamp = 1705616035;
+
+      test('data.push_notifications_enabled_end_timestamp is null, on state with dismissed banner', () => {
+        const actualState = accountsReducer(
+          stateWithDismissedBanner,
+          eventWith({ push_notifications_enabled_end_timestamp: null }),
+        );
+        expect(actualState).toEqual(stateWithoutDismissedBanner);
+      });
+
+      test('data.push_notifications_enabled_end_timestamp is null, on state without dismissed banner', () => {
+        const actualState = accountsReducer(
+          stateWithoutDismissedBanner,
+          eventWith({ push_notifications_enabled_end_timestamp: null }),
+        );
+        expect(actualState).toEqual(stateWithoutDismissedBanner);
+      });
+
+      test('data.push_notifications_enabled_end_timestamp is non-null, on state with dismissed banner', () => {
+        const actualState = accountsReducer(
+          stateWithDismissedBanner,
+          eventWith({ push_notifications_enabled_end_timestamp: someTimestamp }),
+        );
+        expect(actualState).toEqual(stateWithDismissedBanner);
+      });
+
+      test('data.push_notifications_enabled_end_timestamp is non-null, on state without dismissed banner', () => {
+        const actualState = accountsReducer(
+          stateWithoutDismissedBanner,
+          eventWith({ push_notifications_enabled_end_timestamp: someTimestamp }),
+        );
+        expect(actualState).toEqual(stateWithoutDismissedBanner);
+      });
+
+      test('data.push_notifications_enabled_end_timestamp is absent, on state with dismissed banner', () => {
+        const actualState = accountsReducer(stateWithDismissedBanner, eventWith({}));
+        expect(actualState).toEqual(stateWithDismissedBanner);
+      });
+
+      test('data.push_notifications_enabled_end_timestamp is absent, on state without dismissed banner', () => {
+        const actualState = accountsReducer(stateWithoutDismissedBanner, eventWith({}));
+        expect(actualState).toEqual(stateWithoutDismissedBanner);
       });
     });
   });
