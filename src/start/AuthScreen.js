@@ -83,34 +83,6 @@ const availableDirectMethods: $ReadOnlyArray<AuthenticationMethodDetails> = [
   },
 ];
 
-// Methods that are covered in external_authentication_methods by servers
-// which have that key (Zulip Server v2.1+).  We refer to this array for
-// servers that don't.
-// TODO(server-2.1): Simplify this away.
-const availableExternalMethods: $ReadOnlyArray<AuthenticationMethodDetails> = [
-  {
-    name: 'google',
-    displayName: 'Google',
-    Icon: IconGoogle,
-    // Server versions through 2.0 accept only this URL for Google auth.
-    // Since server commit 2.0.0-2478-ga43b231f9 , both this URL and the new
-    // accounts/login/social/google are accepted; see zulip/zulip#13081 .
-    action: { url: 'accounts/login/google/' },
-  },
-  {
-    name: 'github',
-    displayName: 'GitHub',
-    Icon: IconGitHub,
-    action: { url: 'accounts/login/social/github' },
-  },
-  {
-    name: 'azuread',
-    displayName: 'Azure AD',
-    Icon: IconWindows,
-    action: { url: '/accounts/login/social/azuread-oauth2' },
-  },
-];
-
 const externalMethodIcons = new Map([
   ['google', IconGoogle],
   ['github', IconGitHub],
@@ -121,10 +93,15 @@ const externalMethodIcons = new Map([
 /** Exported for tests only. */
 export const activeAuthentications = (
   authenticationMethods: AuthenticationMethods,
-  externalAuthenticationMethods: $ReadOnlyArray<ExternalAuthenticationMethod> | void,
+  externalAuthenticationMethods: $ReadOnlyArray<ExternalAuthenticationMethod>,
 ): $ReadOnlyArray<AuthenticationMethodDetails> => {
   const result = [];
 
+  // A server might intend some of these, such as 'dev' or 'password', but
+  // omit them in external_authentication_methods. The only sign that
+  // they're intended is their presence in authentication_methods… even
+  // though that's marked as deprecated in 2.1. Discussion:
+  //   https://chat.zulip.org/#narrow/stream/412-api-documentation/topic/audit.20for.20change.20entries.20vs.2E.20central.20changelog/near/1404115
   availableDirectMethods.forEach(auth => {
     if (!authenticationMethods[auth.name]) {
       return;
@@ -137,35 +114,25 @@ export const activeAuthentications = (
     result.push(auth);
   });
 
-  if (!externalAuthenticationMethods) {
-    // Server doesn't speak new API; get these methods from the old one.
-    availableExternalMethods.forEach(auth => {
-      if (authenticationMethods[auth.name]) {
-        result.push(auth);
-      }
-    });
-  } else {
-    // We have info from new API; ignore old one for these methods.
-    externalAuthenticationMethods.forEach(method => {
-      if (result.some(({ name }) => name === method.name)) {
-        // Ignore duplicate.
-        return;
-      }
+  externalAuthenticationMethods.forEach(method => {
+    if (result.some(({ name }) => name === method.name)) {
+      // Ignore duplicate.
+      return;
+    }
 
-      // The server provides icons as image URLs; but we have our own built
-      // in, which we don't have to load and can color to match the button.
-      // TODO perhaps switch to server's, for the sake of SAML where ours is
-      //   generic and the server may have a more specific one.
-      const Icon = externalMethodIcons.get(method.name) ?? IconPrivate;
+    // The server provides icons as image URLs; but we have our own built
+    // in, which we don't have to load and can color to match the button.
+    // TODO perhaps switch to server's, for the sake of SAML where ours is
+    //   generic and the server may have a more specific one.
+    const Icon = externalMethodIcons.get(method.name) ?? IconPrivate;
 
-      result.push({
-        name: method.name,
-        displayName: method.display_name,
-        Icon,
-        action: { url: method.login_url },
-      });
+    result.push({
+      name: method.name,
+      displayName: method.display_name,
+      Icon,
+      action: { url: method.login_url },
     });
-  }
+  });
 
   return result;
 };

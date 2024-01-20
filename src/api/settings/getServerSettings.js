@@ -29,9 +29,7 @@ export type ExternalAuthenticationMethod = {|
 type ApiResponseServerSettings = {|
   ...$Exact<ApiResponseSuccess>,
   authentication_methods: AuthenticationMethods,
-
-  // TODO(server-2.1): Mark this as required; simplify downstream.
-  external_authentication_methods?: $ReadOnlyArray<ExternalAuthenticationMethod>,
+  external_authentication_methods: $ReadOnlyArray<ExternalAuthenticationMethod>,
 
   // TODO(server-3.0): New in FL 1. When absent, equivalent to 0.
   zulip_feature_level?: number,
