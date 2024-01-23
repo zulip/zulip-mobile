@@ -3,7 +3,26 @@
  */
 import type { EmitterSubscription as $tsflower_subst$RN$EmitterSubscription } from 'tsflower/subst/react-native';
 import 'react-native';
-declare var _default: any;
+import { type TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+
+export interface Spec extends TurboModule {
+  getConstants: () => { ... };
+  getString: () => Promise<string>;
+  getStrings: () => Promise<string[]>;
+  setString: (content: string) => void;
+  hasString: () => Promise<boolean>;
+  hasNumber: () => Promise<boolean>;
+  getImagePNG: () => Promise<string>;
+  getImageJPG: () => Promise<string>;
+  setImage: (content: string) => void;
+  getImage: () => Promise<string>;
+  setStrings: (content: string[]) => void;
+  hasImage: () => Promise<boolean>;
+  hasURL: () => Promise<boolean>;
+  hasWebURL: () => Promise<boolean>;
+}
+
+declare var _default: Spec;
 export default _default;
 declare var addListener: (callback: () => void) => $tsflower_subst$RN$EmitterSubscription;
 declare var removeAllListeners: () => void;
