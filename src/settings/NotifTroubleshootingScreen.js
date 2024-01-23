@@ -306,8 +306,8 @@ export const pushNotificationsEnabledEndTimestampWarning = (
     return null;
   }
   const realmState = getRealm(state);
-  const timestamp = realmState.pushNotificationsEnabledEndTimestamp;
-  if (timestamp == null) {
+  const { pushNotificationsEnabledEndTimestamp: timestamp, pushNotificationsEnabled } = realmState;
+  if (timestamp == null || !pushNotificationsEnabled) {
     return null;
   }
   const timestampMs = timestamp * 1000;
