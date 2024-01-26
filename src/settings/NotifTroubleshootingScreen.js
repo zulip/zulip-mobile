@@ -55,6 +55,7 @@ import { useDateRefreshedAtInterval } from '../reactUtils';
 import { roleIsAtLeast } from '../permissionSelectors';
 import { Role } from '../api/permissionsTypes';
 import { getOwnUser } from '../users/userSelectors';
+import WebLink from '../common/WebLink';
 
 const {
   Notifications, // android
@@ -320,20 +321,27 @@ export const pushNotificationsEnabledEndTimestampWarning = (
   }
   const realmName = realmState.name;
   const twentyFourHourTime = realmState.twentyFourHourTime;
-  const message = twentyFourHourTime
-    ? 'On {endTimestamp, date, short} at {endTimestamp, time, ::H:mm z}, push notifications will be disabled for {realmName}.'
-    : 'On {endTimestamp, date, short} at {endTimestamp, time, ::h:mm z}, push notifications will be disabled for {realmName}.';
+
   return {
     text: {
-      text: message,
+      text: twentyFourHourTime
+        ? '{realmName} is scheduled to switch to a plan that does not include mobile notifications on {endTimestamp, date, short} at {endTimestamp, time, ::H:mm z}.'
+        : '{realmName} is scheduled to switch to a plan that does not include mobile notifications on {endTimestamp, date, short} at {endTimestamp, time, ::h:mm z}.',
       values: { endTimestamp: timestampMs, realmName },
     },
     reactText: {
-      text: message,
+      text: twentyFourHourTime
+        ? '{realmName} is scheduled to switch to a <z-link>plan</z-link> that does not include mobile notifications on {endTimestamp, date, short} at {endTimestamp, time, ::H:mm z}.'
+        : '{realmName} is scheduled to switch to a <z-link>plan</z-link> that does not include mobile notifications on {endTimestamp, date, short} at {endTimestamp, time, ::h:mm z}.',
       values: {
         endTimestamp: timestampMs,
         realmName: (
           <ZulipText inheritColor inheritFontSize style={{ fontWeight: 'bold' }} text={realmName} />
+        ),
+        'z-link': chunks => (
+          <WebLink inheritFontSize url={new URL('https://zulip.com/plans/#self-hosted')}>
+            {chunks}
+          </WebLink>
         ),
       },
     },
