@@ -52,6 +52,9 @@ import RowGroup from '../common/RowGroup';
 import TextRow from '../common/TextRow';
 import type { PerAccountState } from '../reduxTypes';
 import { useDateRefreshedAtInterval } from '../reactUtils';
+import { roleIsAtLeast } from '../permissionSelectors';
+import { Role } from '../api/permissionsTypes';
+import { getOwnUser } from '../users/userSelectors';
 
 const {
   Notifications, // android
@@ -311,7 +314,8 @@ export const pushNotificationsEnabledEndTimestampWarning = (
     return null;
   }
   const timestampMs = timestamp * 1000;
-  if (subDays(new Date(timestampMs), 15) > dateNow) {
+  const warningPeriodDays = roleIsAtLeast(getOwnUser(state).role, Role.Admin) ? 15 : 10;
+  if (subDays(new Date(timestampMs), warningPeriodDays) > dateNow) {
     return null;
   }
   const realmName = realmState.name;
