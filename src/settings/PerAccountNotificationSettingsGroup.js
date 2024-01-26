@@ -248,7 +248,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   children.push(
     <SwitchRow
       key="silence-warnings"
-      label="Silence warnings about disabled mobile push notifications"
+      label="Silence warnings about disabled mobile notifications"
       value={silenceServerPushSetupWarnings}
       onValueChange={handleSilenceWarningsChange}
     />,
