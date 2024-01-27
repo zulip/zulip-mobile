@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.223 (2024-01-26)
+
 ### Highlights for users
 
 * Updated translations for Belarusian, German, and Russian. Thanks as always
