@@ -146,7 +146,7 @@ export default function PerAccountNotificationSettingsGroup(props: Props): Node 
   }, [_, auth, pushToken]);
 
   let testNotificationDisabled = false;
-  if (zulipFeatureLevel < 217) {
+  if (zulipFeatureLevel < 234) {
     testNotificationDisabled = {
       title: 'Feature not available',
       message: {
