@@ -312,7 +312,7 @@ PODS:
     - glog
   - react-native-cameraroll (5.2.4):
     - React-Core
-  - react-native-document-picker (8.2.1):
+  - react-native-document-picker (8.2.2):
     - React-Core
   - react-native-image-picker (5.7.0):
     - React-Core
@@ -320,7 +320,7 @@ PODS:
     - React-Core
   - react-native-photo-view (1.5.3):
     - React-Core
-  - react-native-safe-area-context (4.8.2):
+  - react-native-safe-area-context (4.9.0):
     - React-Core
   - react-native-simple-toast (1.1.4):
     - React-Core
@@ -402,7 +402,7 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.11.0):
     - React-Core
-  - RNGestureHandler (2.14.1):
+  - RNGestureHandler (2.15.0):
     - React-Core
   - RNReanimated (2.2.4):
     - DoubleConversion
@@ -436,7 +436,7 @@ PODS:
   - RNScreens (3.29.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.17.0):
+  - RNSentry (5.19.0):
     - React-Core
     - Sentry/HybridSDK (= 8.17.1)
   - RNVectorIcons (9.2.0):
@@ -731,11 +731,11 @@ SPEC CHECKSUMS:
   React-jsinspector: cab4d37ebde480f84c79ac89568abbf76b916c3e
   React-logger: b75b80500ea80457b2cf169427d66de986cdcb29
   react-native-cameraroll: cb752fda6d5268f1646b4390bd5be1f27706b9a0
-  react-native-document-picker: 69ca2094d8780cfc1e7e613894d15290fdc54bba
+  react-native-document-picker: cd4d6b36a5207ad7a9e599ebb9eb0c2e84fa0b87
   react-native-image-picker: 3269f75c251cdcd61ab51b911dd30d6fff8c6169
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-photo-view: ea0ec91bf5991a6843e740b1f47ab355171c996c
-  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
+  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 44436b315d757100a53dfb1ab6b77c58cb646d7d
@@ -755,10 +755,10 @@ SPEC CHECKSUMS:
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
-  RNGestureHandler: e98441928705d9d1184b599d7c1c6df2dd4f7724
+  RNGestureHandler: 0cba6c7c51a90cd793cf2475cf7fdca613ede300
   RNReanimated: e7d8afaf8fed4b3bf1a46e06adb2e04a2b248f1c
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
-  RNSentry: 960fdf84a98f7cf46bedc05a04a77d23eb1a453a
+  RNSentry: 31f4e38ea1d87d3693f634cbe377640bde583588
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Sentry: d9f99f9cc13777c5d938650c1e1c85047bb4f0d1
   SentryPrivate: 839b1e58addf58624087a80b2628e543193fa8ef
