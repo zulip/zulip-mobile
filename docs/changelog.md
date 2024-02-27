@@ -39,8 +39,32 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs. v27.223 (last prod release)
+
+* We now offer the app in Gujarati. Also, updated translations for Italian,
+  Turkish, and Chinese (Taiwan). Thanks as always to our kind volunteer
+  translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for users, vs. v27.224
+
+* (Android) Fixed a crash on startup. (PR #5824)
+
+
+### Highlights for developers, vs. v27.224
+
+* (Android) Updated jsBundleDirRelease for AGP 7.1+, fixing crash on startup
+  (PR #5824)
+
+* Resolved issues: PR #5824
+
 
 ## 27.224 (2024-02-26)
+
+This was an alpha-only release.
+
 
 ### Highlights for users
 
