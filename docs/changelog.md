@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.224 (2024-02-26)
+
 ### Highlights for users
 
 * We now offer the app in Gujarati. Also, updated translations for Italian,
