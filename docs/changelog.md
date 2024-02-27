@@ -39,6 +39,26 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* We now offer the app in Gujarati. Also, updated translations for Italian,
+  Turkish, and Chinese (Taiwan). Thanks as always to our kind volunteer
+  translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* We now show the test-notification button when the server is FL 234+
+  instead of 217+. (PR #5819)
+
+* Bumped the Android Gradle Plugin from 7.0.4 to 7.2.2. (PR #5818)
+
+* Ran `yarn upgrade`. (PRs #5818, #5823)
+
+* Resolved issues: PR #5823, PR #5819, PR #5818
+
 
 ## 27.223 (2024-01-26)
 
