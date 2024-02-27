@@ -79,6 +79,7 @@ const languages: $ReadOnlyArray<Language> = [
   { tag: 'bqi', name: 'Luri (Bakhtiari)', selfname: 'لوری (بختیاری)' },
   { tag: 'fa', name: 'Persian', selfname: 'فارسی' },
   { tag: 'hi', name: 'Hindi', selfname: 'हिन्दी' },
+  { tag: 'gu', name: 'Gujarati', selfname: 'ગુજરાતી' },
   { tag: 'ta', name: 'Tamil', selfname: 'தமிழ்' },
   { tag: 'ml', name: 'Malayalam', selfname: 'മലയാളം' },
   { tag: 'si', name: 'Sinhala', selfname: 'සිංහල' },
