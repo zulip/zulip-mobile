@@ -79,7 +79,7 @@ apply plugin: "kotlin-android-extensions"
 project.ext.react = [
         enableHermes      : false, // clean and rebuild if changing
         // quasi-unstable: see commits 8f8a266af and 833d083a9
-        jsBundleDirRelease: "$buildDir/intermediates/merged_assets/release/out"
+        jsBundleDirRelease: "$buildDir/intermediates/assets/release/mergeReleaseAssets"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
