@@ -11,6 +11,9 @@ import Touchable from '../common/Touchable';
 import { createStyleSheet, ThemeContext } from '../styles';
 import { caseNarrowDefault, isStreamOrTopicNarrow } from '../utils/narrow';
 import { TranslationContext } from '../boot/TranslationProvider';
+import { useSelector } from '../react-redux';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
+import { streamChannelRenameFeatureLevel } from '../boot/streamChannelRenamesMap';
 
 /**
  * A type of wildcard mention recognized by the server.
@@ -38,14 +41,18 @@ export enum WildcardMentionType {
 // All of these should appear in messages_en.json so we can make the
 // wildcard mentions discoverable in the people autocomplete in the client's
 // own language. See getWildcardMentionsForQuery.
-const englishCanonicalStringOf = (type: WildcardMentionType): string => {
+const englishCanonicalStringOf = (
+  type: WildcardMentionType,
+  useChannelTerminology: boolean,
+): string => {
   switch (type) {
     case WildcardMentionType.All:
       return 'all';
     case WildcardMentionType.Everyone:
       return 'everyone';
     case WildcardMentionType.Stream:
-      return 'stream';
+      // TODO(server-9.0) remove "stream" terminology
+      return useChannelTerminology ? 'channel' : 'stream';
     case WildcardMentionType.Topic:
       return 'topic';
   }
@@ -86,11 +93,20 @@ export const getWildcardMentionsForQuery = (
   query: string,
   destinationNarrow: Narrow,
   topicMentionSupported: boolean,
+  useChannelTerminology: boolean,
   _: GetText,
 ): $ReadOnlyArray<WildcardMentionType> => {
   const queryMatchesWildcard = (type: WildcardMentionType): boolean =>
-    typeahead.query_matches_string(query, serverCanonicalStringOf(type), ' ')
-    || typeahead.query_matches_string(query, _(englishCanonicalStringOf(type)), ' ');
+    typeahead.query_matches_string(
+      query,
+      serverCanonicalStringOf(type, useChannelTerminology),
+      ' ',
+    )
+    || typeahead.query_matches_string(
+      query,
+      _(englishCanonicalStringOf(type, useChannelTerminology)),
+      ' ',
+    );
 
   const results = [];
 
@@ -135,9 +151,12 @@ export default function WildcardMentionItem(props: Props): Node {
 
   const _ = useContext(TranslationContext);
 
+  const zulipFeatureLevel = useSelector(getZulipFeatureLevel);
+  const useChannelTerminology = zulipFeatureLevel >= streamChannelRenameFeatureLevel;
+
   const handlePress = useCallback(() => {
-    onPress(type, serverCanonicalStringOf(type));
-  }, [onPress, type]);
+    onPress(type, serverCanonicalStringOf(type, useChannelTerminology));
+  }, [onPress, type, useChannelTerminology]);
 
   const themeContext = useContext(ThemeContext);
 
@@ -179,7 +198,7 @@ export default function WildcardMentionItem(props: Props): Node {
         <View style={styles.textWrapper}>
           <ZulipText
             style={styles.text}
-            text={serverCanonicalStringOf(type)}
+            text={serverCanonicalStringOf(type, useChannelTerminology)}
             numberOfLines={1}
             ellipsizeMode="tail"
           />
