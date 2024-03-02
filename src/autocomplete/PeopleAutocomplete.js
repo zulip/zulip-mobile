@@ -21,6 +21,7 @@ import WildcardMentionItem, {
 } from './WildcardMentionItem';
 import { TranslationContext } from '../boot/TranslationProvider';
 import { getZulipFeatureLevel } from '../account/accountsSelectors';
+import { streamChannelRenameFeatureLevel } from '../boot/streamChannelRenamesMap';
 
 type Props = $ReadOnly<{|
   filter: string,
@@ -74,6 +75,7 @@ export default function PeopleAutocomplete(props: Props): Node {
     destinationNarrow,
     // TODO(server-8.0)
     zulipFeatureLevel >= 224,
+    zulipFeatureLevel >= streamChannelRenameFeatureLevel,
     _,
   );
   const filteredUsers = getAutocompleteSuggestion(users, filter, ownUserId, mutedUsers);
