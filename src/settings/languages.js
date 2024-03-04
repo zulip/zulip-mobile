@@ -1,8 +1,8 @@
 /* @flow strict-local */
-import messages from '../i18n/messages';
+import messagesByLanguage from '../i18n/messagesByLanguage';
 
 export type Language = {|
-  tag: $Keys<typeof messages>,
+  tag: $Keys<typeof messagesByLanguage>,
   name: string,
   selfname: string,
 |};

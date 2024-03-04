@@ -7,7 +7,7 @@ import type { IntlShape } from 'react-intl';
 import type { GetText } from '../types';
 import { useGlobalSelector } from '../react-redux';
 import { getGlobalSettings } from '../selectors';
-import messages from '../i18n/messages';
+import messagesByLanguage from '../i18n/messagesByLanguage';
 
 // $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
 export const TranslationContext: React.Context<GetText> = React.createContext(undefined);
@@ -58,7 +58,7 @@ export default function TranslationProvider(props: Props): React.Node {
   const language = useGlobalSelector(state => getGlobalSettings(state).language);
 
   return (
-    <IntlProvider locale={language} textComponent={Text} messages={messages[language]}>
+    <IntlProvider locale={language} textComponent={Text} messages={messagesByLanguage[language]}>
       <TranslationContextTranslator>{children}</TranslationContextTranslator>
     </IntlProvider>
   );
