@@ -202,6 +202,25 @@ successfully download and install them.
 [those caches can get stale]: https://chat.zulip.org/#narrow/stream/243-mobile-team/topic/cocoapods.20error/near/1124409
 
 
+### Build fails at task `:app:buildStaticWebviewAssets`, on Windows
+
+On Windows, when running `tools/run-android`, you may see an error
+like this:
+```
+> Task :app:buildStaticWebviewAssets FAILED
+32 actionable tasks: 3 executed, 29 up-to-date
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:buildStaticWebviewAssets'.
+> Process 'command 'bash'' finished with non-zero exit value 127
+```
+
+To fix the problem, [install `rsync`][install-rsync] as mentioned
+in the "Windows" section above.
+
+
 ### iOS build fails, and `Podfile.lock` has unexpected changes
 
 When building for iOS, you may see the build fail with a C++ compiler
