@@ -24,11 +24,46 @@ You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
 
 
-## Contributing
+## Maintenance mode
 
-Everyone is welcome to contribute. We gladly accept patches, pull requests,
-bug reports, or any other improvements. Read below to see how you can get
-started.
+This codebase built on React Native is a **legacy app, which is in
+maintenance mode** as we [focus on building][zulip-flutter-beta]
+a [new Zulip mobile app with Flutter][zulip-flutter].
+This means:
+
+ * This repository is the source code of the app we're still
+   distributing and recommending for most users, until the new app is
+   fully built and ready to replace it.
+
+ * Feedback is still welcome.  Some bugs and feature requests will be
+   naturally resolved by the new app; others won't, and we'll transfer
+   them over when the time comes as issues on the new app.  We're
+   happy to do the work of identifying which is which — it's usually
+   easy for us, given the time we've spent in both codebases.
+
+ * The development work we do in this repo is kept to a minimum: we
+   fix critical bugs, and we add support for a few of the new features
+   being added to Zulip on the web and desktop, those where the
+   leverage from mobile support is highest.
+
+ * We aren't able to spend significant time investigating other bugs,
+   or reviewing PRs from contributors.  We're investing that time
+   instead in getting the new Flutter app finished and into all our
+   users' hands as soon as possible.
+
+[zulip-flutter-beta]: https://chat.zulip.org/#narrow/stream/2-general/topic/Flutter/near/1582367
+[zulip-flutter]: https://github.com/zulip/zulip-flutter
+
+
+## Contributing (old)
+
+If you're interested in contributing to Zulip's mobile apps,
+see [the new Flutter-based app][zulip-flutter].
+
+Details below are from when this app was in active development.
+Some details may still be useful, but **bear in mind that this
+app is in maintenance mode** as described above.
+
 
 ### Discussion
 
@@ -68,9 +103,7 @@ started with the code, follow this doc:
 * [Developer Guide](docs/developer-guide.md)
 
 Then see our [Contribution Guidelines](CONTRIBUTING.md), and come say
-hello in [the #mobile stream](#discussion).  Issues tagged
-**[help wanted](https://github.com/zulip/zulip-mobile/labels/help%20wanted)**
-are a great starting point for PRs.
+hello in [the #mobile stream](#discussion).
 
 For more reading, take a look at our [developer docs](docs/).
 
@@ -85,7 +118,7 @@ Zulip Mobile supersedes two legacy Zulip apps,
 
 ## License
 
-Copyright (c) 2016-2022 Kandra Labs, Inc., and contributors, and 2016 Dropbox, Inc.
+Copyright (c) 2016-2024 Kandra Labs, Inc., and contributors, and 2016 Dropbox, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

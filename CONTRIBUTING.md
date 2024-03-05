@@ -1,5 +1,21 @@
 ## Contributing
 
+**This app is in [maintenance mode][]**, and we're therefore no longer
+able to spend time reviewing PRs from contributors.
+
+Instead, if you're interested in contributing to Zulip's mobile apps,
+see [the new Flutter-based app][zulip-flutter].
+
+[maintenance mode]: https://github.com/zulip/zulip-flutter#maintenance-mode
+[zulip-flutter]: https://github.com/zulip/zulip-flutter
+
+
+## Previous information
+
+The details below are from when this app was in active development.
+Some details may still be useful, but bear in mind that this
+app is in maintenance mode as described above.
+
 * **Start** by reading our [developer guide](docs/developer-guide.md).
 
 * **Review** [open issues][open-issues] and submit a pull request.
