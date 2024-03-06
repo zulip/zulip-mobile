@@ -192,6 +192,10 @@ declare module '../../static/translations/messages_ru.json' {
   declare export default {| [string]: string |};
 }
 
+declare module '../../static/translations/messages_sco.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_si.json' {
   declare export default {| [string]: string |};
 }
