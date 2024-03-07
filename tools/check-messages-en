@@ -194,9 +194,12 @@ function main() {
 
   // Check each key ("message ID" in formatjs's lingo) against
   // possibleUiStrings, and make a list of any that aren't found.
-  const danglingMessageIds = Object.keys(messages_en).filter(
-    messageId => !possibleUiStrings.has(messageId),
-  );
+  const danglingMessageIds = Object.keys(messages_en)
+    .filter(messageId => !possibleUiStrings.has(messageId))
+    // Ignore some UI strings that we want to offer to our translators
+    // but that aren't yet ready to show in the UI (although we intend to).
+    // TODO(#5827) Stop filtering out messages with "channel" terminology
+    .filter(messageId => !/[cC]hannel/.test(messageId));
 
   if (danglingMessageIds.length > 0) {
     console.error(
