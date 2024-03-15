@@ -10,7 +10,7 @@ import {
 import { makeUserId } from '../api/idTypes';
 
 import type { PerAccountApplicableAction, PmMessage, PmOutbox, UserId } from '../types';
-import { recipientsOfPrivateMessage } from '../utils/recipient';
+import { recipientIdsOfPrivateMessage } from '../utils/recipient';
 import { ZulipVersion } from '../utils/zulipVersion';
 
 /** The minimum server version to expect this data to be available. */
@@ -45,10 +45,7 @@ function keyOfUsers(ids: $ReadOnlyArray<UserId>, ownUserId: UserId): PmConversat
 }
 
 function keyOfPrivateMessage(msg: PmMessage | PmOutbox, ownUserId: UserId): PmConversationKey {
-  return keyOfUsers(
-    recipientsOfPrivateMessage(msg).map(r => r.id),
-    ownUserId,
-  );
+  return keyOfUsers(recipientIdsOfPrivateMessage(msg), ownUserId);
 }
 
 /** The users in the conversation, other than self. */
