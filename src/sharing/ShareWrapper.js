@@ -23,6 +23,7 @@ import { ensureUnreachable } from '../generics';
 import { IconAttachment, IconCancel } from '../common/Icons';
 import type { AppNavigationMethods } from '../nav/AppNavigator';
 import { ApiError, RequestError } from '../api/apiErrors';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
@@ -80,6 +81,7 @@ type OuterProps = $ReadOnly<{|
 type SelectorProps = $ReadOnly<{|
   auth: Auth,
   ownUserId: UserId,
+  zulipFeatureLevel: number,
 |}>;
 
 type Props = $ReadOnly<{|
@@ -124,7 +126,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
    */
   handleSend = async () => {
     const _ = this.context;
-    const { auth, sendTo, sharedData, getValidationErrors } = this.props;
+    const { auth, sendTo, sharedData, getValidationErrors, zulipFeatureLevel } = this.props;
     let messageToSend = this.state.message;
 
     const validationErrors = getValidationErrors(messageToSend);
@@ -193,7 +195,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
       sendTo.type === 'pm'
         ? {
             content: messageToSend,
-            type: 'private',
+            type: 'direct',
             to: JSON.stringify(sendTo.selectedRecipients),
           }
         : {
@@ -206,7 +208,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
           };
 
     try {
-      await api.sendMessage(auth, messageData);
+      await api.sendMessage(auth, messageData, zulipFeatureLevel);
     } catch (err) {
       showToast(_('Failed to send message'));
       logging.error(err);
@@ -333,6 +335,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
 const ShareWrapper: ComponentType<OuterProps> = connect(state => ({
   auth: getAuth(state),
   ownUserId: getOwnUserId(state),
+  zulipFeatureLevel: getZulipFeatureLevel(state),
 }))(ShareWrapperInner);
 
 export default ShareWrapper;
