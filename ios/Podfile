@@ -27,7 +27,10 @@ target 'ZulipMobile' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # Flipper is breaking things with recent Xcode; cut it out (we've never
+  # used it):
+  #   https://github.com/facebook/react-native/issues/43335
+  # use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)
