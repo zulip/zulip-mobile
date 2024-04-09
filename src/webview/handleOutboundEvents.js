@@ -206,11 +206,11 @@ const handleLongPress = (args: {|
   navigation: AppNavigationMethods,
 |}) => {
   const { props, target, messageId, href, navigation } = args;
+  const { _ } = props;
 
   if (href !== null) {
     const url = new URL(href, props.backgroundData.auth.realm).toString();
     Clipboard.setString(url);
-    const { _ } = props;
     showToast(_('Link copied'));
     return;
   }
@@ -227,7 +227,6 @@ const handleLongPress = (args: {|
     startEditMessage,
     setDoNotMarkMessagesAsRead,
     composeBoxRef,
-    _,
   } = props;
   if (target === 'header') {
     if (message.type === 'stream') {
