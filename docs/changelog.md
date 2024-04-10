@@ -39,6 +39,22 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated translations for Bulgarian, German, Polish, Russian, and
+  Ukrainian. Thanks as always to our kind volunteer translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Ran `yarn upgrade`. (PR #5850)
+
+* Disabled Flipper on iOS. (PR #5848)
+
+* Resolved issues: PR #5843
+
 
 ## 27.225 (2024-02-27)
 
