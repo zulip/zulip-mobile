@@ -14,14 +14,14 @@ Rather than to the upper bound on ParamList.
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-index 29d53b3ff..def19204a 100644
+index 9435790b8..bc11a7c76 100644
 --- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 +++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-@@ -24,7 +24,7 @@ declare var _default: <
-   ParamList: { +[key: string]: { ... } | void },
+@@ -30,7 +30,7 @@ declare var _default: <
+   ParamList: ParamListBase,
  >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<
    ParamList,
--  TabNavigationState<{ +[key: string]: { ... } | void }>,
+-  TabNavigationState<ParamListBase>,
 +  TabNavigationState<ParamList>,
    MaterialTopTabNavigationOptions,
    MaterialTopTabNavigationEventMap,

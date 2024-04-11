@@ -202,6 +202,10 @@ run_only()
     done
     format_dir "${rootdir}"/types/@react-navigation
 
+    package=react-native-pager-view
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
+
     package=react-native-tab-view
     run_on_package "${package}"
     # TODO: Send r-n-tab-view a .npmignore patch to stop shipping this directory.

@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 14:49:54 -0700
+Subject: [irreducible] rnav: Make MaterialTopTabNavigationOptions exact
+
+Maybe someday TypeScript will have exact object types.
+---
+ .../material-top-tabs/lib/typescript/src/types.js.flow       | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 6e3b1b9e4..7abe20b5f 100644
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -71,7 +71,7 @@ export type MaterialTopTabScreenProps<
+   ...
+ };
+ 
+-export type MaterialTopTabNavigationOptions = {
++export type MaterialTopTabNavigationOptions = {|
+   title?: string,
+   tabBarLabel?:
+     | string
+@@ -118,8 +118,7 @@ export type MaterialTopTabNavigationOptions = {
+   lazy?: boolean,
+   lazyPreloadDistance?: number,
+   lazyPlaceholder?: () => $tsflower_subst$React$ReactNode,
+-  ...
+-};
++|};
+ 
+ export type MaterialTopTabDescriptor = Descriptor<
+   MaterialTopTabNavigationOptions,
+-- 
+2.32.0
+

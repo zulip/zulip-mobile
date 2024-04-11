@@ -25,12 +25,54 @@ interface declaration to an object type, with `extends` turned into
 a spread, when the base is an object type -- as it is in these
 examples.
 ---
- .../lib/typescript/src/SafeArea.types.js.flow | 24 +++++++++++--------
- .../typescript/src/SafeAreaContext.js.flow    | 12 ++++++----
- .../src/specs/NativeSafeAreaProvider.js.flow  |  8 ++++---
- .../src/specs/NativeSafeAreaView.js.flow      | 10 ++++----
- 4 files changed, 32 insertions(+), 22 deletions(-)
+ .../PagerViewNativeComponent.js.flow          | 30 ++++++++++---------
+ .../lib/typescript/src/SafeArea.types.js.flow | 24 ++++++++-------
+ .../typescript/src/SafeAreaContext.js.flow    | 12 ++++----
+ .../src/specs/NativeSafeAreaProvider.js.flow  |  8 +++--
+ .../src/specs/NativeSafeAreaView.js.flow      | 10 ++++---
+ 5 files changed, 48 insertions(+), 36 deletions(-)
 
+diff --git types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
+index 06874a9bd..30a7c61e1 100644
+--- types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
++++ types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
+@@ -24,20 +24,22 @@ export type OnPageScrollStateChangedEventData = Readonly<{
+   ...
+ }>;
+ 
+-export interface NativeProps extends $tsflower_subst$RN$ViewProps {
+-  scrollEnabled?: WithDefault<boolean, true>;
+-  layoutDirection?: WithDefault<'ltr' | 'rtl', 'ltr'>;
+-  initialPage?: Int32;
+-  orientation?: WithDefault<'horizontal' | 'vertical', 'horizontal'>;
+-  offscreenPageLimit?: Int32;
+-  pageMargin?: Int32;
+-  overScrollMode?: WithDefault<'auto' | 'always' | 'never', 'auto'>;
+-  overdrag?: WithDefault<boolean, false>;
+-  keyboardDismissMode?: WithDefault<'none' | 'on-drag', 'none'>;
+-  onPageScroll?: DirectEventHandler<OnPageScrollEventData>;
+-  onPageSelected?: DirectEventHandler<OnPageSelectedEventData>;
+-  onPageScrollStateChanged?: DirectEventHandler<OnPageScrollStateChangedEventData>;
+-}
++export type NativeProps = {
++  ...$tsflower_subst$RN$ViewProps,
++  scrollEnabled?: WithDefault<boolean, true>,
++  layoutDirection?: WithDefault<'ltr' | 'rtl', 'ltr'>,
++  initialPage?: Int32,
++  orientation?: WithDefault<'horizontal' | 'vertical', 'horizontal'>,
++  offscreenPageLimit?: Int32,
++  pageMargin?: Int32,
++  overScrollMode?: WithDefault<'auto' | 'always' | 'never', 'auto'>,
++  overdrag?: WithDefault<boolean, false>,
++  keyboardDismissMode?: WithDefault<'none' | 'on-drag', 'none'>,
++  onPageScroll?: DirectEventHandler<OnPageScrollEventData>,
++  onPageSelected?: DirectEventHandler<OnPageSelectedEventData>,
++  onPageScrollStateChanged?: DirectEventHandler<OnPageScrollStateChangedEventData>,
++  ...
++};
+ 
+ type PagerViewViewType = HostComponent<NativeProps>;
+ 
 diff --git types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow
 index 3a71dca37..81a9fb120 100644
 --- types/react-native-safe-area-context/lib/typescript/src/SafeArea.types.js.flow

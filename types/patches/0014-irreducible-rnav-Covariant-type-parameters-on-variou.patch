@@ -72,18 +72,18 @@ index 41f13ea18..ccdd92d43 100644
    $ElementType<ParamList, RouteName>,
  >;
 diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
-index cf53d769d..8d2ea317f 100644
+index 123e771e5..d0ddf2a27 100644
 --- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
 +++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
-@@ -42,7 +42,7 @@ export type MaterialTopTabNavigationHelpers = NavigationHelpers<
+@@ -46,7 +46,7 @@ export type MaterialTopTabNavigationHelpers = NavigationHelpers<
    TabActionHelpers<ParamListBase>;
  export type MaterialTopTabNavigationProp<
    ParamList: ParamListBase,
--  RouteName: $Keys<ParamList> = string,
-+  +RouteName: $Keys<ParamList> = string,
+-  RouteName: $Keys<ParamList> = $Keys<ParamList>,
++  +RouteName: $Keys<ParamList> = $Keys<ParamList>,
+   NavigatorID: string | void = void,
  > = NavigationProp<
    ParamList,
-   RouteName,
 diff --git types/@react-navigation/routers/lib/typescript/src/types.js.flow types/@react-navigation/routers/lib/typescript/src/types.js.flow
 index ea0e29c32..6a0de188b 100644
 --- types/@react-navigation/routers/lib/typescript/src/types.js.flow

@@ -1,0 +1,87 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 13:49:20 -0700
+Subject: [tsflower] react-native: Comment out uses of
+ PressableAndroidRippleConfig
+
+This doesn't seem hard to add to tsflower/subst/react-native, but
+it's not likely we'll get much use out of it, and zulip-mobile is
+now a legacy codebase anyway.
+---
+ .../material-top-tabs/lib/typescript/src/types.js.flow     | 4 ++--
+ .../lib/typescript/src/TabBar.js.flow                      | 4 ++--
+ .../lib/typescript/src/TabBarItem.js.flow                  | 7 +++++--
+ 3 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 0fd14123d..4406ff24d 100644
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -24,7 +24,7 @@ import {
+ } from '@react-navigation/native';
+ 
+ import type React from 'react';
+-import { type PressableAndroidRippleConfig } from 'react-native';
++// import { type PressableAndroidRippleConfig } from 'react-native'; // TODO(tsflower)
+ import { type SceneRendererProps, typeof TabBar, type TabViewProps } from 'react-native-tab-view';
+ 
+ export type MaterialTopTabNavigationEventMap = {|
+@@ -114,7 +114,7 @@ export type MaterialTopTabNavigationOptions = {
+   tabBarContentContainerStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+   tabBarStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+   tabBarGap?: number,
+-  tabBarAndroidRipple?: PressableAndroidRippleConfig,
++  // tabBarAndroidRipple?: PressableAndroidRippleConfig, // TODO(tsflower)
+   swipeEnabled?: boolean,
+   animationEnabled?: boolean,
+   lazy?: boolean,
+diff --git types/react-native-tab-view/lib/typescript/src/TabBar.js.flow types/react-native-tab-view/lib/typescript/src/TabBar.js.flow
+index 30324e87c..77aa8ccdc 100644
+--- types/react-native-tab-view/lib/typescript/src/TabBar.js.flow
++++ types/react-native-tab-view/lib/typescript/src/TabBar.js.flow
+@@ -13,7 +13,7 @@ import type {
+ } from 'tsflower/subst/react-native';
+ 
+ import * as React from 'react';
+-import { type PressableAndroidRippleConfig } from 'react-native';
++// import { type PressableAndroidRippleConfig } from 'react-native'; // TODO(tsflower)
+ import { type Props as IndicatorProps } from './TabBarIndicator';
+ import { type Props as TabBarItemProps } from './TabBarItem';
+ 
+@@ -66,7 +66,7 @@ export type Props<T: Route> = SceneRendererProps & {
+   style?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+   gap?: number,
+   testID?: string,
+-  android_ripple?: PressableAndroidRippleConfig,
++  // android_ripple?: PressableAndroidRippleConfig, // TODO(tsflower)
+   ...
+ };
+ 
+diff --git types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
+index cabdad0a3..34251807a 100644
+--- types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
++++ types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
+@@ -15,7 +15,10 @@ import type {
+ } from 'tsflower/subst/react';
+ 
+ import * as React from 'react';
+-import { Animated, type PressableAndroidRippleConfig } from 'react-native';
++import {
++  Animated,
++  // type PressableAndroidRippleConfig, // TODO(tsflower)
++} from 'react-native';
+ import { type NavigationState, type Route, type Scene } from './types';
+ 
+ export type Props<T: Route> = {
+@@ -49,7 +52,7 @@ export type Props<T: Route> = {
+   defaultTabWidth?: number,
+   labelStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
+   style: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+-  android_ripple?: PressableAndroidRippleConfig,
++  // android_ripple?: PressableAndroidRippleConfig, // TODO(tsflower)
+   ...
+ };
+ 
+-- 
+2.32.0
+

@@ -114,12 +114,12 @@ index ccdd92d43..1421d39dd 100644
  export type NavigationContainerRef = NavigationHelpers<ParamListBase> &
    EventConsumer<NavigationContainerEventMap> & {
 diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
-index 8d2ea317f..36bc57918 100644
+index d0ddf2a27..0fd14123d 100644
 --- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
 +++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
-@@ -23,17 +23,15 @@ import {
-   type RouteProp,
- } from '@react-navigation/native';
+@@ -27,17 +27,15 @@ import type React from 'react';
+ import { type PressableAndroidRippleConfig } from 'react-native';
+ import { type SceneRendererProps, typeof TabBar, type TabViewProps } from 'react-native-tab-view';
  
 -export type MaterialTopTabNavigationEventMap = {
 -  tabPress: {
