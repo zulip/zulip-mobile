@@ -95,7 +95,6 @@ export default function MessageReactionsScreen(props: Props): Node {
               <Tab.Screen
                 key={aggregatedReaction.name}
                 name={aggregatedReaction.name}
-                component={() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
                 options={{
                   tabBarLabel: () => (
                     <View style={styles.row}>
@@ -107,7 +106,9 @@ export default function MessageReactionsScreen(props: Props): Node {
                     </View>
                   ),
                 }}
-              />
+              >
+                {() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
+              </Tab.Screen>
             ))}
           </Tab.Navigator>
         </View>
