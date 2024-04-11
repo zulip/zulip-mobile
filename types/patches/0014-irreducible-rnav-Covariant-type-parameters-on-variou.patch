@@ -14,18 +14,18 @@ NavigationHelpersCommon, NavigationState, PartialState.
  5 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
-index d3c2017d4..3bc615faa 100644
+index 8908b03c2..ff27c12ba 100644
 --- types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
 +++ types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
-@@ -50,7 +50,7 @@ export type BottomTabNavigationHelpers = NavigationHelpers<
+@@ -59,7 +59,7 @@ export type BottomTabNavigationHelpers = NavigationHelpers<
    TabActionHelpers<ParamListBase>;
  export type BottomTabNavigationProp<
    ParamList: ParamListBase,
--  RouteName: $Keys<ParamList> = string,
-+  +RouteName: $Keys<ParamList> = string,
+-  RouteName: $Keys<ParamList> = $Keys<ParamList>,
++  +RouteName: $Keys<ParamList> = $Keys<ParamList>,
+   NavigatorID: string | void = void,
  > = NavigationProp<
    ParamList,
-   RouteName,
 diff --git types/@react-navigation/core/lib/typescript/src/types.js.flow types/@react-navigation/core/lib/typescript/src/types.js.flow
 index 41f13ea18..ccdd92d43 100644
 --- types/@react-navigation/core/lib/typescript/src/types.js.flow

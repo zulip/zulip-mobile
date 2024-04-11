@@ -10,7 +10,7 @@ import type { RouteProp, RouteParamsOf } from '../react-navigation';
 import { getUnreadHuddlesTotal, getUnreadPmsTotal } from '../selectors';
 import { useSelector } from '../react-redux';
 import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigator';
-import { bottomTabNavigatorConfig } from '../styles/tabs';
+import { bottomTabNavOptions } from '../styles/tabs';
 import HomeScreen from './HomeScreen';
 import PmConversationsScreen from '../pm-conversations/PmConversationsScreen';
 import { IconInbox, IconStream, IconPeople } from '../common/Icons';
@@ -53,7 +53,7 @@ export default function MainTabsScreen(props: Props): Node {
 
   return (
     <View style={[styles.flexed, { backgroundColor }]}>
-      <Tab.Navigator {...bottomTabNavigatorConfig()} lazy={false} backBehavior="none">
+      <Tab.Navigator screenOptions={bottomTabNavOptions()} backBehavior="none">
         <Tab.Screen
           name="home"
           component={HomeScreen}

@@ -2359,13 +2359,14 @@
   resolved "https://registry.yarnpkg.com/@react-native/polyfills/-/polyfills-2.0.0.tgz#4c40b74655c83982c8cf47530ee7dc13d957b6aa"
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
-"@react-navigation/bottom-tabs@npm:@zulip/react-navigation-bottom-tabs@5.11.16-0.zulip.1":
-  version "5.11.16-0.zulip.1"
-  resolved "https://registry.yarnpkg.com/@zulip/react-navigation-bottom-tabs/-/react-navigation-bottom-tabs-5.11.16-0.zulip.1.tgz#658fe0e4c468f5ede0f4bb6f7412415397d9f94d"
-  integrity sha512-C0fWmWfDMda+q06WQWtEL3x9fib0KvOOGBOxPDPfzCKlLiiVeMUGwWKaoAsEPm/d+w7Ktg3kgs9LdgM1ugWlmg==
+"@react-navigation/bottom-tabs@^6.5.20":
+  version "6.5.20"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-6.5.20.tgz#5335e75b02c527ef0569bd97d4f9185d65616e49"
+  integrity sha512-ow6Z06iS4VqBO8d7FP+HsGjJLWt2xTWIvuWjpoCvsM/uQXzCRDIjBv9HaKcXbF0yTW7IMir0oDAbU5PFzEDdgA==
   dependencies:
-    color "^3.1.3"
-    react-native-iphone-x-helper "^1.3.0"
+    "@react-navigation/elements" "^1.3.30"
+    color "^4.2.3"
+    warn-once "^0.1.0"
 
 "@react-navigation/core@^5.16.1":
   version "5.16.1"
@@ -2377,6 +2378,11 @@
     nanoid "^3.1.15"
     query-string "^6.13.6"
     react-is "^16.13.0"
+
+"@react-navigation/elements@^1.3.30":
+  version "1.3.30"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-1.3.30.tgz#a81371f599af1070b12014f05d6c09b1a611fd9a"
+  integrity sha512-plhc8UvCZs0UkV+sI+3bisIyn78wz9O/BiWZXpounu72k/R/Sj5PuZYFJ1fi6psvriUveMCGh4LeZckAZu2qiQ==
 
 "@react-navigation/material-top-tabs@^6.6.13":
   version "6.6.13"

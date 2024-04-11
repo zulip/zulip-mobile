@@ -19,18 +19,27 @@ import type {
   MouseEvent as $tsflower_subst$React$MouseEvent,
 } from 'tsflower/subst/react';
 
-import * as React from 'react';
-import { typeof Animated } from 'react-native';
+import { type HeaderOptions } from '@react-navigation/elements';
 
 import {
+  type Descriptor,
   type NavigationHelpers,
   type NavigationProp,
   type ParamListBase,
-  type Descriptor,
-  type TabNavigationState,
-  type TabActionHelpers,
   type RouteProp,
+  type TabActionHelpers,
+  type TabNavigationState,
 } from '@react-navigation/native';
+
+import * as React from 'react';
+import { typeof Animated } from 'react-native';
+import { type EdgeInsets } from 'react-native-safe-area-context';
+
+export type Layout = {
+  width: number,
+  height: number,
+  ...
+};
 
 export type BottomTabNavigationEventMap = {|
   tabPress: {|
@@ -48,18 +57,24 @@ export type BottomTabNavigationHelpers = NavigationHelpers<
   TabActionHelpers<ParamListBase>;
 export type BottomTabNavigationProp<
   ParamList: ParamListBase,
-  +RouteName: $Keys<ParamList> = string,
+  +RouteName: $Keys<ParamList> = $Keys<ParamList>,
+  NavigatorID: string | void = void,
 > = NavigationProp<
   ParamList,
   RouteName,
+  NavigatorID,
   TabNavigationState<ParamList>,
   BottomTabNavigationOptions,
   BottomTabNavigationEventMap,
 > &
   TabActionHelpers<ParamList>;
 
-export type BottomTabScreenProps<ParamList: ParamListBase, RouteName: $Keys<ParamList> = string> = {
-  navigation: BottomTabNavigationProp<ParamList, RouteName>,
+export type BottomTabScreenProps<
+  ParamList: ParamListBase,
+  RouteName: $Keys<ParamList> = $Keys<ParamList>,
+  NavigatorID: string | void = void,
+> = {
+  navigation: BottomTabNavigationProp<ParamList, RouteName, NavigatorID>,
   route: RouteProp<ParamList, RouteName>,
   ...
 };
@@ -92,7 +107,8 @@ export type TabBarVisibilityAnimationConfig =
   | TimingKeyboardAnimationConfig
   | SpringKeyboardAnimationConfig;
 
-export type BottomTabNavigationOptions = {
+export type BottomTabNavigationOptions = {|
+  ...HeaderOptions,
   title?: string,
   tabBarLabel?:
     | string
@@ -100,59 +116,56 @@ export type BottomTabNavigationOptions = {
         focused: boolean,
         color: string,
         position: LabelPosition,
+        children: string,
         ...
       }) => $tsflower_subst$React$ReactNode),
+  tabBarShowLabel?: boolean,
+  tabBarLabelPosition?: LabelPosition,
+  tabBarLabelStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
+  tabBarAllowFontScaling?: boolean,
   tabBarIcon?: (props: {
     focused: boolean,
     color: string,
     size: number,
     ...
   }) => $tsflower_subst$React$ReactNode,
+  tabBarIconStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
   tabBarBadge?: number | string,
   tabBarBadgeStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
   tabBarAccessibilityLabel?: string,
   tabBarTestID?: string,
-  tabBarVisible?: boolean,
+  tabBarButton?: (props: BottomTabBarButtonProps) => $tsflower_subst$React$ReactNode,
+  tabBarActiveTintColor?: string,
+  tabBarInactiveTintColor?: string,
+  tabBarActiveBackgroundColor?: string,
+  tabBarInactiveBackgroundColor?: string,
+  tabBarItemStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+  tabBarHideOnKeyboard?: boolean,
   tabBarVisibilityAnimationConfig?: {
     show?: TabBarVisibilityAnimationConfig,
     hide?: TabBarVisibilityAnimationConfig,
     ...
   },
-  tabBarButton?: (props: BottomTabBarButtonProps) => $tsflower_subst$React$ReactNode,
+  tabBarStyle?: $tsflower_subst$RN$Animated$WithAnimatedValue<
+    $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+  >,
+  tabBarBackground?: () => $tsflower_subst$React$ReactNode,
+  lazy?: boolean,
+  header?: (props: BottomTabHeaderProps) => $tsflower_subst$React$ReactNode,
+  headerShown?: boolean,
   unmountOnBlur?: boolean,
-  ...
-};
+  freezeOnBlur?: boolean,
+|};
 
 export type BottomTabDescriptor = Descriptor<
-  ParamListBase,
-  string,
-  TabNavigationState<ParamListBase>,
   BottomTabNavigationOptions,
+  BottomTabNavigationProp<ParamListBase>,
+  RouteProp<ParamListBase>,
 >;
-export type BottomTabDescriptorMap = { [key: string]: BottomTabDescriptor, ... };
+export type BottomTabDescriptorMap = { [key: string]: BottomTabDescriptor };
 
-export type BottomTabNavigationConfig<T = BottomTabBarOptions> = {
-  lazy?: boolean,
-  tabBar?: (props: BottomTabBarProps<T>) => $tsflower_subst$React$ReactNode,
-  tabBarOptions?: T,
-  detachInactiveScreens?: boolean,
-  sceneContainerStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
-  ...
-};
-
-export type BottomTabBarOptions = {|
-  keyboardHidesTabBar?: boolean,
-  activeTintColor?: string,
-  inactiveTintColor?: string,
-  activeBackgroundColor?: string,
-  inactiveBackgroundColor?: string,
-  allowFontScaling?: boolean,
-  showLabel?: boolean,
-  labelStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
-  iconStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
-  tabStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
-  labelPosition?: LabelPosition,
-  adaptive?: boolean,
+export type BottomTabNavigationConfig = {
+  tabBar?: (props: BottomTabBarProps) => $tsflower_subst$React$ReactNode,
   safeAreaInsets?: {
     top?: number,
     right?: number,
@@ -160,15 +173,24 @@ export type BottomTabBarOptions = {|
     left?: number,
     ...
   },
-  style?: $tsflower_subst$RN$Animated$WithAnimatedValue<
-    $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
-  >,
-|};
+  detachInactiveScreens?: boolean,
+  sceneContainerStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+  ...
+};
 
-export type BottomTabBarProps<T = BottomTabBarOptions> = T & {
+export type BottomTabHeaderProps = {
+  layout: Layout,
+  options: BottomTabNavigationOptions,
+  route: RouteProp<ParamListBase>,
+  navigation: BottomTabNavigationProp<ParamListBase>,
+  ...
+};
+
+export type BottomTabBarProps = {
   state: TabNavigationState<ParamListBase>,
   descriptors: BottomTabDescriptorMap,
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>,
+  insets: EdgeInsets,
   ...
 };
 

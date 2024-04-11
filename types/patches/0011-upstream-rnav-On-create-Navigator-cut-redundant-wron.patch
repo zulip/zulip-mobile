@@ -16,10 +16,31 @@ to TypedNavigator on the line after that.)
 And TypedNavigator actually passes the ParamList type when it does so,
 so it has a chance of being right.
 ---
+ .../src/navigators/createBottomTabNavigator.js.flow      | 9 +--------
  .../src/navigators/createMaterialTopTabNavigator.js.flow | 9 +--------
  .../src/navigators/createStackNavigator.js.flow          | 6 +++---
- 2 files changed, 4 insertions(+), 11 deletions(-)
+ 3 files changed, 5 insertions(+), 19 deletions(-)
 
+diff --git types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
+index 7e16fb708..ebf13d3dc 100644
+--- types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
++++ types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
+@@ -17,14 +17,7 @@ import {
+   type BottomTabNavigationOptions,
+ } from '../types';
+ 
+-type Props = DefaultNavigatorOptions<
+-  ParamListBase,
+-  TabNavigationState<ParamListBase>,
+-  BottomTabNavigationOptions,
+-  BottomTabNavigationEventMap,
+-> &
+-  TabRouterOptions &
+-  BottomTabNavigationConfig;
++type Props = TabRouterOptions & BottomTabNavigationConfig;
+ declare function BottomTabNavigator(Props): $tsflower_subst$React$JSX$Element;
+ declare var _default: <
+   ParamList: ParamListBase,
 diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
 index bc11a7c76..f0a91a5ad 100644
 --- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow

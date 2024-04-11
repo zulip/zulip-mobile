@@ -1,35 +1,36 @@
 /* @flow strict-local */
 import { Platform } from 'react-native';
 import type { MaterialTopTabNavigationOptions } from '@react-navigation/material-top-tabs';
-import type { BottomTabBarOptions } from '@react-navigation/bottom-tabs';
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 
 import { BRAND_COLOR } from './constants';
 
-export const bottomTabNavigatorConfig = (): {| tabBarOptions: BottomTabBarOptions |} => ({
-  tabBarOptions: {
-    // TODO: Find a way to tell if we're on an Android tablet,
-    //   and use that -- we don't want to assume Android users
-    //   aren't on tablets, but `isPad` is iOS only and `Platform`
-    //   doesn't have something else for Android (yet):
-    //   https://reactnative.dev/docs/platform#ispad-ios
-    showLabel: Platform.OS === 'ios' && Platform.isPad,
+export const bottomTabNavOptions = (): BottomTabNavigationOptions => ({
+  headerShown: false,
+  lazy: false,
 
-    activeTintColor: BRAND_COLOR,
-    inactiveTintColor: 'gray',
-    labelStyle: {
-      fontSize: 13,
-      margin: 0,
-    },
-    tabStyle: {
-      flex: 1,
-    },
-    style: {
-      backgroundColor: 'transparent',
+  // TODO: Find a way to tell if we're on an Android tablet,
+  //   and use that -- we don't want to assume Android users
+  //   aren't on tablets, but `isPad` is iOS only and `Platform`
+  //   doesn't have something else for Android (yet):
+  //   https://reactnative.dev/docs/platform#ispad-ios
+  tabBarShowLabel: Platform.OS === 'ios' && Platform.isPad,
 
-      // Fix a bug introduced in React Navigation v5 that is exposed
-      // by setting `backgroundColor` to 'transparent', as we do.
-      elevation: 0,
-    },
+  tabBarActiveTintColor: BRAND_COLOR,
+  tabBarInactiveTintColor: 'gray',
+  tabBarLabelStyle: {
+    fontSize: 13,
+    margin: 0,
+  },
+  tabBarItemStyle: {
+    flex: 1,
+  },
+  tabBarStyle: {
+    backgroundColor: 'transparent',
+
+    // Fix a bug introduced in React Navigation v5 that is exposed
+    // by setting `backgroundColor` to 'transparent', as we do.
+    elevation: 0,
   },
 });
 
