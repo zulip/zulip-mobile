@@ -93,7 +93,7 @@
     "@rollup/plugin-babel": "^5.2.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@testing-library/react-hooks": "^8.0.1",
-    "@types/react-native": "~0.67.6",
+    "@types/react-native": "^0.68.20",
     "@vusion/webfonts-generator": "^0.8.0",
     "ast-types": "^0.16.1",
     "babel-plugin-transform-flow-enums": "^0.0.2",
