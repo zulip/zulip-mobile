@@ -140,7 +140,7 @@ export type BottomTabNavigationConfig<T = BottomTabBarOptions> = {
   ...
 };
 
-export type BottomTabBarOptions = {
+export type BottomTabBarOptions = {|
   keyboardHidesTabBar?: boolean,
   activeTintColor?: string,
   inactiveTintColor?: string,
@@ -163,8 +163,7 @@ export type BottomTabBarOptions = {
   style?: $tsflower_subst$RN$Animated$WithAnimatedValue<
     $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
   >,
-  ...
-};
+|};
 
 export type BottomTabBarProps<T = BottomTabBarOptions> = T & {
   state: TabNavigationState<ParamListBase>,

@@ -13,7 +13,6 @@ export const bottomTabNavigatorConfig = (): {| tabBarOptions: BottomTabBarOption
     //   doesn't have something else for Android (yet):
     //   https://reactnative.dev/docs/platform#ispad-ios
     showLabel: Platform.OS === 'ios' && Platform.isPad,
-    showIcon: true,
 
     activeTintColor: BRAND_COLOR,
     inactiveTintColor: 'gray',

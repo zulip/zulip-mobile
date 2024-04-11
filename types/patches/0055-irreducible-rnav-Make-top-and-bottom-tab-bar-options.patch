@@ -1,13 +1,37 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chris Bobbe <cbobbe@zulip.com>
 Date: Thu, 11 Apr 2024 14:49:54 -0700
-Subject: [irreducible] rnav: Make MaterialTopTabNavigationOptions exact
+Subject: [irreducible] rnav: Make top and bottom tab-bar options exact
 
 Maybe someday TypeScript will have exact object types.
 ---
+ .../bottom-tabs/lib/typescript/src/types.js.flow             | 5 ++---
  .../material-top-tabs/lib/typescript/src/types.js.flow       | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
+diff --git types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+index ed9343057..03dedb1d6 100644
+--- types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+@@ -140,7 +140,7 @@ export type BottomTabNavigationConfig<T = BottomTabBarOptions> = {
+   ...
+ };
+ 
+-export type BottomTabBarOptions = {
++export type BottomTabBarOptions = {|
+   keyboardHidesTabBar?: boolean,
+   activeTintColor?: string,
+   inactiveTintColor?: string,
+@@ -163,8 +163,7 @@ export type BottomTabBarOptions = {
+   style?: $tsflower_subst$RN$Animated$WithAnimatedValue<
+     $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+   >,
+-  ...
+-};
++|};
+ 
+ export type BottomTabBarProps<T = BottomTabBarOptions> = T & {
+   state: TabNavigationState<ParamListBase>,
 diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
 index 6e3b1b9e4..7abe20b5f 100644
 --- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
