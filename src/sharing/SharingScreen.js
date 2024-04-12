@@ -63,7 +63,12 @@ export default function SharingScreen(props: Props): Node {
   }, [hasAuth, navigation]);
 
   return (
-    <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
+    <Screen
+      canGoBack={false}
+      title="Share on Zulip"
+      shouldShowLoadingBanner={false}
+      scrollEnabled={false}
+    >
       <Tab.Navigator {...materialTopTabNavigatorConfig()} swipeEnabled>
         <Tab.Screen
           name="share-to-stream"
