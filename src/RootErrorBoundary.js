@@ -115,7 +115,7 @@ ${error.stack}`;
             // [1] https://reactjs.org/docs/error-boundaries.html#how-about-event-handlers.
             onPress={() => {
               Clipboard.setString(details);
-              Toast.show('Copied!');
+              Toast.show('Copied!', Toast.SHORT);
             }}
           />
           {Platform.select({
