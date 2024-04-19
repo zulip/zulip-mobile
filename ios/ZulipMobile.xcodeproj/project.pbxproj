@@ -16,6 +16,7 @@
 		8B44AB40295B7D4D003D41A8 /* ZLPConstantsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B44AB3F295B7D45003D41A8 /* ZLPConstantsBridge.m */; };
 		8BD55E9B295CB7A10091C181 /* ZLPNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD55E9A295CB61E0091C181 /* ZLPNotifications.swift */; };
 		8BD55E9C295CB7A10091C181 /* ZLPNotificationsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD55E99295CB61E0091C181 /* ZLPNotificationsBridge.m */; };
+		8BDD410B2BD1C8F80030774C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8BDD410A2BD1C8F80030774C /* PrivacyInfo.xcprivacy */; };
 		8BE55043253A2B6600B0BC8A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BE55041253A2B6600B0BC8A /* LaunchScreen.storyboard */; };
 		A148FEFC1E9D8CB900479280 /* zulip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A148FEFB1E9D8CB900479280 /* zulip.mp3 */; };
 		A65C1ECEE03CA6692FC807AA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C68E38F2AA306A2C56A4B3 /* ExpoModulesProvider.swift */; };
@@ -41,6 +42,7 @@
 		8B44AB3F295B7D45003D41A8 /* ZLPConstantsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZLPConstantsBridge.m; path = ZulipMobile/ZLPConstantsBridge.m; sourceTree = "<group>"; };
 		8BD55E99295CB61E0091C181 /* ZLPNotificationsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ZLPNotificationsBridge.m; path = ZulipMobile/ZLPNotificationsBridge.m; sourceTree = "<group>"; };
 		8BD55E9A295CB61E0091C181 /* ZLPNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZLPNotifications.swift; path = ZulipMobile/ZLPNotifications.swift; sourceTree = "<group>"; };
+		8BDD410A2BD1C8F80030774C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		8BE55042253A2B6600B0BC8A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = ZulipMobile/Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A148FEFB1E9D8CB900479280 /* zulip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = zulip.mp3; sourceTree = "<group>"; };
 		CFA67D1F1EC23BCB0070048E /* UtilManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UtilManager.m; path = ZulipMobile/UtilManager.m; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				8BDD410A2BD1C8F80030774C /* PrivacyInfo.xcprivacy */,
 				42689E9B23466FF7007540AA /* webview */,
 				A148FEFB1E9D8CB900479280 /* zulip.mp3 */,
 				13B07FAE1A68108700A75B9A /* ZulipMobile */,
@@ -238,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BDD410B2BD1C8F80030774C /* PrivacyInfo.xcprivacy in Resources */,
 				8B40B9F327F7AEEC00D33897 /* zulip-icons.ttf in Resources */,
 				42689E9C23466FF7007540AA /* webview in Resources */,
 				13B07FBF1A68108700A75B9A /* Assets.xcassets in Resources */,
