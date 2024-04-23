@@ -242,7 +242,9 @@ export const getStreamTopicUrl = (
   streamsById: Map<number, Stream>,
 ): URL => {
   const maybe_get_stream_name = id => streamsById.get(id)?.name;
-  const path = internal_url.by_stream_topic_url(streamId, topic, maybe_get_stream_name);
+  const encodedStreamId = internal_url.encode_stream_id(streamId, maybe_get_stream_name);
+  const encodedTopic = internal_url.encodeHashComponent(topic);
+  const path = `#narrow/stream/${encodedStreamId}/topic/${encodedTopic}`;
   return new URL(path, realm);
 };
 
@@ -252,7 +254,7 @@ export const getStreamUrl = (
   streamsById: Map<number, Stream>,
 ): URL => {
   const maybe_get_stream_name = id => streamsById.get(streamId)?.name;
-  const path = internal_url.by_stream_url(streamId, maybe_get_stream_name);
+  const path = `#narrow/stream/${internal_url.encode_stream_id(streamId, maybe_get_stream_name)}`;
   return new URL(path, realm);
 };
 
