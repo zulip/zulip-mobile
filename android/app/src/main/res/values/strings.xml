@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zulip</string>
+    <string name="app_name">Mygento Zulip</string>
     <string name="notification_channel_name">Messages</string>
     <string name="no_browser_found">No Browser Found</string>
     <plurals name="numConversations">

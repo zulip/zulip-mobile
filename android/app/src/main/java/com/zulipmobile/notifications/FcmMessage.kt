@@ -1,4 +1,4 @@
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import java.net.MalformedURLException
 import java.net.URL

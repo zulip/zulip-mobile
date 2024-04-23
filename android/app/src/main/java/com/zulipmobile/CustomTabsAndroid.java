@@ -1,4 +1,4 @@
-package com.zulipmobile;
+package com.mygento.zulip;
 
 import android.content.Intent;
 import android.content.pm.ResolveInfo;

@@ -1,16 +1,13 @@
-name: CI
+name: Build
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - mygento1
   push:
     branches:
-      - mygento1
+      - mygento
 
 jobs:
-  test:
+  android:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -35,13 +32,12 @@ jobs:
       # and runs yarn install with caching
       uses: bahmutov/npm-install@v1
 
-    - name: Run tools/test
-      run: TERM=dumb tools/test --all
-
-    - run: tools/verify-webview-js
-
-# Note: if running a release build, this command is required:
-#   echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-# See the mention of `inotify` in docs/.  If we attempt assembleRelease,
-# then without this line the JS bundle step fails with a baffling ENOSPC
-# error, even though there's tons of free space on the filesystem.
+    - name: Run build
+      run: yarn run build:android-nokeys
+    - name: Run check
+      run: tree android/app/build
+    - name: Upload result
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-arm64-v8a-release.apk
+        path: android/app/build/outputs/apk/release/app-arm64-v8a-release.apk

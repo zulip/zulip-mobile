@@ -1,4 +1,4 @@
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.ReactApplicationContext

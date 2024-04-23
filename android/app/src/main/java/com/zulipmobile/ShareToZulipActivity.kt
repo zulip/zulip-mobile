@@ -1,4 +1,4 @@
-package com.zulipmobile;
+package com.mygento.zulip;
 
 import android.content.ComponentName
 import android.content.Intent
@@ -13,7 +13,7 @@ class ShareToZulipActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent.component =
-            ComponentName(applicationContext.packageName, "com.zulipmobile.MainActivity")
+            ComponentName(applicationContext.packageName, "com.mygento.zulip.MainActivity")
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()

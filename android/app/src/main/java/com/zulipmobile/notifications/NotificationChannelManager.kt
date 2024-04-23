@@ -1,6 +1,6 @@
 @file:JvmName("NotificationChannelManager")
 
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -14,8 +14,8 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
-import com.zulipmobile.R
-import com.zulipmobile.ZLog
+import com.mygento.zulip.R
+import com.mygento.zulip.ZLog
 import java.io.IOException
 import android.provider.MediaStore.Audio.Media as AudioStore
 

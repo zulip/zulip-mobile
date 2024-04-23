@@ -144,7 +144,7 @@ rnProperties.load(new FileInputStream(file("../../node_modules/react-native/Reac
 
 android {
     defaultConfig {
-        applicationId "com.zulipmobile"
+        applicationId "com.mygento.zulip"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 226

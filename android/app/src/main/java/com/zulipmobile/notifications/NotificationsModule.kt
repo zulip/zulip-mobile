@@ -1,4 +1,4 @@
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.facebook.react.bridge.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.zulipmobile.emitEvent
+import com.mygento.zulip.emitEvent
 import java.lang.Exception
 
 internal class NotificationsModule(reactContext: ReactApplicationContext) :

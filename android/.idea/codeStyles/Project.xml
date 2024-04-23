@@ -5,7 +5,7 @@
         <value>
           <package name="" withSubpackages="true" static="false" />
           <emptyLine />
-          <package name="com.zulipmobile" withSubpackages="true" static="false" />
+          <package name="com.mygento.zulip" withSubpackages="true" static="false" />
           <emptyLine />
           <package name="" withSubpackages="true" static="true" />
         </value>

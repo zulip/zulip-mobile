@@ -1,4 +1,4 @@
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import com.google.common.truth.Expect
 import org.junit.Rule

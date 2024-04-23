@@ -1,4 +1,4 @@
-package com.zulipmobile;
+package com.mygento.zulip;
 
 import android.util.Base64;
 import com.facebook.react.bridge.Callback;

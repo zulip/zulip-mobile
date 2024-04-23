@@ -169,7 +169,7 @@ Related observations:
     fresh install.
 
 [App Store listing]: https://apps.apple.com/us/app/zulip/id1203036395
-[play-artifact-library]: https://play.google.com/apps/publish/?account=8060868091387311598#ArtifactLibraryPlace:p=com.zulipmobile
+[play-artifact-library]: https://play.google.com/apps/publish/?account=8060868091387311598#ArtifactLibraryPlace:p=com.mygento.zulip
 
 
 ## Browser versions (for the WebView for the message list)

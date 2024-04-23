@@ -50,7 +50,7 @@ export default class CompatibilityScreen extends PureComponent<{||}> {
   storeURL: URL =
     Platform.OS === 'ios'
       ? new URL('https://itunes.apple.com/app/zulip/id1203036395')
-      : new URL('https://play.google.com/store/apps/details?id=com.zulipmobile');
+      : new URL('https://play.google.com/store/apps/details?id=com.mygento.zulip');
 
   openStoreURL: () => void = () => {
     openLinkExternal(this.storeURL);

@@ -1,4 +1,4 @@
-package com.zulipmobile
+package com.mygento.zulip
 
 import android.util.Log
 import io.sentry.Sentry

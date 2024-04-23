@@ -1,13 +1,13 @@
 @file:JvmName("NotifyReact")
 
-package com.zulipmobile.notifications
+package com.mygento.zulip.notifications
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
-import com.zulipmobile.*
+import com.mygento.zulip.*
 
 /**
  * Methods for telling React about a notification.

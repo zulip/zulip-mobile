@@ -1,6 +1,6 @@
 @file:JvmName("SharingHelper")
 
-package com.zulipmobile.sharing
+package com.mygento.zulip.sharing
 
 import android.content.ContentResolver
 import android.content.Intent
@@ -10,10 +10,10 @@ import android.util.Log
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
-import com.zulipmobile.ReactAppStatus
-import com.zulipmobile.ZLog
-import com.zulipmobile.appStatus
-import com.zulipmobile.emitEvent
+import com.mygento.zulip.ReactAppStatus
+import com.mygento.zulip.ZLog
+import com.mygento.zulip.appStatus
+import com.mygento.zulip.emitEvent
 
 @JvmField
 val TAG = "ShareToZulip"
@@ -62,7 +62,7 @@ private fun getParamsFromIntent(intent: Intent, contentResolver: ContentResolver
     // params is constructed to be sent over to React/JS, and must contain data in
     // sync with the code over there.
     //
-    // To Ensure this make sure to keep the construction logic in sync with what is 
+    // To Ensure this make sure to keep the construction logic in sync with what is
     // expected there.
     //
     // it corresponds with `src/types.js#SharedData`.

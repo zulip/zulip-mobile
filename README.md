@@ -13,12 +13,12 @@ and Android.
 Release versions of the app are available here:
 * [Zulip for iOS](https://itunes.apple.com/app/zulip/id1203036395)
   on the iTunes App Store
-* [Zulip for Android](https://play.google.com/store/apps/details?id=com.zulipmobile)
+* [Zulip for Android](https://play.google.com/store/apps/details?id=com.mygento.zulip)
   on the Google Play Store
   * Or if you don't use Google Play, you can [download an
     APK](https://github.com/zulip/zulip-mobile/releases/latest)
     from the official build we post on GitHub, or get the app
-    [on F-Droid](https://f-droid.org/packages/com.zulipmobile/).
+    [on F-Droid](https://f-droid.org/packages/com.mygento.zulip/).
 
 You can also help out by [running beta versions](#using-the-beta) of
 the app, and reporting bugs!
@@ -82,7 +82,7 @@ One important way to contribute is to run beta versions of the app, and report
 bugs!  To get the beta:
 
 * Android: install the app, then just
-  [join the testing program](https://play.google.com/apps/testing/com.zulipmobile/)
+  [join the testing program](https://play.google.com/apps/testing/com.mygento.zulip/)
   on Google Play.
   * Or if you don't use Google Play, you can [download an
     APK](https://github.com/zulip/zulip-mobile/releases/); the latest

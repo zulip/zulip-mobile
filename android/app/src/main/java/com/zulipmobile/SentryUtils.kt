@@ -1,4 +1,4 @@
-package com.zulipmobile
+package com.mygento.zulip
 
 import io.sentry.Sentry
 import io.sentry.SentryLevel

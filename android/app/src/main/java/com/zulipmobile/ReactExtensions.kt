@@ -1,4 +1,4 @@
-package com.zulipmobile
+package com.mygento.zulip
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactApplication
