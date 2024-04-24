@@ -161,14 +161,19 @@ export const getNarrowFromNarrowLink = (
 
   if (
     (hashSegments.length === 4 || hashSegments.length === 6)
-    && hashSegments[0] === 'stream'
+    // 'channel' is new in server-9.0; means the same as 'stream'
+    && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
     && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
   ) {
     const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
     return streamId != null ? topicNarrow(streamId, parseTopicOperand(hashSegments[3])) : null;
   }
 
-  if (hashSegments.length === 2 && hashSegments[0] === 'stream') {
+  if (
+    hashSegments.length === 2
+    // 'channel' is new in server-9.0; means the same as 'stream'
+    && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
+  ) {
     const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
     return streamId != null ? streamNarrow(streamId) : null;
   }
