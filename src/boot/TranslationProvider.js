@@ -103,7 +103,7 @@ export default function TranslationProvider(props: Props): React.Node {
   // TODO(server-9.0) remove "stream" terminology
   const effectiveMessagesByLanguage =
     activeAccountState == null
-    || getZulipFeatureLevel(activeAccountState) > streamChannelRenameFeatureLevel
+    || getZulipFeatureLevel(activeAccountState) >= streamChannelRenameFeatureLevel
       ? messagesByLanguageRenamed
       : messagesByLanguage;
 
