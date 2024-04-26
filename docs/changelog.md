@@ -39,8 +39,35 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users, vs. v27.225 (last prod release)
+
+* Streams are now called channels, if your server is version 9.0+. (#5827)
+* Fixed a bug where LaTeX was not quoted properly in the "Quote and reply"
+  option. (#5849)
+* Fixed a bug where long-pressing an invalid link would crash the app.
+  (#5854)
+* Updated translations for Bulgarian, German, Polish, Portuguese, Russian,
+  Turkish, and Ukrainian. Thanks as always to our kind volunteer translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Added a "privacy manifest". #5847
+
+* Ran `yarn upgrade`. (PR #5850)
+
+* Disabled Flipper on iOS. (PR #5848)
+
+* We now recognize the "channel" operator in narrow links. (#5860)
+
+* Resolved issues: #5854, #5849, #5832, #5860, PR #5843
+
 
 ## 27.226 (2024-04-10)
+
+This was an iOS alpha-only release.
 
 ### Highlights for users
 
