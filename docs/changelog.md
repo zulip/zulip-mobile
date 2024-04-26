@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.227 (2024-04-25)
+
 ### Highlights for users, vs. v27.225 (last prod release)
 
 * Streams are now called channels, if your server is version 9.0+. (#5827)
