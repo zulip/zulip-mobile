@@ -4,8 +4,9 @@
  * The feature level at which we want to say "channel" instead of "stream".
  *
  * Outside a per-account context, check the feature level of the active
- * account, if there is one. If there isn't an active account, just choose
- * "channel" terminology unconditionally.
+ * account, if there is one and it has server data. If there isn't an active
+ * account or it doesn't have server data, just choose "channel" terminology
+ * unconditionally.
  */
 // TODO(server-9.0) simplify away
 // https://chat.zulip.org/api/changelog#changes-in-zulip-90

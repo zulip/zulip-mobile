@@ -15,6 +15,7 @@ import {
   streamChannelRenameFeatureLevel,
   streamChannelRenamesMap,
 } from './streamChannelRenamesMap';
+import { getHaveServerData } from '../haveServerDataSelectors';
 
 // $FlowFixMe[incompatible-type] could put a well-typed mock value here, to help write tests
 export const TranslationContext: React.Context<GetText> = React.createContext(undefined);
@@ -103,6 +104,7 @@ export default function TranslationProvider(props: Props): React.Node {
   // TODO(server-9.0) remove "stream" terminology
   const effectiveMessagesByLanguage =
     activeAccountState == null
+    || !getHaveServerData(activeAccountState)
     || getZulipFeatureLevel(activeAccountState) >= streamChannelRenameFeatureLevel
       ? messagesByLanguageRenamed
       : messagesByLanguage;
