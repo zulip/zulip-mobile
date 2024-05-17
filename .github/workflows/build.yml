@@ -31,9 +31,15 @@ jobs:
       # Despite the name, this action sees the yarn.lock
       # and runs yarn install with caching
       uses: bahmutov/npm-install@v1
-
+    - name: Set secrets
+      run: echo "${signingKeyPath}" > android/release-keystore.properties && echo "${signingKey}" | base64 --decode > android/release.keystore && sed -i "s/APPID/${fcmAppId}/g" android/app/src/main/res/values/firebase.xml && sed -i 's/SENDERID/${fcmSender}/g' android/app/src/main/res/values/firebase.xml
+      env:
+          signingKeyPath: ${{ secrets.JKS_KEYPATH }}
+          signingKey: ${{ secrets.JKS_KEYSTORE }}
+          fcmSender: ${{ secrets.FCM_SENDER }}
+          fcmAppId: ${{ secrets.FCM_APPID }}
     - name: Run build
-      run: yarn run build:android-nokeys
+      run: yarn run build:android
     - name: Run check
       run: tree android/app/build
     - name: Upload result
