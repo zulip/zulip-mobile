@@ -39,6 +39,7 @@ archive_path="${rootdir}"/ios/build/ZulipMobile.xcarchive
 # "build" step is slow, so when retrying and/or debugging the upload,
 # it's very helpful to reuse the build output.
 
+#   >"${logfile}" 2>&1 \
 do_build() {
     yarn
     echo >&2
@@ -50,21 +51,21 @@ do_build() {
     echo >&2
     echo >&2 "Archiving (i.e. building)..."
     xcodebuild \
-      >"${logfile}" 2>&1 \
       -workspace ZulipMobile.xcworkspace \
       -scheme ZulipMobile \
+      -configuration Release \
       archive \
       -archivePath "${archive_path}" \
-      USE_SENTRY=YES
+      USE_SENTRY=NO
 }
 
 do_upload() {
     echo >&2 "Uploading..."
     xcodebuild \
       -exportArchive \
+      -exportPath "upload" \
       -archivePath "${archive_path}" \
-      -allowProvisioningUpdates \
-      -exportOptionsPlist upload.plist
+      -exportOptionsPlist adhoc.plist
 }
 
 case "${action}" in

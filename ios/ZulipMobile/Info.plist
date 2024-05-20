@@ -24,7 +24,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>org.zulip.Zulip</string>
+			<string>com.mygento.Zulip</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>zulip</string>

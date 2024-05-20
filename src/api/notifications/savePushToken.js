@@ -12,7 +12,7 @@ export default async (auth: Auth, mobileOS: 'ios' | 'android', token: string): P
   const extraParams =
     // The `Object.freeze` is to work around a Flow issue:
     //   https://github.com/facebook/flow/issues/2386#issuecomment-695064325
-    mobileOS === 'android' ? Object.freeze({}) : { appid: 'org.zulip.Zulip' };
+    mobileOS === 'android' ? Object.freeze({}) : { appid: 'com.mygento.Zulip' };
   return apiPost(auth, `users/me/${routeName}`, {
     token,
     ...extraParams,

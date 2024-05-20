@@ -5,7 +5,7 @@ index 5bc654475..e61bbf49c 100644
 @@ -15,22 +15,52 @@ const mockComponent = jest.requireActual('./mockComponent');
  jest.requireActual('@react-native/polyfills/Object.es8');
  jest.requireActual('@react-native/polyfills/error-guard');
- 
+
 -global.__DEV__ = true;
 -
 -global.performance = {
@@ -68,7 +68,7 @@ index 5bc654475..e61bbf49c 100644
 +    writable: true,
 +  },
 +});
- 
+
  // there's a __mock__ for it.
  jest.setMock(
 diff --git a/node_modules/react-native/scripts/react_native_pods.rb b/node_modules/react-native/scripts/react_native_pods.rb
@@ -80,13 +80,23 @@ index f2ceeda..c618f77 100644
    end
    modify_flags_for_new_architecture(installer, cpp_flags)
 +  apply_xcode_15_patch(installer)
- 
+
  end
- 
-@@ -661,3 +662,16 @@ def __apply_Xcode_12_5_M1_post_install_workaround(installer)
+
+@@ -363,7 +364,7 @@
+     'source' => { :git => '' },
+     'header_mappings_dir' => './',
+     'platforms' => {
+-      'ios' => '11.0',
++      'ios' => '12.4',
+     },
+     'source_files' => "**/*.{h,mm,cpp}",
+     'pod_target_xcconfig' => { "HEADER_SEARCH_PATHS" =>
+@@ -660,4 +661,17 @@
+   # See https://github.com/facebook/flipper/issues/834 for more details.
    time_header = "#{Pod::Config.instance.installation_root.to_s}/Pods/RCT-Folly/folly/portability/Time.h"
    `sed -i -e  $'s/ && (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)//' #{time_header}`
- end
++end
 +
 +# Fix to build react native on Xcode 15 beta 1
 +def apply_xcode_15_patch(installer)
@@ -99,4 +109,4 @@ index f2ceeda..c618f77 100644
 +              config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << '"_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION" '
 +      end
 +  end
-+end
+ end

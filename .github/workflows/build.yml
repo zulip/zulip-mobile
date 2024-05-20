@@ -9,6 +9,8 @@ on:
 jobs:
   android:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
     - uses: actions/checkout@v4
 
@@ -28,9 +30,8 @@ jobs:
         check-latest: true
 
     - name: Run yarn install
-      # Despite the name, this action sees the yarn.lock
-      # and runs yarn install with caching
       uses: bahmutov/npm-install@v1
+
     - name: Set secrets
       run: echo "${signingKeyPath}" > android/release-keystore.properties && echo "${signingKey}" | base64 --decode > android/release.keystore && sed -i "s/APPID/${fcmAppId}/g" android/app/src/main/res/values/firebase.xml && sed -i 's/SENDERID/${fcmSender}/g' android/app/src/main/res/values/firebase.xml
       env:
@@ -47,3 +48,54 @@ jobs:
       with:
         name: app-arm64-v8a-release.apk
         path: android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
+  mac:
+    runs-on: [self-hosted, macOS]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+      - name: Run yarn install
+        uses: bahmutov/npm-install@v1
+      - name: Run build
+        run: tools/ios build
+      - name: Run export
+        run: tools/ios upload
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa
+          path: ios/upload
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
