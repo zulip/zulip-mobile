@@ -40,6 +40,7 @@ archive_path="${rootdir}"/ios/build/ZulipMobile.xcarchive
 # it's very helpful to reuse the build output.
 
 #   >"${logfile}" 2>&1 \
+# -configuration Release \
 do_build() {
     yarn
     echo >&2
@@ -52,8 +53,7 @@ do_build() {
     echo >&2 "Archiving (i.e. building)..."
     xcodebuild \
       -workspace ZulipMobile.xcworkspace \
-      -scheme ZulipMobile \
-      -configuration Release \
+      -scheme "ZulipMobile release-mode" \
       archive \
       -archivePath "${archive_path}" \
       USE_SENTRY=NO
