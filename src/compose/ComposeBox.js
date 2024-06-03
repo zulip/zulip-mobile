@@ -363,7 +363,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
             setMessageInputValue(state =>
               state.value.replace(
                 placeholder,
-                `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
+                () => `[${_('Failed to upload file: {fileName}', { fileName })}]()`,
               ),
             );
             continue;
@@ -372,7 +372,7 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           const linkText = `[${fileName}](${response.uri})`;
           setMessageInputValue(state =>
             state.value.indexOf(placeholder) !== -1
-              ? state.value.replace(placeholder, linkText)
+              ? state.value.replace(placeholder, () => linkText)
               : `${state.value}\n${linkText}`,
           );
         }
@@ -448,7 +448,9 @@ const ComposeBox: React$AbstractComponent<Props, ImperativeHandle> = forwardRef(
           zulipFeatureLevel,
           _,
         });
-        setMessageInputValue(state => state.value.replace(quotingPlaceholder, quoteAndReplyText));
+        setMessageInputValue(state =>
+          state.value.replace(quotingPlaceholder, () => quoteAndReplyText),
+        );
         messageInputRef.current?.focus();
       } finally {
         setActiveQuoteAndRepliesCount(v => v - 1);

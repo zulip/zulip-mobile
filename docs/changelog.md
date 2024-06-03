@@ -40,7 +40,72 @@ It doesn't include
 ## Unreleased
 
 
+## 27.228 (2024-05-01)
+
+### Highlights for users, vs. v27.225 (last prod release)
+
+* Streams are now called channels, if your server is version 9.0+. (#5827)
+* Fixed a bug where LaTeX was not quoted properly in the "Quote and reply"
+  option. (#5849)
+* Fixed a bug where long-pressing an invalid link would crash the app.
+  (#5854)
+* Updated translations for Bulgarian, German, Polish, Portuguese, Russian,
+  Spanish, Turkish, and Ukrainian. Thanks as always to our kind volunteer
+  translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for users, vs. v27.227 (last beta release)
+
+* Fixed a crash on login, which slipped through in the UI-string "channel"
+  rename. (PR #5865)
+* Updated translations for Bulgarian, Spanish, and Turkish. Thanks as always
+  to our kind volunteer translators!
+
+
+### Highlights for developers, vs. v27.227
+
+* Fixed a crash on login, which slipped through in the UI-string "channel"
+  rename. (PR #5865)
+
+* The UI-string "channel" terminology is now correctly conditioned on
+  FL >=255, not >255. (PR #5864)
+
+* Resolved issues: PR #5865, PR #5864
+
+
+## 27.227 (2024-04-25)
+
+### Highlights for users, vs. v27.225 (last prod release)
+
+* Streams are now called channels, if your server is version 9.0+. (#5827)
+* Fixed a bug where LaTeX was not quoted properly in the "Quote and reply"
+  option. (#5849)
+* Fixed a bug where long-pressing an invalid link would crash the app.
+  (#5854)
+* Updated translations for Bulgarian, German, Polish, Portuguese, Russian,
+  Turkish, and Ukrainian. Thanks as always to our kind volunteer translators!
+
+Plus other fixes and improvements for your Zulip experience.
+
+
+### Highlights for developers
+
+* Added a "privacy manifest". #5847
+
+* Ran `yarn upgrade`. (PR #5850)
+
+* Disabled Flipper on iOS. (PR #5848)
+
+* We now recognize the "channel" operator in narrow links. (#5860)
+
+* Resolved issues: #5854, #5849, #5832, #5860, PR #5843
+
+
 ## 27.226 (2024-04-10)
+
+This was an iOS alpha-only release.
 
 ### Highlights for users
 

@@ -8,7 +8,7 @@ import { Icon } from '../common/Icons';
 import styles from '../styles';
 
 const specials = {
-  home: { name: 'All messages', icon: 'globe' },
+  home: { name: 'Combined feed', icon: 'globe' },
   private: { name: 'Direct messages', icon: 'mail' },
   starred: { name: 'Starred', icon: 'star' },
   mentioned: { name: 'Mentions', icon: 'at-sign' },

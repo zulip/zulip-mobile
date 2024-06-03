@@ -44,25 +44,35 @@ describe('isNarrowLink', () => {
     [true, 'legacy: stream name, no ID', urlOnRealm('#narrow/stream/jest')],
     [true, 'legacy: stream name, no ID, topic', urlOnRealm('#narrow/stream/jest/topic/topic1')],
 
-    [true, 'with numeric stream ID', urlOnRealm('#narrow/stream/123-jest')],
-    [true, 'with numeric stream ID and topic', urlOnRealm('#narrow/stream/123-jest/topic/topic1')],
+    [true, 'with numeric channel ID', urlOnRealm('#narrow/channel/123-jest')],
+    [true, 'with numeric channel ID (old operator)', urlOnRealm('#narrow/stream/123-jest')],
+    [
+      true,
+      'with numeric channel ID and topic',
+      urlOnRealm('#narrow/channel/123-jest/topic/topic1'),
+    ],
+    [
+      true,
+      'with numeric channel ID (old operator) and topic',
+      urlOnRealm('#narrow/stream/123-jest/topic/topic1'),
+    ],
 
     [true, 'with numeric pm user IDs (new operator)', urlOnRealm('#narrow/dm/123-mark')],
     [true, 'with numeric pm user IDs (old operator)', urlOnRealm('#narrow/pm-with/123-mark')],
 
     [false, 'wrong fragment', urlOnRealm('#nope')],
-    [false, 'wrong path', urlOnRealm('/user_uploads/#narrow/stream/jest')],
-    [false, 'wrong domain', new URL('https://another.com/#narrow/stream/jest')],
+    [false, 'wrong path', urlOnRealm('/user_uploads/#narrow/channel/jest')],
+    [false, 'wrong domain', new URL('https://another.com/#narrow/channel/jest')],
 
-    [false, '#narrowly', urlOnRealm('#narrowly/stream/jest')],
+    [false, '#narrowly', urlOnRealm('#narrowly/channel/jest')],
 
-    [false, 'double slash', new URL(`${realm.origin}//#narrow/stream/jest`)],
-    [false, 'triple slash', new URL(`${realm.origin}///#narrow/stream/jest`)],
+    [false, 'double slash', new URL(`${realm.origin}//#narrow/channel/jest`)],
+    [false, 'triple slash', new URL(`${realm.origin}///#narrow/channel/jest`)],
 
     [
       true,
       'with port',
-      new URL('#narrow/stream/jest', 'https://example.com:444/'),
+      new URL('#narrow/channel/jest', 'https://example.com:444/'),
       new URL('https://example.com:444/'),
     ],
 
@@ -70,13 +80,13 @@ describe('isNarrowLink', () => {
     // [
     //   true,
     //   'same domain, punycoded host',
-    //   new URL('https://example.xn--h2brj9c/#narrow/stream/jest'),
+    //   new URL('https://example.xn--h2brj9c/#narrow/channel/jest'),
     //   new URL('https://example.भारत/'),
     // ], // FAILS
     [
       true,
       'punycodable host',
-      new URL('#narrow/stream/jest', 'https://example.भारत/'),
+      new URL('#narrow/channel/jest', 'https://example.भारत/'),
       new URL('https://example.भारत/'),
     ],
 
@@ -84,21 +94,21 @@ describe('isNarrowLink', () => {
     // [
     //   true,
     //   'same domain, IDNA-mappable',
-    //   new URL('https://ℯⅩªm🄿ₗℰ.ℭᴼⓂ/#narrow/stream/jest'),
+    //   new URL('https://ℯⅩªm🄿ₗℰ.ℭᴼⓂ/#narrow/channel/jest'),
     //   new URL('https://example.com'),
     // ], // FAILS
 
     [
       true,
       'ipv4 address',
-      new URL('#narrow/stream/jest', 'http://192.168.0.1/'),
+      new URL('#narrow/channel/jest', 'http://192.168.0.1/'),
       new URL('http://192.168.0.1/'),
     ],
     // This one fails because our polyfilled URL implementation has IDNA stripped out.
     // [
     //   true,
     //   'same IPv4 address, IDNA-mappable',
-    //   new URL('http://１𝟗𝟚。①⁶🯸．₀｡𝟭/#narrow/stream/jest'),
+    //   new URL('http://１𝟗𝟚。①⁶🯸．₀｡𝟭/#narrow/channel/jest'),
     //   new URL('http://192.168.0.1/'),
     // ], // FAILS
 
@@ -111,17 +121,17 @@ describe('isNarrowLink', () => {
       // This one, except possibly the fragment, is a 100% realistic link
       // for innocent normal use.  The buggy old version narrowly avoided
       // accepting it... but would accept all the variations below.
-      new URL(`https://web.archive.org/web/*/${urlOnRealm('#narrow/stream/jest').toString()}`),
+      new URL(`https://web.archive.org/web/*/${urlOnRealm('#narrow/channel/jest').toString()}`),
     ],
     [
       false,
       'odd scheme, wrong domain, realm-like path, narrow-like fragment',
-      new URL(`ftp://web.archive.org/web/*/${urlOnRealm('#narrow/stream/jest').toString()}`),
+      new URL(`ftp://web.archive.org/web/*/${urlOnRealm('#narrow/channel/jest').toString()}`),
     ],
     [
       false,
       'same domain, realm-like path, narrow-like fragment',
-      urlOnRealm(`web/*/${urlOnRealm('#narrow/stream/jest').toString()}`),
+      urlOnRealm(`web/*/${urlOnRealm('#narrow/channel/jest').toString()}`),
     ],
   ];
 
@@ -138,10 +148,10 @@ describe('isNarrowLink', () => {
 describe('getNarrowFromNarrowLink (part 1)', () => {
   const mkCheck = (narrowExpectation: (Narrow => boolean) | null) => hash => {
     const streams = [
-      eg.makeStream({ name: 'jest' }),
-      eg.makeStream({ name: 'stream' }),
-      eg.makeStream({ name: 'topic' }),
-      eg.makeStream({ name: 'mobile' }),
+      eg.makeStream({ stream_id: 1, name: 'jest' }),
+      eg.makeStream({ stream_id: 2, name: 'stream' }),
+      eg.makeStream({ stream_id: 3, name: 'topic' }),
+      eg.makeStream({ stream_id: 4, name: 'mobile' }),
     ];
     const baseState = eg.reduxStatePlus({ streams });
     const narrow = getNarrowFromNarrowLink(
@@ -163,6 +173,13 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     }
   };
 
+  describe('"/#narrow/channel/<…>" is a channel link', () => {
+    const check = mkCheck(isStreamNarrow);
+    ['/#narrow/channel/1-jest', '/#narrow/channel/2-stream/', '/#narrow/channel/3-topic/'].forEach(
+      hash => check(hash),
+    );
+  });
+
   describe('"/#narrow/stream/<…>" is a stream link', () => {
     const check = mkCheck(isStreamNarrow);
     ['/#narrow/stream/jest', '/#narrow/stream/stream/', '/#narrow/stream/topic/'].forEach(hash =>
@@ -170,6 +187,16 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     );
 
     // TODO: Test with modern-style stream links that use stream IDs
+  });
+
+  describe('"/#narrow/channel/<…>/topic/<…>" is a topic link', () => {
+    const check = mkCheck(isTopicNarrow);
+    [
+      '/#narrow/channel/1-jest/topic/test',
+      '/#narrow/channel/4-mobile/subject/topic/near/378333',
+      '/#narrow/channel/4-mobile/topic/topic/',
+      '/#narrow/channel/3-stream/topic/topic/near/1',
+    ].forEach(hash => check(hash));
   });
 
   describe('"/#narrow/stream/<…>/topic/<…>" is a topic link', () => {
@@ -216,14 +243,14 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     const check = mkCheck(null);
     [
       // `near` with no operand
-      '/#narrow/stream/stream/topic/topic/near/',
+      '/#narrow/channel/stream/topic/topic/near/',
 
       // `is` with invalid operand
       '/#narrow/is/men',
-      '/#narrow/is/men/stream',
+      '/#narrow/is/men/channel',
 
-      // invalid operand `are`; `stream` operator with no operand
-      '/#narrow/are/men/stream',
+      // invalid operand `are`; `channel` operator with no operand
+      '/#narrow/are/men/channel',
     ].forEach(hash => check(hash));
   });
 });
@@ -263,8 +290,11 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
       eg.selfUser.user_id,
     );
 
-  describe('on stream links', () => {
+  describe('on channel links', () => {
     const expectStream = (operand, streams, expectedStream: null | Stream) => {
+      expect(get(`#narrow/channel/${operand}`, streams)).toEqual(
+        expectedStream === null ? null : streamNarrow(expectedStream.stream_id),
+      );
       expect(get(`#narrow/stream/${operand}`, streams)).toEqual(
         expectedStream === null ? null : streamNarrow(expectedStream.stream_id),
       );
@@ -278,12 +308,12 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
       expectStream(`${streamGeneral.stream_id}-general`, [], streamGeneral);
     });
 
-    test('on stream link with wrong name: ID wins', () => {
+    test('on channel link with wrong name: ID wins', () => {
       expectStream(`${streamGeneral.stream_id}-nonsense`, [streamGeneral], streamGeneral);
       expectStream(`${streamGeneral.stream_id}-`, [streamGeneral], streamGeneral);
     });
 
-    test('on malformed stream link: reject', () => {
+    test('on malformed channel link: reject', () => {
       expectStream(`-${streamGeneral.stream_id}`, [streamGeneral], null);
       expectStream(`${streamGeneral.stream_id}nonsense-general`, [streamGeneral], null);
     });
@@ -340,8 +370,12 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
   describe('on topic links', () => {
     test('basic', () => {
       const expectBasic = (operand, expectedTopic) => {
-        const url = `#narrow/stream/${streamGeneral.stream_id}-general/topic/${operand}`;
+        const url = `#narrow/channel/${streamGeneral.stream_id}-general/topic/${operand}`;
+        const legacyUrl = `#narrow/stream/${streamGeneral.stream_id}-general/topic/${operand}`;
         expect(get(url, [streamGeneral])).toEqual(
+          topicNarrow(streamGeneral.stream_id, expectedTopic),
+        );
+        expect(get(legacyUrl, [streamGeneral])).toEqual(
           topicNarrow(streamGeneral.stream_id, expectedTopic),
         );
       };
@@ -350,7 +384,7 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
       expectBasic('lunch', 'lunch');
     });
 
-    test('on old topic link, with dot-encoding', () => {
+    test('on old topic link (no stream ID), with dot-encoding', () => {
       expect(
         get(`https://example.com/#narrow/stream/${eg.stream.name}/topic/(no.20topic)`, [eg.stream]),
       ).toEqual(topicNarrow(eg.stream.stream_id, '(no topic)'));
@@ -376,7 +410,7 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
       ).toEqual(topicNarrow(eg.stream.stream_id, 'topic'));
     });
 
-    test('on old topic link, without realm info', () => {
+    test('on old topic link (no stream ID), without realm info', () => {
       expect(get(`/#narrow/stream/${eg.stream.name}/topic/topic`, [eg.stream])).toEqual(
         topicNarrow(eg.stream.stream_id, 'topic'),
       );
@@ -424,6 +458,13 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
     );
 
     expect(
+      get(
+        `https://example.com/#narrow/channel/${eg.stream.stream_id}-${eg.stream.name}/topic/test/near/1`,
+        [eg.stream],
+      ),
+    ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
+
+    expect(
       get(`https://example.com/#narrow/stream/${eg.stream.name}/topic/test/near/1`, [eg.stream]),
     ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
 
@@ -436,6 +477,7 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
 describe('getNearOperandFromLink', () => {
   test('not message link', () => {
     expect(getNearOperandFromLink(new URL('/#narrow/is/private', realm), realm)).toBe(null);
+    expect(getNearOperandFromLink(new URL('/#narrow/channel/jest', realm), realm)).toBe(null);
     expect(getNearOperandFromLink(new URL('/#narrow/stream/jest', realm), realm)).toBe(null);
   });
 
@@ -451,6 +493,9 @@ describe('getNearOperandFromLink', () => {
   });
 
   test('when link is a topic link, return anchor message id', () => {
+    expect(
+      getNearOperandFromLink(new URL('/#narrow/channel/1-jest/topic/test/near/1', realm), realm),
+    ).toBe(1);
     expect(
       getNearOperandFromLink(new URL('/#narrow/stream/jest/topic/test/near/1', realm), realm),
     ).toBe(1);

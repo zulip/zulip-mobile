@@ -250,7 +250,8 @@ function interpretCustomProfileField(
       );
       const { subtype, url_pattern } = realmData;
       const pattern = url_pattern ?? realmDefaultExternalAccounts.get(subtype)?.url_pattern;
-      const url = pattern == null ? undefined : new URL(pattern.replace('%(username)s', value));
+      const url =
+        pattern == null ? undefined : new URL(pattern.replace('%(username)s', () => value));
       if (!url) {
         logging.warn(
           `Missing url_pattern for custom profile field of type ExternalAccount, subtype '${subtype}'`,
