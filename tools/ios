@@ -5,7 +5,7 @@ set -e
 
 usage() {
     cat >&2 <<EOF
-usage: tools/ios {build | upload}
+usage: tools/ios {build | upload | adhoc}
 
 Build the app for release on iOS, or upload the result to the
 App Store.
@@ -15,7 +15,7 @@ EOF
 
 action=
 case "${1}" in
-    build|upload) action="${1}"; shift;;
+    build|upload|adhoc) action="${1}"; shift;;
     *) usage;;
 esac
 if (( ${#} )); then
@@ -59,8 +59,8 @@ do_build() {
       USE_SENTRY=NO
 }
 
-do_upload() {
-    echo >&2 "Uploading..."
+do_adhoc() {
+    echo >&2 "Uploading adhoc..."
     xcodebuild \
       -exportArchive \
       -exportPath "upload" \
@@ -68,7 +68,17 @@ do_upload() {
       -exportOptionsPlist adhoc.plist
 }
 
+do_upload() {
+    echo >&2 "Uploading..."
+    xcodebuild \
+      -exportArchive \
+      -exportPath "upload" \
+      -archivePath "${archive_path}" \
+      -exportOptionsPlist export.plist
+}
+
 case "${action}" in
     build)  do_build ;;
     upload) do_upload ;;
+    adhoc) do_adhoc ;;
 esac

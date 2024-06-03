@@ -49,7 +49,8 @@ jobs:
         name: app-arm64-v8a-release.apk
         path: android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
   mac:
-    runs-on: [self-hosted, macOS]
+    # runs-on: [self-hosted, macOS]
+    runs-on: macos-12
     strategy:
       fail-fast: false
     steps:
@@ -58,7 +59,8 @@ jobs:
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          # BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_APPSTORE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
@@ -83,6 +85,8 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+      - name: Install coreutils
+        run: brew install coreutils
       - name: Run yarn install
         uses: bahmutov/npm-install@v1
       - name: Run build
@@ -94,6 +98,16 @@ jobs:
         with:
           name: ipa
           path: ios/upload
+      - name: AppStore Secrets
+        env:
+          API_KEY_BASE64: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/private_keys
+          echo -n "$API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_${{ secrets.APPSTORE_API_KEY_ID }}.p8
+      - name: Upload to AppStore
+        run: |
+          xcrun altool --validate-app --type ios -f ios/upload/*.ipa --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
+          xcrun altool --upload-app --type ios -f ios/upload/*.ipa -t ios --apiKey ${{ secrets.APPSTORE_API_KEY_ID }} --apiIssuer ${{ secrets.APPSTORE_ISSUER_ID }}
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |

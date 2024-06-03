@@ -440,7 +440,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mygento.Zulip;
 				PRODUCT_NAME = ZulipMobile;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Mygento Zulip Adhoc";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Mygento Zulip Appstore";
 				SWIFT_OBJC_BRIDGING_HEADER = "ZulipMobile-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
