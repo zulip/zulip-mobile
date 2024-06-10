@@ -160,10 +160,14 @@ export const getNarrowFromNarrowLink = (
   }
 
   if (
-    (hashSegments.length === 4 || hashSegments.length === 6)
     // 'channel' is new in server-9.0; means the same as 'stream'
-    && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
-    && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
+    (hashSegments.length === 4
+      && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
+      && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic'))
+    || (hashSegments.length === 6
+      && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
+      && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
+      && hashSegments[4] === 'near')
   ) {
     const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
     return streamId != null ? topicNarrow(streamId, parseTopicOperand(hashSegments[3])) : null;
