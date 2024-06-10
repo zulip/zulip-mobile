@@ -97,7 +97,7 @@ const globalThunkExtras: $Exact<GlobalThunkExtras> = {
   activeAccountDispatch: action => (store.dispatch: Dispatch)(action),
 };
 
-const combinedThunkExtras: ThunkExtras & GlobalThunkExtras = {
+export const combinedThunkExtras: ThunkExtras & GlobalThunkExtras = {
   ...thunkExtras,
   ...globalThunkExtras,
 };
