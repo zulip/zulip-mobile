@@ -148,7 +148,7 @@ export const getNarrowFromNarrowLink = (
     (hashSegments.length === 2 && (hashSegments[0] === 'pm-with' || hashSegments[0] === 'dm'))
     || (hashSegments.length === 4
       && (hashSegments[0] === 'pm-with' || hashSegments[0] === 'dm')
-      && hashSegments[2] === 'near')
+      && (hashSegments[2] === 'near' || hashSegments[2] === 'with'))
   ) {
     // TODO: This case is pretty useless in practice, due to basically a
     //   bug in the webapp: the URL that appears in the location bar for a
@@ -167,7 +167,7 @@ export const getNarrowFromNarrowLink = (
     || (hashSegments.length === 6
       && (hashSegments[0] === 'stream' || hashSegments[0] === 'channel')
       && (hashSegments[2] === 'subject' || hashSegments[2] === 'topic')
-      && hashSegments[4] === 'near')
+      && (hashSegments[4] === 'near' || hashSegments[4] === 'with'))
   ) {
     const streamId = parseStreamOperand(hashSegments[1], streamsById, streamsByName);
     return streamId != null ? topicNarrow(streamId, parseTopicOperand(hashSegments[3])) : null;
@@ -219,9 +219,18 @@ export const getNearOperandFromLink = (url: URL, realm: URL): number | null => {
     (str, i) =>
       // This is a segment where we expect an operator to be specified.
       i % 2 === 0
-      // The operator is 'near' and its meaning is not negated (`str` does
-      // not start with "-").
-      && str === 'near',
+      // The operator is 'near' or 'with' and its meaning is not negated
+      // (`str` does not start with "-").
+      //
+      // Quoting Greg from #5866:
+      // > Currently the app doesn't interpret the "anchor" meaning of
+      // > `/near/` links at all (that's #3604) — we already effectively
+      // > give `/near/` links exactly the meaning that the upcoming
+      // > `/with/` links will have. So to handle the new links, we just
+      // > need to parse them and then handle them the way we already handle
+      // > `/near/` links.
+      // Which makes sense for this legacy codebase.
+      && (str === 'near' || str === 'with'),
   );
   if (nearOperatorIndex < 0) {
     return null;

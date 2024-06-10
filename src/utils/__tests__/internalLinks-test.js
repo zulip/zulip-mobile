@@ -194,8 +194,10 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     [
       '/#narrow/channel/1-jest/topic/test',
       '/#narrow/channel/4-mobile/subject/topic/near/378333',
+      '/#narrow/channel/4-mobile/subject/topic/with/378333',
       '/#narrow/channel/4-mobile/topic/topic/',
       '/#narrow/channel/3-stream/topic/topic/near/1',
+      '/#narrow/channel/3-stream/topic/topic/with/1',
     ].forEach(hash => check(hash));
   });
 
@@ -204,9 +206,12 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     [
       '/#narrow/stream/jest/topic/test',
       '/#narrow/stream/mobile/subject/topic/near/378333',
+      '/#narrow/stream/mobile/subject/topic/with/378333',
       '/#narrow/stream/mobile/topic/topic/',
       '/#narrow/stream/stream/topic/topic/near/1',
+      '/#narrow/stream/stream/topic/topic/with/1',
       '/#narrow/stream/stream/subject/topic/near/1',
+      '/#narrow/stream/stream/subject/topic/with/1',
       '/#narrow/stream/stream/subject/topic',
     ].forEach(hash => check(hash));
   });
@@ -216,7 +221,9 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     [
       '/#narrow/dm/1,2-group',
       '/#narrow/dm/1,2-group/near/1',
+      '/#narrow/dm/1,2-group/with/1',
       '/#narrow/dm/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3',
+      '/#narrow/dm/a.40b.2Ecom.2Ec.2Ed.2Ecom/with/3',
     ].forEach(hash => check(hash));
   });
 
@@ -225,7 +232,9 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     [
       '/#narrow/pm-with/1,2-group',
       '/#narrow/pm-with/1,2-group/near/1',
+      '/#narrow/pm-with/1,2-group/with/1',
       '/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/near/3',
+      '/#narrow/pm-with/a.40b.2Ecom.2Ec.2Ed.2Ecom/with/3',
     ].forEach(hash => check(hash));
   });
 
@@ -244,6 +253,9 @@ describe('getNarrowFromNarrowLink (part 1)', () => {
     [
       // `near` with no operand
       '/#narrow/channel/stream/topic/topic/near/',
+
+      // `with` with no operand
+      '/#narrow/channel/stream/topic/topic/with/',
 
       // `is` with invalid operand
       '/#narrow/is/men',
@@ -472,6 +484,31 @@ describe('getNarrowFromNarrowLink (part 2)', () => {
       get(`https://example.com/#narrow/stream/${eg.stream.name}/subject/test/near/1`, [eg.stream]),
     ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
   });
+
+  test('on a /with/ link', () => {
+    const ids = `${userB.user_id},${userC.user_id}`;
+    expect(get(`https://example.com/#narrow/dm/${ids}-group/with/2`, [])).toEqual(
+      pmNarrowFromUsersUnsafe([userB, userC]),
+    );
+    expect(get(`https://example.com/#narrow/pm-with/${ids}-group/with/2`, [])).toEqual(
+      pmNarrowFromUsersUnsafe([userB, userC]),
+    );
+
+    expect(
+      get(
+        `https://example.com/#narrow/channel/${eg.stream.stream_id}-${eg.stream.name}/topic/test/with/1`,
+        [eg.stream],
+      ),
+    ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
+
+    expect(
+      get(`https://example.com/#narrow/stream/${eg.stream.name}/topic/test/with/1`, [eg.stream]),
+    ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
+
+    expect(
+      get(`https://example.com/#narrow/stream/${eg.stream.name}/subject/test/with/1`, [eg.stream]),
+    ).toEqual(topicNarrow(eg.stream.stream_id, 'test'));
+  });
 });
 
 describe('getNearOperandFromLink', () => {
@@ -485,10 +522,21 @@ describe('getNearOperandFromLink', () => {
     expect(getNearOperandFromLink(new URL('/#narrow/near/1', realm), realm)).toBe(1);
   });
 
+  test('`with` is the only operator', () => {
+    expect(getNearOperandFromLink(new URL('/#narrow/with/1', realm), realm)).toBe(1);
+  });
+
   test('when link is a group link, return anchor message id', () => {
     expect(getNearOperandFromLink(new URL('/#narrow/dm/1,3-group/near/1/', realm), realm)).toBe(1);
     expect(
       getNearOperandFromLink(new URL('/#narrow/pm-with/1,3-group/near/1/', realm), realm),
+    ).toBe(1);
+  });
+
+  test('when link is a group link with /with/, return anchor message id', () => {
+    expect(getNearOperandFromLink(new URL('/#narrow/dm/1,3-group/with/1/', realm), realm)).toBe(1);
+    expect(
+      getNearOperandFromLink(new URL('/#narrow/pm-with/1,3-group/with/1/', realm), realm),
     ).toBe(1);
   });
 
@@ -498,6 +546,15 @@ describe('getNearOperandFromLink', () => {
     ).toBe(1);
     expect(
       getNearOperandFromLink(new URL('/#narrow/stream/jest/topic/test/near/1', realm), realm),
+    ).toBe(1);
+  });
+
+  test('when link is a topic link with /with/, return anchor message id', () => {
+    expect(
+      getNearOperandFromLink(new URL('/#narrow/channel/1-jest/topic/test/with/1', realm), realm),
+    ).toBe(1);
+    expect(
+      getNearOperandFromLink(new URL('/#narrow/stream/jest/topic/test/with/1', realm), realm),
     ).toBe(1);
   });
 });

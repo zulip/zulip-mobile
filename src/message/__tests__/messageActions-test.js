@@ -68,6 +68,21 @@ describe('messageActions', () => {
         pmNarrowFromUsersUnsafe([user1, user2]),
       );
     });
+
+    test('handles /with/ links', async () => {
+      const stream = eg.makeStream({ stream_id: 1, name: 'test' });
+      const user1 = eg.makeUser({ user_id: 1, full_name: 'user 1' });
+      const user2 = eg.makeUser({ user_id: 2, full_name: 'user 2' });
+      const { store } = prepare({ streams: [stream], users: [user1, user2] });
+
+      await checkLink(store, '#narrow/stream/1-test/topic/hello/with/1', topicNarrow(1, 'hello'));
+      await checkLink(store, '#narrow/dm/1-user-1/with/1', pmNarrowFromUsersUnsafe([user1]));
+      await checkLink(
+        store,
+        '#narrow/dm/1,2-group/with/1',
+        pmNarrowFromUsersUnsafe([user1, user2]),
+      );
+    });
   });
 
   describe('doNarrow', () => {
