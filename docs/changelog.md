@@ -44,6 +44,8 @@ It doesn't include
 
 ### Highlights for users
 
+* Support for topic permalinks, a feature coming up in Zulip Server 9.0.
+  (#5866)
 * Updated translations for Arabic, Belarusian, Bulgarian, Danish, Finnish,
   French, German, Italian, Japanese, Persian, and Russian. Thanks as always
   to our kind volunteer translators!
