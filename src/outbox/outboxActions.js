@@ -30,6 +30,7 @@ import { makeUserId } from '../api/idTypes';
 import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
 import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
+import { getZulipFeatureLevel } from '../account/accountsSelectors';
 
 export const messageSendStart = (outbox: Outbox): PerAccountAction => ({
   type: MESSAGE_SEND_START,
@@ -54,6 +55,7 @@ export const messageSendComplete = (localMessageId: number): PerAccountAction =>
 const trySendMessages = (dispatch, getState): boolean => {
   const state = getState();
   const auth = getAuth(state);
+  const zulipFeatureLevel = getZulipFeatureLevel(state);
   const outboxToSend = state.outbox.filter(outbox => !outbox.isSent);
   const oneWeekAgoTimestamp = Date.now() / 1000 - 60 * 60 * 24 * 7;
   try {
@@ -69,6 +71,8 @@ const trySendMessages = (dispatch, getState): boolean => {
         return; // i.e., continue
       }
 
+      const type = item.type === 'private' ? 'direct' : item.type;
+
       // prettier-ignore
       const to =
         item.type === 'private'
@@ -79,14 +83,18 @@ const trySendMessages = (dispatch, getState): boolean => {
             //   CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([streamNameOfStreamMessage(item)]);
 
-      await api.sendMessage(auth, {
-        type: item.type,
-        to,
-        subject: item.subject,
-        content: item.markdownContent,
-        localId: item.timestamp,
-        eventQueueId: state.session.eventQueueId ?? undefined,
-      });
+      await api.sendMessage(
+        auth,
+        {
+          type,
+          to,
+          subject: item.subject,
+          content: item.markdownContent,
+          localId: item.timestamp,
+          eventQueueId: state.session.eventQueueId ?? undefined,
+        },
+        zulipFeatureLevel,
+      );
       dispatch(messageSendComplete(item.timestamp));
     });
     return true;
