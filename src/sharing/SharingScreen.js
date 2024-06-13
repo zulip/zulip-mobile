@@ -10,7 +10,7 @@ import type { RouteParamsOf, RouteProp } from '../react-navigation';
 import type { AppNavigationMethods, AppNavigationProp } from '../nav/AppNavigator';
 import type { SharedData } from './types';
 import { createStyleSheet } from '../styles';
-import { materialTopTabNavigatorConfig } from '../styles/tabs';
+import { materialTopTabNavOptions } from '../styles/tabs';
 import { useGlobalSelector } from '../react-redux';
 import ZulipTextIntl from '../common/ZulipTextIntl';
 import Screen from '../common/Screen';
@@ -63,8 +63,13 @@ export default function SharingScreen(props: Props): Node {
   }, [hasAuth, navigation]);
 
   return (
-    <Screen canGoBack={false} title="Share on Zulip" shouldShowLoadingBanner={false}>
-      <Tab.Navigator {...materialTopTabNavigatorConfig()} swipeEnabled>
+    <Screen
+      canGoBack={false}
+      title="Share on Zulip"
+      shouldShowLoadingBanner={false}
+      scrollEnabled={false}
+    >
+      <Tab.Navigator screenOptions={materialTopTabNavOptions()}>
         <Tab.Screen
           name="share-to-stream"
           component={useHaveServerDataGate(ShareToStream)}
