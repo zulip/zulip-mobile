@@ -3,7 +3,7 @@ import type { UserId } from '../types';
 
 type NotificationBase = {|
   realm_uri: string,
-  user_id?: UserId,
+  user_id: UserId,
 |};
 
 /**

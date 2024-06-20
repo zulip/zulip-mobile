@@ -36,6 +36,12 @@ export const recipientsOfPrivateMessage = (
   message: PmMessage | PmOutbox,
 ): $ReadOnlyArray<PmRecipientUser> => message.display_recipient;
 
+/** The recipients of a PM. */
+// TODO: This makes a fresh array every time.  It would be good to do that
+//   once, when first ingesting a message.
+export const recipientIdsOfPrivateMessage = (message: PmMessage | PmOutbox): Array<UserId> =>
+  recipientsOfPrivateMessage(message).map(r => r.id);
+
 /**
  * A list of users identifying a PM conversation, as per pmKeyRecipientsFromMessage.
  *
@@ -147,12 +153,18 @@ export const normalizeRecipientsAsUserIdsSansMe = (
 /**
  * The set of users to show in the UI to identify a PM conversation.
  *
+ * Note that the details here, other than user IDs, may be out of date!
+ * They reflect the respective users' emails and full names (etc.) as of
+ * when we learned about this message; they do not reflect any changes we've
+ * heard since then.  See #5208.
+ *
  * See also:
  *  * `pmKeyRecipientsFromMessage`, which should be used when a consistent,
  *    unique key is needed for identifying different PM conversations in our
  *    data structures.
  *  * `pmUiRecipientsFromKeyRecipients`, which takes a `PmKeyRecipients`
- *    as input instead of a message.
+ *    as input instead of a message, returns only user IDs, and is therefore
+ *    immune to #5208.
  *
  * BUG(#5208): This is as of whenever we learned about the message;
  *   it doesn't get updated if one of these users changes their
@@ -228,11 +240,7 @@ export const pmKeyRecipientsFromIds = (
 export const pmKeyRecipientsFromMessage = (
   message: PmMessage | PmOutbox,
   ownUserId: UserId,
-): PmKeyRecipients =>
-  pmKeyRecipientsFromIds(
-    recipientsOfPrivateMessage(message).map(r => r.id),
-    ownUserId,
-  );
+): PmKeyRecipients => pmKeyRecipientsFromIds(recipientIdsOfPrivateMessage(message), ownUserId);
 
 /**
  * The list of users to identify a PM conversation by in our data structures.
@@ -271,7 +279,7 @@ export const pmKeyRecipientUsersFromMessage = (
   allUsersById: Map<UserId, UserOrBot>,
   ownUserId: UserId,
 ): PmKeyUsers | null => {
-  const userIds = recipientsOfPrivateMessage(message).map(r => r.id);
+  const userIds = recipientIdsOfPrivateMessage(message);
   return pmKeyRecipientUsersFromIds(userIds, allUsersById, ownUserId);
 };
 
@@ -310,10 +318,8 @@ export const pmKeyRecipientsFromUsers = (
 // is sorted numerically and encoded in ASCII-decimal, comma-separated.
 // See the `unread_msgs` data structure in `src/api/initialDataTypes.js`.
 export const pmUnreadsKeyFromMessage = (message: PmMessage, ownUserId?: UserId): string => {
-  const recipients = recipientsOfPrivateMessage(message);
-
   // This includes all users in the thread; see `Message#display_recipient`.
-  const userIds = recipients.map(r => r.id);
+  const userIds = recipientIdsOfPrivateMessage(message);
 
   if (userIds.length === 1) {
     // Self-PM.
@@ -443,8 +449,8 @@ export const isSameRecipient = (
       //   identify its conversation, and sort when computing that.  Until
       //   then, we just tolerate this glitch in that edge case.
       return isEqual(
-        recipientsOfPrivateMessage(message1).map(r => r.id),
-        recipientsOfPrivateMessage(message2).map(r => r.id),
+        recipientIdsOfPrivateMessage(message1),
+        recipientIdsOfPrivateMessage(message2),
       );
     case 'stream':
       if (message2.type !== 'stream') {

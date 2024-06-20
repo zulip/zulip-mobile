@@ -382,7 +382,7 @@ const toggleResolveTopic = async ({ auth, streamId, topic, _, streams, zulipFeat
 
   await api.updateMessage(auth, messageId, {
     propagate_mode: 'change_all',
-    subject: newTopic,
+    topic: newTopic,
     ...(zulipFeatureLevel >= 9 && {
       send_notification_to_old_thread: false,
       send_notification_to_new_thread: true,
