@@ -43,12 +43,6 @@ export const getAccountFromNotificationData = (
   accounts: $ReadOnlyArray<Account>,
 ): Identity | null => {
   const { realm_uri, user_id } = data;
-  if (realm_uri == null) {
-    // Old server, no realm info included.  This field appeared in
-    // Zulip 1.8, so we don't support these servers anyway.
-    logging.warn('notification missing field: realm_uri');
-    return null;
-  }
 
   const realmUrl = tryParseUrl(realm_uri);
   if (realmUrl === undefined) {
@@ -76,24 +70,6 @@ export const getAccountFromNotificationData = (
       known_urls: knownUrls,
     });
     return null;
-  }
-
-  // TODO(server-2.1): Remove this, because user_id will always be present
-  if (user_id === undefined) {
-    if (urlMatches.length > 1) {
-      logging.warn(
-        'notification realm_uri ambiguous; multiple matches found; user_id missing (old server)',
-        {
-          realm_uri,
-          parsed_url: realmUrl.toString(),
-          match_count: urlMatches.length,
-          unique_identities_count: new Set(urlMatches.map(account => account.email)).size,
-        },
-      );
-      return null;
-    } else {
-      return identityOfAccount(urlMatches[0]);
-    }
   }
 
   // There may be multiple accounts in the notification's realm. Pick one

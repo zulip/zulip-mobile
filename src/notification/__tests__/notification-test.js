@@ -29,6 +29,7 @@ describe('getNarrowFromNotificationData', () => {
     const streamsByName = new Map([[stream.name, stream]]);
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'stream',
       stream_id: eg.stream.stream_id,
       // Name points to some other stream, but the ID prevails.
@@ -45,6 +46,7 @@ describe('getNarrowFromNotificationData', () => {
     const streamsByName = new Map([[stream.name, stream]]);
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'stream',
       stream_name: 'some stream',
       topic: 'some topic',
@@ -58,6 +60,7 @@ describe('getNarrowFromNotificationData', () => {
     const allUsersByEmail: Map<string, UserOrBot> = new Map(users.map(u => [u.email, u]));
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'private',
       sender_email: eg.otherUser.email,
     };
@@ -76,6 +79,7 @@ describe('getNarrowFromNotificationData', () => {
 
     const notification = {
       realm_uri,
+      user_id,
       recipient_type: 'private',
       pm_users: users.map(u => u.user_id).join(','),
     };
@@ -94,55 +98,46 @@ describe('getNarrowFromNotificationData', () => {
 });
 
 describe('extract iOS notification data', () => {
-  const barebones = deepFreeze({
+  const identity = { realm_uri, user_id };
+  const cases = deepFreeze({
     // TODO(server-5.0): this will become an error case
     'stream, no ID': {
       recipient_type: 'stream',
       stream: 'announce',
       topic: 'New channel',
-      realm_uri,
+      ...identity,
     },
     stream: {
       recipient_type: 'stream',
       stream_id: 234,
       stream: 'announce',
       topic: 'New channel',
-      realm_uri,
+      ...identity,
     },
-    '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com', realm_uri },
-    'group PM': { recipient_type: 'private', pm_users: '54,321', realm_uri },
+    '1:1 PM': { recipient_type: 'private', sender_email: 'nobody@example.com', ...identity },
+    'group PM': { recipient_type: 'private', pm_users: '54,321', ...identity },
   });
 
   describe('success', () => {
     /** Helper function: test data immediately. */
     const verify = (data: JSONableDict) => extractIosNotificationData({ zulip: data });
 
-    for (const [type, data] of objectEntries(barebones)) {
-      test(`${type} notification`, () => {
+    for (const [type, data] of objectEntries(cases)) {
+      describe(`${type} notification`, () => {
         const expected = (() => {
           const { stream: stream_name = undefined, ...rest } = data;
           return stream_name !== undefined ? { ...rest, stream_name } : data;
         })();
 
-        // barebones 1.9.0-style message is accepted
         const msg = data;
-        expect(verify(msg)).toEqual(expected);
+        test('baseline', () => expect(verify(msg)).toEqual(expected));
 
-        // new(-ish) optional user_id is accepted and copied
-        // TODO: Rewrite so modern-style payloads are the baseline, e.g.,
-        //   with a `modern` variable instead of `barebones`. Write
-        //   individual tests for supporting older-style payloads, and mark
-        //   those for future deletion, like with `TODO(1.9.0)`.
-        const msg1 = { ...msg, user_id };
-        expect(verify(msg1)).toEqual({ ...expected, user_id });
-
-        // unused fields are not copied
         const msg2 = { ...msg, realm_id: 8675309 };
-        expect(verify(msg2)).toEqual(expected);
+        test('unused fields are not copied', () => expect(verify(msg2)).toEqual(expected));
 
-        // unknown fields are ignored and not copied
         const msg2a = { ...msg, unknown_data: ['unknown_data'] };
-        expect(verify(msg2a)).toEqual(expected);
+        test('unknown fields are ignored and not copied', () =>
+          expect(verify(msg2a)).toEqual(expected));
       });
     }
   });
@@ -153,56 +148,71 @@ describe('extract iOS notification data', () => {
   const make = (data: JSONableDict) => () => extractIosNotificationData({ zulip: data });
 
   describe('failure', () => {
+    const sender_email = 'nobody@example.com';
+
     test('completely malformed or inappropriate messages', () => {
       expect(makeRaw({})).toThrow();
       expect(makeRaw({ message_ids: [1] })).toThrow();
       expect(makeRaw({ initechData: 'everything' })).toThrow(/alien/);
     });
 
-    test('very-old-style messages', () => {
-      const sender_email = 'nobody@example.com';
-      // baseline
-      expect(make({ realm_uri, recipient_type: 'private', sender_email })()).toBeTruthy();
-      // missing recipient_type
-      expect(make({ realm_uri, sender_email })).toThrow(/archaic/);
-      // missing realm_uri
+    test('unsupported old-style messages', () => {
+      // pre-1.8
+      expect(make({ sender_email })).toThrow(/archaic/);
+      // pre-1.9
       expect(make({ recipient_type: 'private', sender_email })).toThrow(/archaic/);
+      // pre-2.1
+      expect(make({ realm_uri, recipient_type: 'private', sender_email })).toThrow(/archaic/);
+      // baseline, for comparison
+      expect(make({ realm_uri, user_id, recipient_type: 'private', sender_email })()).toBeTruthy();
     });
 
     test('broken or partial messages', () => {
-      expect(make({ realm_uri, recipient_type: 'huddle' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'stream' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'stream', stream: 'stream name' })).toThrow(
+      expect(make({ ...identity, recipient_type: 'huddle' })).toThrow(/invalid/);
+
+      expect(
+        make({ ...identity, recipient_type: 'stream', stream: 'stream name', topic: 'topic' })(),
+      ).toBeTruthy();
+      expect(make({ ...identity, recipient_type: 'stream', stream: 'stream name' })).toThrow(
         /invalid/,
       );
-      expect(make({ realm_uri, recipient_type: 'stream', subject: 'topic' })).toThrow(/invalid/);
-      expect(make({ realm_uri, recipient_type: 'private', subject: 'topic' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'stream', subject: 'topic' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'stream' })).toThrow(/invalid/);
+
+      expect(make({ ...identity, recipient_type: 'private', sender_email })()).toBeTruthy();
+      expect(make({ ...identity, recipient_type: 'private' })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', subject: 'topic' })).toThrow(/invalid/);
+
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,345' })()).toBeTruthy();
+      expect(make({ ...identity, recipient_type: 'private', pm_users: 123 })).toThrow(/invalid/);
+      expect(make({ ...identity, recipient_type: 'private', pm_users: [1, 23] })).toThrow(
+        /invalid/,
+      );
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,ab' })).toThrow(
+        /invalid/,
+      );
+      expect(make({ ...identity, recipient_type: 'private', pm_users: '12,' })).toThrow(/invalid/);
     });
 
     test('values of incorrect type', () => {
-      expect(make({ realm_uri, recipient_type: 'private', pm_users: [1, 2, 3] })).toThrow(
+      expect(make({ ...identity, recipient_type: 'private', pm_users: [1, 2, 3] })).toThrow(
         /invalid/,
       );
-      expect(make({ realm_uri, recipient_type: 'stream', stream: [], topic: 'yes' })).toThrow(
+      expect(make({ ...identity, recipient_type: 'stream', stream: [], topic: 'yes' })).toThrow(
         /invalid/,
       );
       expect(
-        make({
-          realm_uri,
-          recipient_type: 'stream',
-          stream: { name: 'somewhere' },
-          topic: 'no',
-        }),
+        make({ ...identity, recipient_type: 'stream', stream: { name: 'somewhere' }, topic: 'no' }),
       ).toThrow(/invalid/);
     });
 
     test('optional data is typechecked', () => {
-      expect(make({ ...barebones.stream, realm_uri: null })).toThrow(/invalid/);
-      expect(make({ ...barebones.stream, stream_id: '234' })).toThrow(/invalid/);
-      expect(make({ ...barebones['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
+      expect(make({ ...cases.stream, realm_uri: null })).toThrow(/invalid/);
+      expect(make({ ...cases.stream, stream_id: '234' })).toThrow(/invalid/);
+      expect(make({ ...cases['group PM'], realm_uri: ['array', 'of', 'string'] })).toThrow(
         /invalid/,
       );
-      expect(make({ ...barebones.stream, user_id: 'abc' })).toThrow(/invalid/);
+      expect(make({ ...cases.stream, user_id: 'abc' })).toThrow(/invalid/);
     });
 
     test('hypothetical future: different event types', () => {

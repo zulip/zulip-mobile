@@ -5,7 +5,7 @@ import type { ApiNarrow, Message, Outbox, Stream, UserId, UserOrBot } from '../t
 import {
   normalizeRecipientsAsUserIdsSansMe,
   pmKeyRecipientsFromMessage,
-  recipientsOfPrivateMessage,
+  recipientIdsOfPrivateMessage,
   type PmKeyRecipients,
   type PmKeyUsers,
   pmKeyRecipientsFromPmKeyUsers,
@@ -480,11 +480,9 @@ export const isMessageInNarrow = (
       if (message.type !== 'private') {
         return false;
       }
-      const recipients = recipientsOfPrivateMessage(message).map(r => r.id);
-      const narrowAsRecipients = ids;
       return (
-        normalizeRecipientsAsUserIdsSansMe(recipients, ownUserId)
-        === normalizeRecipientsAsUserIdsSansMe(narrowAsRecipients, ownUserId)
+        normalizeRecipientsAsUserIdsSansMe(recipientIdsOfPrivateMessage(message), ownUserId)
+        === normalizeRecipientsAsUserIdsSansMe(ids, ownUserId)
       );
     },
     starred: () => flags.includes('starred'),

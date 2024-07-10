@@ -69,6 +69,8 @@ export const reducer = (
     case REGISTER_COMPLETE: {
       const { user_status } = action.data;
       if (!user_status) {
+        // This fallback is unnecessary for server 2.0+, which includes all
+        // versions we support.  But it's so cheap.
         // TODO(server-2.0): Drop this.
         return initialState;
       }

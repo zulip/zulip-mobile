@@ -144,7 +144,6 @@ class ShareToStreamInner extends React.PureComponent<Props, State> {
     const { streamName, streamId, topic, isStreamFocused, isTopicFocused } = this.state;
     const narrow = streamId !== null ? streamNarrow(streamId) : null;
     const sendTo = {
-      streamName,
       /* $FlowFixMe[incompatible-cast]: ShareWrapper will only look at this
        *   if getValidationErrors returns empty, so only if streamId is
        *   indeed not null.  Should make that logic less indirected and more

@@ -26,8 +26,7 @@ import { ApiError, RequestError } from '../api/apiErrors';
 
 type SendTo =
   | {| type: 'pm', selectedRecipients: $ReadOnlyArray<UserId> |}
-  // TODO(server-2.0): Drop streamName (#3918).  Used below for sending.
-  | {| type: 'stream', streamName: string, streamId: number, topic: string |};
+  | {| type: 'stream', streamId: number, topic: string |};
 
 const styles = createStyleSheet({
   wrapper: {
@@ -194,15 +193,13 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
         ? {
             content: messageToSend,
             type: 'private',
-            to: JSON.stringify(sendTo.selectedRecipients),
+            to: sendTo.selectedRecipients,
           }
         : {
             content: messageToSend,
             type: 'stream',
-            subject: sendTo.topic || apiConstants.kNoTopicTopic,
-            // TODO(server-2.0): switch to numeric stream ID (#3918), not name;
-            //   then drop streamName from SendTo
-            to: sendTo.streamName,
+            topic: sendTo.topic || apiConstants.kNoTopicTopic,
+            to: sendTo.streamId,
           };
 
     try {

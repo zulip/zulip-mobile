@@ -179,7 +179,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             streamName = Example.stream["stream"]!!,
             topic = Example.stream["topic"]!!
         ))
-        expect.that(parse(Example.pm.minus("user_id")).identity.userId).isNull()
     }
 
     @Test
@@ -192,8 +191,6 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
             "stream_name" to Example.stream["stream"]!!,
             "topic" to Example.stream["topic"]!!,
         )
-        expect.that(dataForOpen(Example.stream.minus("user_id")))
-            .isEqualTo(baseExpected.minus("user_id"))
         expect.that(dataForOpen(Example.stream.minus("stream_id")))
             .isEqualTo(baseExpected.minus("stream_id"))
     }
@@ -215,6 +212,7 @@ class MessageFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.pm.minus("realm_uri"))
         assertParseFails(Example.pm.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.pm.plus("realm_uri" to "/examplecorp"))
+        assertParseFails(Example.pm.minus("user_id"))
 
         assertParseFails(Example.stream.minus("recipient_type"))
         assertParseFails(Example.stream.plus("stream_id" to "12,34"))
@@ -250,20 +248,14 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
             "event" to "remove"
         ))
 
-        /// The Zulip server before v2.0 sends this form (plus some irrelevant fields).
-        // TODO(server-2.0): Drop this, and the logic it tests.
-        val singular = base.plus(sequenceOf(
-            "zulip_message_id" to "123"
-        ))
-
         /// Zulip servers starting at v2.0 (released 2019-02-28; commit 9869153ae)
-        /// send a hybrid form.  (In practice the singular field has one of the
-        /// same IDs found in the batch.)
+        /// send a hybrid singular-plural form.  The singular field has one of the
+        /// same IDs found in the batch.
         ///
         /// We started consuming the batch field in 23.2.111 (released 2019-02-28;
         /// commit 4acd07376).
         val hybrid = base.plus(sequenceOf(
-            "zulip_message_ids" to "234,345",
+            "zulip_message_ids" to "123,234,345",
             "zulip_message_id" to "123"
         ))
 
@@ -293,18 +285,10 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         expect.that(parse(Example.batched)).isEqualTo(
             RemoveFcmMessage(Example.identity, setOf(123, 234, 345))
         )
-        expect.that(parse(Example.singular)).isEqualTo(
-            RemoveFcmMessage(Example.identity, setOf(123))
-        )
-        expect.that(parse(Example.singular.minus("zulip_message_id"))).isEqualTo(
+        expect.that(parse(Example.base)).isEqualTo(
             // This doesn't seem very useful to send, but harmless.
             RemoveFcmMessage(Example.identity, setOf())
         )
-    }
-
-    @Test
-    fun `optional fields missing cause no error`() {
-        expect.that(parse(Example.hybrid.minus("user_id")).identity.userId).isNull()
     }
 
     @Test
@@ -316,15 +300,7 @@ class RemoveFcmMessageTest : FcmMessageTestBase() {
         assertParseFails(Example.hybrid.minus("realm_uri"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "zulip.example.com"))
         assertParseFails(Example.hybrid.plus("realm_uri" to "/examplecorp"))
-
-        for (badInt in sequenceOf(
-            "12,34",
-            "abc",
-            ""
-        )) {
-            assertParseFails(Example.singular.plus("zulip_message_id" to badInt))
-            assertParseFails(Example.hybrid.plus("zulip_message_id" to badInt))
-        }
+        assertParseFails(Example.hybrid.minus("user_id"))
 
         for (badIntList in sequenceOf(
             "abc,34",

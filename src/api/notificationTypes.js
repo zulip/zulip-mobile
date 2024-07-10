@@ -32,9 +32,7 @@ type BaseData = {|
    *
    * (This lets us distinguish different accounts in the same realm.)
    */
-  // added 2.1-dev-540-g447a517e6f, release 2.1.0+
-  // TODO(server-2.1): Mark required; simplify comment.
-  +user_id?: UserId,
+  +user_id: UserId,
 
   // The rest of the data is about the Zulip message we're being notified
   // about.

@@ -29,7 +29,7 @@ import { getAllUsersById, getOwnUser } from '../users/userSelectors';
 import { makeUserId } from '../api/idTypes';
 import { caseNarrowPartial, isConversationNarrow } from '../utils/narrow';
 import { BackoffMachine } from '../utils/async';
-import { recipientsOfPrivateMessage, streamNameOfStreamMessage } from '../utils/recipient';
+import { recipientIdsOfPrivateMessage } from '../utils/recipient';
 
 export const messageSendStart = (outbox: Outbox): PerAccountAction => ({
   type: MESSAGE_SEND_START,
@@ -69,24 +69,17 @@ const trySendMessages = (dispatch, getState): boolean => {
         return; // i.e., continue
       }
 
-      // prettier-ignore
-      const to =
-        item.type === 'private'
-            // TODO(server-2.0): switch to numeric user IDs (#3764), not emails.
-          ? recipientsOfPrivateMessage(item).map(r => r.email).join(',')
-            // TODO(server-2.0): switch to numeric stream IDs (#3918), not names.
-            // HACK: the server attempts to interpret this argument as JSON, then
-            //   CSV, then a literal. To avoid misparsing, always use JSON.
-          : JSON.stringify([streamNameOfStreamMessage(item)]);
-
-      await api.sendMessage(auth, {
-        type: item.type,
-        to,
-        subject: item.subject,
+      const commonParams = {
         content: item.markdownContent,
         localId: item.timestamp,
         eventQueueId: state.session.eventQueueId ?? undefined,
-      });
+      };
+
+      const params =
+        item.type === 'private'
+          ? { ...commonParams, type: 'private', to: recipientIdsOfPrivateMessage(item) }
+          : { ...commonParams, type: 'stream', to: item.stream_id, topic: item.subject };
+      await api.sendMessage(auth, params);
       dispatch(messageSendComplete(item.timestamp));
     });
     return true;
