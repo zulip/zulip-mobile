@@ -7,7 +7,7 @@ import { apiPost } from '../apiFetch';
 export default async (
   auth: Auth,
   params: {|
-    type: 'private' | 'stream',
+    type: 'direct' | 'stream',
     to: string,
     // TODO(server-2.0): Say "topic", not "subject"
     subject?: string,
@@ -15,12 +15,19 @@ export default async (
     localId?: number,
     eventQueueId?: string,
   |},
-): Promise<ApiResponse> =>
-  apiPost(auth, 'messages', {
-    type: params.type,
+  zulipFeatureLevel: number, // TODO(#4659): Don't get this from callers.
+): Promise<ApiResponse> => {
+  let { type } = params;
+  if (type === 'direct' && zulipFeatureLevel < 174) {
+    // TODO(server-7.0): Simplify.
+    type = 'private';
+  }
+  return apiPost(auth, 'messages', {
+    type,
     to: params.to,
     subject: params.subject,
     content: params.content,
     local_id: params.localId,
     queue_id: params.eventQueueId,
   });
+};
