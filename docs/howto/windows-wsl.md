@@ -45,7 +45,7 @@ would be welcome!)
 ## WSL / Ubuntu for Windows
 These instructions are **in beta** -- they haven't been tested by as
 wide a range of contributors as most of our developer documentation.
-If you're trying them, we would love to hear from you [in #mobile on
+If you're trying them, we would love to hear from you [in #mobile-dev-help on
 chat.zulip.org][czo]!
 
 Again, if you aren't already comfortable with the Linux (or macOS)
@@ -99,7 +99,7 @@ many of these.)
 
 These are primarily one Zulip contributor's notes from setting up
 their dev environment on WSL.  Again, if you're trying them, please
-come and say hello [in #mobile on chat.zulip.org][czo]!
+come and say hello [in #mobile-dev-help on chat.zulip.org][czo]!
 
 0. Update Windows to the latest version.  To use WSL you'll need at least
    the Windows 10 Fall Creators Update, released in late 2017.  (For

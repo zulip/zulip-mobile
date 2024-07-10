@@ -18,7 +18,7 @@ To get started with the code, follow our [Developer
 Guide](developer-guide.md).
 
 Then see our [Contribution Guidelines](../CONTRIBUTING.md), and come
-say hello in [the #mobile stream](../README.md#discussion).
+say hello in [the #mobile-dev-help stream](../README.md#discussion).
 
 To learn more, take a look through our developer documentation.
 See below.
@@ -31,7 +31,7 @@ The key docs to read up front are the [main README](../README.md), the
 Guidelines](../CONTRIBUTING.md).
 
 After you've gotten the development environment running, and said
-hello in the #mobile stream in chat, some good things to read to learn
+hello in the #mobile-dev-help stream in chat, some good things to read to learn
 more include:
 
 * [Architecture](architecture.md)

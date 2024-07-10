@@ -223,7 +223,7 @@ You should now be getting notifications on your iOS development build!
 
 If it's not working, first check that mobile notification settings are
 on, using the web app's settings interface.  Then please ask for help
-in [#mobile](https://chat.zulip.org/#narrow/stream/48-mobile) on
+in [#mobile-dev-help](https://chat.zulip.org/#narrow/stream/516-mobile-dev-help) on
 chat.zulip.org, so we can debug.
 
 
