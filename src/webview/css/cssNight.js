@@ -17,4 +17,7 @@ body {
 .highlight {
   background-color: hsla(51, 100%, 64%, 0.42);
 }
+.message_inline_image img.image-loading-placeholder {
+  content: url("images/loader-white.svg");
+}
 `;
