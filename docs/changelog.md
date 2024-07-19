@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.230 (2024-07-18)
+
 ### Highlights for users
 
 * Full support for image thumbnails, a feature of the upcoming Zulip Server
