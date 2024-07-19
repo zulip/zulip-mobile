@@ -39,6 +39,21 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Full support for image thumbnails, a feature of the upcoming Zulip Server
+  9.0 which should greatly reduce Zulip's network consumption on messages
+  with images. (#5875)
+* We now show an error message in more cases where a message can't be sent.
+  (#5870)
+* Updated translations for Bulgarian, Italian, Portuguese, Russian, and
+  Chinese (China). Thanks as always to our kind volunteer translators!
+
+
+### Highlights for developers
+
+* Resolved issues: #5875, #5870
+
 
 ## 27.229 (2024-06-12)
 
