@@ -550,7 +550,10 @@ time {
 .twitter-image img {
   width: 100%;
   height: 160px;
-  object-fit: contain;
+  object-fit: scale-down;
+}
+.message_inline_image img.image-loading-placeholder {
+  content: url("images/loader-black.svg");
 }
 
 .message_inline_video {

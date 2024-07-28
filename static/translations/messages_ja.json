@@ -446,7 +446,7 @@
   "Failed to copy stream link": "ストリームへのリンクをコピーできませんでした",
   "Failed to copy channel link": "Failed to copy channel link",
   "A stream with this name already exists.": "この名前のストリームはすでに存在します",
-  "A channel with this name already exists.": "A channel with this name already exists.",
+  "A channel with this name already exists.": "このチャンネル名はすでに存在します",
   "Streams": "ストリーム",
   "Channels": "Channels",
   "Owner": "オーナー",

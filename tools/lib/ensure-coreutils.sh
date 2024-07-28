@@ -59,7 +59,7 @@ Found Homebrew installation of coreutils at:
   ${homebrew_gnubin}
 but it doesn't seem to work.
 
-Please report this in #mobile on https://chat.zulip.org/
+Please report this in #mobile-dev-help on https://chat.zulip.org/
 and we'll help debug.
 EOF
         return 2
@@ -87,7 +87,7 @@ Install from upstream:
   https://www.gnu.org/software/coreutils/
 or from your favorite package manager.
 
-If you have any questions, ask in #mobile on https://chat.zulip.org/
+If you have any questions, ask in #mobile-dev-help on https://chat.zulip.org/
 and we'll be happy to help.
 EOF
     return 2

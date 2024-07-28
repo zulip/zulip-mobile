@@ -69,10 +69,15 @@ app is in maintenance mode** as described above.
 
 To get involved in Zulip Mobile development, please join us on
 [the Zulip community Zulip server][czo-doc], in the
-[#mobile][czo-mobile] stream.  Come say hello, discuss areas to
+[#mobile-dev-help][czo-mobile-dev-help] channel.  Come say hello, discuss areas to
 work on, and ask and answer questions.
 
-[czo-mobile]: https://chat.zulip.org/#narrow/stream/mobile
+Bug reports and feedback from using the app are welcome.
+For those, please use the [#mobile][czo-mobile] channel;
+that helps a wider set of Zulip contributors see your feedback.
+
+[czo-mobile-dev-help]: https://chat.zulip.org/#narrow/stream/516-mobile-dev-help
+[czo-mobile]: https://chat.zulip.org/#narrow/stream/48-mobile
 [czo-doc]: https://zulip.readthedocs.io/en/latest/contributing/chat-zulip-org.html
 
 
@@ -103,7 +108,7 @@ started with the code, follow this doc:
 * [Developer Guide](docs/developer-guide.md)
 
 Then see our [Contribution Guidelines](CONTRIBUTING.md), and come say
-hello in [the #mobile stream](#discussion).
+hello in [the #mobile-dev-help stream](#discussion).
 
 For more reading, take a look at our [developer docs](docs/).
 

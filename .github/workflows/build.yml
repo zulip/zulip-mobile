@@ -33,7 +33,7 @@ jobs:
       uses: bahmutov/npm-install@v1
 
     - name: Set secrets
-      run: echo "${signingKeyPath}" > android/release-keystore.properties && echo "${signingKey}" | base64 --decode > android/release.keystore && sed -i "s/APPID/${fcmAppId}/g" android/app/src/main/res/values/firebase.xml && sed -i 's/SENDERID/${fcmSender}/g' android/app/src/main/res/values/firebase.xml
+      run: echo "${signingKeyPath}" > android/release-keystore.properties && echo "${signingKey}" | base64 --decode > android/release.keystore && sed -i "s/APPID/${fcmAppId}/g" android/app/src/main/res/values/firebase.xml && sed -i "s/SENDERID/${fcmSender}/g" android/app/src/main/res/values/firebase.xml
       env:
           signingKeyPath: ${{ secrets.JKS_KEYPATH }}
           signingKey: ${{ secrets.JKS_KEYSTORE }}

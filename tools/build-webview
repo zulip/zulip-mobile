@@ -195,6 +195,8 @@ sync "src/webview/static" "${dest}" <<EOF
 + /base.css
 + /images/
 + /images/follow.svg
++ /images/loader-black.svg
++ /images/loader-white.svg
 + /images/play_button.svg
 - *
 EOF

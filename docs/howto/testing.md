@@ -184,7 +184,7 @@ taking a look through two key areas of the Flow docs:
 
 Flow is not among the world's best-documented software, though.  If
 you look for something in its docs and don't find it there, ask about
-it in chat in `#mobile` or `#mobile-team`.  If none of us know, some
+it in chat in `#mobile-dev-help`.  If none of us know, some
 good places we might look are:
 * searching [its issues][flow-issues] (including closed issues);
   sometimes a valuable feature is undocumented and the best discussion

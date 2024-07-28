@@ -3,6 +3,8 @@
 import parseMarkdown from 'zulip-markdown-parser';
 import invariant from 'invariant';
 
+import { ApiError } from '../api/apiErrors';
+import { showErrorAlert } from '../utils/info';
 import * as logging from '../utils/logging';
 import type {
   PerAccountState,
@@ -79,14 +81,30 @@ const trySendMessages = (dispatch, getState): boolean => {
             //   CSV, then a literal. To avoid misparsing, always use JSON.
           : JSON.stringify([streamNameOfStreamMessage(item)]);
 
-      await api.sendMessage(auth, {
-        type: item.type,
-        to,
-        subject: item.subject,
-        content: item.markdownContent,
-        localId: item.timestamp,
-        eventQueueId: state.session.eventQueueId ?? undefined,
-      });
+      try {
+        await api.sendMessage(auth, {
+          type: item.type,
+          to,
+          subject: item.subject,
+          content: item.markdownContent,
+          localId: item.timestamp,
+          eventQueueId: state.session.eventQueueId ?? undefined,
+        });
+      } catch (errorIllTyped) {
+        const error: mixed = errorIllTyped; // https://github.com/facebook/flow/issues/2470
+
+        if (error instanceof ApiError && error.message.length > 0) {
+          showErrorAlert(
+            // TODO(i18n) nontrivial to plumb through GetText;
+            //   skip for now in this legacy codebase
+            'Failed to send message',
+            // E.g., "You do not have permission to send direct messages to this recipient."
+            `The server at ${auth.realm.toString()} said:\n\n${error.message}`,
+          );
+          dispatch(deleteOutboxMessage(item.id));
+          return;
+        }
+      }
       dispatch(messageSendComplete(item.timestamp));
     });
     return true;
