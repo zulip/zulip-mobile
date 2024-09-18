@@ -60,20 +60,6 @@ allprojects {
 
         mavenCentral()
         google()
-
-        // The retired "jcenter" repo.
-        // TODO: Get rid of this, when no deps use it.
-        jcenter() {
-            content {
-                // Allow jcenter for only me.relex:photodraweeview:1.1.3:
-                //   https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:declaring-repository-filter
-                // Unfortunately, react-native-photo-view (which we want to
-                // stop using: #4217) still depends on this, and it's only
-                // available from jcenter.
-                // TODO(#4217): Remove this and the whole `jcenter()` block.
-                includeVersion("me.relex", "photodraweeview", "1.1.3")
-            }
-        }
     }
 }
 
@@ -81,6 +67,22 @@ subprojects {
     afterEvaluate {
         if (project.hasProperty("android")) {
             android.compileSdkVersion rootProject.ext.compileSdkVersion
+        }
+    }
+}
+
+subprojects {
+    afterEvaluate {
+        configurations.all {
+            // As of writing, and probably until this legacy codebase is retired,
+            // react-native-photo-view chooses version 1.1.3 of this dependency.
+            // That version was available from jcenter for a while -- see our commit 1f80f4b6c
+            // -- but doesn't seem to be anymore. Thankfully this newer version is available,
+            // from Maven Central. Force that version. Credit for the idea of this workaround:
+            //   https://github.com/alwx/react-native-photo-view/issues/209#issuecomment-1158386189
+            resolutionStrategy {
+                force 'me.relex:photodraweeview:2.1.0'
+            }
         }
     }
 }
