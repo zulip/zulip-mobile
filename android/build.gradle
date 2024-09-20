@@ -20,6 +20,9 @@ buildscript {
         // What's the latest?  Consult this list:
         //   https://developer.android.com/studio/releases/platforms
         compileSdkVersion = 34
+
+        // Latest NDK 24, for Apple Silicon compatibility.
+        ndkVersion = "24.0.8215888"
     }
     repositories {
         google()
@@ -60,6 +63,15 @@ allprojects {
 
         mavenCentral()
         google()
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            dependencySubstitution {
+                // Make our dependencies look at our RN fork built from source.
+                substitute module("com.facebook.react:react-native:+") with project(":ReactAndroid")
+            }
+        }
     }
 }
 

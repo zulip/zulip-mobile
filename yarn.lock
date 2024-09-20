@@ -10850,10 +10850,9 @@ react-native-webview@^11.6.4:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@0.68.7:
+react-native@zulip/react-native#b7b2f6c22:
   version "0.68.7"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.68.7.tgz#9b179f909ac8640e369957696f98070ddf7c32e7"
-  integrity sha512-t7XvcwKyXhN9vR8GfgLUyEYYccwI390pG7debFSGns/5Vb0+/ZiGuSmVZGLNt1NVc3UH2zI2GGkDdSJR8Locig==
+  resolved "https://codeload.github.com/zulip/react-native/tar.gz/b7b2f6c229b80467fcb68986207a006d09c53ee0"
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^7.0.3"

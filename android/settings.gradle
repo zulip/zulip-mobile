@@ -1,3 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+        google()
+    }
+}
+
 rootProject.name = 'ZulipMobile'
 
 apply from: '../node_modules/expo/scripts/autolinking.gradle'
@@ -7,3 +15,11 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 applyNativeModulesSettingsGradle(settings)
 
 include ':app'
+
+include ':ReactAndroid'
+project(':ReactAndroid').projectDir = new File(
+    rootProject.projectDir, '../node_modules/react-native/ReactAndroid')
+
+// The RN Gradle Plugin is needed to build RN from source.
+// (We do that to make some changes to RN, with our zulip/react-native fork.)
+includeBuild('../node_modules/react-native/packages/react-native-gradle-plugin')
