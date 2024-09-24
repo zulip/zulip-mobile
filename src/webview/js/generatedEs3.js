@@ -876,8 +876,6 @@ var compiledWebviewJs = (function (exports) {
 
   exports.handleInitialLoad = handleInitialLoad;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   return exports;
 
 })({});
