@@ -39,6 +39,28 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* (Android) Update various behavior on Android 14+ as required by
+  Google Play. (#5877)
+
+
+### Highlights for developers
+
+* Bumped targetSdkVersion to 34, for extended deadline 2024-10-31. (#5877)
+
+* We now build RN from source; see docs/howto/forked-rn.md. (PR #5892)
+
+* Bumped some dependencies following alerts from dependabot. (PRs #5889, #5894)
+
+* Fixed an incompatibility with Apple Silicon in ensure_coreutils. (PR #5890)
+
+* (Android) Forced `me.relex:photodraweeview` at a later version
+  (that's a dependency of react-native-photo-view) because the old one
+  stopped being available on jcenter. (PR #5891)
+
+* Resolved issues: #5877, PR #5890, PR #5891
+
 
 ## 27.230 (2024-07-18)
 
