@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.231 (2024-09-30)
+
 ### Highlights for users
 
 * (Android) Update various behavior on Android 14+ as required by
