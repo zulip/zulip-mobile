@@ -43,6 +43,9 @@ It doesn't include
 
 * (Android) Update various behavior on Android 14+ as required by
   Google Play. (#5877)
+* We now offer the app in Greek. Also, updated translations for Arabic,
+  Danish, German, Polish, and Portuguese (Portugal). Thanks as always
+  to our kind volunteer translators!
 
 
 ### Highlights for developers
