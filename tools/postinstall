@@ -7,6 +7,17 @@ patch_package() {
     node_modules/.bin/patch-package
 }
 
+# Since we take react-native from Git, some packages that ship with it
+# and are used in the build need their build scripts run.
+build_rn_packages() {
+    (
+        cd node_modules/react-native/packages/react-native-codegen/
+        # A copy of the package's `yarn build` script
+        # with a `--verbose` flag removed.
+        yarn clean && node scripts/build.js
+    )
+}
+
 pod_install() {
     [[ "$OSTYPE" == "darwin"* ]] \
         || return 0
@@ -30,6 +41,8 @@ jetify() {
 }
 
 patch_package
+
+build_rn_packages
 
 pod_install
 
