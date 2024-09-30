@@ -13,6 +13,7 @@
 // language names: they have the names given to them by the `tx` Transifex
 // client, which are based on the language names that appear in Transifex.
 export default {
+  ace: require('../../static/translations/messages_ace.json'),
   am: require('../../static/translations/messages_am.json'),
   ar: require('../../static/translations/messages_ar.json'),
   be: require('../../static/translations/messages_be.json'),
@@ -35,6 +36,7 @@ export default {
   fr: require('../../static/translations/messages_fr.json'),
   gl: require('../../static/translations/messages_gl.json'),
   gu: require('../../static/translations/messages_gu.json'),
+  ha: require('../../static/translations/messages_ha.json'),
   hi: require('../../static/translations/messages_hi.json'),
   hr: require('../../static/translations/messages_hr.json'),
   hu: require('../../static/translations/messages_hu.json'),
@@ -72,6 +74,7 @@ export default {
   ur: require('../../static/translations/messages_ur.json'),
   uz: require('../../static/translations/messages_uz.json'),
   vi: require('../../static/translations/messages_vi.json'),
+  yo: require('../../static/translations/messages_yo.json'),
   yue: require('../../static/translations/messages_yue.json'),
   'zh-Hans': require('../../static/translations/messages_zh-Hans.json'),
   'zh-Hant': require('../../static/translations/messages_zh-Hant.json'),

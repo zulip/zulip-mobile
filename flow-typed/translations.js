@@ -8,6 +8,10 @@ declare module '\''../../$_'\'' {
          ' >>flow-typed/translations.js
  */
 
+declare module '../../static/translations/messages_ace.json' {
+  declare export default {| [string]: string |};
+}
+
 declare module '../../static/translations/messages_am.json' {
   declare export default {| [string]: string |};
 }
@@ -97,6 +101,10 @@ declare module '../../static/translations/messages_gl.json' {
 }
 
 declare module '../../static/translations/messages_gu.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_ha.json' {
   declare export default {| [string]: string |};
 }
 
@@ -245,6 +253,10 @@ declare module '../../static/translations/messages_uz.json' {
 }
 
 declare module '../../static/translations/messages_vi.json' {
+  declare export default {| [string]: string |};
+}
+
+declare module '../../static/translations/messages_yo.json' {
   declare export default {| [string]: string |};
 }
 
