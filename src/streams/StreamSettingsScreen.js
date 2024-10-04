@@ -1,7 +1,7 @@
-/* @flow strict-local */
-import React, { useCallback } from 'react';
+ /* @flow strict-local */
+import React, { useCallback } ,{useState} from 'react';
 import type { Node } from 'react';
-import { View } from 'react-native';
+import { View,Alert} from 'react-native';
 
 import type { RouteProp } from '../react-navigation';
 import type { AppNavigationProp } from '../nav/AppNavigator';
@@ -42,6 +42,11 @@ export default function StreamSettingsScreen(props: Props): Node {
     },
     [auth, stream],
   );
+ const alert_button = () =>
+     Alert.alert("Do you want to unsubscribe?",
+     [{text:"Cancel",onPress: () => console.log("Cancel Pressed"),style: "cancel"},{text:"OK",
+     onPress: () => delay(handlePressUnsubscribe)}]
+     );
 
   const handleToggleMuteStream = useCallback(
     (newValue: boolean) => {
@@ -128,7 +133,7 @@ export default function StreamSettingsScreen(props: Props): Node {
             style={styles.marginTop}
             text="Unsubscribe"
             secondary
-            onPress={() => delay(handlePressUnsubscribe)}
+            onPress={this.alert_button}
           />
         ) : (
           <ZulipButton
