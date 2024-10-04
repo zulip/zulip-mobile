@@ -8,27 +8,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 ---
- .../src/navigators/createMaterialTopTabNavigator.js.flow      | 4 ++--
  .../typescript/src/navigators/createStackNavigator.js.flow    | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-index 69f6df9c8..29d53b3ff 100644
---- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-+++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-@@ -21,10 +21,10 @@ type Props = DefaultNavigatorOptions<MaterialTopTabNavigationOptions> &
-   MaterialTopTabNavigationConfig;
- declare function MaterialTopTabNavigator(Props): $tsflower_subst$React$JSX$Element;
- declare var _default: <
--  ParamList: { [key: string]: { ... } | void },
-+  ParamList: { +[key: string]: { ... } | void },
- >() => $tsflower_import_type$_$_40_react_2d_navigation_2f_native$TypedNavigator<
-   ParamList,
--  TabNavigationState<{ [key: string]: { ... } | void }>,
-+  TabNavigationState<{ +[key: string]: { ... } | void }>,
-   MaterialTopTabNavigationOptions,
-   MaterialTopTabNavigationEventMap,
-   typeof MaterialTopTabNavigator,
 diff --git types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 index 7a17b58e6..1842836b1 100644
 --- types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
