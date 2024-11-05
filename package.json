@@ -77,7 +77,7 @@
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.1.0",
     "reselect": "^4.0.0",
-    "rn-fetch-blob": "^0.11.0",
+    "rn-fetch-blob": "zulip/rn-fetch-blob#e17b2a51c",
     "timezone": "^1.0.13",
     "zulip-markdown-parser": "^1.0.6"
   },
