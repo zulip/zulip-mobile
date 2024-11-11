@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
+import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import { UploadedAvatarURL } from '../../utils/avatar';
@@ -9,6 +10,7 @@ import type { User } from '../../types';
 import { Role } from '../../api/permissionsTypes';
 import usersReducer from '../usersReducer';
 import { randString } from '../../utils/misc';
+import eventToAction from '../../events/eventToAction';
 
 describe('usersReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -143,6 +145,48 @@ describe('usersReducer', () => {
     test('When the Zulip display email address of a user changes', () => {
       const new_email = randString();
       check({ new_email }, { ...theUser, email: new_email });
+    });
+
+    test('When a user is deactivated', () => {
+      const event = {
+        id: 0,
+        type: 'realm_user',
+        op: 'update',
+        person: { user_id: theUser.user_id, is_active: false },
+      };
+
+      const prevUsersState = [theUser];
+      const prevPerAccountState = eg.reduxStatePlus({
+        users: prevUsersState,
+        realm: { ...eg.plusReduxState.realm, nonActiveUsers: [] },
+      });
+      const action = eventToAction(prevPerAccountState, event);
+      expect(action).not.toBeNull();
+      invariant(action != null, 'action not null');
+
+      const actualState = usersReducer(prevUsersState, action);
+      expect(actualState).toEqual([]);
+    });
+
+    test('When a user is activated', () => {
+      const event = {
+        id: 0,
+        type: 'realm_user',
+        op: 'update',
+        person: { user_id: theUser.user_id, is_active: true },
+      };
+
+      const prevUsersState = [];
+      const prevPerAccountState = eg.reduxStatePlus({
+        users: prevUsersState,
+        realm: { ...eg.plusReduxState.realm, nonActiveUsers: [theUser] },
+      });
+      const action = eventToAction(prevPerAccountState, event);
+      expect(action).not.toBeNull();
+      invariant(action != null, 'action not null');
+
+      const actualState = usersReducer(prevUsersState, action);
+      expect(actualState).toEqual([theUser]);
     });
   });
 

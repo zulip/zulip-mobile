@@ -287,6 +287,32 @@ export default (state: PerAccountState, event: $FlowFixMe): EventAction | null =
                 },
               },
             };
+          } else if (person.is_active === true) {
+            const { is_active, user_id } = person;
+            const nonActiveUser = state.realm.nonActiveUsers.find(u => u.user_id === user_id);
+            if (nonActiveUser == null) {
+              logging.warn(
+                'Got realm_user/update event to reactivate a user not found in state.realm.nonActiveUsers',
+              );
+              return null;
+            }
+            return {
+              type: EVENT,
+              event: { ...rawEvent, person: { user_id, is_active, existingUser: nonActiveUser } },
+            };
+          } else if (person.is_active === false) {
+            const { is_active, user_id } = person;
+            const activeUser = state.users.find(u => u.user_id === user_id);
+            if (activeUser == null) {
+              logging.warn(
+                'Got realm_user/update event to deactivate a user not found in state.users',
+              );
+              return null;
+            }
+            return {
+              type: EVENT,
+              event: { ...rawEvent, person: { user_id, is_active, existingUser: activeUser } },
+            };
           } else {
             return {
               type: EVENT,

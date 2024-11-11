@@ -26,6 +26,7 @@ import type {
   UserSettings,
   ClientPresence,
   UserTopic,
+  User,
 } from './modelTypes';
 import type { RealmDataForUpdate } from './realmDataTypes';
 
@@ -422,7 +423,11 @@ export type RealmUserUpdateEventRaw = {|
         // the collections of users and bots in the initial data. Ignore.
         // avatar_source: string,
         // avatar_url_medium: string,
-      |},
+      |}
+    // TODO(flow) should be just one branch with `boolean` instead of
+    //   separate `true` and `false`; investigate errors
+    | {| +user_id: UserOrBot['user_id'], +is_active: true |}
+    | {| +user_id: UserOrBot['user_id'], +is_active: false |},
 |};
 
 /** A realm_user update event, after we've processed it at the edge. */
@@ -449,7 +454,8 @@ export type RealmUserUpdateEvent = {|
         // the collections of users and bots in the initial data. Ignore.
         // avatar_source: string,
         // avatar_url_medium: string,
-      |},
+      |}
+    | {| +user_id: User['user_id'], +is_active: boolean, +existingUser: User |},
 |};
 
 export type UserTopicEvent = {|

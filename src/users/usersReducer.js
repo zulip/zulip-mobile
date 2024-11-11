@@ -35,8 +35,14 @@ export default (
         case EventTypes.realm_user: {
           switch (event.op) {
             case 'update': {
+              const { person } = event;
+              // TODO(flow) teach Flow that the `person.existingUser != null` is redundant
+              if (person.is_active === true && person.existingUser != null) {
+                return [...state, person.existingUser];
+              } else if (person.is_active === false) {
+                return state.filter(u => u.user_id !== person.user_id);
+              }
               return state.map(user => {
-                const { person } = event;
                 if (user.user_id !== person.user_id) {
                   return user;
                 }
@@ -70,7 +76,13 @@ export default (
                 } else if (person.new_email !== undefined) {
                   return { ...user, email: person.new_email };
                 } else {
-                  return { ...user, ...person };
+                  // eslint-disable-next-line no-unused-vars
+                  const { existingUser, is_active, ...rest } = person;
+
+                  // TODO(flow) Use `...person`, not `...rest`; teach Flow
+                  //   that existingUser and is_active are absent in `person`;
+                  //   see early-returns before the loop-through-users.
+                  return { ...user, ...rest };
                 }
               });
             }

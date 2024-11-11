@@ -1,5 +1,6 @@
 /* @flow strict-local */
 import deepFreeze from 'deep-freeze';
+import invariant from 'invariant';
 
 import type { RealmState } from '../../types';
 import realmReducer from '../realmReducer';
@@ -19,6 +20,7 @@ import {
 import { CustomProfileFieldType } from '../../api/modelTypes';
 import { EventTypes } from '../../api/eventTypes';
 import * as eg from '../../__tests__/lib/exampleData';
+import eventToAction from '../../events/eventToAction';
 
 const labelFromValue = value =>
   /* $FlowFixMe[incompatible-use] - CreateWebPublicStreamPolicy is a
@@ -574,6 +576,48 @@ describe('realmReducer', () => {
         check(true, false);
         check(false, true);
         check(false, false);
+      });
+    });
+
+    describe('type `realm_user`, op `update`', () => {
+      test('User is deactivated', () => {
+        const user = eg.makeUser();
+
+        const event = {
+          id: 0,
+          type: 'realm_user',
+          op: 'update',
+          person: { user_id: user.user_id, is_active: false },
+        };
+
+        const prevRealmState = { ...eg.plusReduxState.realm, nonActiveUsers: [] };
+        const prevPerAccountState = eg.reduxStatePlus({ users: [user], realm: prevRealmState });
+        const action = eventToAction(prevPerAccountState, event);
+        expect(action).not.toBeNull();
+        invariant(action != null, 'action not null');
+
+        const actualState = realmReducer(prevRealmState, action);
+        expect(actualState.nonActiveUsers).toEqual([user]);
+      });
+
+      test('User is reactivated', () => {
+        const user = eg.makeUser();
+
+        const event = {
+          id: 0,
+          type: 'realm_user',
+          op: 'update',
+          person: { user_id: user.user_id, is_active: true },
+        };
+
+        const prevRealmState = { ...eg.plusReduxState.realm, nonActiveUsers: [user] };
+        const prevPerAccountState = eg.reduxStatePlus({ users: [], realm: prevRealmState });
+        const action = eventToAction(prevPerAccountState, event);
+        expect(action).not.toBeNull();
+        invariant(action != null, 'action not null');
+
+        const actualState = realmReducer(prevRealmState, action);
+        expect(actualState.nonActiveUsers).toEqual([]);
       });
     });
   });

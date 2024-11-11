@@ -303,6 +303,20 @@ export default (
           //   `op: 'update_dict'` events near the edge.)
           return state;
 
+        case EventTypes.realm_user: {
+          const { person } = event;
+
+          // TODO(flow) teach Flow that the `person.existingUser != null` is redundant
+          if (person.is_active === false && person.existingUser != null) {
+            return { ...state, nonActiveUsers: [...state.nonActiveUsers, person.existingUser] };
+          } else if (person.is_active === true) {
+            const nonActiveUsers = state.nonActiveUsers.filter(u => u.user_id !== person.user_id);
+            return { ...state, nonActiveUsers };
+          }
+
+          return state;
+        }
+
         case EventTypes.user_settings:
           if (event.op === 'update') {
             const { property, value } = event;
