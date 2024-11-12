@@ -1,6 +1,7 @@
 /* @flow strict-local */
 
 import deepFreeze from 'deep-freeze';
+import invariant from 'invariant';
 
 import * as eg from '../../__tests__/lib/exampleData';
 import {
@@ -11,6 +12,7 @@ import {
   EVENT_USER_GROUP_REMOVE_MEMBERS,
 } from '../../actionConstants';
 import userGroupsReducer from '../userGroupsReducer';
+import eventToAction from '../../events/eventToAction';
 
 describe('userGroupsReducer', () => {
   describe('REGISTER_COMPLETE', () => {
@@ -190,6 +192,46 @@ describe('userGroupsReducer', () => {
           }),
         ),
       ).toEqual([{ ...group1, members: [user1.user_id, user4.user_id] }, group2]);
+    });
+  });
+
+  describe('realm_user op: update', () => {
+    test('a user is deactivated', () => {
+      const user1 = eg.makeUser();
+      const user2 = eg.makeUser();
+      const user3 = eg.makeUser();
+
+      const group1 = eg.makeUserGroup({ members: [user1.user_id, user2.user_id, user3.user_id] });
+      const group2 = eg.makeUserGroup({ members: [user2.user_id, user1.user_id] });
+      const group3 = eg.makeUserGroup({ members: [user1.user_id] });
+
+      const event = {
+        id: 0,
+        type: 'realm_user',
+        op: 'update',
+        person: { user_id: user1.user_id, is_active: false },
+      };
+
+      const prevUserGroupsState = deepFreeze([group1, group2, group3]);
+      const prevPerAccountState = eg.reduxStatePlus({
+        users: [user1, user2, user3],
+        userGroups: prevUserGroupsState,
+      });
+      const action = eventToAction(prevPerAccountState, event);
+
+      expect(action).not.toBeNull();
+      invariant(action != null, 'action not null');
+
+      const actualState = userGroupsReducer(prevUserGroupsState, action);
+
+      expect(actualState).toEqual([
+        { ...group1, members: [user2.user_id, user3.user_id] },
+        { ...group2, members: [user2.user_id] },
+
+        // A newly-empty group is not pruned; when a group is deactivated,
+        // we expect a user_group/remove event.
+        { ...group3, members: [] },
+      ]);
     });
   });
 });

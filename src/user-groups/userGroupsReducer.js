@@ -2,6 +2,7 @@
 import type { UserGroupsState, PerAccountApplicableAction } from '../types';
 import {
   REGISTER_COMPLETE,
+  EVENT,
   EVENT_USER_GROUP_ADD,
   EVENT_USER_GROUP_REMOVE,
   EVENT_USER_GROUP_UPDATE,
@@ -9,6 +10,7 @@ import {
   EVENT_USER_GROUP_REMOVE_MEMBERS,
   RESET_ACCOUNT_DATA,
 } from '../actionConstants';
+import { EventTypes } from '../api/eventTypes';
 import { NULL_ARRAY } from '../nullObjects';
 
 const initialState: UserGroupsState = NULL_ARRAY;
@@ -68,6 +70,33 @@ export default (
 
     case EVENT_USER_GROUP_REMOVE_MEMBERS:
       return eventUserGroupRemoveMembers(state, action);
+
+    case EVENT: {
+      const { event } = action;
+      switch (event.type) {
+        case EventTypes.realm_user: {
+          switch (event.op) {
+            case 'update': {
+              const { person } = event;
+              if (person.is_active === false) {
+                return state.map(g => ({
+                  ...g,
+                  members: g.members.filter(m => m !== person.user_id),
+                }));
+              }
+
+              return state;
+            }
+
+            default:
+              return state;
+          }
+        }
+
+        default:
+          return state;
+      }
+    }
 
     default:
       return state;
