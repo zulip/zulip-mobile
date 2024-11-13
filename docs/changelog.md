@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.232 (2024-11-13)
+
 ### Highlights for users
 
 * (Android) Fixed a crash on Android 14+ when downloading an image from the
