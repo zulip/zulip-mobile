@@ -6,7 +6,7 @@ import type { GlobalSettingsState, GetText, LocalizableText } from '../types';
 import { openLinkWithUserPreference } from './openLink';
 
 export const showToast = (message: string) => {
-  Toast.show(message);
+  Toast.show(message, Toast.SHORT);
 };
 
 type LearnMoreButton = {|
