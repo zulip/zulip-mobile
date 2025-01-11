@@ -719,9 +719,6 @@ export type ReactionType = 'unicode_emoji' | 'realm_emoji' | 'zulip_extra_emoji'
 
 /**
  * An emoji reaction to a message.
- *
- * The raw JSON from the server may have a different structure, but we
- * normalize it to this form.
  */
 export type Reaction = $ReadOnly<{|
   user_id: UserId,
