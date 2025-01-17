@@ -3,7 +3,7 @@ import React from 'react';
 import type { Node } from 'react';
 import type { TextStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { IconMute, IconStream, IconPrivate, IconWebPublic } from '../common/Icons';
+import { IconStream, IconPrivate, IconWebPublic } from '../common/Icons';
 
 type Props = $ReadOnly<{|
   color?: string,
@@ -15,12 +15,11 @@ type Props = $ReadOnly<{|
 |}>;
 
 export default function StreamIcon(props: Props): Node {
-  const { color, style, isPrivate, isMuted, isWebPublic, size } = props;
+  const { color, style, isPrivate, isWebPublic, size } = props;
 
   let Component = undefined;
-  if (isMuted) {
-    Component = IconMute;
-  } else if (isPrivate) {
+
+  if (isPrivate) {
     Component = IconPrivate;
   } else if (isWebPublic ?? false) {
     Component = IconWebPublic;

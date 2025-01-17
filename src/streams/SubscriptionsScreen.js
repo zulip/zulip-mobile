@@ -60,7 +60,8 @@ export default function SubscriptionsScreen(props: Props): Node {
       .sort((a, b) => caseInsensitiveCompareFunc(a.name, b.name));
     return [
       { key: 'Pinned', data: sortedSubscriptions.filter(x => x.pin_to_top) },
-      { key: 'Unpinned', data: sortedSubscriptions.filter(x => !x.pin_to_top) },
+      { key: 'Unpinned', data: sortedSubscriptions.filter(x => !x.pin_to_top && x.in_home_view) },
+      { key: 'Muted', data: sortedSubscriptions.filter(x => !x.pin_to_top && !x.in_home_view) },
     ];
   }, [subscriptions]);
 
