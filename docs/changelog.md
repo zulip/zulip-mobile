@@ -39,6 +39,23 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated translations for Danish, Spanish, Japanese, Polish, Russian,
+  Ukrainian, and Chinese (China). Thanks as always to our kind volunteer
+  translators!
+
+* Fixed a recent glitch affecting some self-hosted installations
+  running Zulip from Git, where reactions weren't live-updating in
+  the message view. (#5911)
+
+
+### Highlights for developers
+
+* Updated CI to use JDK 17, from 11, fixing a CI failure. (#5913)
+
+* Resolved issues: #5913, #5911
+
 
 ## 27.232 (2024-11-13)
 
