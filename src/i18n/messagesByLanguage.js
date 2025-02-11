@@ -64,6 +64,7 @@ export default {
   sco: require('../../static/translations/messages_sco.json'),
   si: require('../../static/translations/messages_si.json'),
   sk: require('../../static/translations/messages_sk.json'),
+  sl: require('../../static/translations/messages_sl.json'),
   sr: require('../../static/translations/messages_sr.json'),
   sv: require('../../static/translations/messages_sv.json'),
   ta: require('../../static/translations/messages_ta.json'),
