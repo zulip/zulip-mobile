@@ -258,9 +258,9 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.9.0):
     - React-Core
-  - react-native-simple-toast (1.1.4):
+  - react-native-simple-toast (3.3.1):
     - React-Core
-    - Toast (~> 4.0.0)
+    - Toast (~> 4)
   - react-native-webview (11.26.1):
     - React-Core
   - React-perflogger (0.68.7)
@@ -380,7 +380,7 @@ PODS:
   - Sentry/HybridSDK (8.21.0):
     - SentryPrivate (= 8.21.0)
   - SentryPrivate (8.21.0)
-  - Toast (4.0.0)
+  - Toast (4.1.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -621,7 +621,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: e849fc21ca2f4128a5726c801a82fc6f4a6db50d
   react-native-photo-view: ea0ec91bf5991a6843e740b1f47ab355171c996c
   react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
-  react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
+  react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 44436b315d757100a53dfb1ab6b77c58cb646d7d
   React-RCTActionSheet: 1888a229684762c40cc96c7ff4716f809655dc09
@@ -647,7 +647,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Sentry: ebc12276bd17613a114ab359074096b6b3725203
   SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
-  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 0bc4b37c3b8a345336ff601e2cf7d9704bab7e93
 
 PODFILE CHECKSUM: fe17e730c08576abd6133867554e6cb03f685fee
