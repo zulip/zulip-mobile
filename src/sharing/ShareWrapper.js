@@ -289,7 +289,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
     const { message, sending } = this.state;
 
     return (
-      <>
+      <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps="handled">
         <ScrollView style={styles.wrapper} keyboardShouldPersistTaps="always" nestedScrollEnabled>
           <View style={styles.container}>
             {sharedData.type === 'file' && (
@@ -325,7 +325,7 @@ class ShareWrapperInner extends React.PureComponent<Props, State> {
             isPressHandledWhenDisabled
           />
         </View>
-      </>
+      </ScrollView>
     );
   }
 }

@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Fri, 26 Jan 2024 11:43:38 -0800
+Subject: [tsflower] Fix `import typeof` to `import type` for more Flow-only
+ types
+
+See a previous patch that did the same thing in some other places.
+---
+ .../clipboard/dist/NativeClipboardModule.js.flow          | 2 +-
+ .../lib/typescript/PagerViewNativeComponent.js.flow       | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git types/@react-native-clipboard/clipboard/dist/NativeClipboardModule.js.flow types/@react-native-clipboard/clipboard/dist/NativeClipboardModule.js.flow
+index 58fa7b277..ae2537986 100644
+--- types/@react-native-clipboard/clipboard/dist/NativeClipboardModule.js.flow
++++ types/@react-native-clipboard/clipboard/dist/NativeClipboardModule.js.flow
+@@ -3,7 +3,7 @@
+  */
+ import type { EmitterSubscription as $tsflower_subst$RN$EmitterSubscription } from 'tsflower/subst/react-native';
+ import { type TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+-import { typeof Int32 } from 'react-native/Libraries/Types/CodegenTypes';
++import { type Int32 } from 'react-native/Libraries/Types/CodegenTypes';
+ 
+ export interface Spec extends TurboModule {
+   getString(): Promise<string>;
+diff --git types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
+index 30a7c61e1..9a0746824 100644
+--- types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
++++ types/react-native-pager-view/lib/typescript/PagerViewNativeComponent.js.flow
+@@ -6,10 +6,10 @@ import type { ViewProps as $tsflower_subst$RN$ViewProps } from 'tsflower/subst/r
+ import * as React from 'react';
+ import { type HostComponent } from 'react-native';
+ import {
+-  typeof DirectEventHandler,
+-  typeof Double,
+-  typeof Int32,
+-  typeof WithDefault,
++  type DirectEventHandler,
++  type Double,
++  type Int32,
++  type WithDefault,
+ } from 'react-native/Libraries/Types/CodegenTypes';
+ 
+ export type OnPageScrollEventData = Readonly<{
+-- 
+2.32.0
+

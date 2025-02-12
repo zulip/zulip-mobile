@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 14:21:06 -0700
+Subject: [tsflower] r-n-pager-view: Fix export { ... } of types
+
+---
+ .../lib/typescript/index.js.flow               | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
+
+diff --git types/react-native-pager-view/lib/typescript/index.js.flow types/react-native-pager-view/lib/typescript/index.js.flow
+index b9966a3f1..bb200a456 100644
+--- types/react-native-pager-view/lib/typescript/index.js.flow
++++ types/react-native-pager-view/lib/typescript/index.js.flow
+@@ -7,18 +7,16 @@ import { PagerView } from './PagerView';
+ export default PagerView;
+ 
+ import {
+-  type OnPageScrollEventData as PagerViewOnPageScrollEventData,
+-  type OnPageSelectedEventData as PagerViewOnPageSelectedEventData,
+-  type OnPageScrollStateChangedEventData as PageScrollStateChangedNativeEventData,
+-  type NativeProps,
++  type OnPageScrollEventData as PagerViewOnPageScrollEventData_,
++  type OnPageSelectedEventData as PagerViewOnPageSelectedEventData_,
++  type OnPageScrollStateChangedEventData as PageScrollStateChangedNativeEventData_,
++  type NativeProps as NativeProps_,
+ } from './PagerViewNativeComponent';
+ 
+-export {
+-  PagerViewOnPageScrollEventData,
+-  PagerViewOnPageSelectedEventData,
+-  PageScrollStateChangedNativeEventData,
+-  NativeProps as PagerViewProps,
+-};
++export type PagerViewOnPageScrollEventData = PagerViewOnPageScrollEventData_;
++export type PagerViewOnPageSelectedEventData = PagerViewOnPageSelectedEventData_;
++export type PageScrollStateChangedNativeEventData = PageScrollStateChangedNativeEventData_;
++export type PagerViewProps = NativeProps_;
+ export type PagerViewOnPageScrollEvent =
+   $tsflower_subst$RN$NativeSyntheticEvent<PagerViewOnPageScrollEventData>;
+ export type PagerViewOnPageSelectedEvent =
+-- 
+2.32.0
+
