@@ -179,6 +179,12 @@ simple terminology for the process we follow with both.
   git rebase @ release-secrets
   ```
 
+* Note: If `tools/ios` and `tools/ios upload` (the steps below) fail, the
+  Xcode GUI is an option to try (Product > Archive),
+  but first replace `USE_SENTRY = NO` with `USE_SENTRY = YES`
+  in ios/ZulipMobile.xcodeproj/project.pbxproj
+  so the source maps get uploaded to Sentry.
+
 * Build using our `tools/ios` script:
 
   ```
