@@ -372,14 +372,12 @@ PODS:
   - RNScreens (3.29.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.20.0):
+  - RNSentry (5.24.3):
     - React-Core
-    - Sentry/HybridSDK (= 8.21.0)
+    - Sentry/HybridSDK (= 8.36.0)
   - RNVectorIcons (9.2.0):
     - React-Core
-  - Sentry/HybridSDK (8.21.0):
-    - SentryPrivate (= 8.21.0)
-  - SentryPrivate (8.21.0)
+  - Sentry/HybridSDK (8.36.0)
   - Toast (4.0.0)
   - Yoga (1.14.0)
 
@@ -453,7 +451,6 @@ SPEC REPOS:
   trunk:
     - fmt
     - Sentry
-    - SentryPrivate
     - Toast
 
 EXTERNAL SOURCES:
@@ -643,10 +640,9 @@ SPEC CHECKSUMS:
   RNGestureHandler: 998887f1b2c6098ffa2506402087c0e8ef5d69a1
   RNReanimated: e7d8afaf8fed4b3bf1a46e06adb2e04a2b248f1c
   RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
-  RNSentry: f30463ce11af9cfec0dde79265d29e10c3b902d7
+  RNSentry: bc9d6da69bdf343bdb9b8084777d9c6ca02321f3
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
-  Sentry: ebc12276bd17613a114ab359074096b6b3725203
-  SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
+  Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 0bc4b37c3b8a345336ff601e2cf7d9704bab7e93
 

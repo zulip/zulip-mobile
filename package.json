@@ -33,7 +33,7 @@
     "@react-navigation/material-top-tabs": "^5.2.19",
     "@react-navigation/native": "^5.7.6",
     "@react-navigation/stack": "npm:@zulip/react-navigation-stack@5.14.10-0.zulip.1",
-    "@sentry/react-native": "^5.9.2",
+    "@sentry/react-native": "~5.24.1",
     "@zulip/shared": "0.0.18",
     "base-64": "^1.0.0",
     "blueimp-md5": "^2.10.0",
