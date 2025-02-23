@@ -47,7 +47,16 @@ export default function AutocompleteView(props: Props): Node {
 
   const { lastWordPrefix, filter } = getAutocompleteFilter(text, selection);
   const AutocompleteComponent = prefixToComponent[lastWordPrefix];
-  const shouldShow = isFocused && !!AutocompleteComponent && filter.length > 0;
+  const shouldShow =
+    isFocused
+    && !!AutocompleteComponent
+    // For most autocompletes, wait until the user has typed at least one
+    // character of their search term…
+    && (filter.length > 0
+      // …but for the people autocomplete, just show it without waiting
+      // (i.e., just after the user has typed '@'). See
+      //   https://github.com/zulip/zulip-mobile/issues/4872#issuecomment-942612417.
+      || AutocompleteComponent === PeopleAutocomplete);
 
   return (
     <AnimatedScaleComponent visible={shouldShow}>
