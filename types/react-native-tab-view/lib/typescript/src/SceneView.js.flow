@@ -15,10 +15,10 @@ import * as React from 'react';
 import 'react-native';
 
 import {
-  type SceneRendererProps,
   type EventEmitterProps,
   type NavigationState,
   type Route,
+  type SceneRendererProps,
 } from './types';
 
 type Props<T: Route> = SceneRendererProps &
@@ -32,16 +32,5 @@ type Props<T: Route> = SceneRendererProps &
     ...
   };
 
-type State = { loading: boolean, ... };
-
-declare export default class SceneView<T: Route> extends React.Component<Props<T>, State> {
-  getDerivedStateFromProps(props: Props<Route>, state: State): { loading: boolean, ... } | null;
-  state: { loading: boolean, ... };
-  componentDidMount(): void;
-  componentDidUpdate(prevProps: Props<T>, prevState: State): void;
-  componentWillUnmount(): void;
-  handleEnter: any;
-  render(): $tsflower_subst$React$JSX$Element;
-}
-
+declare export function SceneView<T: Route>(Props<T>): $tsflower_subst$React$JSX$Element;
 export {};
