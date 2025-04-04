@@ -182,7 +182,7 @@ export const interpretApiResponse = (httpStatus: number, data: mixed): mixed => 
  */
 // This should lag a bit behind the threshold version for ServerCompatBanner
 // (kMinSupportedVersion), to give users time to see and act on the banner.
-export const kMinAllowedServerVersion: ZulipVersion = new ZulipVersion('4.0');
+export const kMinAllowedServerVersion: ZulipVersion = new ZulipVersion('5.0');
 
 /**
  * An error we throw in API bindings on finding a server is too old.
