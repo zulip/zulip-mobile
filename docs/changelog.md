@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.234 (2025-04-18)
+
 ### Highlights for users
 
 * Updated translations for Belarusian, Czech, Finnish, Portuguese,
