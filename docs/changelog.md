@@ -39,6 +39,18 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* Updated translations for Belarusian, Czech, Finnish, Portuguese,
+  Ukrainian, and Chinese (China). Thanks as always to our kind volunteer
+  translators!
+
+
+### Highlights for developers
+
+* Bumped `kMinAllowedServerVersion` to 5.0, `kMinSupportedVersion` to 7.0,
+  and `kNextMinSupportedVersion` to 8.0. (PR #5920)
+
 
 ## 27.233 (2025-02-11)
 
