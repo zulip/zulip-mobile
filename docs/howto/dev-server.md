@@ -29,7 +29,7 @@ sections below.
 - [ ] Find your computer's IP address on your LAN; perhaps try
       `ip route get 8 | perl -lne '/src (\S+)/ && print $1'`.
 - [ ] Check your `~/.zulip-vagrant-config` (outside the dev VM).
-- [ ] Run the server like `EXTERNAL_HOST=${ip_address}:9991 tools/run-dev.py`.
+- [ ] Run the server like `EXTERNAL_HOST=${ip_address}:9991 tools/run-dev`.
 - [ ] Log in at `http://${ip_address}:9991`.  Type `http://` explicitly.
 
 
@@ -42,9 +42,9 @@ For most people the recommended setup uses Vagrant to manage a VM containing
 the Zulip server.  If you choose instead to run the Zulip server directly on
 your host machine, these instructions will work with some variations.
 
-You'll run the Zulip server in the dev VM with `tools/run-dev.py`, following
+You'll run the Zulip server in the dev VM with `tools/run-dev`, following
 the usual instructions for Zulip server development (linked above).  [Step
-4](#4-set-external_host) below adds some options to the `run-dev.py` command
+4](#4-set-external_host) below adds some options to the `run-dev` command
 to make it accessible from the mobile app.
 
 
@@ -154,10 +154,10 @@ Then restart the Vagrant guest using `vagrant reload`.
 ### If running server directly on host
 
 If you're running the Zulip server directly on your computer, then you
-control this by passing the option `--interface=` to `tools/run-dev.py`.
+control this by passing the option `--interface=` to `tools/run-dev`.
 For example:
 <pre>
-    $ tools/run-dev.py <strong>--interface=</strong>
+    $ tools/run-dev <strong>--interface=</strong>
 </pre>
 
 (But you'll probably add more to the command too; see step 4.)
@@ -179,13 +179,13 @@ example, if in step 2 you chose 10.0.2.2, then run the server with this
 command:
 
 <pre>
-  $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev.py
+  $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev
 </pre>
 
 or if step 3 called for `--interface=`, then
 
 <pre>
-  $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev.py --interface=
+  $ <strong>EXTERNAL_HOST=10.0.2.2:9991</strong> tools/run-dev --interface=
 </pre>
 
 (Note for Zulip server experts: This also sets `REALM_HOSTS`, via some logic

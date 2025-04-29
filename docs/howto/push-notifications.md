@@ -95,13 +95,13 @@ First, three one-time setup steps:
    this command registers with the bouncer are kept in the
    `zproject/dev-secrets.conf` file.
 
-   If you were already running `tools/run-dev.py`, quit and restart it
+   If you were already running `tools/run-dev`, quit and restart it
    after these setup steps.
 
 
 Then, each time you test:
 
-1. Run `tools/run-dev.py` according to the instructions in
+1. Run `tools/run-dev` according to the instructions in
    [dev-server.md](dev-server.md).  Then follow that doc's
    instructions to log into the dev server.  Use the release build of
    the app -- that is, the Zulip app installed from the App Store or
