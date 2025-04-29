@@ -70,21 +70,27 @@ First, three one-time setup steps:
 2. Create a `zproject/custom_dev_settings.py` with the following line:
 
    ```python
-   PUSH_NOTIFICATION_BOUNCER_URL = 'https://push.zulipchat.com'
+   ZULIP_SERVICES_URL = 'https://push.zulipchat.com'
    ```
 
-   This matches the default setting for a production install of the
-   Zulip server (generated from `zproject/prod_settings_template.py`.)
+   This matches the normal setting for a production install of the
+   Zulip server (set by `zproject/default_settings.py`).
 
    The Zulip server will helpfully print a line on startup to remind
    you that this settings override file exists.
 
 3. Register your development server with our production bouncer by
-   running the following command:
+   running a command like this one, but with `[yourname]` replaced by
+   your name:
 
    ```
-   python manage.py register_server --agree_to_terms_of_service
+   EXTERNAL_HOST=[yourname].zulipdev.com:9991 python manage.py register_server --agree-to-terms-of-service
    ```
+
+   (The exact value of `EXTERNAL_HOST` doesn't matter; in particular
+   it doesn't need to match the `EXTERNAL_HOST` that you use when
+   actually running the server, with `tools/run-dev`.  It does need to
+   be distinct from any names that others have already registered.)
 
    This is a variation of our [instructions for production
    deployments](https://zulip.readthedocs.io/en/latest/production/mobile-push-notifications.html),
@@ -95,7 +101,7 @@ First, three one-time setup steps:
    this command registers with the bouncer are kept in the
    `zproject/dev-secrets.conf` file.
 
-   If you were already running `tools/run-dev`, quit and restart it
+4. If you were already running `tools/run-dev`, quit and restart it
    after these setup steps.
 
 
