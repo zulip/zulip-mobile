@@ -227,10 +227,45 @@ on that is
 
 You should now be getting notifications on your iOS development build!
 
+
+#### Troubleshooting
+
 If it's not working, first check that mobile notification settings are
-on, using the web app's settings interface.  Then please ask for help
+on, using the web app's settings interface.  See also the
+troubleshooting items below.
+
+If none of those resolve the issue, please ask for help
 in [#mobile-dev-help](https://chat.zulip.org/#narrow/stream/516-mobile-dev-help) on
 chat.zulip.org, so we can debug.
+
+
+##### Error: Your plan doesn't allow sending push notifications
+
+After the above setup is done, when the dev server tries to send a
+notification (e.g. because you had some other user send a DM to the
+user you've logged in as from the mobile app), you might get an error
+like this one (reformatted for readability):
+
+```
+INFO [zerver.lib.push_notifications] Sending push notifications to mobile clients for user 11
+INFO [zr] 127.0.0.1       POST    400   8ms (db: 3ms/6q) /api/v1/remotes/push/notify [can_push=False/Missing data] (zulip-server:… via ZulipServer/11.0-dev+git)
+INFO [zr] status=400, data=b'{"result":"error","msg":"Your plan doesn\'t allow sending push notifications.","code":"INVALID_ZULIP_SERVER"}\n', uid=zulip-server:…
+WARN [django.server] "POST /api/v1/remotes/push/notify HTTP/1.1" 400 109
+ERR  [] Problem handling data on queue missedmessage_mobile_notifications
+Traceback (most recent call last):
+…
+  File "/srv/zulip/zerver/lib/remote_server.py", line 195, in send_to_push_bouncer
+    raise PushNotificationBouncerError(
+zerver.lib.remote_server.PushNotificationBouncerError:
+  Push notifications bouncer error: Your plan doesn't allow sending push notifications.
+```
+
+It's not clear why this happens.  Try stopping the server
+(i.e. `tools/run-dev`) and starting it again.  On the
+[one occasion][error-plan-missing] this error has been seen
+as of this writing, the error went away after doing so.
+
+[error-plan-missing]: https://chat.zulip.org/#narrow/channel/243-mobile-team/topic/notifications.20from.20dev.20server/near/2163051
 
 
 ### Another workaround (if the first doesn't work)
