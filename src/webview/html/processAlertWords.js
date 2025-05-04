@@ -31,8 +31,8 @@ const process_message = function (words: $ReadOnlyArray<string>,
 
     words.forEach(function (word) {
         var clean = escape_user_regex(word);
-        var before_punctuation = '\\s|^|>|[\\(\\".,\';\\[]';
-        var after_punctuation = '\\s|$|<|[\\)\\"\\?!:.,\';\\]!]';
+        var before_punctuation = '(?:\\s)|^|>|[\\(\\".,\';\\[]';
+        var after_punctuation = '(?=\\s)|$|<|[\\)\\"\\?!:.,\';\\]!]';
 
 
         var regex = new RegExp('(' + before_punctuation + ')' +
