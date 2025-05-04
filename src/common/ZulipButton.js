@@ -109,7 +109,6 @@ type Props = $ReadOnly<{|
 /**
  * A button component that is provides consistent look and feel
  * throughout the app. It can be disabled or show action-in-progress.
- *
  * If several buttons are on the same screen all or all but one should
  * have their `secondary` property set to `true`.
  *
