@@ -200,7 +200,7 @@ export default function ChatScreen(props: Props): Node {
           () => undefined,
         );
 
-        if ((content !== undefined && content !== '') || (topic !== undefined && topic !== '')) {
+        if (content !== undefined || topic !== undefined) {
           api.updateMessage(auth, editMessage.id, { content, subject: topic }).catch(error => {
             showErrorAlert(_('Failed to edit message'), error.message);
           });
