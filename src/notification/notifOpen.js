@@ -4,7 +4,6 @@
  * @flow strict-local
  */
 import { NativeModules, Platform } from 'react-native';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 import type { Notification } from './types';
 import type {
@@ -18,7 +17,7 @@ import type {
 } from '../types';
 import { topicNarrow, pm1to1NarrowFromUser, pmNarrowFromRecipients } from '../utils/narrow';
 import * as logging from '../utils/logging';
-import { fromPushNotificationIOS } from './extract';
+import { fromAPNs } from './extract';
 import { isUrlOnRealm, tryParseUrl } from '../utils/url';
 import { pmKeyRecipientsFromIds } from '../utils/recipient';
 import { makeUserId } from '../api/idTypes';
@@ -29,6 +28,7 @@ import { doNarrow } from '../message/messagesActions';
 import { accountSwitch } from '../account/accountActions';
 import { getIsActiveAccount, tryGetActiveAccountState } from '../account/accountsSelectors';
 import { identityOfAccount } from '../account/accountMisc';
+import type { JSONableDict } from '../utils/jsonable';
 
 /**
  * Identify the account the notification is for, if possible.
@@ -192,13 +192,13 @@ const readInitialNotification = async (): Promise<Notification | null> => {
     const { Notifications } = NativeModules;
     return Notifications.readInitialNotification();
   }
-
-  const notification: ?PushNotificationIOS = await PushNotificationIOS.getInitialNotification();
+  const { ZLPNotificationsStatus } = NativeModules;
+  const notification: JSONableDict | null = ZLPNotificationsStatus.initialNotification;
   if (!notification) {
     return null;
   }
 
-  return fromPushNotificationIOS(notification) || null;
+  return fromAPNs(notification) || null;
 };
 
 export const narrowToNotification =
