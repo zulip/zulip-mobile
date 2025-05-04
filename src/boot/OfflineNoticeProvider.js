@@ -212,9 +212,10 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
     // another app.)
 
     if (shouldShowUncertaintyNotice && !haveAnnouncedUncertain.current) {
-      // TODO(react-native-68): Use announceForAccessibilityWithOptions to
-      //   queue this behind any in-progress announcements
-      AccessibilityInfo.announceForAccessibility(_('Zulip’s Internet connection is uncertain.'));
+      AccessibilityInfo.announceForAccessibilityWithOptions(
+        _('Zulip’s Internet connection is uncertain.'),
+        { queue: true },
+      );
       haveAnnouncedUncertain.current = true;
     }
 
@@ -226,9 +227,7 @@ export function OfflineNoticeProvider(props: ProviderProps): Node {
       isOnline === true
       && (haveAnnouncedOffline.current || haveAnnouncedUncertain.current)
     ) {
-      // TODO(react-native-68): Use announceForAccessibilityWithOptions to
-      //   queue this behind any in-progress announcements
-      AccessibilityInfo.announceForAccessibility(_('Zulip is online.'));
+      AccessibilityInfo.announceForAccessibilityWithOptions(_('Zulip is online.'), { queue: true });
       haveAnnouncedOffline.current = false;
       haveAnnouncedUncertain.current = false;
     }
