@@ -32,14 +32,14 @@ export const kServerSupportDocUrl: URL = new URL(
  * See also kMinAllowedServerVersion in apiErrors.js, for the version below
  * which we just refuse to connect.
  */
-export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('7.0');
+export const kMinSupportedVersion: ZulipVersion = new ZulipVersion('8.0');
 
 /**
  * The next value we'll give to kMinSupportedVersion in the future.
  *
  * This should be the next major Zulip Server version after kMinSupportedVersion.
  */
-export const kNextMinSupportedVersion: ZulipVersion = new ZulipVersion('8.0');
+export const kNextMinSupportedVersion: ZulipVersion = new ZulipVersion('9.0');
 
 type Props = $ReadOnly<{||}>;
 
