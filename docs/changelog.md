@@ -39,6 +39,9 @@ It doesn't include
 
 ## Unreleased
 
+
+## 27.235 (2025-05-20)
+
 ### Highlights for users
 
 * We now offer the app in Slovenian. Also updated translations for Latvian
