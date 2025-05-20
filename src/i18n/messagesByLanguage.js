@@ -50,6 +50,7 @@ export default {
   lv: require('../../static/translations/messages_lv.json'),
   ml: require('../../static/translations/messages_ml.json'),
   mn: require('../../static/translations/messages_mn.json'),
+  mr: require('../../static/translations/messages_mr.json'),
   my: require('../../static/translations/messages_my.json'),
   nl: require('../../static/translations/messages_nl.json'),
   no: require('../../static/translations/messages_no.json'),
