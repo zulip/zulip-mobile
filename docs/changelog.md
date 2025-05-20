@@ -39,6 +39,17 @@ It doesn't include
 
 ## Unreleased
 
+### Highlights for users
+
+* We now offer the app in Slovenian. Also updated translations for Latvian
+  and Ukrainian. Thanks as always to our kind volunteer translators!
+
+
+### Highlights for developers
+
+* Bumped `kMinAllowedServerVersion` to 7.0, `kMinSupportedVersion` to 8.0,
+  and `kNextMinSupportedVersion` to 9.0. (PR #5922)
+
 
 ## 27.234 (2025-04-18)
 
