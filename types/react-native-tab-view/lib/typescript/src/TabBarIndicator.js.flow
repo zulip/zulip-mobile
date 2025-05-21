@@ -7,9 +7,8 @@ import type {
 } from 'tsflower/subst/react-native';
 
 import type { JSX$Element as $tsflower_subst$React$JSX$Element } from 'tsflower/subst/react';
-import * as React from 'react';
 import 'react-native';
-import { type Route, type SceneRendererProps, type NavigationState } from './types';
+import { type NavigationState, type Route, type SceneRendererProps } from './types';
 export type GetTabWidth = (index: number) => number;
 
 export type Props<T: Route> = SceneRendererProps & {
@@ -17,16 +16,8 @@ export type Props<T: Route> = SceneRendererProps & {
   width: string | number,
   style?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
   getTabWidth: GetTabWidth,
+  gap?: number,
   ...
 };
 
-declare export default class TabBarIndicator<T: Route> extends React.Component<Props<T>> {
-  componentDidMount(): void;
-  componentDidUpdate(): void;
-  fadeInIndicator: any;
-  isIndicatorShown: any;
-  opacity: any;
-  getTranslateX: any;
-  getWidth: any;
-  render(): $tsflower_subst$React$JSX$Element;
-}
+declare export function TabBarIndicator<T: Route>(Props<T>): $tsflower_subst$React$JSX$Element;

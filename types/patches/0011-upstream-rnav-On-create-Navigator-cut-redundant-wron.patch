@@ -16,25 +16,51 @@ to TypedNavigator on the line after that.)
 And TypedNavigator actually passes the ParamList type when it does so,
 so it has a chance of being right.
 ---
- .../src/navigators/createMaterialTopTabNavigator.js.flow    | 4 +---
- .../typescript/src/navigators/createStackNavigator.js.flow  | 6 +++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ .../src/navigators/createBottomTabNavigator.js.flow      | 9 +--------
+ .../src/navigators/createMaterialTopTabNavigator.js.flow | 9 +--------
+ .../src/navigators/createStackNavigator.js.flow          | 6 +++---
+ 3 files changed, 5 insertions(+), 19 deletions(-)
 
-diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-index def19204a..2e5c9ffa6 100644
---- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-+++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
-@@ -16,9 +16,7 @@ import {
-   type MaterialTopTabNavigationEventMap,
+diff --git types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
+index 7e16fb708..ebf13d3dc 100644
+--- types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
++++ types/@react-navigation/bottom-tabs/lib/typescript/src/navigators/createBottomTabNavigator.js.flow
+@@ -17,14 +17,7 @@ import {
+   type BottomTabNavigationOptions,
  } from '../types';
  
--type Props = DefaultNavigatorOptions<MaterialTopTabNavigationOptions> &
+-type Props = DefaultNavigatorOptions<
+-  ParamListBase,
+-  TabNavigationState<ParamListBase>,
+-  BottomTabNavigationOptions,
+-  BottomTabNavigationEventMap,
+-> &
+-  TabRouterOptions &
+-  BottomTabNavigationConfig;
++type Props = TabRouterOptions & BottomTabNavigationConfig;
+ declare function BottomTabNavigator(Props): $tsflower_subst$React$JSX$Element;
+ declare var _default: <
+   ParamList: ParamListBase,
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+index bc11a7c76..f0a91a5ad 100644
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/navigators/createMaterialTopTabNavigator.js.flow
+@@ -17,14 +17,7 @@ import {
+   type MaterialTopTabNavigationOptions,
+ } from '../types';
+ 
+-type Props = DefaultNavigatorOptions<
+-  ParamListBase,
+-  TabNavigationState<ParamListBase>,
+-  MaterialTopTabNavigationOptions,
+-  MaterialTopTabNavigationEventMap,
+-> &
 -  TabRouterOptions &
 -  MaterialTopTabNavigationConfig;
 +type Props = TabRouterOptions & MaterialTopTabNavigationConfig;
  declare function MaterialTopTabNavigator(Props): $tsflower_subst$React$JSX$Element;
  declare var _default: <
-   ParamList: { +[key: string]: { ... } | void },
+   ParamList: ParamListBase,
 diff --git types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow
 index 3c2939d32..f96ddf688 100644
 --- types/@react-navigation/stack/lib/typescript/src/navigators/createStackNavigator.js.flow

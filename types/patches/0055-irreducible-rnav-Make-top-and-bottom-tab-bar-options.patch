@@ -1,0 +1,85 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 14:49:54 -0700
+Subject: [irreducible] rnav: Make top and bottom tab-bar options exact
+
+Maybe someday TypeScript will have exact object types.
+---
+ .../bottom-tabs/lib/typescript/src/types.js.flow            | 6 +++---
+ .../elements/lib/typescript/src/types.js.flow               | 5 ++---
+ .../material-top-tabs/lib/typescript/src/types.js.flow      | 5 ++---
+ 3 files changed, 7 insertions(+), 9 deletions(-)
+
+diff --git types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+index 93f9f4c0d..240852d71 100644
+--- types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/bottom-tabs/lib/typescript/src/types.js.flow
+@@ -107,7 +107,8 @@ export type TabBarVisibilityAnimationConfig =
+   | TimingKeyboardAnimationConfig
+   | SpringKeyboardAnimationConfig;
+ 
+-export type BottomTabNavigationOptions = HeaderOptions & {
++export type BottomTabNavigationOptions = {|
++  ...HeaderOptions,
+   title?: string,
+   tabBarLabel?:
+     | string
+@@ -154,8 +155,7 @@ export type BottomTabNavigationOptions = HeaderOptions & {
+   headerShown?: boolean,
+   unmountOnBlur?: boolean,
+   freezeOnBlur?: boolean,
+-  ...
+-};
++|};
+ 
+ export type BottomTabDescriptor = Descriptor<
+   BottomTabNavigationOptions,
+diff --git types/@react-navigation/elements/lib/typescript/src/types.js.flow types/@react-navigation/elements/lib/typescript/src/types.js.flow
+index 1270d287b..8fdc33df0 100644
+--- types/@react-navigation/elements/lib/typescript/src/types.js.flow
++++ types/@react-navigation/elements/lib/typescript/src/types.js.flow
+@@ -17,7 +17,7 @@ export type Layout = {
+   ...
+ };
+ 
+-export type HeaderOptions = {
++export type HeaderOptions = {|
+   headerTitle?: string | ((props: HeaderTitleProps) => React.ReactNode),
+   headerTitleAlign?: 'left' | 'center',
+   headerTitleStyle?: $tsflower_subst$RN$Animated$WithAnimatedValue<
+@@ -65,8 +65,7 @@ export type HeaderOptions = {
+   >,
+   headerShadowVisible?: boolean,
+   headerStatusBarHeight?: number,
+-  ...
+-};
++|};
+ 
+ export type HeaderTitleProps = {
+   children: string,
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 6e3b1b9e4..7abe20b5f 100644
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -71,7 +71,7 @@ export type MaterialTopTabScreenProps<
+   ...
+ };
+ 
+-export type MaterialTopTabNavigationOptions = {
++export type MaterialTopTabNavigationOptions = {|
+   title?: string,
+   tabBarLabel?:
+     | string
+@@ -118,8 +118,7 @@ export type MaterialTopTabNavigationOptions = {
+   lazy?: boolean,
+   lazyPreloadDistance?: number,
+   lazyPlaceholder?: () => $tsflower_subst$React$ReactNode,
+-  ...
+-};
++|};
+ 
+ export type MaterialTopTabDescriptor = Descriptor<
+   MaterialTopTabNavigationOptions,
+-- 
+2.32.0
+
