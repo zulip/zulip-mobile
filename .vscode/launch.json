@@ -5,6 +5,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            // Start Jest with VSCode's debugger attached.
+            "name": "Debug Jest",
+            "type": "node",
+            "request":"launch",
+            "program": "${workspaceRoot}/node_modules/.bin/jest",
+            "args": [
+                /* To avoid running more tests than necessary, replace this
+                   argument with a pattern matching the name of the test file
+                   you're interested in. */
+                "--onlyChanged",
+
+                /* Run tests serially. */
+                "--runInBand",
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole"
+        },
+        {
             "name": "Debug Android",
             "program": "${workspaceRoot}/.vscode/launchReactNative.js",
             "type": "reactnative",
