@@ -12,9 +12,9 @@ import type {
   JSX$Element as $tsflower_subst$React$JSX$Element,
 } from 'tsflower/subst/react';
 
+import { type Route } from '@react-navigation/native';
 import React from 'react';
 import 'react-native';
-import { type Route } from '@react-navigation/native';
 
 type Props = {
   route: Route<string>,

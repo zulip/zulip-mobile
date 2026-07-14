@@ -89,19 +89,6 @@ jest.mock('expo-sqlite', () => require('./mock-expo-sqlite'));
  * before mocking it here.
  */
 
-// As instructed at https://reactnavigation.org/docs/testing/.
-jest.mock('react-native-reanimated', () => {
-  /* $FlowIgnore[untyped-import] - This is just a mock setup file; no
-     need for a libdef. */
-  const Reanimated = require('react-native-reanimated/mock');
-
-  // The mock for `call` immediately calls the callback which is incorrect
-  // So we override it with a no-op
-  Reanimated.default.call = () => {};
-
-  return Reanimated;
-});
-
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 // As instructed at

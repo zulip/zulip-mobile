@@ -194,13 +194,17 @@ run_only()
     run_on_package "${package}"
     format_dir "${rootdir}"/types/"${package}"
 
-    for package in @react-navigation/{routers,core,native,stack,bottom-tabs,material-top-tabs}; do
+    for package in @react-navigation/{routers,core,elements,native,stack,bottom-tabs,material-top-tabs}; do
         run_on_package "${package}"
         # TODO(tsflower): skip node_modules when acting on package,
         #   so we don't have to delete it here
         rm -rf "${rootdir}"/types/"${package}"/node_modules/
     done
     format_dir "${rootdir}"/types/@react-navigation
+
+    package=react-native-pager-view
+    run_on_package "${package}"
+    format_dir "${rootdir}"/types/"${package}"
 
     package=react-native-tab-view
     run_on_package "${package}"

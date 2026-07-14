@@ -15,7 +15,7 @@ import ZulipText from '../common/ZulipText';
 import { getOwnUserId } from '../selectors';
 import aggregateReactions from './aggregateReactions';
 import styles from '../styles';
-import { materialTopTabNavigatorConfig } from '../styles/tabs';
+import { materialTopTabNavOptions } from '../styles/tabs';
 import Emoji from '../emoji/Emoji';
 import { emojiTypeFromReactionType } from '../emoji/data';
 import { navigateBack } from '../nav/navActions';
@@ -84,8 +84,7 @@ export default function MessageReactionsScreen(props: Props): Node {
             initialRouteName={
               aggregatedReactions.some(aR => aR.name === reactionName) ? reactionName : undefined
             }
-            {...materialTopTabNavigatorConfig()}
-            swipeEnabled
+            screenOptions={materialTopTabNavOptions()}
           >
             {
               // Generate tabs for the reaction list. The tabs depend
@@ -96,7 +95,6 @@ export default function MessageReactionsScreen(props: Props): Node {
               <Tab.Screen
                 key={aggregatedReaction.name}
                 name={aggregatedReaction.name}
-                component={() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
                 options={{
                   tabBarLabel: () => (
                     <View style={styles.row}>
@@ -108,7 +106,9 @@ export default function MessageReactionsScreen(props: Props): Node {
                     </View>
                   ),
                 }}
-              />
+              >
+                {() => <ReactionUserList reactedUserIds={aggregatedReaction.users} />}
+              </Tab.Screen>
             ))}
           </Tab.Navigator>
         </View>

@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 14:09:05 -0700
+Subject: [tsflower?] react-navigation: Refer to a type more directly
+
+TypeScript's `Parameters` type seems particularly hard to translate
+to Flow and it may be impossible.
+---
+ .../lib/typescript/src/types.js.flow          | 22 +++++++++----------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
+
+diff --git types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+index 4406ff24d..6e3b1b9e4 100644
+--- types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
++++ types/@react-navigation/material-top-tabs/lib/typescript/src/types.js.flow
+@@ -25,7 +25,12 @@ import {
+ 
+ import type React from 'react';
+ // import { type PressableAndroidRippleConfig } from 'react-native'; // TODO(tsflower)
+-import { type SceneRendererProps, typeof TabBar, type TabViewProps } from 'react-native-tab-view';
++import {
++  type SceneRendererProps,
++  typeof TabBar,
++  type TabBarIndicatorProps,
++  type TabViewProps,
++} from 'react-native-tab-view';
+ 
+ export type MaterialTopTabNavigationEventMap = {|
+   tabPress: {|
+@@ -87,17 +92,10 @@ export type MaterialTopTabNavigationOptions = {
+   tabBarShowIcon?: boolean,
+   tabBarBadge?: () => $tsflower_subst$React$ReactNode,
+   tabBarIndicator?: (
+-    props: $Diff<
+-      $ElementType<
+-        Parameters<
+-          NonNullable<
+-            $ElementType<$tsflower_subst$React$ComponentProps<TabBar>, 'renderIndicator'>,
+-          >,
+-        >,
+-        0,
+-      >,
+-      {| navigationState: mixed |},
+-    > & { state: TabNavigationState<ParamListBase>, ... },
++    props: $Diff<TabBarIndicatorProps<Route<string>>, {| navigationState: mixed |}> & {
++      state: TabNavigationState<ParamListBase>,
++      ...
++    },
+   ) => $tsflower_subst$React$ReactNode,
+   tabBarIndicatorStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+   tabBarIndicatorContainerStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+-- 
+2.32.0
+

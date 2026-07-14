@@ -13,17 +13,16 @@ import type {
 } from 'tsflower/subst/react-native';
 
 import * as React from 'react';
-import 'react-native';
-import { type Props as TabBarItemProps } from './TabBarItem';
+// import { type PressableAndroidRippleConfig } from 'react-native'; // TODO(tsflower)
 import { type Props as IndicatorProps } from './TabBarIndicator';
+import { type Props as TabBarItemProps } from './TabBarItem';
 
 import {
+  type Event,
+  type NavigationState,
   type Route,
   type Scene,
   type SceneRendererProps,
-  type NavigationState,
-  type Layout,
-  type Event,
 } from './types';
 
 export type Props<T: Route> = SceneRendererProps & {
@@ -34,10 +33,10 @@ export type Props<T: Route> = SceneRendererProps & {
   inactiveColor?: string,
   pressColor?: string,
   pressOpacity?: number,
-  getLabelText: (scene: Scene<T>) => string | void,
-  getAccessible: (scene: Scene<T>) => boolean | void,
-  getAccessibilityLabel: (scene: Scene<T>) => string | void,
-  getTestID: (scene: Scene<T>) => string | void,
+  getLabelText?: (scene: Scene<T>) => string | void,
+  getAccessible?: (scene: Scene<T>) => boolean | void,
+  getAccessibilityLabel?: (scene: Scene<T>) => string | void,
+  getTestID?: (scene: Scene<T>) => string | void,
   renderLabel?: (
     scene: Scene<T> & {
       focused: boolean,
@@ -53,7 +52,7 @@ export type Props<T: Route> = SceneRendererProps & {
     },
   ) => $tsflower_subst$React$ReactNode,
   renderBadge?: (scene: Scene<T>) => $tsflower_subst$React$ReactNode,
-  renderIndicator: (props: IndicatorProps<T>) => $tsflower_subst$React$ReactNode,
+  renderIndicator?: (props: IndicatorProps<T>) => $tsflower_subst$React$ReactNode,
   renderTabBarItem?: (
     props: TabBarItemProps<T> & { key: string, ... },
   ) => React$Element<React$ElementType>,
@@ -65,42 +64,10 @@ export type Props<T: Route> = SceneRendererProps & {
   labelStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$TextStyle>,
   contentContainerStyle?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
   style?: $tsflower_subst$RN$StyleProp<$tsflower_subst$RN$ViewStyle>,
+  gap?: number,
+  testID?: string,
+  // android_ripple?: PressableAndroidRippleConfig, // TODO(tsflower)
   ...
 };
 
-type State = {
-  layout: Layout,
-  tabWidths: { [key: string]: number, ... },
-  ...
-};
-
-declare export default class TabBar<T: Route> extends React.Component<Props<T>, State> {
-  defaultProps: {
-    getLabelText: (Scene<Route>) => string | void,
-    getAccessible: (Scene<Route>) => boolean,
-    getAccessibilityLabel: (Scene<Route>) => string | void,
-    getTestID: (Scene<Route>) => string | void,
-    renderIndicator: (props: IndicatorProps<Route>) => $tsflower_subst$React$JSX$Element,
-    ...
-  };
-  state: State;
-  componentDidUpdate(prevProps: Props<T>, prevState: State): void;
-  componentWillUnmount(): void;
-  measuredTabWidths: any;
-  scrollAmount: any;
-  scrollViewRef: any;
-  cancelNextFrameCb: any;
-  getFlattenedTabWidth: any;
-  getComputedTabWidth: any;
-  getMemoizedTabWidthGettter: any;
-  getMaxScrollDistance: any;
-  getTabBarWidth: any;
-  normalizeScrollValue: any;
-  getScrollAmount: any;
-  resetScroll: any;
-  handleLayout: any;
-  getTranslateX: any;
-  render(): $tsflower_subst$React$JSX$Element;
-}
-
-export {};
+declare export function TabBar<T: Route>(Props<T>): $tsflower_subst$React$JSX$Element;

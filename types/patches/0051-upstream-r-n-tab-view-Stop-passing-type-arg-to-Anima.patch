@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chris Bobbe <cbobbe@zulip.com>
+Date: Thu, 11 Apr 2024 13:41:30 -0700
+Subject: [upstream?] r-n-tab-view: Stop passing type arg to
+ AnimatedInterpolation
+
+This library's TypeScript must have been written against a
+recent(ish) version of react-native's TypeScript types, in which
+AnimatedInterpolation has a type param. That part seems to have
+first appeared in the react-native types published as
+@types/react-native 0.70.x:
+  https://github.com/DefinitelyTyped/DefinitelyTyped/blob/04ad8e431/types/react-native/v0.70/index.d.ts
+
+(Since then, react-native's TypeScript types have moved into the
+project itself, and @types/react-native is no longer published.)
+---
+ .../lib/typescript/src/PagerViewAdapter.js.flow                 | 2 +-
+ .../lib/typescript/src/PanResponderAdapter.js.flow              | 2 +-
+ .../react-native-tab-view/lib/typescript/src/TabBarItem.js.flow | 2 +-
+ types/react-native-tab-view/lib/typescript/src/types.js.flow    | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git types/react-native-tab-view/lib/typescript/src/PagerViewAdapter.js.flow types/react-native-tab-view/lib/typescript/src/PagerViewAdapter.js.flow
+index d5342a5c2..6ebea3b6f 100644
+--- types/react-native-tab-view/lib/typescript/src/PagerViewAdapter.js.flow
++++ types/react-native-tab-view/lib/typescript/src/PagerViewAdapter.js.flow
+@@ -17,7 +17,7 @@ type Props<T: Route> = PagerProps & {
+   navigationState: NavigationState<T>,
+   children: (
+     props: EventEmitterProps & {
+-      position: $tsflower_subst$RN$Animated$AnimatedInterpolation<number>,
++      position: $tsflower_subst$RN$Animated$AnimatedInterpolation,
+       render: (children: $tsflower_subst$React$ReactNode) => $tsflower_subst$React$ReactNode,
+       jumpTo: (key: string) => void,
+       ...
+diff --git types/react-native-tab-view/lib/typescript/src/PanResponderAdapter.js.flow types/react-native-tab-view/lib/typescript/src/PanResponderAdapter.js.flow
+index dae46e123..7511489b8 100644
+--- types/react-native-tab-view/lib/typescript/src/PanResponderAdapter.js.flow
++++ types/react-native-tab-view/lib/typescript/src/PanResponderAdapter.js.flow
+@@ -25,7 +25,7 @@ type Props<T: Route> = PagerProps & {
+   navigationState: NavigationState<T>,
+   children: (
+     props: EventEmitterProps & {
+-      position: $tsflower_subst$RN$Animated$AnimatedInterpolation<number>,
++      position: $tsflower_subst$RN$Animated$AnimatedInterpolation,
+       render: (children: $tsflower_subst$React$ReactNode) => $tsflower_subst$React$ReactNode,
+       jumpTo: (key: string) => void,
+       ...
+diff --git types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
+index 0f395465b..cabdad0a3 100644
+--- types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
++++ types/react-native-tab-view/lib/typescript/src/TabBarItem.js.flow
+@@ -19,7 +19,7 @@ import { Animated, type PressableAndroidRippleConfig } from 'react-native';
+ import { type NavigationState, type Route, type Scene } from './types';
+ 
+ export type Props<T: Route> = {
+-  position: $tsflower_subst$RN$Animated$AnimatedInterpolation<number>,
++  position: $tsflower_subst$RN$Animated$AnimatedInterpolation,
+   route: T,
+   navigationState: NavigationState<T>,
+   activeColor?: string,
+diff --git types/react-native-tab-view/lib/typescript/src/types.js.flow types/react-native-tab-view/lib/typescript/src/types.js.flow
+index 8f4235954..4d87d3baa 100644
+--- types/react-native-tab-view/lib/typescript/src/types.js.flow
++++ types/react-native-tab-view/lib/typescript/src/types.js.flow
+@@ -39,7 +39,7 @@ export type Listener = (value: number) => void;
+ 
+ export type SceneRendererProps = {
+   layout: Layout,
+-  position: $tsflower_subst$RN$Animated$AnimatedInterpolation<number>,
++  position: $tsflower_subst$RN$Animated$AnimatedInterpolation,
+   jumpTo: (key: string) => void,
+   ...
+ };
+-- 
+2.32.0
+

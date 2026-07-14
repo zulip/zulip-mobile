@@ -4,5 +4,5 @@
 import type { JSX$Element as $tsflower_subst$React$JSX$Element } from 'tsflower/subst/react';
 import { type MaterialTopTabBarProps } from '../types';
 declare export default function TabBarTop(
-  props: MaterialTopTabBarProps,
+  MaterialTopTabBarProps,
 ): $tsflower_subst$React$JSX$Element;
