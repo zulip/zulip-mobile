@@ -39,6 +39,17 @@ describe('processAlertWords', () => {
     );
   });
 
+  test('if msg contains consecutive alert words, wrap all', () => {
+    const flags = {
+      has_alert_word: {
+        2: true,
+      },
+    };
+    expect(processAlertWords('<p>alertone alertone alertone</p>', 2, alertWords, flags)).toEqual(
+      "<p><span class='alert-word'>alertone</span> <span class='alert-word'>alertone</span> <span class='alert-word'>alertone</span></p>",
+    );
+  });
+
   test('miscellaneous tests', () => {
     const flags = {
       has_alert_word: {
