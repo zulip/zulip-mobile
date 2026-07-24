@@ -475,11 +475,11 @@ p {
 .message p + p {
   margin-top: 16px;
 }
-.message ul {
+.message ul, ol {
   padding-left: 20px;
   margin: 4px 0 0 0;
 }
-.message ul + p {
+.message ul + p, ol + p {
   margin-top: 16px;
 }
 
