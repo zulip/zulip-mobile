@@ -145,6 +145,12 @@ export default function AppNavigator(props: Props): Node {
           android: TransitionPresets.FadeFromBottomAndroid,
           ios: TransitionPresets.DefaultTransition,
         }),
+        ...Platform.select({
+          android: {
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+          },
+        }),
       }}
     >
       {/* These screens expect server data in order to function normally. */}
