@@ -6,6 +6,7 @@ const transformModulesWhitelist = [
   'expo-apple-authentication',
   'expo-application',
   'expo-modules-core',
+  'expo-haptics',
   'expo-sqlite',
   'expo-web-browser',
   'react-native',
