@@ -2,6 +2,7 @@
 import React from 'react';
 import type { Node, ElementConfig } from 'react';
 import { TouchableHighlight, TouchableNativeFeedback, Platform, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { HIGHLIGHT_COLOR } from '../styles';
@@ -53,6 +54,15 @@ type Props = $ReadOnly<{|
 // TODO(?): Use Pressable API: https://reactnative.dev/docs/pressable
 export default function Touchable(props: Props): Node {
   const { accessibilityLabel, style, onPress, onLongPress, hitSlop } = props;
+
+  const handleLongPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+
+    if (onLongPress) {
+      onLongPress();
+    }
+  };
+
   const child: Node = React.Children.only(props.children);
 
   if (!onPress && !onLongPress) {
@@ -77,7 +87,7 @@ export default function Touchable(props: Props): Node {
         underlayColor={HIGHLIGHT_COLOR}
         style={style}
         onPress={onPress}
-        onLongPress={onLongPress}
+        onLongPress={handleLongPress}
         hitSlop={hitSlop}
       >
         {child}
@@ -94,7 +104,7 @@ export default function Touchable(props: Props): Node {
       accessibilityLabel={accessibilityLabel}
       background={TouchableNativeFeedback.Ripple(HIGHLIGHT_COLOR, false)}
       onPress={onPress}
-      onLongPress={onLongPress}
+      onLongPress={handleLongPress}
       hitSlop={hitSlop}
     >
       <View style={style}>{child}</View>
